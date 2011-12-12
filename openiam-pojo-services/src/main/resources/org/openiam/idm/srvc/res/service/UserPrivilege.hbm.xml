@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM "classpath://hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+    <class name="org.openiam.idm.srvc.res.dto.UserPrivilege" table="USER_PRIVILEGE" >
+        <id name="userPrivilegeId">
+            <column name="USER_PRIVILEGE_ID" sql-type="varchar" length="32" not-null="true"/>
+            <generator class="uuid" />
+        </id>
+        <property name="userId">
+            <column name="USER_ID" sql-type="varchar" length="32"/>
+        </property>
+        <!--many-to-one name="user" class="org.openiam.idm.srvc.user.dto.User" fetch="select">
+            <column name="USER_ID" length="32" />
+        </many-to-one-->
+        <property name="resourceId">
+            <column name="RESOURCE_ID" sql-type="varchar" length="32"/>
+        </property>
+
+        <!--property name="privilegeId">
+            <column name="PRIVILEGE_ID" sql-type="varchar" length="32"/>
+        </property-->
+
+        <many-to-one name="privilege" class="org.openiam.idm.srvc.res.dto.PrivilegeDef" lazy="false">
+            <column name="PRIVILEGE_ID" length="32" />
+        </many-to-one>
+
+
+         <property name="permit">
+            <column name="PERMIT" sql-type="bit"/>
+        </property>
+        <property name="startDate">
+            <column name="START_DATE" sql-type="datetime" length="19"/>
+        </property>
+        <property name="endDate">
+            <column name="END_DATE" sql-type="datetime" length="19"/>
+        </property>
+    </class>
+</hibernate-mapping>

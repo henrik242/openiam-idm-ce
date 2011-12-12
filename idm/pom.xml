@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>openiam</artifactId>
+    <groupId>org.openiam</groupId>
+    <version>2.1.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.openiam</groupId>
+  <artifactId>idm-core</artifactId>
+  <packaging>pom</packaging>
+  <name>IDM Core</name>
+  <description>Core IDM Product</description>
+
+
+  <modules>
+        <module>openiam-idm-intf</module>
+		<module>openiam-idm-services</module>
+
+        <module>openiam-idm-ee-intf</module>
+		<module>openiam-idm-ee-services</module>
+
+		<module>idm-connector-intf</module>
+		<module>idm-connector-core</module>
+		<module>openiam-idm-esb</module>
+
+		<module>openiam-webconsole</module>
+		<module>openiam-selfservice</module>
+  </modules>
+  
+</project>
+

@@ -1,0 +1,1675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="OrganizationDataService" resourceRoot="" soapui-version="4.0.1-SNAPSHOT" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="$Proxy19ServiceSoapBinding" type="wsdl" bindingName="{http://unknown.namespace/}$Proxy19ServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="$Proxy19Service" targetNamespace="http://unknown.namespace/" xmlns:ns1="urn:idm.openiam.org/srvc/org/service" xmlns:ns3="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://unknown.namespace/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService?wsdl=OrganizationDataService.wsdl" namespace="urn:idm.openiam.org/srvc/org/service"></wsdl:import>
+  <wsdl:binding name="$Proxy19ServiceSoapBinding" type="ns1:OrganizationDataService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getOrganizationList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrganizationList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateOrganization">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateOrganization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateOrganizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizationByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrganizationByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTopLevelOrganizations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTopLevelOrganizations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTopLevelOrganizationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="subOrganizations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="subOrganizations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="subOrganizationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAttribute">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeAttribute">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeAttributeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganization">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrganization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addOrganization">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addOrganization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addOrganizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="search">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="search">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeUserFromOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeUserFromOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeUserFromOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllOrganizations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllOrganizations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllOrganizationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="assocUserToOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="assocUserToOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="assocUserToOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAttribute">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAttribute">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAttributeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserOrgAssoc">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUserOrgAssoc">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserOrgAssocResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addAttribute">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addAttribute">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addAttributeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="allDepartments">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="allDepartments">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="allDepartmentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addUserToOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addUserToOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAttribute">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateAttribute">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateAttributeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="containsChildren">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="containsChildren">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="containsChildrenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserAffilatedWithOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isUserAffilatedWithOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isUserAffilatedWithOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isRootOrganization">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isRootOrganization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isRootOrganizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizationsForUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrganizationsForUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationsForUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeOrganization">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeOrganization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeOrganizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="allDivisions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="allDivisions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="allDivisionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllAttributes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllAttributes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllAttributesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAllAttributes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeAllAttributes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeAllAttributesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="$Proxy19Service">
+    <wsdl:port binding="tns:$Proxy19ServiceSoapBinding" name="$Proxy19Port">
+      <soap:address location="http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService?wsdl=OrganizationDataService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="OrganizationDataService" targetNamespace="urn:idm.openiam.org/srvc/org/service" xmlns:ns1="urn:idm.openiam.org/srvc/org/service" xmlns:ns2="urn:idm.openiam.org/srvc/org/types" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/org/types" version="1.0" xmlns:ns1="urn:idm.openiam.org/srvc/org/dto" xmlns:tns="urn:idm.openiam.org/srvc/org/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="urn:idm.openiam.org/srvc/org/dto"/>
+      <xs:element name="addAttribute" type="tns:addAttribute"/>
+      <xs:element name="addAttributeResponse" type="tns:addAttributeResponse"/>
+      <xs:element name="addOrganization" type="tns:addOrganization"/>
+      <xs:element name="addOrganizationResponse" type="tns:addOrganizationResponse"/>
+      <xs:element name="containsChildren" type="tns:containsChildren"/>
+      <xs:element name="containsChildrenResponse" type="tns:containsChildrenResponse"/>
+      <xs:element name="getAttribute" type="tns:getAttribute"/>
+      <xs:element name="getAttributeResponse" type="tns:getAttributeResponse"/>
+      <xs:element name="getOrganization" type="tns:getOrganization"/>
+      <xs:element name="getOrganizationList" type="tns:getOrganizationList"/>
+      <xs:element name="getOrganizationListResponse" type="tns:getOrganizationListResponse"/>
+      <xs:element name="getOrganizationResponse" type="tns:getOrganizationResponse"/>
+      <xs:element name="getTopLevelOrganizations" type="tns:getTopLevelOrganizations"/>
+      <xs:element name="getTopLevelOrganizationsResponse" type="tns:getTopLevelOrganizationsResponse"/>
+      <xs:element name="isRootOrganization" type="tns:isRootOrganization"/>
+      <xs:element name="isRootOrganizationResponse" type="tns:isRootOrganizationResponse"/>
+      <xs:element name="removeAllAttributes" type="tns:removeAllAttributes"/>
+      <xs:element name="removeAllAttributesResponse" type="tns:removeAllAttributesResponse"/>
+      <xs:element name="removeAttribute" type="tns:removeAttribute"/>
+      <xs:element name="removeAttributeResponse" type="tns:removeAttributeResponse"/>
+      <xs:element name="removeOrganization" type="tns:removeOrganization"/>
+      <xs:element name="removeOrganizationResponse" type="tns:removeOrganizationResponse"/>
+      <xs:element name="search" type="tns:search"/>
+      <xs:element name="searchResponse" type="tns:searchResponse"/>
+      <xs:element name="subOrganizations" type="tns:subOrganizations"/>
+      <xs:element name="subOrganizationsResponse" type="tns:subOrganizationsResponse"/>
+      <xs:element name="updateAttribute" type="tns:updateAttribute"/>
+      <xs:element name="updateAttributeResponse" type="tns:updateAttributeResponse"/>
+      <xs:element name="updateOrganization" type="tns:updateOrganization"/>
+      <xs:element name="updateOrganizationResponse" type="tns:updateOrganizationResponse"/>
+      <xs:complexType name="getOrganizationList">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="parentOrgId" type="xs:string"/>
+          <xs:element minOccurs="0" name="status" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrganizationListResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateOrganization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="organization" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateOrganizationResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getTopLevelOrganizations">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getTopLevelOrganizationsResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="subOrganizations">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="subOrganizationsResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeAttribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="organizationAttribute" type="ns1:organizationAttribute"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeAttributeResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getOrganization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrganizationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="search">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="type" type="xs:string"/>
+          <xs:element minOccurs="0" name="classification" type="xs:string"/>
+          <xs:element minOccurs="0" name="internalOrgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addOrganization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="organization" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addOrganizationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getAttribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="attributeId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getAttributeResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="ns1:organizationAttribute"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addAttribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="organizationAttribute" type="ns1:organizationAttribute"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addAttributeResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="updateAttribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="organizationAttribute" type="ns1:organizationAttribute"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateAttributeResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="containsChildren">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="containsChildrenResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="isRootOrganization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="isRootOrganizationResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeOrganization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeOrganizationResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="removeAllAttributes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeAllAttributesResponse">
+        <xs:sequence/>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema targetNamespace="urn:idm.openiam.org/srvc/org/service" version="1.0" xmlns:ns1="urn:idm.openiam.org/srvc/org/dto" xmlns:tns="urn:idm.openiam.org/srvc/org/service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="urn:idm.openiam.org/srvc/org/dto"/>
+      <xs:element name="addUserToOrg" type="tns:addUserToOrg"/>
+      <xs:element name="addUserToOrgResponse" type="tns:addUserToOrgResponse"/>
+      <xs:element name="allDepartments" type="tns:allDepartments"/>
+      <xs:element name="allDepartmentsResponse" type="tns:allDepartmentsResponse"/>
+      <xs:element name="allDivisions" type="tns:allDivisions"/>
+      <xs:element name="allDivisionsResponse" type="tns:allDivisionsResponse"/>
+      <xs:element name="assocUserToOrg" type="tns:assocUserToOrg"/>
+      <xs:element name="assocUserToOrgResponse" type="tns:assocUserToOrgResponse"/>
+      <xs:element name="getAllAttributes" type="tns:getAllAttributes"/>
+      <xs:element name="getAllAttributesResponse" type="tns:getAllAttributesResponse"/>
+      <xs:element name="getAllOrganizations" type="tns:getAllOrganizations"/>
+      <xs:element name="getAllOrganizationsResponse" type="tns:getAllOrganizationsResponse"/>
+      <xs:element name="getOrganizationByType" type="tns:getOrganizationByType"/>
+      <xs:element name="getOrganizationByTypeResponse" type="tns:getOrganizationByTypeResponse"/>
+      <xs:element name="getOrganizationsForUser" type="tns:getOrganizationsForUser"/>
+      <xs:element name="getOrganizationsForUserResponse" type="tns:getOrganizationsForUserResponse"/>
+      <xs:element name="isUserAffilatedWithOrg" type="tns:isUserAffilatedWithOrg"/>
+      <xs:element name="isUserAffilatedWithOrgResponse" type="tns:isUserAffilatedWithOrgResponse"/>
+      <xs:element name="removeUserFromOrg" type="tns:removeUserFromOrg"/>
+      <xs:element name="removeUserFromOrgResponse" type="tns:removeUserFromOrgResponse"/>
+      <xs:element name="updateUserOrgAssoc" type="tns:updateUserOrgAssoc"/>
+      <xs:element name="updateUserOrgAssocResponse" type="tns:updateUserOrgAssocResponse"/>
+      <xs:complexType name="getOrganizationByType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="typeId" type="xs:string"/>
+          <xs:element minOccurs="0" name="parentId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrganizationByTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeUserFromOrg">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeUserFromOrgResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getAllOrganizations">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getAllOrganizationsResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="assocUserToOrg">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userorg" type="ns1:UserAffiliation"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="assocUserToOrgResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="updateUserOrgAssoc">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userorg" type="ns1:UserAffiliation"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateUserOrgAssocResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="allDepartments">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="parentId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="allDepartmentsResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addUserToOrg">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addUserToOrgResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="isUserAffilatedWithOrg">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="isUserAffilatedWithOrgResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrganizationsForUser">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrganizationsForUserResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="allDivisions">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="parentId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="allDivisionsResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getAllAttributes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getAllAttributesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="ns1:organizationAttributeMap"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/org/dto" version="1.0" xmlns:tns="urn:idm.openiam.org/srvc/org/dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="organization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alias" type="xs:string"/>
+          <xs:element minOccurs="0" name="attributes" type="tns:organizationAttributeMap"/>
+          <xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element minOccurs="0" name="domainName" type="xs:string"/>
+          <xs:element minOccurs="0" name="ldapStr" type="xs:string"/>
+          <xs:element minOccurs="0" name="lstUpdate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="lstUpdatedBy" type="xs:string"/>
+          <xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+          <xs:element minOccurs="0" name="orgId" type="xs:string"/>
+          <xs:element minOccurs="0" name="organizationName" type="xs:string"/>
+          <xs:element minOccurs="0" name="parentId" type="xs:string"/>
+          <xs:element minOccurs="0" name="classification" type="tns:OrgClassification"/>
+          <xs:element minOccurs="0" name="internalOrgId" type="xs:string"/>
+          <xs:element minOccurs="0" name="status" type="xs:string"/>
+          <xs:element minOccurs="0" name="abbreviation" type="xs:string"/>
+          <xs:element minOccurs="0" name="symbol" type="xs:string"/>
+          <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="organizationAttributeMap">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="organizationAttributeEntry" nillable="true">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" name="organizationAttribute" type="tns:organizationAttribute"/>
+              </xs:sequence>
+              <xs:attribute name="id" type="xs:string"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="organizationAttribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="attrId" type="xs:string"/>
+          <xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="UserAffiliation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userAffiliationId" type="xs:string"/>
+          <xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+          <xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="status" type="xs:string"/>
+          <xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="OrgClassification">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="organization"/>
+          <xs:enumeration value="department"/>
+          <xs:enumeration value="division"/>
+          <xs:enumeration value="agency"/>
+          <xs:enumeration value="vendor"/>
+          <xs:enumeration value="partner"/>
+          <xs:enumeration value="subsidiary"/>
+          <xs:enumeration value="customer"/>
+          <xs:enumeration value="affiliate"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="addAttributeResponse">
+    <wsdl:part element="ns2:addAttributeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="allDivisionsResponse">
+    <wsdl:part element="ns1:allDivisionsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationList">
+    <wsdl:part element="ns2:getOrganizationList" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationByType">
+    <wsdl:part element="ns1:getOrganizationByType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTopLevelOrganizationsResponse">
+    <wsdl:part element="ns2:getTopLevelOrganizationsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserFromOrg">
+    <wsdl:part element="ns1:removeUserFromOrg" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganization">
+    <wsdl:part element="ns2:getOrganization" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isRootOrganizationResponse">
+    <wsdl:part element="ns2:isRootOrganizationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="allDepartmentsResponse">
+    <wsdl:part element="ns1:allDepartmentsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAttributeResponse">
+    <wsdl:part element="ns2:removeAttributeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addAttribute">
+    <wsdl:part element="ns2:addAttribute" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="allDivisions">
+    <wsdl:part element="ns1:allDivisions" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationResponse">
+    <wsdl:part element="ns2:getOrganizationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAttribute">
+    <wsdl:part element="ns2:removeAttribute" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isRootOrganization">
+    <wsdl:part element="ns2:isRootOrganization" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrganizationResponse">
+    <wsdl:part element="ns2:addOrganizationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAttribute">
+    <wsdl:part element="ns2:updateAttribute" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="containsChildrenResponse">
+    <wsdl:part element="ns2:containsChildrenResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateOrganizationResponse">
+    <wsdl:part element="ns2:updateOrganizationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationByTypeResponse">
+    <wsdl:part element="ns1:getOrganizationByTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchResponse">
+    <wsdl:part element="ns2:searchResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAttributeResponse">
+    <wsdl:part element="ns2:getAttributeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAllAttributes">
+    <wsdl:part element="ns2:removeAllAttributes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllAttributesResponse">
+    <wsdl:part element="ns1:getAllAttributesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeOrganizationResponse">
+    <wsdl:part element="ns2:removeOrganizationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllAttributes">
+    <wsdl:part element="ns1:getAllAttributes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="subOrganizationsResponse">
+    <wsdl:part element="ns2:subOrganizationsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="search">
+    <wsdl:part element="ns2:search" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="containsChildren">
+    <wsdl:part element="ns2:containsChildren" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAttributeResponse">
+    <wsdl:part element="ns2:updateAttributeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationsForUserResponse">
+    <wsdl:part element="ns1:getOrganizationsForUserResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserFromOrgResponse">
+    <wsdl:part element="ns1:removeUserFromOrgResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAttribute">
+    <wsdl:part element="ns2:getAttribute" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllOrganizationsResponse">
+    <wsdl:part element="ns1:getAllOrganizationsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="subOrganizations">
+    <wsdl:part element="ns2:subOrganizations" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assocUserToOrg">
+    <wsdl:part element="ns1:assocUserToOrg" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToOrgResponse">
+    <wsdl:part element="ns1:addUserToOrgResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assocUserToOrgResponse">
+    <wsdl:part element="ns1:assocUserToOrgResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserOrgAssoc">
+    <wsdl:part element="ns1:updateUserOrgAssoc" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserAffilatedWithOrg">
+    <wsdl:part element="ns1:isUserAffilatedWithOrg" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAllAttributesResponse">
+    <wsdl:part element="ns2:removeAllAttributesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserOrgAssocResponse">
+    <wsdl:part element="ns1:updateUserOrgAssocResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationListResponse">
+    <wsdl:part element="ns2:getOrganizationListResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationsForUser">
+    <wsdl:part element="ns1:getOrganizationsForUser" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeOrganization">
+    <wsdl:part element="ns2:removeOrganization" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllOrganizations">
+    <wsdl:part element="ns1:getAllOrganizations" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToOrg">
+    <wsdl:part element="ns1:addUserToOrg" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateOrganization">
+    <wsdl:part element="ns2:updateOrganization" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="allDepartments">
+    <wsdl:part element="ns1:allDepartments" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserAffilatedWithOrgResponse">
+    <wsdl:part element="ns1:isUserAffilatedWithOrgResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTopLevelOrganizations">
+    <wsdl:part element="ns2:getTopLevelOrganizations" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrganization">
+    <wsdl:part element="ns2:addOrganization" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrganizationDataService">
+    <wsdl:operation name="getOrganizationList">
+      <wsdl:input message="ns1:getOrganizationList" name="getOrganizationList"></wsdl:input>
+      <wsdl:output message="ns1:getOrganizationListResponse" name="getOrganizationListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateOrganization">
+      <wsdl:input message="ns1:updateOrganization" name="updateOrganization"></wsdl:input>
+      <wsdl:output message="ns1:updateOrganizationResponse" name="updateOrganizationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTopLevelOrganizations">
+      <wsdl:input message="ns1:getTopLevelOrganizations" name="getTopLevelOrganizations"></wsdl:input>
+      <wsdl:output message="ns1:getTopLevelOrganizationsResponse" name="getTopLevelOrganizationsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizationByType">
+      <wsdl:input message="ns1:getOrganizationByType" name="getOrganizationByType"></wsdl:input>
+      <wsdl:output message="ns1:getOrganizationByTypeResponse" name="getOrganizationByTypeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="subOrganizations">
+      <wsdl:input message="ns1:subOrganizations" name="subOrganizations"></wsdl:input>
+      <wsdl:output message="ns1:subOrganizationsResponse" name="subOrganizationsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAttribute">
+      <wsdl:input message="ns1:removeAttribute" name="removeAttribute"></wsdl:input>
+      <wsdl:output message="ns1:removeAttributeResponse" name="removeAttributeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganization">
+      <wsdl:input message="ns1:getOrganization" name="getOrganization"></wsdl:input>
+      <wsdl:output message="ns1:getOrganizationResponse" name="getOrganizationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="search">
+      <wsdl:input message="ns1:search" name="search"></wsdl:input>
+      <wsdl:output message="ns1:searchResponse" name="searchResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addOrganization">
+      <wsdl:input message="ns1:addOrganization" name="addOrganization"></wsdl:input>
+      <wsdl:output message="ns1:addOrganizationResponse" name="addOrganizationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeUserFromOrg">
+      <wsdl:input message="ns1:removeUserFromOrg" name="removeUserFromOrg"></wsdl:input>
+      <wsdl:output message="ns1:removeUserFromOrgResponse" name="removeUserFromOrgResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllOrganizations">
+      <wsdl:input message="ns1:getAllOrganizations" name="getAllOrganizations"></wsdl:input>
+      <wsdl:output message="ns1:getAllOrganizationsResponse" name="getAllOrganizationsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="assocUserToOrg">
+      <wsdl:input message="ns1:assocUserToOrg" name="assocUserToOrg"></wsdl:input>
+      <wsdl:output message="ns1:assocUserToOrgResponse" name="assocUserToOrgResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAttribute">
+      <wsdl:input message="ns1:getAttribute" name="getAttribute"></wsdl:input>
+      <wsdl:output message="ns1:getAttributeResponse" name="getAttributeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserOrgAssoc">
+      <wsdl:input message="ns1:updateUserOrgAssoc" name="updateUserOrgAssoc"></wsdl:input>
+      <wsdl:output message="ns1:updateUserOrgAssocResponse" name="updateUserOrgAssocResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="allDepartments">
+      <wsdl:input message="ns1:allDepartments" name="allDepartments"></wsdl:input>
+      <wsdl:output message="ns1:allDepartmentsResponse" name="allDepartmentsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addAttribute">
+      <wsdl:input message="ns1:addAttribute" name="addAttribute"></wsdl:input>
+      <wsdl:output message="ns1:addAttributeResponse" name="addAttributeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToOrg">
+      <wsdl:input message="ns1:addUserToOrg" name="addUserToOrg"></wsdl:input>
+      <wsdl:output message="ns1:addUserToOrgResponse" name="addUserToOrgResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAttribute">
+      <wsdl:input message="ns1:updateAttribute" name="updateAttribute"></wsdl:input>
+      <wsdl:output message="ns1:updateAttributeResponse" name="updateAttributeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserAffilatedWithOrg">
+      <wsdl:input message="ns1:isUserAffilatedWithOrg" name="isUserAffilatedWithOrg"></wsdl:input>
+      <wsdl:output message="ns1:isUserAffilatedWithOrgResponse" name="isUserAffilatedWithOrgResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="containsChildren">
+      <wsdl:input message="ns1:containsChildren" name="containsChildren"></wsdl:input>
+      <wsdl:output message="ns1:containsChildrenResponse" name="containsChildrenResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isRootOrganization">
+      <wsdl:input message="ns1:isRootOrganization" name="isRootOrganization"></wsdl:input>
+      <wsdl:output message="ns1:isRootOrganizationResponse" name="isRootOrganizationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeOrganization">
+      <wsdl:input message="ns1:removeOrganization" name="removeOrganization"></wsdl:input>
+      <wsdl:output message="ns1:removeOrganizationResponse" name="removeOrganizationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizationsForUser">
+      <wsdl:input message="ns1:getOrganizationsForUser" name="getOrganizationsForUser"></wsdl:input>
+      <wsdl:output message="ns1:getOrganizationsForUserResponse" name="getOrganizationsForUserResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="allDivisions">
+      <wsdl:input message="ns1:allDivisions" name="allDivisions"></wsdl:input>
+      <wsdl:output message="ns1:allDivisionsResponse" name="allDivisionsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAllAttributes">
+      <wsdl:input message="ns1:removeAllAttributes" name="removeAllAttributes"></wsdl:input>
+      <wsdl:output message="ns1:removeAllAttributesResponse" name="removeAllAttributesResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllAttributes">
+      <wsdl:input message="ns1:getAllAttributes" name="getAllAttributes"></wsdl:input>
+      <wsdl:output message="ns1:getAllAttributesResponse" name="getAllAttributesResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="addAttribute" bindingOperationName="addAttribute" type="Request-Response" outputName="addAttributeResponse" inputName="addAttribute" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:addAttribute>
+         <!--Optional:-->
+         <organizationAttribute>
+            <!--Optional:-->
+            <dto:attrId>?</dto:attrId>
+            <!--Optional:-->
+            <dto:metadataElementId>?</dto:metadataElementId>
+            <!--Optional:-->
+            <dto:name>?</dto:name>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:value>?</dto:value>
+         </organizationAttribute>
+      </typ:addAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/addAttribute"/></con:call></con:operation><con:operation isOneWay="false" action="" name="addOrganization" bindingOperationName="addOrganization" type="Request-Response" outputName="addOrganizationResponse" inputName="addOrganization" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:addOrganization>
+         <!--Optional:-->
+         <organization>
+            <!--Optional:-->
+            <dto:alias>?</dto:alias>
+            <!--Optional:-->
+            <dto:attributes>
+               <!--Zero or more repetitions:-->
+               <dto:organizationAttributeEntry id="?">
+                  <!--Optional:-->
+                  <dto:organizationAttribute>
+                     <!--Optional:-->
+                     <dto:attrId>?</dto:attrId>
+                     <!--Optional:-->
+                     <dto:metadataElementId>?</dto:metadataElementId>
+                     <!--Optional:-->
+                     <dto:name>?</dto:name>
+                     <!--Optional:-->
+                     <dto:organizationId>?</dto:organizationId>
+                     <!--Optional:-->
+                     <dto:value>?</dto:value>
+                  </dto:organizationAttribute>
+               </dto:organizationAttributeEntry>
+            </dto:attributes>
+            <!--Optional:-->
+            <dto:createDate>?</dto:createDate>
+            <!--Optional:-->
+            <dto:createdBy>?</dto:createdBy>
+            <!--Optional:-->
+            <dto:description>?</dto:description>
+            <!--Optional:-->
+            <dto:domainName>?</dto:domainName>
+            <!--Optional:-->
+            <dto:ldapStr>?</dto:ldapStr>
+            <!--Optional:-->
+            <dto:lstUpdate>?</dto:lstUpdate>
+            <!--Optional:-->
+            <dto:lstUpdatedBy>?</dto:lstUpdatedBy>
+            <!--Optional:-->
+            <dto:metadataTypeId>?</dto:metadataTypeId>
+            <!--Optional:-->
+            <dto:orgId>?</dto:orgId>
+            <!--Optional:-->
+            <dto:organizationName>?</dto:organizationName>
+            <!--Optional:-->
+            <dto:parentId>?</dto:parentId>
+            <!--Optional:-->
+            <dto:classification>?</dto:classification>
+            <!--Optional:-->
+            <dto:internalOrgId>?</dto:internalOrgId>
+            <!--Optional:-->
+            <dto:status>?</dto:status>
+            <!--Optional:-->
+            <dto:abbreviation>?</dto:abbreviation>
+            <!--Optional:-->
+            <dto:symbol>?</dto:symbol>
+            <!--Optional:-->
+            <dto:selected>?</dto:selected>
+         </organization>
+      </typ:addOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/addOrganization"/></con:call></con:operation><con:operation isOneWay="false" action="" name="addUserToOrg" bindingOperationName="addUserToOrg" type="Request-Response" outputName="addUserToOrgResponse" inputName="addUserToOrg" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:addUserToOrg>
+         <!--Optional:-->
+         <orgId>?</orgId>
+         <!--Optional:-->
+         <userId>?</userId>
+      </ser:addUserToOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/addUserToOrg"/></con:call></con:operation><con:operation isOneWay="false" action="" name="allDepartments" bindingOperationName="allDepartments" type="Request-Response" outputName="allDepartmentsResponse" inputName="allDepartments" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:allDepartments>
+         <!--Optional:-->
+         <parentId>?</parentId>
+      </ser:allDepartments>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/allDepartments"/></con:call></con:operation><con:operation isOneWay="false" action="" name="allDivisions" bindingOperationName="allDivisions" type="Request-Response" outputName="allDivisionsResponse" inputName="allDivisions" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:allDivisions>
+         <!--Optional:-->
+         <parentId>?</parentId>
+      </ser:allDivisions>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/allDivisions"/></con:call></con:operation><con:operation isOneWay="false" action="" name="assocUserToOrg" bindingOperationName="assocUserToOrg" type="Request-Response" outputName="assocUserToOrgResponse" inputName="assocUserToOrg" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:assocUserToOrg>
+         <!--Optional:-->
+         <userorg>
+            <!--Optional:-->
+            <dto:userAffiliationId>?</dto:userAffiliationId>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:userId>?</dto:userId>
+            <!--Optional:-->
+            <dto:createDate>?</dto:createDate>
+            <!--Optional:-->
+            <dto:startDate>?</dto:startDate>
+            <!--Optional:-->
+            <dto:endDate>?</dto:endDate>
+            <!--Optional:-->
+            <dto:status>?</dto:status>
+            <!--Optional:-->
+            <dto:createdBy>?</dto:createdBy>
+         </userorg>
+      </ser:assocUserToOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/assocUserToOrg"/></con:call></con:operation><con:operation isOneWay="false" action="" name="containsChildren" bindingOperationName="containsChildren" type="Request-Response" outputName="containsChildrenResponse" inputName="containsChildren" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:containsChildren>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:containsChildren>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/containsChildren"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getAllAttributes" bindingOperationName="getAllAttributes" type="Request-Response" outputName="getAllAttributesResponse" inputName="getAllAttributes" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getAllAttributes>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </ser:getAllAttributes>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getAllAttributes"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getAllOrganizations" bindingOperationName="getAllOrganizations" type="Request-Response" outputName="getAllOrganizationsResponse" inputName="getAllOrganizations" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getAllOrganizations/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getAllOrganizations"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getAttribute" bindingOperationName="getAttribute" type="Request-Response" outputName="getAttributeResponse" inputName="getAttribute" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getAttribute>
+         <!--Optional:-->
+         <attributeId>?</attributeId>
+      </typ:getAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getAttribute"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getOrganization" bindingOperationName="getOrganization" type="Request-Response" outputName="getOrganizationResponse" inputName="getOrganization" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getOrganization>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:getOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getOrganization"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getOrganizationByType" bindingOperationName="getOrganizationByType" type="Request-Response" outputName="getOrganizationByTypeResponse" inputName="getOrganizationByType" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getOrganizationByType>
+         <!--Optional:-->
+         <typeId>?</typeId>
+         <!--Optional:-->
+         <parentId>?</parentId>
+      </ser:getOrganizationByType>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getOrganizationByType"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getOrganizationList" bindingOperationName="getOrganizationList" type="Request-Response" outputName="getOrganizationListResponse" inputName="getOrganizationList" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getOrganizationList>
+         <!--Optional:-->
+         <parentOrgId>?</parentOrgId>
+         <!--Optional:-->
+         <status>?</status>
+      </typ:getOrganizationList>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getOrganizationList"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getOrganizationsForUser" bindingOperationName="getOrganizationsForUser" type="Request-Response" outputName="getOrganizationsForUserResponse" inputName="getOrganizationsForUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getOrganizationsForUser>
+         <!--Optional:-->
+         <userId>?</userId>
+      </ser:getOrganizationsForUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getOrganizationsForUser"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getTopLevelOrganizations" bindingOperationName="getTopLevelOrganizations" type="Request-Response" outputName="getTopLevelOrganizationsResponse" inputName="getTopLevelOrganizations" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getTopLevelOrganizations/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/getTopLevelOrganizations"/></con:call></con:operation><con:operation isOneWay="false" action="" name="isRootOrganization" bindingOperationName="isRootOrganization" type="Request-Response" outputName="isRootOrganizationResponse" inputName="isRootOrganization" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:isRootOrganization>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:isRootOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/isRootOrganization"/></con:call></con:operation><con:operation isOneWay="false" action="" name="isUserAffilatedWithOrg" bindingOperationName="isUserAffilatedWithOrg" type="Request-Response" outputName="isUserAffilatedWithOrgResponse" inputName="isUserAffilatedWithOrg" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:isUserAffilatedWithOrg>
+         <!--Optional:-->
+         <orgId>?</orgId>
+         <!--Optional:-->
+         <userId>?</userId>
+      </ser:isUserAffilatedWithOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/isUserAffilatedWithOrg"/></con:call></con:operation><con:operation isOneWay="false" action="" name="removeAllAttributes" bindingOperationName="removeAllAttributes" type="Request-Response" outputName="removeAllAttributesResponse" inputName="removeAllAttributes" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:removeAllAttributes>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:removeAllAttributes>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/removeAllAttributes"/></con:call></con:operation><con:operation isOneWay="false" action="" name="removeAttribute" bindingOperationName="removeAttribute" type="Request-Response" outputName="removeAttributeResponse" inputName="removeAttribute" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:removeAttribute>
+         <!--Optional:-->
+         <organizationAttribute>
+            <!--Optional:-->
+            <dto:attrId>?</dto:attrId>
+            <!--Optional:-->
+            <dto:metadataElementId>?</dto:metadataElementId>
+            <!--Optional:-->
+            <dto:name>?</dto:name>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:value>?</dto:value>
+         </organizationAttribute>
+      </typ:removeAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/removeAttribute"/></con:call></con:operation><con:operation isOneWay="false" action="" name="removeOrganization" bindingOperationName="removeOrganization" type="Request-Response" outputName="removeOrganizationResponse" inputName="removeOrganization" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:removeOrganization>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:removeOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/removeOrganization"/></con:call></con:operation><con:operation isOneWay="false" action="" name="removeUserFromOrg" bindingOperationName="removeUserFromOrg" type="Request-Response" outputName="removeUserFromOrgResponse" inputName="removeUserFromOrg" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:removeUserFromOrg>
+         <!--Optional:-->
+         <orgId>?</orgId>
+         <!--Optional:-->
+         <userId>?</userId>
+      </ser:removeUserFromOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/removeUserFromOrg"/></con:call></con:operation><con:operation isOneWay="false" action="" name="search" bindingOperationName="search" type="Request-Response" outputName="searchResponse" inputName="search" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:search>
+         <!--Optional:-->
+         <name>?</name>
+         <!--Optional:-->
+         <type>?</type>
+         <!--Optional:-->
+         <classification>?</classification>
+         <!--Optional:-->
+         <internalOrgId>?</internalOrgId>
+      </typ:search>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/search"/></con:call></con:operation><con:operation isOneWay="false" action="" name="subOrganizations" bindingOperationName="subOrganizations" type="Request-Response" outputName="subOrganizationsResponse" inputName="subOrganizations" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:subOrganizations>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:subOrganizations>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/subOrganizations"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateAttribute" bindingOperationName="updateAttribute" type="Request-Response" outputName="updateAttributeResponse" inputName="updateAttribute" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:updateAttribute>
+         <!--Optional:-->
+         <organizationAttribute>
+            <!--Optional:-->
+            <dto:attrId>?</dto:attrId>
+            <!--Optional:-->
+            <dto:metadataElementId>?</dto:metadataElementId>
+            <!--Optional:-->
+            <dto:name>?</dto:name>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:value>?</dto:value>
+         </organizationAttribute>
+      </typ:updateAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/updateAttribute"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateOrganization" bindingOperationName="updateOrganization" type="Request-Response" outputName="updateOrganizationResponse" inputName="updateOrganization" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:updateOrganization>
+         <!--Optional:-->
+         <organization>
+            <!--Optional:-->
+            <dto:alias>?</dto:alias>
+            <!--Optional:-->
+            <dto:attributes>
+               <!--Zero or more repetitions:-->
+               <dto:organizationAttributeEntry id="?">
+                  <!--Optional:-->
+                  <dto:organizationAttribute>
+                     <!--Optional:-->
+                     <dto:attrId>?</dto:attrId>
+                     <!--Optional:-->
+                     <dto:metadataElementId>?</dto:metadataElementId>
+                     <!--Optional:-->
+                     <dto:name>?</dto:name>
+                     <!--Optional:-->
+                     <dto:organizationId>?</dto:organizationId>
+                     <!--Optional:-->
+                     <dto:value>?</dto:value>
+                  </dto:organizationAttribute>
+               </dto:organizationAttributeEntry>
+            </dto:attributes>
+            <!--Optional:-->
+            <dto:createDate>?</dto:createDate>
+            <!--Optional:-->
+            <dto:createdBy>?</dto:createdBy>
+            <!--Optional:-->
+            <dto:description>?</dto:description>
+            <!--Optional:-->
+            <dto:domainName>?</dto:domainName>
+            <!--Optional:-->
+            <dto:ldapStr>?</dto:ldapStr>
+            <!--Optional:-->
+            <dto:lstUpdate>?</dto:lstUpdate>
+            <!--Optional:-->
+            <dto:lstUpdatedBy>?</dto:lstUpdatedBy>
+            <!--Optional:-->
+            <dto:metadataTypeId>?</dto:metadataTypeId>
+            <!--Optional:-->
+            <dto:orgId>?</dto:orgId>
+            <!--Optional:-->
+            <dto:organizationName>?</dto:organizationName>
+            <!--Optional:-->
+            <dto:parentId>?</dto:parentId>
+            <!--Optional:-->
+            <dto:classification>?</dto:classification>
+            <!--Optional:-->
+            <dto:internalOrgId>?</dto:internalOrgId>
+            <!--Optional:-->
+            <dto:status>?</dto:status>
+            <!--Optional:-->
+            <dto:abbreviation>?</dto:abbreviation>
+            <!--Optional:-->
+            <dto:symbol>?</dto:symbol>
+            <!--Optional:-->
+            <dto:selected>?</dto:selected>
+         </organization>
+      </typ:updateOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/updateOrganization"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateUserOrgAssoc" bindingOperationName="updateUserOrgAssoc" type="Request-Response" outputName="updateUserOrgAssocResponse" inputName="updateUserOrgAssoc" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:updateUserOrgAssoc>
+         <!--Optional:-->
+         <userorg>
+            <!--Optional:-->
+            <dto:userAffiliationId>?</dto:userAffiliationId>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:userId>?</dto:userId>
+            <!--Optional:-->
+            <dto:createDate>?</dto:createDate>
+            <!--Optional:-->
+            <dto:startDate>?</dto:startDate>
+            <!--Optional:-->
+            <dto:endDate>?</dto:endDate>
+            <!--Optional:-->
+            <dto:status>?</dto:status>
+            <!--Optional:-->
+            <dto:createdBy>?</dto:createdBy>
+         </userorg>
+      </ser:updateUserOrgAssoc>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/OrganizationDataService/updateUserOrgAssoc"/></con:call></con:operation></con:interface><con:testSuite name="$Proxy19ServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="addAttribute TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="addAttribute"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>addAttribute</con:operation><con:request name="addAttribute"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:addAttribute>
+         <!--Optional:-->
+         <organizationAttribute>
+            <!--Optional:-->
+            <dto:attrId>?</dto:attrId>
+            <!--Optional:-->
+            <dto:metadataElementId>?</dto:metadataElementId>
+            <!--Optional:-->
+            <dto:name>?</dto:name>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:value>?</dto:value>
+         </organizationAttribute>
+      </typ:addAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/addAttribute"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="addOrganization TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="addOrganization"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>addOrganization</con:operation><con:request name="addOrganization"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:addOrganization>
+         <!--Optional:-->
+         <organization>
+            <!--Optional:-->
+            <dto:alias>?</dto:alias>
+            <!--Optional:-->
+            <dto:attributes>
+               <!--Zero or more repetitions:-->
+               <dto:organizationAttributeEntry id="?">
+                  <!--Optional:-->
+                  <dto:organizationAttribute>
+                     <!--Optional:-->
+                     <dto:attrId>?</dto:attrId>
+                     <!--Optional:-->
+                     <dto:metadataElementId>?</dto:metadataElementId>
+                     <!--Optional:-->
+                     <dto:name>?</dto:name>
+                     <!--Optional:-->
+                     <dto:organizationId>?</dto:organizationId>
+                     <!--Optional:-->
+                     <dto:value>?</dto:value>
+                  </dto:organizationAttribute>
+               </dto:organizationAttributeEntry>
+            </dto:attributes>
+            <!--Optional:-->
+            <dto:createDate>?</dto:createDate>
+            <!--Optional:-->
+            <dto:createdBy>?</dto:createdBy>
+            <!--Optional:-->
+            <dto:description>?</dto:description>
+            <!--Optional:-->
+            <dto:domainName>?</dto:domainName>
+            <!--Optional:-->
+            <dto:ldapStr>?</dto:ldapStr>
+            <!--Optional:-->
+            <dto:lstUpdate>?</dto:lstUpdate>
+            <!--Optional:-->
+            <dto:lstUpdatedBy>?</dto:lstUpdatedBy>
+            <!--Optional:-->
+            <dto:metadataTypeId>?</dto:metadataTypeId>
+            <!--Optional:-->
+            <dto:orgId>?</dto:orgId>
+            <!--Optional:-->
+            <dto:organizationName>?</dto:organizationName>
+            <!--Optional:-->
+            <dto:parentId>?</dto:parentId>
+            <!--Optional:-->
+            <dto:classification>?</dto:classification>
+            <!--Optional:-->
+            <dto:internalOrgId>?</dto:internalOrgId>
+            <!--Optional:-->
+            <dto:status>?</dto:status>
+            <!--Optional:-->
+            <dto:abbreviation>?</dto:abbreviation>
+            <!--Optional:-->
+            <dto:symbol>?</dto:symbol>
+            <!--Optional:-->
+            <dto:selected>?</dto:selected>
+         </organization>
+      </typ:addOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/addOrganization"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="addUserToOrg TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="addUserToOrg"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>addUserToOrg</con:operation><con:request name="addUserToOrg"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:addUserToOrg>
+         <!--Optional:-->
+         
+         <!--Optional:-->
+         <userId>3000</userId><orgId>100</orgId>
+      </ser:addUserToOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/addUserToOrg" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="allDepartments TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="allDepartments"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>allDepartments</con:operation><con:request name="allDepartments"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:allDepartments>
+         <!--Optional:-->
+         <parentId>?</parentId>
+      </ser:allDepartments>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/allDepartments"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="allDivisions TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="allDivisions"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>allDivisions</con:operation><con:request name="allDivisions"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:allDivisions>
+         <!--Optional:-->
+         <parentId>?</parentId>
+      </ser:allDivisions>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/allDivisions"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="assocUserToOrg TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="assocUserToOrg"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>assocUserToOrg</con:operation><con:request name="assocUserToOrg"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:assocUserToOrg>
+         <!--Optional:-->
+         <userorg>
+            <dto:userId>3000</dto:userId>
+            <dto:organizationId>40288185324428e20132444f43eb0018</dto:organizationId>
+         </userorg>
+      </ser:assocUserToOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/assocUserToOrg" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="assocUserToOrg2"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>assocUserToOrg</con:operation><con:request name="assocUserToOrg2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:assocUserToOrg>
+         <!--Optional:-->
+         <userorg>
+            <dto:userId>3000</dto:userId>
+            <dto:organizationId>402881c2322319970132231cca700002</dto:organizationId>
+         </userorg>
+      </ser:assocUserToOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/assocUserToOrg" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="containsChildren TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="containsChildren"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>containsChildren</con:operation><con:request name="containsChildren"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:containsChildren>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:containsChildren>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/containsChildren"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllAttributes TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getAllAttributes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getAllAttributes</con:operation><con:request name="getAllAttributes"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getAllAttributes>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </ser:getAllAttributes>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getAllAttributes"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllOrganizations TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getAllOrganizations"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getAllOrganizations</con:operation><con:request name="getAllOrganizations"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getAllOrganizations/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getAllOrganizations"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAttribute TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getAttribute"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getAttribute</con:operation><con:request name="getAttribute"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getAttribute>
+         <!--Optional:-->
+         <attributeId>?</attributeId>
+      </typ:getAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getAttribute"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getOrganization TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getOrganization"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getOrganization</con:operation><con:request name="getOrganization"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getOrganization>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:getOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getOrganization"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getOrganizationByType TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getOrganizationByType"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getOrganizationByType</con:operation><con:request name="getOrganizationByType"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getOrganizationByType>
+         <!--Optional:-->
+         <typeId>?</typeId>
+         <!--Optional:-->
+         <parentId>?</parentId>
+      </ser:getOrganizationByType>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getOrganizationByType"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getOrganizationList TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getOrganizationList"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getOrganizationList</con:operation><con:request name="getOrganizationList"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getOrganizationList>
+         <!--Optional:-->
+         <parentOrgId>?</parentOrgId>
+         <!--Optional:-->
+         <status>?</status>
+      </typ:getOrganizationList>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getOrganizationList"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getOrganizationsForUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getOrganizationsForUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getOrganizationsForUser</con:operation><con:request name="getOrganizationsForUser"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:getOrganizationsForUser>
+         <!--Optional:-->
+         
+      <userId>3000</userId></ser:getOrganizationsForUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getOrganizationsForUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getTopLevelOrganizations TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getTopLevelOrganizations"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>getTopLevelOrganizations</con:operation><con:request name="getTopLevelOrganizations"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:getTopLevelOrganizations/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/getTopLevelOrganizations"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="isRootOrganization TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="isRootOrganization"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>isRootOrganization</con:operation><con:request name="isRootOrganization"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:isRootOrganization>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:isRootOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/isRootOrganization"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="isUserAffilatedWithOrg TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="isUserAffilatedWithOrg"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>isUserAffilatedWithOrg</con:operation><con:request name="isUserAffilatedWithOrg"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:isUserAffilatedWithOrg>
+         <!--Optional:-->
+         
+         <!--Optional:-->
+         <orgId>100</orgId><userId>3000</userId>
+      </ser:isUserAffilatedWithOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/isUserAffilatedWithOrg" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="removeAllAttributes TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="removeAllAttributes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>removeAllAttributes</con:operation><con:request name="removeAllAttributes"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:removeAllAttributes>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:removeAllAttributes>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/removeAllAttributes"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="removeAttribute TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="removeAttribute"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>removeAttribute</con:operation><con:request name="removeAttribute"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:removeAttribute>
+         <!--Optional:-->
+         <organizationAttribute>
+            <!--Optional:-->
+            <dto:attrId>?</dto:attrId>
+            <!--Optional:-->
+            <dto:metadataElementId>?</dto:metadataElementId>
+            <!--Optional:-->
+            <dto:name>?</dto:name>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:value>?</dto:value>
+         </organizationAttribute>
+      </typ:removeAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/removeAttribute"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="removeOrganization TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="removeOrganization"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>removeOrganization</con:operation><con:request name="removeOrganization"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:removeOrganization>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:removeOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/removeOrganization"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="removeUserFromOrg TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="removeUserFromOrg"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>removeUserFromOrg</con:operation><con:request name="removeUserFromOrg"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:removeUserFromOrg>
+         <!--Optional:-->
+         
+         <!--Optional:-->
+         <userId>3000</userId><orgId>100</orgId>
+      </ser:removeUserFromOrg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/removeUserFromOrg" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="search TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="search"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>search</con:operation><con:request name="search"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:search>
+         <!--Optional:-->
+         <name>?</name>
+         <!--Optional:-->
+         <type>?</type>
+         <!--Optional:-->
+         <classification>?</classification>
+         <!--Optional:-->
+         <internalOrgId>?</internalOrgId>
+      </typ:search>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/search"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="subOrganizations TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="subOrganizations"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>subOrganizations</con:operation><con:request name="subOrganizations"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:subOrganizations>
+         <!--Optional:-->
+         <orgId>?</orgId>
+      </typ:subOrganizations>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/subOrganizations"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="updateAttribute TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="updateAttribute"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>updateAttribute</con:operation><con:request name="updateAttribute"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:updateAttribute>
+         <!--Optional:-->
+         <organizationAttribute>
+            <!--Optional:-->
+            <dto:attrId>?</dto:attrId>
+            <!--Optional:-->
+            <dto:metadataElementId>?</dto:metadataElementId>
+            <!--Optional:-->
+            <dto:name>?</dto:name>
+            <!--Optional:-->
+            <dto:organizationId>?</dto:organizationId>
+            <!--Optional:-->
+            <dto:value>?</dto:value>
+         </organizationAttribute>
+      </typ:updateAttribute>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/updateAttribute"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="updateOrganization TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="updateOrganization"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>updateOrganization</con:operation><con:request name="updateOrganization"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="urn:idm.openiam.org/srvc/org/types" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:updateOrganization>
+         <!--Optional:-->
+         <organization>
+            <!--Optional:-->
+            <dto:alias>?</dto:alias>
+            <!--Optional:-->
+            <dto:attributes>
+               <!--Zero or more repetitions:-->
+               <dto:organizationAttributeEntry id="?">
+                  <!--Optional:-->
+                  <dto:organizationAttribute>
+                     <!--Optional:-->
+                     <dto:attrId>?</dto:attrId>
+                     <!--Optional:-->
+                     <dto:metadataElementId>?</dto:metadataElementId>
+                     <!--Optional:-->
+                     <dto:name>?</dto:name>
+                     <!--Optional:-->
+                     <dto:organizationId>?</dto:organizationId>
+                     <!--Optional:-->
+                     <dto:value>?</dto:value>
+                  </dto:organizationAttribute>
+               </dto:organizationAttributeEntry>
+            </dto:attributes>
+            <!--Optional:-->
+            <dto:createDate>?</dto:createDate>
+            <!--Optional:-->
+            <dto:createdBy>?</dto:createdBy>
+            <!--Optional:-->
+            <dto:description>?</dto:description>
+            <!--Optional:-->
+            <dto:domainName>?</dto:domainName>
+            <!--Optional:-->
+            <dto:ldapStr>?</dto:ldapStr>
+            <!--Optional:-->
+            <dto:lstUpdate>?</dto:lstUpdate>
+            <!--Optional:-->
+            <dto:lstUpdatedBy>?</dto:lstUpdatedBy>
+            <!--Optional:-->
+            <dto:metadataTypeId>?</dto:metadataTypeId>
+            <!--Optional:-->
+            <dto:orgId>?</dto:orgId>
+            <!--Optional:-->
+            <dto:organizationName>?</dto:organizationName>
+            <!--Optional:-->
+            <dto:parentId>?</dto:parentId>
+            <!--Optional:-->
+            <dto:classification>?</dto:classification>
+            <!--Optional:-->
+            <dto:internalOrgId>?</dto:internalOrgId>
+            <!--Optional:-->
+            <dto:status>?</dto:status>
+            <!--Optional:-->
+            <dto:abbreviation>?</dto:abbreviation>
+            <!--Optional:-->
+            <dto:symbol>?</dto:symbol>
+            <!--Optional:-->
+            <dto:selected>?</dto:selected>
+         </organization>
+      </typ:updateOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/updateOrganization"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="updateUserOrgAssoc TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="updateUserOrgAssoc"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy19ServiceSoapBinding</con:interface><con:operation>updateUserOrgAssoc</con:operation><con:request name="updateUserOrgAssoc"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/OrganizationDataService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/org/service" xmlns:dto="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:updateUserOrgAssoc>
+         <!--Optional:-->
+         <userorg>
+            <!--Optional:-->
+            
+            <!--Optional:-->
+            <dto:userId>3000</dto:userId><dto:status>INACTIVE</dto:status><dto:organizationId>40288185304ccbff01304ccf7770001f</dto:organizationId><dto:userAffiliationId>4028818932fa04e70132fa0ebe220003</dto:userAffiliationId>
+            <!--Optional:-->
+            
+            <!--Optional:-->
+            
+            <!--Optional:-->
+            
+            <!--Optional:-->
+            
+            <!--Optional:-->
+            
+            <!--Optional:-->
+            
+         </userorg>
+      </ser:updateUserOrgAssoc>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/OrganizationDataService/updateUserOrgAssoc" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>
