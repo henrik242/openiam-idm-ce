@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping SYSTEM "classpath://hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    <class name="org.openiam.idm.srvc.menu.dto.Permission" table="permissions">
+    <class name="org.openiam.idm.srvc.menu.dto.Permission" table="PERMISSIONS">
         <composite-id name="id" class="org.openiam.idm.srvc.menu.dto.PermissionId">
             <key-property name="menuId" type="string">
                 <column name="MENU_ID" length="20" />
