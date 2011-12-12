@@ -8,7 +8,7 @@
         <id name="domainId" type="string">
             <column name="DOMAIN_ID" length="20" />
               <generator class="org.openiam.base.id.SequenceGenerator">
-                 <param name="table">sequence_gen</param>
+                 <param name="table">SEQUENCE_GEN</param>
                  <param name="column">next_id</param>
                  <param name="attribute">DOMAIN_ID</param>
        		  </generator>
