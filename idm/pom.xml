@@ -11,7 +11,9 @@
   <packaging>pom</packaging>
   <name>IDM Core</name>
   <description>Core IDM Product</description>
-
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <modules>
         <module>openiam-idm-intf</module>
