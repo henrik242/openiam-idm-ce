@@ -282,6 +282,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             } else {
                 primaryLogin.setResetPassword(0);
             }
+            // determin the password expiration and grace period dates
+            setPasswordExpValues(passwordPolicy, primaryLogin);
 
             loginManager.updateLogin(primaryLogin);
         }
@@ -419,6 +421,50 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         resp.setUser(user);
         return resp;
     }
+
+    private void setPasswordExpValues( Policy plcy, Login lg ) {
+        Calendar cal = Calendar.getInstance();
+		Calendar expCal = Calendar.getInstance();
+
+
+        String pswdExpValue = getPolicyAttribute( plcy.getPolicyAttributes(), "PWD_EXPIRATION");
+        String gracePeriod = getPolicyAttribute( plcy.getPolicyAttributes(),"PWD_EXP_GRACE");
+
+
+        // password has been changed - we dont need to force a change password on the next login
+        lg.setPasswordChangeCount(0);
+
+
+        // calculate when the password will expire
+        if (pswdExpValue != null && !pswdExpValue.isEmpty()) {
+            cal.add(Calendar.DATE, Integer.parseInt(pswdExpValue) );
+            expCal.add(Calendar.DATE, Integer.parseInt(pswdExpValue));
+            lg.setPwdExp( expCal.getTime());
+
+            // calc the grace period if there is a policy for it
+            if (gracePeriod != null && !gracePeriod.isEmpty()) {
+                cal.add(Calendar.DATE, Integer.parseInt(gracePeriod) );
+                lg.setGracePeriod(cal.getTime());
+            }
+        }
+
+
+    }
+
+    private String getPolicyAttribute(Set<PolicyAttribute> attr, String name) {
+		assert name != null : "Name parameter is null";
+
+		log.debug("Attribute Set size=" + attr.size());
+
+		for ( PolicyAttribute policyAtr :attr) {
+			if (policyAtr.getName().equalsIgnoreCase(name)) {
+				return policyAtr.getValue1();
+			}
+		}
+		return null;
+
+	}
+
 
     private void sendCredentialsToUser(User user, String identity, String password)  {
 
