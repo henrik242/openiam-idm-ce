@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project>
   <parent>
-    <artifactId>openiam</artifactId>
+    <artifactId>idm-core</artifactId>
     <groupId>org.openiam</groupId>
     <version>2.1.0</version>
   </parent>
