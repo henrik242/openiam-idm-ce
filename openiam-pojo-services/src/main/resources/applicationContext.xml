@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:jee="http://www.springframework.org/schema/jee"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    					http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-    					http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+    					http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -496,7 +494,8 @@
 		<!-- property name="mailSender" ref="emailSender" / -->
 		<property name="mailSender" ref="mailSender" />
 		<property name="defaultSender" value="${mail.defaultSender}" />
-		<property name="subjectPrefix" value=" " />
+		<property name="subjectPrefix" value="${mail.defaultSubjectPrefix}" />
+		<property name="optionalBccAddress" value="${mail.optionalBccAddress}" />
 		<property name="userManager" ref="userWS" />
 		<property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
 		<property name="auditHelper" ref="auditHelper" />
