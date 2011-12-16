@@ -1,34 +1,23 @@
 package org.openiam.idm.srvc.msg.service;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.audit.service.AuditHelper;
+import org.openiam.idm.srvc.msg.dto.NotificationRequest;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.script.ScriptFactory;
+import org.openiam.script.ScriptIntegration;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import javax.jws.WebService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.jws.WebService;
-
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openiam.idm.srvc.audit.service.AuditHelper;
-import org.openiam.idm.srvc.auth.login.LoginDataService;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
-import org.openiam.idm.srvc.msg.service.MailService;
-import org.openiam.idm.srvc.user.dto.User;
-import org.openiam.idm.srvc.user.ws.UserDataWebService;
-import org.openiam.script.ScriptFactory;
-import org.openiam.script.ScriptIntegration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.beans.BeansException;
-
-/*
-
-import org.springframework.mail.MailException;
-//import org.springframework.mail.MailSender;
-//import org.springframework.mail.SimpleMailMessage;
-*/
 
 @WebService(endpointInterface = "org.openiam.idm.srvc.msg.service.MailService", 
 		targetNamespace = "urn:idm.openiam.org/srvc/msg", 
@@ -39,57 +28,24 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 	private MailSender mailSender;
 	private String defaultSender;
 	private String subjectPrefix;
-	
+	private String optionalBccAddress;
+
 	protected String scriptEngine;
 	protected UserDataWebService userManager;
 	protected AuditHelper auditHelper;
-	
+
 	public static ApplicationContext ac;
-	
-	
+
 	private static final Log log = LogFactory.getLog(SysMessageDAO.class);
 	static protected ResourceBundle notificationRes = ResourceBundle.getBundle("notification");
 
-
 	public void sendToAllUsers() {
-		// TODO Auto-generated method stub
-		
+		log.info("sendToAllUsers was called, but is not implemented");
 	}
 
 	public void sendToGroup(String groupId) {
-		// TODO Auto-generated method stub
-		
+		log.info("sendToGroup was called, but is not implemented");
 	}
-
-	/*public void send(String from, String to, String subject, String msg) {
-		System.out.println("To:" + to);
-		System.out.println("From:" + from);
-		System.out.println("Subject:" + subject);
-		
-		SimpleMailMessage message = new SimpleMailMessage();
-		if (from != null && from.length()  > 0) {
-			message.setFrom(from);
-		}else {
-			message.setFrom(defaultSender);
-		}
-		message.setTo(to);
-		if (subjectPrefix != null) {
-			subject = subjectPrefix + " " + subject;
-		}
-		message.setSubject(subject);
-		message.setText(msg);
-		try {
-			mailSender.send(message);
-		}catch(MailException sf) {
-			sf.printStackTrace();
-			log.error(sf);
-		}catch(Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		
-	}
-	*/
 
 	public void send(String from, String to, String subject, String msg) {
 		System.out.println("To:" + to);
@@ -106,6 +62,9 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		if (subjectPrefix != null) {
 			subject = subjectPrefix + " " + subject;
 		}
+		if (optionalBccAddress != null) {
+			message.setBcc(optionalBccAddress);
+		}
 		message.setSubject(subject);
 		message.setBody(msg);
 		try {
@@ -116,7 +75,7 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		}
 		
 	}
-	
+
 	public void sendWithCC(String from, String to,String cc, String subject, String msg) {
 		Message message = new Message();
 		if (from != null && from.length()  > 0) {
@@ -129,6 +88,9 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		if (subjectPrefix != null) {
 			subject = subjectPrefix + " " + subject;
 		}
+		if (optionalBccAddress != null) {
+			message.setBcc(optionalBccAddress);
+		}
 		message.setSubject(subject);
 		message.setBody(msg);
 		try {
@@ -138,17 +100,14 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		}
 		
 	}
-	
-	private  boolean isEmailValid(String email){ 
+
+	private  boolean isEmailValid(String email){
 		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";  
-		CharSequence inputStr = email;  
-		//Make the comparison case-insensitive.  
+
+		//Make the comparison case-insensitive.
 		Pattern pattern = Pattern.compile(expression,Pattern.CASE_INSENSITIVE);  
-		Matcher matcher = pattern.matcher(inputStr);  
-		if(matcher.matches()){  
-			return true;  
-		}  
-		 return false;    
+		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
 	}
 
 	/* (non-Javadoc)
@@ -191,33 +150,21 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		
 		try {
 			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
+		} catch(Exception e) {
 			log.error(e);
 			return false;
-
 		}
-
-        log.debug("Show email request object:" + req);
-
+		log.debug("Show email request object:" + req);
 		
 		bindingMap.put("user", usr);
 		bindingMap.put("req", req);
 		
 		String emailBody = (String)se.execute(bindingMap, emailScript);
 		
-		send(null, usr.getEmail(), subject,emailBody);
-		
-		
-		/*auditHelper.addLog(req.getNotificationType(), null,	null,
-				"IDM SERVICE", null, null,"NOTIFICATION",
-				null, null, 
-				"SUCCESS", req.getLinkedRequestId(),  "TARGET_USER_ID", usr.getUserId(),
-				req.getRequestId(), null, null, null);
-		*/
+		send(null, usr.getEmail(), subject, emailBody);
 		return true;
 	}
-	
-	
+
 	public String getDefaultSender() {
 		return defaultSender;
 	}
@@ -242,12 +189,6 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		this.mailSender = mailSender;
 	}
 
-
-
-
-
-
-
 	public String getScriptEngine() {
 		return scriptEngine;
 	}
@@ -257,7 +198,7 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 	}
 	
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException  {
-        ac = applicationContext;
+		ac = applicationContext;
 	}
 
 	public UserDataWebService getUserManager() {
@@ -283,5 +224,12 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 	public void setAuditHelper(AuditHelper auditHelper) {
 		this.auditHelper = auditHelper;
 	}
-	
+
+	public String getOptionalBccAddress() {
+		return optionalBccAddress;
+	}
+
+	public void setOptionalBccAddress(String optionalBccAddress) {
+		this.optionalBccAddress = optionalBccAddress;
+	}
 }
