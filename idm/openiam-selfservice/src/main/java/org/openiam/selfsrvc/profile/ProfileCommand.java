@@ -17,7 +17,7 @@ import org.openiam.idm.srvc.user.dto.User;
  */
 public class ProfileCommand implements Serializable {
 	 
-	/**
+	/**         dddd
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = -3001967685870249543L;

@@ -185,16 +185,21 @@ public class ProfileController extends CancellableFormController {
 		String userId = (String)session.getAttribute("userId");
 
         User currentUser =  userMgr.getUserWithDependent(userId, true).getUser();
+        
+        Set<EmailAddress> emailSet =  currentUser.getEmailAddress();
+        Set<Phone> phoneSet = currentUser.getPhone();
+        
 
 		User usr = profileCmd.getUser();
 
         currentUser.updateUser(usr);
 
-        getPhone(profileCmd, currentUser);
-		getEmail(profileCmd, currentUser);
-
-
         ProvisionUser pUser = new ProvisionUser(currentUser);
+        pUser.setEmailAddress(emailSet);
+        pUser.setPhone(phoneSet);
+        
+        getPhone(profileCmd, pUser);
+        getEmail(profileCmd, pUser);
 
         
         if (profileCmd.getSupervisorId() != null && profileCmd.getSupervisorId().length() > 0) {
@@ -293,22 +298,6 @@ public class ProfileController extends CancellableFormController {
 	
 	}
 
-
-/*	private void setLoginCommand(User usr, String upn,  ProfileCommand profile) {
-		try {
-		Login lg = loginManager.getLogin("USR_SEC_DOMAIN", upn ).getPrincipal();
-		if (lg != null && lg.getId() != null){
-			profile.setUserPrincipalName(lg.getId().getLogin());
-			profile.setSecdomain(lg.getId().getManagedSysId());
-			profile.setManagedSysId(lg.getId().getManagedSysId());
-		}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-*/	
-
 	
 	// methods to get data from a form to a domain object that we can persist
 	
@@ -316,6 +305,7 @@ public class ProfileController extends CancellableFormController {
 	
 	private void getEmail(ProfileCommand profileCommand, User usr) {
 		Set<EmailAddress> emailAdrSet =  usr.getEmailAddress();
+
 		
 		EmailAddress email1 = null, email2 = null, email3 = null;
 		
@@ -323,48 +313,53 @@ public class ProfileController extends CancellableFormController {
 		while (emailIterator.hasNext()) {
 			EmailAddress e = emailIterator.next();
             if (e != null) {
-                if (e.getName() != null && e.getName().equalsIgnoreCase("EMAIL1")) {
-                    // update
+
+                if ("EMAIL1".equalsIgnoreCase(e.getName())) {
                     e.setEmailAddress(profileCommand.getEmail1());
+                    System.out.println("EMAIL 1 = MATCH");
                 }
-                if (e.getName() != null && e.getName().equalsIgnoreCase("EMAIL2")) {
-                    // update
+                if ("EMAIL2".equalsIgnoreCase(e.getName())) {
                     e.setEmailAddress(profileCommand.getEmail2());
+                    System.out.println("EMAIL 2 = MATCH");
                 }
-                if (e.getName() != null && e.getName().equalsIgnoreCase("EMAIL3")) {
-                    // update
+                if ("EMAIL3".equalsIgnoreCase(e.getName())) {
                     e.setEmailAddress(profileCommand.getEmail3());
+                    System.out.println("EMAIL 3 = MATCH");
                 }
             }
 		}
 		
 		if (!emailExists(emailAdrSet, "EMAIL1")) {
 			// add email
+
 			email1 = new EmailAddress();
 			email1.setEmailAddress(profileCommand.getEmail1());
 			email1.setName("EMAIL1");
 			email1.setParentId(usr.getUserId());
 			email1.setParentType(ContactConstants.PARENT_TYPE_USER);
-			emailAdrSet.add(email1);
+            usr.getEmailAddress().add(email1);
+
 			
 		}
 		if (!emailExists(emailAdrSet, "EMAIL2")) {
+
 			// add email
 			email2 = new EmailAddress();
 			email2.setEmailAddress(profileCommand.getEmail2());
 			email2.setName("EMAIL2");
 			email2.setParentId(usr.getUserId());
 			email2.setParentType(ContactConstants.PARENT_TYPE_USER);
-			emailAdrSet.add(email2);
+            usr.getEmailAddress().add(email2);
 		}		
 		if (!emailExists(emailAdrSet, "EMAIL3")) {
+
 			// add email
 			email3 = new EmailAddress();
 			email3.setEmailAddress(profileCommand.getEmail3());
 			email3.setName("EMAIL3");
 			email3.setParentId(usr.getUserId());
 			email3.setParentType(ContactConstants.PARENT_TYPE_USER);
-			emailAdrSet.add(email3);
+            usr.getEmailAddress().add(email3);
 			
 		}	
 		
@@ -390,20 +385,20 @@ public class ProfileController extends CancellableFormController {
 	}
 
 	private boolean emailExists(Set<EmailAddress> emailSet, String name) {
-		Iterator<EmailAddress> emailIterator = emailSet.iterator();
-		if (emailIterator == null) {
+		if (emailSet == null) {
 			return false;
 		}
-		EmailAddress em = null;
-		while (emailIterator.hasNext()) {
-			em = emailIterator.next();
-            if (em.getName() != null) {
-                if (em.getName().equalsIgnoreCase(name)) {
+        for ( EmailAddress e : emailSet) {
+            if (e.getName() != null) {
+                if (e.getName().equalsIgnoreCase(name)) {
                     return true;
                 }
             }
-		}
-		return false;		
+            
+        }
+
+        return false;
+
 	}
 	
 	
