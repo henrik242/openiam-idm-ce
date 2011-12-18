@@ -31,6 +31,10 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import static javax.mail.Message.RecipientType.BCC;
+import static javax.mail.Message.RecipientType.CC;
+import static javax.mail.Message.RecipientType.TO;
+
 /**
  * Object containing mail server configuration
  * @author suneet
@@ -43,9 +47,9 @@ public class MailSender {
 	String password;
 	boolean auth;
 	boolean starttls;
-	
+
 	private static final Log log = LogFactory.getLog(Message.class);
-	
+
 	public void send(Message msg) {
 		 Properties properties = System.getProperties();
 		 properties.setProperty("mail.smtp.host", host);  
@@ -53,24 +57,31 @@ public class MailSender {
 		 MimeMessage message = new MimeMessage(session);  
 		 try {
 			 message.setFrom(msg.getFrom()); 
-			 message.addRecipient(javax.mail.Message.RecipientType.TO, msg.getTo());
+			 message.addRecipient(TO, msg.getTo());
+             if (msg.getBcc() != null) {
+                 message.addRecipient(BCC, msg.getBcc());
+             }
+             if (msg.getCc() != null) {
+                message.addRecipient(CC, msg.getCc());
+             }
 			 message.setSubject(msg.getSubject());
 			 message.setText(msg.getBody());
 
 			 Transport.send(message);
 			 log.info("Message successfully sent.");
-		 }catch(MessagingException me) {
+		 } catch(MessagingException me) {
 			log.error(me);
 			me.printStackTrace();
 		 }
 	}
-	
+
 	public String getHost() {
 		return host;
 	}
 	public void setHost(String host) {
 		this.host = host;
 	}
+
 	public String getPort() {
 		return port;
 	}
@@ -84,12 +95,14 @@ public class MailSender {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public boolean isAuth() {
 		return auth;
 	}
 	public void setAuth(boolean auth) {
 		this.auth = auth;
 	}
+
 	public boolean isStarttls() {
 		return starttls;
 	}
@@ -100,11 +113,7 @@ public class MailSender {
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-
-	
 }
