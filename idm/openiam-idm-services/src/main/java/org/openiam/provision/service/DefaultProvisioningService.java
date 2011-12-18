@@ -97,6 +97,8 @@ import javax.jws.WebService;
 import java.util.*;
 
 /**
+ * DefaultProvisioningService is responsible for receiving and processing requests that are to be sent to the target
+ * system connectors.
  * @author suneet
  */
 @WebService(endpointInterface = "org.openiam.provision.service.ProvisionService",
@@ -332,6 +334,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                     bindingMap.put("targetSystemIdentityStatus", "NEW");
                     bindingMap.put("targetSystemIdentity", "");
+                    bindingMap.put("targetSystemAttributes", null);
 
 
                     // attributes are built using groovy script rules
@@ -432,7 +435,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
         // password has been changed - we dont need to force a change password on the next login
-        lg.setPasswordChangeCount(0);
 
 
         // calculate when the password will expire
@@ -1146,6 +1148,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                             bindingMap.put("targetSystemIdentityStatus", "NEW");
                             bindingMap.put("targetSystemIdentity", "");
+                            bindingMap.put("targetSystemAttributes", null);
 
 
                             ExtensibleUser extUser = attrListBuilder.buildFromRules(pUser, attrMap, se,
@@ -1227,9 +1230,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         if (currentValueMap == null || currentValueMap.size() ==0) {
                             bindingMap.put("targetSystemIdentityStatus", "NEW");
                             bindingMap.put("targetSystemIdentity", "");
+                            bindingMap.put("targetSystemAttributes", null);
                         }else {
                             bindingMap.put("targetSystemIdentityStatus", "EXIST");
                             bindingMap.put("targetSystemIdentity", mLg.getId().getLogin());
+                            bindingMap.put("targetSystemAttributes", currentValueMap);
                         }
 
 
@@ -1675,7 +1680,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         if (connector.getConnectorInterface() != null &&
                 connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
-            log.debug("Calling Remote connector");
+            log.debug("Calling lookupRequest with Remote connector");
 
             LookupRequest reqType = new LookupRequest();
             reqType.setSearchValue(principalName);
@@ -1698,7 +1703,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         } else {
 
-            log.debug("Calling local connector");
+            log.debug("Calling lookupRequest local connector");
 
             LookupRequestType request = new LookupRequestType();
             PSOIdentifierType idType = new PSOIdentifierType(principalName, null, managedSysId);
