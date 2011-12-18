@@ -64,13 +64,13 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 			message.setFrom(defaultSender);
 		}
 		message.setTo(to);
-		if (cc != null) {
+		if (cc != null && !cc.isEmpty()) {
 			message.setCc(cc);
 		}
 		if (subjectPrefix != null) {
 			subject = subjectPrefix + " " + subject;
 		}
-		if (optionalBccAddress != null) {
+		if (optionalBccAddress != null && !optionalBccAddress.isEmpty()) {
 			message.setBcc(optionalBccAddress);
 		}
 		message.setSubject(subject);
