@@ -2091,7 +2091,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                               }
 
                               // exclude the system where this event occured.
-                              if (!lg.getId().getManagedSysId().equalsIgnoreCase(eventSrc)) {
+                              if (!lg.getId().getManagedSysId().equalsIgnoreCase(passwordSync.getManagedSystemId())) {
 
                                   if (connector.getConnectorInterface() != null &&
                                           connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
