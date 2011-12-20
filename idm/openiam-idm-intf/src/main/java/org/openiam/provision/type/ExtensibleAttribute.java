@@ -16,21 +16,20 @@
  *  along with OpenIAM.  If not, see <http://www.gnu.org/licenses/>. *
  */
 
-/**
- * 
- */
 package org.openiam.provision.type;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-import java.io.Serializable;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.commons.codec.binary.Base64.decodeBase64;
+import static org.apache.commons.codec.binary.Base64.encodeBase64String;
 
 /**
  * The content carried by the most SPML requests includes an Extensible type to all
@@ -38,7 +37,6 @@ import javax.xml.bind.annotation.XmlType;
  * attribute model to capture a wide variety of data.
  * 
  * @author Suneet Shah
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExtensibleAttribute", propOrder = {
@@ -53,12 +51,10 @@ import javax.xml.bind.annotation.XmlType;
 
 })
 public class ExtensibleAttribute  implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8402148961330001942L;
-	protected String name;
-	protected String value;
+
+    private static final long serialVersionUID = 8402148961330001942L;
+    protected String name;
+    protected String value;
     protected String metadataElementId;
     protected int operation;
     protected boolean multivalued = false;
@@ -68,60 +64,67 @@ public class ExtensibleAttribute  implements Serializable {
 
     protected static final Log log = LogFactory.getLog(ExtensibleAttribute.class);
 
-	
-	public ExtensibleAttribute() {
-		
-	}
-	public ExtensibleAttribute(String name, String value) {
-		this.name = name;
-		this.value = value;
-		operation = ModificationAttribute.add;
-	}
-	public ExtensibleAttribute(String name, String value, String metadataElementId) {
-		this.name = name;
-		this.value = value;
-		this.metadataElementId = metadataElementId;
-		operation = ModificationAttribute.add;
-	}
-	
-	public ExtensibleAttribute(String name, String value, int operation, String dataType) {
-		super();
-		this.name = name;
-		this.operation = operation;
-		this.value = value;
+    
+    public ExtensibleAttribute() {
+        
+    }
+    public ExtensibleAttribute(String name, String value) {
+        this.name = name;
+        setValue(value);
+        operation = ModificationAttribute.add;
+    }
+    public ExtensibleAttribute(String name, String value, String metadataElementId) {
+        this.name = name;
+        setValue(value);
+        this.metadataElementId = metadataElementId;
+        operation = ModificationAttribute.add;
+    }
+    
+    public ExtensibleAttribute(String name, String value, int operation, String dataType) {
+        super();
+        this.name = name;
+        this.operation = operation;
+        setValue(value);
         this.dataType = dataType;
-	}
+    }
 
      public ExtensibleAttribute(String name, List<String> val, int operation, String dataType) {
-	    super();
-		this.name = name;
-		this.operation = operation;
-		this.valueList = val;
+        super();
+        this.name = name;
+        this.operation = operation;
+        setValueList(val);
         multivalued = true;
         this.dataType = dataType;
 
         log.debug("Extensible attribute created: multivalue");
 
-	}
+    }
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
-	public int getOperation() {
-		return operation;
-	}
-	public void setOperation(int operation) {
-		this.operation = operation;
-	}
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getValue() {
+        if (value == null) {
+            return null;
+        }
+        return new String(decodeBase64(value));
+    }
+    public void setValue(String value) {
+        if (value == null) {
+            this.value = null;
+        } else {
+            this.value = encodeBase64String(value.getBytes());
+        }
+    }
+    public int getOperation() {
+        return operation;
+    }
+    public void setOperation(int operation) {
+        this.operation = operation;
+    }
 
 
     public boolean isMultivalued() {
@@ -133,11 +136,25 @@ public class ExtensibleAttribute  implements Serializable {
     }
 
     public List<String> getValueList() {
-        return valueList;
+        if (valueList == null) {
+            return null;
+        }
+        List<String> list = new ArrayList<String>();
+        for (String val : valueList) {
+            list.add(new String(decodeBase64(val)));
+        }
+        return list;
     }
 
-    public void setValueList(List<String> valueList) {
-        this.valueList = valueList;
+    public void setValueList(List<String> list) {
+        if (list == null) {
+            valueList = null;
+        } else {
+            valueList = new ArrayList<String>();
+            for (String val : list) {
+                valueList.add(encodeBase64String(val.getBytes()));
+            }
+        }
     }
 
     public String getDataType() {
@@ -160,11 +177,11 @@ public class ExtensibleAttribute  implements Serializable {
     public String toString() {
         return "ExtensibleAttribute{" +
                 "name='" + name + '\'' +
-                ", value='" + value + '\'' +
+                ", value='" + getValue() + '\'' +
                 ", metadataElementId='" + metadataElementId + '\'' +
                 ", operation=" + operation +
                 ", multivalued=" + multivalued +
-                ", valueList=" + valueList +
+                ", valueList=" + getValueList() +
                 ", dataType='" + dataType + '\'' +
                 '}';
     }

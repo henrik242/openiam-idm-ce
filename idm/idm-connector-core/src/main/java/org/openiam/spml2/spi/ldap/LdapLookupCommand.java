@@ -93,10 +93,6 @@ public class LdapLookupCommand extends LdapAbstractCommand {
                             ExtensibleAttribute extAttr = new ExtensibleAttribute();
                             Attribute attr = (Attribute) ae.next();
 
-                            if ("objectguid".equalsIgnoreCase(attr.getID()) || "objectsid".equalsIgnoreCase(attr.getID())) {
-                                continue;
-                            }
-
                             boolean addToList = false;
 
                             extAttr.setName(attr.getID());
