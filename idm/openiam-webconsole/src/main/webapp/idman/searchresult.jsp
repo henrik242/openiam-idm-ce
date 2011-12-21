@@ -31,7 +31,7 @@
 
 
 
-<table  width="800pt">
+<table  width="1000pt">
 			<tr>
 				<td align="center" height="100%">
 			     <fieldset class="userform" >
