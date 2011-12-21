@@ -23,6 +23,9 @@
 	
 	List elementList = (List)request.getAttribute("elementList");
 	pageContext.setAttribute("elementList",elementList);
+
+    List orgList = (List)session.getAttribute("orgList");
+    pageContext.setAttribute("orgList",orgList);
 	
 %>
 <html:html>
@@ -56,7 +59,10 @@
          </td>         
          <td class="tddark" align="right">Organization</td>
          <td class="tdlight">
-            <html:text property="companyName" size="30" maxlength="30" />
+             <html:select property="companyName">
+                 <html:options collection="orgList" property="value" labelProperty="label"/>
+             </html:select>
+
          </td>
    </tr>
   <tr>
