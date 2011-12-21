@@ -169,17 +169,22 @@ public class ModifyUser {
 					em.setOperation(AttributeOperationEnum.ADD);
 					origEmailSet.add(em);
 					emailSet.add(em);
+
+                    log.debug("EMAIL ADDRESS -> ADD NEW ADDRESS = " + em.getEmailAddress() );
+
 				}else {
 					if (em.equals(origEmail)) {
 						// not changed
 						em.setOperation(AttributeOperationEnum.NO_CHANGE);
 						emailSet.add(em);
+                        log.debug("EMAIL ADDRESS -> NO CHANGE = " + em.getEmailAddress() );
 					}else {
 						// object changed
 						origEmail.updateEmailAddress(em);
 						origEmailSet.add(origEmail);
 						origEmail.setOperation(AttributeOperationEnum.REPLACE);
 						emailSet.add(origEmail);
+                        log.debug("EMAIL ADDRESS -> REPLACE = " + em.getEmailAddress() );
 					}
 				}
 			}

@@ -438,6 +438,11 @@ public class EditUserController extends CancellableFormController {
 
 	private EmailAddress buildEmail(String emailId, String email, String name) {
 		EmailAddress em = new EmailAddress();
+
+        if (email != null && email.length() == 0) {
+            email = null;
+        }
+
 		em.setEmailAddress(email);
 		if (emailId != null && emailId.length() > 0) {
 			em.setEmailId(emailId);
@@ -451,25 +456,20 @@ public class EditUserController extends CancellableFormController {
 		
 		String email = profileCommand.getEmail1();
 		String emailId = profileCommand.getEmail1Id();
-		if (email != null && email.length() > 0) {
-			EmailAddress em = buildEmail(emailId, email,"EMAIL1");
-			log.info("EmailId 1 = " + em.getEmailId());
-			pUser.getEmailAddress().add(em);
-            pUser.setEmail(email);
-		}
+        EmailAddress em = buildEmail(emailId, email,"EMAIL1");
+        pUser.getEmailAddress().add(em);
+        pUser.setEmail(email);
+		//}
 		email = profileCommand.getEmail2();
 		emailId = profileCommand.getEmail2Id();
-		if (email != null && email.length() > 0) {
-			EmailAddress em = buildEmail(emailId, email, "EMAIL2");
-			log.info("EmailId 2 = " + em.getEmailId());
-			pUser.getEmailAddress().add(em);
-		}
+        em = buildEmail(emailId, email, "EMAIL2");
+        pUser.getEmailAddress().add(em);
+		//}
 		email = profileCommand.getEmail3();
 		emailId = profileCommand.getEmail3Id();
-		if (email != null && email.length() > 0) {
-			EmailAddress em = buildEmail(emailId, email, "EMAIL3");
-			pUser.getEmailAddress().add(em);
-		}		
+        em = buildEmail(emailId, email, "EMAIL3");
+        pUser.getEmailAddress().add(em);
+	//	}
 		
 			
 	}
