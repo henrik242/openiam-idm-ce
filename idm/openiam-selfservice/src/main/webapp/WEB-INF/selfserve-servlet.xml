@@ -161,10 +161,12 @@
 		<property name="formView" value="/priv/pswdchange" />
 		<property name="successView" value="/priv/confirm" />
         <property name="cancelView" value="/welcomePage.selfserve" />
+         <property name="pwsdResetCancelView" value="/login.selfserve" />
 		<property name="validator" ref="pswdChangeValidator" />
 		<property name="configuration" ref="passwordConfiguration" />
 		<property name="loginManager" ref="loginServiceClient" />
 		<property name="provisionService" ref="provisionServiceClient" />
+         <property name="authenticate" ref="authServiceClient" />
          <property name="extendController" value="/ui/selfservice/PasswordChangeController.groovy" />
      </bean>     
 

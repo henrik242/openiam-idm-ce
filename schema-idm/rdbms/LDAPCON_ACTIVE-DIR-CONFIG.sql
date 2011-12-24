@@ -11,21 +11,21 @@ VALUES('110', '110', 'USER', 'BASE_DN', '(&(objectclass=user)(?))','OU=Users,OU=
 
 
 /* ACTIVE DIR Attributes*/
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4632','104', 'ad-CN', 'CN', 1,curdate(), '3000', '','provision/ad/adCN.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4630','104', 'ad-sAMAccountName', 'sAMAccountName', 1,curdate(), '3000', '','provision/ad/sAMAccountName.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4631','104', 'ad-givenName', 'givenName', 1,curdate(), '3000', '','provision/ad/sAMAccountName.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4633','104', 'ad-ou', 'ou', 1,curdate(), '3000', '','provision/ad/sAMAccountName.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4634','104', 'ad-objectclass', 'objectclass', 1,curdate(), '3000', '','provision/ad/objectclass.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4635','104', 'ad-profilePath', 'profilePath', 1,curdate(), '3000', '','provision/ad/profilePath.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4636','104', 'ad-homeDirectory', 'homeDirectory', 1,curdate(), '3000', '','provision/ad/homeDirectory.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4637','104', 'ad-homeDrive', 'homeDrive', 1,curdate(), '3000', '','provision/ad/homeDrive.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4639','104', 'ad-scriptPath', 'scriptPath', 1,curdate(), '3000', '','provision/ad/scriptPath.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4640','104', 'ad-company', 'company', 1,curdate(), '3000', '','provision/ad/company.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4642','104', 'ad-initials', 'initials', 1,curdate(), '3000', '','provision/ad/initials.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4643','104', 'ad-department', 'department', 1,curdate(), '3000', '','provision/ad/department.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4644','104', 'ad-telephoneNumber', 'telephoneNumber', 1,curdate(), '3000', '','provision/ad/telephoneNumber.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4645','104', 'ad-title', 'title', 1,curdate(), '3000', '','provision/ad/title.groovy');
-insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS, CREATE_DATE, CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4646','104', 'ad-unicodePwd', 'unicodePwd', 1,curdate(), '3000', '','provision/ad/unicodePwd.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4632','104', 'ad-CN', 'CN', 1,  '3000', '','provision/ad/adCN.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4630','104', 'ad-sAMAccountName', 'sAMAccountName', 1,  '3000', '','provision/ad/sAMAccountName.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4631','104', 'ad-givenName', 'givenName', 1,  '3000', '','provision/ad/sAMAccountName.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4633','104', 'ad-ou', 'ou', 1,  '3000', '','provision/ad/sAMAccountName.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4634','104', 'ad-objectclass', 'objectclass', 1,  '3000', '','provision/ad/objectclass.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4635','104', 'ad-profilePath', 'profilePath', 1,  '3000', '','provision/ad/profilePath.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4636','104', 'ad-homeDirectory', 'homeDirectory', 1,  '3000', '','provision/ad/homeDirectory.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4637','104', 'ad-homeDrive', 'homeDrive', 1,  '3000', '','provision/ad/homeDrive.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4639','104', 'ad-scriptPath', 'scriptPath', 1,  '3000', '','provision/ad/scriptPath.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4640','104', 'ad-company', 'company', 1,  '3000', '','provision/ad/company.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4642','104', 'ad-initials', 'initials', 1,  '3000', '','provision/ad/initials.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4643','104', 'ad-department', 'department', 1,  '3000', '','provision/ad/department.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4644','104', 'ad-telephoneNumber', 'telephoneNumber', 1,  '3000', '','provision/ad/telephoneNumber.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4645','104', 'ad-title', 'title', 1,  '3000', '','provision/ad/title.groovy');
+insert into POLICY (POLICY_ID, POLICY_DEF_ID, NAME, DESCRIPTION, STATUS,   CREATED_BY, RULE,  RULE_SRC_URL) VALUES ('4646','104', 'ad-unicodePwd', 'unicodePwd', 1,  '3000', '','provision/ad/unicodePwd.groovy');
 
 
 /* MAP FOR AD 2008 */

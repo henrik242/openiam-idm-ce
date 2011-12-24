@@ -23,6 +23,9 @@ public class PasswordChangeCommand implements Serializable {
 	private String domainId;
 	private String principal;
 	private String submit;
+    
+    private String cd;
+    private String userId;
 	
 	public PasswordChangeCommand( ) {
 		super();
@@ -69,12 +72,21 @@ public class PasswordChangeCommand implements Serializable {
 	public void setSubmit(String submit) {
 		this.submit = submit;
 	}
-	
 
 
-	
-	
+    public String getCd() {
+        return cd;
+    }
 
-	
+    public void setCd(String cd) {
+        this.cd = cd;
+    }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

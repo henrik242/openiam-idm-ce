@@ -90,6 +90,14 @@ public class LoginController extends SimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         LoginCommand loginCmd = new LoginCommand();
         loginCmd.setClientIP( request.getRemoteHost());
+        
+        String expire = request.getParameter("expire");
+        if (expire != null) {
+            if ("2".equals(expire)) {
+                request.getSession().invalidate();
+            }
+        }
+        
 
         return loginCmd;
     }
@@ -135,9 +143,8 @@ public class LoginController extends SimpleFormController {
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		log.debug("onSubmit called.");
 		
-		System.out.println("onSubmit called.");
+		System.out.println("LoginController:onSubmit called.");
 
         List<String> roleIdList = new ArrayList<String>();
         List<Role> roleList  = null;
@@ -253,6 +260,7 @@ public class LoginController extends SimpleFormController {
 		
 		if (changePswdOnReset) {
 			// reset the password
+
 			 return new ModelAndView(new RedirectView("/passwordChange.selfserve?hideRMenu=1&cd=pswdreset"+ queryString, true));
 		}
 

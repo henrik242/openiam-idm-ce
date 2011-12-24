@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.openiam.base.ExtendController;
+import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.script.ScriptIntegration;
 import org.openiam.selfsrvc.helper.ScriptEngineUtil;
 import org.springframework.validation.BindException;
@@ -43,6 +44,8 @@ public class PasswordChangeController extends CancellableFormController {
     protected String extendController;
 	String defaultDomainId;
 	String menuGroup;
+    protected String pwsdResetCancelView;
+    protected AuthenticationService authenticate;
 	
 	private static final Log log = LogFactory.getLog(PasswordChangeController.class);
 
@@ -58,10 +61,21 @@ public class PasswordChangeController extends CancellableFormController {
 		
 		String rMenu = request.getParameter("hideRMenu");
 		String header = request.getParameter("hideHeader");
-		String cd = request.getParameter("cd"); 
-		
-		
-		if (cd != null) {
+		String cd = request.getParameter("cd");
+
+        PasswordChangeCommand pswdChangeCmd = new PasswordChangeCommand();
+        
+        String userId = request.getParameter("userId");
+        
+        if (userId != null && userId.length() > 0 ) {
+            pswdChangeCmd.setUserId(userId);
+        }
+        
+
+        if (cd != null) {
+
+            pswdChangeCmd.setCd(cd);
+
 			if (cd.equalsIgnoreCase("pswdreset")) {
 				request.setAttribute("msg", "Your account has been reset. Please change your password.");
 			}
@@ -77,8 +91,6 @@ public class PasswordChangeController extends CancellableFormController {
 			request.setAttribute("hideHeader","1");
 		}
 		
-		PasswordChangeCommand pswdChangeCmd = new PasswordChangeCommand();	
-				
 		HttpSession session =  request.getSession();
 		String principal = (String)session.getAttribute("login");
 		
@@ -174,6 +186,22 @@ public class PasswordChangeController extends CancellableFormController {
     @Override
     protected ModelAndView onCancel(Object command) throws Exception {
        // return super.onCancel(command);    //To change body of overridden methods use File | Settings | File Templates.
+
+        PasswordChangeCommand pswdChangeCmd = (PasswordChangeCommand)command;
+        System.out.println("Cd = " + pswdChangeCmd.getCd());
+        if (pswdChangeCmd.getCd()  != null) {
+            if ("pswdreset".equalsIgnoreCase(pswdChangeCmd.getCd())) {
+                if ( pswdChangeCmd.getUserId() != null && !pswdChangeCmd.getUserId().isEmpty() ) {
+                    authenticate.globalLogout(pswdChangeCmd.getUserId());
+                }
+
+                System.out.println("Redirect = " + pwsdResetCancelView);
+                // 2 = pswd change cancelled.
+                String qry = pwsdResetCancelView + "?expire=2";
+                return new ModelAndView(new RedirectView(qry,true));
+            }
+        }
+
         return new ModelAndView(new RedirectView(this.getCancelView(),true));
     }
 
@@ -225,5 +253,21 @@ public class PasswordChangeController extends CancellableFormController {
 
     public void setExtendController(String extendController) {
         this.extendController = extendController;
+    }
+
+    public String getPwsdResetCancelView() {
+        return pwsdResetCancelView;
+    }
+
+    public void setPwsdResetCancelView(String pwsdResetCancelView) {
+        this.pwsdResetCancelView = pwsdResetCancelView;
+    }
+
+    public AuthenticationService getAuthenticate() {
+        return authenticate;
+    }
+
+    public void setAuthenticate(AuthenticationService authenticate) {
+        this.authenticate = authenticate;
     }
 }

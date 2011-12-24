@@ -322,7 +322,7 @@ public class IHEAuditEvent implements ExportAuditEvent{
            // User
            buf.append("<ActiveParticipant UserID=\""  +  log.getPrincipal() + "\" UserIsRequestor=\"TRUE\" NetworkAccessPointTypeCode=\"2\"  NetworkAccessPointID=\"" + log.getHost() + "\"  />");
            // Node
-           buf.append("<ActiveParticipant UserID=\"OpenIAM\" UserIsRequestor=\"FALSE\" NetworkAccessPointID=\"" + log.getNodeIP() + "\"  />");
+           buf.append("<ActiveParticipant UserID=\"OpenIAM\" UserIsRequestor=\"FALSE\" NetworkAccessPointTypeCode=\"2\" NetworkAccessPointID=\"" + "172.17.2.114" + "\"  />");
 
             buf.append("  <AuditSourceIdentification AuditSourceEnterpriseSiteId=\"GTA WEST DiR\" AuditSourceID=\"OpenIAM\"   >");
             buf.append("    <AuditSourceTypeCode code=\"6\" />");
@@ -391,7 +391,7 @@ public class IHEAuditEvent implements ExportAuditEvent{
            buf.append("<ActiveParticipant UserID=\""  +  log.getPrincipal() + "\" UserIsRequestor=\"TRUE\" NetworkAccessPointTypeCode=\"2\" NetworkAccessPointID=\"" + log.getHost() + "\" />");
 
            // Node
-           buf.append("<ActiveParticipant UserID=\"OpenIAM\" UserIsRequestor=\"FALSE\" NetworkAccessPointID=\"" + log.getNodeIP() + "\"  />");
+           buf.append("<ActiveParticipant UserID=\"OpenIAM\" UserIsRequestor=\"FALSE\" NetworkAccessPointTypeCode=\"2\"  NetworkAccessPointID=\"" + "172.17.2.114" + "\"  />");
 
             buf.append("  <AuditSourceIdentification AuditSourceEnterpriseSiteId=\"GTA WEST DiR\" AuditSourceID=\"OpenIAM\"   >");
             buf.append("    <AuditSourceTypeCode code=\"6\" />");
