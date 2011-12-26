@@ -17,15 +17,9 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.provision.service;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.text.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,197 +33,214 @@ import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleUser;
 import org.openiam.script.ScriptIntegration;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Builds a list of attributes that are to be sent to the connectors.
  * This list can be generated from the groovy scripts that contain rules for provisioning or by sending
  * in the complete User object.
- * @author suneet
  *
+ * @author suneet
  */
 public class AttributeListBuilder {
-	
-	protected static final Log log = LogFactory.getLog(AttributeListBuilder.class);
 
-	public ExtensibleUser buildFromRules(ProvisionUser pUser, 
-			List<AttributeMap> attrMap, ScriptIntegration se,
-			String managedSysId, String domainId,
-			Map<String, Object> bindingMap,
-			String createdBy) {
-		
-		ExtensibleUser extUser = new ExtensibleUser();
+    protected static final Log log = LogFactory.getLog(AttributeListBuilder.class);
+
+    public ExtensibleUser buildFromRules(ProvisionUser pUser,
+                                         List<AttributeMap> attrMap, ScriptIntegration se,
+                                         String managedSysId, String domainId,
+                                         Map<String, Object> bindingMap,
+                                         String createdBy) {
+
+        ExtensibleUser extUser = new ExtensibleUser();
 
 
-	
- 		if (attrMap != null) {
- 			
- 			log.debug("buildFromRules: attrMap IS NOT null");
- 			
- 			Login identity = new Login();
- 			LoginId loginId = new LoginId();
- 			EmailAddress emailAddress = new EmailAddress();
- 			
- 			// init values
- 			loginId.setDomainId(domainId);
- 			loginId.setManagedSysId(managedSysId);
- 			
-			for (  AttributeMap attr : attrMap ) {
-				Policy policy = attr.getAttributePolicy();
-				String url = policy.getRuleSrcUrl();
-				if (url != null) {
-					Object output = se.execute(bindingMap, url);
-					if (output != null) {
-						String objectType = attr.getMapForObjectType();
-						if (objectType != null) {
-							if (objectType.equalsIgnoreCase("PRINCIPAL")) {
+        if (attrMap != null) {
 
-								log.debug("buildFromRules: ManagedSysId=" + managedSysId + " login=" + output);
+            log.debug("buildFromRules: attrMap IS NOT null");
 
-                                loginId.setLogin((String)output);
+            Login identity = new Login();
+            LoginId loginId = new LoginId();
+            EmailAddress emailAddress = new EmailAddress();
+
+            // init values
+            loginId.setDomainId(domainId);
+            loginId.setManagedSysId(managedSysId);
+
+            for (AttributeMap attr : attrMap) {
+
+                if ("IN-ACTIVE".equalsIgnoreCase(attr.getStatus())) {
+                    continue;
+                }
+
+                Policy policy = attr.getAttributePolicy();
+                String url = policy.getRuleSrcUrl();
+                if (url != null) {
+                    Object output = se.execute(bindingMap, url);
+                    if (output != null) {
+                        String objectType = attr.getMapForObjectType();
+                        if (objectType != null) {
+                            if ("PRINCIPAL".equalsIgnoreCase(objectType)) {
+
+                                log.debug("buildFromRules: ManagedSysId=" + managedSysId + " login=" + output);
+
+                                loginId.setLogin((String) output);
                                 extUser.setPrincipalFieldName(attr.getAttributeName());
                                 extUser.setPrincipalFieldDataType(attr.getDataType());
 
-							}
+                            }
 
-							if (objectType.equalsIgnoreCase("USER") || objectType.equalsIgnoreCase("PASSWORD") ) {
+
+                            if ("USER".equalsIgnoreCase(objectType) || "PASSWORD".equalsIgnoreCase(objectType)) {
 
                                 log.debug("buildFromRules: attribute:" + attr.getAttributeName() + "->" + output);
 
                                 if (output instanceof String) {
-								    extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (String)output, 1, attr.getDataType()));
-                                }else if (output instanceof Date) {
-                                    Date d = (Date)output;
+                                    extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (String) output, 1, attr.getDataType()));
+                                } else if (output instanceof Date) {
+                                    Date d = (Date) output;
                                     String DATE_FORMAT = "MM/dd/yyyy";
                                     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
-								    extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), sdf.format(d), 1, attr.getDataType()));
-                                }else {
-                                    extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (List)output, 1, attr.getDataType()));
+                                    extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), sdf.format(d), 1, attr.getDataType()));
+                                } else {
+                                    extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (List) output, 1, attr.getDataType()));
                                 }
-							}
-						}
-					}
-				}
-			}
-			identity.setId(loginId);
-			identity.setAuthFailCount(0);
-			identity.setCreateDate(new Date(System.currentTimeMillis()));
-			identity.setCreatedBy(createdBy);
-			identity.setIsLocked(0);
-			identity.setFirstTimeLogin(1);
-			identity.setStatus("ACTIVE");
-			if (pUser.getPrincipalList() == null) {
-				List<Login> idList = new ArrayList<Login>();
-				idList.add(identity);
-				pUser.setPrincipalList(idList);
-			}else {
-				pUser.getPrincipalList().add(identity);
-			}
- 			
- 		}else {
- 			log.debug("- attMap IS null");
- 		}
+                            }
 
- 		// show the identities in the pUser object
+                        }
+                    }
+                }
+            }
+            identity.setId(loginId);
+            identity.setAuthFailCount(0);
+            identity.setCreateDate(new Date(System.currentTimeMillis()));
+            identity.setCreatedBy(createdBy);
+            identity.setIsLocked(0);
+            identity.setFirstTimeLogin(1);
+            identity.setStatus("ACTIVE");
+            if (pUser.getPrincipalList() == null) {
+                List<Login> idList = new ArrayList<Login>();
+                idList.add(identity);
+                pUser.setPrincipalList(idList);
+            } else {
+                pUser.getPrincipalList().add(identity);
+            }
 
- 		
-		return extUser;
-		
-		
-	}
-	
-	public Login buildIdentity(List<AttributeMap> attrMap, ScriptIntegration se,
-			String managedSysId, String domainId,
-			Map<String, Object> bindingMap,
-			String createdBy) {
-			
-		Login newIdentity = new Login();
-		LoginId newId = new LoginId();
-		
-		for (  AttributeMap attr : attrMap ) {
-			Policy policy = attr.getAttributePolicy();
-			String url = policy.getRuleSrcUrl();
-			String objectType = attr.getMapForObjectType();
-			if (objectType != null) {
-				if (objectType.equalsIgnoreCase("PRINCIPAL")) {
-					if (url != null) {
-						String output = (String)se.execute(bindingMap, url);
-						newId.setLogin(output);
-					}
-				}
-				if (objectType.equalsIgnoreCase("PASSWORD")) {
-					if (url != null) {
-						String output = (String)se.execute(bindingMap, url);
-						newIdentity.setPassword(output);
-					}
+        } else {
+            log.debug("- attMap IS null");
+        }
 
-				}
-			}
+        // show the identities in the pUser object
 
-				
-			}
-		if (newId.getLogin() == null) {
-			return null;
-		}
-		newId.setDomainId(domainId);
-		newId.setManagedSysId(managedSysId);
-		newIdentity.setId(newId);
-		newIdentity.setAuthFailCount(0);
-		newIdentity.setCreateDate(new Date(System.currentTimeMillis()));
-		newIdentity.setFirstTimeLogin(0);
-		newIdentity.setIsLocked(0);
-		newIdentity.setStatus("ACTIVE");
-		newIdentity.setCreatedBy(createdBy);
-		return newIdentity;
-		
-	}
-	
 
-	public ExtensibleUser buildModifyFromRules(ProvisionUser pUser,
-			Login currentIdentity,
-			List<AttributeMap> attrMap, ScriptIntegration se,
-			String managedSysId, String domainId,
-			Map<String, Object> bindingMap,
-			String createdBy) {
-		
-		ExtensibleUser extUser = new ExtensibleUser();
-		
-	
- 		if (attrMap != null) {
- 			
- 			log.debug("buildModifyFromRules: attrMap IS NOT null");
- 			
- 			
-			for (  AttributeMap attr : attrMap ) {
-				Policy policy = attr.getAttributePolicy();
-				String url = policy.getRuleSrcUrl();
-				if (url != null) {
-					Object output = se.execute(bindingMap, url);
-					if (output != null) {
-						String objectType = attr.getMapForObjectType();
-						if (objectType != null) {
+        return extUser;
+
+
+    }
+
+    public Login buildIdentity(List<AttributeMap> attrMap, ScriptIntegration se,
+                               String managedSysId, String domainId,
+                               Map<String, Object> bindingMap,
+                               String createdBy) {
+
+        Login newIdentity = new Login();
+        LoginId newId = new LoginId();
+
+        for (AttributeMap attr : attrMap) {
+            Policy policy = attr.getAttributePolicy();
+            String url = policy.getRuleSrcUrl();
+            String objectType = attr.getMapForObjectType();
+            if (objectType != null) {
+                if (objectType.equalsIgnoreCase("PRINCIPAL")) {
+                    if (url != null) {
+                        String output = (String) se.execute(bindingMap, url);
+                        newId.setLogin(output);
+                    }
+                }
+                if (objectType.equalsIgnoreCase("PASSWORD")) {
+                    if (url != null) {
+                        String output = (String) se.execute(bindingMap, url);
+                        newIdentity.setPassword(output);
+                    }
+
+                }
+            }
+
+
+        }
+        if (newId.getLogin() == null) {
+            return null;
+        }
+        newId.setDomainId(domainId);
+        newId.setManagedSysId(managedSysId);
+        newIdentity.setId(newId);
+        newIdentity.setAuthFailCount(0);
+        newIdentity.setCreateDate(new Date(System.currentTimeMillis()));
+        newIdentity.setFirstTimeLogin(0);
+        newIdentity.setIsLocked(0);
+        newIdentity.setStatus("ACTIVE");
+        newIdentity.setCreatedBy(createdBy);
+        return newIdentity;
+
+    }
+
+
+    public ExtensibleUser buildModifyFromRules(ProvisionUser pUser,
+                                               Login currentIdentity,
+                                               List<AttributeMap> attrMap, ScriptIntegration se,
+                                               String managedSysId, String domainId,
+                                               Map<String, Object> bindingMap,
+                                               String createdBy) {
+
+        ExtensibleUser extUser = new ExtensibleUser();
+
+
+        if (attrMap != null) {
+
+            log.debug("buildModifyFromRules: attrMap IS NOT null");
+
+
+            for (AttributeMap attr : attrMap) {
+
+                if ("IN-ACTIVE".equalsIgnoreCase(attr.getStatus())) {
+                    continue;
+                }
+
+                Policy policy = attr.getAttributePolicy();
+                String url = policy.getRuleSrcUrl();
+                if (url != null) {
+                    Object output = se.execute(bindingMap, url);
+                    if (output != null) {
+                        String objectType = attr.getMapForObjectType();
+                        if (objectType != null) {
 
                             log.debug("buildModifyFromRules: objectype=" + objectType + " attribute=" + attr);
 
-							if (objectType.equalsIgnoreCase("USER") || objectType.equalsIgnoreCase("PASSWORD")) {
+                            if (objectType.equalsIgnoreCase("USER") || objectType.equalsIgnoreCase("PASSWORD")) {
 
                                 ExtensibleAttribute newAttr = null;
                                 if (output instanceof String) {
-                                    newAttr = new ExtensibleAttribute(attr.getAttributeName(), (String)output, 1, attr.getDataType());
+                                    newAttr = new ExtensibleAttribute(attr.getAttributeName(), (String) output, 1, attr.getDataType());
                                     newAttr.setObjectType(objectType);
 
-								    extUser.getAttributes().add(newAttr);
+                                    extUser.getAttributes().add(newAttr);
 
-                                }else if (output instanceof Date) {
-                                    Date d = (Date)output;
+                                } else if (output instanceof Date) {
+                                    Date d = (Date) output;
                                     String DATE_FORMAT = "MM/dd/yyyy";
                                     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
                                     newAttr = new ExtensibleAttribute(attr.getAttributeName(), sdf.format(d), 1, attr.getDataType());
                                     newAttr.setObjectType(objectType);
 
-								    extUser.getAttributes().add(newAttr);
-                                }else {
-                                    newAttr = new ExtensibleAttribute(attr.getAttributeName(), (List)output, 1, attr.getDataType());
+                                    extUser.getAttributes().add(newAttr);
+                                } else {
+                                    newAttr = new ExtensibleAttribute(attr.getAttributeName(), (List) output, 1, attr.getDataType());
                                     newAttr.setObjectType(objectType);
 
                                     extUser.getAttributes().add(newAttr);
@@ -237,34 +248,33 @@ public class AttributeListBuilder {
                                     log.debug("buildModifyFromRules: added attribute to extUser:" + attr.getAttributeName());
                                 }
 
-							}else if ( objectType.equalsIgnoreCase("PRINCIPAL"))  {
+                            } else if (objectType.equalsIgnoreCase("PRINCIPAL")) {
 
                                 extUser.setPrincipalFieldName(attr.getAttributeName());
                                 extUser.setPrincipalFieldDataType(attr.getDataType());
 
                             }
-						}
-					}
-				}
-			}
-			
-			if (pUser.getPrincipalList() == null) {
-				List<Login> principalList = new ArrayList<Login>();
-				principalList.add(currentIdentity);
-				pUser.setPrincipalList(principalList);
-			}else {
-				pUser.getPrincipalList().add(currentIdentity);
-			}
- 			
- 		}else {
- 			log.debug("- attMap IS null");
- 		}
+                        }
+                    }
+                }
+            }
 
- 		
-		
-		return extUser;
-		
-		
-	}
+            if (pUser.getPrincipalList() == null) {
+                List<Login> principalList = new ArrayList<Login>();
+                principalList.add(currentIdentity);
+                pUser.setPrincipalList(principalList);
+            } else {
+                pUser.getPrincipalList().add(currentIdentity);
+            }
+
+        } else {
+            log.debug("- attMap IS null");
+        }
+
+
+        return extUser;
+
+
+    }
 
 }
