@@ -1141,21 +1141,32 @@ public class ModifyUser {
 	}
 
 	public List<Role> getActiveRoleList() {
-		log.debug("Determining activeRole List. RoleList =" + roleList);
-		List<Role> rList = new ArrayList<Role>();
+		
+        log.debug("Determining activeRole List. RoleList =" + roleList);
+		
+        List<Role> rList = new ArrayList<Role>();
 		// create a list of roles that are not in the deleted list
 		for ( Role r : roleList) {
-			boolean found =false;
-			log.debug("- Role=" + r);
-			if (deleteRoleList != null && !deleteRoleList.isEmpty()) {
+			
+            boolean found =false;
+		
+			log.debug("- Evaluating Role=" + r);
+			
+            if (deleteRoleList != null && !deleteRoleList.isEmpty()) {
 				for ( Role delRl : deleteRoleList) {
-					if (!found && r.getId().getRoleId().equalsIgnoreCase(delRl.getId().getRoleId())) {
-						found = true;
-					}
+                    
+                    log.debug("- Evaluating delRl = " + delRl);
+                    if ( delRl != null) {
+                    
+                        if (!found && r.getId().getRoleId().equalsIgnoreCase(delRl.getId().getRoleId())) {
+                            found = true;
+                        }
+
+                    }
 				}
 			}
 			if (!found) {
-				log.debug("- Adding Role=" + r);
+				log.debug("- Adding Role to Active Role List=" + r);
 				rList.add(r);
 			}
 		}

@@ -219,7 +219,7 @@ public class AttributeListBuilder {
                         String objectType = attr.getMapForObjectType();
                         if (objectType != null) {
 
-                            log.debug("buildModifyFromRules: objectype=" + objectType + " attribute=" + attr);
+                            log.debug("buildModifyFromRules: OBJECTTYPE=" + objectType + " SCRIPT OUTPUT=" + output + " attribute name=" + attr.getAttributeName());
 
                             if (objectType.equalsIgnoreCase("USER") || objectType.equalsIgnoreCase("PASSWORD")) {
 

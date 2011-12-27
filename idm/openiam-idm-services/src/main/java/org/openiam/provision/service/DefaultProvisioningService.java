@@ -1068,6 +1068,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         pUser.setMemberOfRoles(activeRoleList);
       //  bindingMap.put("user", origUser);
+        
+        log.debug("pUser =" + pUser);
+        log.debug("orgUser=" + origUser);
+        
         bindingMap.put("user", pUser);
 
 
@@ -1079,6 +1083,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         if (deleteResourceList != null && !deleteResourceList.isEmpty()) {
             // delete these resources which are not needed in the new role assignment
             log.debug("Deprovisioning resources..");
+
             deProvisionResources(deleteResourceList, origUser.getUserId(), pUser.getLastUpdatedBy(), requestId);
         }
         String userStatus = null;
@@ -1229,7 +1234,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                         if (currentValueMap == null || currentValueMap.size() ==0) {
                             bindingMap.put("targetSystemIdentityStatus", "NEW");
-                            bindingMap.put("targetSystemIdentity", "");
+
+                            // we may have identity for a user, but it my have been deleted from the target system
+                            // we dont need re-generate the identity in this c
+                            bindingMap.put("targetSystemIdentity", mLg.getId().getLogin());
                             bindingMap.put("targetSystemAttributes", null);
                         }else {
                             bindingMap.put("targetSystemIdentityStatus", "EXIST");
@@ -2179,17 +2187,26 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             return null;
         }
         for (Role rl : roleList) {
-            if (domainId == null) {
-                domainId = rl.getId().getServiceId();
+            
+            if (rl != null) {
+                // handle the situation where an invalid role is passed in
+            
+                if (domainId == null) {
+                    domainId = rl.getId().getServiceId();
+                }
+                log.debug("-Adding role id to list of roles:" + rl.getId().getRoleId());
+                roleIdList.add(rl.getId().getRoleId());
             }
-            log.debug("-Adding role id to list of roles:" + rl.getId().getRoleId());
-            roleIdList.add(rl.getId().getRoleId());
         }
 
-        List<Resource> roleResources =
-                resourceDataService.getResourcesForRoles(domainId, roleIdList);
-        //getResourceForRoleList(domainId, roleIdList);
-        return roleResources;
+        if (domainId != null && roleIdList != null) {
+
+            List<Resource> roleResources =
+                    resourceDataService.getResourcesForRoles(domainId, roleIdList);
+            //getResourceForRoleList(domainId, roleIdList);
+            return roleResources;
+        }
+        return null;
     }
 
 
