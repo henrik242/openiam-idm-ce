@@ -106,43 +106,43 @@ import java.util.*;
         serviceName = "ProvisioningService")
 public class DefaultProvisioningService implements MuleContextAware, ProvisionService, ApplicationContextAware {
 
-    protected static final Log log = LogFactory.getLog(DefaultProvisioningService.class);
+    private static final Log log = LogFactory.getLog(DefaultProvisioningService.class);
 
     // used to inject the application context into the groovy scripts
     public static ApplicationContext ac;
 
 
-    protected UserDataService userMgr;
-    protected LoginDataService loginManager;
-    protected LoginDAO loginDao;
+    private UserDataService userMgr;
+    private LoginDataService loginManager;
+    private LoginDAO loginDao;
 
-    protected IdmAuditLogDataService auditDataService;
-    protected ManagedSystemDataService managedSysService;
-    protected RoleDataService roleDataService;
-    protected GroupDataService groupManager;
-    protected String connectorWsdl;
-    protected String defaultProvisioningModel;
-    protected SysConfiguration sysConfiguration;
-    protected ResourceDataService resourceDataService;
-    protected String scriptEngine;
-    protected OrganizationDataService orgManager;
-    protected PasswordService passwordDS;
-    protected AddUser addUser;
-    protected ModifyUser modifyUser;
-    protected AuditHelper auditHelper;
-    protected AttributeListBuilder attrListBuilder;
-    protected ConnectorAdapter connectorAdapter;
-    protected RemoteConnectorAdapter remoteConnectorAdapter;
-    protected DisableUserDelegate disableUser;
-    protected ConnectorDataService connectorService;
-    protected ValidateConnectionConfig validateConnection;
+    private IdmAuditLogDataService auditDataService;
+    private ManagedSystemDataService managedSysService;
+    private RoleDataService roleDataService;
+    private GroupDataService groupManager;
+    private String connectorWsdl;
+    private String defaultProvisioningModel;
+    private SysConfiguration sysConfiguration;
+    private ResourceDataService resourceDataService;
+    private String scriptEngine;
+    private OrganizationDataService orgManager;
+    private PasswordService passwordDS;
+    private AddUser addUser;
+    private ModifyUser modifyUser;
+    private AuditHelper auditHelper;
+    private AttributeListBuilder attrListBuilder;
+    private ConnectorAdapter connectorAdapter;
+    private RemoteConnectorAdapter remoteConnectorAdapter;
+    private DisableUserDelegate disableUser;
+    private ConnectorDataService connectorService;
+    private ValidateConnectionConfig validateConnection;
 
     MuleContext muleContext;
 
 
-    static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
-    static String serviceHost = res.getString("openiam.service_base");
-    static String serviceContext = res.getString("openiam.idm.ws.path");
+    final static private ResourceBundle res = ResourceBundle.getBundle("datasource");
+    final static private String serviceHost = res.getString("openiam.service_base");
+    final static private String serviceContext = res.getString("openiam.idm.ws.path");
 
 
     /* (non-Javadoc)
@@ -361,7 +361,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     // validate if the identity exists in the system first
 
                     Login tempPrincipal = loginManager.getLoginByManagedSys(mLg.getId().getDomainId(), mLg.getId().getLogin(), mLg.getId().getManagedSysId());
-                    ;
+
                     if (tempPrincipal == null) {
                         loginManager.addLogin(mLg);
 
@@ -559,9 +559,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         log.debug("----deleteByUserId called.------");
 
-        ScriptIntegration se = null;
-        Map<String, Object> bindingMap = new HashMap<String, Object>();
-        Organization org = null;
         IdmAuditLog auditLog = null;
 
 
@@ -684,9 +681,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                             String requestorId) {
         log.debug("----deleteUser called.------");
 
-        ScriptIntegration se = null;
-        Map<String, Object> bindingMap = new HashMap<String, Object>();
-        Organization org = null;
+
         IdmAuditLog auditLog = null;
 
         ProvisionUserResponse response = new ProvisionUserResponse(ResponseStatus.SUCCESS);
@@ -904,12 +899,19 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         String requestId = "R" + UUIDGen.getUUID();
 
         Login lRequestor = loginManager.getPrimaryIdentity(requestorId);
+        
+        String login = null;
+        String domain = null;
+        if (lg.getId() != null) {
+            login = lg.getId().getLogin();
+            domain = lg.getId().getDomainId();
+        }
 
         auditHelper.addLog(auditReason, lRequestor.getId().getDomainId(), lRequestor.getId().getLogin(),
                 "IDM SERVICE", requestorId, "USER", "USER", user.getUserId(), null, "SUCCESS", null, null,
                 null,
                 requestId, auditReason, null, null,
-                null, lg.getId().getLogin(), lg.getId().getDomainId());
+                null, login, domain);
 
 
         Response resp = new Response();
@@ -1195,7 +1197,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 }
 
                                 Login tempPrincipal = loginManager.getLoginByManagedSys(mLg.getId().getDomainId(), mLg.getId().getLogin(), mLg.getId().getManagedSysId());
-                                ;
+
                                 if (tempPrincipal == null) {
                                     loginManager.addLogin(mLg);
                                 } else {
@@ -1705,7 +1707,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             reqType.setHostLoginId(mSys.getUserId());
             reqType.setHostLoginPassword(mSys.getDecryptPassword());
             reqType.setHostUrl(mSys.getHostUrl());
-            reqType.setBaseDN(matchObj.getBaseDn());
+
+            if (matchObj != null) {
+
+                reqType.setBaseDN(matchObj.getBaseDn());
+            }
 
             LookupResponse responseType = remoteConnectorAdapter.lookupRequest(mSys, reqType, connector, muleContext);
             if (responseType.getStatus() == StatusCodeType.FAILURE) {
@@ -1889,7 +1895,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         if (passwordSync.getManagedSystemId().equalsIgnoreCase(this.sysConfiguration.getDefaultManagedSysId())) {
             // typical sync
             //List<Login> principalList = loginManager.getLoginByUser(login.getUserId());
-            if (principalList != null) {
+           // if (principalList != null) {
                 log.debug("PrincipalList size =" + principalList.size());
                 for (Login lg : principalList) {
                     // get the managed system for the identity - ignore the managed system id that is linked to openiam's repository
@@ -1943,7 +1949,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         }
                     }
                 }
-            }
+            //}
         } else {
             // just the update the managed system that was specified.
             ManagedSys mSys = managedSysService.getManagedSys(passwordSync.getManagedSystemId());
@@ -1976,7 +1982,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     public Response syncPasswordFromSrc(PasswordSync passwordSync) {
         // ManagedSystemId where this event originated.
         // Ensure that we dont send the event back to this system
-        String eventSrc = passwordSync.getSrcSystemId();
 
         log.debug("----syncPasswordFromSrc called.------");
 
@@ -2134,9 +2139,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
-    /**
-     * ********* Helper Methods ---------------
-     */
+    /* ********* Helper Methods ---------------  */
 
     private boolean syncAllowed(Resource res) {
         Set<ResourceProp> resPropSet = null;
@@ -2209,10 +2212,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         if (domainId != null && roleIdList != null) {
 
-            List<Resource> roleResources =
-                    resourceDataService.getResourcesForRoles(domainId, roleIdList);
             //getResourceForRoleList(domainId, roleIdList);
-            return roleResources;
+            return resourceDataService.getResourcesForRoles(domainId, roleIdList);
         }
         return null;
     }
@@ -2437,10 +2438,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 mLg.getStatus().toString(),
                 requestId, resp.getrrorCodeAsStr(), user.getSessionId(), resp.getErrorMsgAsStr(),
                 user.getRequestorLogin(), mLg.getId().getLogin(), mLg.getId().getDomainId());
-        if (resp.getStatus() == StatusCodeType.FAILURE) {
-            return false;
-        }
-        return true;
+        return resp.getStatus() != StatusCodeType.FAILURE;
 
 
     }

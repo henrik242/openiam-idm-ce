@@ -45,14 +45,14 @@ import org.openiam.spml2.msg.ExtensibleAttribute;
  *
  */
 public class ModifyUser {
-	protected RoleDataService roleDataService;
-	protected GroupDataService groupManager;
-	protected UserDataService userMgr;
-	protected LoginDataService loginManager;
-	protected AuditHelper auditHelper;
-    protected OrganizationDataService orgManager;
-	
-	protected static final Log log = LogFactory.getLog(ModifyUser.class);
+	private RoleDataService roleDataService;
+    private GroupDataService groupManager;
+    private UserDataService userMgr;
+    private LoginDataService loginManager;
+    private AuditHelper auditHelper;
+    private OrganizationDataService orgManager;
+
+    private static final Log log = LogFactory.getLog(ModifyUser.class);
 
 	// these instance variables will be used later in the provisioning process when we need to show the difference at the field level
 	Map<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>();
@@ -83,7 +83,7 @@ public class ModifyUser {
 	
 	public String updateUser(ProvisionUser user, User origUser) {
 
-       ;
+
 	
 		String requestId = UUIDGen.getUUID();
 
@@ -152,43 +152,45 @@ public class ModifyUser {
 
 		// if in new address, but not in old, then add it with operation 1
 		// else add with operation 2
-		for (EmailAddress em : newEmailSet) {
-			if (em.getOperation() == AttributeOperationEnum.DELETE) {
-				// get the email object from the original set of emails so that we can remove it
-				EmailAddress e = getEmailAddress(em.getEmailId(), origEmailSet);
-				if (e != null) {
-					origEmailSet.remove(e);
-				}
-				emailSet.add(em);
-			}else {
-				// check if this address is in the current list
-				// if it is - see if it has changed
-				// if it is not - add it.
-				EmailAddress origEmail =  getEmailAddress(em.getEmailId(), origEmailSet);
-				if (origEmail == null) {
-					em.setOperation(AttributeOperationEnum.ADD);
-					origEmailSet.add(em);
-					emailSet.add(em);
+        if (newEmailSet != null) {
+            for (EmailAddress em : newEmailSet) {
+                if (em.getOperation() == AttributeOperationEnum.DELETE) {
+                    // get the email object from the original set of emails so that we can remove it
+                    EmailAddress e = getEmailAddress(em.getEmailId(), origEmailSet);
+                    if (e != null) {
+                        origEmailSet.remove(e);
+                    }
+                    emailSet.add(em);
+                }else {
+                    // check if this address is in the current list
+                    // if it is - see if it has changed
+                    // if it is not - add it.
+                    EmailAddress origEmail =  getEmailAddress(em.getEmailId(), origEmailSet);
+                    if (origEmail == null) {
+                        em.setOperation(AttributeOperationEnum.ADD);
+                        origEmailSet.add(em);
+                        emailSet.add(em);
 
-                    log.debug("EMAIL ADDRESS -> ADD NEW ADDRESS = " + em.getEmailAddress() );
+                        log.debug("EMAIL ADDRESS -> ADD NEW ADDRESS = " + em.getEmailAddress() );
 
-				}else {
-					if (em.equals(origEmail)) {
-						// not changed
-						em.setOperation(AttributeOperationEnum.NO_CHANGE);
-						emailSet.add(em);
-                        log.debug("EMAIL ADDRESS -> NO CHANGE = " + em.getEmailAddress() );
-					}else {
-						// object changed
-						origEmail.updateEmailAddress(em);
-						origEmailSet.add(origEmail);
-						origEmail.setOperation(AttributeOperationEnum.REPLACE);
-						emailSet.add(origEmail);
-                        log.debug("EMAIL ADDRESS -> REPLACE = " + em.getEmailAddress() );
-					}
-				}
-			}
-		}
+                    }else {
+                        if (em.equals(origEmail)) {
+                            // not changed
+                            em.setOperation(AttributeOperationEnum.NO_CHANGE);
+                            emailSet.add(em);
+                            log.debug("EMAIL ADDRESS -> NO CHANGE = " + em.getEmailAddress() );
+                        }else {
+                            // object changed
+                            origEmail.updateEmailAddress(em);
+                            origEmailSet.add(origEmail);
+                            origEmail.setOperation(AttributeOperationEnum.REPLACE);
+                            emailSet.add(origEmail);
+                            log.debug("EMAIL ADDRESS -> REPLACE = " + em.getEmailAddress() );
+                        }
+                    }
+                }
+            }
+        }
 		// if a value is in original list and not in the new list - then add it on 
 		for (EmailAddress e : origEmailSet) {
 			EmailAddress newEmail =  getEmailAddress(e.getEmailId(), newEmailSet);
@@ -309,40 +311,42 @@ public class ModifyUser {
 
 		// if in new address, but not in old, then add it with operation 1
 		// else add with operation 2
-		for (Phone ph : newPhoneSet) {
-			if (ph.getOperation() == AttributeOperationEnum.DELETE) {
+        if ( newPhoneSet != null) {
+            for (Phone ph : newPhoneSet) {
+                if (ph.getOperation() == AttributeOperationEnum.DELETE) {
 
-				// get the email object from the original set of emails so that we can remove it
-				Phone e = getPhone(ph.getPhoneId(), origPhoneSet);
-				if (e != null) {
-					origPhoneSet.remove(e);
-				}
-				phoneSet.add(ph);
-			}else {
-				// check if this address is in the current list
-				// if it is - see if it has changed
-				// if it is not - add it.
-				log.debug("evaluate phone");
-				Phone origPhone =  getPhone(ph.getPhoneId(), origPhoneSet);
-				if (origPhone == null) {
-					ph.setOperation(AttributeOperationEnum.ADD);
-					origPhoneSet.add(ph);
-					phoneSet.add(ph);
-				}else {
-					if (ph.equals(origPhone)) {
-						// not changed
-						ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-						phoneSet.add(ph);
-					}else {
-						// object changed
-						origPhone.updatePhone(ph);
-						origPhoneSet.add(origPhone);
-						origPhone.setOperation(AttributeOperationEnum.REPLACE);
-						phoneSet.add(origPhone);
-					}
-				}
-			}
-		}
+                    // get the email object from the original set of emails so that we can remove it
+                    Phone e = getPhone(ph.getPhoneId(), origPhoneSet);
+                    if (e != null) {
+                        origPhoneSet.remove(e);
+                    }
+                    phoneSet.add(ph);
+                }else {
+                    // check if this address is in the current list
+                    // if it is - see if it has changed
+                    // if it is not - add it.
+                    log.debug("evaluate phone");
+                    Phone origPhone =  getPhone(ph.getPhoneId(), origPhoneSet);
+                    if (origPhone == null) {
+                        ph.setOperation(AttributeOperationEnum.ADD);
+                        origPhoneSet.add(ph);
+                        phoneSet.add(ph);
+                    }else {
+                        if (ph.equals(origPhone)) {
+                            // not changed
+                            ph.setOperation(AttributeOperationEnum.NO_CHANGE);
+                            phoneSet.add(ph);
+                        }else {
+                            // object changed
+                            origPhone.updatePhone(ph);
+                            origPhoneSet.add(origPhone);
+                            origPhone.setOperation(AttributeOperationEnum.REPLACE);
+                            phoneSet.add(origPhone);
+                        }
+                    }
+                }
+            }
+        }
 		// if a value is in original list and not in the new list - then add it on 
 		for (Phone ph : origPhoneSet) {
 			Phone newPhone =  getPhone(ph.getPhoneId(), newPhoneSet);
@@ -921,8 +925,7 @@ public class ModifyUser {
         if (currentUserRole == null) {
             return null;
         }
-		
-		UserRole ur = null;
+
 		// get the user role object
 		for (UserRole u : currentUserRole) {
 			if (r.getId().getRoleId().equalsIgnoreCase(u.getRoleId()) && 

@@ -73,7 +73,7 @@ public class DisableUserDelegate {
 		if (usr == null) {
             auditHelper.addLog(strOperation, sysConfiguration.getDefaultSecurityDomain(), null,
 				"IDM SERVICE", requestorId, "IDM", "USER",
-				usr.getUserId(), null,  "FAILURE", null,  null,
+				userId, null,  "FAILURE", null,  null,
 				null, requestId, null, null, null);
 
 			response.setStatus(ResponseStatus.FAILURE);
@@ -143,7 +143,15 @@ public class DisableUserDelegate {
 		                resumeReq.setRequestID(requestId);
 		                connectorAdapter.resumeRequest(mSys, resumeReq,muleContext);
 					}
-	        		auditHelper.addLog(strOperation + " IDENTITY", lRequestor.getId().getDomainId(), lRequestor.getId().getLogin(),
+                    
+                    String domainId = null;
+                    String loginId = null;
+                    if (lRequestor.getId() != null) {
+                       domainId = lRequestor.getId().getDomainId();
+                       loginId = lRequestor.getId().getLogin();
+                    }
+                    
+	        		auditHelper.addLog(strOperation + " IDENTITY", domainId, loginId,
 	        				"IDM SERVICE", requestorId, "IDM", "USER",
 	        				null, null,  "SUCCESS", requestId,  null, 
 	        				null, requestId, null, null, null,

@@ -82,7 +82,7 @@ public class AddUser {
 
         ProvisionUserResponse resp = new ProvisionUserResponse();
         resp.setStatus(ResponseStatus.SUCCESS);
-		ResponseCode code = null;
+		ResponseCode code;
 		
 		User newUser = userMgr.addUser(user.getUser());
 		if (newUser == null || newUser.getUserId() == null) {
@@ -317,7 +317,6 @@ public class AddUser {
      * @param primaryIdentity
      * @param roleList
      */
-
     public void validateIdentitiesExistforSecurityDomain(Login primaryIdentity, List<Role> roleList) {
         List<Login> identityList = loginManager.getLoginByUser(primaryIdentity.getUserId());
 

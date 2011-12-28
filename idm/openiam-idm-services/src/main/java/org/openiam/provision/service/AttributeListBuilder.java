@@ -65,7 +65,6 @@ public class AttributeListBuilder {
 
             Login identity = new Login();
             LoginId loginId = new LoginId();
-            EmailAddress emailAddress = new EmailAddress();
 
             // init values
             loginId.setDomainId(domainId);
@@ -223,7 +222,7 @@ public class AttributeListBuilder {
 
                             if (objectType.equalsIgnoreCase("USER") || objectType.equalsIgnoreCase("PASSWORD")) {
 
-                                ExtensibleAttribute newAttr = null;
+                                ExtensibleAttribute newAttr;
                                 if (output instanceof String) {
                                     newAttr = new ExtensibleAttribute(attr.getAttributeName(), (String) output, 1, attr.getDataType());
                                     newAttr.setObjectType(objectType);
