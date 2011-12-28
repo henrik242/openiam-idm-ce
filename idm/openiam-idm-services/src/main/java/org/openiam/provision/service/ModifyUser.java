@@ -521,7 +521,7 @@ public class ModifyUser {
 		if ( (origLoginList == null || origLoginList.size() == 0 )  && 
 			  (newLoginList != null || newLoginList.size() > 0 )) {
 			
-			log.debug("New Principal list is not null");
+			log.debug("New Principal list is not null, but Original Principal List is null");
 			origLoginList = new ArrayList<Login>();
 			origLoginList.addAll(newLoginList);
 			// update the instance variable so that it can passed to the connector with the right operation code
@@ -560,18 +560,26 @@ public class ModifyUser {
 
 		// if in new login, but not in old, then add it with operation 1
 		// else add with operation 2
+        log.debug("New PrincipalLis is not null and OriginalList is not null - Compare the list of identities.");
+
 		for (Login l : newLoginList) {
-			if (l.getOperation() == AttributeOperationEnum.DELETE) {
+
+            if (l.getOperation() == AttributeOperationEnum.DELETE) {
+
 				log.debug("removing Login :" + l.getId() );
 				// get the email object from the original set of emails so that we can remove it
 				Login lg = getPrincipal(l.getId(), origLoginList);
-				log.debug("Login to remove = " + lg);
+
 				if (lg != null) {
 					lg.setStatus("INACTIVE");
 					loginManager.updateLogin(lg);
+
+                    log.debug("Login updated with status of INACTIVE in IdM database.  ");
 				}
 				principalList.add(l);
+
 			}else {
+
 				// check if this login is in the current list
 				// if it is - see if it has changed
 				// if it is not - add it.
@@ -663,6 +671,7 @@ public class ModifyUser {
 			}
 		}
 		// if a value is in original list and not in the new list - then add it on 
+        log.debug("Check if a value is in the original principal list but not in the new Principal List");
 		for (Login lg : origLoginList) {
 			Login newLogin =  getPrincipal(lg.getId(), newLoginList);
 			if (newLogin == null) {

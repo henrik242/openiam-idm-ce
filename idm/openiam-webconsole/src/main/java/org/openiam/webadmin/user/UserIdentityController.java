@@ -169,6 +169,8 @@ public class UserIdentityController extends CancellableFormController {
 			for (Login lg: loginList) {
 				if (lg.isSelected()) {
 					lg.setOperation(AttributeOperationEnum.DELETE);
+
+                    System.out.println("Identity marked for deletion: " + lg.getId());
 				}
 				// decrypt the password so that it does not fail in the modify operation
 				if (lg.getPassword() != null) {
