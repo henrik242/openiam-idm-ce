@@ -1307,11 +1307,15 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 modReqType.setRequestID(requestId);
 
                                 // check if this request calls for the identity being renamed
-                                log.debug("Send request to connector - Orginal Principal Name = " + mLg.getOrigPrincipalName());
+                                log.debug("Send request to connector - Original Principal Name = " + mLg.getOrigPrincipalName());
+
                                 if (mLg.getOrigPrincipalName() != null) {
-                                    if (mLg.getOrigPrincipalName().equalsIgnoreCase(mLg.getId().getLogin())) {
-                                        extAttList.add(new ExtensibleAttribute("ORIG_IDENTITY", mLg.getOrigPrincipalName(), 2, "String"));
-                                    }
+                                    extAttList.add(new ExtensibleAttribute("ORIG_IDENTITY", mLg.getOrigPrincipalName(), 2, "String"));
+
+                                    //if (mLg.getOrigPrincipalName().equalsIgnoreCase(mLg.getId().getLogin())) {
+                                    //    extAttList.add(new ExtensibleAttribute("ORIG_IDENTITY", mLg.getOrigPrincipalName(), 2, "String"));
+                                    //}
+
                                 }
 
                                 ModificationType mod = new ModificationType();
@@ -1454,7 +1458,18 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     private Map<String, String> getCurrentObjectAtTargetSystem(Login mLg, ManagedSys mSys, ProvisionConnector connector, ManagedSystemObjectMatch matchObj) {
 
-        log.debug("Getting the current attributes in the target system for =" + mLg.getId().getLogin());
+        String identity = mLg.getId().getLogin();
+
+        log.debug("Getting the current attributes in the target system for =" + identity);
+        
+        log.debug("- IsRename: " + mLg.getOrigPrincipalName());
+
+        if (mLg.getOrigPrincipalName() != null && !mLg.getOrigPrincipalName().isEmpty()) {
+            identity = mLg.getOrigPrincipalName();
+        }
+        
+        
+
 
         Map<String, String> curValueMap = new HashMap<String, String>();
 
@@ -1462,7 +1477,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
             LookupRequest reqType = new LookupRequest();
-            reqType.setSearchValue(mLg.getId().getLogin());
+            reqType.setSearchValue(identity);
 
             reqType.setTargetID(mLg.getId().getManagedSysId());
             reqType.setHostLoginId(mSys.getUserId());
@@ -1481,7 +1496,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         } else {
 
-            List<ExtensibleAttribute> extAttrList = getTargetSystemUser(mLg.getId().getLogin(), mSys.getManagedSysId()).getAttrList();
+            List<ExtensibleAttribute> extAttrList = getTargetSystemUser(identity, mSys.getManagedSysId()).getAttrList();
             if (extAttrList != null) {
                 for (ExtensibleAttribute obj : extAttrList) {
                     String name = obj.getName();

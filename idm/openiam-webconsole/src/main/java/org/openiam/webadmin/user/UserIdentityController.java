@@ -155,7 +155,7 @@ public class UserIdentityController extends CancellableFormController {
 		
 		// get the current user object
 		String personId = identityCmd.getPerId();
-		log.info("Person id=" + personId);
+
 		
 		UserResponse usrResp =  userMgr.getUserWithDependent(personId, true);
 		if (usrResp.getStatus() == ResponseStatus.SUCCESS ) {
