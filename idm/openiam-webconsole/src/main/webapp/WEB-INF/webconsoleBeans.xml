@@ -21,6 +21,8 @@
 		<property name="managedSystemType" value="MANAGED_SYS" />
 		<property name="homePage" value="welcome" />
 		<property name="errorUrl" value="error" />
+        <!-- VALID OPTIONS - ENFORCE_POLICY OR BYPASS_POLICY -->
+        <property name="adminPasswordReset" value="BYPASS_POLICY" />
 	</bean>
 
 	<bean id="auditHelper" class="org.openiam.webadmin.util.AuditHelper" >

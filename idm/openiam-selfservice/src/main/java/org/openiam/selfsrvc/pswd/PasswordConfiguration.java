@@ -12,9 +12,9 @@ public class PasswordConfiguration {
 	private String defaultSecurityDomain = null;
 	private String defaultManagedSysId = null;
 	private String defaultChallengeResponseGroup = null;
-	protected String parentOrgId = null;
- 	protected String managedSystemType = null;
-
+    private String parentOrgId = null;
+    private String managedSystemType = null;
+    private String adminPasswordReset;
 	
 	public boolean isDisplayDomainList() {
 		return displayDomainList;
@@ -74,5 +74,12 @@ public class PasswordConfiguration {
 	public void setManagedSystemType(String managedSystemType) {
 		this.managedSystemType = managedSystemType;
 	}
-	
+
+    public String getAdminPasswordReset() {
+        return adminPasswordReset;
+    }
+
+    public void setAdminPasswordReset(String adminPasswordReset) {
+        this.adminPasswordReset = adminPasswordReset;
+    }
 }

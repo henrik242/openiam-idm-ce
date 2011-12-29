@@ -2,11 +2,20 @@ package org.openiam.webadmin.user;
 
 import java.util.List;
 
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.pswd.dto.Password;
+import org.openiam.idm.srvc.pswd.ws.PasswordWebService;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
+import org.openiam.webadmin.admin.AppConfiguration;
+
 
 public class ResetUserPasswordValidator implements Validator {
-	
+
+    protected PasswordWebService passwordService;
+    protected AppConfiguration configuration;
+
 
 	public void validate(Object cmd, Errors err) {
 		// TODO Auto-generated method stub
@@ -38,7 +47,31 @@ public class ResetUserPasswordValidator implements Validator {
 			return;
 		}
 		// validate the password against the policy
-		
+        // validate the password against the policy
+        if ("ENFORCE_POLICY".equalsIgnoreCase(configuration.getAdminPasswordReset())) {
+
+            Password pswd = new Password();
+            pswd.setDomainId(configuration.getDefaultSecurityDomain());
+            pswd.setManagedSysId(configuration.getDefaultManagedSysId());
+            pswd.setPrincipal(pswdChangeCmd.getPrincipal());
+            pswd.setPassword(pswdChangeCmd.getPassword());
+
+
+            try {
+                Response resp = passwordService.isPasswordValid(pswd);
+                if (resp.getStatus() == ResponseStatus.FAILURE) {
+
+                    err.rejectValue("password",resp.getErrorCode().toString());
+                    required = false;
+                }
+
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +82,16 @@ public class ResetUserPasswordValidator implements Validator {
 	}
 
 
-		
-		
+    public void setConfiguration(AppConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public PasswordWebService getPasswordService() {
+        return passwordService;
+    }
+
+    public void setPasswordService(PasswordWebService passwordService) {
+        this.passwordService = passwordService;
+    }
 }
 	

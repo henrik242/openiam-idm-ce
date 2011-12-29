@@ -17,6 +17,8 @@ public class AppConfiguration {
 	protected String managedSystemType;
 	protected String homePage;
 	protected String errorUrl;
+    protected String adminPasswordReset;
+    
 	
 
 	
@@ -102,5 +104,12 @@ public class AppConfiguration {
 	public void setErrorUrl(String errorUrl) {
 		this.errorUrl = errorUrl;
 	}
-	
+
+    public String getAdminPasswordReset() {
+        return adminPasswordReset;
+    }
+
+    public void setAdminPasswordReset(String adminPasswordReset) {
+        this.adminPasswordReset = adminPasswordReset;
+    }
 }

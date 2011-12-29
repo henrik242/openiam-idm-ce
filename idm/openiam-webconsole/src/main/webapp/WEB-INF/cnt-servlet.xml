@@ -815,8 +815,12 @@
 		<property name="navigationDataService" ref="navServiceClient" />
 		<property name="redirectView" value="idman/userSearch.do?action=view" />
          <property name="cancelView" value="idman/userSearch.do?action=view" />
-     </bean> 
+     </bean>
+
+
      <bean id="resetPasswordValidator" class="org.openiam.webadmin.user.ResetUserPasswordValidator">
+         <property name="configuration" ref="appConfiguration" />
+         <property name="passwordService" ref="passwordServiceClient" />
      </bean> 
      
      <bean id="selectSupervisor" class="org.openiam.webadmin.user.SelectSupervisorController">

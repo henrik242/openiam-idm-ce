@@ -20,8 +20,8 @@ public class AppConfiguration {
 	private String publicRightMenuGroup2;
 	private String publicRightMenuGroup3;
     private String userCategoryType;
-	
-	
+
+
 	protected String defaultSecurityDomain = null;
 	protected String defaultManagedSysId = null;
 
@@ -108,6 +108,8 @@ public class AppConfiguration {
     public void setUserCategoryType(String userCategoryType) {
         this.userCategoryType = userCategoryType;
     }
+
+
 }
 
 

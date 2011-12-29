@@ -40,27 +40,28 @@ public class ResetUserPasswordValidator implements Validator {
 		// validate the password against the policy
 	
 		// validate the password against the policy
-	/*	Password pswd = new Password();
-		pswd.setDomainId(configuration.getDefaultSecurityDomain());
-		pswd.setManagedSysId(configuration.getDefaultManagedSysId());
-		pswd.setPrincipal(pswdChangeCmd.getPrincipal());
-		pswd.setPassword(pswdChangeCmd.getPassword());
-		
-		
-		System.out.println("Password principal=" + configuration.getDefaultManagedSysId());
-		
-		try {
-			Response resp = passwordService.isPasswordValid(pswd);
-			if (resp.getStatus() == ResponseStatus.FAILURE) {
-			
-				err.rejectValue("password",resp.getErrorCode().toString());
-				required = false;	
-			}
+        if ("ENFORCE_POLICY".equalsIgnoreCase(configuration.getAdminPasswordReset())) {
 
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-   */
+            Password pswd = new Password();
+            pswd.setDomainId(configuration.getDefaultSecurityDomain());
+            pswd.setManagedSysId(configuration.getDefaultManagedSysId());
+            pswd.setPrincipal(pswdChangeCmd.getPrincipal());
+            pswd.setPassword(pswdChangeCmd.getPassword());
+
+
+            try {
+                Response resp = passwordService.isPasswordValid(pswd);
+                if (resp.getStatus() == ResponseStatus.FAILURE) {
+
+                    err.rejectValue("password",resp.getErrorCode().toString());
+                    required = false;
+                }
+
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 		
 	}
 

@@ -269,12 +269,12 @@
 	</bean>
 
 	<!--  Password Service -->
-	<bean id="passwordServiceClient" class="org.openiam.idm.srvc.pswd.service.PasswordService" 
+	<bean id="passwordServiceClient" class="org.openiam.idm.srvc.pswd.ws.PasswordWebService"
       factory-bean="passwordServiceFactory" factory-method="create"/>
 
 
 	<bean id="passwordServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-	  <property name="serviceClass" value="org.openiam.idm.srvc.pswd.service.PasswordService"/>
+	  <property name="serviceClass" value="org.openiam.idm.srvc.pswd.ws.PasswordWebService"/>
 	  <property name="address" value="${openiam.service_host}${openiam.idm.ws.path}PasswordWebService"/>
 	</bean>
 
