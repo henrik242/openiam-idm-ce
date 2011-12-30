@@ -40,6 +40,7 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.ws.AddressResponse;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
+import org.openiam.idm.srvc.org.dto.Organization;
 
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.ws.SupervisorListResponse;
@@ -294,7 +295,11 @@ public class EditUserController extends CancellableFormController {
 		
 		User usr = cmd.getUser();
 		log.info("User=" + usr);
-		
+
+        List<Organization> currentOrgList = orgManager.getOrganizationsForUser(usr.getUserId());
+        
+
+
 		ProvisionUser pUser = new ProvisionUser(usr);
         controllerObj.put("user", pUser);
 		
@@ -352,6 +357,7 @@ public class EditUserController extends CancellableFormController {
 		getEmail(cmd, pUser);
 		getAddress(cmd, pUser);
 		getPhoneFromUI(cmd, pUser);
+        pUser.setUserAffiliations(currentOrgList);
 	
 
 	

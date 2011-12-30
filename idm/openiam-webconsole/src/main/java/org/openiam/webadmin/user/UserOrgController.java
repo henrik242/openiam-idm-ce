@@ -82,9 +82,12 @@ public class UserOrgController extends CancellableFormController {
 		
 		
 		UserOrgCommand orgCmd = new UserOrgCommand();
-		
+		User usr = null;
+        String primaryAffiliation = null;
+        
 		HttpSession session =  request.getSession();
 		String userId = (String)session.getAttribute("userId");
+               
 		
 		String menuGrp = request.getParameter("menugrp");
 		String personId = request.getParameter("personId");
@@ -96,17 +99,35 @@ public class UserOrgController extends CancellableFormController {
 
 		orgCmd.setPerId(personId);
 
+        if (personId != null) {
+            usr =  userMgr.getUserWithDependent(personId,false).getUser();
+            if (usr != null) {
+                primaryAffiliation = usr.getCompanyId();
+            }
+            
+        }
+        
 
         List<Organization> fullList = new ArrayList<Organization>();
         List<Organization> orgList =  orgManager.getOrganizationList(null, "ACTIVE");
 
+        if ( orgList != null) {
+            for ( Organization o : orgList) {
+                if (primaryAffiliation != null && o.getOrgId().equalsIgnoreCase(primaryAffiliation)) {
+                    o.setSelected(true);
+                    o.setOrganizationName(o.getOrganizationName() + "(Primary Affiliation)");
+                }
+            }
+        }
+
         List<Organization> userAffiliations = orgManager.getOrganizationsForUser(personId);
+        
 
         if (userAffiliations != null && !userAffiliations.isEmpty()) {
             for (Organization o : orgList) {
                 boolean found = false;
                 for (Organization userOrg : userAffiliations) {
-                    if (userOrg.getOrgId().equalsIgnoreCase(o.getOrgId())) {
+                    if (    userOrg.getOrgId().equalsIgnoreCase(o.getOrgId())  ) {
                         userOrg.setSelected(true);
                         fullList.add(userOrg);
                         found = true;
@@ -121,7 +142,11 @@ public class UserOrgController extends CancellableFormController {
             }
 
         }else {
-            fullList.addAll(orgList);
+            // set the prmary affiliation if any
+            if ( orgList != null) {
+
+                fullList.addAll(orgList);
+            }
         }
 
         orgCmd.setOrgList(fullList);
@@ -141,6 +166,7 @@ public class UserOrgController extends CancellableFormController {
 		User usr = null;
         UserOrgCommand orgCmd = (UserOrgCommand)command;
         List<Organization> currentOrgList = null;
+        String primaryAffiliation = null;
 
 		HttpSession session = request.getSession();
 		
@@ -153,6 +179,9 @@ public class UserOrgController extends CancellableFormController {
 		UserResponse usrResp =  userMgr.getUserWithDependent(personId, true);
 		if (usrResp.getStatus() == ResponseStatus.SUCCESS ) {
 			usr = usrResp.getUser();
+            if (usr != null) {
+                primaryAffiliation = usr.getCompanyId();
+            }
 		}
 
         System.out.println("UserOrgController: onsubmit found..");
@@ -168,7 +197,13 @@ public class UserOrgController extends CancellableFormController {
         if ( newOrgList != null) {
             for (Organization o : newOrgList) {
                 if (o.getSelected()) {
-                    provOrgList.add(o);
+                    if (primaryAffiliation != null && o.getOrgId().equalsIgnoreCase(primaryAffiliation))  {
+                        // dont save the primary affiliation in this list. We have already have org associated with the user
+                        continue;
+                        
+                    }else {
+                        provOrgList.add(o);
+                    }
 
                 }
             }
