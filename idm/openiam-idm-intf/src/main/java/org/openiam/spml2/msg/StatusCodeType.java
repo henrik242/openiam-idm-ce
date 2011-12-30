@@ -28,8 +28,13 @@ public enum StatusCodeType {
 
     @XmlEnumValue("success")
     SUCCESS("success"),
+
     @XmlEnumValue("failure")
     FAILURE("failure"),
+
+    @XmlEnumValue("successMoreResultsToReturn")
+    SUCCESS_MORE_RESULTS_TO_RETURN("successMoreResultsToReturn"),
+
     @XmlEnumValue("pending")
     PENDING("pending");
     private final String value;

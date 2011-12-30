@@ -9,29 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Java class for ErrorCode.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <pre>
- * &lt;simpleType name="ErrorCode">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="malformedRequest"/>
- *     &lt;enumeration value="unsupportedOperation"/>
- *     &lt;enumeration value="unsupportedIdentifierType"/>
- *     &lt;enumeration value="noSuchIdentifier"/>
- *     &lt;enumeration value="customError"/>
- *     &lt;enumeration value="unsupportedExecutionMode"/>
- *     &lt;enumeration value="invalidContainment"/>
- *     &lt;enumeration value="noSuchRequest"/>
- *     &lt;enumeration value="unsupportedSelectionType"/>
- *     &lt;enumeration value="resultSetToLarge"/>
- *     &lt;enumeration value="unsupportedProfile"/>
- *     &lt;enumeration value="invalidIdentifier"/>
- *     &lt;enumeration value="alreadyExists"/>
- *     &lt;enumeration value="containerNotEmpty"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
- * </pre>
- * 
+ *
  */
 @XmlType(name = "ErrorCode")
 @XmlEnum
@@ -39,19 +17,23 @@ public enum ErrorCode {
 
     @XmlEnumValue("malformedRequest")
     MALFORMED_REQUEST("malformedRequest"),
+
     @XmlEnumValue("unsupportedOperation")
     UNSUPPORTED_OPERATION("unsupportedOperation"),
+
     @XmlEnumValue("unsupportedIdentifierType")
     UNSUPPORTED_IDENTIFIER_TYPE("unsupportedIdentifierType"),
+
     @XmlEnumValue("noSuchIdentifier")
     NO_SUCH_IDENTIFIER("noSuchIdentifier"),
+
     @XmlEnumValue("customError")
     CUSTOM_ERROR("customError"),
 
     @XmlEnumValue("otherError")
     OTHER_ERROR("otherError"),
 
-    @XmlEnumValue("direcotryError")
+    @XmlEnumValue("directoryError")
     DIRECTORY_ERROR("directoryError"),
 
     @XmlEnumValue("sqlError")
@@ -66,26 +48,84 @@ public enum ErrorCode {
 
     @XmlEnumValue("unsupportedExecutionMode")
     UNSUPPORTED_EXECUTION_MODE("unsupportedExecutionMode"),
+
     @XmlEnumValue("invalidContainment")
     INVALID_CONTAINMENT("invalidContainment"),
+
     @XmlEnumValue("noSuchRequest")
     NO_SUCH_REQUEST("noSuchRequest"),
+
+    @XmlEnumValue("noSuchObject")
+    NO_SUCH_OBJECT("noSuchObject"),
+
     @XmlEnumValue("unsupportedSelectionType")
     UNSUPPORTED_SELECTION_TYPE("unsupportedSelectionType"),
+
     @XmlEnumValue("resultSetToLarge")
     RESULT_SET_TO_LARGE("resultSetToLarge"),
+
     @XmlEnumValue("unsupportedProfile")
     UNSUPPORTED_PROFILE("unsupportedProfile"),
+
     @XmlEnumValue("invalidIdentifier")
     INVALID_IDENTIFIER("invalidIdentifier"),
+
     @XmlEnumValue("alreadyExists")
     ALREADY_EXISTS("alreadyExists"),
+
     @XmlEnumValue("invalidManagedSysId")
     INVALID_MANAGED_SYS_ID("invalidManagedSysId"),
+
     @XmlEnumValue("userLimitReached")
-    USER_LIMIT_REACHED("userLimitReached"),    
+    USER_LIMIT_REACHED("userLimitReached"),
+
+
+    @XmlEnumValue("operationError")
+    OPERATIONS_ERROR("operationsError"),
+
+    @XmlEnumValue("protocolError")
+    PROTOCOL_ERROR("protocolError"),
+
+    @XmlEnumValue("timeLimitExceeded")
+    TIMELIMIT_EXCEEDED("timeLimitExceeded"),
+
+    @XmlEnumValue("sizeLimitExceeded")
+    SIZELIMIT_EXCEEDED("sizeLimitExceeded"),
+
+    @XmlEnumValue("compareFailed")
+    COMPARE_FAILED("compareFailed"),
+
+    @XmlEnumValue("authenticationFailed")
+    AUTHENTICATION_FAILED("authenticationFailed"),
+
+    @XmlEnumValue("sessionInvalid")
+    SESSION_INVALID("sessionInvalid"),
+
+    @XmlEnumValue("constraintViolation")
+    CONSTRAINT_VIOLATION("constraintViolation"),
+
+    @XmlEnumValue("noSuchAttribute")
+    NO_SUCH_ATTRIBUTE("noSuchAttribute"),
+
+    @XmlEnumValue("unDefinedType")
+    UNDEFINED_TYPE("unDefinedType"),
+
+    @XmlEnumValue("insufficientRights")
+    INSUFFICIENT_RIGHTS("insufficientRights"),
+
+    @XmlEnumValue("systemUnavailable")
+    SYSTEM_UNAVAILABLE("systemUnavailable"),
+
+    @XmlEnumValue("objectClassViolation")
+    OBJECT_CLASS_VIOLATION("objectClassViolation"),
+
+    @XmlEnumValue("noResultsReturned")
+    NO_RESULTS_RETURNED("noResultsReturned"),
+
+
     @XmlEnumValue("containerNotEmpty")
     CONTAINER_NOT_EMPTY("containerNotEmpty");
+
     private final String value;
 
     ErrorCode(String v) {
@@ -107,3 +147,5 @@ public enum ErrorCode {
 
 
 }
+
+
