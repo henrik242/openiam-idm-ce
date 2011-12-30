@@ -31,82 +31,76 @@
 
 
 
-<table  width="1000pt">
-			<tr>
-				<td align="center" height="100%">
-			     <fieldset class="userform" >
-						<legend>SEARCH RESULTS - <%=recordCount%> Records Found</legend>
-
-				
-<table class="resourceTable" cellspacing="2" cellpadding="2" >
-    <%
-        if (searchmsg != null) {
-    %>
-        <tr>
-              <td colspan="7"><font color="rea"><%=searchmsg%></font></td>
-        </tr>
-
-    <% } %>
+<table  width="1200pt">
+    <tr>
+        <td align="center" height="100%">
+            <fieldset class="userform" >
+                <legend>SEARCH RESULTS - <%=recordCount%> Records Found</legend>
 
 
-  <tr class="header">
-    <th>Name</th>
-    <th>E-mail</th>
-		<th>Phone</th>
-    <th>User Status</th>
-    <th>Acct State</th>
-    <th>Dept</th>
-    <th></th>
-  </tr>
-  
-  <% 
-  
-      if( userList != null && userList.size() > 0 ) {
-    	for (User ud : userList) {
-  
-  %>
-  
+                <table class="resourceTable" cellspacing="2" cellpadding="2"  width="1200pt" >
+                    <%
+                        if (searchmsg != null) {
+                    %>
+                    <tr>
+                        <td colspan="7"><font color="rea"><%=searchmsg%></font></td>
+                    </tr>
 
-   <tr>
+                    <% } %>
 
-  
-     <td  class="tableEntry" valign="top">
-        <% if (ud.getFirstName() != null || ud.getLastName() != null) { %>
-           <a href="editUser.cnt?personId=<%=ud.getUserId()%>&menugrp=QUERYUSER"><%= JSPUtil.display(ud.getFirstName())%> <%=JSPUtil.display(ud.getLastName())%> </a>
-        <% } %>&nbsp;
-    </td>
-    <td  class="tableEntry"  valign="top"><%= JSPUtil.display(ud.getEmail() )%> </td>
-    <td  class="tableEntry" valign="top"><%= JSPUtil.display(ud.getAreaCd() )%>-<%= JSPUtil.display(ud.getPhoneNbr() )%> </td>
-    <td  class="tableEntry"  valign="top">
-      <% if (ud.getStatus() != null) { %>     
-          <%=JSPUtil.display(ud.getStatus())%>
-      <% } %>&nbsp;
-    </td>
-     <td  class="tableEntry"  valign="top">
-      <% if (ud.getSecondaryStatus() != null) { %>
-          <%=JSPUtil.display(ud.getSecondaryStatus())%>
-      <% } %>&nbsp;
-    </td>
 
-    <td  class="tableEntry"  valign="top">
-      <% if (ud.getDeptCd() != null) { %>
-         <%=JSPUtil.display(ud.getDeptCd())%>
-      <% } %>&nbsp;
-    </td>
+                    <tr class="header">
+                        <th width="30%">Name</th>
+                        <th width="30%">E-mail</th>
+                        <th width="15%">Phone</th>
+                        <th width="10%">User Status</th>
+                        <th width="10%">Acct State</th>
+                        <th width="5%"></th>
+                    </tr>
 
-    <td  class="tableEntry"  valign="top">
-         <a href="userChangeStatus.cnt?personId=<%=ud.getUserId()%>&status=DELETED">DELETE</a>
-    </td>
-    
+                    <%
 
-  </tr>
-  <%  
-       }
-       }
-  %>
+                        if( userList != null && userList.size() > 0 ) {
+                            for (User ud : userList) {
 
-</table>
+                    %>
 
-</td>
-</tr>
+
+                    <tr>
+
+
+                        <td width="30%"  class="tableEntry" valign="top">
+                            <% if (ud.getFirstName() != null || ud.getLastName() != null) { %>
+                            <a href="editUser.cnt?personId=<%=ud.getUserId()%>&menugrp=QUERYUSER"><%= JSPUtil.display(ud.getFirstName())%> <%=JSPUtil.display(ud.getLastName())%> </a>
+                            <% } %>
+                        </td>
+                        <td width="30%"  class="tableEntry"  valign="top"><%= JSPUtil.display(ud.getEmail() )%> </td>
+                        <td width="15%" class="tableEntry" valign="top"><%= JSPUtil.display(ud.getAreaCd() )%> <%= JSPUtil.display(ud.getPhoneNbr() )%> </td>
+                        <td width="10%" class="tableEntry"  valign="top">
+                            <% if (ud.getStatus() != null) { %>
+                            <%=JSPUtil.display(ud.getStatus())%>
+                            <% } %>
+                        </td>
+                        <td width="10%" class="tableEntry"  valign="top">
+                            <% if (ud.getSecondaryStatus() != null) { %>
+                            <%=JSPUtil.display(ud.getSecondaryStatus())%>
+                            <% } %>
+                        </td>
+
+
+                        <td width="5%" class="tableEntry"  valign="top">
+                            <a href="userChangeStatus.cnt?personId=<%=ud.getUserId()%>&status=DELETED">DELETE</a>
+                        </td>
+
+
+                    </tr>
+                    <%
+                            }
+                        }
+                    %>
+
+                </table>
+
+        </td>
+    </tr>
 </table>
