@@ -73,7 +73,9 @@ public class IHEAuditEvent implements ExportAuditEvent{
 
 
         l.debug("Calling Send ATNA Message");
+       // -----
         sendMessage(bAry);
+       // -----
 
         l.debug("IHEAuditEvent Audit Event completed...");
 
@@ -347,6 +349,9 @@ public class IHEAuditEvent implements ExportAuditEvent{
 
     private  byte[] roleChange(IdmAuditLog log) {
          l.debug("Preparing User Changed event message");
+        
+        String eventDisplayName = null;
+        String eventDisplayNameSuffix = null;
 
            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
            String timeStr =  format.format(log.getActionDatetime());
@@ -354,8 +359,10 @@ public class IHEAuditEvent implements ExportAuditEvent{
            String actionCode = null;
            if (log.getActionId().equalsIgnoreCase("CREATE")) {
                actionCode = "C";
+               eventDisplayNameSuffix = "created";
            }else {
                actionCode = "U";
+               eventDisplayNameSuffix = "modified";
            }
 
            String eventOutcome = "0";
@@ -366,16 +373,22 @@ public class IHEAuditEvent implements ExportAuditEvent{
         String typeCode = "12";
         String typeDisplayName = "Security User Group";
          if (log.getObjectTypeId().equalsIgnoreCase("ROLE")) {
-            typeCode = "12";
+             typeCode = "12";
+             
+             eventDisplayName = "Role " + eventDisplayNameSuffix;
         }
         if (log.getObjectTypeId().equalsIgnoreCase("RESOURCE")) {
             typeCode = "13";
             typeDisplayName = "Security Resource";
+            eventDisplayName = "Resource " + eventDisplayNameSuffix;
         }
          if (log.getObjectTypeId().equalsIgnoreCase("POLICY")) {
             typeCode="13";
              typeDisplayName = "Security Resource";
+             eventDisplayName = "Policy " + eventDisplayNameSuffix;
         }
+        
+        
 
 
 
@@ -384,7 +397,11 @@ public class IHEAuditEvent implements ExportAuditEvent{
            buf.append(" <AuditMessage xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
            buf.append("<EventIdentification EventActionCode=\""+ actionCode +"\" EventDateTime=\"" + timeStr + "\" EventOutcomeIndicator=\"" + eventOutcome +"\" EventOutcomeDescription=\""+ log.getReason() + "\" >");
            buf.append("  <EventID csd-code=\"IAM110113\" codeSystemName=\"DCM\" displayName=\"Identity Manager Used\"/>");
-           buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\"Security Roles Changed\"/>");
+
+          // buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\"Security Roles Changed\"/>");
+
+            buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\""+ eventDisplayName +"\"/>");
+
            buf.append(" </EventIdentification>");
 
            // User
