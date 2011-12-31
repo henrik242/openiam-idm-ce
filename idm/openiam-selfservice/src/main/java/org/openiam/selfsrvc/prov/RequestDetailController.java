@@ -276,6 +276,7 @@ public class RequestDetailController extends SimpleFormController {
 
     private void reject(ProvisionRequest req, ProvisionUser pUser, String approverId) {
         String requestType = req.getRequestType();
+        String notifyEmail = null;
 
 
         List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
@@ -301,7 +302,9 @@ public class RequestDetailController extends SimpleFormController {
                 } else {
                     // target user
                     if (pUser.getEmailAddress() != null) {
-                        notifyUserId = pUser.getUserId();
+                        // user does not exist. We cant use their userId.
+                        notifyUserId = null;
+                        notifyEmail = pUser.getEmail();
                     } else {
                         notifyUserId = null;
                     }
@@ -310,7 +313,7 @@ public class RequestDetailController extends SimpleFormController {
             }
 
 
-            notifyRequestorReject(req, approverId, notifyUserId);
+            notifyRequestorReject(req, approverId, notifyUserId, notifyEmail);
         }
     }
 
@@ -375,7 +378,7 @@ public class RequestDetailController extends SimpleFormController {
         String password = null;
 
 
-        User approver = this.userManager.getUserWithDependent(approverUserId, false).getUser();
+        User approver = userManager.getUserWithDependent(approverUserId, false).getUser();
 
         // get the target user
         String targetUserName = null;
@@ -413,7 +416,10 @@ public class RequestDetailController extends SimpleFormController {
         mailService.sendNotification(request);
     }
 
-    private void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId) {
+    private void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
+        
+        System.out.println("notifyRequestorReject() called");
+        
         String userId = req.getRequestorId();
 
         User approver = userManager.getUserWithDependent(approverUserId, false).getUser();
@@ -434,6 +440,7 @@ public class RequestDetailController extends SimpleFormController {
         NotificationRequest request = new NotificationRequest();
         request.setUserId(notifyUserId);
         request.setNotificationType("REQUEST_REJECTED");
+        request.setTo(notifyEmail);
 
         request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
 
@@ -441,6 +448,7 @@ public class RequestDetailController extends SimpleFormController {
         request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
         request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
 
+        System.out.println("Sending notification for that request was rejected " + req.getRequestId());
 
         mailService.sendNotification(request);
 

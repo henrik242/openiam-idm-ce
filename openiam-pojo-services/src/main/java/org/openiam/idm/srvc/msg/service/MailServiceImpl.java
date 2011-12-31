@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 
 	public static ApplicationContext ac;
 
-	private static final Log log = LogFactory.getLog(SysMessageDAO.class);
+	private static final Log log = LogFactory.getLog(MailServiceImpl.class);
 	private static final int SUBJECT_IDX = 0;
 	private static final int SCRIPT_IDX = 1;
 
