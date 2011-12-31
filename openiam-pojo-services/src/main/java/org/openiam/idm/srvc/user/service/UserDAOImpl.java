@@ -1155,7 +1155,7 @@ public class UserDAOImpl implements UserDAO {
 
         StringBuffer bufSql = new StringBuffer();
         bufSql.append (
-                " select u.USER_ID, u.TYPE_ID, " +
+                " select DISTINCT u.USER_ID, u.TYPE_ID, " +
                 " u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME," +
                 " u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD, " +
                 " u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX, " +
@@ -1177,20 +1177,25 @@ public class UserDAOImpl implements UserDAO {
             whereBuf.append(" ur.ROLE_ID = :role " );
             rl = true;
         }
+
+
         if (search.getDelAdmin() == 1) {
             if (whereBuf.length() > 0)  {
                 whereBuf.append(" and ");
             }
             whereBuf.append(" u.DEL_ADMIN = 1");
-        }
-        if (search.getOrgFilter() != null) {
-            if (whereBuf.length() > 0)  {
-                whereBuf.append(" and ");
+
+            if (search.getOrgFilter() != null) {
+                if (whereBuf.length() > 0)  {
+                    whereBuf.append(" and ");
+                }
+                whereBuf.append(" ua.NAME = 'DLG_FLT_ORG' and ua.VALUE LIKE :orgFilter ");
+                orgFilter = true;
+
             }
-            whereBuf.append(" ua.NAME = 'DLG_FLT_ORG' and ua.VALUE LIKE :orgFilter ");
-            orgFilter = true;
 
         }
+
 
         if (whereBuf.length() > 0) {
             bufSql.append(" WHERE " );

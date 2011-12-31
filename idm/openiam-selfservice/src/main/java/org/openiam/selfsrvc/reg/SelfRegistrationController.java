@@ -353,11 +353,11 @@ public class SelfRegistrationController extends CancellableFormController {
                 search.setDelAdmin(applyDelegationFilter);
                 search.setOrgFilter("%" + userOrg + "%");
 
-                System.out.println("User Org value =" + userOrg);
+
 
                 List<User> roleApprovers =  userMgr.searchByDelegationProperties(search).getUserList();
 
-                System.out.println("List of approvers for Role: " + roleApprovers);
+
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u :roleApprovers) {
