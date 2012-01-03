@@ -92,18 +92,110 @@ public abstract class LdapAbstractCommand {
         return false;
 
     }
+    
+    /*protected boolean isMemberOf(String userDN, String memberOfObjectDN, LdapContext ldapctx ) {
 
-    protected List<String> getAccountMembership(String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx) {
-
-        String rdn = null;
-        String objectBaseDN = null;
         int totalResults = 0;
-        List<String>  membershipList = new ArrayList<String>();
 
+        log.debug("isMemberOf()...");
+        log.debug(" - userDN =" + userDN);
+        log.debug(" - MembershipObjectDN=" + memberOfObjectDN);
+
+        String userSearchFilter = "(&(objectclass=*)(uniqueMember=" + userDN + "))";
+        String searchBase = memberOfObjectDN;
+
+        try {
+
+           SearchControls ctls = new SearchControls();
+           String userReturnedAtts[]={"uniqueMember"};
+           ctls.setReturningAttributes(userReturnedAtts);
+           ctls.setSearchScope(SearchControls.OBJECT_SCOPE); // Search object only
+
+            NamingEnumeration answer = ldapctx.search(searchBase, userSearchFilter, ctls);
+
+
+            //Loop through the search results
+            if (answer.hasMoreElements()) {
+                log.debug("- found the list of uniqueMembers - user already belongs to the object");
+
+                return true;
+            }else {
+
+                log.debug("- DID NOT find the list of uniqueMembers - user already belongs to the object");
+
+                return false;
+            }
+
+
+       }catch (Exception e) {
+           e.printStackTrace();
+        }
+       return false;
+    }
+
+    */
+
+    protected List<String> userMembershipList(String userDN,  ManagedSystemObjectMatch matchObj, LdapContext ldapctx) {
+
+        List<String> currentMembershipList = new ArrayList<String>();
+        
+        log.debug("isMemberOf()...");
+        log.debug(" - userDN =" + userDN);
+        log.debug(" - MembershipObjectDN=" + matchObj.getSearchBaseDn());
+
+        String userSearchFilter = "(&(objectclass=*)(uniqueMember=" + userDN + "))";
+        String searchBase = matchObj.getSearchBaseDn();
+        
+
+
+        try {
+
+            SearchControls ctls = new SearchControls();
+
+            String userReturnedAtts[]={"uniqueMember"};
+            ctls.setReturningAttributes(userReturnedAtts);
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE); // Search object only
+
+            NamingEnumeration answer = ldapctx.search(searchBase, userSearchFilter, ctls);
+
+
+            //Loop through the search results
+            while (answer.hasMoreElements()) {
+                SearchResult sr = (SearchResult)answer.next();
+                
+                String objectName = sr.getName();
+                if (!objectName.contains(matchObj.getBaseDn()))  {
+                    objectName = objectName + "," + matchObj.getBaseDn();
+                }
+
+                log.debug("Adding to current membership list " + objectName);
+                currentMembershipList.add(objectName);
+
+           }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        if (currentMembershipList.isEmpty()) {
+            return null;
+        }
+        return currentMembershipList;
+
+
+    }
+
+
+
+  /*  protected List<String> getAccountMembership(String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx) {
+        String rdn = null;
+       String objectBaseDN = null;
+       int totalResults = 0;
+       List<String>  membershipList = new ArrayList<String>();
         int indx = ldapName.indexOf(",");
-
         if (indx > 0) {
-            rdn = ldapName.substring(0, ldapName.indexOf(","));
+           rdn = ldapName.substring(0, ldapName.indexOf(","));
             objectBaseDN = ldapName.substring(indx + 1);
         } else {
             rdn = ldapName;
@@ -125,8 +217,8 @@ public abstract class LdapAbstractCommand {
             }
 
 
-            log.debug("Search Filter=" + searchFilter);
-            log.debug("Searching BaseDN=" + objectBaseDN);
+            log.debug("Search Filter in getAccountMembership =" + searchFilter);
+            log.debug("- Searching BaseDN=" + objectBaseDN);
 
             results = ldapctx.search(objectBaseDN, searchFilter, searchCtls);
 
@@ -166,7 +258,7 @@ public abstract class LdapAbstractCommand {
             return null;
         }
     }
-
+  */
 
     protected BasicAttributes getBasicAttributes(List<ExtensibleObject> requestAttribute, String idField, List<String> targetMembershipList) {
         BasicAttributes attrs = new BasicAttributes();

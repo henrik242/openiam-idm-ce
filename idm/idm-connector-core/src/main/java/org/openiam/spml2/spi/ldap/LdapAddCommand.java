@@ -108,7 +108,9 @@ public class LdapAddCommand extends LdapAbstractCommand {
             log.debug("Associating user to objects for membership");
 
             // check if we already have any assocattions for this user - could be left over from an earlier time
-            List<String> existingAccountMembership = getAccountMembership(ldapName, matchObj, ldapctx);
+           // List<String> existingAccountMembership = getAccountMembership(ldapName, matchObj, ldapctx);
+
+            List<String> existingAccountMembership = userMembershipList(ldapName, matchObj, ldapctx);
 
 
             // get objects that have a dataType of "memberOf"

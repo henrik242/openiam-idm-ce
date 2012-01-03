@@ -99,7 +99,9 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
     private void removeAccountMemberships( String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
 
         // get the accounts current membership list
-        List<String> currentMembershipList =  getAccountMembership(ldapName, matchObj,   ldapctx);
+        //List<String> currentMembershipList =  getAccountMembership(ldapName, matchObj,   ldapctx);
+
+        List<String> currentMembershipList =  userMembershipList(ldapName, matchObj,   ldapctx);
 
         log.debug("Current ldap role membership:" + currentMembershipList);
 

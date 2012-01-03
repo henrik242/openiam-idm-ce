@@ -254,8 +254,12 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
     private void modifyAccountMembership(List<String>targetMembershipList, String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
 
+        log.debug("modifyAccountMembership() for: " + ldapName);
+
         // get the accounts current membership list
-        List<String> currentMembershipList =  getAccountMembership(ldapName, matchObj,   ldapctx);
+        //List<String> currentMembershipList =  getAccountMembership(ldapName, matchObj,   ldapctx);
+
+        List<String> currentMembershipList = userMembershipList(ldapName, matchObj,   ldapctx);
 
         log.debug("Current ldap role membership:" + currentMembershipList);
         log.debug("Target ldap role membership:"  + targetMembershipList);
