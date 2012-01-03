@@ -1,13 +1,11 @@
 
 package org.openiam.spml2.msg;
 
-import org.openiam.provision.type.*;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
-
+import org.openiam.provision.type.ExtensibleAttribute;
 
 /**
  * <p>Java class for LookupResponseType complex type.

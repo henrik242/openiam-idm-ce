@@ -36,8 +36,8 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.provision.dto.ProvisionUser;
+import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleUser;
-import org.openiam.spml2.msg.ExtensibleAttribute;
 
 /**
  * Helper class for the modifyUser operation in the Provisioning Service.
@@ -1008,7 +1008,7 @@ public class ModifyUser {
 		log.debug("updateAttributeList: Current attributeMap = " + currentValueMap);
 
 		
-		List<org.openiam.provision.type.ExtensibleAttribute> extAttrList = extUser.getAttributes();
+		List<ExtensibleAttribute> extAttrList = extUser.getAttributes();
 		if (extAttrList == null) {
 			
 			log.debug("Extended user attributes is null");
@@ -1018,12 +1018,12 @@ public class ModifyUser {
 
         log.debug("updateAttributeList: New Attribute List = " + extAttrList);
         if ( extAttrList != null && currentValueMap == null) {
-           for (org.openiam.provision.type.ExtensibleAttribute attr  : extAttrList) {
+           for (ExtensibleAttribute attr  : extAttrList) {
                 attr.setOperation(1);
            }
         }else {
 
-            for (org.openiam.provision.type.ExtensibleAttribute attr  : extAttrList) {
+            for (ExtensibleAttribute attr  : extAttrList) {
                 String nm = attr.getName();
                 if (currentValueMap == null) {
                     attr.setOperation(1);
