@@ -3,4 +3,4 @@ Thumbs.db
 target
 .project
 .idea
-*.sh
+/*.sh
