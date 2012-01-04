@@ -107,6 +107,8 @@
 <xs:element name="removeUser" type="tns:removeUser"/>
 <xs:element name="removeUserResponse" type="tns:removeUserResponse"/>
 <xs:element name="search" type="tns:search"/>
+<xs:element name="searchByDelegationProperties" type="tns:searchByDelegationProperties"/>
+<xs:element name="searchByDelegationPropertiesResponse" type="tns:searchByDelegationPropertiesResponse"/>
 <xs:element name="searchResponse" type="tns:searchResponse"/>
 <xs:element name="updateAddress" type="tns:updateAddress"/>
 <xs:element name="updateAddressResponse" type="tns:updateAddressResponse"/>
@@ -233,6 +235,9 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="objectState" type="xs:string"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="Login">
@@ -262,6 +267,9 @@
 <xs:element minOccurs="0" name="operation" type="tns:AttributeOperationEnum"/>
 <xs:element minOccurs="0" name="origPrincipalName" type="xs:string"/>
 <xs:element minOccurs="0" name="managedSysName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="LoginId">
@@ -493,6 +501,16 @@
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="getAddressById">
+<xs:sequence>
+<xs:element minOccurs="0" name="addressId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAddressByIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:AddressResponse"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="removeAllAttributes">
 <xs:sequence>
 <xs:element minOccurs="0" name="userId" type="xs:string"/>
@@ -503,6 +521,25 @@
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="searchByDelegationProperties">
+<xs:sequence>
+<xs:element minOccurs="0" name="search" type="ns2:DelegationFilterSearch"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchByDelegationPropertiesResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:UserListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UserListResponse">
+<xs:complexContent>
+<xs:extension base="tns:Response">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userList" nillable="true" type="ns2:user"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
 <xs:complexType name="getPrimarySupervisor">
 <xs:sequence>
 <xs:element minOccurs="0" name="employeeId" type="xs:string"/>
@@ -511,16 +548,6 @@
 <xs:complexType name="getPrimarySupervisorResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:SupervisorResponse"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="getAddressById">
-<xs:sequence>
-<xs:element minOccurs="0" name="addressId" type="xs:string"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="getAddressByIdResponse">
-<xs:sequence>
-<xs:element minOccurs="0" name="return" type="tns:AddressResponse"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="removeAllNotes">
@@ -542,15 +569,6 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:UserListResponse"/>
 </xs:sequence>
-</xs:complexType>
-<xs:complexType name="UserListResponse">
-<xs:complexContent>
-<xs:extension base="tns:Response">
-<xs:sequence>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="userList" nillable="true" type="ns2:user"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
 </xs:complexType>
 <xs:complexType name="removeAllPhones">
 <xs:sequence>
@@ -1037,6 +1055,7 @@
 <xs:enumeration value="groupIdInvalid"/>
 <xs:enumeration value="roleIdNull"/>
 <xs:enumeration value="roleIdInvalid"/>
+<xs:enumeration value="objectIdInvalid"/>
 <xs:enumeration value="success"/>
 <xs:enumeration value="FAIL_SQL_ERORR"/>
 <xs:enumeration value="FAIL_CONNECTION"/>
@@ -1056,6 +1075,19 @@
 <xs:enumeration value="FAIL_REJECT_CHARS_IN_PSWD"/>
 <xs:enumeration value="FAIL_ENCRYPTION"/>
 <xs:enumeration value="FAIL_DECRYPTION"/>
+<xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
+<xs:enumeration value="COMMUNICATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="IO_EXCEPTION"/>
+<xs:enumeration value="FILE_EXCEPTION"/>
+<xs:enumeration value="SQL_EXCEPTION"/>
+<xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+<xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
+<xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
+<xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
+<xs:enumeration value="PERMISSION_EXCEPTION"/>
+<xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
+<xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
@@ -1176,6 +1208,7 @@
 <xs:element minOccurs="0" name="value" type="xs:string"/>
 <xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
 <xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="required" type="xs:boolean"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -1199,6 +1232,13 @@
 <xs:element minOccurs="0" name="noteType" type="xs:string"/>
 <xs:element minOccurs="0" name="userId" type="xs:string"/>
 <xs:element minOccurs="0" name="userNoteId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DelegationFilterSearch">
+<xs:sequence>
+<xs:element minOccurs="0" name="role" type="xs:string"/>
+<xs:element name="delAdmin" type="xs:int"/>
+<xs:element minOccurs="0" name="orgFilter" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="UserSearch">
@@ -1235,6 +1275,16 @@
 <xs:element minOccurs="0" name="lastDate" type="xs:dateTime"/>
 <xs:element minOccurs="0" name="dateOfBirth" type="xs:dateTime"/>
 <xs:element minOccurs="0" name="zipCode" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="orgIdList" nillable="true" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="deptIdList" nillable="true" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="divisionIdList" nillable="true" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="tns:SearchAttribute"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SearchAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="attributeName" type="xs:string"/>
+<xs:element minOccurs="0" name="attributeValue" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:simpleType name="UserStatus">
@@ -1440,6 +1490,10 @@
     <wsdl:part name="parameters" element="tns:getUserByName">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="searchByDelegationProperties">
+    <wsdl:part name="parameters" element="tns:searchByDelegationProperties">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getDefaultPhoneResponse">
     <wsdl:part name="parameters" element="tns:getDefaultPhoneResponse">
     </wsdl:part>
@@ -1498,6 +1552,10 @@
   </wsdl:message>
   <wsdl:message name="getPhoneByName">
     <wsdl:part name="parameters" element="tns:getPhoneByName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchByDelegationPropertiesResponse">
+    <wsdl:part name="parameters" element="tns:searchByDelegationPropertiesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updatePhone">
@@ -1708,16 +1766,16 @@
     <wsdl:part name="parameters" element="tns:getDefaultPhone">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateUser">
+    <wsdl:part name="parameters" element="tns:updateUser">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="addPhone">
     <wsdl:part name="parameters" element="tns:addPhone">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getNoteResponse">
     <wsdl:part name="parameters" element="tns:getNoteResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateUser">
-    <wsdl:part name="parameters" element="tns:updateUser">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUserWithDependentResponse">
@@ -1953,22 +2011,28 @@
       <wsdl:output name="updateAttributeResponse" message="tns:updateAttributeResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getAddressById">
+      <wsdl:input name="getAddressById" message="tns:getAddressById">
+    </wsdl:input>
+      <wsdl:output name="getAddressByIdResponse" message="tns:getAddressByIdResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="removeAllAttributes">
       <wsdl:input name="removeAllAttributes" message="tns:removeAllAttributes">
     </wsdl:input>
       <wsdl:output name="removeAllAttributesResponse" message="tns:removeAllAttributesResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="searchByDelegationProperties">
+      <wsdl:input name="searchByDelegationProperties" message="tns:searchByDelegationProperties">
+    </wsdl:input>
+      <wsdl:output name="searchByDelegationPropertiesResponse" message="tns:searchByDelegationPropertiesResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getPrimarySupervisor">
       <wsdl:input name="getPrimarySupervisor" message="tns:getPrimarySupervisor">
     </wsdl:input>
       <wsdl:output name="getPrimarySupervisorResponse" message="tns:getPrimarySupervisorResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getAddressById">
-      <wsdl:input name="getAddressById" message="tns:getAddressById">
-    </wsdl:input>
-      <wsdl:output name="getAddressByIdResponse" message="tns:getAddressByIdResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="removeAllNotes">
@@ -2367,21 +2431,30 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="removeAllAttributes">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeAllAttributes">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeAllAttributesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="updateAttribute">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="updateAttribute">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="updateAttributeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAddressById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAddressByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAllAttributes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeAllAttributes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeAllAttributesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -2394,12 +2467,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getAddressById">
+    <wsdl:operation name="searchByDelegationProperties">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getAddressById">
+      <wsdl:input name="searchByDelegationProperties">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getAddressByIdResponse">
+      <wsdl:output name="searchByDelegationPropertiesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

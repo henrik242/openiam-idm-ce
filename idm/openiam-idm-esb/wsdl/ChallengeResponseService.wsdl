@@ -57,6 +57,9 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="objectState" type="xs:string"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="IdentityQuestGroup">

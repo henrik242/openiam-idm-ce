@@ -104,6 +104,7 @@
 <xs:element minOccurs="0" name="value" type="xs:string"/>
 <xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
 <xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="required" type="xs:boolean"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -268,6 +269,9 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="objectState" type="xs:string"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getAllAttributes">
@@ -451,6 +455,9 @@
 <xs:element minOccurs="0" name="operation" type="tns:AttributeOperationEnum"/>
 <xs:element minOccurs="0" name="origPrincipalName" type="xs:string"/>
 <xs:element minOccurs="0" name="managedSysName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="LoginId">
@@ -817,6 +824,7 @@
 <xs:enumeration value="groupIdInvalid"/>
 <xs:enumeration value="roleIdNull"/>
 <xs:enumeration value="roleIdInvalid"/>
+<xs:enumeration value="objectIdInvalid"/>
 <xs:enumeration value="success"/>
 <xs:enumeration value="FAIL_SQL_ERORR"/>
 <xs:enumeration value="FAIL_CONNECTION"/>
@@ -836,6 +844,19 @@
 <xs:enumeration value="FAIL_REJECT_CHARS_IN_PSWD"/>
 <xs:enumeration value="FAIL_ENCRYPTION"/>
 <xs:enumeration value="FAIL_DECRYPTION"/>
+<xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
+<xs:enumeration value="COMMUNICATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="IO_EXCEPTION"/>
+<xs:enumeration value="FILE_EXCEPTION"/>
+<xs:enumeration value="SQL_EXCEPTION"/>
+<xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+<xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
+<xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
+<xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
+<xs:enumeration value="PERMISSION_EXCEPTION"/>
+<xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
+<xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>

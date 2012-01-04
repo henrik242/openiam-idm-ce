@@ -104,6 +104,7 @@
 <xs:element minOccurs="0" name="value" type="xs:string"/>
 <xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
 <xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="required" type="xs:boolean"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -270,6 +271,8 @@
 <xs:element name="decryptPasswordResponse" type="tns:decryptPasswordResponse"/>
 <xs:element name="encryptPassword" type="tns:encryptPassword"/>
 <xs:element name="encryptPasswordResponse" type="tns:encryptPasswordResponse"/>
+<xs:element name="getAllLoginByManagedSys" type="tns:getAllLoginByManagedSys"/>
+<xs:element name="getAllLoginByManagedSysResponse" type="tns:getAllLoginByManagedSysResponse"/>
 <xs:element name="getInactiveUsers" type="tns:getInactiveUsers"/>
 <xs:element name="getInactiveUsersResponse" type="tns:getInactiveUsersResponse"/>
 <xs:element name="getLockedUserSince" type="tns:getLockedUserSince"/>
@@ -288,6 +291,8 @@
 <xs:element name="getPasswordResponse" type="tns:getPasswordResponse"/>
 <xs:element name="getPrimaryIdentity" type="tns:getPrimaryIdentity"/>
 <xs:element name="getPrimaryIdentityResponse" type="tns:getPrimaryIdentityResponse"/>
+<xs:element name="getPrincipalByManagedSys" type="tns:getPrincipalByManagedSys"/>
+<xs:element name="getPrincipalByManagedSysResponse" type="tns:getPrincipalByManagedSysResponse"/>
 <xs:element name="getUserByLogin" type="tns:getUserByLogin"/>
 <xs:element name="getUserByLoginResponse" type="tns:getUserByLoginResponse"/>
 <xs:element name="getUserNearPswdExpiration" type="tns:getUserNearPswdExpiration"/>
@@ -387,6 +392,9 @@
 <xs:element minOccurs="0" name="operation" type="tns:AttributeOperationEnum"/>
 <xs:element minOccurs="0" name="origPrincipalName" type="xs:string"/>
 <xs:element minOccurs="0" name="managedSysName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="LoginId">
@@ -518,6 +526,9 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="objectState" type="xs:string"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="unLockLogin">
@@ -588,6 +599,17 @@
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="getPrincipalByManagedSys">
+<xs:sequence>
+<xs:element minOccurs="0" name="principal" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrincipalByManagedSysResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LoginResponse"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="updateLogin">
 <xs:sequence>
 <xs:element minOccurs="0" name="principal" type="tns:Login"/>
@@ -608,6 +630,16 @@
 <xs:complexType name="loginExistsResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllLoginByManagedSys">
+<xs:sequence>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllLoginByManagedSysResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LoginListResponse"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="decryptPassword">
@@ -725,6 +757,7 @@
 <xs:enumeration value="groupIdInvalid"/>
 <xs:enumeration value="roleIdNull"/>
 <xs:enumeration value="roleIdInvalid"/>
+<xs:enumeration value="objectIdInvalid"/>
 <xs:enumeration value="success"/>
 <xs:enumeration value="FAIL_SQL_ERORR"/>
 <xs:enumeration value="FAIL_CONNECTION"/>
@@ -744,6 +777,19 @@
 <xs:enumeration value="FAIL_REJECT_CHARS_IN_PSWD"/>
 <xs:enumeration value="FAIL_ENCRYPTION"/>
 <xs:enumeration value="FAIL_DECRYPTION"/>
+<xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
+<xs:enumeration value="COMMUNICATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="IO_EXCEPTION"/>
+<xs:enumeration value="FILE_EXCEPTION"/>
+<xs:enumeration value="SQL_EXCEPTION"/>
+<xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+<xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
+<xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
+<xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
+<xs:enumeration value="PERMISSION_EXCEPTION"/>
+<xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
+<xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
@@ -773,12 +819,20 @@
     <wsdl:part name="parameters" element="tns:setPasswordResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getAllLoginByManagedSysResponse">
+    <wsdl:part name="parameters" element="tns:getAllLoginByManagedSysResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="removeLogin">
     <wsdl:part name="parameters" element="tns:removeLogin">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoginByDomain">
     <wsdl:part name="parameters" element="tns:getLoginByDomain">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrincipalByManagedSysResponse">
+    <wsdl:part name="parameters" element="tns:getPrincipalByManagedSysResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="unLockLoginResponse">
@@ -881,12 +935,20 @@
     <wsdl:part name="parameters" element="tns:getLockedUserSinceResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getPrincipalByManagedSys">
+    <wsdl:part name="parameters" element="tns:getPrincipalByManagedSys">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateLogin">
     <wsdl:part name="parameters" element="tns:updateLogin">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getPasswordResponse">
     <wsdl:part name="parameters" element="tns:getPasswordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isPasswordEq">
+    <wsdl:part name="parameters" element="tns:isPasswordEq">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getPassword">
@@ -897,12 +959,12 @@
     <wsdl:part name="parameters" element="tns:getLoginByDomainResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="isPasswordEq">
-    <wsdl:part name="parameters" element="tns:isPasswordEq">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="unLockLogin">
     <wsdl:part name="parameters" element="tns:unLockLogin">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllLoginByManagedSys">
+    <wsdl:part name="parameters" element="tns:getAllLoginByManagedSys">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="lockLogin">
@@ -941,12 +1003,12 @@
     <wsdl:part name="parameters" element="tns:loginExists">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoginByManagedSys">
-    <wsdl:part name="parameters" element="tns:getLoginByManagedSys">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="addLoginResponse">
     <wsdl:part name="parameters" element="tns:addLoginResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoginByManagedSys">
+    <wsdl:part name="parameters" element="tns:getLoginByManagedSys">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateLoginResponse">
@@ -1056,6 +1118,12 @@
       <wsdl:output name="bulkUnLockResponse" message="tns:bulkUnLockResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getPrincipalByManagedSys">
+      <wsdl:input name="getPrincipalByManagedSys" message="tns:getPrincipalByManagedSys">
+    </wsdl:input>
+      <wsdl:output name="getPrincipalByManagedSysResponse" message="tns:getPrincipalByManagedSysResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateLogin">
       <wsdl:input name="updateLogin" message="tns:updateLogin">
     </wsdl:input>
@@ -1066,6 +1134,12 @@
       <wsdl:input name="loginExists" message="tns:loginExists">
     </wsdl:input>
       <wsdl:output name="loginExistsResponse" message="tns:loginExistsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllLoginByManagedSys">
+      <wsdl:input name="getAllLoginByManagedSys" message="tns:getAllLoginByManagedSys">
+    </wsdl:input>
+      <wsdl:output name="getAllLoginByManagedSysResponse" message="tns:getAllLoginByManagedSysResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="decryptPassword">
@@ -1254,6 +1328,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getPrincipalByManagedSys">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPrincipalByManagedSys">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPrincipalByManagedSysResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateLogin">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="updateLogin">
@@ -1269,6 +1352,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="loginExistsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllLoginByManagedSys">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllLoginByManagedSys">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllLoginByManagedSysResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

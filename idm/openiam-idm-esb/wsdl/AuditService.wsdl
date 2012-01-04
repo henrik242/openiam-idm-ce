@@ -68,6 +68,7 @@
 <xs:element minOccurs="0" name="logHash" type="xs:string"/>
 <xs:element minOccurs="0" name="srcSystemId" type="xs:string"/>
 <xs:element minOccurs="0" name="targetSystemId" type="xs:string"/>
+<xs:element minOccurs="0" name="nodeIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="SearchAudit">
@@ -81,12 +82,38 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="actionList" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="customAttr1" type="xs:string"/>
 <xs:element minOccurs="0" name="customAttrValue1" type="xs:string"/>
+<xs:element minOccurs="0" name="customAttrname1" type="xs:string"/>
+<xs:element minOccurs="0" name="customAttrValue2" type="xs:string"/>
+<xs:element minOccurs="0" name="customAttrname2" type="xs:string"/>
 <xs:element minOccurs="0" name="reason" type="xs:string"/>
 <xs:element minOccurs="0" name="objectTypeId" type="xs:string"/>
 <xs:element minOccurs="0" name="actionId" type="xs:string"/>
 <xs:element minOccurs="0" name="objectId" type="xs:string"/>
 <xs:element minOccurs="0" name="requestId" type="xs:string"/>
 <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="updateLog" type="updateLog"/>
+<xs:complexType name="updateLog">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="IdmAuditLog"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="updateLogResponse" type="updateLogResponse"/>
+<xs:complexType name="updateLogResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:element name="eventsAboutUser" type="eventsAboutUser"/>
+<xs:complexType name="eventsAboutUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+<xs:element minOccurs="0" name="arg1" type="xs:dateTime"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="eventsAboutUserResponse" type="eventsAboutUserResponse"/>
+<xs:complexType name="eventsAboutUserResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="IdmAuditLog"/>
 </xs:sequence>
 </xs:complexType>
 <xs:element name="addLog" type="addLog"/>
@@ -143,6 +170,10 @@
     <wsdl:part name="parameters" element="tns:search">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateLogResponse">
+    <wsdl:part name="parameters" element="tns:updateLogResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="addLogResponse">
     <wsdl:part name="parameters" element="tns:addLogResponse">
     </wsdl:part>
@@ -159,6 +190,14 @@
     <wsdl:part name="parameters" element="tns:getPasswordChangeLogResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="eventsAboutUser">
+    <wsdl:part name="parameters" element="tns:eventsAboutUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="eventsAboutUserResponse">
+    <wsdl:part name="parameters" element="tns:eventsAboutUserResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="addLog">
     <wsdl:part name="parameters" element="tns:addLog">
     </wsdl:part>
@@ -167,7 +206,23 @@
     <wsdl:part name="parameters" element="tns:getCompleteLogResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateLog">
+    <wsdl:part name="parameters" element="tns:updateLog">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="IdmAuditLogDataServicePortType">
+    <wsdl:operation name="updateLog">
+      <wsdl:input name="updateLog" message="tns:updateLog">
+    </wsdl:input>
+      <wsdl:output name="updateLogResponse" message="tns:updateLogResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="eventsAboutUser">
+      <wsdl:input name="eventsAboutUser" message="tns:eventsAboutUser">
+    </wsdl:input>
+      <wsdl:output name="eventsAboutUserResponse" message="tns:eventsAboutUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="addLog">
       <wsdl:input name="addLog" message="tns:addLog">
     </wsdl:input>
@@ -195,12 +250,30 @@
   </wsdl:portType>
   <wsdl:binding name="IdmAuditLogDataServiceSoapBinding" type="tns:IdmAuditLogDataServicePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updateLog">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLog">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLogResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="addLog">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="addLog">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="addLogResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="eventsAboutUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="eventsAboutUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="eventsAboutUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

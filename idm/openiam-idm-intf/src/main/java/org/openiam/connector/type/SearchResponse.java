@@ -1,4 +1,3 @@
-
 package org.openiam.connector.type;
 
 import org.openiam.provision.type.ExtensibleAttribute;
@@ -10,19 +9,18 @@ import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LookupResponse", propOrder = {
-    "user"
+@XmlType(name = "SearchResponse", propOrder = {
+    "userList"
 })
-public class LookupResponse    extends ResponseType
+public class SearchResponse extends ResponseType
 {
+    List<UserValue> userList;
 
-    UserValue user;
-
-    public UserValue getUser() {
-        return user;
+    public List<UserValue> getUserList() {
+        return userList;
     }
 
-    public void setUser(UserValue user) {
-        this.user = user;
+    public void setUserList(List<UserValue> userList) {
+        this.userList = userList;
     }
 }

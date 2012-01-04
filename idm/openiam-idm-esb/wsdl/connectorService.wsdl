@@ -279,6 +279,18 @@
 <xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
 <xs:element name="extensibleObject" type="tns:ExtensibleObject"/>
 <xs:element name="extensibleUser" type="tns:ExtensibleUser"/>
+<xs:complexType name="ExtensibleAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element name="operation" type="xs:int"/>
+<xs:element name="multivalued" type="xs:boolean"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="valueList" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="dataType" type="xs:string"/>
+<xs:element minOccurs="0" name="objectType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="ExtensibleUser">
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleObject">
@@ -298,6 +310,8 @@
 <xs:element minOccurs="0" name="name" type="xs:string"/>
 <xs:element name="operation" type="xs:int"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" nillable="true" type="tns:ExtensibleAttribute"/>
+<xs:element minOccurs="0" name="principalFieldName" type="xs:string"/>
+<xs:element minOccurs="0" name="principalFieldDataType" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="ExtensibleAddress">
@@ -308,14 +322,6 @@
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
-</xs:complexType>
-<xs:complexType name="ExtensibleAttribute">
-<xs:sequence>
-<xs:element minOccurs="0" name="name" type="xs:string"/>
-<xs:element minOccurs="0" name="value" type="xs:string"/>
-<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
-<xs:element name="operation" type="xs:int"/>
-</xs:sequence>
 </xs:complexType>
 <xs:complexType name="ExtensiblePhone">
 <xs:complexContent>
@@ -354,7 +360,8 @@
 </xs:complexContent>
 </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:oasis:names:tc:SPML:2:0:suspend" xmlns:tns="http://www.openiam.org/service/connector" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/connector" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/types" xmlns:ns2="urn:oasis:names:tc:SPML:2:0:suspend" xmlns:tns="http://www.openiam.org/service/connector" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/connector" version="1.0">
+<xs:import namespace="http://www.openiam.org/service/types"/>
 <xs:import namespace="urn:oasis:names:tc:SPML:2:0:suspend"/>
 <xs:element name="add" type="tns:add"/>
 <xs:element name="addRequest" type="tns:AddRequestType"/>
@@ -615,10 +622,28 @@
 <xs:extension base="tns:ResponseType">
 <xs:sequence>
 <xs:element form="qualified" minOccurs="0" name="pso" type="tns:PSOType"/>
+<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="ns1:ExtensibleAttribute"/>
 </xs:sequence>
 <xs:anyAttribute namespace="##other" processContents="skip"/>
 </xs:extension>
 </xs:complexContent>
+</xs:complexType>
+<xs:complexType name="arrayList">
+<xs:complexContent>
+<xs:extension base="tns:abstractList">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractList">
+<xs:complexContent>
+<xs:extension base="tns:abstractCollection">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractCollection">
+<xs:sequence/>
 </xs:complexType>
 <xs:complexType name="ListTargetsRequestType">
 <xs:complexContent>
@@ -667,6 +692,9 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="objectState" type="xs:string"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="addResponse">
@@ -676,7 +704,7 @@
 </xs:complexType>
 <xs:complexType name="resume">
 <xs:sequence>
-<xs:element minOccurs="0" name="request" type="ns1:ResumeRequestType"/>
+<xs:element minOccurs="0" name="request" type="ns2:ResumeRequestType"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="resumeResponse">
@@ -686,12 +714,59 @@
 </xs:complexType>
 <xs:complexType name="testConnection">
 <xs:sequence>
-<xs:element minOccurs="0" name="targetID" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSys" type="tns:ManagedSys"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ManagedSys">
+<xs:sequence>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="connectorId" type="xs:string"/>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="hostUrl" type="xs:string"/>
+<xs:element minOccurs="0" name="port" type="xs:int"/>
+<xs:element minOccurs="0" name="commProtocol" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="pswd" type="xs:string"/>
+<xs:element minOccurs="0" name="decryptPassword" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="primaryRepository" type="xs:int"/>
+<xs:element minOccurs="0" name="secondaryRepositoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateSecondary" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="mngSysObjectMatchs" nillable="true" type="tns:ManagedSystemObjectMatch"/>
+<xs:element minOccurs="0" name="driverUrl" type="xs:string"/>
+<xs:element minOccurs="0" name="connectionString" type="xs:string"/>
+<xs:element minOccurs="0" name="addHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="modifyHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="deleteHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="passwordHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="suspendHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="handler1" type="xs:string"/>
+<xs:element minOccurs="0" name="handler2" type="xs:string"/>
+<xs:element minOccurs="0" name="handler3" type="xs:string"/>
+<xs:element minOccurs="0" name="handler4" type="xs:string"/>
+<xs:element minOccurs="0" name="handler5" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ManagedSystemObjectMatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="objectSearchId" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSys" type="xs:string"/>
+<xs:element minOccurs="0" name="objectType" type="xs:string"/>
+<xs:element minOccurs="0" name="matchMethod" type="xs:string"/>
+<xs:element minOccurs="0" name="searchFilter" type="xs:string"/>
+<xs:element minOccurs="0" name="baseDn" type="xs:string"/>
+<xs:element minOccurs="0" name="searchBaseDn" type="xs:string"/>
+<xs:element minOccurs="0" name="keyField" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="testConnectionResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:boolean"/>
+<xs:element minOccurs="0" name="return" type="tns:ResponseType"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="expirePassword">
@@ -767,7 +842,7 @@
 </xs:complexType>
 <xs:complexType name="suspend">
 <xs:sequence>
-<xs:element minOccurs="0" name="request" type="ns1:SuspendRequestType"/>
+<xs:element minOccurs="0" name="request" type="ns2:SuspendRequestType"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="suspendResponse">
@@ -848,6 +923,7 @@
 <xs:restriction base="xs:string">
 <xs:enumeration value="success"/>
 <xs:enumeration value="failure"/>
+<xs:enumeration value="successMoreResultsToReturn"/>
 <xs:enumeration value="pending"/>
 </xs:restriction>
 </xs:simpleType>
@@ -858,9 +934,15 @@
 <xs:enumeration value="unsupportedIdentifierType"/>
 <xs:enumeration value="noSuchIdentifier"/>
 <xs:enumeration value="customError"/>
+<xs:enumeration value="otherError"/>
+<xs:enumeration value="directoryError"/>
+<xs:enumeration value="sqlError"/>
+<xs:enumeration value="connectorError"/>
+<xs:enumeration value="invalidConfiguration"/>
 <xs:enumeration value="unsupportedExecutionMode"/>
 <xs:enumeration value="invalidContainment"/>
 <xs:enumeration value="noSuchRequest"/>
+<xs:enumeration value="noSuchObject"/>
 <xs:enumeration value="unsupportedSelectionType"/>
 <xs:enumeration value="resultSetToLarge"/>
 <xs:enumeration value="unsupportedProfile"/>
@@ -868,6 +950,20 @@
 <xs:enumeration value="alreadyExists"/>
 <xs:enumeration value="invalidManagedSysId"/>
 <xs:enumeration value="userLimitReached"/>
+<xs:enumeration value="operationError"/>
+<xs:enumeration value="protocolError"/>
+<xs:enumeration value="timeLimitExceeded"/>
+<xs:enumeration value="sizeLimitExceeded"/>
+<xs:enumeration value="compareFailed"/>
+<xs:enumeration value="authenticationFailed"/>
+<xs:enumeration value="sessionInvalid"/>
+<xs:enumeration value="constraintViolation"/>
+<xs:enumeration value="noSuchAttribute"/>
+<xs:enumeration value="unDefinedType"/>
+<xs:enumeration value="insufficientRights"/>
+<xs:enumeration value="systemUnavailable"/>
+<xs:enumeration value="objectClassViolation"/>
+<xs:enumeration value="noResultsReturned"/>
 <xs:enumeration value="containerNotEmpty"/>
 </xs:restriction>
 </xs:simpleType>

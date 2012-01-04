@@ -160,6 +160,8 @@
 <xs:element name="authenticateByTokenResponse" type="tns:authenticateByTokenResponse"/>
 <xs:element name="globalLogout" type="tns:globalLogout"/>
 <xs:element name="globalLogoutResponse" type="tns:globalLogoutResponse"/>
+<xs:element name="login" type="tns:login"/>
+<xs:element name="loginResponse" type="tns:loginResponse"/>
 <xs:element name="passwordAuth" type="tns:passwordAuth"/>
 <xs:element name="passwordAuthResponse" type="tns:passwordAuthResponse"/>
 <xs:element name="renewToken" type="tns:renewToken"/>
@@ -232,6 +234,34 @@
 </xs:sequence>
 <xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
 </xs:complexType>
+<xs:complexType name="login">
+<xs:sequence>
+<xs:element minOccurs="0" name="request" type="tns:AuthenticationRequest"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AuthenticationRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="principal" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="clientIP" type="xs:string"/>
+<xs:element minOccurs="0" name="nodeIP" type="xs:string"/>
+<xs:element minOccurs="0" name="requestSource" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="loginResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:AuthenticationResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AuthenticationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="subject" type="tns:Subject"/>
+<xs:element name="authErrorCode" type="xs:int"/>
+<xs:element minOccurs="0" name="authErrorMessage" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
+</xs:complexType>
 <xs:complexType name="updateAppStatus">
 <xs:sequence>
 <xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
@@ -280,14 +310,6 @@
 <xs:element minOccurs="0" name="return" type="tns:AuthenticationResponse"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="AuthenticationResponse">
-<xs:sequence>
-<xs:element minOccurs="0" name="subject" type="tns:Subject"/>
-<xs:element name="authErrorCode" type="xs:int"/>
-<xs:element minOccurs="0" name="authErrorMessage" type="xs:string"/>
-</xs:sequence>
-<xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
-</xs:complexType>
 <xs:complexType name="validateToken">
 <xs:sequence>
 <xs:element minOccurs="0" name="principal" type="xs:string"/>
@@ -304,6 +326,9 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="objectState" type="xs:string"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:simpleType name="ResponseStatus">
@@ -326,6 +351,7 @@
 <xs:enumeration value="groupIdInvalid"/>
 <xs:enumeration value="roleIdNull"/>
 <xs:enumeration value="roleIdInvalid"/>
+<xs:enumeration value="objectIdInvalid"/>
 <xs:enumeration value="success"/>
 <xs:enumeration value="FAIL_SQL_ERORR"/>
 <xs:enumeration value="FAIL_CONNECTION"/>
@@ -345,6 +371,19 @@
 <xs:enumeration value="FAIL_REJECT_CHARS_IN_PSWD"/>
 <xs:enumeration value="FAIL_ENCRYPTION"/>
 <xs:enumeration value="FAIL_DECRYPTION"/>
+<xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
+<xs:enumeration value="COMMUNICATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="IO_EXCEPTION"/>
+<xs:enumeration value="FILE_EXCEPTION"/>
+<xs:enumeration value="SQL_EXCEPTION"/>
+<xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+<xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
+<xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
+<xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
+<xs:enumeration value="PERMISSION_EXCEPTION"/>
+<xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
+<xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
@@ -374,12 +413,12 @@
 </xs:complexType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="validateTokenByUser">
-    <wsdl:part name="parameters" element="tns:validateTokenByUser">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="passwordAuth">
     <wsdl:part name="parameters" element="tns:passwordAuth">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTokenByUser">
+    <wsdl:part name="parameters" element="tns:validateTokenByUser">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="renewToken">
@@ -388,6 +427,10 @@
   </wsdl:message>
   <wsdl:message name="authenticateByTokenResponse">
     <wsdl:part name="parameters" element="tns:authenticateByTokenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part name="parameters" element="tns:loginResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="globalLogout">
@@ -426,6 +469,10 @@
     <wsdl:part name="AuthenticationException" element="tns:AuthenticationException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="login">
+    <wsdl:part name="parameters" element="tns:login">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateAppStatusResponse">
     <wsdl:part name="parameters" element="tns:updateAppStatusResponse">
     </wsdl:part>
@@ -451,6 +498,12 @@
       <wsdl:input name="renewToken" message="tns:renewToken">
     </wsdl:input>
       <wsdl:output name="renewTokenResponse" message="tns:renewTokenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <wsdl:input name="login" message="tns:login">
+    </wsdl:input>
+      <wsdl:output name="loginResponse" message="tns:loginResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="updateAppStatus">
@@ -499,6 +552,15 @@
       <wsdl:fault name="AuthenticationException">
         <soap:fault name="AuthenticationException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="login">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="renewToken">
       <soap:operation soapAction="" style="document"/>

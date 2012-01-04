@@ -147,14 +147,6 @@
 <xs:element name="return" type="xs:boolean"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="removeOrganization">
-<xs:sequence>
-<xs:element minOccurs="0" name="orgId" type="xs:string"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="removeOrganizationResponse">
-<xs:sequence/>
-</xs:complexType>
 <xs:complexType name="isRootOrganization">
 <xs:sequence>
 <xs:element minOccurs="0" name="orgId" type="xs:string"/>
@@ -164,6 +156,14 @@
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
 </xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeOrganization">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeOrganizationResponse">
+<xs:sequence/>
 </xs:complexType>
 <xs:complexType name="removeAllAttributes">
 <xs:sequence>
@@ -176,16 +176,28 @@
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/org/dto" xmlns:tns="urn:idm.openiam.org/srvc/org/service" targetNamespace="urn:idm.openiam.org/srvc/org/service" version="1.0">
 <xs:import namespace="urn:idm.openiam.org/srvc/org/dto"/>
+<xs:element name="addUserToOrg" type="tns:addUserToOrg"/>
+<xs:element name="addUserToOrgResponse" type="tns:addUserToOrgResponse"/>
 <xs:element name="allDepartments" type="tns:allDepartments"/>
 <xs:element name="allDepartmentsResponse" type="tns:allDepartmentsResponse"/>
 <xs:element name="allDivisions" type="tns:allDivisions"/>
 <xs:element name="allDivisionsResponse" type="tns:allDivisionsResponse"/>
+<xs:element name="assocUserToOrg" type="tns:assocUserToOrg"/>
+<xs:element name="assocUserToOrgResponse" type="tns:assocUserToOrgResponse"/>
 <xs:element name="getAllAttributes" type="tns:getAllAttributes"/>
 <xs:element name="getAllAttributesResponse" type="tns:getAllAttributesResponse"/>
 <xs:element name="getAllOrganizations" type="tns:getAllOrganizations"/>
 <xs:element name="getAllOrganizationsResponse" type="tns:getAllOrganizationsResponse"/>
 <xs:element name="getOrganizationByType" type="tns:getOrganizationByType"/>
 <xs:element name="getOrganizationByTypeResponse" type="tns:getOrganizationByTypeResponse"/>
+<xs:element name="getOrganizationsForUser" type="tns:getOrganizationsForUser"/>
+<xs:element name="getOrganizationsForUserResponse" type="tns:getOrganizationsForUserResponse"/>
+<xs:element name="isUserAffilatedWithOrg" type="tns:isUserAffilatedWithOrg"/>
+<xs:element name="isUserAffilatedWithOrgResponse" type="tns:isUserAffilatedWithOrgResponse"/>
+<xs:element name="removeUserFromOrg" type="tns:removeUserFromOrg"/>
+<xs:element name="removeUserFromOrgResponse" type="tns:removeUserFromOrgResponse"/>
+<xs:element name="updateUserOrgAssoc" type="tns:updateUserOrgAssoc"/>
+<xs:element name="updateUserOrgAssocResponse" type="tns:updateUserOrgAssocResponse"/>
 <xs:complexType name="getOrganizationByType">
 <xs:sequence>
 <xs:element minOccurs="0" name="typeId" type="xs:string"/>
@@ -197,6 +209,15 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="removeUserFromOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeUserFromOrgResponse">
+<xs:sequence/>
+</xs:complexType>
 <xs:complexType name="getAllOrganizations">
 <xs:sequence/>
 </xs:complexType>
@@ -205,12 +226,58 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="assocUserToOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="userorg" type="ns1:UserAffiliation"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="assocUserToOrgResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="updateUserOrgAssoc">
+<xs:sequence>
+<xs:element minOccurs="0" name="userorg" type="ns1:UserAffiliation"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateUserOrgAssocResponse">
+<xs:sequence/>
+</xs:complexType>
 <xs:complexType name="allDepartments">
 <xs:sequence>
 <xs:element minOccurs="0" name="parentId" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="allDepartmentsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addUserToOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addUserToOrgResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="isUserAffilatedWithOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserAffilatedWithOrgResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getOrganizationsForUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getOrganizationsForUserResponse">
 <xs:sequence>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:organization"/>
 </xs:sequence>
@@ -235,8 +302,17 @@
 <xs:element minOccurs="0" name="return" type="ns1:organizationAttributeMap"/>
 </xs:sequence>
 </xs:complexType>
+<xs:simpleType name="AttributeOperationEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="nochange"/>
+<xs:enumeration value="add"/>
+<xs:enumeration value="replace"/>
+<xs:enumeration value="delete"/>
+</xs:restriction>
+</xs:simpleType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:idm.openiam.org/srvc/org/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/org/dto" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/org/service" xmlns:tns="urn:idm.openiam.org/srvc/org/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/org/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/org/service"/>
 <xs:complexType name="organization">
 <xs:sequence>
 <xs:element minOccurs="0" name="alias" type="xs:string"/>
@@ -257,6 +333,8 @@
 <xs:element minOccurs="0" name="status" type="xs:string"/>
 <xs:element minOccurs="0" name="abbreviation" type="xs:string"/>
 <xs:element minOccurs="0" name="symbol" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="organizationAttributeMap">
@@ -280,6 +358,18 @@
 <xs:element minOccurs="0" name="value" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="UserAffiliation">
+<xs:sequence>
+<xs:element minOccurs="0" name="userAffiliationId" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
 <xs:simpleType name="OrgClassification">
 <xs:restriction base="xs:string">
 <xs:enumeration value="organization"/>
@@ -295,48 +385,16 @@
 </xs:simpleType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="removeAllAttributes">
-    <wsdl:part name="parameters" element="ns1:removeAllAttributes">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="addAttributeResponse">
     <wsdl:part name="result" element="ns1:addAttributeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllAttributesResponse">
-    <wsdl:part name="parameters" element="tns:getAllAttributesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="allDivisionsResponse">
     <wsdl:part name="parameters" element="tns:allDivisionsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeOrganizationResponse">
-    <wsdl:part name="result" element="ns1:removeOrganizationResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getOrganizationList">
     <wsdl:part name="parameters" element="ns1:getOrganizationList">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllAttributes">
-    <wsdl:part name="parameters" element="tns:getAllAttributes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="subOrganizationsResponse">
-    <wsdl:part name="result" element="ns1:subOrganizationsResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="containsChildren">
-    <wsdl:part name="parameters" element="ns1:containsChildren">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="search">
-    <wsdl:part name="parameters" element="ns1:search">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateAttributeResponse">
-    <wsdl:part name="result" element="ns1:updateAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationByType">
@@ -347,20 +405,12 @@
     <wsdl:part name="result" element="ns1:getTopLevelOrganizationsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAttribute">
-    <wsdl:part name="parameters" element="ns1:getAttribute">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllOrganizationsResponse">
-    <wsdl:part name="parameters" element="tns:getAllOrganizationsResponse">
+  <wsdl:message name="removeUserFromOrg">
+    <wsdl:part name="parameters" element="tns:removeUserFromOrg">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganization">
     <wsdl:part name="parameters" element="ns1:getOrganization">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="subOrganizations">
-    <wsdl:part name="parameters" element="ns1:subOrganizations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="isRootOrganizationResponse">
@@ -371,20 +421,12 @@
     <wsdl:part name="parameters" element="tns:allDepartmentsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeAllAttributesResponse">
-    <wsdl:part name="result" element="ns1:removeAllAttributesResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="removeAttributeResponse">
     <wsdl:part name="result" element="ns1:removeAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addAttribute">
     <wsdl:part name="parameters" element="ns1:addAttribute">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getOrganizationListResponse">
-    <wsdl:part name="result" element="ns1:getOrganizationListResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="allDivisions">
@@ -395,40 +437,140 @@
     <wsdl:part name="result" element="ns1:getOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="isRootOrganization">
-    <wsdl:part name="parameters" element="ns1:isRootOrganization">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="removeAttribute">
     <wsdl:part name="parameters" element="ns1:removeAttribute">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeOrganization">
-    <wsdl:part name="parameters" element="ns1:removeOrganization">
+  <wsdl:message name="isRootOrganization">
+    <wsdl:part name="parameters" element="ns1:isRootOrganization">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addOrganizationResponse">
     <wsdl:part name="result" element="ns1:addOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="containsChildrenResponse">
-    <wsdl:part name="result" element="ns1:containsChildrenResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="updateAttribute">
     <wsdl:part name="parameters" element="ns1:updateAttribute">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAllOrganizations">
-    <wsdl:part name="parameters" element="tns:getAllOrganizations">
+  <wsdl:message name="containsChildrenResponse">
+    <wsdl:part name="result" element="ns1:containsChildrenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateOrganizationResponse">
+    <wsdl:part name="result" element="ns1:updateOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationByTypeResponse">
     <wsdl:part name="parameters" element="tns:getOrganizationByTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateOrganizationResponse">
-    <wsdl:part name="result" element="ns1:updateOrganizationResponse">
+  <wsdl:message name="searchResponse">
+    <wsdl:part name="result" element="ns1:searchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAttributeResponse">
+    <wsdl:part name="result" element="ns1:getAttributeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAllAttributes">
+    <wsdl:part name="parameters" element="ns1:removeAllAttributes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllAttributesResponse">
+    <wsdl:part name="parameters" element="tns:getAllAttributesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeOrganizationResponse">
+    <wsdl:part name="result" element="ns1:removeOrganizationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllAttributes">
+    <wsdl:part name="parameters" element="tns:getAllAttributes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="subOrganizationsResponse">
+    <wsdl:part name="result" element="ns1:subOrganizationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="search">
+    <wsdl:part name="parameters" element="ns1:search">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="containsChildren">
+    <wsdl:part name="parameters" element="ns1:containsChildren">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAttributeResponse">
+    <wsdl:part name="result" element="ns1:updateAttributeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationsForUserResponse">
+    <wsdl:part name="parameters" element="tns:getOrganizationsForUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserFromOrgResponse">
+    <wsdl:part name="parameters" element="tns:removeUserFromOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAttribute">
+    <wsdl:part name="parameters" element="ns1:getAttribute">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllOrganizationsResponse">
+    <wsdl:part name="parameters" element="tns:getAllOrganizationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="subOrganizations">
+    <wsdl:part name="parameters" element="ns1:subOrganizations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assocUserToOrg">
+    <wsdl:part name="parameters" element="tns:assocUserToOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToOrgResponse">
+    <wsdl:part name="parameters" element="tns:addUserToOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assocUserToOrgResponse">
+    <wsdl:part name="parameters" element="tns:assocUserToOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserOrgAssoc">
+    <wsdl:part name="parameters" element="tns:updateUserOrgAssoc">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserAffilatedWithOrg">
+    <wsdl:part name="parameters" element="tns:isUserAffilatedWithOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAllAttributesResponse">
+    <wsdl:part name="result" element="ns1:removeAllAttributesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserOrgAssocResponse">
+    <wsdl:part name="parameters" element="tns:updateUserOrgAssocResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationListResponse">
+    <wsdl:part name="result" element="ns1:getOrganizationListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrganizationsForUser">
+    <wsdl:part name="parameters" element="tns:getOrganizationsForUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeOrganization">
+    <wsdl:part name="parameters" element="ns1:removeOrganization">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllOrganizations">
+    <wsdl:part name="parameters" element="tns:getAllOrganizations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToOrg">
+    <wsdl:part name="parameters" element="tns:addUserToOrg">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateOrganization">
@@ -439,8 +581,8 @@
     <wsdl:part name="parameters" element="tns:allDepartments">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchResponse">
-    <wsdl:part name="result" element="ns1:searchResponse">
+  <wsdl:message name="isUserAffilatedWithOrgResponse">
+    <wsdl:part name="parameters" element="tns:isUserAffilatedWithOrgResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getTopLevelOrganizations">
@@ -449,10 +591,6 @@
   </wsdl:message>
   <wsdl:message name="addOrganization">
     <wsdl:part name="parameters" element="ns1:addOrganization">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAttributeResponse">
-    <wsdl:part name="result" element="ns1:getAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="OrganizationDataService">
@@ -510,16 +648,34 @@
       <wsdl:output name="addOrganizationResponse" message="tns:addOrganizationResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getAttribute">
-      <wsdl:input name="getAttribute" message="tns:getAttribute">
+    <wsdl:operation name="removeUserFromOrg">
+      <wsdl:input name="removeUserFromOrg" message="tns:removeUserFromOrg">
     </wsdl:input>
-      <wsdl:output name="getAttributeResponse" message="tns:getAttributeResponse">
+      <wsdl:output name="removeUserFromOrgResponse" message="tns:removeUserFromOrgResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getAllOrganizations">
       <wsdl:input name="getAllOrganizations" message="tns:getAllOrganizations">
     </wsdl:input>
       <wsdl:output name="getAllOrganizationsResponse" message="tns:getAllOrganizationsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="assocUserToOrg">
+      <wsdl:input name="assocUserToOrg" message="tns:assocUserToOrg">
+    </wsdl:input>
+      <wsdl:output name="assocUserToOrgResponse" message="tns:assocUserToOrgResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAttribute">
+      <wsdl:input name="getAttribute" message="tns:getAttribute">
+    </wsdl:input>
+      <wsdl:output name="getAttributeResponse" message="tns:getAttributeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserOrgAssoc">
+      <wsdl:input name="updateUserOrgAssoc" message="tns:updateUserOrgAssoc">
+    </wsdl:input>
+      <wsdl:output name="updateUserOrgAssocResponse" message="tns:updateUserOrgAssocResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="allDepartments">
@@ -534,10 +690,22 @@
       <wsdl:output name="addAttributeResponse" message="tns:addAttributeResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="addUserToOrg">
+      <wsdl:input name="addUserToOrg" message="tns:addUserToOrg">
+    </wsdl:input>
+      <wsdl:output name="addUserToOrgResponse" message="tns:addUserToOrgResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateAttribute">
       <wsdl:input name="updateAttribute" message="tns:updateAttribute">
     </wsdl:input>
       <wsdl:output name="updateAttributeResponse" message="tns:updateAttributeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserAffilatedWithOrg">
+      <wsdl:input name="isUserAffilatedWithOrg" message="tns:isUserAffilatedWithOrg">
+    </wsdl:input>
+      <wsdl:output name="isUserAffilatedWithOrgResponse" message="tns:isUserAffilatedWithOrgResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="containsChildren">
@@ -546,16 +714,22 @@
       <wsdl:output name="containsChildrenResponse" message="tns:containsChildrenResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="isRootOrganization">
+      <wsdl:input name="isRootOrganization" message="tns:isRootOrganization">
+    </wsdl:input>
+      <wsdl:output name="isRootOrganizationResponse" message="tns:isRootOrganizationResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="removeOrganization">
       <wsdl:input name="removeOrganization" message="tns:removeOrganization">
     </wsdl:input>
       <wsdl:output name="removeOrganizationResponse" message="tns:removeOrganizationResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="isRootOrganization">
-      <wsdl:input name="isRootOrganization" message="tns:isRootOrganization">
+    <wsdl:operation name="getOrganizationsForUser">
+      <wsdl:input name="getOrganizationsForUser" message="tns:getOrganizationsForUser">
     </wsdl:input>
-      <wsdl:output name="isRootOrganizationResponse" message="tns:isRootOrganizationResponse">
+      <wsdl:output name="getOrganizationsForUserResponse" message="tns:getOrganizationsForUserResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="allDivisions">
@@ -660,6 +834,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="removeUserFromOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeUserFromOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeUserFromOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllOrganizations">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getAllOrganizations">
@@ -669,12 +852,30 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="assocUserToOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="assocUserToOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="assocUserToOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAttribute">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getAttribute">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getAttributeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserOrgAssoc">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUserOrgAssoc">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserOrgAssocResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -696,6 +897,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="addUserToOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addUserToOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addUserToOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateAttribute">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="updateAttribute">
@@ -714,12 +924,30 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="isUserAffilatedWithOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isUserAffilatedWithOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isUserAffilatedWithOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="isRootOrganization">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="isRootOrganization">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="isRootOrganizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrganizationsForUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrganizationsForUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrganizationsForUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

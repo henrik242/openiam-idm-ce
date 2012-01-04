@@ -18,10 +18,10 @@
 <xs:element name="getAllManagedSysResponse" type="tns:getAllManagedSysResponse"/>
 <xs:element name="getApproverAssociation" type="tns:getApproverAssociation"/>
 <xs:element name="getApproverAssociationResponse" type="tns:getApproverAssociationResponse"/>
+<xs:element name="getApproverByRequestType" type="tns:getApproverByRequestType"/>
+<xs:element name="getApproverByRequestTypeResponse" type="tns:getApproverByRequestTypeResponse"/>
 <xs:element name="getApproversByObjectId" type="tns:getApproversByObjectId"/>
 <xs:element name="getApproversByObjectIdResponse" type="tns:getApproversByObjectIdResponse"/>
-<xs:element name="getApproversByRequestType" type="tns:getApproversByRequestType"/>
-<xs:element name="getApproversByRequestTypeResponse" type="tns:getApproversByRequestTypeResponse"/>
 <xs:element name="getAttributeMap" type="tns:getAttributeMap"/>
 <xs:element name="getAttributeMapResponse" type="tns:getAttributeMapResponse"/>
 <xs:element name="getManagedSys" type="tns:getManagedSys"/>
@@ -103,6 +103,7 @@
 <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
 <xs:element minOccurs="0" name="storeInIamdb" type="xs:int"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="dataType" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="Policy">
@@ -177,6 +178,15 @@
 <xs:element minOccurs="0" name="associationType" type="xs:string"/>
 <xs:element minOccurs="0" name="approverLevel" type="xs:int"/>
 <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="notifyUserOnApprove" type="xs:string"/>
+<xs:element minOccurs="0" name="notifyUserOnReject" type="xs:string"/>
+<xs:element minOccurs="0" name="approveNotificationUserType" type="xs:string"/>
+<xs:element minOccurs="0" name="rejectNotificationUserType" type="xs:string"/>
+<xs:element minOccurs="0" name="notifyUserOnApproveName" type="xs:string"/>
+<xs:element minOccurs="0" name="notifyUserOnRejectName" type="xs:string"/>
+<xs:element minOccurs="0" name="approverRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="approverRoleDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="applyDelegationFilter" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="addManagedSystem">
@@ -234,6 +244,17 @@
 <xs:complexType name="addManagedSystemResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:ManagedSys"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getApproverByRequestType">
+<xs:sequence>
+<xs:element minOccurs="0" name="requestType" type="xs:string"/>
+<xs:element name="level" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getApproverByRequestTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ApproverAssociation"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getManagedSysByResource">
@@ -304,7 +325,7 @@
 </xs:complexType>
 <xs:complexType name="getAllApproversByRequestType">
 <xs:sequence>
-<xs:element minOccurs="0" name="requestId" type="xs:string"/>
+<xs:element minOccurs="0" name="requestType" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getAllApproversByRequestTypeResponse">
@@ -358,17 +379,6 @@
 <xs:complexType name="getManagedSysByProviderResponse">
 <xs:sequence>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ManagedSys"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="getApproversByRequestType">
-<xs:sequence>
-<xs:element minOccurs="0" name="requestType" type="xs:string"/>
-<xs:element name="level" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="getApproversByRequestTypeResponse">
-<xs:sequence>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ApproverAssociation"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="addManagedSystemObjectMatch">
@@ -494,6 +504,10 @@
     <wsdl:part name="parameters" element="tns:getManagedSysByNameResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getApproverByRequestType">
+    <wsdl:part name="parameters" element="tns:getApproverByRequestType">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getManagedSysByProviderResponse">
     <wsdl:part name="parameters" element="tns:getManagedSysByProviderResponse">
     </wsdl:part>
@@ -574,6 +588,10 @@
     <wsdl:part name="parameters" element="tns:getApproverAssociation">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getApproverByRequestTypeResponse">
+    <wsdl:part name="parameters" element="tns:getApproverByRequestTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAttributeMap">
     <wsdl:part name="parameters" element="tns:getAttributeMap">
     </wsdl:part>
@@ -630,10 +648,6 @@
     <wsdl:part name="parameters" element="tns:removeApproversByObjectId">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getApproversByRequestType">
-    <wsdl:part name="parameters" element="tns:getApproversByRequestType">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getAllManagedSysResponse">
     <wsdl:part name="parameters" element="tns:getAllManagedSysResponse">
     </wsdl:part>
@@ -676,10 +690,6 @@
   </wsdl:message>
   <wsdl:message name="updateApproverAssociation">
     <wsdl:part name="parameters" element="tns:updateApproverAssociation">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getApproversByRequestTypeResponse">
-    <wsdl:part name="parameters" element="tns:getApproversByRequestTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateAttributeMap">
@@ -759,6 +769,12 @@
       <wsdl:output name="addManagedSystemResponse" message="tns:addManagedSystemResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getApproverByRequestType">
+      <wsdl:input name="getApproverByRequestType" message="tns:getApproverByRequestType">
+    </wsdl:input>
+      <wsdl:output name="getApproverByRequestTypeResponse" message="tns:getApproverByRequestTypeResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getManagedSysByResource">
       <wsdl:input name="getManagedSysByResource" message="tns:getManagedSysByResource">
     </wsdl:input>
@@ -835,12 +851,6 @@
       <wsdl:input name="getManagedSysByProvider" message="tns:getManagedSysByProvider">
     </wsdl:input>
       <wsdl:output name="getManagedSysByProviderResponse" message="tns:getManagedSysByProviderResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getApproversByRequestType">
-      <wsdl:input name="getApproversByRequestType" message="tns:getApproversByRequestType">
-    </wsdl:input>
-      <wsdl:output name="getApproversByRequestTypeResponse" message="tns:getApproversByRequestTypeResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="addManagedSystemObjectMatch">
@@ -966,6 +976,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getApproverByRequestType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getApproverByRequestType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getApproverByRequestTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getManagedSysByResource">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getManagedSysByResource">
@@ -1080,15 +1099,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getManagedSysByProviderResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getApproversByRequestType">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getApproversByRequestType">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getApproversByRequestTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

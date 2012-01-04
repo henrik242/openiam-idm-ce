@@ -5,14 +5,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.naming.ldap.LdapContext;
 
-import org.openiam.connector.type.LookupRequest;
-import org.openiam.connector.type.LookupResponse;
-import org.openiam.connector.type.PasswordRequest;
-import org.openiam.connector.type.ResponseType;
-import org.openiam.connector.type.ResumeRequest;
-import org.openiam.connector.type.SuspendRequest;
-import org.openiam.connector.type.UserRequest;
-import org.openiam.connector.type.UserResponse;
+import org.openiam.connector.type.*;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 
 
@@ -66,8 +59,13 @@ public interface RemoteConnectorService {
 	
 	@WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/lookup") 
 	LookupResponse lookup(
-			@WebParam(name = "reqType", targetNamespace = "")
-			LookupRequest reqType);
+			@WebParam(name = "lookupRequest", targetNamespace = "")
+			LookupRequest lookupRequest);
+
+    @WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/search")
+    SearchResponse search(
+            @WebParam(name = "searchRequest", targetNamespace = "")
+            SearchRequest searchRequest);
 	
 	/**
 	 * The setPassword operation enables a requestor to specify a new password for an object

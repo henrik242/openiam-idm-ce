@@ -39,6 +39,9 @@
 <xs:element minOccurs="0" name="customMatchAttr" type="xs:string"/>
 <xs:element minOccurs="0" name="customAdatperScript" type="xs:string"/>
 <xs:element minOccurs="0" name="baseDn" type="xs:string"/>
+<xs:element minOccurs="0" name="lastRecProcessed" type="xs:string"/>
+<xs:element minOccurs="0" name="wsScript" type="xs:string"/>
+<xs:element minOccurs="0" name="wsUrl" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="startSynchronizationResponse">

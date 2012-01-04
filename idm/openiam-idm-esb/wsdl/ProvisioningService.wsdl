@@ -104,6 +104,7 @@
 <xs:element minOccurs="0" name="value" type="xs:string"/>
 <xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
 <xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="required" type="xs:boolean"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -251,6 +252,67 @@
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/provision" xmlns:tns="urn:idm.openiam.org/srvc/org/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/org/dto" version="1.0">
+<xs:import namespace="http://www.openiam.org/service/provision"/>
+<xs:complexType name="organization">
+<xs:sequence>
+<xs:element minOccurs="0" name="alias" type="xs:string"/>
+<xs:element minOccurs="0" name="attributes" type="tns:organizationAttributeMap"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="domainName" type="xs:string"/>
+<xs:element minOccurs="0" name="ldapStr" type="xs:string"/>
+<xs:element minOccurs="0" name="lstUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lstUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationName" type="xs:string"/>
+<xs:element minOccurs="0" name="parentId" type="xs:string"/>
+<xs:element minOccurs="0" name="classification" type="tns:OrgClassification"/>
+<xs:element minOccurs="0" name="internalOrgId" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="abbreviation" type="xs:string"/>
+<xs:element minOccurs="0" name="symbol" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="organizationAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="organizationAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="organizationAttribute" type="tns:organizationAttribute"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="organizationAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="attrId" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="OrgClassification">
+<xs:restriction base="xs:string">
+<xs:enumeration value="organization"/>
+<xs:enumeration value="department"/>
+<xs:enumeration value="division"/>
+<xs:enumeration value="agency"/>
+<xs:enumeration value="vendor"/>
+<xs:enumeration value="partner"/>
+<xs:enumeration value="subsidiary"/>
+<xs:enumeration value="customer"/>
+<xs:enumeration value="affiliate"/>
+</xs:restriction>
+</xs:simpleType>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:ns2="http://www.openiam.org/service/provision" xmlns:tns="urn:idm.openiam.org/srvc/grp/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/grp/dto" version="1.0">
 <xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
@@ -410,9 +472,25 @@
 </xs:sequence>
 </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns2="urn:idm.openiam.org/srvc/role/dto" xmlns:ns3="urn:idm.openiam.org/srvc/user/dto" xmlns:tns="http://www.openiam.org/service/provision" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/provision" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.openiam.org/service/types" version="1.0">
+<xs:complexType name="ExtensibleAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element name="operation" type="xs:int"/>
+<xs:element name="multivalued" type="xs:boolean"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="valueList" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="dataType" type="xs:string"/>
+<xs:element minOccurs="0" name="objectType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/types" xmlns:ns2="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns3="urn:idm.openiam.org/srvc/role/dto" xmlns:ns4="urn:idm.openiam.org/srvc/org/dto" xmlns:ns5="urn:idm.openiam.org/srvc/user/dto" xmlns:tns="http://www.openiam.org/service/provision" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/provision" version="1.0">
+<xs:import namespace="http://www.openiam.org/service/types"/>
 <xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
 <xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/org/dto"/>
 <xs:import namespace="urn:idm.openiam.org/srvc/user/dto"/>
 <xs:element name="addGroup" type="tns:addGroup"/>
 <xs:element name="addGroupResponse" type="tns:addGroupResponse"/>
@@ -426,6 +504,10 @@
 <xs:element name="deleteUserResponse" type="tns:deleteUserResponse"/>
 <xs:element name="disableUser" type="tns:disableUser"/>
 <xs:element name="disableUserResponse" type="tns:disableUserResponse"/>
+<xs:element name="getTargetSystemUser" type="tns:getTargetSystemUser"/>
+<xs:element name="getTargetSystemUserResponse" type="tns:getTargetSystemUserResponse"/>
+<xs:element name="getTargetSystemUserWithUserId" type="tns:getTargetSystemUserWithUserId"/>
+<xs:element name="getTargetSystemUserWithUserIdResponse" type="tns:getTargetSystemUserWithUserIdResponse"/>
 <xs:element name="lockUser" type="tns:lockUser"/>
 <xs:element name="lockUserResponse" type="tns:lockUserResponse"/>
 <xs:element name="modifyGroup" type="tns:modifyGroup"/>
@@ -436,12 +518,18 @@
 <xs:element name="resetPasswordResponse" type="tns:resetPasswordResponse"/>
 <xs:element name="setPassword" type="tns:setPassword"/>
 <xs:element name="setPasswordResponse" type="tns:setPasswordResponse"/>
+<xs:element name="syncPasswordFromSrc" type="tns:syncPasswordFromSrc"/>
+<xs:element name="syncPasswordFromSrcResponse" type="tns:syncPasswordFromSrcResponse"/>
+<xs:element name="testConnectionConfig" type="tns:testConnectionConfig"/>
+<xs:element name="testConnectionConfigResponse" type="tns:testConnectionConfigResponse"/>
 <xs:complexType name="setPassword">
 <xs:sequence>
 <xs:element minOccurs="0" name="passwordSync" type="tns:PasswordSync"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="PasswordSync">
+<xs:complexContent>
+<xs:extension base="tns:BaseObject">
 <xs:sequence>
 <xs:element minOccurs="0" name="securityDomain" type="xs:string"/>
 <xs:element minOccurs="0" name="managedSystemId" type="xs:string"/>
@@ -451,6 +539,19 @@
 <xs:element name="validateRequest" type="xs:boolean"/>
 <xs:element minOccurs="0" name="requestorId" type="xs:string"/>
 <xs:element minOccurs="0" name="action" type="xs:string"/>
+<xs:element name="passThruAttributes" type="xs:boolean"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="ns1:ExtensibleAttribute"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="objectState" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="setPasswordResponse">
@@ -466,6 +567,38 @@
 </xs:sequence>
 <xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
 </xs:complexType>
+<xs:complexType name="getTargetSystemUserWithUserId">
+<xs:sequence>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTargetSystemUserWithUserIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LookupUserResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LookupUserResponse">
+<xs:complexContent>
+<xs:extension base="tns:Response">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attrList" nillable="true" type="ns1:ExtensibleAttribute"/>
+<xs:element minOccurs="0" name="principalName" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="syncPasswordFromSrc">
+<xs:sequence>
+<xs:element minOccurs="0" name="passwordSync" type="tns:PasswordSync"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="syncPasswordFromSrcResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:Response"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="addUser">
 <xs:sequence>
 <xs:element minOccurs="0" name="user" type="tns:ProvisionUser"/>
@@ -473,26 +606,24 @@
 </xs:complexType>
 <xs:complexType name="ProvisionUser">
 <xs:complexContent>
-<xs:extension base="ns3:user">
+<xs:extension base="ns5:user">
 <xs:sequence>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="principalList" nillable="true" type="tns:Login"/>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="memberOfGroups" nillable="true" type="ns1:Group"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="memberOfGroups" nillable="true" type="ns2:Group"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="appAccess" nillable="true" type="tns:Application"/>
 <xs:element minOccurs="0" name="requestId" type="xs:string"/>
 <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="memberOfRoles" nillable="true" type="ns2:role"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="memberOfRoles" nillable="true" type="ns3:role"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userAffiliations" nillable="true" type="ns4:organization"/>
 <xs:element minOccurs="0" name="srcSystemId" type="xs:string"/>
 <xs:element minOccurs="0" name="provisionModel" type="tns:ProvisionModelEnum"/>
 <xs:element minOccurs="0" name="securityDomain" type="xs:string"/>
+<xs:element name="notifyTargetSystems" type="xs:boolean"/>
+<xs:element name="emailCredentialsToNewUsers" type="xs:boolean"/>
+<xs:element name="emailCredentialsToSupervisor" type="xs:boolean"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
-</xs:complexType>
-<xs:complexType name="BaseObject">
-<xs:sequence>
-<xs:element minOccurs="0" name="objectState" type="xs:string"/>
-<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
-</xs:sequence>
 </xs:complexType>
 <xs:complexType name="Login">
 <xs:sequence>
@@ -521,6 +652,9 @@
 <xs:element minOccurs="0" name="operation" type="tns:AttributeOperationEnum"/>
 <xs:element minOccurs="0" name="origPrincipalName" type="xs:string"/>
 <xs:element minOccurs="0" name="managedSysName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="LoginId">
@@ -612,7 +746,7 @@
 </xs:complexType>
 <xs:complexType name="provisionGroup">
 <xs:complexContent>
-<xs:extension base="ns1:Group">
+<xs:extension base="ns2:Group">
 <xs:sequence>
 <xs:element minOccurs="0" name="requestId" type="xs:string"/>
 <xs:element minOccurs="0" name="srcSystemId" type="xs:string"/>
@@ -630,13 +764,44 @@
 <xs:element minOccurs="0" name="securityDomain" type="xs:string"/>
 <xs:element minOccurs="0" name="managedSystemId" type="xs:string"/>
 <xs:element minOccurs="0" name="principal" type="xs:string"/>
-<xs:element minOccurs="0" name="status" type="ns3:UserStatus"/>
+<xs:element minOccurs="0" name="status" type="ns5:UserStatus"/>
 <xs:element minOccurs="0" name="requestorId" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="deleteUserResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:ProvisionUserResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="modifyUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="user" type="tns:ProvisionUser"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="modifyUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProvisionUserResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTargetSystemUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalName" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTargetSystemUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LookupUserResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="group" type="tns:provisionGroup"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:provisionGroup"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="disableUser">
@@ -651,16 +816,6 @@
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="modifyUser">
-<xs:sequence>
-<xs:element minOccurs="0" name="user" type="tns:ProvisionUser"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="modifyUserResponse">
-<xs:sequence>
-<xs:element minOccurs="0" name="return" type="tns:ProvisionUserResponse"/>
-</xs:sequence>
-</xs:complexType>
 <xs:complexType name="deleteGroup">
 <xs:sequence>
 <xs:element minOccurs="0" name="groupId" type="xs:string"/>
@@ -671,20 +826,20 @@
 <xs:element minOccurs="0" name="return" type="tns:provisionGroup"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="addGroup">
+<xs:complexType name="testConnectionConfig">
 <xs:sequence>
-<xs:element minOccurs="0" name="group" type="tns:provisionGroup"/>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="addGroupResponse">
+<xs:complexType name="testConnectionConfigResponse">
 <xs:sequence>
-<xs:element minOccurs="0" name="return" type="tns:provisionGroup"/>
+<xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="deleteByUserId">
 <xs:sequence>
 <xs:element minOccurs="0" name="user" type="tns:ProvisionUser"/>
-<xs:element minOccurs="0" name="status" type="ns3:UserStatus"/>
+<xs:element minOccurs="0" name="status" type="ns5:UserStatus"/>
 <xs:element minOccurs="0" name="requestorId" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
@@ -732,6 +887,7 @@
 <xs:enumeration value="groupIdInvalid"/>
 <xs:enumeration value="roleIdNull"/>
 <xs:enumeration value="roleIdInvalid"/>
+<xs:enumeration value="objectIdInvalid"/>
 <xs:enumeration value="success"/>
 <xs:enumeration value="FAIL_SQL_ERORR"/>
 <xs:enumeration value="FAIL_CONNECTION"/>
@@ -751,6 +907,19 @@
 <xs:enumeration value="FAIL_REJECT_CHARS_IN_PSWD"/>
 <xs:enumeration value="FAIL_ENCRYPTION"/>
 <xs:enumeration value="FAIL_DECRYPTION"/>
+<xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
+<xs:enumeration value="COMMUNICATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="IO_EXCEPTION"/>
+<xs:enumeration value="FILE_EXCEPTION"/>
+<xs:enumeration value="SQL_EXCEPTION"/>
+<xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+<xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
+<xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
+<xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
+<xs:enumeration value="PERMISSION_EXCEPTION"/>
+<xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
+<xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
@@ -784,64 +953,104 @@
 </xs:simpleType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="deleteGroupResponse">
-    <wsdl:part name="parameters" element="tns:deleteGroupResponse">
+  <wsdl:message name="testConnectionConfigResponse">
+    <wsdl:part name="parameters" element="tns:testConnectionConfigResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="modifyGroupResponse">
     <wsdl:part name="parameters" element="tns:modifyGroupResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addUser">
-    <wsdl:part name="parameters" element="tns:addUser">
+  <wsdl:message name="deleteGroupResponse">
+    <wsdl:part name="parameters" element="tns:deleteGroupResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="disableUserResponse">
-    <wsdl:part name="parameters" element="tns:disableUserResponse">
+  <wsdl:message name="addUser">
+    <wsdl:part name="parameters" element="tns:addUser">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="resetPassword">
     <wsdl:part name="parameters" element="tns:resetPassword">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteByUserId">
-    <wsdl:part name="parameters" element="tns:deleteByUserId">
+  <wsdl:message name="addUserResponse">
+    <wsdl:part name="parameters" element="tns:addUserResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="modifyUserResponse">
     <wsdl:part name="parameters" element="tns:modifyUserResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addUserResponse">
-    <wsdl:part name="parameters" element="tns:addUserResponse">
+  <wsdl:message name="syncPasswordFromSrcResponse">
+    <wsdl:part name="parameters" element="tns:syncPasswordFromSrcResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="disableUser">
-    <wsdl:part name="parameters" element="tns:disableUser">
+  <wsdl:message name="getTargetSystemUserResponse">
+    <wsdl:part name="parameters" element="tns:getTargetSystemUserResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addGroup">
     <wsdl:part name="parameters" element="tns:addGroup">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="syncPasswordFromSrc">
+    <wsdl:part name="parameters" element="tns:syncPasswordFromSrc">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="setPassword">
     <wsdl:part name="parameters" element="tns:setPassword">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="lockUser">
-    <wsdl:part name="parameters" element="tns:lockUser">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteByUserIdResponse">
-    <wsdl:part name="parameters" element="tns:deleteByUserIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="resetPasswordResponse">
     <wsdl:part name="parameters" element="tns:resetPasswordResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getTargetSystemUser">
+    <wsdl:part name="parameters" element="tns:getTargetSystemUser">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteGroup">
     <wsdl:part name="parameters" element="tns:deleteGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUserResponse">
+    <wsdl:part name="parameters" element="tns:deleteUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifyGroup">
+    <wsdl:part name="parameters" element="tns:modifyGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableUserResponse">
+    <wsdl:part name="parameters" element="tns:disableUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteByUserId">
+    <wsdl:part name="parameters" element="tns:deleteByUserId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableUser">
+    <wsdl:part name="parameters" element="tns:disableUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTargetSystemUserWithUserId">
+    <wsdl:part name="parameters" element="tns:getTargetSystemUserWithUserId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lockUser">
+    <wsdl:part name="parameters" element="tns:lockUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testConnectionConfig">
+    <wsdl:part name="parameters" element="tns:testConnectionConfig">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteByUserIdResponse">
+    <wsdl:part name="parameters" element="tns:deleteByUserIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTargetSystemUserWithUserIdResponse">
+    <wsdl:part name="parameters" element="tns:getTargetSystemUserWithUserIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteUser">
@@ -860,14 +1069,6 @@
     <wsdl:part name="parameters" element="tns:lockUserResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteUserResponse">
-    <wsdl:part name="parameters" element="tns:deleteUserResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="modifyGroup">
-    <wsdl:part name="parameters" element="tns:modifyGroup">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="addGroupResponse">
     <wsdl:part name="parameters" element="tns:addGroupResponse">
     </wsdl:part>
@@ -877,6 +1078,18 @@
       <wsdl:input name="setPassword" message="tns:setPassword">
     </wsdl:input>
       <wsdl:output name="setPasswordResponse" message="tns:setPasswordResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTargetSystemUserWithUserId">
+      <wsdl:input name="getTargetSystemUserWithUserId" message="tns:getTargetSystemUserWithUserId">
+    </wsdl:input>
+      <wsdl:output name="getTargetSystemUserWithUserIdResponse" message="tns:getTargetSystemUserWithUserIdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="syncPasswordFromSrc">
+      <wsdl:input name="syncPasswordFromSrc" message="tns:syncPasswordFromSrc">
+    </wsdl:input>
+      <wsdl:output name="syncPasswordFromSrcResponse" message="tns:syncPasswordFromSrcResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="addUser">
@@ -903,16 +1116,28 @@
       <wsdl:output name="deleteUserResponse" message="tns:deleteUserResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="disableUser">
-      <wsdl:input name="disableUser" message="tns:disableUser">
-    </wsdl:input>
-      <wsdl:output name="disableUserResponse" message="tns:disableUserResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="modifyUser">
       <wsdl:input name="modifyUser" message="tns:modifyUser">
     </wsdl:input>
       <wsdl:output name="modifyUserResponse" message="tns:modifyUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTargetSystemUser">
+      <wsdl:input name="getTargetSystemUser" message="tns:getTargetSystemUser">
+    </wsdl:input>
+      <wsdl:output name="getTargetSystemUserResponse" message="tns:getTargetSystemUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addGroup">
+      <wsdl:input name="addGroup" message="tns:addGroup">
+    </wsdl:input>
+      <wsdl:output name="addGroupResponse" message="tns:addGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disableUser">
+      <wsdl:input name="disableUser" message="tns:disableUser">
+    </wsdl:input>
+      <wsdl:output name="disableUserResponse" message="tns:disableUserResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="deleteGroup">
@@ -921,10 +1146,10 @@
       <wsdl:output name="deleteGroupResponse" message="tns:deleteGroupResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="addGroup">
-      <wsdl:input name="addGroup" message="tns:addGroup">
+    <wsdl:operation name="testConnectionConfig">
+      <wsdl:input name="testConnectionConfig" message="tns:testConnectionConfig">
     </wsdl:input>
-      <wsdl:output name="addGroupResponse" message="tns:addGroupResponse">
+      <wsdl:output name="testConnectionConfigResponse" message="tns:testConnectionConfigResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="deleteByUserId">
@@ -948,6 +1173,24 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="setPasswordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTargetSystemUserWithUserId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTargetSystemUserWithUserId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTargetSystemUserWithUserIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="syncPasswordFromSrc">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="syncPasswordFromSrc">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="syncPasswordFromSrcResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -987,21 +1230,39 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="disableUser">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="disableUser">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="disableUserResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="addGroup">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="addGroup">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="addGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTargetSystemUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTargetSystemUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTargetSystemUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifyUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="modifyUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="modifyUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disableUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="disableUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="disableUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1014,12 +1275,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="modifyUser">
+    <wsdl:operation name="testConnectionConfig">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="modifyUser">
+      <wsdl:input name="testConnectionConfig">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="modifyUserResponse">
+      <wsdl:output name="testConnectionConfigResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
