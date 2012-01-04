@@ -18,10 +18,9 @@ package org.openiam.webadmin.policy.attr;
  *  along with OpenIAM.  If not, see <http://www.gnu.org/licenses/>. *
  */
 
-import java.util.HashSet;
-
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +34,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.openiam.idm.srvc.policy.service.PolicyDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
@@ -86,7 +84,7 @@ public class PolicyDetailController extends CancellableFormController {
 			Set<PolicyAttribute> policyAttrSet = policy.getPolicyAttributes();
 			
 			policyCommand.setPolicy(policy);
-			policyCommand.setPolicyAttr(policyAttrSet);
+			policyCommand.setPolicyAttr(new TreeSet<PolicyAttribute>(policyAttrSet));
 			
 			String policyDefId = policy.getPolicyDefId();
 			if (policyDefId.equalsIgnoreCase("103")) {
@@ -104,7 +102,7 @@ public class PolicyDetailController extends CancellableFormController {
 			if (paramSet != null) {
 				Policy policy = new Policy();
 				policy.setPolicyDefId(policyDefId);
-				Set<PolicyAttribute> policyAttrSet = new HashSet<PolicyAttribute>();
+				Set<PolicyAttribute> policyAttrSet = new TreeSet<PolicyAttribute>();
 				for ( PolicyDefParam defParam : paramSet) {
 					PolicyAttribute attr = new PolicyAttribute();
 					attr.setDefParamId(defParam.getDefParamId());

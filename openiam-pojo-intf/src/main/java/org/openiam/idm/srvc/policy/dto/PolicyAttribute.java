@@ -20,11 +20,8 @@ import javax.xml.bind.annotation.XmlType;
     "value2",
     "rule"
 })
-public class PolicyAttribute implements java.io.Serializable {
+public class PolicyAttribute implements java.io.Serializable, Comparable<PolicyAttribute> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -291717117636794761L;
 	protected String policyAttrId;
 	protected String policyId;
@@ -43,8 +40,6 @@ public class PolicyAttribute implements java.io.Serializable {
 		this.policyAttrId = policyAttrId;
 	}
 
-
-
 	public String getPolicyAttrId() {
 		return this.policyAttrId;
 	}
@@ -52,7 +47,6 @@ public class PolicyAttribute implements java.io.Serializable {
 	public void setPolicyAttrId(String policyAttrId) {
 		this.policyAttrId = policyAttrId;
 	}
-
 
 	public String getName() {
 		return this.name;
@@ -110,9 +104,9 @@ public class PolicyAttribute implements java.io.Serializable {
 		this.rule = rule;
 	}
 
-    @Override
-    public String toString() {
-        return "PolicyAttribute{" +
+	@Override
+	public String toString() {
+		return "PolicyAttribute{" +
                 "policyAttrId='" + policyAttrId + '\'' +
                 ", policyId='" + policyId + '\'' +
                 ", defParamId='" + defParamId + '\'' +
@@ -122,5 +116,13 @@ public class PolicyAttribute implements java.io.Serializable {
                 ", value2='" + value2 + '\'' +
                 ", rule='" + rule + '\'' +
                 '}';
-    }
+	}
+
+	public int compareTo(PolicyAttribute o) {
+		if (getName() == null || o == null) {
+			// Not recommended, but compareTo() is only used for display purposes in this case
+			return Integer.MIN_VALUE;
+		}
+		return getName().compareTo(o.getName());
+	}
 }
