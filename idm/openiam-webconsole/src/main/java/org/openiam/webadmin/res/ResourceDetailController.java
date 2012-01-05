@@ -44,10 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Controller to manage connectivity information for a managed system
@@ -115,6 +112,7 @@ public class ResourceDetailController  extends CancellableFormController {
         if (resId != null && resId.length() > 0) {
             // existing
             res = resourceDataService.getResource(resId);
+            res.setResourceProps(new TreeSet<ResourceProp>(res.getResourceProps()));
         } else {
             // new
             res = new Resource();
@@ -122,7 +120,7 @@ public class ResourceDetailController  extends CancellableFormController {
             resType.setResourceTypeId(resTypeId);
             res.setResourceType(resType);
             MetadataElement[] elementAry = metadataService.getMetadataElementByType(resTypeId).getMetadataElementAry();
-            Set<ResourceProp> propSet = new HashSet<ResourceProp>();
+            Set<ResourceProp> propSet = new TreeSet<ResourceProp>();
             if (elementAry != null) {
                 for (MetadataElement m : elementAry) {
                     ResourceProp p = new ResourceProp();
@@ -194,7 +192,7 @@ public class ResourceDetailController  extends CancellableFormController {
             res.setResourceId(null);
             Set<ResourceProp> propSet = resCommand.getResourceProp();
 
-            Set<ResourceProp> newPropSet = new HashSet<ResourceProp>();
+            Set<ResourceProp> newPropSet = new TreeSet<ResourceProp>();
 
             if (propSet != null) {
                 for (ResourceProp rp : propSet) {
@@ -216,7 +214,7 @@ public class ResourceDetailController  extends CancellableFormController {
 
         } else {
             // existing record
-            res.setResourceProps(resCommand.getResourceProp());
+            res.setResourceProps(new TreeSet<ResourceProp>(resCommand.getResourceProp()));
 
             resourceDataService.updateResource(res);
 
