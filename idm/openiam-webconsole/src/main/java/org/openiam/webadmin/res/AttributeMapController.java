@@ -36,7 +36,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,12 +55,12 @@ public class AttributeMapController  extends CancellableFormController {
 
     private static final Log log = LogFactory.getLog(AttributeMapController.class);
 
-    protected ResourceDataService resourceDataService;
-    protected NavigatorDataWebService navigationDataService;
+    private ResourceDataService resourceDataService;
+    private NavigatorDataWebService navigationDataService;
     private PolicyDataService policyDataService;
     private String redirectView;
     private ManagedSystemDataService managedSysService;
-    protected AuditHelper auditHelper;
+    private AuditHelper auditHelper;
 
 
     public AttributeMapController() {
@@ -123,6 +122,10 @@ public class AttributeMapController  extends CancellableFormController {
             attrMap = new ArrayList<AttributeMap>();
         }
 
+        if (isPrincipalMissing(attrMap)) {
+            request.setAttribute("msgPrincipal", "Policy map must contain atleast 1 row where the Object Type is 'Principal'");
+        }
+
         AttributeMap newMap = new AttributeMap();
         newMap.setAttributeMapId("NEW");
         newMap.setResourceId(resId);
@@ -147,6 +150,26 @@ public class AttributeMapController  extends CancellableFormController {
         return cmd;
     }
 
+
+    /**
+     * Check if our list of AttributeMaps contains row for the principal
+     * @param attrMap
+     * @return
+     */
+    protected boolean isPrincipalMissing(List<AttributeMap> attrMap) {
+        
+
+        if (!attrMap.isEmpty()) {
+            for (AttributeMap mapObj : attrMap) {
+                if ("PRINCIPAL".equalsIgnoreCase(mapObj.getMapForObjectType())) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+        
+    }
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request,

@@ -35,25 +35,11 @@ public class AttributeMapValidator implements Validator {
     }
 
     public void validate(Object cmd, Errors err) {
-        // TODO Auto-generated method stub
 
 
         AttributeMapCommand connectionCommand = (AttributeMapCommand) cmd;
 
-/*		if (connectionCommand.getStartDt() != null && connectionCommand.getEndDt() != null ) {
-            if (connectionCommand.getStartDt().after( connectionCommand.getEndDt())) {
-                err.rejectValue("startDate","invalidRange");
-            }
-        }
-        // name
-        if (connectionCommand.getName() == null || connectionCommand.getName().length() == 0 ) {
-            err.rejectValue("name","required");
-        }
-        // connectorId
-        if (connectionCommand.getConnectorId().equals("-")) {
-            err.rejectValue("connectorId","required");
-        }
-*/
+
     }
 
 

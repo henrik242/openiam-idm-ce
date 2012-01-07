@@ -17,13 +17,24 @@
 						</tr>
 					</table>
 			</td>
-<% 	String msg = (String)request.getAttribute("msg");
+<%
+    String msg = (String)request.getAttribute("msg");
 	if (msg != null) { %> 
    <tr>
  		<td class="msg" colspan="5" align="center"  >
  		  <b><%=msg %></b>
  		</td>
   </tr> 
+<% } %>
+
+<%
+    String msgPrincipal = (String)request.getAttribute("msgPrincipal");
+if (msgPrincipal != null) { %>
+<tr>
+    <td class="msg" colspan="5" align="center"  >
+        <b><%=msgPrincipal %></b>
+    </td>
+</tr>
 <% } %>
 
 			<tr>
