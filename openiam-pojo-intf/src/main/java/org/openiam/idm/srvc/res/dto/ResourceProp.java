@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
     "propValue",
     "name"
 })
-public class ResourceProp implements java.io.Serializable {
+public class ResourceProp implements java.io.Serializable, Comparable<ResourceProp> {
 
 	private String resourcePropId;
 	private String resourceId;
@@ -98,4 +98,11 @@ public class ResourceProp implements java.io.Serializable {
 		
 	}
 
+	public int compareTo(ResourceProp o) {
+		if (getName() == null || o == null) {
+			// Not recommended, but compareTo() is only used for display purposes in this case
+			return Integer.MIN_VALUE;
+		}
+		return getName().compareTo(o.getName());
+	}
 }
