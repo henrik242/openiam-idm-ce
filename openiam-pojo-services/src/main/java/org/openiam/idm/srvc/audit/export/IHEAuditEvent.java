@@ -312,11 +312,17 @@ public class IHEAuditEvent implements ExportAuditEvent{
            if (log.getActionStatus().equals("FAIL")) {
                eventOutcome = "12";
            }
+        
+           String reason = log.getReason();
+           if (reason == null) {
+               reason="";
+           }
+
 
            StringBuffer buf = new StringBuffer();
            buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>  \n");
            buf.append(" <AuditMessage xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n");
-           buf.append("<EventIdentification EventActionCode=\""+ actionCode +"\" EventDateTime=\"" + timeStr + "\" EventOutcomeIndicator=\"" + eventOutcome +"\" EventOutcomeDescription=\""+ log.getReason() + "\" >");
+           buf.append("<EventIdentification EventActionCode=\""+ actionCode +"\" EventDateTime=\"" + timeStr + "\" EventOutcomeIndicator=\"" + eventOutcome +"\" EventOutcomeDescription=\""+ reason + "\" >");
            buf.append("  <EventID csd-code=\"IAM110113\" codeSystemName=\"DCM\" displayName=\"Identity Manager Used\"/>");
            buf.append("  <EventTypeCode csd-code=\"110137\" codeSystemName=\"DCM\" displayName=\"User Security Attributes Changed\"/>");
            buf.append(" </EventIdentification>");
@@ -326,14 +332,15 @@ public class IHEAuditEvent implements ExportAuditEvent{
            // Node
            buf.append("<ActiveParticipant UserID=\"OpenIAM\" UserIsRequestor=\"FALSE\" NetworkAccessPointTypeCode=\"2\" NetworkAccessPointID=\"" + "172.17.2.114" + "\"  />");
 
-            buf.append("  <AuditSourceIdentification AuditSourceEnterpriseSiteId=\"GTA WEST DiR\" AuditSourceID=\"OpenIAM\"   >");
+            buf.append("  <AuditSourceIdentification AuditSourceEnterpriseSiteId=\"GTA WEST Di-R\" AuditSourceID=\"OpenIAM\"   >");
             buf.append("    <AuditSourceTypeCode code=\"6\" />");
             buf.append("  </AuditSourceIdentification>");
 
            buf.append("<ParticipantObjectIdentification ParticipantObjectTypeCode=\"1\" ParticipantObjectTypeCodeRole=\"11\" ParticipantObjectID=\"" + log.getCustomAttrvalue3() + "\" >");
            buf.append(" <ParticipantObjectIDTypeCode code=\"11\" codeSystemName=\"DCM\" displayName=\"Security User Entity\"> </ParticipantObjectIDTypeCode> " );
+           buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\""+ log.getActionId() +"\"/>");
 
-           //     buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\"null\"> </ParticipantObjectIdentification> " );
+
            buf.append("</ParticipantObjectIdentification>");
 
            buf.append("</AuditMessage>");
@@ -383,7 +390,7 @@ public class IHEAuditEvent implements ExportAuditEvent{
             eventDisplayName = "Resource " + eventDisplayNameSuffix;
         }
          if (log.getObjectTypeId().equalsIgnoreCase("POLICY")) {
-            typeCode="13";
+            typeCode="14";
              typeDisplayName = "Security Resource";
              eventDisplayName = "Policy " + eventDisplayNameSuffix;
         }
@@ -398,9 +405,9 @@ public class IHEAuditEvent implements ExportAuditEvent{
            buf.append("<EventIdentification EventActionCode=\""+ actionCode +"\" EventDateTime=\"" + timeStr + "\" EventOutcomeIndicator=\"" + eventOutcome +"\" EventOutcomeDescription=\""+ log.getReason() + "\" >");
            buf.append("  <EventID csd-code=\"IAM110113\" codeSystemName=\"DCM\" displayName=\"Identity Manager Used\"/>");
 
-          // buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\"Security Roles Changed\"/>");
+           buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\"Security Roles Changed\"/>");
 
-            buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\""+ eventDisplayName +"\"/>");
+           // buf.append("  <EventTypeCode csd-code=\"110136\" codeSystemName=\"DCM\" displayName=\""+ eventDisplayName +"\"/>");
 
            buf.append(" </EventIdentification>");
 
@@ -410,13 +417,14 @@ public class IHEAuditEvent implements ExportAuditEvent{
            // Node
            buf.append("<ActiveParticipant UserID=\"OpenIAM\" UserIsRequestor=\"FALSE\" NetworkAccessPointTypeCode=\"2\"  NetworkAccessPointID=\"" + "172.17.2.114" + "\"  />");
 
-            buf.append("  <AuditSourceIdentification AuditSourceEnterpriseSiteId=\"GTA WEST DiR\" AuditSourceID=\"OpenIAM\"   >");
+            buf.append("  <AuditSourceIdentification AuditSourceEnterpriseSiteId=\"GTA WEST Di-R\" AuditSourceID=\"OpenIAM\"   >");
             buf.append("    <AuditSourceTypeCode code=\"6\" />");
             buf.append("  </AuditSourceIdentification>");
 
 
            buf.append("<ParticipantObjectIdentification ParticipantObjectTypeCode=\"2\" ParticipantObjectTypeCodeRole=\"" + typeCode + "\" ParticipantObjectID=\"" + log.getResourceName() + "\" >");
            buf.append("<ParticipantObjectIDTypeCode  code=\"" + typeCode + "\"  codeSystemName=\"DCM\" displayName=\"" + typeDisplayName + "\"> </ParticipantObjectIDTypeCode> " );
+           buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\""+ eventDisplayName +"\"/>");
 
 
            buf.append("</ParticipantObjectIdentification>");
