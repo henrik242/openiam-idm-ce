@@ -114,8 +114,6 @@ public class UserSearchAction extends DispatchActionSupport {
             HttpSession session = request.getSession();
             User usr = (User) session.getAttribute("userObj");
 
-            System.out.println("UserObj = " + usr);
-
 
             request.setAttribute("groupList", allGroupListAsLabels());
             request.setAttribute("roleList", allRoleListAsLabels());
@@ -259,6 +257,7 @@ public class UserSearchAction extends DispatchActionSupport {
             List<String> deptFilterList = null;
             List<String> orgFilterList = null;
             List<String> divFilterList = null;
+            List<String> groupFilterList = null;
 
             deptFilterList = DelegationFilterHelper.getDeptFilterFromString(attrMap);
             if (deptFilterList != null && deptFilterList.size() > 0) {
@@ -276,6 +275,12 @@ public class UserSearchAction extends DispatchActionSupport {
             divFilterList = DelegationFilterHelper.getDivisionFilterFromString(attrMap);
             if (divFilterList != null && divFilterList.size() > 0) {
                 search.setDivisionIdList(divFilterList);
+
+            }
+
+            groupFilterList = DelegationFilterHelper.getGroupFilterFromString(attrMap);
+            if (groupFilterList != null && groupFilterList.size() > 0) {
+                search.setGroupIdList(groupFilterList);
 
             }
 
