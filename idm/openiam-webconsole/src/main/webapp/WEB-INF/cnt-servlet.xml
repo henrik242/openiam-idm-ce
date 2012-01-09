@@ -712,7 +712,8 @@
      </bean>    
 
     <bean id="userGroup" class="org.openiam.webadmin.user.UserGroupController">
-		<property name="commandName" value="usergrpCmd" />
+        <property name="sessionForm"><value>true</value></property>
+		<property name="commandName" value="userGrpCmd" />
 		<property name="commandClass" value="org.openiam.webadmin.user.UserGroupCommand" />
 		<property name="formView" value="/user/usergroup" />
 		<property name="successView" value="/user/confirm" />

@@ -1,14 +1,18 @@
 package org.openiam.webadmin.user;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -55,6 +59,15 @@ public class UserGroupController extends CancellableFormController {
       protected ModelAndView onCancel(Object command) throws Exception {
           return new ModelAndView(new RedirectView(getCancelView(),true));
       }
+
+    @Override
+    protected void initBinder(HttpServletRequest request,
+                              ServletRequestDataBinder binder) throws Exception {
+
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"),true) );
+
+    }
+
 	
 
 
@@ -78,7 +91,8 @@ public class UserGroupController extends CancellableFormController {
 		List<Group> groupList =  groupManager.getAllGroups().getGroupList(); 
 		// get the groups that the user has
 		GroupListResponse resp = groupManager.getUserInGroupsAsFlatList(personId);  
-		
+        
+
 		if (resp != null && resp.getStatus() == ResponseStatus.SUCCESS) {
 			// assign the selection of the 
 			List<Group> userGroupList = resp.getGroupList();
