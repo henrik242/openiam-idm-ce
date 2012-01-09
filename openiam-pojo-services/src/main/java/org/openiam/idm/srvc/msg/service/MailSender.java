@@ -64,8 +64,8 @@ public class MailSender {
              if (msg.getCc() != null) {
                 message.addRecipient(CC, msg.getCc());
              }
-			 message.setSubject(msg.getSubject());
-			 message.setText(msg.getBody());
+			 message.setSubject(msg.getSubject(), "UTF-8");
+			 message.setText(msg.getBody(), "UTF-8");
 
 			 Transport.send(message);
 			 log.info("Message successfully sent.");
