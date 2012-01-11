@@ -36,7 +36,9 @@ public class LdapConnectionMgr implements ConnectionMgr {
 		Hashtable<String, String> envDC = new Hashtable();
 	
 		keystore = secres.getString("KEYSTORE");
-		System.setProperty("javax.net.ssl.trustStore",keystore);
+        if (keystore != null && !keystore.isEmpty())  {
+		    System.setProperty("javax.net.ssl.trustStore",keystore);
+        }
 
 		String hostUrl = managedSys.getHostUrl();
 		if (managedSys.getPort() > 0 ) {
@@ -52,14 +54,21 @@ public class LdapConnectionMgr implements ConnectionMgr {
 		envDC.put(Context.SECURITY_AUTHENTICATION, "simple" ); // simple
 		envDC.put(Context.SECURITY_PRINCIPAL,managedSys.getUserId());  //"administrator@diamelle.local"
 		envDC.put(Context.SECURITY_CREDENTIALS,managedSys.getDecryptPassword());	
-		if (managedSys.getCommProtocol() != null && managedSys.getCommProtocol().equalsIgnoreCase("SSL")) {
+
+        /*
+        Protocol is defined in the url - ldaps vs ldap
+        This is not necessary
+        if (managedSys.getCommProtocol() != null && managedSys.getCommProtocol().equalsIgnoreCase("SSL")) {
 			envDC.put(Context.SECURITY_PROTOCOL, managedSys.getCommProtocol());
 		}
+		*/
 		
 		return (new InitialLdapContext(envDC,null));
 
 
 	}
+
+
 
 	public void close() throws NamingException {
 
