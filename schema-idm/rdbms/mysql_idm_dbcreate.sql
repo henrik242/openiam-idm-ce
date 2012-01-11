@@ -1,7 +1,7 @@
 /* Creates the DB and initial user account and privleges */
 
-CREATE database openiam
-CHARACTER SET = latin1;
+CREATE database openiam DEFAULT CHARACTER SET utf8
+CHARACTER SET = utf8;
 USE openiam;
 
 CREATE USER 'idmuser'@'localhost' IDENTIFIED BY 'idmuser';

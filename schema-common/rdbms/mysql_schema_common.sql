@@ -816,7 +816,7 @@ CREATE TABLE RESOURCE_COMPANY(
 
 CREATE TABLE LOGIN(
        SERVICE_ID           varchar(20) NOT NULL,
-       LOGIN                varchar(320) NOT NULL,
+       LOGIN                varchar(320) CHARACTER SET latin1 NOT NULL, /* Cannot be utf8 because of length, see http://bugs.mysql.com/bug.php?id=4541 */
 	   MANAGED_SYS_ID 		VARCHAR(32) NOT NULL,
 	   IDENTITY_TYPE		VARCHAR(20) NULL,			/* SSO, PROVISION, BOTH */
 	   CANONICAL_NAME		VARCHAR(100) NULL,
@@ -852,7 +852,7 @@ CREATE TABLE LOGIN(
 
 CREATE TABLE LOGIN_ATTRIBUTE (
 	   LOGIN_ATTR_ID		VARCHAR(32) NOT NULL,
-       LOGIN                varchar(320) NOT NULL,
+       LOGIN                varchar(320) CHARACTER SET latin1 NOT NULL, /* Must be latin1. See LOGIN.LOGIN */
        SERVICE_ID	    	varchar(20) NOT NULL,
 	   MANAGED_SYS_ID       VARCHAR(32) NOT NULL,
        NAME                 varchar(20) NULL,
@@ -881,7 +881,7 @@ CREATE TABLE AUTH_STATE (
 
 CREATE TABLE PWD_HISTORY (
 	   PWD_HISTORY_ID		VARCHAR(32) NOT NULL,
-       LOGIN                varchar(320) NOT NULL,
+       LOGIN                varchar(320) CHARACTER SET latin1 NOT NULL, /* Must be latin1. See LOGIN.LOGIN */
        SERVICE_ID	    	varchar(20) NOT NULL,
 	   MANAGED_SYS_ID		VARCHAR(32) NOT NULL,
        DATE_CREATED         datetime NOT NULL,
@@ -915,7 +915,7 @@ CREATE TABLE IDM_AUDIT_LOG (
       RESOURCE_NAME 	VARCHAR(255) NULL,               /* RESOURCE INVOLVED IN THIS TASK                                                */
       USER_ID              varchar(32) NULL,
       SERVICE_ID           varchar(20) NULL,
-      LOGIN_ID             varchar(320) NULL,     
+      LOGIN_ID             varchar(320) CHARACTER SET latin1 NULL, /* Must be latin1. See LOGIN.LOGIN */
       HOST                 varchar(60) NULL,              /* HOST WHERE THE EVENT OCCURRED */
       NODE_IP              VARCHAR(60) NULL,              /* NODE THAT SENT THE REQUEST TO THE IDM SERVER */
       CLIENT_ID            VARCHAR(20) NULL,              /* CLIENT, AGENT OR INTERFACE WHERE THIS EVENT OCCURRED      */
