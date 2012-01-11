@@ -5,7 +5,19 @@
       <session-timeout>30</session-timeout>  
     </session-config>
 
- 
+    <filter>
+        <filter-name>SetCharacterEncoding</filter-name>
+        <filter-class>org.openiam.webadmin.filter.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SetCharacterEncoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
   <filter>
     <filter-name>SessionFilter</filter-name>
     <filter-class>org.openiam.webadmin.filter.SessionFilter</filter-class>
