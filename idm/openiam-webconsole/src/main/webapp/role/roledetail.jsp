@@ -75,7 +75,19 @@
 			  			<form:option value="PENDING_APPROVAL"  label="PENDING APPROVAL" />
 		            </form:select>
 			  </td>
-		  </tr>	
+		  </tr>
+
+            <tr>
+                <td><label for="username" class="attribute">Role Visible in Self Service</label></td>
+                <td>
+                    <form:select path="role.provisionObjName">
+                        <form:option value=""  label="-Select a value" />
+                        <form:option value="YES"  label="YES" />
+                        <form:option value="NO"  label="NO" />
+                    </form:select>
+                </td>
+            </tr>
+
 
           <tr>
               <td><label for="username" class="attribute">Role Owner</label></td>
