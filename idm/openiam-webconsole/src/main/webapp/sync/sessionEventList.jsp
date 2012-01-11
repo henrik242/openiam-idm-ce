@@ -1,6 +1,6 @@
 <%@ page import="org.openiam.idm.srvc.audit.dto.IdmAuditLog, org.openiam.webadmin.admin.JSPUtil" %>
 <%@ page import="java.util.List" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"     pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"     pageEncoding="utf-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -10,7 +10,7 @@
 <title>OpenIAM Identity Manager 2.1.0 - Administration Console</title>
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="expires" CONTENT="0">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/screen.css">
 

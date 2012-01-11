@@ -13,9 +13,9 @@
 <html:html>
 <HEAD>
 <%@ page session="true" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META name="GENERATOR" content="IBM Software Development Platform">
 <TITLE></TITLE>
 </HEAD>
