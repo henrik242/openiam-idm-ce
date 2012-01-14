@@ -14,7 +14,7 @@
 <title>OpenIAM Identity Manager 2.1.0 - Administration Console</title>
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="expires" CONTENT="0">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
 <% 

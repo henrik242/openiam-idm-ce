@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"     pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"     pageEncoding="utf-8"%>
 <%@ page import="java.util.*,javax.servlet.http.*, org.openiam.idm.srvc.user.dto.User,org.openiam.selfsrvc.JSPUtil" %>
 
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>

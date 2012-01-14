@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.util.*,org.openiam.webadmin.busdel.base.*,diamelle.ebc.user.*" %>
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*,org.openiam.webadmin.busdel.base.*,diamelle.ebc.user.*" %>
 
 
 <%
