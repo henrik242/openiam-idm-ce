@@ -8,6 +8,7 @@ import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.provision.type.ExtensibleAttribute;
+import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.ErrorCode;
 import org.openiam.spml2.msg.ResponseType;
 import org.openiam.spml2.msg.StatusCodeType;
@@ -19,10 +20,6 @@ import java.util.List;
 
 /**
  * Base class for commands that are usec by the AppTableConnector
- * User: suneetshah
- * Date: 7/30/11
- * Time: 1:31 PM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class AppTableAbstractCommand {
 
@@ -103,8 +100,8 @@ public abstract class AppTableAbstractCommand {
     }
 
     protected List<AttributeMap> attributeMaps(Resource res) {
-        List<AttributeMap> attrMap = managedSysService.getResourceAttributeMaps(res.getResourceId());
-        return attrMap;
+        return managedSysService.getResourceAttributeMaps(res.getResourceId());
+
     }
 
     protected String getTableName(Resource res) {
@@ -116,6 +113,47 @@ public abstract class AppTableAbstractCommand {
         return prop.getPropValue();
     }
 
+    protected boolean identityExists(Connection con, String tableName, String principalName, ExtensibleObject obj) {
+
+        PreparedStatement statement = null;
+        String principalFieldName = obj.getPrincipalFieldName();
+        String principalFieldDataType = obj.getPrincipalFieldDataType();
+
+        String sql = "  SELECT " + principalFieldName + " FROM " + tableName +
+                "  WHERE " + principalFieldName + "= ? ";
+
+        log.debug("IdentityExists():" + sql);
+        try {
+            statement = con.prepareStatement(sql);
+            // set the parameters
+            setStatement(statement, 1, principalFieldDataType, principalName);
+            ResultSet rs = statement.executeQuery();
+            if (rs != null && rs.next()) {
+                String id = rs.getString(1);
+                if (id != null && !id.isEmpty()) {
+                    return true;
+                }
+            }
+        } catch (SQLException se) {
+            log.error(se);
+
+        } catch (ParseException pe) {
+            log.error(pe);
+
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (Exception e) {
+                log.error(e);
+
+            }
+        }
+        return false;
+
+
+    }
 
     public ManagedSystemDataService getManagedSysService() {
         return managedSysService;
@@ -159,7 +197,7 @@ public abstract class AppTableAbstractCommand {
                 qryObj.principalFieldName = atr.getAttributeName();
                 qryObj.principalFieldDataType = atr.getDataType();
 
-            } else if (atr.getMapForObjectType().equalsIgnoreCase("USER") ) {
+            } else if (atr.getMapForObjectType().equalsIgnoreCase("USER")) {
 
                 if (colCount > 0) {
                     qryObj.columnList.append(", ");
@@ -169,8 +207,11 @@ public abstract class AppTableAbstractCommand {
             }
         }
 
-        qryObj.columnList.append(" FROM " + tableName);
-        qryObj.columnList.append(" WHERE  " + qryObj.principalFieldName  + " = ?");
+        qryObj.columnList.append(" FROM ");
+        qryObj.columnList.append( tableName );
+        qryObj.columnList.append(" WHERE  " );
+        qryObj.columnList.append( qryObj.principalFieldName );
+        qryObj.columnList.append( " = ?");
 
         String sql = qryObj.columnList.toString();
 
@@ -187,20 +228,19 @@ public abstract class AppTableAbstractCommand {
         QueryObject qryObj = new QueryObject();
 
         List<AttributeMap> attrMap = attributeMaps(res);
-         if (attrMap == null) {
-             log.debug("Attribute Map is null");
-             return null;
-         }
+        if (attrMap == null) {
+            log.debug("Attribute Map is null");
+            return null;
+        }
 
-         int colCount = 0;
-         for (org.openiam.idm.srvc.mngsys.dto.AttributeMap atr : attrMap) {
+        for (org.openiam.idm.srvc.mngsys.dto.AttributeMap atr : attrMap) {
 
-             if (atr.getMapForObjectType().equalsIgnoreCase("PRINCIPAL")) {
-                 qryObj.principalFieldName = atr.getAttributeName();
-                 qryObj.principalFieldDataType = atr.getDataType();
+            if (atr.getMapForObjectType().equalsIgnoreCase("PRINCIPAL")) {
+                qryObj.principalFieldName = atr.getAttributeName();
+                qryObj.principalFieldDataType = atr.getDataType();
 
-             }
-         }
+            }
+        }
 
 
         StringBuffer delBuf = new StringBuffer("DELETE FROM " + tableName + " WHERE " + qryObj.principalFieldName + " = ?");
@@ -219,48 +259,46 @@ public abstract class AppTableAbstractCommand {
 
     public PreparedStatement createSetPasswordStatement(Connection con, Resource res,
                                                         String tableName, String principalName,
-                                                        String password ) throws SQLException, ParseException {
-             QueryObject qryObj = new QueryObject();
+                                                        String password) throws SQLException, ParseException {
+        QueryObject qryObj = new QueryObject();
 
-           String colName = null;
-           String colDataType = null;
+        String colName = null;
+        String colDataType = null;
 
-           List<AttributeMap> attrMap = attributeMaps(res);
-            if (attrMap == null) {
-                log.debug("Attribute Map is null");
-                return null;
+        List<AttributeMap> attrMap = attributeMaps(res);
+        if (attrMap == null) {
+            log.debug("Attribute Map is null");
+            return null;
+        }
+
+        for (org.openiam.idm.srvc.mngsys.dto.AttributeMap atr : attrMap) {
+
+            if (atr.getMapForObjectType().equalsIgnoreCase("PASSWORD")) {
+                colName = atr.getAttributeName();
+                colDataType = atr.getDataType();
+
             }
+            if (atr.getMapForObjectType().equalsIgnoreCase("PRINCIPAL")) {
+                qryObj.principalFieldName = atr.getAttributeName();
+                qryObj.principalFieldDataType = atr.getDataType();
 
-            int colCount = 0;
-            for (org.openiam.idm.srvc.mngsys.dto.AttributeMap atr : attrMap) {
-
-                if (atr.getMapForObjectType().equalsIgnoreCase("PASSWORD")) {
-                    colName = atr.getAttributeName();
-                    colDataType = atr.getDataType();
-
-                }
-               if (atr.getMapForObjectType().equalsIgnoreCase("PRINCIPAL")) {
-                 qryObj.principalFieldName = atr.getAttributeName();
-                 qryObj.principalFieldDataType = atr.getDataType();
-
-               }
             }
+        }
 
-           StringBuffer updateBuf = new StringBuffer("UPDATE " + tableName );
-           updateBuf.append( " SET " + colName + " = ? ");
-           updateBuf.append( " WHERE " + qryObj.principalFieldName + " = ? ");
+        StringBuffer updateBuf = new StringBuffer("UPDATE " + tableName);
+        updateBuf.append(" SET " + colName + " = ? ");
+        updateBuf.append(" WHERE " + qryObj.principalFieldName + " = ? ");
 
-           PreparedStatement statement = con.prepareStatement(updateBuf.toString());
+        PreparedStatement statement = con.prepareStatement(updateBuf.toString());
 
-           // set the parameters
-           setStatement(statement, 1, colDataType, password );
-           setStatement(statement, 2, qryObj.principalFieldDataType, principalName);
+        // set the parameters
+        setStatement(statement, 1, colDataType, password);
+        setStatement(statement, 2, qryObj.principalFieldDataType, principalName);
 
-           return statement;
+        return statement;
 
 
-       }
-
+    }
 
 
     public class QueryObject {

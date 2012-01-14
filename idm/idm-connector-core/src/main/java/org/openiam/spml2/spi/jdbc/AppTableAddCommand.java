@@ -18,17 +18,13 @@ import java.util.List;
 
 /**
  * AppTableAddCommand implements the add operation for the AppTableConnector
- * User: suneetshah
- * Date: 7/30/11
- * Time: 1:31 PM
- * To change this template use File | Settings | File Templates.
  */
 public class AppTableAddCommand extends AppTableAbstractCommand {
 
     public AddResponseType add(AddRequestType reqType) {
 
         String tableName;
-        String principalName = null;
+        String principalName;
 
         AddResponseType response = new AddResponseType();
         response.setStatus(StatusCodeType.SUCCESS);
@@ -68,11 +64,19 @@ public class AppTableAddCommand extends AppTableAbstractCommand {
             con = connectionMgr.connect(managedSys);
 
             // build sql
-            StringBuffer insertBuf = new StringBuffer("INSERT INTO " + tableName);
-            StringBuffer columnBuf = new StringBuffer("(");
-            StringBuffer valueBuf = new StringBuffer(" values (");
+            StringBuilder insertBuf = new StringBuilder("INSERT INTO " + tableName);
+            StringBuilder columnBuf = new StringBuilder("(");
+            StringBuilder valueBuf = new StringBuilder(" values (");
 
             for (ExtensibleObject obj : objectList) {
+
+
+
+                if (identityExists(con, tableName, principalName, obj)) {
+                    log.debug(principalName + " exists. Returning success to the connector");
+                    return response;
+                }
+                
                 List<ExtensibleAttribute> attrList = obj.getAttributes();
 
                 log.debug("Number of attributes to persist in ADD = " + attrList.size());
@@ -97,6 +101,9 @@ public class AppTableAddCommand extends AppTableAbstractCommand {
                     columnBuf.append(obj.getPrincipalFieldName());
                     valueBuf.append("?");
                 }
+
+
+
 
                 columnBuf.append(")");
                 valueBuf.append(")");
@@ -159,7 +166,6 @@ public class AppTableAddCommand extends AppTableAbstractCommand {
                     response.setStatus(StatusCodeType.FAILURE);
                     response.setError(ErrorCode.SQL_ERROR);
                     response.addErrorMessage(s.toString());
-                    return response;
                 }
             }
         }
