@@ -304,6 +304,10 @@ private Subject buildSubject(String userId, String principal, String issuer) {
 
 	}
 
+    public String getDecryptedToken(String token) {
+        return null;
+    }
+
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.auth.sso.SSOTokenModule#refreshToken(java.lang.String, java.lang.String)
 	 */

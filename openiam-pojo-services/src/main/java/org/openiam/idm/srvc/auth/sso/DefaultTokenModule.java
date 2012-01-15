@@ -133,6 +133,15 @@ public class DefaultTokenModule implements SSOTokenModule {
 		return true;
 	}
 
+    public String getDecryptedToken(String token) {
+        try {
+
+            return cryptor.decrypt(token);
+        }catch(EncryptionException encExcep) {
+            return null;
+        }
+    }
+
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.auth.sso.SSOToken#refreshToken(java.lang.String, java.lang.String)
 	 */

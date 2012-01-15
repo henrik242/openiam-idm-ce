@@ -86,5 +86,14 @@ public class Response implements Serializable {
 	public void setErrorText(String errorText) {
 		this.errorText = errorText;
 	}
-    
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "status=" + status +
+                ", errorCode=" + errorCode +
+                ", errorText='" + errorText + '\'' +
+                ", responseValue=" + responseValue +
+                '}';
+    }
 }

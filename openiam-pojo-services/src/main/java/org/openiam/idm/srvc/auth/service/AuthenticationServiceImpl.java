@@ -22,12 +22,7 @@
 package org.openiam.idm.srvc.auth.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -218,16 +213,51 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @see org.openiam.idm.srvc.auth.service.AuthenticationService#authenticateByToken(java.lang.String, java.lang.String, java.lang.String)
 	 */
     @ManagedAttribute
-	public Subject authenticateByToken(String userId, String token,	String tokenType) throws AuthenticationException {
-		// TODO Auto-generated method stub
-		BooleanResponse resp = validateTokenByUser(userId, token, tokenType);
-		if (!resp.getValue()) {
-			throw new AuthenticationException(AuthenticationConstants.RESULT_INVALID_TOKEN);
+	public Subject authenticateByToken(String token,	String tokenType) throws AuthenticationException {
+
+        String userId = null;
+        SSOTokenModule tkModule = SSOTokenFactory.createModule(tokenType);
+        tkModule.setCryptor(cryptor);
+
+        if ( !AuthenticationConstants.OPENIAM_TOKEN.equalsIgnoreCase(tokenType)) {
+            log.debug("authenticateByToken: Token type is invalid=" + tokenType);
+            Subject sub = new Subject();
+            sub.setResultCode(AuthenticationConstants.RESULT_INVALID_TOKEN);
+            return sub;
+        }
+        
+
+        String tkString = tkModule.getDecryptedToken(token);
+
+        log.debug("authenticateByToken: Decrypted token=" + tkString);
+
+        StringTokenizer tokenizer = new StringTokenizer(tkString,":");
+        if (tokenizer.hasMoreTokens()) {
+            userId =  tokenizer.nextToken();
+        }else {
+            log.debug("authenticateByToken: no userId in the token");
+
+            Subject sub = new Subject();
+            sub.setResultCode(AuthenticationConstants.RESULT_INVALID_TOKEN);
+            return sub;
+        }
+
+        Login lg = loginManager.getPrimaryIdentity(userId);
+
+        Response resp = renewToken(lg.getId().getLogin(), token, tokenType);
+
+        log.debug("authenticateByToken: response from renewToken=" + resp);
+
+		if (resp.getStatus() == ResponseStatus.FAILURE) {
+            Subject sub = new Subject();
+            sub.setResultCode(AuthenticationConstants.RESULT_INVALID_TOKEN);
+            return sub;
 		}
 		
 
 		AuthState authSt = authStateDao.findById(userId);
 		Subject sub = new Subject(userId);
+        sub.setPrincipal(lg.getId().getLogin());
 		sub.setExpirationTime(authSt.getExpiration());
 		sub.setResultCode(AuthenticationConstants.RESULT_SUCCESS);
 				

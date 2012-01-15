@@ -57,4 +57,6 @@ public interface SSOTokenModule {
 	void setCryptor(Cryptor cryptor);
 	
 	void setTokenLife(int tokenLife) ;
+
+    String getDecryptedToken(String token);
 }

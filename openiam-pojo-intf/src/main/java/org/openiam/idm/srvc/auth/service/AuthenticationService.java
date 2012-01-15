@@ -105,8 +105,7 @@ public interface AuthenticationService {
             AuthenticationRequest request);
 
 	/**
-	 * For Single Sign On, takes the userId and checks if this user has been
-	 * authenticated. The userId may have come from a token or a Subject object.
+	 * For Single Sign On, takes the token and type of token and authenticates the user based on the token.
 	 * If authentication is successful returns a Subject which has principals,
 	 * userGroups userId, authenticating authority, credentials, token and
 	 * expiration time. If not successful, a null is returned.
@@ -114,20 +113,16 @@ public interface AuthenticationService {
 	 * For example:
 	 * <p>
 	 * <code>
-	 *  SSOSubject sub =  authenticationService.authenticate(userId, token);<br>
+	 *  SSOSubject sub =  authenticationService.authenticateByToken(token, tokenType);<br>
 	 * </code>
 	 * 
-	 * 
-	 * @param userId
-	 *            The id of the user
-	 * @param token
-	 *            An encoded string unique for each login incidence
+	 *
+	 * @param token - An encoded string unique for each login incidence
+     * @param tokenType - Constant indicating the type of token that being passed.
 	 * @return SSOSubject which holds user information.
 	 */
 	@WebMethod
 	Subject authenticateByToken(
-			@WebParam(name = "userId", targetNamespace = "")
-			String userId, 
 			@WebParam(name = "token", targetNamespace = "")
 			String token, 
 			@WebParam(name = "tokenType", targetNamespace = "")

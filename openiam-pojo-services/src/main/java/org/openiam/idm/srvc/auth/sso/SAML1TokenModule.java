@@ -260,6 +260,10 @@ public class SAML1TokenModule implements SSOTokenModule {
 		return null;
 	}
 
+    public String getDecryptedToken(String token) {
+        return null;
+    }
+
 	
 	public static void main(String [] args) {
 		System.out.println("Test SAML 1");
