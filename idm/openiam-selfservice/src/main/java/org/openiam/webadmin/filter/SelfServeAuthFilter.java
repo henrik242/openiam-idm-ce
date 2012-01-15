@@ -10,11 +10,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.auth.dto.SSOToken;
 import org.openiam.idm.srvc.auth.dto.Subject;
+import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.service.AuthenticationConstants;
 import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.service.NavigatorDataService;
+import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.openiam.base.ws.Response;
@@ -42,9 +46,18 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
     private String expirePage = null;
 	private String excludePath = null;
+    
+    private String leftMenuGroup = null;
+    private String rightMenuGroup1 = null;
+    private String rightMenuGroup2 = null;
+    private String rightMenuGroup3 = null;
+    private String defaultLang = null;
 
-	AuthenticationService authService = null;
-    LoginDataWebService loginDataWebService = null;
+
+    protected AuthenticationService authService = null;
+    protected LoginDataWebService loginDataWebService = null;
+    protected NavigatorDataWebService navigationDataService = null;
+    protected UserDataWebService userMgr;
 	
 	private static final Log log = LogFactory.getLog(SelfServeAuthFilter.class);
 	
@@ -56,7 +69,16 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 		this.expirePage = filterConfig.getInitParameter("expirePage");
 		excludePath = filterConfig.getInitParameter("excludePath");
 
+        leftMenuGroup = filterConfig.getInitParameter("leftMenuGroup");
+        rightMenuGroup1 = filterConfig.getInitParameter("rightMenuGroup1");
+        rightMenuGroup2 = filterConfig.getInitParameter("rightMenuGroup2");
+        rightMenuGroup3 = filterConfig.getInitParameter("rightMenuGroup3");
+        defaultLang = filterConfig.getInitParameter("defaultLang");
+
 	}
+
+
+    
 
 	public void destroy() {
 		this.filterConfig = null;
@@ -71,7 +93,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
         boolean loginPage = false;
 
 		
-		log.info("SelfServeAuthFilter:doFilter");
+		System.out.println("SelfServeAuthFilter:doFilter");
 
 		
 		ServletContext context = getFilterConfig().getServletContext();
@@ -87,7 +109,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
         }
 
         String url = request.getRequestURI();
-        log.info("* Requested url=" + url);
+        System.out.println("* Requested url=" + url);
 
         if ( url == null || url.equals("/") || url.endsWith("index.do") || url.endsWith("login.selfserve")
                 || isExcludeObject(url) || isPublicUrl(url) || url.endsWith("logout.do") || url.endsWith(".jsp") ) {
@@ -95,7 +117,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
             chain.doFilter(servletRequest, servletResponse);
             return;
 		}
-        log.info("Validating url: " + url);
+        System.out.println("Validating url: " + url);
 
         // validate the token. If the token is not valid then redirect to the login page
         // invalidate the session
@@ -104,6 +126,9 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 		WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(context);
 		authService =  (AuthenticationService)webContext.getBean("authServiceClient");
         loginDataWebService =  (LoginDataWebService)webContext.getBean("loginServiceClient");
+        navigationDataService =  (NavigatorDataWebService)webContext.getBean("navServiceClient");
+        userMgr =  (UserDataWebService)webContext.getBean("userServiceClient");
+
 
         String token = servletRequest.getParameter("tk");
         String userId = servletRequest.getParameter("userId");
@@ -114,34 +139,56 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
         if (token == null || token.length() == 0) {
             // token is missing
-            log.info("token is null");
+            System.out.println("token is null");
             response.sendRedirect(request.getContextPath() + expirePage);
             return;
 
         }
 
-        if (principal == null || principal.length() == 0) {
-            // token is missing
+     /*   if (principal == null || principal.length() == 0) {
+            // principal is missing, but a token was passed
+            // check if valid for SSO
+
+
             log.info("principal is null");
             response.sendRedirect(request.getContextPath() + expirePage);
             return;
 
         }
+        */
+
         // get the user in the token and make sure that user in the token is the same as the one in the session
-        if (sessionUserId != null && sessionUserId.length() > 0) {
-            log.info("Validating token");
+        //if (sessionUserId != null && sessionUserId.length() > 0) {
+            System.out.println("Validating token");
             try {
             String decString = (String)loginDataWebService.decryptPassword(token).getResponseValue();
 
             StringTokenizer tokenizer = new StringTokenizer(decString,":");
                 if (tokenizer.hasMoreTokens()) {
                     String decUserId =  tokenizer.nextToken();
-                    if (decUserId == null || !decUserId.equals(sessionUserId)) {
-                        log.info("Token validation failed...");
+                    if (decUserId == null || decUserId.isEmpty()) {
+
+                        System.out.println("Token validation failed...");
+
                         session.invalidate();
                         response.sendRedirect(request.getContextPath() + expirePage);
                         return;
                     }
+                    if (principal == null || principal.isEmpty()) {
+                        Login l = loginDataWebService.getPrimaryIdentity(decUserId).getPrincipal();
+                        principal = l.getId().getLogin();
+                        userId = decUserId;
+                        
+                        session.setAttribute("userId", userId);
+                        session.setAttribute("login", principal);
+
+                        User usr = userMgr.getUserWithDependent(userId, true).getUser();
+                        session.setAttribute("userObj",usr);
+
+                        loadMenus(userId,session,navigationDataService);
+                        
+                    }
+
                 }
             }catch(Exception e){
                  log.info("Token validation created exception failed" );
@@ -150,19 +197,19 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
                  response.sendRedirect(request.getContextPath() + expirePage);
                  return;
             }
-        }
+        //}
 
 
        // token is valid, but renew it for this request
         Response resp = authService.renewToken(principal,token,AuthenticationConstants.OPENIAM_TOKEN);
         if (resp.getStatus() == ResponseStatus.FAILURE) {
-            log.info("Token renewal failed:" + userId + " - " + token );
+            System.out.println("Token renewal failed:" + userId + " - " + token );
             session.invalidate();
             response.sendRedirect(request.getContextPath() + expirePage);
             return;
 
         }
-        log.info("Token renewed");
+        System.out.println("Token renewed");
 
         SSOToken ssoToken = (SSOToken)resp.getResponseValue();
         String newToken = ssoToken.getToken();
@@ -173,6 +220,20 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
 
 	}
+    
+    private void loadMenus(String userId, HttpSession session, NavigatorDataWebService navigationDataService) {
+        session.setAttribute("privateLeftMenuGroup",
+                navigationDataService.menuGroupSelectedByUser(leftMenuGroup, userId, defaultLang).getMenuList());
+        session.setAttribute("privateRightMenuGroup1",
+                navigationDataService.menuGroupSelectedByUser(rightMenuGroup1,userId, defaultLang).getMenuList());
+        session.setAttribute("privateRightMenuGroup2",
+                navigationDataService.menuGroupSelectedByUser(rightMenuGroup2,userId, defaultLang).getMenuList());
+
+        session.setAttribute("privateRightMenuGroup3",
+                navigationDataService.menuGroupSelectedByUser(rightMenuGroup3,userId, defaultLang).getMenuList());
+
+    }
+
 
     public boolean isExcludeObject(String url) {
         if (url.endsWith(".jpg")  || url.endsWith(".css") || url.endsWith(".gif")) {

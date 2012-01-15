@@ -58,6 +58,7 @@ public class SessionFilter implements javax.servlet.Filter {
 		
 		String userId = null;
 
+        System.out.println("SessionFilter:doFilter");
 
 		ServletContext context = getFilterConfig().getServletContext();
 
@@ -66,11 +67,10 @@ public class SessionFilter implements javax.servlet.Filter {
 		HttpSession session = request.getSession();
 		boolean loginPage = false;
 		
-		
 
-		log.info("requestURI:" + request.getRequestURI());
 		
 		String url = request.getRequestURI();
+        String tk = request.getParameter("tk");
 		
 		
 		if ( url == null || url.equals("/") || url.endsWith("index.do") || url.endsWith("login.selfserve")   ) {
@@ -80,8 +80,8 @@ public class SessionFilter implements javax.servlet.Filter {
 		
 		if (!loginPage && isCode(url) && !isExcludePath(url, context, session) ) 		{
 		/* There is no User attribute so redirect to login page */
-			if(session.getAttribute("userId") == null)	{
-				log.info("Session expired, redirecting to login page");
+			if(session.getAttribute("userId") == null && tk == null)	{
+
 				response.sendRedirect(request.getContextPath() + expirePage);
 				return;
 			}
