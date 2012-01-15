@@ -25,18 +25,16 @@ public class AppTableModifyCommand extends AppTableAbstractCommand {
 
     public ModifyResponseType modify(ModifyRequestType reqType) {
         String tableName;
-        String principalName = null;
         Connection con = null;
-        String principalFieldName = null;
-        String principalFieldDataType = null;
+
 
         ModifyResponseType response = new ModifyResponseType();
         response.setStatus(StatusCodeType.SUCCESS);
 
-        principalName = reqType.getPsoID().getID();
+        String principalName = reqType.getPsoID().getID();
 
 
-        String requestID = reqType.getRequestID();
+        //String requestID = reqType.getRequestID();
         /* PSO - Provisioning Service Object -
 *     -  ID must uniquely specify an object on the target or in the target's namespace
 *     -  Try to make the PSO ID immutable so that there is consistency across changes. */
@@ -45,9 +43,6 @@ public class AppTableModifyCommand extends AppTableAbstractCommand {
 
         /* targetID -  */
         String targetID = psoID.getTargetID();
-        /* ContainerID - May specify the container in which this object should be created
-*      ie. ou=Development, org=Example */
-        PSOIdentifierType containerID = psoID.getContainerID();
 
 
         /* A) Use the targetID to look up the connection information under managed systems */
@@ -99,8 +94,8 @@ public class AppTableModifyCommand extends AppTableAbstractCommand {
                         log.debug("Identity found. Modifying identity: " + principalName);
 
                         List<ExtensibleAttribute> attrList = obj.getAttributes();
-                        principalFieldName = obj.getPrincipalFieldName();
-                        principalFieldDataType = obj.getPrincipalFieldDataType();
+                        String principalFieldName = obj.getPrincipalFieldName();
+                        String principalFieldDataType = obj.getPrincipalFieldDataType();
 
                         whereBuf.append(principalFieldName + " = ? ");
 
@@ -122,28 +117,33 @@ public class AppTableModifyCommand extends AppTableAbstractCommand {
                         updateBuf.append(whereBuf);
                         log.debug(" SQL=" + updateBuf.toString());
 
-                        PreparedStatement statement = con.prepareStatement(updateBuf.toString());
+                        // Don't do anything if there were no changes
 
-                        ctr = 1;
-                        for (ExtensibleAttribute att : attrList) {
-                            
-                            if (att.getOperation() != 0 && att.getName() != null) {
+                        if (ctr > 0) {
+                            PreparedStatement statement = con.prepareStatement(updateBuf.toString());
 
-                                if (att.getObjectType().equalsIgnoreCase("USER")) {
-                                    setStatement(statement, ctr, att);
-                                    ctr++;
+                            ctr = 1;
+                            for (ExtensibleAttribute att : attrList) {
+
+                                if (att.getOperation() != 0 && att.getName() != null) {
+
+                                    if (att.getObjectType().equalsIgnoreCase("USER")) {
+                                        setStatement(statement, ctr, att);
+                                        ctr++;
+                                    }
+
                                 }
 
                             }
+                            if (principalFieldName != null) {
 
+                                setStatement(statement, ctr, principalFieldDataType, principalName);
+                            }
+
+
+                            statement.executeUpdate();
                         }
-                        if (principalFieldName != null) {
 
-                            setStatement(statement, ctr, principalFieldDataType, principalName);
-                        }
-
-
-                        statement.executeUpdate();
                     } else {
 
                         // identity does not exist in the target system
@@ -200,7 +200,7 @@ public class AppTableModifyCommand extends AppTableAbstractCommand {
         List<ExtensibleAttribute> attrList = obj.getAttributes();
 
         String principalFieldName = obj.getPrincipalFieldName();
-        String principalFieldDataType = obj.getPrincipalFieldDataType();
+        //String principalFieldDataType = obj.getPrincipalFieldDataType();
 
         log.debug("Adding identity: " + principalName);
         log.debug("Number of attributes to persist in ADD = " + attrList.size());
@@ -217,7 +217,7 @@ public class AppTableModifyCommand extends AppTableAbstractCommand {
         }
         // add the primary key
         log.debug("Principal column name=" + obj.getPrincipalFieldName());
-        if (obj.getPrincipalFieldName() != null) {
+        if (principalFieldName != null) {
             if (ctr != 0) {
                 columnBuf.append(",");
                 valueBuf.append(",");
