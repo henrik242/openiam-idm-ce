@@ -74,7 +74,7 @@ public class SessionFilter implements javax.servlet.Filter {
 		
 		
 		if ( url == null || url.equals("/") || url.endsWith("index.do") || url.endsWith("login.selfserve")   ) {
-			log.info("login page=true");
+			log.debug("login page=true");
 			loginPage = true; 
 		}
 		
@@ -134,7 +134,7 @@ public class SessionFilter implements javax.servlet.Filter {
 
 		// check to see if this is still in session
 		if (session.getAttribute("publicRightMenuGroup1") == null) {
-			log.info("Reloading menus into session.");
+			log.debug("Reloading menus into session.");
 			WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 		// load public menus
 			navigationDataService = (NavigatorDataWebService)webContext.getBean("navServiceClient");

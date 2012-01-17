@@ -93,7 +93,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
         boolean loginPage = false;
 
 		
-		System.out.println("SelfServeAuthFilter:doFilter");
+		log.debug("SelfServeAuthFilter:doFilter");
 
 		
 		ServletContext context = getFilterConfig().getServletContext();
@@ -109,7 +109,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
         }
 
         String url = request.getRequestURI();
-        System.out.println("* Requested url=" + url);
+        log.debug("* Requested url=" + url);
 
         if ( url == null || url.equals("/") || url.endsWith("index.do") || url.endsWith("login.selfserve")
                 || isExcludeObject(url) || isPublicUrl(url) || url.endsWith("logout.do") || url.endsWith(".jsp") ) {
@@ -117,7 +117,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
             chain.doFilter(servletRequest, servletResponse);
             return;
 		}
-        System.out.println("Validating url: " + url);
+        log.debug("Validating url: " + url);
 
         // validate the token. If the token is not valid then redirect to the login page
         // invalidate the session
@@ -139,7 +139,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
         if (token == null || token.length() == 0) {
             // token is missing
-            System.out.println("token is null");
+            log.debug("token is null");
             response.sendRedirect(request.getContextPath() + expirePage);
             return;
 
@@ -159,7 +159,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
         // get the user in the token and make sure that user in the token is the same as the one in the session
         //if (sessionUserId != null && sessionUserId.length() > 0) {
-            System.out.println("Validating token");
+            log.debug("Validating token");
             try {
             String decString = (String)loginDataWebService.decryptPassword(token).getResponseValue();
 
@@ -168,7 +168,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
                     String decUserId =  tokenizer.nextToken();
                     if (decUserId == null || decUserId.isEmpty()) {
 
-                        System.out.println("Token validation failed...");
+                        log.debug("Token validation failed...");
 
                         session.invalidate();
                         response.sendRedirect(request.getContextPath() + expirePage);
@@ -203,13 +203,13 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
        // token is valid, but renew it for this request
         Response resp = authService.renewToken(principal,token,AuthenticationConstants.OPENIAM_TOKEN);
         if (resp.getStatus() == ResponseStatus.FAILURE) {
-            System.out.println("Token renewal failed:" + userId + " - " + token );
+            log.debug("Token renewal failed:" + userId + " - " + token );
             session.invalidate();
             response.sendRedirect(request.getContextPath() + expirePage);
             return;
 
         }
-        System.out.println("Token renewed");
+        log.debug("Token renewed");
 
         SSOToken ssoToken = (SSOToken)resp.getResponseValue();
         String newToken = ssoToken.getToken();
