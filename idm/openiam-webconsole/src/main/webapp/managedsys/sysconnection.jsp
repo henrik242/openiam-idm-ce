@@ -83,7 +83,7 @@
 		  </tr>
           <tr>
 			  		<td>Host URL:Port</td>
-            <td><form:input path="hostUrl" size="60" maxlength="60" /> : <form:input path="port" size="10" maxlength="10" /></td>
+            <td><form:input path="hostUrl" size="60" maxlength="80" /> : <form:input path="port" size="10" maxlength="10" /></td>
           </tr>
           <tr>
               <td>Communication Protocol</td>
