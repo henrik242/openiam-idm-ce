@@ -502,5 +502,15 @@ FROM PHONE
 WHERE NAME = 'DESK PHONE' AND PARENT_TYPE='USER';
 
 
+CREATE VIEW IAMUSER.USER_IDENTITY_VW AS
+SELECT u.*, l.auth_fail_count, l.canonical_name,
+l.current_login_host, l.first_time_login, l.grace_period,
+l.identity_type, l.is_default, l.is_locked, l.last_auth_attempt, l.last_login,
+l.last_login_ip, l.login, l.managed_sys_id, l.prev_login, l.prev_login_ip,
+l.pwd_change_count, l.pwd_exp, l.reset_pwd, l.service_id
+FROM LOGIN l, USERS u
+WHERE l.USER_ID = u.USER_ID;
+
+
 
 commit;
