@@ -318,13 +318,19 @@ public class AddUser {
      * @param roleList
      */
     public void validateIdentitiesExistforSecurityDomain(Login primaryIdentity, List<Role> roleList) {
+        if (roleList == null || roleList.isEmpty()) {
+            return;
+        }
+
         List<Login> identityList = loginManager.getLoginByUser(primaryIdentity.getUserId());
 
         for (Role r : roleList) {
-            String secDomain = r.getId().getServiceId();
-            if (!identityInDomain(secDomain,identityList)) {
-                addIdentity(secDomain, primaryIdentity);
-            }
+
+                String secDomain = r.getId().getServiceId();
+                if (!identityInDomain(secDomain,identityList)) {
+                    addIdentity(secDomain, primaryIdentity);
+                }
+
         }
 
     }
