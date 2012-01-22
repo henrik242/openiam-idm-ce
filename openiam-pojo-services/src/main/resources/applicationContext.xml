@@ -690,6 +690,7 @@
 				<prop key="hibernate.generate_statistics">true</prop>
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
    				<prop key="hibernate.validationQuery">${openiam.hibernate.validationQuery}</prop>
 			</props>
 		</property>

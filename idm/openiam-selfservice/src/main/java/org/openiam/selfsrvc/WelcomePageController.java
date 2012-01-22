@@ -109,7 +109,9 @@ public class WelcomePageController extends AbstractController {
         String supervisorName =  null;
 		if (supVisorList != null && !supVisorList.isEmpty()) {
 			Supervisor supervisor = supVisorList.get(0);
-            supervisorName = supervisor.getSupervisor().getFirstName() + " " + supervisor.getSupervisor().getLastName();
+            if (supervisor != null && supervisor.getSupervisor() != null) {
+                supervisorName = supervisor.getSupervisor().getFirstName() + " " + supervisor.getSupervisor().getLastName();
+            }
 
 		} else {
             supervisorName = "NA";
@@ -118,8 +120,10 @@ public class WelcomePageController extends AbstractController {
         // user dept
         String deptCd = usr.getDeptCd();
         String deptName = "NA";
-        if (deptCd != null && deptCd.length() >0) {
-             deptName = orgManager.getOrganization(deptCd).getOrganizationName();
+        if (deptCd != null && !deptCd.isEmpty()) {
+            if ( orgManager.getOrganization(deptCd) != null) {
+                deptName = orgManager.getOrganization(deptCd).getOrganizationName();
+            }
 
         }
 
