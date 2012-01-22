@@ -50,10 +50,26 @@ public class MailSender {
 
 	private static final Log log = LogFactory.getLog(Message.class);
 
+
+
 	public void send(Message msg) {
 		 Properties properties = System.getProperties();
-		 properties.setProperty("mail.smtp.host", host);  
-		 Session session = Session.getDefaultInstance(properties); 
+		 properties.setProperty("mail.smtp.host", host);
+         properties.setProperty("mail.transport.protocol", "smtp");
+
+
+         if (username != null && !username.isEmpty()) {
+             properties.setProperty("mail.user", username);
+             properties.setProperty("mail.password", password);
+         }
+
+        if (port != null && !port.isEmpty()) {
+            properties.setProperty("mail.smtp.port", port);
+        }
+
+
+
+        Session session = Session.getDefaultInstance(properties);
 		 MimeMessage message = new MimeMessage(session);  
 		 try {
 			 message.setFrom(msg.getFrom()); 
@@ -67,8 +83,22 @@ public class MailSender {
 			 message.setSubject(msg.getSubject(), "UTF-8");
 			 message.setText(msg.getBody(), "UTF-8");
 
-			 Transport.send(message);
-			 log.info("Message successfully sent.");
+             if (port != null && !port.isEmpty()) {
+                 properties.setProperty("mail.smtp.port", port);
+             }
+
+             if (username != null && !username.isEmpty()) {
+                 properties.setProperty("mail.user", username);
+                 properties.setProperty("mail.password", password);
+                 properties.put("mail.smtp.auth", "true");
+                 Transport mailTransport =  session.getTransport();
+                 mailTransport.connect(host, username, password);
+                 mailTransport.sendMessage(message,message.getAllRecipients());
+
+             } else {
+                 Transport.send(message);
+                 log.debug("Message successfully sent.");
+             }
 		 } catch(MessagingException me) {
 			log.error(me);
 			me.printStackTrace();
