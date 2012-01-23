@@ -783,7 +783,7 @@ INSERT INTO IDENTITY_QUESTION(IDENTITY_QUESTION_ID, IDENTITY_QUEST_GRP_ID, QUEST
 insert into PROVISION_CONNECTOR(CONNECTOR_ID, NAME, METADATA_TYPE_ID, SERVICE_URL,SERVICE_NAMESPACE, SERVICE_PORT) VALUES ('51','LDAP CONNECTOR', 'LDAP_Connector','localhost:8080/openiam-idm-esb/idmsrvc/LDAPConnectorService','http://www.openiam.org/service/connector', 'LDAPConnectorServicePort' );
 insert into PROVISION_CONNECTOR(CONNECTOR_ID, NAME, METADATA_TYPE_ID, SERVICE_URL,SERVICE_NAMESPACE, SERVICE_PORT) VALUES ('54','Google Apps CONNECTOR', 'GOOGLE_Connector','localhost:8080/openiam-idm-esb/idmsrvc/GoogleAppsConnectorService','http://www.openiam.org/service/connector', 'GoogleAppsConnectorServicePort' );
 insert into PROVISION_CONNECTOR(CONNECTOR_ID, NAME, METADATA_TYPE_ID, SERVICE_URL,SERVICE_NAMESPACE, SERVICE_PORT) VALUES ('61','Application Tables CONNECTOR', 'DB_Connector','localhost:8080/openiam-idm-esb/idmsrvc/ApplicationTablesConnector','http://www.openiam.org/service/connector', 'NA' );
-insert into PROVISION_CONNECTOR(CONNECTOR_ID, NAME, METADATA_TYPE_ID, SERVICE_URL,SERVICE_NAMESPACE, SERVICE_PORT) VALUES ('62','Groovy Script CONNECTOR', 'DB_Connector','localhost:8080/openiam-idm-esb/idmsrvc/ScriptConnectorService','http://www.openiam.org/service/connector', 'NA' );
+insert into PROVISION_CONNECTOR(CONNECTOR_ID, NAME, METADATA_TYPE_ID, SERVICE_URL,SERVICE_NAMESPACE, SERVICE_PORT) VALUES ('62','Groovy Script CONNECTOR', 'SCRIPT_Connector','localhost:8080/openiam-idm-esb/idmsrvc/ScriptConnectorService','http://www.openiam.org/service/connector', 'NA' );
 
 
 
