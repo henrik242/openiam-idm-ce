@@ -21,16 +21,22 @@
  */
 package org.openiam.spml2.spi.script;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
+
+
+import org.openiam.spml2.base.AbstractSpml2Complete;
 import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.AddRequestType;
 import org.openiam.spml2.msg.AddResponseType;
@@ -68,6 +74,8 @@ import org.openiam.spml2.msg.password.ResetPasswordResponseType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.password.ValidatePasswordRequestType;
 import org.openiam.spml2.msg.password.ValidatePasswordResponseType;
+import org.openiam.spml2.msg.suspend.ResumeRequestType;
+import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.openiam.spml2.spi.ldap.LdapConnectorImpl;
 
 /**
@@ -81,7 +89,7 @@ import org.openiam.spml2.spi.ldap.LdapConnectorImpl;
 		portName = "ScriptConnectorServicePort", 
 		serviceName="ScriptConnectorService")
 
-public class ScriptConnectorImpl {
+public class ScriptConnectorImpl extends AbstractSpml2Complete implements ConnectorService {
 
 	private static final Log log = LogFactory.getLog(LdapConnectorImpl.class);
 	protected ManagedSystemDataService managedSysService;
@@ -96,12 +104,11 @@ public class ScriptConnectorImpl {
 	 * @see org.openiam.spml2.interf.SpmlCore#add(org.openiam.spml2.msg.AddRequestType)
 	 */
 	public AddResponseType add(AddRequestType reqType) {
-		System.out.println("add request called..");
-		
+        log.debug("add request called..");
 
 		ScriptIntegration se = null;
 		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		Organization org = null;
+        ConnectorService groovyConnector = null;
 		
 		String requestId = UUIDGen.getUUID();
 		
@@ -110,14 +117,36 @@ public class ScriptConnectorImpl {
 		}catch(Exception e) {
 			log.error(e);
 		}
-		
-		bindingMap.put("reqType", reqType);
-		String output = (String)se.execute(bindingMap, "connector/" + reqType.getTargetID() + "/add.groovy");
-		
-		AddResponseType resp = new AddResponseType();
-		resp.setRequestID(reqType.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
+
+        /* A) Use the targetID to look up the connection information under managed systems */
+        String targetID = reqType.getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
+        log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
+        
+        String connectorPath = "/connector/" +  managedSys.getName() + ".groovy";
+
+        try {
+
+            se = ScriptFactory.createModule(scriptEngine);
+            groovyConnector = (ConnectorService)se.instantiateClass(null, connectorPath);
+
+        }catch (ClassNotFoundException ce) {
+            log.error(ce.getMessage());
+
+            AddResponseType resp = new AddResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+
+        }catch (IOException io) {
+            log.error(io.getMessage());
+
+            AddResponseType resp = new AddResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+
+        return groovyConnector.add(reqType);
 		
 
 	}
@@ -274,6 +303,18 @@ public class ScriptConnectorImpl {
 		return resp;
 	}
 
+    public ResponseType testConnection(@WebParam(name = "managedSys", targetNamespace = "") ManagedSys managedSys) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ResponseType suspend(@WebParam(name = "request", targetNamespace = "") SuspendRequestType request) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ResponseType resume(@WebParam(name = "request", targetNamespace = "") ResumeRequestType request) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 	/* (non-Javadoc)
 	 * @see org.openiam.spml2.interf.SpmlPassword#validatePassword(org.openiam.spml2.msg.password.ValidatePasswordRequestType)
 	 */
@@ -307,5 +348,6 @@ public class ScriptConnectorImpl {
 	public void setScriptEngine(String scriptEngine) {
 		this.scriptEngine = scriptEngine;
 	}
+
 
 }

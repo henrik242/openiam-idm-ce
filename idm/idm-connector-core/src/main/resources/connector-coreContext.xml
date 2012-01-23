@@ -174,8 +174,16 @@
         <property name="connectionMgr" ref="jdbcConnection" />
 	</bean>
 
+    <bean id="scriptConnector" class="org.openiam.spml2.spi.script.ScriptConnectorImpl">
 
-	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+        <property name="managedSysService" ref="managedSysService" />
+        <property name="managedSysObjectMatchDao" ref="managedSysObjectMatchDAO" />
+        <property name="resourceDataService" ref="resourceDataService" />
+        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+
+    </bean>
+
+    <!-- ========================= RESOURCE DEFINITIONS ========================= -->
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	    <property name="locations">
