@@ -65,7 +65,22 @@
 			</service>
 		</model>
 
- 	<model name="shellConnectorServiceModel">
+    <model name="scriptConnectorServiceModel">
+
+                <service name="scriptConnectorService">
+                    <inbound>
+                        <inbound-endpoint address="${webservice.path}ScriptConnectorService"     exchange-pattern="request-response">
+                        <cxf:jaxws-service />
+                        </inbound-endpoint>
+                    </inbound>
+                    <component>
+                        <spring-object bean="scriptConnector" />
+                    </component>
+                </service>
+
+    </model>
+
+    <model name="shellConnectorServiceModel">
 			<service name="shellConnectorService">
 				<inbound>
 						<inbound-endpoint address="${webservice.path}ShellConnectorService" 		exchange-pattern="request-response">
