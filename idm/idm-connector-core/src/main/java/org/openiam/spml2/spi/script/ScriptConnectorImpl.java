@@ -16,67 +16,26 @@
  *  along with OpenIAM.  If not, see <http://www.gnu.org/licenses/>. *
  */
 
-/**
- * 
- */
 package org.openiam.spml2.spi.script;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
-import org.openiam.script.ScriptFactory;
-import org.openiam.script.ScriptIntegration;
-
-
-import org.openiam.spml2.base.AbstractSpml2Complete;
-import org.openiam.spml2.interf.ConnectorService;
-import org.openiam.spml2.msg.AddRequestType;
-import org.openiam.spml2.msg.AddResponseType;
-import org.openiam.spml2.msg.DeleteRequestType;
-import org.openiam.base.id.UUIDGen;
-import org.openiam.base.ws.ResponseCode;
-import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
-import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
-import org.openiam.provision.type.ExtensibleAddress;
-import org.openiam.provision.type.ExtensibleEmailAddress;
-import org.openiam.provision.type.ExtensibleGroup;
-import org.openiam.provision.type.ExtensibleObject;
-import org.openiam.provision.type.ExtensibleAttribute;
-import org.openiam.provision.type.ExtensiblePhone;
-import org.openiam.provision.type.ExtensibleRole;
-import org.openiam.provision.type.ExtensibleUser;
-
-import org.openiam.spml2.msg.ExtensibleType;
-import org.openiam.spml2.msg.ListTargetsRequestType;
-import org.openiam.spml2.msg.ListTargetsResponseType;
-import org.openiam.spml2.msg.LookupRequestType;
-import org.openiam.spml2.msg.LookupResponseType;
-import org.openiam.spml2.msg.ModificationType;
-import org.openiam.spml2.msg.ModifyRequestType;
-import org.openiam.spml2.msg.ModifyResponseType;
-import org.openiam.spml2.msg.PSOIdentifierType;
-import org.openiam.spml2.msg.ResponseType;
-import org.openiam.spml2.msg.StatusCodeType;
-import org.openiam.spml2.msg.password.ExpirePasswordRequestType;
-import org.openiam.spml2.msg.password.ResetPasswordRequestType;
-import org.openiam.spml2.msg.password.ResetPasswordResponseType;
-import org.openiam.spml2.msg.password.SetPasswordRequestType;
-import org.openiam.spml2.msg.password.ValidatePasswordRequestType;
-import org.openiam.spml2.msg.password.ValidatePasswordResponseType;
+import org.openiam.script.ScriptFactory;
+import org.openiam.script.ScriptIntegration;
+import org.openiam.spml2.base.AbstractSpml2Complete;
+import org.openiam.spml2.interf.ConnectorService;
+import org.openiam.spml2.msg.*;
+import org.openiam.spml2.msg.password.*;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.openiam.spml2.spi.ldap.LdapConnectorImpl;
+
+import javax.jws.WebService;
+import java.io.IOException;
 
 /**
  * Connector shell that can be used to jumpstart the creation of a connector service.
@@ -100,251 +59,210 @@ public class ScriptConnectorImpl extends AbstractSpml2Complete implements Connec
 	public boolean testConnection(String targetID) {
 		return false;
 	}
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#add(org.openiam.spml2.msg.AddRequestType)
-	 */
+
 	public AddResponseType add(AddRequestType reqType) {
-        log.debug("add request called..");
+		String targetID = reqType.getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-		ScriptIntegration se = null;
-		Map<String, Object> bindingMap = new HashMap<String, Object>();
-        ConnectorService groovyConnector = null;
-		
-		String requestId = UUIDGen.getUUID();
-		
 		try {
-			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
-			log.error(e);
+			return createConnector(managedSys).add(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			AddResponseType resp = new AddResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+
 		}
-
-        /* A) Use the targetID to look up the connection information under managed systems */
-        String targetID = reqType.getTargetID();
-        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
-
-        log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
-        
-        String connectorPath = "/connector/" +  managedSys.getName() + ".groovy";
-
-        try {
-
-            se = ScriptFactory.createModule(scriptEngine);
-            groovyConnector = (ConnectorService)se.instantiateClass(null, connectorPath);
-
-        }catch (ClassNotFoundException ce) {
-            log.error(ce.getMessage());
-
-            AddResponseType resp = new AddResponseType();
-            resp.setStatus(StatusCodeType.FAILURE);
-            return resp;
-
-        }catch (IOException io) {
-            log.error(io.getMessage());
-
-            AddResponseType resp = new AddResponseType();
-            resp.setStatus(StatusCodeType.FAILURE);
-            return resp;
-        }
-
-        return groovyConnector.add(reqType);
-		
-
 	}
-	
 
-	
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#delete(org.openiam.spml2.msg.DeleteRequestType)
-	 */
 	public ResponseType delete(DeleteRequestType reqType) {
-		System.out.println("delete request called..");
-		
-		ScriptIntegration se = null;
-		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		Organization org = null;
-		
-		String requestId = UUIDGen.getUUID();
-		
-		try {
-			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
-			log.error(e);
-		}
-		
-		bindingMap.put("reqType", reqType);
-		String output = (String)se.execute(bindingMap, "connector/" + reqType.getPsoID().getTargetID() + "/delete.groovy");
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-		
-	
-		ResponseType resp = new ResponseType();
-		resp.setRequestID(reqType.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
+		try {
+			return createConnector(managedSys).delete(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ResponseType resp = new ResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#listTargets(org.openiam.spml2.msg.ListTargetsRequestType)
-	 */
 	public ListTargetsResponseType listTargets(ListTargetsRequestType reqType) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#lookup(org.openiam.spml2.msg.LookupRequestType)
-	 */
 	public LookupResponseType lookup(LookupRequestType reqType) {
-		ScriptIntegration se = null;
-		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		Organization org = null;
-		
-		String requestId = UUIDGen.getUUID();
-		
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
 		try {
-			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
-			log.error(e);
+			return createConnector(managedSys).lookup(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			LookupResponseType resp = new LookupResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
 		}
-		
-		bindingMap.put("reqType", reqType);
-		List output = (List)se.execute(bindingMap, "connector/" + reqType.getPsoID().getTargetID() + "/lookup.groovy");
-		
-		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#modify(org.openiam.spml2.msg.ModifyRequestType)
-	 */
 	public ModifyResponseType modify(ModifyRequestType reqType) {
-		System.out.println("modify request called..");
-		
-		ScriptIntegration se = null;
-		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		Organization org = null;
-		
-		String requestId = UUIDGen.getUUID();
-		
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
 		try {
-			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
-			log.error(e);
+			return createConnector(managedSys).modify(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ModifyResponseType resp = new ModifyResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
 		}
-		
-		bindingMap.put("reqType", reqType);
-		String output = (String)se.execute(bindingMap, "connector/" + reqType.getPsoID().getTargetID() + "/modify.groovy");
-
-		
-
-		ModifyResponseType resp = new ModifyResponseType();
-		resp.setRequestID(reqType.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#expirePassword(org.openiam.spml2.msg.password.ExpirePasswordRequestType)
-	 */
-	public ResponseType expirePassword(ExpirePasswordRequestType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ResponseType expirePassword(ExpirePasswordRequestType reqType) {
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#resetPassword(org.openiam.spml2.msg.password.ResetPasswordRequestType)
-	 */
-	public ResetPasswordResponseType resetPassword(
-			ResetPasswordRequestType request) {
-		ScriptIntegration se = null;
-		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		Organization org = null;
-		
-		String requestId = UUIDGen.getUUID();
-		
 		try {
-			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
-			log.error(e);
+			return createConnector(managedSys).expirePassword(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ResponseType resp = new ResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
 		}
-		
-		bindingMap.put("reqType", request);
-		String output = (String)se.execute(bindingMap, "connector/" + request.getPsoID().getTargetID() + "/resetPassword.groovy");
-
-
-		
-		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#setPassword(org.openiam.spml2.msg.password.SetPasswordRequestType)
-	 */
-	public ResponseType setPassword(SetPasswordRequestType request) {
-		System.out.println("setPassword request called..");
-		
-		ScriptIntegration se = null;
-		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		Organization org = null;
-		
-		String requestId = UUIDGen.getUUID();
-		
+	public ResetPasswordResponseType resetPassword(ResetPasswordRequestType reqType) {
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
 		try {
-			se = ScriptFactory.createModule(this.scriptEngine); 
-		}catch(Exception e) {
-			log.error(e);
+			return createConnector(managedSys).resetPassword(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ResetPasswordResponseType resp = new ResetPasswordResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
 		}
-		
-		bindingMap.put("reqType", request);
-		String output = (String)se.execute(bindingMap, "connector/" + request.getPsoID().getTargetID() + "/setPassword.groovy");
-		
-	
-		ResponseType resp = new ResponseType();
-		resp.setRequestID(request.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
 	}
 
-    public ResponseType testConnection(@WebParam(name = "managedSys", targetNamespace = "") ManagedSys managedSys) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	public ResponseType setPassword(SetPasswordRequestType reqType) {
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-    public ResponseType suspend(@WebParam(name = "request", targetNamespace = "") SuspendRequestType request) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+		try {
+			return createConnector(managedSys).setPassword(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
 
-    public ResponseType resume(@WebParam(name = "request", targetNamespace = "") ResumeRequestType request) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#validatePassword(org.openiam.spml2.msg.password.ValidatePasswordRequestType)
-	 */
-	public ValidatePasswordResponseType validatePassword(
-			ValidatePasswordRequestType request) {
-		// TODO Auto-generated method stub
-		return null;
+			ResponseType resp = new ResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+		}
 	}
+
+	public ResponseType testConnection(ManagedSys managedSys) {
+		try {
+			return createConnector(managedSys).testConnection(managedSys);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ResponseType resp = new ResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+		}
+	}
+
+	public ResponseType suspend(SuspendRequestType reqType) {
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
+		try {
+			return createConnector(managedSys).suspend(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ResponseType resp = new ResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+		}
+	}
+
+	public ResponseType resume(ResumeRequestType reqType) {
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
+		try {
+			return createConnector(managedSys).resume(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ResponseType resp = new ResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+		}
+	}
+
+	public ValidatePasswordResponseType validatePassword(ValidatePasswordRequestType reqType) {
+		String targetID = reqType.getPsoID().getTargetID();
+		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+
+		try {
+			return createConnector(managedSys).validatePassword(reqType);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			ValidatePasswordResponseType resp = new ValidatePasswordResponseType();
+			resp.setStatus(StatusCodeType.FAILURE);
+			return resp;
+		}
+	}
+
+	private ConnectorService createConnector(ManagedSys managedSys) throws ClassNotFoundException, IOException {
+		String connectorPath = "/connector/" +  managedSys.getName() + ".groovy";
+
+		ScriptIntegration se = ScriptFactory.createModule(this.scriptEngine);
+		return (ConnectorService) se.instantiateClass(null, connectorPath);
+	}
+
 	public ManagedSystemDataService getManagedSysService() {
 		return managedSysService;
 	}
+	
 	public void setManagedSysService(ManagedSystemDataService managedSysService) {
 		this.managedSysService = managedSysService;
 	}
+	
 	public ManagedSystemObjectMatchDAO getManagedSysObjectMatchDao() {
 		return managedSysObjectMatchDao;
 	}
-	public void setManagedSysObjectMatchDao(
-			ManagedSystemObjectMatchDAO managedSysObjectMatchDao) {
+	
+	public void setManagedSysObjectMatchDao(ManagedSystemObjectMatchDAO managedSysObjectMatchDao) {
 		this.managedSysObjectMatchDao = managedSysObjectMatchDao;
 	}
+	
 	public ResourceDataService getResourceDataService() {
 		return resourceDataService;
 	}
+	
 	public void setResourceDataService(ResourceDataService resourceDataService) {
 		this.resourceDataService = resourceDataService;
 	}
+	
 	public String getScriptEngine() {
 		return scriptEngine;
 	}
+	
 	public void setScriptEngine(String scriptEngine) {
 		this.scriptEngine = scriptEngine;
 	}
