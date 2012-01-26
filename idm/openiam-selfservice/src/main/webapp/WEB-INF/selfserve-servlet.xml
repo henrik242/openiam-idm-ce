@@ -375,7 +375,8 @@
 		<property name="userMgr" ref="userServiceClient" />
 		
 		<property name="provRequestService" ref="provRequestServiceClient" />	
-		<property name="refDataService" ref="referenceDataServiceClient" />	
+		<property name="refDataService" ref="referenceDataServiceClient" />
+         <property name="emailCredentialsToUser" value="true" />
      </bean>
    
      <bean id="newUserNoAppValidator" class="org.openiam.selfsrvc.hire.NewUserNoAppValidator">

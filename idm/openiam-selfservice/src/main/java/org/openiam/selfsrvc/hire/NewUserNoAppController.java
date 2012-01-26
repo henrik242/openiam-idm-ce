@@ -96,6 +96,7 @@ public class NewUserNoAppController extends AbstractWizardFormController {
 	
 	protected ProvisionService provisionService;
 	protected IdmAuditLogWebDataService auditService;
+    protected Boolean emailCredentialsToUser;
 
 	String defaultDomainId;
 	String menuGroup;
@@ -188,6 +189,9 @@ public class NewUserNoAppController extends AbstractWizardFormController {
     		sup.setSupervisor(supervisorUser);
     		pUser.setSupervisor(sup);
         }
+
+        setEmail(newHireCmd, pUser);
+        setPhone(newHireCmd, pUser);
    
         /* should be created by the service based on the policies */
     //    pUser.setPrincipalList(getPrincipalList(newHireCmd,user));
@@ -198,8 +202,8 @@ public class NewUserNoAppController extends AbstractWizardFormController {
         if (newHireCmd.getRole() != null && !newHireCmd.getRole().isEmpty()) {
         	pUser.setMemberOfRoles(getRoleList(newHireCmd, user));
         }
-        
 
+        pUser.setEmailCredentialsToNewUsers(emailCredentialsToUser);
         
         log.info("User created. New User Id: " + user.getUserId());
         
@@ -223,8 +227,70 @@ public class NewUserNoAppController extends AbstractWizardFormController {
 	}
 	
 	/*-------------         Helper methods         ---------------------------*/
-	
-	
+
+
+    private void setEmail(NewUserNoAppCommand cmd, ProvisionUser pUser) {
+
+        String email = cmd.getEmail1();
+        String emailId = cmd.getEmail1Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email,"EMAIL1");
+            pUser.getEmailAddress().add(em);
+            pUser.setEmail(email);
+        }
+
+
+
+    }
+
+    private void setPhone(NewUserNoAppCommand cmd, ProvisionUser usr) {
+        //	Set<Phone> phSet = usr.getPhone();
+
+        // add obbject
+
+
+        Phone ph = buildPhone( usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
+        if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0 ) {
+            ph.setPhoneId(cmd.getWorkPhoneId());
+        }
+        usr.getPhone().add(ph);
+
+
+        ph = buildPhone( usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone() );
+        if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0 ) {
+            ph.setPhoneId(cmd.getFaxPhoneId());
+        }
+        usr.getPhone().add(ph);
+
+
+
+    }
+
+    private EmailAddress buildEmail(String emailId, String email, String name) {
+        EmailAddress em = new EmailAddress();
+        em.setEmailAddress(email);
+        if (emailId != null && emailId.length() > 0) {
+            em.setEmailId(emailId);
+        }
+        em.setParentType(ContactConstants.PARENT_TYPE_USER);
+        em.setName(name);
+        return em;
+    }
+
+    private Phone buildPhone( ProvisionUser usr, String name,
+                              String areaCode, String phone) {
+        Phone ph = new Phone();
+
+        ph.setAreaCd(areaCode);
+        ph.setPhoneNbr(phone);
+        ph.setDescription(name);
+        ph.setParentType(ContactConstants.PARENT_TYPE_USER);
+        ph.setName(name);
+        ph.setParentId(usr.getUserId());
+
+        return ph;
+    }
+
 
 
 	private List<Group> getGroupList(NewUserNoAppCommand newHireCmd, User user) {
@@ -552,6 +618,11 @@ public class NewUserNoAppController extends AbstractWizardFormController {
 	}
 
 
+    public Boolean getEmailCredentialsToUser() {
+        return emailCredentialsToUser;
+    }
 
-
+    public void setEmailCredentialsToUser(Boolean emailCredentialsToUser) {
+        this.emailCredentialsToUser = emailCredentialsToUser;
+    }
 }
