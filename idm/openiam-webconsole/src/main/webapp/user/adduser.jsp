@@ -273,8 +273,15 @@ function selectChange(ctrl) {
 
 
      </tr>
+   <tr>
+       <td></td>
+       <td colspan="5"><form:checkbox path="provisionOnStartDate"  />
+           <i>Delay user provisioning till start date</i></td>
 
-     <tr >
+
+   </tr>
+
+   <tr>
 		 <td>Group</td>
          <td>
           <form:select path="group" multiple="false">

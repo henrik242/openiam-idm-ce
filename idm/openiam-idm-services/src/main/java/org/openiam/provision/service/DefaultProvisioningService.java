@@ -169,8 +169,18 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         IdmAuditLog auditLog = null;
         boolean connectorSuccess = true;
 
+        // flag to determine if we should provision this user in target systems
+        boolean provInTargetSystemNow = true;
+
         String requestId = "R" + UUIDGen.getUUID();
 
+        provInTargetSystemNow = provisionUserNow(user);
+        if (!provInTargetSystemNow) {
+            // start date is in the future
+            // flag says that we should prov after the startdate
+            user.setStatus(UserStatusEnum.PENDING_START_DATE);
+            
+        }
 
         try {
             se = ScriptFactory.createModule(this.scriptEngine);
@@ -295,100 +305,102 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         bindingMap.put("userRole", user.getMemberOfRoles());
 
-        List<Resource> resourceList = getResourcesForRole(user.getMemberOfRoles());
-        if (resourceList != null) {
-            for (Resource res : resourceList) {
+        if (provInTargetSystemNow) {
+            List<Resource> resourceList = getResourcesForRole(user.getMemberOfRoles());
+            if (resourceList != null) {
+                for (Resource res : resourceList) {
 
-                log.debug("Resource->managedSysId =" + res.getManagedSysId());
-                log.debug("Resource->resourceId =" + res.getResourceId());
+                    log.debug("Resource->managedSysId =" + res.getManagedSysId());
+                    log.debug("Resource->resourceId =" + res.getResourceId());
 
-                String managedSysId = res.getManagedSysId();
+                    String managedSysId = res.getManagedSysId();
 
-                if (managedSysId != null && managedSysId.length() > 0) {
+                    if (managedSysId != null && managedSysId.length() > 0) {
 
-                    // object that will be sent to the connectors
-                    List<AttributeMap> attrMap = managedSysService.getResourceAttributeMaps(res.getResourceId());
-                    //List<AttributeMap> attrMap = resourceDataService.getResourceAttributeMaps(res.getResourceId());
+                        // object that will be sent to the connectors
+                        List<AttributeMap> attrMap = managedSysService.getResourceAttributeMaps(res.getResourceId());
+                        //List<AttributeMap> attrMap = resourceDataService.getResourceAttributeMaps(res.getResourceId());
 
-                    log.debug("Retrieved Attribute Map =" + attrMap);
-
-
-                    ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
-
-                    log.debug("Managed sys =" + mSys);
-
-                    ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
-
-                    ManagedSystemObjectMatch matchObj = null;
-                    ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(managedSysId, "USER");
-                    if (matchObjAry != null && matchObjAry.length > 0) {
-                        matchObj = matchObjAry[0];
-                        bindingMap.put("matchParam", matchObj);
-                    }
-
-                    log.debug("Building attributes for managedSysId =" + managedSysId);
-
-                    bindingMap.put("targetSystemIdentityStatus", "NEW");
-                    bindingMap.put("targetSystemIdentity", "");
-                    bindingMap.put("targetSystemAttributes", null);
+                        log.debug("Retrieved Attribute Map =" + attrMap);
 
 
-                    // attributes are built using groovy script rules
-                    ExtensibleUser extUser = attrListBuilder.buildFromRules(user, attrMap, se,
-                            managedSysId, sysConfiguration.getDefaultSecurityDomain(),
-                            bindingMap, user.getCreatedBy());
+                        ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
 
+                        log.debug("Managed sys =" + mSys);
 
-                    List<Login> priList = user.getPrincipalList();
-                    if (priList != null) {
-                        for (Login l : priList) {
-                            log.debug("identity after builder=" + l.getId());
+                        ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
+
+                        ManagedSystemObjectMatch matchObj = null;
+                        ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(managedSysId, "USER");
+                        if (matchObjAry != null && matchObjAry.length > 0) {
+                            matchObj = matchObjAry[0];
+                            bindingMap.put("matchParam", matchObj);
                         }
-                    } else {
-                        log.debug("priList is null");
+
+                        log.debug("Building attributes for managedSysId =" + managedSysId);
+
+                        bindingMap.put("targetSystemIdentityStatus", "NEW");
+                        bindingMap.put("targetSystemIdentity", "");
+                        bindingMap.put("targetSystemAttributes", null);
+
+
+                        // attributes are built using groovy script rules
+                        ExtensibleUser extUser = attrListBuilder.buildFromRules(user, attrMap, se,
+                                managedSysId, sysConfiguration.getDefaultSecurityDomain(),
+                                bindingMap, user.getCreatedBy());
+
+
+                        List<Login> priList = user.getPrincipalList();
+                        if (priList != null) {
+                            for (Login l : priList) {
+                                log.debug("identity after builder=" + l.getId());
+                            }
+                        } else {
+                            log.debug("priList is null");
+                        }
+
+                        // get the identity linked to this resource / managedsys
+                        Login mLg = getPrincipalForManagedSys(managedSysId, user.getPrincipalList());
+                        if (mLg == null) {
+                            mLg = new Login();
+                        }
+                        mLg.setPassword(primaryLogin.getPassword());
+                        mLg.setUserId(primaryLogin.getUserId());
+
+                        log.debug("Creating identity in openiam repository:" + mLg.getId());
+
+                        // validate if the identity exists in the system first
+
+                        Login tempPrincipal = loginManager.getLoginByManagedSys(mLg.getId().getDomainId(), mLg.getId().getLogin(), mLg.getId().getManagedSysId());
+
+                        if (tempPrincipal == null) {
+                            loginManager.addLogin(mLg);
+
+                        } else {
+                            log.debug("Skipping the creation of identity in openiam repository. Identity already exists" + mLg.getId());
+                        }
+
+                        //loginManager.addLogin(mLg);
+
+
+                        if (connector.getConnectorInterface() != null &&
+                                connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
+
+                            connectorSuccess = remoteAdd(mLg, requestId, mSys, matchObj, extUser, connector, user, auditLog);
+
+                        } else {
+
+                            connectorSuccess = localAdd(mLg, requestId, mSys, matchObj, extUser, user, auditLog);
+
+                        }
+
+
+                        bindingMap.remove(matchObj);
                     }
 
-                    // get the identity linked to this resource / managedsys
-                    Login mLg = getPrincipalForManagedSys(managedSysId, user.getPrincipalList());
-                    if (mLg == null) {
-                        mLg = new Login();
-                    }
-                    mLg.setPassword(primaryLogin.getPassword());
-                    mLg.setUserId(primaryLogin.getUserId());
-
-                    log.debug("Creating identity in openiam repository:" + mLg.getId());
-
-                    // validate if the identity exists in the system first
-
-                    Login tempPrincipal = loginManager.getLoginByManagedSys(mLg.getId().getDomainId(), mLg.getId().getLogin(), mLg.getId().getManagedSysId());
-
-                    if (tempPrincipal == null) {
-                        loginManager.addLogin(mLg);
-
-                    } else {
-                        log.debug("Skipping the creation of identity in openiam repository. Identity already exists" + mLg.getId());
-                    }
-
-                    //loginManager.addLogin(mLg);
-
-
-                    if (connector.getConnectorInterface() != null &&
-                            connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
-
-                        connectorSuccess = remoteAdd(mLg, requestId, mSys, matchObj, extUser, connector, user, auditLog);
-
-                    } else {
-
-                        connectorSuccess = localAdd(mLg, requestId, mSys, matchObj, extUser, user, auditLog);
-
-                    }
-
-
-                    bindingMap.remove(matchObj);
                 }
 
             }
-
         }
 
         // make sure that we have an identity for each domain that this user belongs to
@@ -419,6 +431,27 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         resp.setUser(user);
         return resp;
     }
+
+    private boolean provisionUserNow(ProvisionUser user) {
+
+        Date curDate = new Date(System.currentTimeMillis());
+        Date startDate = user.getStartDate();
+        
+        if (startDate == null) {
+            // no startDate specified = assume that we can provision now
+            return true;
+        }
+        
+        if (!user.isProvisionOnStartDate())  {
+            return true;
+        }
+
+
+        return !curDate.before(startDate);
+
+    }
+    
+
 
     private void setPasswordExpValues(Policy plcy, Login lg) {
         Calendar cal = Calendar.getInstance();

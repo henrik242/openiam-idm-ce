@@ -128,7 +128,7 @@ public class NewUserController extends AbstractWizardFormController {
 			HttpServletResponse response, Object command, BindException arg3)
 			throws Exception {
 		
-		log.info("In processFinish..");
+		log.debug("In processFinish..");
 		
 		NewUserCommand newUserCmd =(NewUserCommand)command;
 		HttpSession session = request.getSession();
@@ -137,7 +137,7 @@ public class NewUserController extends AbstractWizardFormController {
 		User user = newUserCmd.getUser();
 		prepareObject(user, userId);
 		
-		log.info("User=" + user);
+		log.debug("User=" + user);
 
         // add the attributes
         List<UserAttribute> attrList =  newUserCmd.getAttributeList();
@@ -146,15 +146,15 @@ public class NewUserController extends AbstractWizardFormController {
                 ua.setOperation(AttributeOperationEnum.ADD);
                 ua.setUserId(null);
                 ua.setId(null);
-                log.info("Name=" + ua.getName() + "-"+ ua.getValue());
                 user.getUserAttributes().put(ua.getName(), ua);
             }
         }
 		
         ProvisionUser pUser = new ProvisionUser(user);
+
+        pUser.setProvisionOnStartDate(newUserCmd.isProvisionOnStartDate());
         
-        log.info("Show in search value=" + pUser.getShowInSearch());
-        log.info("Alternate contactid=" + pUser.getAlternateContactId());
+
          
         // set the supervisor
         if (newUserCmd.getSupervisorId() != null && newUserCmd.getSupervisorId().length() > 0) {
@@ -396,7 +396,7 @@ public class NewUserController extends AbstractWizardFormController {
 	@Override
 	protected Map referenceData(HttpServletRequest request, int page) throws Exception {
 		
-		log.info("in referenceData");
+		log.debug("in referenceData");
 		
 		switch (page) {
 		case 0:
@@ -409,11 +409,11 @@ public class NewUserController extends AbstractWizardFormController {
 	}
 
 	protected Map loadUserTypes(HttpServletRequest request) {
-		log.info("referenceData:loadUserTypes called.");
+		log.debug("referenceData:loadUserTypes called.");
 		
 		HttpSession session =  request.getSession();
 		
-		log.info("User type category =" + configuration.getUserCategoryType());
+		log.debug("User type category =" + configuration.getUserCategoryType());
 		
 		MetadataType[] typeAry = metadataService.getTypesInCategory(configuration.getUserCategoryType()).getMetadataTypeAry();
 		
@@ -427,7 +427,7 @@ public class NewUserController extends AbstractWizardFormController {
 
 	
 	protected Map loadUserInformation(HttpServletRequest request) {
-		log.info("referenceData:loadUserInformation called.");
+		log.debug("referenceData:loadUserInformation called.");
 		
 		HttpSession session =  request.getSession();
 		String userId = (String)session.getAttribute("userId");
@@ -475,6 +475,9 @@ public class NewUserController extends AbstractWizardFormController {
 		user.setUserId(null);
 		user.setCreateDate(new Date(System.currentTimeMillis()));
 		user.setCreatedBy(userId);
+        
+
+                
 		user.setStatus(newUserStatus);
 		
 	}

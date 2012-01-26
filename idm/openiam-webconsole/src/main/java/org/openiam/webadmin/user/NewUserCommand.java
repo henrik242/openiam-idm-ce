@@ -41,6 +41,9 @@ public class NewUserCommand implements Serializable {
 
     boolean notifyUserViaEmail = true;
     boolean notifySupervisorViaEmail = false;
+    boolean provisionOnStartDate = false;
+
+
 
 	
 	/* phone fields */
@@ -521,5 +524,13 @@ public class NewUserCommand implements Serializable {
 
     public void setNotifySupervisorViaEmail(boolean notifySupervisorViaEmail) {
         this.notifySupervisorViaEmail = notifySupervisorViaEmail;
+    }
+
+    public boolean isProvisionOnStartDate() {
+        return provisionOnStartDate;
+    }
+
+    public void setProvisionOnStartDate(boolean provisionOnStartDate) {
+        this.provisionOnStartDate = provisionOnStartDate;
     }
 }
