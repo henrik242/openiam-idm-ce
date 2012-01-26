@@ -405,6 +405,8 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
         /* A) Use the targetID to look up the connection information under managed systems */
         ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
+
+
         try {
             log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
@@ -414,9 +416,22 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
 
 
             String ldapName = psoID.getID();
-
             ModificationItem[] mods = new ModificationItem[1];
-            mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", reqType.getPassword()));
+
+            if ("ACTIVE_DIRECTORY".equalsIgnoreCase(managedSys.getHandler1())) {
+
+                log.debug("Updated AD Password ");
+
+                byte[] password = ("\"" + reqType.getPassword() + "\"").getBytes("UTF-16LE");
+                mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("unicodePwd", password));
+
+
+            }else {
+                log.debug("Updated LDAP Password ");
+
+                mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", reqType.getPassword()));
+
+            }
             ldapctx.modifyAttributes(ldapName, mods);
 
             // check if the request contains additional attributes
