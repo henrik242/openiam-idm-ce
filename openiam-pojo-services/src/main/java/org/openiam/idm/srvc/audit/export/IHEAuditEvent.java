@@ -391,7 +391,7 @@ public class IHEAuditEvent implements ExportAuditEvent{
         }
          if (log.getObjectTypeId().equalsIgnoreCase("POLICY")) {
             typeCode="14";
-             typeDisplayName = "Security Resource";
+             typeDisplayName = "Security Granularity";
              eventDisplayName = "Policy " + eventDisplayNameSuffix;
         }
         
