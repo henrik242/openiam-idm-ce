@@ -51,6 +51,8 @@ import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.password.*;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
+import org.openiam.spml2.spi.ldap.dirtype.Directory;
+import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
@@ -412,10 +414,13 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             LdapContext ldapctx = conMgr.connect(managedSys);
 
-            log.debug("Ldapcontext = " + ldapctx);
-
 
             String ldapName = psoID.getID();
+
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            ModificationItem[] mods = dirSpecificImp.setPassword(reqType);
+
+           /*
             ModificationItem[] mods = new ModificationItem[1];
 
             if ("ACTIVE_DIRECTORY".equalsIgnoreCase(managedSys.getHandler1())) {
@@ -432,6 +437,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
                 mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", reqType.getPassword()));
 
             }
+            */
             ldapctx.modifyAttributes(ldapName, mods);
 
             // check if the request contains additional attributes

@@ -152,6 +152,19 @@
           </tr>
 
         <tr>
+            <td>Target System Type</td>
+            <td>
+                <form:select path="handler1">
+                    <form:option value=""  label="-Select a value" />
+                    <form:option value="LDAP"  label="LDAP" />
+                    <form:option value="ACTIVE_DIRECTORY"  label="ACTIVE DIRECTORY" />
+                </form:select>
+                <i>Optional - Select a system to leverage functionality in the connector for that system.</i>
+                </td>
+        </tr>
+
+
+        <tr>
             <td>Add Object Rule</td>
             <td><form:input path="addHandler" size="50" maxlength="100" /></td>
         </tr>
@@ -168,30 +181,28 @@
             <td><form:input path="passwordHandler" size="50" maxlength="100" /></td>
         </tr>
         <tr>
-            <td>Suspend Object Ruler</td>
+            <td>Suspend Object Rule</td>
             <td><form:input path="suspendHandler" size="50" maxlength="100" /></td>
         </tr>
+      <!--
+      create a screen that is unique for each connector instead of one generic screen
         <tr>
-            <td>Custom Rule 1r</td>
-            <td><form:input path="handler1" size="50" maxlength="100" /></td>
-        </tr>
-        <tr>
-            <td>Custom Rule 2</td>
+            <td>Custom Rule 1</td>
             <td><form:input path="handler2" size="50" maxlength="100" /></td>
         </tr>
         <tr>
-            <td>Custom Rule 3</td>
+            <td>Custom Rule 2</td>
             <td><form:input path="handler3" size="50" maxlength="100" /></td>
         </tr>
         <tr>
-            <td>Custom Rule 4</td>
+            <td>Custom Rule 3</td>
             <td><form:input path="handler4" size="50" maxlength="100" /></td>
         </tr>
         <tr>
-            <td>Custom Rule 5</td>
+            <td>Custom Rule 4</td>
             <td><form:input path="handler5" size="50" maxlength="100" /></td>
         </tr>
-
+       -->
 	</table>
           <tr class="buttonRow">
               <td  align="right">
