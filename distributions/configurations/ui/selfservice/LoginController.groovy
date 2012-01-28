@@ -16,19 +16,14 @@ public class LoginController extends ExtendController   {
 	
 
 	public int pre(String command, Map<String,Object> objList,Object cmd) {
-		
-		System.out.println("LoginController script called with command." + command);
+
 		
 		def LoginCommand logincommand = (LoginCommand)cmd;
 		def ProvisionService provisionService = povisionService();
 		
 		def String userId = objList.get("userId"); 
 		def String userObj = (User)objList.get("userObj"); 
-		
-		System.out.println("UserId = " + userId);
-		System.out.println("UserObj = " + userObj);
-		
-	
+			
 	  return ExtendController.SUCCESS_CONTINUE;
 	
 		//objList.put("REDIRECT_URL","/passwordChange.selfserve?hideRMenu=1&cd=pswdexp");

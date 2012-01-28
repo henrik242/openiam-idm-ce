@@ -44,9 +44,7 @@ static String BASE_URL= "http://localhost:8080/openiam-idm-esb/idmsrvc";
 	//	ext.operation =  ModificationAttribute.replace;
 	//	extAttr.add(ext);
 	
-		println("UserId = " + userId);
-		println("passwordSyncObject = " + passwordSync );
-		
+	
 	
 	  	return ExtendController.SUCCESS_CONTINUE;
 	

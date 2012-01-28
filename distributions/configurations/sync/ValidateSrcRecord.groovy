@@ -22,6 +22,7 @@ public class ValidateSrcRecord implements ValidationScript {
 		//	return ValidationScript.NOT_VALID;
 		//}
 		
+		println("1-A - Validation script completed and is valid.");
 		
 		return ValidationScript.VALID;
 		

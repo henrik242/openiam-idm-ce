@@ -17,6 +17,7 @@ import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.base.AttributeOperationEnum;
+import org.openiam.idm.srvc.continfo.dto.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -51,20 +52,38 @@ public class TransformSrcRecord extends AbstractTransformScript {
 		
 	
 		
-		// Set default role
-		List<Role> roleList = new ArrayList<Role>();
-		RoleId id = new RoleId("USR_SEC_DOMAIN", "END_USER");
-		Role r = new Role();
-		r.setId(id);
-		roleList.add(r);
+		// Set role based on a job code
 		
+		List<Role> roleList = new ArrayList<Role>();
+		if (pUser.jobCode == "100") {
+				RoleId id = new RoleId("USR_SEC_DOMAIN", "MANAGER");
+				Role r = new Role();
+				r.setId(id);
+				roleList.add(r);
+		}else {
+		
+			RoleId id = new RoleId("USR_SEC_DOMAIN", "END_USER");
+			Role r = new Role();
+			r.setId(id);
+			roleList.add(r);
+		}		
 		pUser.setMemberOfRoles(roleList);
+		
+		/* Set Email and Address objects */
+		
+		manageEmail(rowObj,  pUser) 
+		
+		
+		/* Notify the user that an account has been created for them. */
+		
 		if (isNewUser) {
 			pUser.emailCredentialsToNewUsers = true;
 			
 		}
+		
+		
 		// update the identity object if the user exists
-		if (!isNewUser) {
+		/*if (!isNewUser) {
 			 if ( principalList != null && !principalList.isEmpty()) {
 			 	println("Updating identity");
 			 	// get the 
@@ -79,11 +98,49 @@ public class TransformSrcRecord extends AbstractTransformScript {
 			 }else {
 			 		println("No identities found...");
 			 }
-			 
-		}
+		*/
+			
 		
 			
 		return TransformScript.NO_DELETE;
+	}
+	
+	private void manageEmail(LineObject rowObj, ProvisionUser pUser) {
+		 Attribute attrVal = null;
+		 Set<EmailAddress> currentEmlSet = user.emailAddresses;
+		 Map<String,Attribute> columnMap =  rowObj.getColumnMap();
+		 
+		 attrVal = columnMap.get("EMAIL");
+		 if (attrVal != null) {
+		 	def emailStr = attrVal.getValue();
+		 	if (currentEmlSet != null) {
+		 		boolean found = false;
+		 		for (EmailAddress eml :currentEmlSet) {
+		 			if (eml.name == "EMAIL1") {
+		 				eml.emailAddress = emailStr;
+		 				found = true;
+		 			}
+		 			pUser.emailAddress.add(eml);
+		 		}
+		 		if (!found) {
+		 			def email1 = new EmailAddress();
+   					email1.setEmailAddress(emailStr);
+   					email1.setName("EMAIL1");
+   					email1.setParentType(ContactConstants.PARENT_TYPE_USER);
+   					pUser.emailAddresses.add(email1)
+		 		}
+		 		
+		 	}else {
+		 		def email1 = new EmailAddress();
+   				email1.setEmailAddress(emailStr);
+   				email1.setName("EMAIL1");
+   				email1.setParentType(ContactConstants.PARENT_TYPE_USER);
+   				pUser.emailAddresses.add(email1)
+		 	}
+		 }
+		
+		
+	
 	}
 	
 	private void populateObject(LineObject rowObj, ProvisionUser pUser) {
@@ -107,10 +164,11 @@ public class TransformSrcRecord extends AbstractTransformScript {
 			pUser.employeeId = attrVal.getValue();
 		}	
 		
-		pUser.email = "suneetshah2000@gmail.com";
-		
-		
-		
+		attrVal = columnMap.get("JOB_CODE");
+		if (attrVal != null) {
+			pUser.jobCode = attrVal.getValue();
+		}
+				
 	}
 	
 	

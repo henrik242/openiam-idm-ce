@@ -19,6 +19,8 @@ import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
+import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.org.service.OrganizationDataService;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -38,6 +40,8 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		System.out.println("** 2-Transform object called. **");
 		
 		def loginManager = loginService();
+		def OrganizationDataService orgService = orgService();
+		
 		Attribute attrVal = null;
 	
 		println("Is New User:" + isNewUser)
@@ -57,8 +61,10 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		
 		attrVal = columnMap.get("status");
 		if (attrVal != null) {
-			if (attrVal.getValue().equals("Active")) {
+			if (attrVal.getValue().equals("ACTIVE")) {
 				pUser.status = UserStatusEnum.ACTIVE;
+			}else {
+				pUser.status = UserStatusEnum.INACTIVE;
 			}
 		}	
 		
@@ -69,24 +75,56 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		
 		println("User status = " + pUser.status);
 	
+		// associate the user to an organization
+		attrVal = columnMap.get("org");
+		if (attrVal != null && attrVal.value != null) {
+			String orgName = attrVal.value;
+			List<Organization> orgList = orgService.search(orgName, null, null, null);
+			if (orgList != null && orgList.size() > 0) {
+				Organization o = orgList.get(0);
+				pUser.companyId = o.orgId;
+			}
+		}
 		
 		// Set role
-		if (isNewUser) {
+
 		attrVal = columnMap.get("role");
 		if (attrVal != null) {
-			List<Role> roleList = new ArrayList<Role>();
-			RoleId id = new RoleId("USR_SEC_DOMAIN", attrVal.getValue());
-			Role r = new Role();
-			r.setId(id);
-			roleList.add(r);
+			// tokenize the string
+			println("Role = " + attrVal.getValue());
+			String[]  roleAry = attrVal.getValue().split("\\*");
 			
-			println("Role=" + attrVal.getValue());
+			println("roleAry=" + roleAry);
+			
+			List<Role> roleList = new ArrayList<Role>();
+			
+			for (String strR:  roleAry) {
+			
+				RoleId id = new RoleId("USR_SEC_DOMAIN", strR);
+				Role r = new Role();
+				r.setId(id);
+				
+				if (!isInRole(userRoleList,  id)) {
+				
+					roleList.add(r);
+					
+					// check if its local admin
+					
+					if (strR.equalsIgnoreCase("LOCAL_ADMIN")) {
+						UserAttribute userAttr = new UserAttribute("DLG_FLT_ORG", pUser.companyId);
+						pUser.getUserAttributes().put("DLG_FLT_ORG", userAttr);
+						pUser.delAdmin = 1; 
+					}
+				
+					
+				}
+				println("Role=" + strR);
+			}
 		
 			pUser.setMemberOfRoles(roleList);
 		}
-		}
 		
-		if (isNewUser){
+		
 		
 		//  set fax and phone
 		List<Phone> phoneList = new ArrayList<Phone>();
@@ -94,9 +132,10 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		
 		
 		attrVal = columnMap.get("fax");
-		if (attrVal != null) {
+		if (attrVal != null && attrVal.getValue() != null) {
 			String fax  = attrVal.getValue();
 			println("fax=" + fax);
+			if (fax.length() > 3){
 			Phone faxPhone = new Phone();
 			faxPhone.setAreaCd(fax.substring(0,3));
 			faxPhone.setPhoneNbr(fax.substring(4));
@@ -104,20 +143,23 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 			faxPhone.setName("FAX");
 			//phoneList.add(faxPhone);
 			pUser.getPhone().add(faxPhone);
+			}
 			
 		}	
 		
 		attrVal = columnMap.get("phone");
-		if (attrVal != null) {
+		if (attrVal != null && attrVal.getValue() != null) {
 			String phone = attrVal.getValue();
 			println("Phone=" + phone);
-			Phone ph = new Phone();
-			ph.setAreaCd(phone.substring(0,3));
-			ph.setPhoneNbr(phone.substring(4));
-			ph.setParentType(ContactConstants.PARENT_TYPE_USER);
-			ph.setName("DESK PHONE");
-			//phoneList.add(ph);
-			pUser.getPhone().add(ph);
+			if (phone.length() > 3) {
+				Phone ph = new Phone();
+				ph.setAreaCd(phone.substring(0,3));
+				ph.setPhoneNbr(phone.substring(4));
+				ph.setParentType(ContactConstants.PARENT_TYPE_USER);
+				ph.setName("DESK PHONE");
+				//phoneList.add(ph);
+				pUser.getPhone().add(ph);
+			}
 			
 		}
 
@@ -134,14 +176,21 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		}
 		
 
-		}
 		
-		
-
-		
+	
 			
 		return TransformScript.NO_DELETE;
 	}
+	
+	private boolean isInRole(List<Role> currentRoleList, RoleId id) {
+		for (Role r : currentRoleList) {
+
+			if (r.id.roleId.equalsIgnoreCase(id.roleId) && r.id.serviceId.equalsIgnoreCase( id.serviceId)) {
+				return true;
+			}
+		}
+		return false;
+	}	
 	
 	private void populateObject(LineObject rowObj, ProvisionUser pUser) {
 		Attribute attrVal = null;
@@ -179,7 +228,7 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 			addAttribute(pUser, attrVal);
 		}	
 		
-		attrVal = columnMap.get("inactive timemout");
+		attrVal = columnMap.get("inactive timeout");
 		if (attrVal != null) {
 			addAttribute(pUser, attrVal);
 		}
@@ -193,6 +242,16 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		attrVal = columnMap.get("manager");
 		if (attrVal != null) {
 			addAttribute(pUser, attrVal);
+		}
+		
+		attrVal = columnMap.get("org domain name");
+			if (attrVal != null) {
+				addAttribute(pUser, attrVal);
+		}
+		
+		attrVal = columnMap.get("Org Unit");
+			if (attrVal != null) {
+				addAttribute(pUser, attrVal);
 		}
 
 		
@@ -208,6 +267,7 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		}
 	}
 	
+	/* Helper methods to access Web services */
 	
 	static LoginDataWebService loginService() {
 		String serviceUrl = BASE_URL + "/LoginDataWebService"
@@ -221,6 +281,20 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 		
 		return service.getPort(new QName(nameSpace,	port),
 				LoginDataWebService.class);
+	}
+	
+	static OrganizationDataService orgService() {
+		String serviceUrl = BASE_URL + "/OrganizationDataService"
+		String port ="OrganizationDataWebServicePort"
+		String nameSpace = "urn:idm.openiam.org/srvc/org/service"
+		
+		Service service = Service.create(QName.valueOf(serviceUrl))
+			
+		service.addPort(new QName(nameSpace,port),
+				SOAPBinding.SOAP11HTTP_BINDING,	serviceUrl)
+		
+		return service.getPort(new QName(nameSpace,	port),
+				OrganizationDataService.class);
 	}
 	
 }
