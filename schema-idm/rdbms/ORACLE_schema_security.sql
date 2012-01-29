@@ -503,28 +503,29 @@ WHERE NAME = 'DESK PHONE' AND PARENT_TYPE='USER';
 
 
 CREATE VIEW IAMUSER.USER_IDENTITY_VW AS
-SELECT u.*, l.auth_fail_count, l.canonical_name,
-l.current_login_host, l.first_time_login, l.grace_period,
-l.identity_type, l.is_default, l.is_locked, l.last_auth_attempt, l.last_login,
-l.last_login_ip, l.login, l.managed_sys_id, l.prev_login, l.prev_login_ip,
-l.pwd_change_count, l.pwd_exp, l.reset_pwd, l.service_id
-FROM LOGIN l, USERS u
-WHERE l.USER_ID = u.USER_ID;
+  SELECT u.*, l.auth_fail_count, l.canonical_name,
+  l.current_login_host, l.first_time_login, l.grace_period,
+  l.identity_type, l.is_default, l.is_locked, l.last_auth_attempt, l.last_login,
+  l.last_login_ip, l.login, l.managed_sys_id, l.prev_login, l.prev_login_ip,
+  l.pwd_change_count, l.pwd_exp, l.reset_pwd, l.service_id
+  FROM LOGIN l, USERS u
+  WHERE l.USER_ID = u.USER_ID;
 
 
 CREATE VIEW IAMUSER.USER_PSWD_EXPIRED_YESTERDAY_VW AS
-select LOGIN,l.SERVICE_ID, l.MANAGED_SYS_ID, l.USER_ID, l.GRACE_PERIOD AS EXPIRATION_DATE, u.FIRST_NAME, u.LAST_NAME, u.STATUS
-FROM LOGIN l, USERS u
-WHERE l.USER_ID = u.USER_ID AND
-	MANAGED_SYS_ID = 0 AND
-	GRACE_PERIOD IS NOT NULL AND
-	GRACE_PERIOD BETWEEN (SYSDATE-1) AND (SYSDATE)
-UNION
-select LOGIN,l.SERVICE_ID, l.MANAGED_SYS_ID, l.USER_ID, L.PWD_EXP AS EXPIRATION_DATE,  u.FIRST_NAME, u.LAST_NAME, u.STATUS
-FROM LOGIN l,  USERS u
-WHERE l.USER_ID = u.USER_ID AND
-	MANAGED_SYS_ID = 0 AND
-	PWD_EXP IS NOT NULL AND GRACE_PERIOD IS NULL AND
-	PWD_EXP BETWEEN (SYSDATE-1) AND (SYSDATE);
+  select LOGIN,l.SERVICE_ID, l.MANAGED_SYS_ID, l.USER_ID, GRACE_PERIOD AS EXPIRATION_DATE,  u.FIRST_NAME, u.LAST_NAME, u.STATUS
+  FROM LOGIN l,  USERS u
+  WHERE l.USER_ID = u.USER_ID AND
+      MANAGED_SYS_ID = 0 AND
+  (    (
+      GRACE_PERIOD IS NOT NULL AND
+      GRACE_PERIOD BETWEEN (SYSDATE-1) AND (SYSDATE)
+      )
+     OR
+     (
+      PWD_EXP IS NOT NULL AND GRACE_PERIOD IS NULL AND
+     PWD_EXP BETWEEN (SYSDATE-1) AND (SYSDATE)
+      )
+  );
 
 commit;
