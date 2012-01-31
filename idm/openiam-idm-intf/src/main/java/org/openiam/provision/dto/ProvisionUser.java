@@ -41,7 +41,6 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProvisionUser", propOrder = {
-        "principalList",
         "memberOfGroups",
         "appAccess",
         "requestId",
@@ -62,7 +61,7 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
      *
      */
     private static final long serialVersionUID = 6441635701870724194L;
-    protected List<Login> principalList;
+  //  protected List<Login> principalList;
     protected List<Group> memberOfGroups;
     protected List<Role> memberOfRoles;
     protected List<Organization> userAffiliations;
@@ -256,13 +255,7 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
         return null;
     }
 
-    public List<Login> getPrincipalList() {
-        return principalList;
-    }
 
-    public void setPrincipalList(List<Login> principalList) {
-        this.principalList = principalList;
-    }
 
 
     public String getRequestId() {
@@ -353,7 +346,6 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
     @Override
     public String toString() {
         return "ProvisionUser{" +
-                "principalList=" + principalList +
                 ", memberOfGroups=" + memberOfGroups +
                 ", memberOfRoles=" + memberOfRoles +
                 ", appAccess=" + appAccess +

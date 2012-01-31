@@ -169,6 +169,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         IdmAuditLog auditLog = null;
         boolean connectorSuccess = true;
 
+        log.debug("Request object being passed to addUser ---->" + user);
+
         // flag to determine if we should provision this user in target systems
         boolean provInTargetSystemNow = true;
 
@@ -204,6 +206,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("operation", "ADD");
 
         // CREATE THE PRIMARY IDENTITY IF IT HAS NOT BEEN PASSED IN
+        
+        log.debug("Principals being passed as part of the request object: " + user.getPrincipalList());
+        
         if (user.getPrincipalList() == null || user.getPrincipalList().isEmpty()) {
             // build the list
             addUser.buildPrimaryPrincipal(user, bindingMap, se);
@@ -1171,7 +1176,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                     log.debug("PROCESSING IDENTITY =" + mLg);
 
-                    if (mLg.getOperation() == AttributeOperationEnum.DELETE) {
+                    if (mLg != null && mLg.getOperation() == AttributeOperationEnum.DELETE) {
 
                         // delete this identity
                         List<Resource> delRes = new ArrayList<Resource>();
