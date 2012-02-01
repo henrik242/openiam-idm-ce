@@ -55,7 +55,7 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 	}
 
 	public void sendWithCC(String from, String to, String cc, String subject, String msg) {
-		log.info("To:" + to + ", From:" + from + ", Subject:" + subject);
+		log.debug("To:" + to + ", From:" + from + ", Subject:" + subject);
 
 		Message message = new Message();
 		if (from != null && from.length()  > 0) {
@@ -78,7 +78,7 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 		try {
 			mailSender.send(message);
 		}catch(Exception e) {
-			log.error(e);
+			log.error(e.toString());
 		}
 	}
 
@@ -169,7 +169,7 @@ public class MailServiceImpl implements MailService, ApplicationContextAware {
 			ScriptIntegration se = ScriptFactory.createModule(this.scriptEngine);
 			return (String) se.execute(bindingMap, emailScript);
 		} catch(Exception e) {
-			log.error(e);
+			log.error("createEmailBody():" + e.toString());
 			return null;
 		}
 	}
