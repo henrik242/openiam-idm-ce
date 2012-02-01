@@ -394,7 +394,9 @@ public class UserDAOImpl implements UserDAO {
                 where.append(" and ");
             }
             //where.append(" u.EMAIL_ADDRESS = :emailAddress ");
-            where.append(" em.EMAIL_ADDRESS LIKE :emailAddress ");
+            where.append(" ( UPPER(em.EMAIL_ADDRESS) LIKE :emailAddress  OR UPPER(u.EMAIL_ADDRESS) LIKE :emailAddress) ");
+
+            //where.append(" em.EMAIL_ADDRESS LIKE :emailAddress ");
             emailAddress = true;
         }
         if (!search.getGroupIdList().isEmpty()) {

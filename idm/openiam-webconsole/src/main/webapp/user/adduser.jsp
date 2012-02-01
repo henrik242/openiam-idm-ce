@@ -260,14 +260,14 @@ function selectChange(ctrl) {
     </tr>
 
    <tr>
-          <td>Notify User</td>
+          <td></td>
          <td colspan="5"><form:checkbox path="notifyUserViaEmail"  />
          <i>Notify User of the credentials via e-mail. Requires an email address</i></td>
 
 
      </tr>
      <tr>
-          <td>Notify Supervisor</td>
+          <td></td>
          <td colspan="5"><form:checkbox path="notifySupervisorViaEmail"  />
          <i>Notify Supervisor of the credentials for the new user via e-mail. Requires a supervisor to be selected</i></td>
 
