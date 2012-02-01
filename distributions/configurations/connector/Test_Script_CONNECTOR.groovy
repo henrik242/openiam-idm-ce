@@ -9,6 +9,8 @@ import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
 public class Test_Script_CONNECTOR  implements ConnectorService {
 
+    public ManagedSys managedSys;
+
     public ResponseType testConnection(ManagedSys managedSys) {
         return null;
     }

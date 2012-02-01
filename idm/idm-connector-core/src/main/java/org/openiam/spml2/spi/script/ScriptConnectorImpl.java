@@ -36,236 +36,229 @@ import org.openiam.spml2.spi.ldap.LdapConnectorImpl;
 
 import javax.jws.WebService;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Connector shell that can be used to jumpstart the creation of a connector service.
- * @author suneet
  *
+ * @author suneet
  */
 
-@WebService(endpointInterface="org.openiam.spml2.interf.ConnectorService",
-		targetNamespace="http://www.openiam.org/service/connector",
-		portName = "ScriptConnectorServicePort", 
-		serviceName="ScriptConnectorService")
+@WebService(endpointInterface = "org.openiam.spml2.interf.ConnectorService",
+        targetNamespace = "http://www.openiam.org/service/connector",
+        portName = "ScriptConnectorServicePort",
+        serviceName = "ScriptConnectorService")
 
 public class ScriptConnectorImpl extends AbstractSpml2Complete implements ConnectorService {
 
-	private static final Log log = LogFactory.getLog(LdapConnectorImpl.class);
-	protected ManagedSystemDataService managedSysService;
-	protected ManagedSystemObjectMatchDAO managedSysObjectMatchDao;
-	protected ResourceDataService resourceDataService;
-	protected String scriptEngine;
-	
-	public boolean testConnection(String targetID) {
-		return false;
-	}
+    private static final Log log = LogFactory.getLog(LdapConnectorImpl.class);
+    protected ManagedSystemDataService managedSysService;
+    protected ManagedSystemObjectMatchDAO managedSysObjectMatchDao;
+    protected ResourceDataService resourceDataService;
+    protected String scriptEngine;
 
-	public AddResponseType add(AddRequestType reqType) {
-		String targetID = reqType.getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+    public AddResponseType add(AddRequestType reqType) {
+        String targetID = reqType.getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-		try {
-			return createConnector(managedSys).add(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+        try {
+            return createConnector(managedSys).add(reqType);
+        } catch (Exception e) {
+            log.error("Could not add: " + e.toString());
 
-			AddResponseType resp = new AddResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
+            AddResponseType resp = new AddResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
 
-		}
-	}
+        }
+    }
 
-	public ResponseType delete(DeleteRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+    public ResponseType delete(DeleteRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-		try {
-			return createConnector(managedSys).delete(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+        try {
+            return createConnector(managedSys).delete(reqType);
+        } catch (Exception e) {
+            log.error("Could not delete: " + e.toString());
 
-			ResponseType resp = new ResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+            ResponseType resp = new ResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-	public ListTargetsResponseType listTargets(ListTargetsRequestType reqType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public LookupResponseType lookup(LookupRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public LookupResponseType lookup(LookupRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).lookup(reqType);
+        } catch (Exception e) {
+            log.error("Lookup problem: " + e.toString());
 
-		try {
-			return createConnector(managedSys).lookup(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            LookupResponseType resp = new LookupResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			LookupResponseType resp = new LookupResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ModifyResponseType modify(ModifyRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ModifyResponseType modify(ModifyRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).modify(reqType);
+        } catch (Exception e) {
+            log.error("Could not modify: " + e.toString());
 
-		try {
-			return createConnector(managedSys).modify(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ModifyResponseType resp = new ModifyResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ModifyResponseType resp = new ModifyResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ResponseType expirePassword(ExpirePasswordRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ResponseType expirePassword(ExpirePasswordRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).expirePassword(reqType);
+        } catch (Exception e) {
+            log.error("Could not expire password: " + e.toString());
 
-		try {
-			return createConnector(managedSys).expirePassword(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ResponseType resp = new ResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ResponseType resp = new ResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ResetPasswordResponseType resetPassword(ResetPasswordRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ResetPasswordResponseType resetPassword(ResetPasswordRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).resetPassword(reqType);
+        } catch (Exception e) {
+            log.error("Could not reset password: " + e.toString());
 
-		try {
-			return createConnector(managedSys).resetPassword(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ResetPasswordResponseType resp = new ResetPasswordResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ResetPasswordResponseType resp = new ResetPasswordResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ResponseType setPassword(SetPasswordRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ResponseType setPassword(SetPasswordRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).setPassword(reqType);
+        } catch (Exception e) {
+            log.error("Could not set password: " + e.toString());
 
-		try {
-			return createConnector(managedSys).setPassword(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ResponseType resp = new ResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ResponseType resp = new ResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ResponseType testConnection(ManagedSys managedSys) {
+        try {
+            return createConnector(managedSys).testConnection(managedSys);
+        } catch (Exception e) {
+            log.error("Could not test connection: " + e.toString());
 
-	public ResponseType testConnection(ManagedSys managedSys) {
-		try {
-			return createConnector(managedSys).testConnection(managedSys);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ResponseType resp = new ResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ResponseType resp = new ResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ResponseType suspend(SuspendRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ResponseType suspend(SuspendRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).suspend(reqType);
+        } catch (Exception e) {
+            log.error("Error suspending: " + e.toString());
 
-		try {
-			return createConnector(managedSys).suspend(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ResponseType resp = new ResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ResponseType resp = new ResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ResponseType resume(ResumeRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ResponseType resume(ResumeRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).resume(reqType);
+        } catch (Exception e) {
+            log.error("Error resuming : " + e.toString());
 
-		try {
-			return createConnector(managedSys).resume(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ResponseType resp = new ResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ResponseType resp = new ResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    public ValidatePasswordResponseType validatePassword(ValidatePasswordRequestType reqType) {
+        String targetID = reqType.getPsoID().getTargetID();
+        ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-	public ValidatePasswordResponseType validatePassword(ValidatePasswordRequestType reqType) {
-		String targetID = reqType.getPsoID().getTargetID();
-		ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        try {
+            return createConnector(managedSys).validatePassword(reqType);
+        } catch (Exception e) {
+            log.error("Error validating password: " + e.toString());
 
-		try {
-			return createConnector(managedSys).validatePassword(reqType);
-		} catch (Exception e) {
-			log.error(e.getMessage());
+            ValidatePasswordResponseType resp = new ValidatePasswordResponseType();
+            resp.setStatus(StatusCodeType.FAILURE);
+            return resp;
+        }
+    }
 
-			ValidatePasswordResponseType resp = new ValidatePasswordResponseType();
-			resp.setStatus(StatusCodeType.FAILURE);
-			return resp;
-		}
-	}
+    private ConnectorService createConnector(ManagedSys managedSys) throws ClassNotFoundException, IOException {
+        String connectorPath = "/connector/" + managedSys.getName() + ".groovy";
 
-	private ConnectorService createConnector(ManagedSys managedSys) throws ClassNotFoundException, IOException {
-		String connectorPath = "/connector/" +  managedSys.getName() + ".groovy";
+        ScriptIntegration se = ScriptFactory.createModule(this.scriptEngine);
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
+        bindingMap.put("managedSys", managedSys);
+        return (ConnectorService) se.instantiateClass(bindingMap, connectorPath);
+    }
 
-		ScriptIntegration se = ScriptFactory.createModule(this.scriptEngine);
-		return (ConnectorService) se.instantiateClass(null, connectorPath);
-	}
+    public ManagedSystemDataService getManagedSysService() {
+        return managedSysService;
+    }
 
-	public ManagedSystemDataService getManagedSysService() {
-		return managedSysService;
-	}
-	
-	public void setManagedSysService(ManagedSystemDataService managedSysService) {
-		this.managedSysService = managedSysService;
-	}
-	
-	public ManagedSystemObjectMatchDAO getManagedSysObjectMatchDao() {
-		return managedSysObjectMatchDao;
-	}
-	
-	public void setManagedSysObjectMatchDao(ManagedSystemObjectMatchDAO managedSysObjectMatchDao) {
-		this.managedSysObjectMatchDao = managedSysObjectMatchDao;
-	}
-	
-	public ResourceDataService getResourceDataService() {
-		return resourceDataService;
-	}
-	
-	public void setResourceDataService(ResourceDataService resourceDataService) {
-		this.resourceDataService = resourceDataService;
-	}
-	
-	public String getScriptEngine() {
-		return scriptEngine;
-	}
-	
-	public void setScriptEngine(String scriptEngine) {
-		this.scriptEngine = scriptEngine;
-	}
+    public void setManagedSysService(ManagedSystemDataService managedSysService) {
+        this.managedSysService = managedSysService;
+    }
 
+    public ManagedSystemObjectMatchDAO getManagedSysObjectMatchDao() {
+        return managedSysObjectMatchDao;
+    }
 
+    public void setManagedSysObjectMatchDao(ManagedSystemObjectMatchDAO managedSysObjectMatchDao) {
+        this.managedSysObjectMatchDao = managedSysObjectMatchDao;
+    }
+
+    public ResourceDataService getResourceDataService() {
+        return resourceDataService;
+    }
+
+    public void setResourceDataService(ResourceDataService resourceDataService) {
+        this.resourceDataService = resourceDataService;
+    }
+
+    public String getScriptEngine() {
+        return scriptEngine;
+    }
+
+    public void setScriptEngine(String scriptEngine) {
+        this.scriptEngine = scriptEngine;
+    }
 }
