@@ -235,7 +235,8 @@
 	
 
 	<bean id="loginDAO" class="org.openiam.idm.srvc.auth.login.LoginDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"></property>
+        <property name="dbType" value="${openiam.dbType}" />
 	</bean>	
 
 	<bean id="loginAttrDAO" class="org.openiam.idm.srvc.auth.login.LoginAttributeDAOImpl" >
