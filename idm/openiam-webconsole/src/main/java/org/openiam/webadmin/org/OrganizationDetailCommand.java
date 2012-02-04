@@ -44,7 +44,7 @@ public class OrganizationDetailCommand implements Serializable {
 
 	private List<Organization> childOrg = null ;
 	private Organization parentOrg;
-	private Set<OrganizationAttribute> orgAttributeSet;
+	private List<OrganizationAttribute> orgAttributeSet;
 	private Organization org;
 	private MetadataType[] typeList;    
 	
@@ -105,19 +105,11 @@ public class OrganizationDetailCommand implements Serializable {
 		this.typeList = typeList;
 	}
 
+    public List<OrganizationAttribute> getOrgAttributeSet() {
+        return orgAttributeSet;
+    }
 
-	public Set<OrganizationAttribute> getOrgAttributeSet() {
-		return orgAttributeSet;
-	}
-
-
-	public void setOrgAttributeSet(Set<OrganizationAttribute> orgAttributeSet) {
-		this.orgAttributeSet = orgAttributeSet;
-	}
-
-
-
-
-	
-
+    public void setOrgAttributeSet(List<OrganizationAttribute> orgAttributeSet) {
+        this.orgAttributeSet = orgAttributeSet;
+    }
 }

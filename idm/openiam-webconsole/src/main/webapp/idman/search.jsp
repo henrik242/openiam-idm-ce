@@ -29,7 +29,7 @@
 	
 %>
 <html:html>
-		<table  width="900pt">
+		<table  width="1100pt">
 			<tr>
 				<td>
 					<table width="100%">
@@ -60,7 +60,7 @@
 			<td>
 
 <html:form action = "/idman/userSearch.do?action=search">
-  <table width="800pt"  class="bodyTable" height="100%"  >
+  <table width="1100pt"  class="bodyTable" height="100%"  >
 
 
 <tr>

@@ -26,8 +26,10 @@
 		<property name="orgDataService" ref="orgServiceClient" />	
 		<property name="metadataService" ref="metadataServiceClient" />
 		<property name="orgTypeCategory" value="ORG_TYPE" />
-		<property name="redirectView" value="orglist.cnt?mode=1" />
-     </bean>     
+		<property name="redirectView" value="orgDetail.cnt?mode=1" />
+         <property name="cancelView" value="orglist.cnt" />
+     </bean>
+
      <bean id="orgDetailValidator" class="org.openiam.webadmin.org.OrgDetailValidator" />
 
   <!-- Client manager - for multitenancy -->

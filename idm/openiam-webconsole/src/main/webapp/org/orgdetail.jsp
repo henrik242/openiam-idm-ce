@@ -4,21 +4,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 
-       
-		<table  width="600pt">
+ <%
+     String mode = (String)request.getAttribute("mode");   
+             
+ %>
+		<table  width="800pt">
 			<tr>
 				<td>
 					<table width="100%">
 						<tr>
-							<td class="pageTitle" width="70%">
+							<td class="pageTitle" width="90%">
 								<h2 class="contentheading">Organization Manager</h2>
 						</td>
 						</tr>
 					</table>
 			</td>
-		</tr>       
+		</tr>     
+        <% if ("1".equals(mode)) { %>
+            <tr>
+                <td><font color="red">The information has been successfully saved.<br>
+                    To exit this screen press [Cancel}</font>
+                </td>
+            </tr>
+        <% } %>
+            
+            
 <form:form commandName="orgDetailCmd">
-		<table width="600pt"  class="bodyTable" height="100%" >
+	<form:hidden path="org.orgId" />
+										
+		<table width="800pt"  class="bodyTable" height="100%" >
 				<tr>
 					<td>    
 							<fieldset class="userformSearch" >
@@ -28,7 +42,7 @@
 	
        <tr>
 			  <td>Organization ID</td>
-              <td class="tdlightnormal"><form:input path="org.orgId" size="35" maxlength="32" readonly="true" /></td>
+              <td class="tdlightnormal">${orgDetailCmd.org.orgId}</td>
           </tr>
           <tr>
               <td class="tddark">Name<font color="red">*</font></td>
@@ -117,31 +131,46 @@
 			  		<form:input path="org.ldapStr" size="40" maxlength="40" />
 			  </td>
 		  </tr>
- 
-    <c:if test="${orgDetailCmd.orgAttributeSet != null}" >	
-	<c:forEach items="${orgDetailCmd.orgAttributeSet}" var="orgAttributeSet" varStatus="attr">
-				<tr>
-								<td>${orgAttributeSet.name}
-									<form:hidden path="orgAttributeSet[${attr.index}].name" />
-									<form:hidden path="orgAttributeSet[${attr.index}].attrId" />
-									<form:hidden path="orgAttributeSet[${attr.index}].organizationId" />
-								</td>
-								<td>
-								<form:input path="orgAttributeSet[${attr.index}].value" size="40" maxlength="200" /> </td>
-				</tr>
-				
-	</c:forEach>
- </c:if>	
-  
-          <tr>
-              <td>Create</td>
-			  <td>On ${orgListCmd.org.createDate} by ${orgListCmd.group.createdBy} 
-			  </td>
-		  </tr>	
-          <tr>
-              <td>Last Update</td>
-			  <td>On ${orgListCmd.org.lastUpdate} by ${orgListCmd.org.lastUpdatedBy}	  </td>
-		  </tr>	
+ 			
+ 			<tr>
+ 					<td colspan="2">
+ 						
+					 <table width="600pt" >
+								<tr>
+									<td align="center" height="100%">
+								     <fieldset class="userform" >
+											<legend>CUSTOM ATTRIBUTES </legend>
+											<table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">	
+												
+													<tr class="header">
+														<th>Name</th>
+														<th>Value</th>
+													</tr>	
+							 
+							    <c:if test="${orgDetailCmd.orgAttributeSet != null}" >	
+											<c:forEach items="${orgDetailCmd.orgAttributeSet}" var="orgAttributeSet" varStatus="attr">
+														<tr>
+																		<td><form:input path="orgAttributeSet[${attr.index}].name" size="20"  />
+										
+																			<form:hidden path="orgAttributeSet[${attr.index}].attrId" />
+																			<form:hidden path="orgAttributeSet[${attr.index}].organizationId" />
+																		</td>
+																		<td>
+																		<form:input path="orgAttributeSet[${attr.index}].value" size="40" maxlength="200" /> </td>
+														</tr>
+														
+											</c:forEach>
+							 </c:if>
+                                                <tr>
+                                                    <td colspan="2"><i>To remove a custom attribute, leave the name blank</i><br>
+                                                        <i>To add a new row, click on SAVE first. A new row will be added.</i></td>
+                                                </tr>
+                                            </table>
+							  </td>
+						</tr>
+					</table>
+				</td>
+		</tr>
   
         
 
@@ -159,7 +188,9 @@
               <a href="orgDetail.cnt?parentOrgId=${orgDetailCmd.org.orgId}">New Child Organization</a> 
               	<input type="submit" name="btn" value="Delete">
               </c:if>
-              <input type="submit" name="btn" value="Save"> <input type="submit" name="btn" value="Cancel"></td>
+              <input type="submit" name="btn" value="Save">
+                  <input type="submit" name="_cancel" value="Cancel" />
+                  </td>
           </tr>
 	</table>
 </form:form>
@@ -171,12 +202,12 @@
 							
 <c:if test="${orgDetailCmd.childOrg != null}" >
 
-<table width="600pt" >
+<table width="800pt" >
 			<tr>
 				<td align="center" height="100%">
 			     <fieldset class="userform" >
 						<legend>CHILD ORGANIZATIONS </legend>
-						<table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">	
+						<table class="resourceTable" cellspacing="2" cellpadding="2" width="800pt">	
 							
 	<tr class="header">
 		<th>Name</th>
