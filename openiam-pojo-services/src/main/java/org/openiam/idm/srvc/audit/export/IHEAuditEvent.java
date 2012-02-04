@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.audit.export;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
+import sun.misc.BASE64Encoder;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -318,6 +319,14 @@ public class IHEAuditEvent implements ExportAuditEvent{
                reason="";
            }
 
+        BASE64Encoder encoder = new BASE64Encoder();
+        String actionId = "";
+        if (log.getActionId() != null) {
+            actionId = encoder.encode(log.getActionId().getBytes());
+
+        }
+
+
 
            StringBuffer buf = new StringBuffer();
            buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>  \n");
@@ -338,7 +347,7 @@ public class IHEAuditEvent implements ExportAuditEvent{
 
            buf.append("<ParticipantObjectIdentification ParticipantObjectTypeCode=\"1\" ParticipantObjectTypeCodeRole=\"11\" ParticipantObjectID=\"" + log.getCustomAttrvalue3() + "\" >");
            buf.append(" <ParticipantObjectIDTypeCode code=\"11\" codeSystemName=\"DCM\" displayName=\"Security User Entity\"> </ParticipantObjectIDTypeCode> " );
-           buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\""+ log.getActionId() +"\"/>");
+           buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\""+ actionId +"\"/>");
 
 
            buf.append("</ParticipantObjectIdentification>");
@@ -394,8 +403,14 @@ public class IHEAuditEvent implements ExportAuditEvent{
              typeDisplayName = "Security Granularity";
              eventDisplayName = "Policy " + eventDisplayNameSuffix;
         }
-        
-        
+
+
+        BASE64Encoder encoder = new BASE64Encoder();
+        String encodeDisplayName = "";
+        if (eventDisplayName != null) {
+            encodeDisplayName = encoder.encode(eventDisplayName.getBytes());
+
+        }
 
 
 
@@ -424,7 +439,7 @@ public class IHEAuditEvent implements ExportAuditEvent{
 
            buf.append("<ParticipantObjectIdentification ParticipantObjectTypeCode=\"2\" ParticipantObjectTypeCodeRole=\"" + typeCode + "\" ParticipantObjectID=\"" + log.getResourceName() + "\" >");
            buf.append("<ParticipantObjectIDTypeCode  code=\"" + typeCode + "\"  codeSystemName=\"DCM\" displayName=\"" + typeDisplayName + "\"> </ParticipantObjectIDTypeCode> " );
-           buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\""+ eventDisplayName +"\"/>");
+           buf.append("<ParticipantObjectDetail type=\"IAM Action\" value=\""+ encodeDisplayName +"\"/>");
 
 
            buf.append("</ParticipantObjectIdentification>");
