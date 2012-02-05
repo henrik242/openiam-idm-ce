@@ -21,6 +21,7 @@ package org.openiam.webadmin.grp;
 import java.io.Serializable;
 
 import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.grp.dto.GroupAttribute;
 import org.openiam.idm.srvc.meta.dto.MetadataType;
 import org.openiam.idm.srvc.org.dto.Organization;
 
@@ -40,6 +41,7 @@ public class GroupDetailCommand implements Serializable {
 	private static final long serialVersionUID = 513253291470702152L;
 	
 	private List<Group> childGroup = null ;
+    private List<GroupAttribute> attributeList;
 	private Group parentGroup;
 	private Group group;
 	
@@ -76,10 +78,13 @@ public class GroupDetailCommand implements Serializable {
 	public void setTypeList(MetadataType[] typeList) {
 		this.typeList = typeList;
 	}
-   
-    
-    
 
-	
 
+    public List<GroupAttribute> getAttributeList() {
+        return attributeList;
+    }
+
+    public void setAttributeList(List<GroupAttribute> attributeList) {
+        this.attributeList = attributeList;
+    }
 }

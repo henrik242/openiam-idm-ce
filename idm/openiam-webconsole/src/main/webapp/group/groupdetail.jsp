@@ -2,22 +2,33 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%
+    String mode = (String)request.getAttribute("mode");
 
-		<table  width="600pt">
+%>
+		<table  width="700pt">
 			<tr>
 				<td>
 					<table width="100%">
 						<tr>
-							<td class="pageTitle" width="70%">
+							<td class="pageTitle" width="90%">
 								<h2 class="contentheading">Group Manager</h2>
 						</td>
 						</tr>
 					</table>
 			</td>
-		</tr>         
+		</tr>
+            <% if ("1".equals(mode)) { %>
+            <tr>
+                <td><font color="red">The information has been successfully saved.<br>
+                    To exit this screen press [Cancel}</font>
+                </td>
+            </tr>
+            <% } %>
+
 <form:form commandName="groupDetailCmd">
-		<table width="600pt"  class="bodyTable" height="100%" >
+		<table width="700pt"  class="bodyTable" height="100%" >
 				<tr>
 					<td>    
 							<fieldset class="userformSearch" >
@@ -97,16 +108,50 @@
 			  			<form:option value="1"  label="YES" />
 		            </form:select>
 			  </td>
-		  </tr>		  
-          <tr>
-              <td>Create</td>
-			  <td>On ${groupDetailCmd.group.createDate} by ${groupDetailCmd.group.createdBy} </td>
-		  </tr>	
-          <tr>
-              <td>Last Update</td>
-			  <td>On ${groupDetailCmd.group.lastUpdate} by ${groupDetailCmd.group.lastUpdatedBy}
-			  </td>
-		  </tr>	
+		  </tr>
+
+                        <tr>
+                            <td colspan="2">
+
+                                <table width="600pt" >
+                                    <tr>
+                                        <td align="center" height="100%">
+                                            <fieldset class="userform" >
+                                                <legend>CUSTOM ATTRIBUTES </legend>
+                                                <table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">
+
+                                                    <tr class="header">
+                                                        <th>Name</th>
+                                                        <th>Value</th>
+                                                    </tr>
+
+                                                    <c:if test="${groupDetailCmd.attributeList != null}" >
+                                                        <c:forEach items="${groupDetailCmd.attributeList}" var="attributeList" varStatus="attr">
+                                                            <tr>
+                                                                <td><form:input path="attributeList[${attr.index}].name" size="20"  />
+
+                                                                    <form:hidden path="attributeList[${attr.index}].id" />
+                                                                    <form:hidden path="attributeList[${attr.index}].groupId" />
+                                                                </td>
+                                                                <td>
+                                                                    <form:input path="attributeList[${attr.index}].value" size="40" maxlength="200" /> </td>
+                                                            </tr>
+
+                                                        </c:forEach>
+                                                    </c:if>
+                                                    <tr>
+                                                        <td colspan="2"><i>To remove a custom attribute, leave the name blank</i><br>
+                                                            <i>To add a new row, click on SAVE first. A new row will be added.</i></td>
+                                                    </tr>
+                                                </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+
+
   
           <tr class="buttonRow">
               <td colspan="2" align="right">

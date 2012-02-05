@@ -93,7 +93,7 @@
             </column>
         </property> 
  
-        <map name="attributes" cascade="all" lazy="false">
+        <map name="attributes" cascade="all" lazy="false" inverse="false">
         	<key>
         		<column name="GRP_ID" length="32" />
         	</key>
