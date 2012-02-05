@@ -14,18 +14,36 @@
 
 </head>
 
-<% List<User> userList = (List<User>)session.getAttribute("supervisorList"); %>
+<% List<User> userList = (List<User>)session.getAttribute("supervisorList"); 
+   String idField = request.getParameter("idfield");
+   String nameField = request.getParameter("namefield");
+
+   // place the field values in session - they will be lost when the user does a search.
+   if (idField != null) {
+        session.setAttribute("idfield", idField);
+    }else {
+        idField = (String)session.getAttribute("idfield");
+    }
+
+    if (nameField != null) {
+        session.setAttribute("namefield", nameField);
+    }else {
+        nameField = (String)session.getAttribute("namefield");
+    }
+
+%>
 
 <script type="text/javascript">
-function selSupervisor(userId, name)
+function selSupervisor(idFieldName, userId, nameFieldName, name)
 {
 
-  var o = new Object();
-  o.id = userId;
-  o.name = name;
-  window.returnValue = o; 
+
+window.opener.document.getElementById (nameFieldName).value = name; 
+window.opener.document.getElementById (idFieldName).value = userId; 
+
 }
 </script>
+
 
 <body>
 
@@ -122,7 +140,7 @@ function selSupervisor(userId, name)
 			<td> <%=JSPUtil.display(user.getDeptCd())%> </td>
 			<td> </td>
 			<td>
-			<a href="javascript:selSupervisor('<%=user.getUserId()%>','<%=user.getFirstName() %> <%=lastName %>' );window.close();">Select</a></td>
+			<a href="javascript:selSupervisor('<%=idField%>','<%=user.getUserId()%>','<%=nameField%>','<%=user.getFirstName() %> <%=lastName %>' );window.close();">Select</a></td>
 		</tr>
 	<% 	}
 	}else {
