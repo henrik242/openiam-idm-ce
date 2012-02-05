@@ -3,7 +3,7 @@ package org.openiam.idm.srvc.audit.export;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
-import sun.misc.BASE64Encoder;
+
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,6 +19,8 @@ import javax.net.ssl.SSLSocket;
 import java.net.InetAddress;
 import java.util.ResourceBundle;
 
+import static org.apache.commons.codec.binary.Base64.decodeBase64;
+import static org.apache.commons.codec.binary.Base64.encodeBase64String;
 
 /**
  * Implementation to export IHE (Healthcare) Audit Events
@@ -319,10 +321,9 @@ public class IHEAuditEvent implements ExportAuditEvent{
                reason="";
            }
 
-        BASE64Encoder encoder = new BASE64Encoder();
         String actionId = "";
         if (log.getActionId() != null) {
-            actionId = encoder.encode(log.getActionId().getBytes());
+            actionId = encodeBase64String(log.getActionId().getBytes());
 
         }
 
@@ -405,10 +406,9 @@ public class IHEAuditEvent implements ExportAuditEvent{
         }
 
 
-        BASE64Encoder encoder = new BASE64Encoder();
         String encodeDisplayName = "";
         if (eventDisplayName != null) {
-            encodeDisplayName = encoder.encode(eventDisplayName.getBytes());
+            encodeDisplayName = encodeBase64String(eventDisplayName.getBytes());
 
         }
 
