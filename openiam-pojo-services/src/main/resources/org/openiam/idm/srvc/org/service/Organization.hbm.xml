@@ -59,12 +59,12 @@
             </column>
         </property>
         <property name="alias" type="string">
-            <column name="ALIAS" length="40">
+            <column name="ALIAS" length="100">
                 <comment></comment>
             </column>
         </property>
         <property name="description" type="string">
-            <column name="DESCRIPTION" length="40">
+            <column name="DESCRIPTION" length="100">
                 <comment></comment>
             </column>
         </property>
