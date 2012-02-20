@@ -20,16 +20,10 @@
   String objId = (String)request.getAttribute("objId");
   
   
-  String userId = (String)session.getAttribute("userId");
+
   String token = (String)session.getAttribute("token");
-  String login = (String)session.getAttribute("login");
-  String queryString = null;
+  String queryString = "";
 
-  if (userId != null) {
-      queryString = "userId=" + userId +  "&lg="+login;
-
-  }
-  
   User personData = (User)request.getAttribute("personData");
   List<Menu> menuList = (List<Menu>) session.getAttribute("sideMenus");
   String personId = (String)request.getAttribute("personId");

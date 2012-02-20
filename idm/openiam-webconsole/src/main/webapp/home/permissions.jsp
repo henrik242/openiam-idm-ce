@@ -12,21 +12,12 @@
  
 <table>
 <%
+  
 
   String userId = (String)session.getAttribute("userId");
-  String token = (String)session.getAttribute("token");
-  String login = (String)session.getAttribute("login");
-  String queryString = null;
+  String queryString = "";
 
   
-  if (userId != null) {
-    if (token != null) {
-      queryString = "userId=" + userId +  "&lg="+login;
-    } else {
-      queryString = "userId=" + userId + "&lg="+login;
-    }
-  }
-
   List menuList = (List) session.getAttribute("permissions");
 
   if (menuList != null && !menuList.isEmpty() ) {

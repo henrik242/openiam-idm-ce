@@ -37,10 +37,8 @@ public class LogoutAction extends DispatchActionSupport  {
       Locale locale = getLocale(request);
       HttpSession session = request.getSession();
 
-      String userId = request.getParameter("userId");
-      if (userId == null) {
-        userId = (String)session.getAttribute("userId");
-      }
+      String userId = (String)session.getAttribute("userId");
+
 
      String login = (String)request.getSession().getAttribute("login");
      String domain = (String) request.getSession().getAttribute("domainId");

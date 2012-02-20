@@ -24,16 +24,11 @@ was available, the menuList could be extracted there ======================= -->
 
  <%
 
-  String userId = (String)session.getAttribute("userId");
-  String token = (String)session.getAttribute("token");
-  String login = (String)session.getAttribute("login");
-  String queryString = null;
 
-  if (userId != null) {
-	  // l->level t->top
-      queryString = "userId=" + userId + "&lg="+login + "&l=t";
+  String queryString = "l=t";
 
-  }
+
+
   
   
   List menuList = (List) session.getAttribute("topLevelMenus");
