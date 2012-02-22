@@ -338,7 +338,7 @@ function showSupervisorDialog(idfield, namefield) {
 				   </tr>
 				  <tr >
 				       <td   ><label for="username" class="attribute">Bldg Num - Address</label></td>
-				       <td  class="userformInput" for="username" class="labelValue" ><form:input path="user.bldgNum" size="5"  /> <form:input path="user.address1" size="20"  /></td>
+				       <td  class="userformInput" for="username" class="labelValue" ><form:input path="user.bldgNum" size="5" maxlength="5"   /> <form:input path="user.address1" size="20" maxlength="30"   /></td>
 					   
 				   </tr>
 				  <tr >

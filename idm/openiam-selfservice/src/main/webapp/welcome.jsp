@@ -80,12 +80,12 @@
        </tr>
          <tr>
 		 <td align="right"><b>Current Login:</b> </td>
-         <td valign="center">${primaryIdentity.lastLogin} from ${primaryIdentity.lastLoginIP}</td>
+         <td valign="center">${primaryIdentity.lastLogin}</td>
        </tr>
        </tr>
          <tr>
 		 <td align="right"><b>Previous Login:</b> </td>
-         <td valign="center">${primaryIdentity.prevLogin} from ${primaryIdentity.prevLoginIP}</td>
+         <td valign="center">${primaryIdentity.prevLogin}</td>
        </tr>
 
        <c:if test="${pendingReq != null}" >

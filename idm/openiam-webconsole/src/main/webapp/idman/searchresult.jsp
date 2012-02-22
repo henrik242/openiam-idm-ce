@@ -62,6 +62,20 @@
 
                         if( userList != null && userList.size() > 0 ) {
                             for (User ud : userList) {
+                                StringBuilder ph = new StringBuilder();
+                                if (ud.getAreaCd() != null && !ud.getAreaCd().isEmpty()) {
+                                    ph.append("(");
+                                    ph.append(ud.getAreaCd());
+                                    ph.append(")");
+                                }
+                                if (ud.getPhoneNbr() != null && !ud.getPhoneNbr().isEmpty()) {
+                                    ph.append(ud.getPhoneNbr());
+                                }
+                                if ( ud.getPhoneExt() != null && !ud.getPhoneExt().isEmpty()) {
+                                    ph.append(" x");
+                                    ph.append(ud.getPhoneExt());
+                                }
+
 
                     %>
 
@@ -70,12 +84,15 @@
 
 
                         <td width="30%"  class="tableEntry" valign="top">
-                            <% if (ud.getFirstName() != null || ud.getLastName() != null) { %>
-                            <a href="editUser.cnt?personId=<%=ud.getUserId()%>&menugrp=QUERYUSER"><%= JSPUtil.display(ud.getFirstName())%> <%=JSPUtil.display(ud.getLastName())%> </a>
+                            <% if (ud.getFirstName() != null || ud.getLastName() != null) { 
+                                String name = ud.getFirstName() + " " + ud.getLastName();
+
+                            %>
+                            <a href="editUser.cnt?personId=<%=ud.getUserId()%>&menugrp=QUERYUSER"><%= JSPUtil.display(name)%></a>
                             <% } %>
                         </td>
                         <td width="30%"  class="tableEntry"  valign="top"><%= JSPUtil.display(ud.getEmail() )%> </td>
-                        <td width="15%" class="tableEntry" valign="top"><%= JSPUtil.display(ud.getAreaCd() )%> <%= JSPUtil.display(ud.getPhoneNbr() )%> </td>
+                        <td width="15%" class="tableEntry" valign="top"><%= JSPUtil.display(ph.toString())%> </td>
                         <td width="10%" class="tableEntry"  valign="top">
                             <% if (ud.getStatus() != null) { %>
                             <%=JSPUtil.display(ud.getStatus())%>
