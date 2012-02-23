@@ -45,5 +45,4 @@
   <tiles:put name='navbar' value='/home/navbar.jsp' />
   <tiles:put name='body' value='<%=body%>' />
   <tiles:put name='rightsidemenu' 	value='/home/rightsidemenu.jsp' />
-  <tiles:put name='footer' value='/home/footer.jsp' />
 </tiles:insert>

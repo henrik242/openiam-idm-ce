@@ -5,53 +5,26 @@
 <% 
 System.out.println("unlockuser.jsp");
 %>
-<br> 
-<form:form commandName="unlockUserCmd">
-
-<table border="0" width="500" align="center">
-
-  <tr>
-    <td class="title" colspan="2">
-        Unlock Account / Forgot Password Wizard
-    </td>
-  </tr>
-  
-  <tr>
- 		<td colspan="2" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr>
-		
-	<tr>
-	  <td>&nbsp;</td>
- </tr>
-
-  <tr>
-    <td class="tddark" align="right">
-       Enter Login Id:<font color="red">*</font>
-    </td>
-    <td class="tdlight" ><form:input path="principal" size="40" maxlength="40" />
-     <br><form:errors path="principal" cssClass="error" /></td>
-  </tr>
-    
-    <tr>
-    	  <td>&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="2" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
-
-  <tr>
-    <td colspan="2" align="right"> 
-    	  <input type="submit" name="_target1" value="Next"/>   
-    	  <input type="submit" name="_cancel" value="Cancel" />  
-    </td>
-  </tr>
-
-</table>
-</form:form>
-
+			<div class="block">
+				<div class="wrap">
+					<div class="text-wrap">
+						<h3>Unlock Account</h3>
+					</div>
+					<form:form commandName="unlockUserCmd">
+						<fieldset>
+							<label for="t-1">Enter Login ID: <span>*</span></label>
+							<form:input path="principal" size="40" maxlength="40" />
+								<p><form:errors path="principal"/></p>
+     	
+							<div class="button">
+								<input type="submit" value="Cancel" />
+							</div>
+							<div class="button">
+								<input type="submit" name="_target1" value="Next"/> 
+							</div>
+						</fieldset>
+					</form:form>
+				</div>
+			</div>
+			 
 

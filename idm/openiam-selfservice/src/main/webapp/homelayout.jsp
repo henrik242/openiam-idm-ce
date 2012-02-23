@@ -9,158 +9,88 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 
- <%
-       	String userId = (String)session.getAttribute("userId");
-    		String bodypage = request.getParameter("bodyjsp");
-				if (bodypage == null) {
-  				bodypage = (String)request.getAttribute("bodyjsp");
-  			}
-  			
-  			  String login = (String)session.getAttribute("login");
-
- %>
-         
 <%
-//AppConfiguration appConfig = (AppConfiguration)session.getAttribute("appConfig");
-// put the configuration object in session
-String url = (String)session.getAttribute("logoUrl");
-String title = (String)session.getAttribute("title");
-String welcomePageUrl = (String)session.getAttribute("welcomePageUrl");
+      	String userId = (String)session.getAttribute("userId");
+   		String bodypage = request.getParameter("bodyjsp");
+				if (bodypage == null) {
+ 				bodypage = (String)request.getAttribute("bodyjsp");
+ 			}
+ 			System.out.println("body page =" + bodypage);
+ 			
+			  String login = (String)session.getAttribute("login");
+			  String pageTitle = (String)session.getAttribute("pageTitle");
+			  if (pageTitle == null) {
+			  	pageTitle= "";
+			  }
 
-if (url == null) {
-	url = (String)request.getAttribute("logoUrl");
-	title = (String)request.getAttribute("title");	
-}
+				String title = (String)session.getAttribute("title");
+				String url = (String)session.getAttribute("logoUrl");
+				String welcomePageUrl = (String)session.getAttribute("welcomePageUrl");
+
+				if (url == null) {
+					url = (String)request.getAttribute("logoUrl");
+					title = (String)request.getAttribute("title");	
+				}
 
 
 %>
 
 
 <head>
-<title><%=title%></title>
-<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-<META HTTP-EQUIV="Expires" CONTENT="-1">
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<%= request.getContextPath() %>/diamelleapp.css" rel="stylesheet" type="text/css">
-    
-
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/all.css" type="text/css"/>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.7.1.min.js"></script>
+<script src="<%= request.getContextPath() %>/js/cufon-yui.js" type="text/javascript"></script>
+<script src="<%= request.getContextPath() %>/js/myriad-pro.js" type="text/javascript"></script>
+<script src="<%= request.getContextPath() %>/js/calibri.js" type="text/javascript"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.main.js"></script>
+<title>OpenIAM Identity Manager v2.1</title>
 </head>
 
 <html:base/>
 
-<body bgcolor="white" leftMargin="0" topMargin="0" marginheight="0" marginwidth="0">
+<body>
+<div id="wrapper">
+	<% if (userId == null) { 
+			 if (bodypage != null && bodypage.contains("login")) {
+
+	%>
+
+		<div id="header">&nbsp;</div>
+	<%
+		} else {
+	%>
+		<div id="header">
+			<p><%=pageTitle%></p>
+			<h1 class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=url%>">OpenIAM</a></h1>
+		</div>
+
+	<% } %>
+	<% }else { %>
+		<div id="header">
+			<p><%=pageTitle%></p>
+			<h1 class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=url%>">OpenIAM</a></h1>
+		</div>
+	<% } %>
+
+	<div id="main">
+		<% 
+			if (userId == null) { 
+		%>
+			<tiles:insert attribute='rightsidemenu'/>
+	<%
+		} else {
+	%>
+		<tiles:insert attribute='menubar'/>
+	<% } %>	
+
+	<div id="content">
+
+			<tiles:insert attribute='body'/>
 
 
-<logic:notPresent name="org.apache.struts.action.MESSAGE" scope="application">
-  <font color="red">
-    ERROR:  Application resources not loaded -- check servlet container
-    logs for error messages.
-  </font>
-</logic:notPresent>
-
-
-		
-<%  String hHeader = (String)request.getAttribute("hideHeader");
-	if (hHeader == null ||  !hHeader.equals("1")) {
-
-%>		
-
-<table width="980" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>
-    <% if (userId != null) { %>
-    <a href="<%= welcomePageUrl %>"><img src="<%=url%>" width="150" height="50" /> </a>
-    <% }else { %>
-    <a href="<%=request.getContextPath()%>/"><img src="<%=url%>" width="150" height="50" /> </a>
-    <% } %>
-    </td>
-  </tr>
-
-</table>
-<% } %>
-
-<table width="1000" border="0">
-<!--  BANNER ==========================================================================  -->  
-
-  <tr>
-  
-<!--  LEFT SIDEBAR ==========================================================================  -->  
-   <td width="170" valign="top">
-	   <table border="0" width="170" border="0" cellspacing="0" cellpadding="0">
-	      <tr>
-	          <td valign="top">
-	          	<tiles:insert attribute='sidemenu'/>
-	          </td>
-          </tr>
-       </table>
-    </td>
-<!-- start MID SECTION ===================================================================== -->
-	
-    <td valign="top"> 
-	  <table border="0">
-
-	<!-- Row 1: start Header ====================================================================== -->	
-		
-	
-	<!-- Row 2: start body - need to split into 3 rows ============================================ -->			
-       <tr> 
-         <td valign="top">		  
-		   <table width="100%" border="0">
-    			 
-   			<tr>
-   			<td valign="top" width="620">
-   			<table border="0" width="620">
-   			<tr>
-              <td align="center" valign="top"  >
-              <tiles:insert attribute='body'/>
-              </td>
-              <%
-            			if (userId != null) {
- 
-              %>
-              <td align="center" valign="top" width="180">
-			        		<tiles:insert attribute='menubar'/>
-			         </td>
-						  <%
-						  	}
-						  %>      
-
-  
-            </tr>
-        </table>
-      </td>
-              <%
-            			if (userId == null) {
- 
-              %>
-		  <td width="180" valign="top">
-
-			   <table border="0" width="180" border="0" cellspacing="0" cellpadding="0">
-			      <tr>
-			          <td valign="top">
-			          	<tiles:insert attribute='rightsidemenu'/>
-			          </td>
-		          </tr>
-		     </table>
-
-		  </td>
-						  <%
-						  	}
-						  %> 
-	   </tr>
-   		
-   		<tr>
-     			<td align="center" valign="top"><tiles:insert attribute='footer'/></td>
-   			 </tr>
-			</table>  		
-	     </td>
-	    </tr>
-      </table>
-	</td>
-  </tr>	  
-</table>
-
+		</div>
+	</div>
+</div>
 </body>
-
+</html>
