@@ -60,7 +60,7 @@
 
           <tr>
 			  <td>Description</td>
-              <td><form:input path="org.description" size="40" maxlength="40" /></td>
+              <td><form:input path="org.description" size="40" maxlength="100" /></td>
           </tr>
           <tr>
               <td>Metadata Type</td>
@@ -89,12 +89,12 @@
 		  </tr>
           <tr>
               <td>Alias</td>
-			  <td><form:input path="org.alias" size="40" maxlength="40" />
+			  <td><form:input path="org.alias" size="40" maxlength="100" />
 			  </td>
 		  </tr> 
           <tr>
               <td>Internal Organization ID</td>
-			  <td><form:input path="org.internalOrgId" size="40" maxlength="40" />
+			  <td><form:input path="org.internalOrgId" size="40" maxlength="100" />
 			  </td>
 		  </tr> 		  
           <tr>

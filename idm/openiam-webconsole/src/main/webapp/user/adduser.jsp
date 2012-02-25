@@ -376,7 +376,7 @@ function selectChange(ctrl) {
    </tr>
   <tr>
        <td>Bldg Num - Address</td>
-       <td><form:input path="user.bldgNum" size="5"  /> <form:input path="user.address1" size="20"  /></td>
+       <td><form:input path="user.bldgNum" size="5" maxlength="5" /> <form:input path="user.address1" size="20" maxlength="30" /></td>
        <td    >Cell/BlackBerry Phone</td>
        <td   colspan="3">
        		<form:input path="cellAreaCode" size="3" maxlength="3" onchange="return  validateInt(cellAreaCode);" /> 

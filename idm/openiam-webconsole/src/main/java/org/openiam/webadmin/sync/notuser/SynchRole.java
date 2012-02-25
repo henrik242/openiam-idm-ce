@@ -105,15 +105,16 @@ protected LdapRole ldapRole;
                            RoleResponse resp =  roleDataService.getRole("USR_SEC_DOMAIN", name);
                            if (resp.getRole() == null) {
 
-
-                                // create a new org
-                               Role rl = new Role();
-                               RoleId rlId = new RoleId("USR_SEC_DOMAIN", name);
-                               rl.setDescription(description);
-                               rl.setRoleName(name);
-                               rl.setId(rlId);
-                               rl.setStatus("ACTIVE");
-                               roleDataService.addRole(rl);
+                               if ("roles".equalsIgnoreCase(roleType)) {
+                                    // create a new org
+                                   Role rl = new Role();
+                                   RoleId rlId = new RoleId("USR_SEC_DOMAIN", name);
+                                   rl.setDescription(description);
+                                   rl.setRoleName(name);
+                                   rl.setId(rlId);
+                                   rl.setStatus("ACTIVE");
+                                   roleDataService.addRole(rl);
+                               }
                             }
 
                             // save in ldap

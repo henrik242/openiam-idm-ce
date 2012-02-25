@@ -86,30 +86,26 @@ public class IndexAction extends DispatchActionSupport  {
 		HttpServletResponse response)
 		throws IOException, ServletException {
 
-		log.info("Idman IndexAction");
-		
+
 		ActionErrors err = new ActionErrors();
 		
 		Locale locale = getLocale(request);
 		//String langCd = locale.getLanguage();
 
 		HttpSession session = request.getSession();
-		String userId = request.getParameter("userId");
-		String login = request.getParameter("lg");
+		String userId = (String)request.getSession().getAttribute("userId");
 		String menuId = request.getParameter("menuid");
-		session.setAttribute("userId", userId);
-		session.setAttribute("login", login);
-		session.setAttribute("menuId", menuId);
-		
-		log.info("Menu id = " + menuId);
-		
+
+
+    	session.setAttribute("menuId", menuId);
+
+
 		try {
 
 			if (menuId != null) {
 				List<Menu> menus = navigationDataService.menuGroupByUser(menuId, userId, "en").getMenuList(); 
 				session.setAttribute("topLevelMenus", menus);
-				
-				log.info("Menu List = " + menus);
+
 			}
 			
 			ServletContext servletContext =  getServlet().getServletConfig().getServletContext();
@@ -129,8 +125,7 @@ public class IndexAction extends DispatchActionSupport  {
 			return (mapping.findForward("failure"));
 
 		}
-		log.info(" Forwarding to welcome...");
-		request.setAttribute("bodyjsp", "/blank.jsp");
+		request.setAttribute("bodyjsp", "/welcome.jsp");
 		return (mapping.findForward("welcome"));
 
 	}

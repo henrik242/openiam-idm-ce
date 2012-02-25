@@ -213,6 +213,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             // build the list
             addUser.buildPrimaryPrincipal(user, bindingMap, se);
 
+        } else {
+            addUser.setPrimaryIDPassword(user, bindingMap, se);
         }
 
 

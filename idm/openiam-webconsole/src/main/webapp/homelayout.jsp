@@ -21,6 +21,7 @@
 	String uri = request.getRequestURI();
 	String queryParam = request.getQueryString();
 	String login = (String)session.getAttribute("login");
+
 %>
 
 <!-- Ajax libraries - Dojo and Dijit -->
@@ -142,6 +143,7 @@
 	</td>
   </tr>	  
 </table>
+
 
 </body>
 </html>

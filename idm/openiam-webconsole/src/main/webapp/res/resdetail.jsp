@@ -155,7 +155,7 @@ function showResourceDialog(idfield, namefield) {
 
 		          
 </table>
-</form:form>
+
 
 	</td>
  </tr>
@@ -168,3 +168,5 @@ function showResourceDialog(idfield, namefield) {
             </td>
           </tr>  
 </table>
+
+    </form:form>

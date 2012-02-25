@@ -312,6 +312,74 @@ public class AddUser {
 	}
 
     /**
+     * when a request already contains an identity and password has not been setup, this method generates a password 
+     * based on our rules.
+     * @param user
+     * @param bindingMap
+     * @param se
+     */
+    public void setPrimaryIDPassword( ProvisionUser user,
+                                       Map<String, Object> bindingMap,
+                                       ScriptIntegration se) {
+        
+        
+        // this method should only be the called if the request already contains 1 or more identities
+
+        List<Login> principalList = user.getPrincipalList();
+        List<AttributeMap> policyAttrMap = this.managedSysService.getResourceAttributeMaps(sysConfiguration.getDefaultManagedSysId());
+        //List<AttributeMap> policyAttrMap = resourceDataService.getResourceAttributeMaps(sysConfiguration.getDefaultManagedSysId());
+
+        log.debug("setPrimaryIDPassword() ");
+
+        if (policyAttrMap != null) {
+
+            log.debug("- policyAttrMap IS NOT null");
+
+            Login primaryIdentity =  user.getPrimaryPrincipal(sysConfiguration.getDefaultManagedSysId());
+
+          //  Login primaryIdentity = new Login();
+          //  LoginId primaryID = new LoginId();
+         //   EmailAddress primaryEmail = new EmailAddress();
+
+            // init values
+        //    primaryID.setDomainId(sysConfiguration.getDefaultSecurityDomain());
+        //    primaryID.setManagedSysId(sysConfiguration.getDefaultManagedSysId());
+
+            try {
+                for (  AttributeMap attr : policyAttrMap ) {
+                    Policy policy = attr.getAttributePolicy();
+                    String url = policy.getRuleSrcUrl();
+                    if (url != null) {
+                        String output = (String)se.execute(bindingMap, url);
+                        String objectType = attr.getMapForObjectType();
+                        if (objectType != null) {
+                            if (objectType.equalsIgnoreCase("PRINCIPAL")) {
+
+                                if (attr.getAttributeName().equalsIgnoreCase("PASSWORD")) {
+                                    primaryIdentity.setPassword(output);
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }catch(Exception e) {
+                log.error(e);
+            }
+            //primaryIdentity.setId(primaryID);
+            //principalList.add(primaryIdentity);
+            user.setPrincipalList(principalList);
+            //user.getEmailAddress().add(primaryEmail);
+
+        }else {
+            log.debug("- policyAttrMap IS null");
+        }
+
+
+    }
+
+    /**
      * If the user has selected roles that are in multiple domains, we need to make sure that they identities for
      * each of these domains
      * @param primaryIdentity

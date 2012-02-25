@@ -8,7 +8,7 @@
 
     <form:hidden path="clientIP"   />
 
-<table border="0" width="500" align="center">
+<table border="0" width="600" align="center">
   <% if (request.getAttribute("message") != null) { %>
    <tr>
  		<td colspan="2" align="center" class="msg" >
@@ -17,12 +17,12 @@
   </tr> 
   <% } %>
     
-			<table border="0" align="center"   height="100%" width="500">
+			<table border="0" align="center"   height="100%" width="600">
 				<tr>
 					<td align="center" height="100%" class="loginBodyTable">
 					   <fieldset class="userform">
 							<legend>LOGIN TO OPENIAM IDENTITY MANAGER</legend>
-							<table class="fieldsetTable" width="500">
+							<table class="fieldsetTable" width="600">
 
 <!--
 <tr>

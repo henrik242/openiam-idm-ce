@@ -26,13 +26,12 @@
   	// active session. dont show the login page again
   	if (bodypage.contains("login.jsp")) {
   		bodypage = "/welcome.jsp";
-  		//RequestDispatcher rd = request.getRequestDispatcher("/welcomePage.selfserve");
-		//	rd.forward(request,response);
-
   	}
   }
   
   String body = bodypage;
+
+
   
 %>
 
@@ -44,3 +43,5 @@
   <tiles:put name='body' 		value='<%=body%>' />
   <tiles:put name='footer' 		value='/home/footer.jsp' />
 </tiles:insert>
+
+

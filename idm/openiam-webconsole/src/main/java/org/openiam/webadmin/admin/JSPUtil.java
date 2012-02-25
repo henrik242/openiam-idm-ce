@@ -9,6 +9,7 @@ package org.openiam.webadmin.admin;
 import java.sql.Timestamp;
 import java.text.*;
 import java.util.Date;
+import org.openiam.util.EscapeCharacters;
 
 /**
  * Utility class used in JSP classes to assist with formating issues.
@@ -20,7 +21,8 @@ public class JSPUtil {
 		if (obj == null ){
 			return "";
 		}else {
-			return obj.toString();
+            // escape the characters first
+            return EscapeCharacters.forHTML(obj.toString());
 		}
 	}
 	public static String displayTimestamp(Timestamp ts) {

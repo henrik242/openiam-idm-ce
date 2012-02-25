@@ -42,10 +42,7 @@ public class LoginController extends SimpleFormController {
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		log.debug("onSubmit called.");
-		
-		System.out.println("onSubmit called.");
-		
+
 		LoginCommand loginCmd = (LoginCommand)command;
 		
 		HttpSession session = request.getSession();

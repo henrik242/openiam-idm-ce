@@ -110,7 +110,7 @@ protected LdapOrganization ldapOrganization;
                         // add object to the organization service
 
                         String name = rowAttr.get("org name").getValue();
-                        String description = rowAttr.get("business category").getValue();
+                        String description = rowAttr.get("description").getValue();
                         if (name != null) {
                             List<Organization> orgList =  orgDataService.search(name, null, null, null);
                             if (orgList == null || orgList.isEmpty()) {
