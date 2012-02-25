@@ -303,7 +303,7 @@ function selectChange(ctrl) {
    </tr>
   <tr>
        <td class="tddarknormal" align="right">Bldg Num - Address</td>
-       <td class="tdlight"><form:input path="user.bldgNum" size="5" maxlength="5" /> <form:input path="user.address1" size="20"  maxlength="30" /></td>
+       <td class="tdlight"><form:input path="user.bldgNum" size="5"  /> <form:input path="user.address1" size="20"  /></td>
        <td class="tddarknormal" align="right">Mobile Phone</td>
        <td class="tdlight" colspan="3">
        		<form:input path="cellAreaCode" size="3" maxlength="3" onchange="return  validateInt(cellAreaCode);" /> 
@@ -315,7 +315,7 @@ function selectChange(ctrl) {
    </tr>
   <tr>
        <td class="tddarknormal" align="right"></td>
-       <td class="tdlight"><form:input path="user.address2" size="30"  maxlength="30"  /></td>
+       <td class="tdlight"><form:input path="user.address2" size="30"  /></td>
        <td class="tddarknormal" align="right">Fax</td>
        <td class="tdlight" colspan="3">
 			<form:input path="faxAreaCode" size="3" maxlength="3" onchange="return  validateInt(faxAreaCode);" /> 
@@ -327,7 +327,7 @@ function selectChange(ctrl) {
    </tr>
  	<tr>
        <td class="tddarknormal" align="right">City</td>
-       <td class="tdlight"><form:input path="user.city" size="30"  maxlength="30"  /></td>
+       <td class="tdlight"><form:input path="user.city" size="30"  /></td>
        <td class="tddarknormal" align="right"></td>
        <td class="tdlight" colspan="3">
   
@@ -336,7 +336,7 @@ function selectChange(ctrl) {
      
  <tr>
        <td class="tddarknormal" align="right">State</td>
-       <td class="tdlight"><form:input path="user.state" size="30"  maxlength="15"  /></td>
+       <td class="tdlight"><form:input path="user.state" size="30"  /></td>
        <td class="tddarknormal" align="right">Emergency Contact:</td>
        <td class="tdlight" colspan="3"><form:input path="altCellAreaCode" size="3" maxlength="3" onchange="return  validateInt(altCellAreaCode);" /> 
        					  <form:input path="altCellNbr" size="10" maxlength="10"  onchange="return  validateInt(altCellNbr);" /> 

@@ -9,99 +9,31 @@
 	String msg = (String)request.getAttribute("msg");
 %>
 
-<form:form commandName="pswdChangeCmd">
-
-<table border="0" width="600pt" align="center">
-	<tr>
-	  <td>
- 
-
-	  </td>
-	</tr>
-  <tr>
-    <td class="title">Change Password</td>
-    <td class="text" align="right">         
-        <font size="1" color="red">*</font> Required       
-    </td>
-  </tr>
-  
-  <tr>
- 		<td colspan="2" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr>
-		
-		
-	<tr>
-	  <td>&nbsp;</td>
- 	</tr>
-
-	<tr>
-	  <td class="error" colspan="2">
-	  <% if (msg != null ) { %>
-		<%=msg %>
-	<% }  %>
-	</td>
- 	</tr>
- 	
-  
-    <!-- ENTER THE SERVICE FOR THIS LOGIN HERE AS A HIDDEN FIELD -->
-
+			<div class="block">
+				<div class="wrap">
+					<form:form commandName="pswdChangeCmd">					
 	<form:hidden path="domainId"    />
-
-
-  <tr>
-    <td class="tddarknormal" align="right">
-       Login
-    </td>
-    <td class="tdlight">
-    	<form:input path="principal" size="30"  maxlength="30" readonly="true"   />
-    </td>
-  </tr>
-
-
-  <tr>
-    <td class="tddarknormal" align="right">    
-       New Password<font color=red>*</font>
-    </td>
-    <td class="tdlight">
-    	<form:password path="password" size="30"  maxlength="30"   /><br>
-    	 <form:errors path="password" cssClass="error" />
-       
-    </td>
-  </tr>
-  <tr>
-    <td class="tddarknormal" align="right">    
-       Confirm New Password<font color=red>*</font>
-    </td>
-    <td class="tdlight">
-       <form:password path="confPassword" size="30"  maxlength="30"   /><br>
-        <form:errors path="confPassword" cssClass="error" />
-    </td>
-  </tr>  
-  
-  <tr>
-    	  <td>&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="2" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
-
-  <tr>
-  	<td>
-
-  	</td>
-    <td align="right">
-    		<input type="submit" value="Save" name="btnSave"> <input type="submit" name="_cancel" value="Cancel" />
-    </td>
-  </tr>
-
-</table>
-</form:form> 
-
-
-
-
+	<% if (msg != null ) { %>
+			<p><%=msg %></p>
+	<% }  %>
+	
+						
+						<fieldset>
+							<label for="t-1">Login ID:<span>*</span></label>
+							<form:input path="principal" size="30"  maxlength="30" readonly="true"   />
+							<label for="t-2">New Password:<span>*</span></label>
+							<form:password path="password" size="30"  maxlength="30"   />
+							<p> <form:errors path="password" /></p>
+							<label for="t-3">Confirm New Password:<span>*</span></label>
+							<form:password path="confPassword" size="30"  maxlength="30"   />
+								<p><form:errors path="confPassword" cssClass="error" /></p>
+							<div class="button">
+								<input type="submit" name="_cancel" value="Cancel" />
+							</div>
+							<div class="button">
+								<input type="submit" value="Save" name="btnSave"> 
+							</div>
+						</fieldset>
+					</form:form> 
+				</div>
+			</div>

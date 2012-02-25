@@ -15,7 +15,6 @@
 
 %>	
 
-<table border="0" width="180">
 <%
 System.out.println("menubar.jsp");
   String userId = (String)session.getAttribute("userId");
@@ -40,11 +39,16 @@ System.out.println("menubar.jsp");
 
 
 %>
-	<tr>
-		<td><B>Access Management Center</B></td>
-	</tr>
-	
-	<% if (userId != null && privRightMenuList1 != null ) { 
+
+		<div id="sidebar">
+<% 
+	if (userId != null && privRightMenuList1 != null ) { 
+%>			
+			<div class="head">
+				Access Management Center
+			</div>
+			<ul class="menu">
+<%	
 			for (Menu m: privRightMenuList1) {
 				if (m.getSelected()) {
 					String url = m.getUrl();
@@ -56,22 +60,26 @@ System.out.println("menubar.jsp");
 				         }  
 				      }
 
-	%>
-  <tr>
-    <td>&nbsp;&nbsp;&nbsp;<a href="<%=url %>"><%=m.getMenuName() %></a></td>
-  </tr>
-  	<% } else 	{ %>	
-  <tr>
-    <td>&nbsp;&nbsp;&nbsp;<%=m.getMenuName() %></td>
-  </tr>	
+	%>				
+				
+				<li><a href="<%=url %>"><%=m.getMenuName() %></a></li>
 	<%			}
 			} 
-		} 
 	%>
-  <tr>
-  	<td><br><b>Self-Service Center</b></td>
-	</tr>
-	<% if (userId != null && privRightMenuList2 != null ) { 
+				</ul>
+	<%
+		} 
+	%>	
+	
+	<% 
+		if (userId != null && privRightMenuList2 != null ) {
+	%>
+			<div class="head">
+				Self - Service Center
+			</div>
+			<ul class="menu">
+			
+<%				 
 			for (Menu m: privRightMenuList2) {
 				if (m.getSelected()) {
 					String url = m.getUrl();
@@ -82,32 +90,26 @@ System.out.println("menubar.jsp");
 				            url = url + "&"  + queryString + "&menuid=" + m.getId().getMenuId() + "&l=p";
 				         }  
 				      }
-				     if (m.getUrl().toLowerCase().contains("http")) {				  	 
+				    if (m.getUrl().toLowerCase().contains("http")) {				  	 
 	%>
-					  <tr>
-					    <td>&nbsp;&nbsp;&nbsp;<a href="pub/launchProcess.selfserve?menuId=<%=m.getId().getMenuId()%>"><%=m.getMenuName() %></a></td>
-					  </tr>
+			            <li><a href="pub/launchProcess.selfserve?menuId=<%=m.getId().getMenuId()%> %>"><%=m.getMenuName() %></a></li>
+
 	<% 				} else { %>
-					  <tr>
-					    <td>&nbsp;&nbsp;&nbsp;<a href="<%=url%>"><%=m.getMenuName() %></a></td>
-					  </tr>
+			<li><a href="<%=url %>"><%=m.getMenuName() %></a></li>
+
 	<% 				}
 				}
 			}
-		} 
+    %>
+            </ul>
+    <%
+		}
+        }
 	%>	
+
+	<div class="head">
+		<a href="logout.do#">Logout</a>
+	</div>
 	
-
-  <tr>
-  	<td class="bodytext">
-&nbsp;&nbsp;&nbsp;<a href="logout.do"> Logout</a>
-		</td>
-	</tr>
-         
-  
-
-      
-</table>
-
-<% } %>
+	</div>
 

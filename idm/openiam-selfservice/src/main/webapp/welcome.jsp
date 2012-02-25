@@ -15,97 +15,73 @@
   String userId = (String)session.getAttribute("userId");
   String login = (String)session.getAttribute("login");
  %>
-
-    <table width="80%" border="0" cellspacing="1" cellpadding="1">
-      <tr align="center" valign="top">
-        <td colspan="2" class="normaltext" >Welcome ${user.firstName} ${user.lastName}</td>
-      </tr>
-      <tr align="center" valign="top">
-        <td></td>
-      </tr>
-      <tr>
-		 <td align="right" ><b>Member of Groups:</b></td>
-         <td valign="center">
-         <c:if test="${groupList != null}" >
-         	<table>
-			<c:forEach items="${groupList}" var="group">
-	       		<tr>
-	       			<td>${group.grpName}</td>
-	       		</tr>
-       		</c:forEach>
-       		</table>
-       	</c:if>
-       	</td>
-       </tr>
-       <tr>
-		<td align="right" ><b>Member of Roles:</b></td>
-        <td >
-        <c:if test="${roleList != null}" >
-         	<table>
-			<c:forEach items="${roleList}" var="role">
-	       		<tr>
-	       			<td>${role.roleName}</td>
-	       		</tr>
-       		</c:forEach>
-       		</table>
-       	</c:if>
-		</td>
-      </tr>
-       <tr>
-		 <td align="right"><b>Title:</b></td>
-         <td valign="center">${user.title} </td>
-       </tr>
-        <tr>
-		 <td align="right"><b>Supervisor:</b></td>
-         <td valign="center">${supervisor} </td>
-       </tr>
-         <tr>
-		 <td align="right"><b>Department:</b> </td>
-         <td valign="center">${dept}</td>
-       </tr>
-
-
-      <tr>
-		 <td align="right"><b>E-mail:</b></td>
-         <td valign="center">${user.email}</td>
-       </tr>
-
-        <tr>
-		 <td align="right"><b>Password Changed:</b> </td>
-         <td valign="center">${primaryIdentity.pwdChanged}</td>
-       </tr>
-       <tr>
-		 <td align="right"><b>Days to Password Exp:</b> </td>
-         <td valign="center">${daysToExp}</td>
-       </tr>
-         <tr>
-		 <td align="right"><b>Current Login:</b> </td>
-         <td valign="center">${primaryIdentity.lastLogin}</td>
-       </tr>
-       </tr>
-         <tr>
-		 <td align="right"><b>Previous Login:</b> </td>
-         <td valign="center">${primaryIdentity.prevLogin}</td>
-       </tr>
-
-       <c:if test="${pendingReq != null}" >
-        <tr  valign="top" align="center">
-        <td colspan="2">You have <b><a href="myPendingRequest.selfserve?userId=<%=userId%>&lg=<%=login%>&tk=<%=token%>" >${pendingReq} Request(s)</a></b> Pending</td>
-         <td> </td>
-      </tr>
-       </c:if>
-
-      <c:if test="${challenge == false}" >
-
-      <tr  valign="top" align="center">
-        <td colspan="2"><font color="red"><b>Warning: Before you continue, please complete the "Challenge Response" from the Self-Service section
-        on the right. This will enable your password self-service options.</b></font></td>
-         <td> </td>
-      </tr>
-      </c:if>
-
-
-    </table>
-
-
-
+			<div class="block">
+				<div class="wrap">
+					<div class="box">
+						<h5>Welcome ${user.firstName}</h5>
+						<div class="wrap-box">
+							<dl>
+								<dt>Member of Groups:</dt>
+								        <c:if test="${groupList != null}" >
+													<c:forEach items="${groupList}" var="group">
+														<dd>${group.grpName}</dd>
+										      </c:forEach>
+										     </c:if>
+								<dt>Member of Roles:</dt>
+								  <c:if test="${roleList != null}" >
+										<c:forEach items="${roleList}" var="role">
+							       			<dd>${role.roleName}</dd>
+						       		</c:forEach>
+       						</c:if>
+       					<c:if test="${user.title} != null}" >	
+									<dt>Title:</dt>
+										<dd>${user.title}</dd>
+							  </c:if>
+								
+								<c:if test="${supervisor} != null}" >	
+									<dt>Supervisor:</dt>
+										<dd>${supervisor}</dd>
+								 </c:if>
+								
+								<c:if test="${dept} != null}" >	
+								<dt>Department:</dt>
+									<dd>${dept}</dd>
+								 </c:if>
+								
+								<c:if test="${user.email} != null}" >	
+									
+								<dt>E-mail:</dt>
+									<dd>${user.email}</dd>
+								
+								</c:if>
+									
+								
+								<c:if test="${primaryIdentity.pwdChanged != null}" >									
+									<dt>Password Changed:</dt>
+										<dd>${primaryIdentity.pwdChanged}</dd>
+								</c:if>
+								
+								<c:if test="${daysToExp != null}" >
+									<dt>Days to Password Exp:</dt>
+										<dd>${daysToExp}</dd>
+								</c:if>
+								
+								<dt>Current Login:</dt>
+									<dd>${primaryIdentity.lastLogin} from ${primaryIdentity.lastLoginIP}</dd>
+								
+								<dt>Previous Login:</dt>
+									<dd>${primaryIdentity.prevLogin} from ${primaryIdentity.prevLoginIP}</dd>
+							   <c:if test="${pendingReq != null}" >
+							  	<dt>Pending Requests:</dt>
+							  	<dd><a href="myPendingRequest.selfserve?userId=<%=userId%>&lg=<%=login%>&tk=<%=token%>" >${pendingReq} Request(s)</a></dd>
+							  </c:if>
+							</dl>
+							<c:if test="${pendingReq != null}" >
+								<p><font color="red">Warning: Before you continue, please complete the "Challenge Response" from the Self-Service section
+        on the right. This will enable your password self-service options.</font></p>
+							</c:if>
+							
+						</div>
+					</div>
+				</div>
+			</div>
