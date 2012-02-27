@@ -48,7 +48,7 @@ public class LoginController extends SimpleFormController {
 		HttpSession session = request.getSession();
 		session.setAttribute("userId", loginCmd.getSubject().getUserId());
 		session.setAttribute("token", loginCmd.getSubject().getSsoToken().getToken());
-		session.setAttribute("login", loginCmd.getSubject().getPrincipal());
+		session.setAttribute("login", loginCmd.getSubject().getPrincipal().trim());
 		session.setAttribute("domainId", loginCmd.getDomainId());
 		
 		// get the menus that the user has permissions too
