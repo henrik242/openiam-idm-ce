@@ -24,6 +24,8 @@ import org.openiam.spml2.msg.suspend.ActiveRequestType;
 import org.openiam.spml2.msg.suspend.ActiveResponseType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
+import org.openiam.spml2.spi.ldap.dirtype.Directory;
+import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
@@ -71,14 +73,12 @@ public class LdapSuspend {
 
             log.debug("Ldapcontext = " + ldapctx);
 
+            String ldapName = psoID.getID();
 
-	 	    String ldapName = psoID.getID();
+            // Each directory
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            ModificationItem[] mods = dirSpecificImp.suspend(request);
 
-	 		log.debug("Scrambling password...");
-	 		String scrambledPswd =	PasswordGenerator.generatePassword(10);
-	 		
-	 		ModificationItem[] mods = new ModificationItem[1];
-	 		mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", scrambledPswd));
 	 		ldapctx.modifyAttributes(ldapName, mods);
 	
 	 	}catch(Exception ne) {
@@ -131,19 +131,17 @@ public class LdapSuspend {
             LdapContext ldapctx = conMgr.connect(managedSys);
 
             log.debug("Ldapcontext = " + ldapctx);
-	 	
-	 	
-	 	    String ldapName = psoID.getID();
+            String ldapName = psoID.getID();
 
-	 		log.debug("restoring password...");
-	 		// get the current password for the user.
-	 		Login login = loginManager.getLoginByManagedSys(sysConfiguration.getDefaultSecurityDomain(),
-	 				ldapName, targetID);
-	 		String encPassword = login.getPassword();
-	 		String decPassword = loginManager.decryptPassword(encPassword);
-	 		 		
-	 		ModificationItem[] mods = new ModificationItem[1];
-	 		mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", decPassword));
+
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            dirSpecificImp.setAttributes("LDAP_NAME", ldapName);
+            dirSpecificImp.setAttributes("LOGIN_MANAGER", loginManager);
+            dirSpecificImp.setAttributes("CONFIGURATION", sysConfiguration);
+            dirSpecificImp.setAttributes("TARGET_ID",targetID);
+
+            ModificationItem[] mods = dirSpecificImp.resume(request);
+
 	 		ldapctx.modifyAttributes(ldapName, mods);
 	
 	 	}catch(Exception ne) {

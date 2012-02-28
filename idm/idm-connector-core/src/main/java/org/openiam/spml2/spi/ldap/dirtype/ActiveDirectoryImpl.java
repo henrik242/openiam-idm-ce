@@ -1,6 +1,8 @@
 package org.openiam.spml2.spi.ldap.dirtype;
 
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
+import org.openiam.spml2.msg.suspend.ResumeRequestType;
+import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
 import javax.naming.directory.ModificationItem;
 import java.io.UnsupportedEncodingException;
@@ -22,5 +24,17 @@ public class ActiveDirectoryImpl implements Directory {
         return mods;
 
 
+    }
+
+    public ModificationItem[] suspend(SuspendRequestType request) {
+        return new ModificationItem[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ModificationItem[] resume(ResumeRequestType request) {
+        return new ModificationItem[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void setAttributes(String name, Object obj) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

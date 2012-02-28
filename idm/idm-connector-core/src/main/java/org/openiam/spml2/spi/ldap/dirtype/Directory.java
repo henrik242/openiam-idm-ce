@@ -1,6 +1,8 @@
 package org.openiam.spml2.spi.ldap.dirtype;
 
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
+import org.openiam.spml2.msg.suspend.ResumeRequestType;
+import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
 import javax.naming.directory.ModificationItem;
 import java.io.UnsupportedEncodingException;
@@ -19,4 +21,18 @@ public interface Directory {
 
     
     ModificationItem[] setPassword(SetPasswordRequestType reqType) throws UnsupportedEncodingException;
+
+    ModificationItem[] suspend(SuspendRequestType request);
+
+    ModificationItem[] resume(ResumeRequestType request);
+
+    /**
+     * setAttributes allows you to set attributes on the implementation object which may be need for the specific
+     * implementation
+     * @param name
+     * @param obj
+     */
+    
+    void setAttributes(String name, Object obj);
+    
 }
