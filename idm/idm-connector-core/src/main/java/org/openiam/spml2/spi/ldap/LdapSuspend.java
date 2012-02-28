@@ -71,12 +71,14 @@ public class LdapSuspend {
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             LdapContext ldapctx = conMgr.connect(managedSys);
 
-            log.debug("Ldapcontext = " + ldapctx);
 
             String ldapName = psoID.getID();
 
             // Each directory
             Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            
+            log.debug("Directory specific object name = " + dirSpecificImp.getClass().getName());
+            
             ModificationItem[] mods = dirSpecificImp.suspend(request);
 
 	 		ldapctx.modifyAttributes(ldapName, mods);
