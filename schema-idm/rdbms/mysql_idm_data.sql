@@ -33,6 +33,7 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('401'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('402','MANAGED_SYS','INCLUDE_IN_PASSWORD_SYNC');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('406','MANAGED_SYS','TABLE_NAME');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('405','MANAGED_SYS','INCLUDE_IN_SYNC');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('406','MANAGED_SYS','ON_DELETE');
 
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('411','AUTH_REPO','HOST_URL');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('412','AUTH_REPO','BASE_DN');
@@ -817,11 +818,10 @@ insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION)
 
 /* Indicates that the user object should not be sent to the AD and LDAP connectors */
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('200', '101','INCLUDE_USER_OBJECT', 'N');
-
-
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('202', '101','PRINCIPAL_NAME', 'uid');
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('203', '101','PRINCIPAL_PASSWORD', 'userPassword');
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('204', '101','INCLUDE_IN_PASSWORD_SYNC', 'Y');
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('205', '101','ON_DELETE', 'DELETE');
 
 
 

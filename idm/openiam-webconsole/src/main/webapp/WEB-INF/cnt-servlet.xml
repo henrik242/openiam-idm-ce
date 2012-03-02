@@ -739,6 +739,7 @@
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="provRequestService" ref="provisionServiceClient" />
         <property name="cancelView" value="idman/userSearch.do?action=view" />
+        <property name="orgManager" ref="orgServiceClient" />
      </bean>
 
 

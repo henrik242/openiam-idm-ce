@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,6 +53,7 @@ public class UserRoleController extends CancellableFormController {
 	protected String redirectView;
 	protected ProvisionService provRequestService; 
 	protected UserDataWebService userMgr;
+    protected OrganizationDataService orgManager;
 	
 	private static final Log log = LogFactory.getLog(UserRoleController.class);
 
@@ -150,6 +153,7 @@ public class UserRoleController extends CancellableFormController {
 	
 		User usr = null;
 		List<Role> currentUserRoleList = null;
+        List<Organization> currentOrgList = null;
 		
 		log.info("UserRoleController: onSubmit");
 		
@@ -164,6 +168,10 @@ public class UserRoleController extends CancellableFormController {
 			usr = usrResp.getUser();
 		}
 		ProvisionUser pUser = new ProvisionUser(usr);
+
+        // carry forward any affiliations that may be linked to this user
+        currentOrgList = orgManager.getOrganizationsForUser(personId);
+        pUser.setUserAffiliations(currentOrgList);
 		
 
 		
@@ -280,7 +288,11 @@ public class UserRoleController extends CancellableFormController {
 		this.userMgr = userMgr;
 	}
 
+    public OrganizationDataService getOrgManager() {
+        return orgManager;
+    }
 
-
-	
+    public void setOrgManager(OrganizationDataService orgManager) {
+        this.orgManager = orgManager;
+    }
 }

@@ -70,7 +70,7 @@ public class LoginValidator implements Validator {
 
 		// authenticate the user
 
-        AuthenticationRequest authReq = new AuthenticationRequest(securityDomain, loginCmd.getPrincipal(),
+        AuthenticationRequest authReq = new AuthenticationRequest(securityDomain, loginCmd.getPrincipal().trim(),
                 loginCmd.getPassword(), loginCmd.getClientIP(), nodeIP);
         AuthenticationResponse resp = authenticate.login(authReq);
 		

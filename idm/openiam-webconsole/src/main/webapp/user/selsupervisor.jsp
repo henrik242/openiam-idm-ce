@@ -18,6 +18,7 @@
    String idField = request.getParameter("idfield");
    String nameField = request.getParameter("namefield");
 
+
    // place the field values in session - they will be lost when the user does a search.
    if (idField != null) {
         session.setAttribute("idfield", idField);
@@ -34,13 +35,13 @@
 %>
 
 <script type="text/javascript">
-function selSupervisor(idFieldName, userId, nameFieldName, name)
+function selSupervisor(userId, name)
 {
 
-
-window.opener.document.getElementById (nameFieldName).value = name; 
-window.opener.document.getElementById (idFieldName).value = userId; 
-
+  var o = new Object();
+  o.id = userId;
+  o.name = name;
+  window.returnValue = o; 
 }
 </script>
 
@@ -140,7 +141,7 @@ window.opener.document.getElementById (idFieldName).value = userId;
 			<td> <%=JSPUtil.display(user.getDeptCd())%> </td>
 			<td> </td>
 			<td>
-			<a href="javascript:selSupervisor('<%=idField%>','<%=user.getUserId()%>','<%=nameField%>','<%=user.getFirstName() %> <%=lastName %>' );window.close();">Select</a></td>
+			<a href="javascript:selSupervisor('<%=user.getUserId()%>','<%=user.getFirstName() %> <%=lastName %>' );window.close();">Select</a></td>
 		</tr>
 	<% 	}
 	}else {

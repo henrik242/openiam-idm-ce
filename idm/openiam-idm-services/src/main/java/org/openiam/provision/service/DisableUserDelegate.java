@@ -136,6 +136,15 @@ public class DisableUserDelegate {
 					}else {
 						// resume - re-enable
 						log.debug("preparing resumeRequest object");
+
+                        // reset flags that go with this identiy
+                        lg.setAuthFailCount(0);
+                        lg.setIsLocked(0);
+                        lg.setPasswordChangeCount(0);
+                        loginManager.updateLogin(lg);
+
+
+
 						
 		            	ResumeRequestType resumeReq = new ResumeRequestType();
 		                PSOIdentifierType idType = new PSOIdentifierType(lg.getId().getLogin(),null, managedSysId );
@@ -156,7 +165,12 @@ public class DisableUserDelegate {
 	        				null, null,  "SUCCESS", requestId,  null, 
 	        				null, requestId, null, null, null,
                             null, lg.getId().getLogin(), lg.getId().getDomainId());
-				}
+				}else {
+                    lg.setAuthFailCount(0);
+                    lg.setIsLocked(0);
+                    lg.setPasswordChangeCount(0);
+                    loginManager.updateLogin(lg);
+                }
 			}
 		}
 		response.setStatus(ResponseStatus.SUCCESS);

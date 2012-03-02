@@ -692,6 +692,7 @@
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
                 <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.connection.autoReconnect">true</prop>
    				<prop key="hibernate.validationQuery">${openiam.hibernate.validationQuery}</prop>
 			</props>
 		</property>
@@ -713,11 +714,13 @@
         <property name="minPoolSize" value="3"/>
         <property name="maxPoolSize" value="20"/>
         <property name="maxStatements" value="50"/>
-        <property name="idleConnectionTestPeriod" value="10000"/>
+        <property name="idleConnectionTestPeriod" value="3000"/>
         <property name="loginTimeout" value="300"/>
 
 
          <property name="acquireRetryAttempts" value="0"/>
+         <property name="acquireRetryDelay" value="1000"/>
+         <property name="breakAfterAcquireFailure" value="false"/>
          <property name="automaticTestTable" value="IAM_C3PO"/>
          <property name="testConnectionOnCheckin" value="true"/>
 
