@@ -332,23 +332,23 @@ function showSupervisorDialog(idfield, namefield) {
    </tr>
   <tr class="normaltext">
        <td   align="right">Bldg Num - Address</td>
-       <td  ><form:input path="user.bldgNum" size="5" maxlength="5"  /> <form:input path="user.address1" size="20" maxlength="30"  /></td>
+       <td  ><form:input path="user.bldgNum" size="5"  /> <form:input path="user.address1" size="20"  /></td>
 
    </tr>
   <tr class="normaltext">
        <td   align="right"></td>
-       <td  ><form:input path="user.address2" size="30" maxlength="30"  /></td>
+       <td  ><form:input path="user.address2" size="30"  /></td>
 
    </tr>
  	<tr class="normaltext">
        <td   align="right">City</td>
-       <td  ><form:input path="user.city" size="30" maxlength="30"   /></td>
+       <td  ><form:input path="user.city" size="30"  /></td>
 
    </tr>
      
  <tr class="normaltext">
        <td   align="right">State</td>
-       <td  ><form:input path="user.state" size="30"  maxlength="15"  /></td>
+       <td  ><form:input path="user.state" size="30"  /></td>
 
    </tr> 
 

@@ -24,48 +24,32 @@
 %>
 
 
-<table width="650pt">
-    <tr>
-  <td colspan="4" class="title">
-      <strong>Pending Requests</strong>
-  </td>
-</tr>
 
-<tr>
-     <td colspan="4" align="center" bgcolor="8397B4" >
-       <font></font>
-     </td>
-</tr>
-<tr>
-   <td class="tddarknormal" align="right" colspan="4"></td>
-</tr>
-
-
-    <tr class="tdlight">
-      <td>Create Date</td>
-      <td>Requestor</td>
-      <td>Status</td>
-      <td>Reason</td>
-   </tr>
+		<div id="content">
+			<h4>Pending Requests</h4>
+			<table class="resource alt">
+				<tbody>
+					<tr class="caption">
+						<th>Create Date</th>
+						<th>Requestor</th>
+						<th>Status</th>
+						<th>Reason</th>
+					</tr>
+					
 <c:if test="${reqList != null}" >
 <c:forEach items="${reqList}" var="provisionRequest">
-    <tr>
-        <td><a href="requestDetail.selfserve?requestId=${provisionRequest.requestId}<%=queryString%>"> ${provisionRequest.requestDate}</a></td>
-        <td> ${provisionRequest.requestorId}</td>
-        <td> ${provisionRequest.status}</td>
-        <td> ${provisionRequest.requestReason}</td>
-    </tr>
+    		<tr>
+        		<td><a href="requestDetail.selfserve?requestId=${provisionRequest.requestId}<%=queryString%>"> ${provisionRequest.requestDate}</a></td>
+        		<td> ${provisionRequest.requestorId}</td>
+        		<td> ${provisionRequest.status}</td>
+        		<td> ${provisionRequest.requestReason}</td>
+    		</tr>
 </c:forEach>
 </c:if>
-<tr>
-      <td colspan="4">&nbsp;</td>
-</tr>
-
-<tr>
-        <td colspan="4" align="center" bgcolor="8397B4" >
-         <font></font>
-        </td>
-</tr>
-
-</table>
-
+					
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
