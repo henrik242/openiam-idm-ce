@@ -59,8 +59,10 @@ import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.pswd.dto.Password;
+import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
+import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
 import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
@@ -136,6 +138,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     private DisableUserDelegate disableUser;
     private ConnectorDataService connectorService;
     private ValidateConnectionConfig validateConnection;
+    protected PasswordHistoryDAO passwordHistoryDao;
 
     MuleContext muleContext;
 
@@ -288,6 +291,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("password", decPassword);
 
         log.debug("Primary identity=" + primaryLogin);
+        
+        
+
+        if (user.isAddInitialPasswordToHistory()) {
+            // add the auto generated password to the history so that the user can not use this password as their first password
+            PasswordHistory hist = new PasswordHistory(primaryLogin.getId().getLogin() , primaryLogin.getId().getDomainId(),
+                    primaryLogin.getId().getManagedSysId());
+            hist.setPassword(primaryLogin.getPassword());
+            passwordHistoryDao.add(hist);
+        }
 
 
         // Update attributes that will be used by the password policy
@@ -2735,5 +2748,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
+    public PasswordHistoryDAO getPasswordHistoryDao() {
+        return passwordHistoryDao;
+    }
 
+    public void setPasswordHistoryDao(PasswordHistoryDAO passwordHistoryDao) {
+        this.passwordHistoryDao = passwordHistoryDao;
+    }
 }

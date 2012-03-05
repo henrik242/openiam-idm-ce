@@ -68,8 +68,9 @@
 			<property name="remoteConnectorAdapter" ref="remoteConnectorAdapter" />
 			<property name="connectorService" ref="connectorService" />
             <property name="validateConnection" ref="validateConnectionConfig" />
+            <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
 
-	</bean>
+    </bean>
 
     <bean id="validateConnectionConfig" class="org.openiam.provision.service.ValidateConnectionConfig" >
         <property name="managedSysService" ref="managedSysService" />

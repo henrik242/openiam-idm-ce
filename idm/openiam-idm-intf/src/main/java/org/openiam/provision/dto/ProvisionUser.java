@@ -53,7 +53,8 @@ import java.util.List;
         "notifyTargetSystems",
         "emailCredentialsToNewUsers",
         "emailCredentialsToSupervisor",
-        "provisionOnStartDate"
+        "provisionOnStartDate",
+        "addInitialPasswordToHistory"
 })
 
 public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
@@ -71,6 +72,7 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     boolean emailCredentialsToNewUsers = false;
     boolean emailCredentialsToSupervisor = false;
+    boolean addInitialPasswordToHistory = false;
 
     // default behaviour - you dont have to wait till the start date to provision a user
     // if this is set to true, the system will wait till the start date to provision the user
@@ -387,5 +389,13 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     public void setProvisionOnStartDate(boolean provisionOnStartDate) {
         this.provisionOnStartDate = provisionOnStartDate;
+    }
+
+    public boolean isAddInitialPasswordToHistory() {
+        return addInitialPasswordToHistory;
+    }
+
+    public void setAddInitialPasswordToHistory(boolean addInitialPasswordToHistory) {
+        this.addInitialPasswordToHistory = addInitialPasswordToHistory;
     }
 }
