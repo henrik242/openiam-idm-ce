@@ -7,6 +7,8 @@ import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import java.io.UnsupportedEncodingException;
@@ -17,6 +19,7 @@ import javax.naming.directory.*;
 import javax.naming.ldap.LdapContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Base class for commands that are usec by the LdapConnector
@@ -312,6 +315,27 @@ public abstract class LdapAbstractCommand {
         return ctx.search(objectBaseDN, searchFilter, searchCtls);
 
 
+    }
+    
+    public Set<ResourceProp> getResourceAttributes (String resId ) {
+        Resource r = resourceDataService.getResource(resId);
+        if (r != null) {
+            return r.getResourceProps();
+        }
+        return null;
+    }
+    
+    public ResourceProp getResourceAttr(Set<ResourceProp> resSet, String name) {
+        if (resSet == null) {
+            return null;
+        }
+        for (ResourceProp rp : resSet ) {
+            if ( rp.getName().equalsIgnoreCase(name))  {
+                return rp;
+            }
+
+        }
+        return null;
     }
 
     protected Attribute generateActiveDirectoryPassword(String cleartextPassword) {

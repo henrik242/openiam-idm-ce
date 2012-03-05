@@ -2,14 +2,18 @@ package org.openiam.spml2.spi.ldap.dirtype;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
+import org.openiam.spml2.msg.DeleteRequestType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
+import javax.naming.NamingException;
 import javax.naming.directory.ModificationItem;
 import java.io.UnsupportedEncodingException;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
+import javax.naming.ldap.LdapContext;
 
 /**
  * Provides Active Directory specific functionality
@@ -60,6 +64,25 @@ public class ActiveDirectoryImpl implements Directory {
         mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userAccountControl",
                 Integer.toString(UF_NORMAL_ACCOUNT )));
         return mods;
+
+    }
+
+    public void delete(DeleteRequestType reqType, LdapContext ldapctx, String ldapName, String onDelete) throws NamingException {
+
+        if ("DELETE".equalsIgnoreCase(onDelete)) {
+
+            ldapctx.destroySubcontext(ldapName);
+
+        }else if ( "DISABLE".equalsIgnoreCase(onDelete)) {
+
+            ModificationItem[] mods = new ModificationItem[1];
+
+            mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userAccountControl",
+                    Integer.toString(UF_NORMAL_ACCOUNT +  UF_ACCOUNTDISABLE)));
+
+            ldapctx.modifyAttributes(ldapName, mods);
+
+        }
 
     }
 

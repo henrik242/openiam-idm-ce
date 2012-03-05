@@ -2,10 +2,11 @@ package org.openiam.spml2.spi.ldap;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
-import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
 import org.openiam.spml2.spi.jdbc.AppTableAbstractCommand;
+import org.openiam.spml2.spi.ldap.dirtype.Directory;
+import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
@@ -15,11 +16,15 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.LdapContext;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.dto.ResourceProp;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 
 public class LdapDeleteCommand extends LdapAbstractCommand {
@@ -28,6 +33,8 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
         log.debug("delete request called..");
         ConnectionMgr conMgr = null;
+        boolean groupMembershipEnabled = true;
+        String delete = "DELETE";
 
         //String uid = null;
         String ou = null;
@@ -50,6 +57,32 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
         ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(targetID, "USER");
 
+        Set<ResourceProp> rpSet = getResourceAttributes(managedSys.getResourceId());
+
+        ResourceProp rpOnDelete = getResourceAttr(rpSet,"ON_DELETE");
+        ResourceProp rpGroupMembership = getResourceAttr(rpSet,"GROUP_MEMBERSHIP_ENABLED");
+
+        if (rpOnDelete == null || rpOnDelete.getPropValue() == null || "DELETE".equalsIgnoreCase(rpOnDelete.getPropValue())) {
+            delete = "DELETE";
+        }else if (rpOnDelete.getPropValue() != null) {
+
+            if ("DISABLE".equalsIgnoreCase(rpOnDelete.getPropValue())) {
+                delete = "DISABLE";
+            }
+        }
+
+        // BY DEFAULT - we want to enable group membership
+        if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "YES".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+            groupMembershipEnabled = true;
+        }else if (rpGroupMembership.getPropValue() != null) {
+
+            if ("NO".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+                groupMembershipEnabled = false;
+            }
+        }
+
+
+
 
         try {
 
@@ -57,14 +90,19 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             LdapContext ldapctx = conMgr.connect(managedSys);
 
-
             String ldapName = psoID.getID();
 
 
-            removeAccountMemberships(ldapName, matchObj[0], ldapctx);
+            if (groupMembershipEnabled) {
+                removeAccountMemberships(ldapName, matchObj[0], ldapctx);
+            }
+
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
 
 
-            ldapctx.destroySubcontext(ldapName);
+            dirSpecificImp.delete(reqType, ldapctx, ldapName, delete);
+
+
 
         } catch (NamingException ne) {
 

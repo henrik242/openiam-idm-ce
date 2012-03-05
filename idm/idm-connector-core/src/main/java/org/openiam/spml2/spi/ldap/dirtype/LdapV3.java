@@ -6,17 +6,20 @@ import org.openiam.base.SysConfiguration;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
+import org.openiam.spml2.msg.DeleteRequestType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.openiam.exception.EncryptionException;
 
+import javax.naming.NamingException;
 import javax.naming.directory.ModificationItem;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
+import javax.naming.ldap.LdapContext;
 
 
 /**
@@ -70,6 +73,24 @@ public class LdapV3 implements Directory{
         }catch(EncryptionException e) {
             log.error(e.toString());
             return null;
+
+        }
+
+    }
+
+    public void delete(DeleteRequestType reqType, LdapContext ldapctx, String ldapName, String onDelete) throws NamingException{
+
+        if ("DELETE".equalsIgnoreCase(onDelete)) {
+
+            ldapctx.destroySubcontext(ldapName);
+
+        }else if ( "DISABLE".equalsIgnoreCase(onDelete)) {
+
+            String scrambledPswd =	PasswordGenerator.generatePassword(10);
+
+            ModificationItem[] mods = new ModificationItem[1];
+            mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", scrambledPswd));
+            ldapctx.modifyAttributes(ldapName, mods);
 
         }
 

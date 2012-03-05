@@ -141,8 +141,14 @@ function showResourceDialog(idfield, namefield) {
               									<form:option value="DELETE" label="DELETE"/>
               									<form:option value="DISABLE" label="DISABLE"/>
          							 		</form:select>	
-         							 	</c:when>	
-										<c:otherwise>
+         							 	</c:when>
+                                        <c:when test="${resourceProp.name == 'GROUP_MEMBERSHIP_ENABLED'}">
+                                            <form:select path="resourceProp[${prop.index}].propValue" multiple="false">
+                                                <form:option value="Y" label="YES"/>
+                                                <form:option value="N" label="NO"/>
+                                            </form:select>
+                                        </c:when>
+                                    <c:otherwise>
 	    										<form:input path="resourceProp[${prop.index}].propValue" size="40" maxlength="200" />
 	  									</c:otherwise>
 	  							</c:choose>
