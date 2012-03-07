@@ -33,7 +33,7 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('401'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('402','MANAGED_SYS','INCLUDE_IN_PASSWORD_SYNC');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('406','MANAGED_SYS','TABLE_NAME');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('405','MANAGED_SYS','INCLUDE_IN_SYNC');
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('406','MANAGED_SYS','ON_DELETE');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('408','MANAGED_SYS','ON_DELETE');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('407','MANAGED_SYS','GROUP_MEMBERSHIP_ENABLED');
 
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('411','AUTH_REPO','HOST_URL');
