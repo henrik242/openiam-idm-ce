@@ -72,11 +72,11 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
         }
 
         // BY DEFAULT - we want to enable group membership
-        if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "YES".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+        if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "Y".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
             groupMembershipEnabled = true;
         }else if (rpGroupMembership.getPropValue() != null) {
 
-            if ("NO".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+            if ("N".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
                 groupMembershipEnabled = false;
             }
         }
