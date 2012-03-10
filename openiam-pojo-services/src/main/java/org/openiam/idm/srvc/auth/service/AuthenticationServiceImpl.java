@@ -31,6 +31,7 @@ import javax.jws.WebService;
 import org.openiam.idm.srvc.auth.dto.*;
 import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
@@ -876,6 +877,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		tokenParam.put("USER_ID",lg.getUserId());
 		tokenParam.put("PRINCIPAL",principal);
+
+        // check that this is the last token that we generated
+        AuthState state = authStateDao.findByToken(token);
+        if ( state == null || state.getToken() == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        //
+        if (!isUserStatusValid(lg.getUserId())) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
 		
 		SSOTokenModule tkModule = SSOTokenFactory.createModule((String)tokenParam.get("TOKEN_TYPE"));
         tkModule.setCryptor(this.cryptor);
@@ -887,11 +901,38 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		
 		SSOToken ssoToken = tkModule.createToken(tokenParam);
+
+        // update the authstate so that the old token cant be used anymore
+        state = new AuthState(lg.getId().getDomainId(), new BigDecimal(1),   ssoToken.getExpirationTime().getTime(),
+                ssoToken.getToken(), lg.getUserId());
+
+        authStateDao.saveAuthState(state);
+
+
 		resp.setResponseValue(ssoToken);
 		return resp;
 		
 		
 	}
+    
+    private boolean isUserStatusValid(String userId) {
+        User u =  userManager.getUserWithDependent(userId,false);
+
+        UserStatusEnum en = u.getStatus();
+
+        if ( en == UserStatusEnum.DELETED || en == UserStatusEnum.INACTIVE ||
+             en == UserStatusEnum.LEAVE  || en == UserStatusEnum.TERMINATE ) {
+            return false;
+
+        }
+        if ( en == UserStatusEnum.DISABLED || en == UserStatusEnum.LOCKED ||
+                en == UserStatusEnum.LOCKED_ADMIN  ) {
+            return false;
+
+        }
+        return true;
+        
+    }
 	
 	private String getPolicyAttribute(Set<PolicyAttribute> attr, String name) {
 		assert name != null : "Name parameter is null";
