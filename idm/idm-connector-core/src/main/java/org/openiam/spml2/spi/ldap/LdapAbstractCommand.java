@@ -7,6 +7,8 @@ import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import java.io.UnsupportedEncodingException;
@@ -17,6 +19,7 @@ import javax.naming.directory.*;
 import javax.naming.ldap.LdapContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Base class for commands that are usec by the LdapConnector
@@ -26,11 +29,8 @@ import java.util.List;
  */
 public abstract class LdapAbstractCommand {
 
-    protected final int UF_ACCOUNTDISABLE     = 2;//0x0002
-	protected final int UF_LOCKOUT            = 16;//0x0010
-	protected final int UF_PASSWORD_EXPIRED   = 8388608;//0x800000
-	protected final int UF_DONT_EXPIRE_PASSWD = 65536;//0x00010000
-	protected final int UF_NORMAL_ACCOUNT     = 512;//0x0200
+
+
 
     protected static final Log log = LogFactory.getLog(LdapAbstractCommand.class);
 
@@ -93,47 +93,7 @@ public abstract class LdapAbstractCommand {
 
     }
     
-    /*protected boolean isMemberOf(String userDN, String memberOfObjectDN, LdapContext ldapctx ) {
 
-        int totalResults = 0;
-
-        log.debug("isMemberOf()...");
-        log.debug(" - userDN =" + userDN);
-        log.debug(" - MembershipObjectDN=" + memberOfObjectDN);
-
-        String userSearchFilter = "(&(objectclass=*)(uniqueMember=" + userDN + "))";
-        String searchBase = memberOfObjectDN;
-
-        try {
-
-           SearchControls ctls = new SearchControls();
-           String userReturnedAtts[]={"uniqueMember"};
-           ctls.setReturningAttributes(userReturnedAtts);
-           ctls.setSearchScope(SearchControls.OBJECT_SCOPE); // Search object only
-
-            NamingEnumeration answer = ldapctx.search(searchBase, userSearchFilter, ctls);
-
-
-            //Loop through the search results
-            if (answer.hasMoreElements()) {
-                log.debug("- found the list of uniqueMembers - user already belongs to the object");
-
-                return true;
-            }else {
-
-                log.debug("- DID NOT find the list of uniqueMembers - user already belongs to the object");
-
-                return false;
-            }
-
-
-       }catch (Exception e) {
-           e.printStackTrace();
-        }
-       return false;
-    }
-
-    */
 
     protected List<String> userMembershipList(String userDN,  ManagedSystemObjectMatch matchObj, LdapContext ldapctx) {
 
@@ -188,77 +148,7 @@ public abstract class LdapAbstractCommand {
 
 
 
-  /*  protected List<String> getAccountMembership(String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx) {
-        String rdn = null;
-       String objectBaseDN = null;
-       int totalResults = 0;
-       List<String>  membershipList = new ArrayList<String>();
-        int indx = ldapName.indexOf(",");
-        if (indx > 0) {
-           rdn = ldapName.substring(0, ldapName.indexOf(","));
-            objectBaseDN = ldapName.substring(indx + 1);
-        } else {
-            rdn = ldapName;
-        }
 
-        String[] attrIds = {"memberOf", "isMemberOf"};
-        NamingEnumeration results = null;
-        try {
-            SearchControls searchCtls = new SearchControls();
-            searchCtls.setReturningAttributes(attrIds);
-
-
-            String searchFilter = matchObj.getSearchFilter();
-            // replace the place holder in the search filter
-            searchFilter = searchFilter.replace("?", rdn);
-
-            if (objectBaseDN == null) {
-                objectBaseDN = matchObj.getSearchBaseDn();
-            }
-
-
-            log.debug("Search Filter in getAccountMembership =" + searchFilter);
-            log.debug("- Searching BaseDN=" + objectBaseDN);
-
-            results = ldapctx.search(objectBaseDN, searchFilter, searchCtls);
-
- 		    while (results.hasMoreElements()) {
-				SearchResult sr = (SearchResult)results.next();
-
-				Attributes attrs = sr.getAttributes();
-				if (attrs != null) {
-
-					try {
-						for (NamingEnumeration ae = attrs.getAll();ae.hasMore();) {
-							Attribute attr = (Attribute)ae.next();
-
-							for (NamingEnumeration e = attr.getAll();e.hasMore();totalResults++) {
-                                membershipList.add((String)e.next());
-
-						    }
-						}
-
-					}
-					catch (NamingException e)	{
-						System.err.println("Problem listing membership: " + e);
-					}
-
-				}
-			}
-
-            if (membershipList.isEmpty())  {
-                return null;
-            }
-            return membershipList;
-
-
-
-        } catch (NamingException ne) {
-            log.error(ne);
-            return null;
-        }
-    }
-  */
 
     protected BasicAttributes getBasicAttributes(List<ExtensibleObject> requestAttribute, String idField, List<String> targetMembershipList) {
         BasicAttributes attrs = new BasicAttributes();
@@ -425,6 +315,27 @@ public abstract class LdapAbstractCommand {
         return ctx.search(objectBaseDN, searchFilter, searchCtls);
 
 
+    }
+    
+    public Set<ResourceProp> getResourceAttributes (String resId ) {
+        Resource r = resourceDataService.getResource(resId);
+        if (r != null) {
+            return r.getResourceProps();
+        }
+        return null;
+    }
+    
+    public ResourceProp getResourceAttr(Set<ResourceProp> resSet, String name) {
+        if (resSet == null) {
+            return null;
+        }
+        for (ResourceProp rp : resSet ) {
+            if ( rp.getName().equalsIgnoreCase(name))  {
+                return rp;
+            }
+
+        }
+        return null;
     }
 
     protected Attribute generateActiveDirectoryPassword(String cleartextPassword) {

@@ -420,24 +420,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
             Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
             ModificationItem[] mods = dirSpecificImp.setPassword(reqType);
 
-           /*
-            ModificationItem[] mods = new ModificationItem[1];
 
-            if ("ACTIVE_DIRECTORY".equalsIgnoreCase(managedSys.getHandler1())) {
-
-                log.debug("Updated AD Password ");
-
-                byte[] password = ("\"" + reqType.getPassword() + "\"").getBytes("UTF-16LE");
-                mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("unicodePwd", password));
-
-
-            }else {
-                log.debug("Updated LDAP Password ");
-
-                mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", reqType.getPassword()));
-
-            }
-            */
             ldapctx.modifyAttributes(ldapName, mods);
 
             // check if the request contains additional attributes

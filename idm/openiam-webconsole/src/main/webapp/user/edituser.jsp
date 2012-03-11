@@ -23,10 +23,21 @@ function validateInt(fld) {
 }
 
 function showSupervisorDialog(idfield, namefield) {
-		var ua = navigator.appName;
-		var url = "user/selsupervisor.jsp?idfield=" + idfield + "&namefield="+namefield;
-    	window.showModalDialog(url,null,"dialogWidth:670px;dialogHeight:600px;");
-}
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+		
+        if (msie > 0) {
+            dialogReturnValue = window.showModalDialog("user/dialogshell.jsp", null, "dialogWidth:670px;dialogHeight:600px;");
+
+            document.getElementById(idfield).value = dialogReturnValue.id;
+            document.getElementById(namefield).value = dialogReturnValue.name;
+        } else {
+            dialogReturnValue = window.showModalDialog("user/selsupervisor.jsp", null, "dialogWidth:670px;dialogHeight:600px;");
+            document.getElementById(idfield).value = dialogReturnValue.id;
+            document.getElementById(namefield).value = dialogReturnValue.name;
+        }
+    }
+
 
 
 //-->

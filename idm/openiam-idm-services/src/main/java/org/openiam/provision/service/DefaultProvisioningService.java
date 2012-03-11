@@ -59,8 +59,10 @@ import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.pswd.dto.Password;
+import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
+import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
 import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
@@ -111,7 +113,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     // used to inject the application context into the groovy scripts
     public static ApplicationContext ac;
 
-
     private UserDataService userMgr;
     private LoginDataService loginManager;
     private LoginDAO loginDao;
@@ -136,9 +137,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     private DisableUserDelegate disableUser;
     private ConnectorDataService connectorService;
     private ValidateConnectionConfig validateConnection;
+    protected PasswordHistoryDAO passwordHistoryDao;
 
     MuleContext muleContext;
 
+    private static final String MATCH_PARAM = "matchParam";
+    private static final String TARGET_SYSTEM_IDENTITY_STATUS = "targetSystemIdentityStatus";
+    private static final String TARGET_SYSTEM_IDENTITY = "targetSystemIdentity";
+    private static final String TARGET_SYSTEM_ATTRIBUTES = "targetSystemAttributes";
+    private static final String IDENTITY_NEW = "NEW";
+    private static final String IDENTITY_EXIST = "EXIST";
 
     final static private ResourceBundle res = ResourceBundle.getBundle("datasource");
     final static private String serviceHost = res.getString("openiam.service_base");
@@ -288,6 +296,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("password", decPassword);
 
         log.debug("Primary identity=" + primaryLogin);
+        
+        
+
+        if (user.isAddInitialPasswordToHistory()) {
+            // add the auto generated password to the history so that the user can not use this password as their first password
+            PasswordHistory hist = new PasswordHistory(primaryLogin.getId().getLogin() , primaryLogin.getId().getDomainId(),
+                    primaryLogin.getId().getManagedSysId());
+            hist.setPassword(primaryLogin.getPassword());
+            passwordHistoryDao.add(hist);
+        }
 
 
         // Update attributes that will be used by the password policy
@@ -341,14 +359,14 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(managedSysId, "USER");
                         if (matchObjAry != null && matchObjAry.length > 0) {
                             matchObj = matchObjAry[0];
-                            bindingMap.put("matchParam", matchObj);
+                            bindingMap.put(MATCH_PARAM, matchObj);
                         }
 
                         log.debug("Building attributes for managedSysId =" + managedSysId);
 
-                        bindingMap.put("targetSystemIdentityStatus", "NEW");
-                        bindingMap.put("targetSystemIdentity", "");
-                        bindingMap.put("targetSystemAttributes", null);
+                        bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
+                        bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
+                        bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
 
 
                         // attributes are built using groovy script rules
@@ -402,7 +420,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         }
 
 
-                        bindingMap.remove(matchObj);
+                        bindingMap.remove(MATCH_PARAM);
                     }
 
                 }
@@ -1164,7 +1182,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(managedSysId, "USER");
                     if (matchObjAry != null && matchObjAry.length > 0) {
                         matchObj = matchObjAry[0];
-                        bindingMap.put("matchParam", matchObj);
+                        bindingMap.put(MATCH_PARAM, matchObj);
                     }
                     // build the request
                     ModifyRequestType modReqType = new ModifyRequestType();
@@ -1203,9 +1221,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 log.debug("-Primary Identity=" + primaryIdentity);
                                 log.debug("-pUser - user=" + pUser.getUser());
 
-                                bindingMap.put("targetSystemIdentityStatus", "NEW");
-                                bindingMap.put("targetSystemIdentity", "");
-                                bindingMap.put("targetSystemAttributes", null);
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
+                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
 
 
                                 ExtensibleUser extUser = attrListBuilder.buildFromRules(pUser, attrMap, se,
@@ -1271,7 +1289,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                         pUser.getRequestClientIP(), mLg.getId().getLogin(), mLg.getId().getDomainId());
 
 
-                                bindingMap.remove(matchObj);
+                                bindingMap.remove(MATCH_PARAM);
                             }
 
                         } else {
@@ -1285,16 +1303,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             // if currentValueMap is null - then add the value - it does not exist in the target system
 
                             if (currentValueMap == null || currentValueMap.size() == 0) {
-                                bindingMap.put("targetSystemIdentityStatus", "NEW");
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
 
                                 // we may have identity for a user, but it my have been deleted from the target system
                                 // we dont need re-generate the identity in this c
-                                bindingMap.put("targetSystemIdentity", mLg.getId().getLogin());
-                                bindingMap.put("targetSystemAttributes", null);
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY, mLg.getId().getLogin());
+                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
                             } else {
-                                bindingMap.put("targetSystemIdentityStatus", "EXIST");
-                                bindingMap.put("targetSystemIdentity", mLg.getId().getLogin());
-                                bindingMap.put("targetSystemAttributes", currentValueMap);
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_EXIST);
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY, mLg.getId().getLogin());
+                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
                             }
 
 
@@ -1379,7 +1397,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                         }
                     }
-                    bindingMap.remove(matchObj);
+                    bindingMap.remove(MATCH_PARAM);
                 }
             }
 
@@ -2735,5 +2753,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
+    public PasswordHistoryDAO getPasswordHistoryDao() {
+        return passwordHistoryDao;
+    }
 
+    public void setPasswordHistoryDao(PasswordHistoryDAO passwordHistoryDao) {
+        this.passwordHistoryDao = passwordHistoryDao;
+    }
 }
