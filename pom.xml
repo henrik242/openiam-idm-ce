@@ -91,6 +91,7 @@
         <ehcache.version>2.5</ehcache.version>
         <log4j.version>1.2.16</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <ganymed.version>251beta1</ganymed.version>
 	</properties>
 
 
