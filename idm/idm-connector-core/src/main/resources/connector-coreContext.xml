@@ -183,6 +183,13 @@
 
     </bean>
 
+    <bean id="linuxConnector" class="org.openiam.spml2.spi.linux.LinuxConnectorImpl">
+        <property name="managedSysService" ref="managedSysService" />
+        <property name="managedSysObjectMatchDao" ref="managedSysObjectMatchDAO" />
+        <property name="resourceDataService" ref="resourceDataService" />
+    </bean>
+
+
     <!-- ========================= RESOURCE DEFINITIONS ========================= -->
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

@@ -205,9 +205,13 @@
 		  <artifactId>gdata-client-1.0</artifactId>
 		  <version>${googleapps.version}</version>
 		</dependency>
-				
-		
-  
+
+      <dependency>
+          <groupId>ch.ethz.ssh2</groupId>
+          <artifactId>ganymed-ssh2</artifactId>
+          <version>${ganymed.version}</version>
+      </dependency>
+
   </dependencies>
   
 
