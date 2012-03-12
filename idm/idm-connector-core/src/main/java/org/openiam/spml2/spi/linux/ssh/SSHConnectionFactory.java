@@ -47,11 +47,7 @@ public class SSHConnectionFactory {
     public static void removeSSH(String id) {
         SSHAgent ssh = connections.get(id);
         if (ssh != null) {
-            try {
-                ssh.logout();
-            } catch (SSHException e) {
-                log.error(e.getMessage());
-            }
+            ssh.logout();
             connections.remove(id);
         }
     }
