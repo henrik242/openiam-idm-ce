@@ -346,9 +346,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         List<AttributeMap> attrMap = managedSysService.getResourceAttributeMaps(res.getResourceId());
                         //List<AttributeMap> attrMap = resourceDataService.getResourceAttributeMaps(res.getResourceId());
 
-                        log.debug("Retrieved Attribute Map =" + attrMap);
-
-
                         ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
 
                         log.debug("Managed sys =" + mSys);
@@ -362,11 +359,21 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             bindingMap.put(MATCH_PARAM, matchObj);
                         }
 
-                        log.debug("Building attributes for managedSysId =" + managedSysId);
+                        
+                        log.debug(" - Building principal Name for: " + managedSysId);
+                        // build the primary identity
+                        String newPrincipalName =  attrListBuilder.buildPrincipalName(attrMap,se,bindingMap);
+
+                        log.debug(" - New principalName = " + newPrincipalName);
+
+                        // look it up the target system
+                        // if it exist, get the attributes and set the bind variables.
+
 
                         bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
                         bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
                         bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+
 
 
                         // attributes are built using groovy script rules
