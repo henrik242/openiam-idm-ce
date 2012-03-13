@@ -11,6 +11,11 @@ public class DirectorySpecificImplFactory {
 
 public static Directory create( String dirType) {
 
+    if (dirType == null) {
+        // default
+        return (new LdapV3());
+    }
+
     if (dirType.equalsIgnoreCase(Directory.ACTIVE_DIRECTORY)) {
         return (new ActiveDirectoryImpl());
     }
