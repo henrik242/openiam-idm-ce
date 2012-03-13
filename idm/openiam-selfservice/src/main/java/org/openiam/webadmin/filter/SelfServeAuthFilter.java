@@ -236,7 +236,7 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
 
     public boolean isExcludeObject(String url) {
-        if (url.endsWith(".jpg")  || url.endsWith(".css") || url.endsWith(".gif")) {
+        if (url.endsWith(".jpg")  || url.endsWith(".css") || url.endsWith(".gif") || url.endsWith(".png")) {
             return true;
         }
         return false;
