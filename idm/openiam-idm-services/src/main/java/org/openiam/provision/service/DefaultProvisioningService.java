@@ -366,14 +366,27 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                         log.debug(" - New principalName = " + newPrincipalName);
 
-                        // look it up the target system
-                        // if it exist, get the attributes and set the bind variables.
+                        // get the current object as it stands in the target system
+                        LoginId resLoginId = new LoginId(primaryLogin.getId().getDomainId(),newPrincipalName,managedSysId);
+                        Login resLogin = new Login();
+                        resLogin.setId(resLoginId);
 
 
-                        bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
-                        bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
-                        bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+                        Map<String, String> currentValueMap = getCurrentObjectAtTargetSystem(resLogin, mSys, connector, matchObj);
+                        log.debug("Values in target system:" + currentValueMap);
+                        // if currentValueMap is null - then add the value - it does not exist in the target system
 
+                        if (currentValueMap == null || currentValueMap.size() == 0) {
+                             // we may have identity for a user, but it my have been deleted from the target system
+                            // we dont need re-generate the identity in this c
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
+                            bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+                        } else {
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_EXIST);
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
+                            bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
+                        }
 
 
                         // attributes are built using groovy script rules
