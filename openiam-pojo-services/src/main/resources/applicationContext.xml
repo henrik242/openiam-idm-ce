@@ -111,6 +111,7 @@
 		<property name="phoneDao" ref="phoneDAO" />
 		<property name="supervisorDao" ref="supervisorDAO" />
 		<property name="loginDao" ref="loginDAO" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
 	</bean>
 
 

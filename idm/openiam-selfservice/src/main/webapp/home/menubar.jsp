@@ -31,9 +31,7 @@ System.out.println("menubar.jsp");
 
   if (userId != null) {
     if (token != null) {
-      queryString = "userId=" + userId + "&lg="+login + "&tk=" + token +"&identityKey=" + bpmToken;
-    } else {
-      queryString = "userId=" + userId + "&lg="+login + "&identityKey=" + bpmToken;
+      queryString =  "tk=" + token ;
     }
   }
 
@@ -62,8 +60,14 @@ System.out.println("menubar.jsp");
 
 	%>				
 				
-				<li><a href="<%=url %>"><%=m.getMenuName() %></a></li>
-	<%			}
+				<li><a href="<%= request.getContextPath() %>/<%=url %>"><%=m.getMenuName() %></a></li>
+                    <%
+                        if ("Manage User".equalsIgnoreCase(m.getMenuName())) {
+                    %>
+                    <jsp:include page="sidemenu.jsp" />
+
+	<%			    }
+                }
 			} 
 	%>
 				</ul>
@@ -92,10 +96,10 @@ System.out.println("menubar.jsp");
 				      }
 				    if (m.getUrl().toLowerCase().contains("http")) {				  	 
 	%>
-			            <li><a href="pub/launchProcess.selfserve?menuId=<%=m.getId().getMenuId()%> %>"><%=m.getMenuName() %></a></li>
+			            <li><a href="<%= request.getContextPath() %>/pub/launchProcess.selfserve?menuId=<%=m.getId().getMenuId()%> %>"><%=m.getMenuName() %></a></li>
 
 	<% 				} else { %>
-			<li><a href="<%=url %>"><%=m.getMenuName() %></a></li>
+			<li><a href="<%= request.getContextPath() %>/<%=url %>"><%=m.getMenuName() %></a></li>
 
 	<% 				}
 				}
@@ -108,7 +112,7 @@ System.out.println("menubar.jsp");
 	%>	
 
 	<div class="head">
-		<a href="logout.do#">Logout</a>
+		<a href="<%= request.getContextPath() %>/logout.do">Logout</a>
 	</div>
 	
 	</div>

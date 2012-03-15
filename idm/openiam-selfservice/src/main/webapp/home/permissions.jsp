@@ -16,15 +16,6 @@ System.out.println("permissions.jsp");
   String userId = (String)session.getAttribute("userId");
   String token = (String)session.getAttribute("token");
   String login = (String)session.getAttribute("login");
-  String queryString = null;
-
-  if (userId != null) {
-    if (token != null) {
-      queryString = "userId=" + userId + "&lg="+login;
-    } else {
-      queryString = "userId=" + userId + "&lg="+login;
-    }
-  }
 
   List menuList = (List) session.getAttribute("permissions");
 
@@ -42,15 +33,15 @@ System.out.println("permissions.jsp");
       String url = md.getUrl();
       if (url != null) {
         if (url.indexOf("?") == -1) {
-           url = url + "?" + queryString + "&menuid=" + md.getId().getMenuId() + "&l=p";
+           url = url + "?menuid=" + md.getId().getMenuId() + "&l=p";
         } else {    
-           url = url + "&"  + queryString + "&menuid=" + md.getId().getMenuId() + "&l=p";
+           url = url + "&menuid=" + md.getId().getMenuId() + "&l=p";
         }  
        }
       
 %>
 
-        <a href="<%=url%>"><%=md.getMenuName()%></a>          
+        <a href="<%= request.getContextPath() %><%=url%>"><%=md.getMenuName()%></a>
 
 <%
           if (size >= ++counter) {
@@ -59,7 +50,7 @@ System.out.println("permissions.jsp");
 		 
       }
 %>
-<a href="logout.do"> Logout</a>
+<a href="<%= request.getContextPath() %>/logout.do"> Logout</a>
 <%
    }    
  %>     
