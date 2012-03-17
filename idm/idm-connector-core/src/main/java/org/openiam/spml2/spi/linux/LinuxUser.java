@@ -209,10 +209,12 @@ public class LinuxUser {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        String tmpPass = (password == null) ? "" : password;
+        
         sb.append(";Name: ").append(name);
         sb.append(";Surname:").append(surname);
         sb.append(";Login: ").append(login);
-        sb.append(";Pass: ").append(password);
+        sb.append(";Password set? ").append(tmpPass.length() > 0);
         sb.append(";Home/Work: " + homePhone + "/" + workPhone);
         sb.append(";Groups:").append(groups == null ? "none" : groups.getGroupsAsCommaSeparatedString());
         return sb.toString();

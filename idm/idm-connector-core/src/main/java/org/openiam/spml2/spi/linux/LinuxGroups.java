@@ -1,6 +1,7 @@
 package org.openiam.spml2.spi.linux;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,9 +23,7 @@ public class LinuxGroups {
 
         if (serverResultText != null) {
             String[] splitGroups = serverResultText.split("\\n");
-
-            for (String s : splitGroups)
-                parsedGroups.add(s);
+            Collections.addAll(parsedGroups, splitGroups);
         }
 
         populateStringAndGroupList(parsedGroups);
@@ -90,7 +89,7 @@ public class LinuxGroups {
     private void populateStringAndGroupList(List<String> groupArg) {
         groups = new ArrayList<String>();
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (groupArg != null && groupArg.size() > 0) {
             for (String g : groupArg) {
                 String g_trim = g.trim();

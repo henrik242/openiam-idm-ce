@@ -77,11 +77,11 @@ public class SSHAgent {
             session.execCommand(command);
 
             if (moreArgs != null) {
+                log.debug(".. piping arguments to STDIN");
                 BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(session.getStdin()));
                 String[] args = moreArgs.split("\\n");
                 
                 for (String a : args) {
-                    log.debug("Additional STDIN: " + a);
                     bf.write(a);
                     bf.newLine();
                 }
