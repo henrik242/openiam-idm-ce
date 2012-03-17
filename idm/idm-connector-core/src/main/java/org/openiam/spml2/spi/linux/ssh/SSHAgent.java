@@ -8,9 +8,7 @@ import ch.ethz.ssh2.StreamGobbler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 
 /**
@@ -34,8 +32,8 @@ public class SSHAgent {
         this.username = username;
         this.password = password;
 
-        if (port != null && port.intValue() > 0)
-            this.port = port.intValue();
+        if (port != null && port > 0)
+            this.port = port;
         else
             this.port = 22;
     }
@@ -56,32 +54,53 @@ public class SSHAgent {
         }
     }
 
+    public String executeCommand(String command) throws  SSHException {
+        return executeCommand(command, null);
+    }
+    
     /**
      * Executes the specified command and returns the response from the server
      *
      * @param command The command to execute
+     * @param moreArgs Arguments to be piped into STDIO. Accepts newlines
      * @return The response that is returned from the server (or null)
+     * @throws SSHException
      */
-    public String executeCommand(String command) throws SSHException {
+    public String executeCommand(String command, String moreArgs) throws SSHException {
         try {
             // Open a session
             Session session = connection.openSession();
 
+            log.debug("Sending SSH command: " + command);
+
             // Execute the command
             session.execCommand(command);
 
+            if (moreArgs != null) {
+                BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(session.getStdin()));
+                String[] args = moreArgs.split("\\n");
+                
+                for (String a : args) {
+                    log.debug("Additional STDIN: " + a);
+                    bf.write(a);
+                    bf.newLine();
+                }
+
+                bf.flush();
+            }
+            
             // Read the results
             StringBuilder sb = new StringBuilder();
             InputStream stdout = new StreamGobbler(session.getStdout());
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
             String line = br.readLine();
             while (line != null) {
-                sb.append(line + "\n");
+                sb.append(line).append("\n");
                 line = br.readLine();
             }
 
             // DEBUG: dump the exit code
-            System.out.println("ExitCode: " + session.getExitStatus());
+            log.debug("ExitCode: " + session.getExitStatus());
 
             // Close the session
             session.close();
@@ -93,10 +112,9 @@ public class SSHAgent {
         }
     }
 
+
     /**
      * Logs out from the server
-     *
-     * @throws SSHException
      */
     public void logout() {
         try {

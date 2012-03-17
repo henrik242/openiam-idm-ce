@@ -8,7 +8,6 @@ import java.util.List;
  * User: kevin
  * Date: 2/26/12
  * Time: 8:09 PM
- * To change this template use File | Settings | File Templates.
  */
 public class LinuxGroups {
     private List<String> groups;
@@ -18,62 +17,92 @@ public class LinuxGroups {
         populateStringAndGroupList(groupArg);
     }
 
-    public LinuxGroups(String serverGroupFileText) {
-        String[] splitGroups = serverGroupFileText.split("\\n");
+    public LinuxGroups(String serverResultText) {
         ArrayList<String> parsedGroups = new ArrayList<String>();
-                
-        for (String s: splitGroups)
-            parsedGroups.add(s.split(":", 2)[0]);
-        
+
+        if (serverResultText != null) {
+            String[] splitGroups = serverResultText.split("\\n");
+
+            for (String s : splitGroups)
+                parsedGroups.add(s);
+        }
+
         populateStringAndGroupList(parsedGroups);
     }
-    
-    public String getGroupsAsString() {
-        return  groupsAsString;
+
+
+    public String getAddGroupsCommand() {
+        StringBuilder cmd = new StringBuilder();
+        for (String g : groups) {
+            cmd.append("groupadd ");
+            cmd.append(g);
+            cmd.append(";");
+        }
+
+        return cmd.toString();
     }
 
-    public String getListServerGroupsCommand() {
-        return "cat /etc/groups";
+
+    public String getDeleteGroupsCommand() {
+        StringBuilder cmd = new StringBuilder();
+        for (String g : groups) {
+            cmd.append("groupdel ");
+            cmd.append(g);
+            cmd.append(";");
+        }
+
+        return cmd.toString();
     }
 
-    /***
-     * Returns true if the argument's groups are a subset of this group
-     * @param g
-     * @return true if g is in this, false otherwise
+
+    /**
+     * Command that checks which groups do not exist on the server
+     *
+     * @return The command will return the non-existent groups
      */
-    public boolean contains(LinuxGroups g) {
-        return isSubset(g, this);
+    public String getGroupsNotOnServerCommand() {
+        String cmd = null;
+
+        if (groups != null && groups.size() > 0) {
+            StringBuilder groupsWithNL = new StringBuilder();
+
+            for (String g : groups) {
+                groupsWithNL.append(g);
+                groupsWithNL.append("\\n");
+            }
+
+            cmd = "echo -e \"" + groupsWithNL.toString() + "\" | grep -v -F \"`awk -F: '{print $1}' /etc/group`\"";
+        }
+
+        return cmd;
     }
 
-    /***
-     * Returns true if this group is a subset of the given group
-     * @param g
-     * @return true if this is in g, false otherwise
-     */
-    public boolean isContained(LinuxGroups g) {
-        return isSubset(this, g);
+
+    public String getGroupsAsCommaSeparatedString() {
+        return groupsAsString;
     }
-    
-    
-    private boolean isSubset(LinuxGroups g, LinuxGroups g1) {
-        return g1.groups.containsAll(g.groups);
+
+    public boolean hasGroups() {
+        return groups.size() > 0;
     }
-    
+
 
     private void populateStringAndGroupList(List<String> groupArg) {
         groups = new ArrayList<String>();
 
         StringBuffer sb = new StringBuffer();
         if (groupArg != null && groupArg.size() > 0) {
-
             for (String g : groupArg) {
                 String g_trim = g.trim();
-                groups.add(g_trim);
-                sb.append(g_trim);
-                sb.append(',');
+                if (g_trim.length() > 0) {
+                    groups.add(g_trim);
+                    sb.append(g_trim);
+                    sb.append(',');
+                }
             }
 
-            sb.deleteCharAt(sb.length() - 1); // last comma
+            if (sb.length() > 0)
+                sb.deleteCharAt(sb.length() - 1); // last comma
         }
 
         groupsAsString = sb.toString();

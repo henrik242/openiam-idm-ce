@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class SSHConnectionFactory {
 
     private static final Log log = LogFactory.getLog(SSHConnectionFactory.class);
-    private static HashMap<String, SSHAgent> connections = new HashMap<String, SSHAgent>();
+    private HashMap<String, SSHAgent> connections = new HashMap<String, SSHAgent>();
 
 
     /**
@@ -20,11 +20,11 @@ public class SSHConnectionFactory {
      * @param id Managed system ID to which the SSHAgent is connected
      * @return Null if the agent does not exist or the connection cannot be formed
      */
-    public static SSHAgent getSSH(String id) {
+    public SSHAgent getSSH(String id) {
         SSHAgent ssh = connections.get(id);
 
         if (ssh != null) {
-            log.warn("Using previously-opened connection: " + id);
+            log.debug("Using previously-opened connection: " + id);
 
             if (!ssh.isAuthenticationComplete()) {
                 try {
@@ -44,14 +44,10 @@ public class SSHConnectionFactory {
      * Closes an SSH connection and removes it from the map
      * @param id Managed system ID to which the SSHAgent is connected
      */
-    public static void removeSSH(String id) {
+    public  void removeSSH(String id) {
         SSHAgent ssh = connections.get(id);
         if (ssh != null) {
-            try {
-                ssh.logout();
-            } catch (SSHException e) {
-                log.error(e.getMessage());
-            }
+            ssh.logout();
             connections.remove(id);
         }
     }
@@ -64,10 +60,10 @@ public class SSHConnectionFactory {
      * @param port Port to which to connect
      * @param username Username of SSH account
      * @param password Password of SSH account
-     * @return
+     * @return  The newly added SSH agent
      */
-    public static SSHAgent addSSH(String id, String host, Integer port, String username, String password) {
-        log.warn("Creating new SSH connection for ID:" + id);
+    public  SSHAgent addSSH(String id, String host, Integer port, String username, String password) {
+        log.debug("Creating new SSH connection for ID:" + id);
         SSHAgent ssh = new SSHAgent(host, port, username, password);
         try {
             if (!ssh.connect())
