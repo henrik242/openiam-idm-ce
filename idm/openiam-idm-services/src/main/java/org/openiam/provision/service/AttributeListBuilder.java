@@ -49,7 +49,8 @@ import java.util.Map;
 public class AttributeListBuilder {
 
     protected static final Log log = LogFactory.getLog(AttributeListBuilder.class);
-
+    
+    
     public ExtensibleUser buildFromRules(ProvisionUser pUser,
                                          List<AttributeMap> attrMap, ScriptIntegration se,
                                          String managedSysId, String domainId,
@@ -140,6 +141,29 @@ public class AttributeListBuilder {
         return extUser;
 
 
+    }
+
+    /**
+     * Generate the principalName for a targetSystem
+     * @return
+     */
+    public String buildPrincipalName(List<AttributeMap> attrMap, ScriptIntegration se,
+                                     Map<String, Object> bindingMap) {
+        for (AttributeMap attr : attrMap) {
+            Policy policy = attr.getAttributePolicy();
+            String url = policy.getRuleSrcUrl();
+            String objectType = attr.getMapForObjectType();
+            if (objectType != null) {
+                if (objectType.equalsIgnoreCase("PRINCIPAL")) {
+                    if (url != null) {
+                        return (String) se.execute(bindingMap, url);
+                    }
+                }
+            }
+
+
+        }
+        return null;
     }
 
     public Login buildIdentity(List<AttributeMap> attrMap, ScriptIntegration se,

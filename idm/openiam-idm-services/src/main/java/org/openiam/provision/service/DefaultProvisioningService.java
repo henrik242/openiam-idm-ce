@@ -346,9 +346,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         List<AttributeMap> attrMap = managedSysService.getResourceAttributeMaps(res.getResourceId());
                         //List<AttributeMap> attrMap = resourceDataService.getResourceAttributeMaps(res.getResourceId());
 
-                        log.debug("Retrieved Attribute Map =" + attrMap);
-
-
                         ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
 
                         log.debug("Managed sys =" + mSys);
@@ -362,11 +359,34 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             bindingMap.put(MATCH_PARAM, matchObj);
                         }
 
-                        log.debug("Building attributes for managedSysId =" + managedSysId);
+                        
+                        log.debug(" - Building principal Name for: " + managedSysId);
+                        // build the primary identity
+                        String newPrincipalName =  attrListBuilder.buildPrincipalName(attrMap,se,bindingMap);
 
-                        bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
-                        bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
-                        bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+                        log.debug(" - New principalName = " + newPrincipalName);
+
+                        // get the current object as it stands in the target system
+                        LoginId resLoginId = new LoginId(primaryLogin.getId().getDomainId(),newPrincipalName,managedSysId);
+                        Login resLogin = new Login();
+                        resLogin.setId(resLoginId);
+
+
+                        Map<String, String> currentValueMap = getCurrentObjectAtTargetSystem(resLogin, mSys, connector, matchObj);
+                        log.debug("Values in target system:" + currentValueMap);
+                        // if currentValueMap is null - then add the value - it does not exist in the target system
+
+                        if (currentValueMap == null || currentValueMap.size() == 0) {
+                             // we may have identity for a user, but it my have been deleted from the target system
+                            // we dont need re-generate the identity in this c
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
+                            bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+                        } else {
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_EXIST);
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
+                            bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
+                        }
 
 
                         // attributes are built using groovy script rules

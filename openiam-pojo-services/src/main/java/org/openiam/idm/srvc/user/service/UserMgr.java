@@ -2,8 +2,10 @@ package org.openiam.idm.srvc.user.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.SysConfiguration;
 import org.openiam.idm.srvc.meta.dto.MetadataType;
 import org.openiam.idm.srvc.user.dto.*;
+import org.openiam.idm.srvc.user.ws.AttributeListResponse;
 import org.openiam.util.db.Search;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
@@ -40,6 +42,7 @@ public class UserMgr implements UserDataService {
 	private PhoneDAO phoneDao;
 	private SupervisorDAO supervisorDao;
 	protected LoginDAO loginDao;
+    protected SysConfiguration sysConfiguration;
 	
 	private static final Log log = LogFactory.getLog(UserMgr.class);
 
@@ -550,6 +553,27 @@ public class UserMgr implements UserDataService {
 
 		return attrMap;
 	}
+
+    public List<UserAttribute> getUserAsAttributeList (
+            String principalName,
+            List<String> attributeList)  {
+        
+        List<UserAttribute> attrList = new ArrayList<UserAttribute>();
+
+
+        User u = getUserByPrincipal(sysConfiguration.getDefaultSecurityDomain(),principalName,sysConfiguration.getDefaultManagedSysId(),false);
+        if (u == null) {
+            return null;
+        }
+        UserAttribute atr = new UserAttribute("EMAIL", u.getEmail());
+        attrList.add(atr);
+
+        return attrList;
+
+        
+                
+        
+    }
 
 	/* -------- Methods for UserNotes ---------- */
 	/*
@@ -1339,4 +1363,11 @@ public class UserMgr implements UserDataService {
 		this.loginDao = loginDao;
 	}
 
+    public SysConfiguration getSysConfiguration() {
+        return sysConfiguration;
+    }
+
+    public void setSysConfiguration(SysConfiguration sysConfiguration) {
+        this.sysConfiguration = sysConfiguration;
+    }
 }

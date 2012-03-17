@@ -45,6 +45,11 @@ public interface UserDataService {
 	 */
 	public User getUserByPrincipal(String securityDomain, String principal, String managedSysId, boolean dependants);
 
+    public List<UserAttribute> getUserAsAttributeList (
+            String principalName,
+            List<String> attributeList);
+
+
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.UserDataService#addUser(org.openiam.idm.srvc.user.dto.User)
 	 */

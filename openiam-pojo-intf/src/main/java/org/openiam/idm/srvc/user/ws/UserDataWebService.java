@@ -520,7 +520,12 @@ public interface UserDataWebService {
 	public AddressMapResponse getAddressMap(
 			@WebParam(name = "userId", targetNamespace = "")
 			String userId);
-	
-	
+
+
+    public AttributeListResponse getUserAsAttributeList(
+            @WebParam(name = "principalName", targetNamespace = "")
+            String principalName,
+            @WebParam(name = "attributeList", targetNamespace = "")
+            List<String> attributeList);
 
 }

@@ -60,7 +60,7 @@
 		<tr>
 			<td>
 		        <% if (ud.getFirstName() != null || ud.getLastName() != null) { %>
-		           <a href="editUser.selfserve?personId=<%=ud.getUserId()%>&menugrp=SELF_QUERYUSER<%=queryString%>"><%= JSPUtil.display(ud.getFirstName())%> <%=JSPUtil.display(ud.getLastName())%> </a>
+		           <a href="<%= request.getContextPath() %>/editUser.selfserve?personId=<%=ud.getUserId()%>&menugrp=SELF_QUERYUSER<%=queryString%>"><%= JSPUtil.display(ud.getFirstName())%> <%=JSPUtil.display(ud.getLastName())%> </a>
 		        <% } %>
 		    </td>
 		    <td><%= JSPUtil.display(ud.getEmail() )%> </td>

@@ -24,11 +24,6 @@
         <property name="orgManager" ref="orgServiceClient" />
      </bean>
 
-     <bean id="launchProcess" class="org.openiam.selfsrvc.bpm.LaunchProcessController" >
-		<property name="navigationDataService" ref="navServiceClient" />
-		<!--property name="bpmService" ref="bpmServiceClient" / -->
-     </bean>
-
      
      <bean id="login" class="org.openiam.selfsrvc.login.LoginController" >
     	<property name="commandName" value="loginCmd" />
@@ -251,9 +246,6 @@
          <property name="requestType" value="255" />
 
      </bean>
-<!-- Account claim wizard  -->
-
-
 	 <!-- Unlock User -->
      
      <bean id="unlockUserWizard" class="org.openiam.selfsrvc.pswd.UnlockUserWizardController">  
@@ -573,40 +565,6 @@
 		<property name="successView" value="user/selsupervisor.jsp" />
 		<property name="userMgr" ref="userServiceClient" />
      </bean>
-
-    <!-- Account claim example -->
-     <bean id="accountClaimWizard" class="org.openiam.selfsrvc.claim.AccountClaimWizardController">
-        <property name="pages">
-            <list>
-                <value>pub/claim/itpolicy</value>
-                <value>pub/claim/selectuser</value>
-                <value>pub/claim/authquestion</value>
-                <value>pub/claim/newPassword</value>
-            </list>
-        </property>
-        <property name="commandName" value="claimAccountCmd" />
-        <property name="commandClass" value="org.openiam.selfsrvc.claim.AccountClaimCommand" />
-        <property name="validator" ref="accountClaimValidator" />
-
-		<property name="configuration" ref="passwordConfiguration" />
-		<property name="policyDataService" ref="policyServiceClient" />
-		<property name="secDomainService" ref="secDomainServiceClient" />
-		<property name="challengeResponse" ref="challengeServiceClient" />
-		<property name="loginManager" ref="loginServiceClient" />
-		<property name="provisionService" ref="provisionServiceClient" />
-         <property name="userMgr" ref="userServiceClient" />
-	</bean>
-
-     <bean id="accountClaimValidator" class="org.openiam.selfsrvc.claim.AccountClaimValidator">
-     	<property name="userMgr" ref="userServiceClient" />
-        <property name="passwordService" ref="passwordServiceClient" />
-
-     </bean>
-
-
-
-
-
       
        
  <!--     <bean id="createRequest" class="org.openiam.selfsrvc.prov.NewRequestController">
@@ -663,9 +621,7 @@
                 <prop key="/userAttr.selfserve">userAttr</prop>
                 <prop key="/selectSupervisor.selfserve">selectSupervisor</prop>
                 <prop key="/resetPassword.selfserve">resetPassword</prop>
-                <prop key="pub/launchProcess.selfserve">launchProcess</prop>
-
-                <prop key="pub/claimAccount.selfserve">accountClaimWizard</prop>
+  
                 
             </props>
         </property>

@@ -803,6 +803,22 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 		return resp;
 	}
 
+    public AttributeListResponse getUserAsAttributeList (
+            String principalName,
+            List<String> attributeList) {
+
+        AttributeListResponse resp = new AttributeListResponse(ResponseStatus.SUCCESS);
+        List<UserAttribute> userAttrList =  userManager.getUserAsAttributeList(principalName, attributeList);
+        if (userAttrList == null && userAttrList.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }else {
+            resp.setAttributeList(userAttrList);
+        }
+        return resp;
+        
+
+    }
+
 	public UserDataService getUserManager() {
 		return userManager;
 	}

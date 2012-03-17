@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
  * User: kevin
  * Date: 2/26/12
  * Time: 2:12 AM

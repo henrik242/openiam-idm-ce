@@ -12,74 +12,57 @@
 
 <%
 
-System.out.println("sidemenu.jsp called.");
+    System.out.println("sidemenu.jsp called.");
 
-String sideMenuGroup = (String)request.getAttribute("menuGroup");
-List<Menu> menuL3 = (List<Menu>)request.getAttribute("menuL3");
-String objId = (String)request.getAttribute("objId");
-
-
-  String userId = (String)session.getAttribute("userId");
-  String token = (String)session.getAttribute("token");
-  String login = (String)session.getAttribute("login");
-  String queryString = null;
-
-  System.out.println("user=" + userId);
-  
-  if (userId != null) {
-      queryString = "&userId=" + userId + "&lg="+login + "&tk=" + token;
-
-  }
-  
-  User personData = (User)request.getAttribute("personData");
-  List menuList = (List) session.getAttribute("sideMenus");
-  String personId = (String)request.getAttribute("personId");
-
-  UserStatusEnum status = null;
-  if (personData != null) {
-  	status = personData.getStatus();
-  }
-  
-%>
-<% 
-	if ( menuL3 != null ) { 
-%>
-
-<table cellspacing = "1" cellpadding="1">
-
- <% for (Menu menu : menuL3) { 
-	 	String url = null;
-	 	if ( menu.getUrl().contains("?") ) {
- 			url = menu.getUrl() + "&" +  "menuid=" + menu.getId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId + queryString;
- 		}else {
- 			url = menu.getUrl() + "?" +  "menuid=" + menu.getId().getMenuId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId + queryString;
-	 	}
-	 	if (personId != null) {
-	 		url = url + "&personId=" + personId + queryString;
-	 	}
-	 	
- %>
- <tr>
-  <td><a href="<%=url%>"><%=menu.getMenuName() %></a> </td>
- </tr>
- <% 
- }
- %>
+    String sideMenuGroup = (String)request.getAttribute("menuGroup");
+    List<Menu> menuL3 = (List<Menu>)request.getAttribute("menuL3");
+    String objId = (String)request.getAttribute("objId");
 
 
+    String userId = (String)session.getAttribute("userId");
+    String token = (String)session.getAttribute("token");
+    String login = (String)session.getAttribute("login");
+    String queryString = null;
 
+    System.out.println("user=" + userId);
 
-   <TR>
-    <TD>
-      <img src="images/lowernotch.jpg" height="10" width="140" />
-    </TD>
-  </TR>
-</table>
+    if (userId != null) {
+        queryString =  "&tk=" + token;
 
-<% 
-	}
+    }
+
+    User personData = (User)request.getAttribute("personData");
+    List menuList = (List) session.getAttribute("sideMenus");
+    String personId = (String)request.getAttribute("personId");
+
+    UserStatusEnum status = null;
+    if (personData != null) {
+        status = personData.getStatus();
+    }
 
 %>
- 
-  
+<%
+    if ( menuL3 != null ) {
+%>
 
+<% for (Menu menu : menuL3) {
+    String url = null;
+    if ( menu.getUrl().contains("?") ) {
+        url = menu.getUrl() + "&" +  "menuid=" + menu.getId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId + queryString;
+    }else {
+        url = menu.getUrl() + "?" +  "menuid=" + menu.getId().getMenuId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId + queryString;
+    }
+    if (personId != null) {
+        url = url + "&personId=" + personId + queryString;
+    }
+
+%>
+<li><a href="<%=url %>"><%=menu.getMenuName() %></a></li>
+<%
+    }
+%>
+
+<%
+    }
+
+%>
