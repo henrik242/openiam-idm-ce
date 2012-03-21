@@ -17,7 +17,7 @@
 	  </description>
 	  
     <quartz:inbound-endpoint name="minuteTrigger" repeatInterval="60000"  
-    		startDelay="10000" jobName="minuteJob" >
+    		startDelay="25000" jobName="minuteJob" >
           	 <quartz:event-generator-job>
 	          	 <quartz:payload>MINUTE</quartz:payload>
           	 </quartz:event-generator-job>
@@ -42,7 +42,7 @@
 	  </description>
 	  
     <quartz:inbound-endpoint name="fiveMinuteTrigger" repeatInterval="300000"  
-    		startDelay="175000" jobName="fiveMinuteJob" >
+    		startDelay="225000" jobName="fiveMinuteJob" >
           	 <quartz:event-generator-job>
 	          	 <quartz:payload>5MIN</quartz:payload>
           	 </quartz:event-generator-job>
@@ -65,7 +65,7 @@
 	  </description>
 	  
     <quartz:inbound-endpoint name="fifteenMinuteTrigger" repeatInterval="900000"  
-    		startDelay="200000" jobName="fifteenMinuteJob" >
+    		startDelay="300000" jobName="fifteenMinuteJob" >
           	 <quartz:event-generator-job>
 	          	 <quartz:payload>15MIN</quartz:payload>
           	 </quartz:event-generator-job>
@@ -88,7 +88,7 @@
 	  </description>
 	  
     <quartz:inbound-endpoint name="sixtyMinuteTrigger" repeatInterval="3600000"  
-    		startDelay="220000" jobName="hourJob" >
+    		startDelay="320000" jobName="hourJob" >
           	 <quartz:event-generator-job>
 	          	 <quartz:payload>60MIN</quartz:payload>
           	 </quartz:event-generator-job>

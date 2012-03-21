@@ -98,8 +98,6 @@ public class BatchConfigDAOImpl implements BatchConfigDAO {
 					.get("org.openiam.idm.srvc.batch.dto.BatchTask", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
-			} else {
-				log.debug("get successful, instance found");
 			}
 			return instance;
 		} catch (HibernateException re) {

@@ -2077,6 +2077,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         // Ensure that we dont send the event back to this system
 
         log.debug("----syncPasswordFromSrc called.------");
+        long curTime = System.currentTimeMillis();
 
         Response response = new Response(ResponseStatus.SUCCESS);
 
@@ -2130,10 +2131,15 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         List<Login> principalList = loginManager.getLoginByUser(login.getUserId());
         // List<Login> identityList =  loginManager.getLoginByUser(usr.getUserId()) ;
         for (Login l : principalList) {
-            if (l.getId().getManagedSysId().equalsIgnoreCase(passwordSync.getManagedSystemId())) {
+            // if the managedsysId is equal to the source or the openiam default ID, then only update the database
+            // otherwise do a sync
+            if (l.getId().getManagedSysId().equalsIgnoreCase(passwordSync.getManagedSystemId()) ||
+                l.getId().getManagedSysId().equalsIgnoreCase(sysConfiguration.getDefaultManagedSysId()) ) {
+                
+                log.debug("Updating password for " + l.getId());
 
                 boolean retval = loginManager.setPassword(l.getId().getDomainId(), l.getId().getLogin(),
-                        passwordSync.getManagedSystemId(), encPassword);
+                        l.getId().getManagedSysId(), encPassword);
                 if (retval) {
                     log.debug("-Password changed in openiam repository for user:" + passwordSync.getPrincipal());
 
@@ -2144,7 +2150,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             passwordSync.getRequestClientIP(), l.getId().getLogin(), l.getId().getDomainId());
 
                     // update the user object that the password was changed
-                    usr.setDatePasswordChanged(new Date(System.currentTimeMillis()));
+                    usr.setDatePasswordChanged(new Date(curTime));
                     // reset any locks that may be in place
                     if (usr.getSecondaryStatus() == UserStatusEnum.LOCKED) {
                         usr.setSecondaryStatus(null);
@@ -2161,72 +2167,61 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     resp.setStatus(ResponseStatus.FAILURE);
                     resp.setErrorCode(ResponseCode.PRINCIPAL_NOT_FOUND);
                 }
-            }
-        }
+            } else {
+                
+                    log.debug("Synchronizing password from: " + l.getId());
 
-        if (passwordSync.getManagedSystemId().equalsIgnoreCase(this.sysConfiguration.getDefaultManagedSysId())) {
-            // typical sync
-            //List<Login> principalList = loginManager.getLoginByUser(login.getUserId());
-            if (principalList != null) {
-                log.debug("PrincipalList size =" + principalList.size());
-                for (Login lg : principalList) {
-                    // get the managed system for the identity - ignore the managed system id that is linked to openiam's repository
-                    log.debug("**** Managed System Id in passwordsync object=" + passwordSync.getManagedSystemId());
-
-                    if (!lg.getId().getManagedSysId().equalsIgnoreCase(sysConfiguration.getDefaultManagedSysId())) {
-
-                        // determine if you should sync the password or not
-                        String managedSysId = lg.getId().getManagedSysId();
-                        Resource res = resourceDataService.getResource(managedSysId);
-
-                        log.debug(" - managedsys id = " + managedSysId);
-                        log.debug(" - Resource for sysId =" + res);
-
-                        // check the sync flag
-
-                        if (syncAllowed(res)) {
-
-                            log.debug("Sync allowed for sys=" + managedSysId);
-
-                            // update the password in openiam
-                            loginManager.setPassword(lg.getId().getDomainId(),
-                                    lg.getId().getLogin(), lg.getId().getManagedSysId(),
-                                    encPassword);
-
-                            // update the target system
-                            ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
-
-                            ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
-
-                            ManagedSystemObjectMatch matchObj = null;
-                            ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(mSys.getManagedSysId(), "USER");
-                            if (matchObjAry != null && matchObjAry.length > 0) {
-                                matchObj = matchObjAry[0];
-                            }
-
-                            // exclude the system where this event occured.
-                            if (!lg.getId().getManagedSysId().equalsIgnoreCase(passwordSync.getManagedSystemId())) {
-
-                                if (connector.getConnectorInterface() != null &&
-                                        connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
-
-                                    remoteSetPassword(requestId, lg, passwordSync, mSys, matchObj, connector);
+                    // determine if you should sync the password or not
+                    String managedSysId = l.getId().getManagedSysId();
+                    Resource res = resourceDataService.getResource(managedSysId);
 
 
-                                } else {
 
-                                    localSetPassword(requestId, lg, passwordSync, mSys);
+                    // check the sync flag
 
-                                }
-                            }
+                    if (syncAllowed(res)) {
 
-                        } else {
-                            log.debug("Sync not allowed for sys=" + managedSysId);
+                        log.debug("Sync allowed for sys=" + managedSysId);
+
+                        // update the password in openiam
+                        loginManager.setPassword(l.getId().getDomainId(),
+                                l.getId().getLogin(), l.getId().getManagedSysId(),
+                                encPassword);
+
+                        // update the target system
+                        ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
+
+                        ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
+
+                        ManagedSystemObjectMatch matchObj = null;
+                        ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(mSys.getManagedSysId(), "USER");
+                        if (matchObjAry != null && matchObjAry.length > 0) {
+                            matchObj = matchObjAry[0];
                         }
+
+                        // exclude the system where this event occured.
+
+                            if (connector.getConnectorInterface() != null &&
+                                    connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
+
+                                remoteSetPassword(requestId, l, passwordSync, mSys, matchObj, connector);
+
+
+                            } else {
+
+                                localSetPassword(requestId, l, passwordSync, mSys);
+
+                            }
+
+
+                    } else {
+                        log.debug("Sync not allowed for sys=" + managedSysId);
                     }
-                }
+                
             }
         }
+
+
         response.setStatus(ResponseStatus.SUCCESS);
         return response;
 
