@@ -10,16 +10,16 @@ public class LinuxUser {
 
     private String name;
     private String surname;
-    
+
     private String homePhone;
     private String workPhone;
-    
+
     private String roomNumber;
-    
+
     private String expireDate;
     private String daysBeforeDisable;
-    
-    
+
+
     public LinuxUser(LinuxGroups groups, String login, String password, String name, String surname, String homePhone, String workPhone, String roomNumber, String expireDate, String daysBeforeDisable) throws Exception {
         if (login == null)
             throw new Exception("Login cannot be null!");
@@ -35,11 +35,11 @@ public class LinuxUser {
         this.expireDate = expireDate;
         this.daysBeforeDisable = daysBeforeDisable;
     }
-    
-    public LinuxUser(LinuxGroups groups, Map<String, String> a) throws Exception {
-        this(groups, a.get("login"), a.get("password"), a.get("name"), a.get("surname"), a.get("homePhone"), a.get("workPhone"), a.get("roomNumber"), a.get("expireDate"), a.get("daysToDisable"));
+
+    public LinuxUser(Map<String, String> a) throws Exception {
+        this(new LinuxGroups(a.get("groups")), a.get("login"), a.get("password"), a.get("name"), a.get("surname"), a.get("homePhone"), a.get("workPhone"), a.get("roomNumber"), a.get("expireDate"), a.get("daysToDisable"));
     }
-    
+
 
     // Sets a user's details, such as full name, room, phone numbers etc.
     public String getUserSetDetailsCommand() {
@@ -111,16 +111,16 @@ public class LinuxUser {
 
         return cmd.toString();
     }
-    
+
     // Disables access with a password
     public String getUserLockCommand() {
         StringBuilder cmd = new StringBuilder();
         cmd.append("passwd -l ");
         cmd.append(login);
 
-       return cmd.toString();
+        return cmd.toString();
     }
-    
+
     // Enables password again
     public String getUserUnlockCommand() {
         StringBuilder cmd = new StringBuilder();
@@ -139,32 +139,44 @@ public class LinuxUser {
 
         return cmd.toString();
     }
+    
+    // Get user's groups command
+    public String getUserGroupsCommand() {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("groups ");
+        cmd.append(login);
+
+        return cmd.toString();
+    }
 
 
     /**
      * Only adds a switch if the argument is not null or empty. The argument is also placed in quotes.
-     * @param cmdSwitch switch, without dash
-     * @param arg argument for switch
+     *
+     * @param cmdSwitch     switch, without dash
+     * @param arg           argument for switch
      * @param trailingSpace if true, adds a space to the end of the expression
      * @return Formatted command switch and argument; empty string if argument is empty
      */
     private String notBlank(String cmdSwitch, String arg, boolean trailingSpace) {
         String retVal = "";
-        if (arg != null && arg.length() > 0) {
-            StringBuilder command = new StringBuilder();
-            command.append('-');
-            command.append(cmdSwitch.trim());
-            command.append(" \"");
-            command.append(arg.trim());
-            command.append("\"");
-            if (trailingSpace)
-                command.append(" ");
-            retVal = command.toString();
+        if (arg != null) {
+            String arg_trim = arg.trim();
+            if (arg_trim.length() > 0 && !arg_trim.equalsIgnoreCase("null")) {
+                StringBuilder command = new StringBuilder();
+                command.append('-');
+                command.append(cmdSwitch.trim());
+                command.append(" \"");
+                command.append(arg_trim);
+                command.append("\"");
+                if (trailingSpace)
+                    command.append(" ");
+                retVal = command.toString();
+            }
         }
-        
+
         return retVal;
     }
-
 
 
     public LinuxGroups getGroups() {
@@ -210,7 +222,7 @@ public class LinuxUser {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String tmpPass = (password == null) ? "" : password;
-        
+
         sb.append(";Name: ").append(name);
         sb.append(";Surname:").append(surname);
         sb.append(";Login: ").append(login);

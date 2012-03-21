@@ -7,9 +7,7 @@ import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.provision.type.ExtensibleAttribute;
-import org.openiam.provision.type.ExtensibleGroup;
 import org.openiam.provision.type.ExtensibleObject;
-import org.openiam.provision.type.ExtensibleUser;
 import org.openiam.spml2.base.AbstractSpml2Complete;
 import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.*;
@@ -22,7 +20,6 @@ import org.openiam.spml2.spi.linux.ssh.SSHException;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,7 +79,8 @@ public class LinuxConnectorImpl extends AbstractSpml2Complete implements Connect
 
     /**
      * Extracts a LinuxUser from the given list of Extensible Objects,
-      * @param login Login name of new user
+     *
+     * @param login      Login name of new user
      * @param objectList List containing attributes
      * @return A LinuxUser with the relevant fields populated
      */
@@ -94,32 +92,21 @@ public class LinuxConnectorImpl extends AbstractSpml2Complete implements Connect
             HashMap<String, String> attributes = new HashMap<String, String>();
             attributes.put("login", login);
 
-            LinuxGroups groups = null;
             if (objectList != null) {
                 for (ExtensibleObject obj : objectList) {
                     log.debug("Object:" + obj.getName() + " - operation=" + obj.getOperation());
 
                     // Extract attributes
                     for (ExtensibleAttribute att : obj.getAttributes()) {
-                        attributes.put(att.getName(), att.getValue());
-                        
+                        if (att != null) {
+                            attributes.put(att.getName(), att.getValue());
+                        }
                     }
-
-                    // TODO: GROUPS not being added
-                    // Extract groups
-                    ArrayList<String> groupList = new ArrayList<String>();
-                    ExtensibleUser extUser = (ExtensibleUser) obj;
-
-                    for (ExtensibleGroup g : extUser.getGroup()) {
-                        groupList.add(g.getGroup().getGrpName());
-                    }
-                    groups = new LinuxGroups(groupList);
-                    log.debug("groups = " + groups.getGroupsAsCommaSeparatedString());
                 }
             }
 
             try {
-                user = new LinuxUser(groups, attributes);
+                user = new LinuxUser(attributes);
             } catch (Exception ex) {
                 log.error(ex.getMessage());
             }
@@ -166,6 +153,7 @@ public class LinuxConnectorImpl extends AbstractSpml2Complete implements Connect
                 sshAgent.executeCommand(groupsNotOnServer.getAddGroupsCommand());
         }
     }
+
 
 
     public AddResponseType add(@WebParam(name = "reqType", targetNamespace = "") AddRequestType reqType) {
