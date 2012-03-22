@@ -107,5 +107,18 @@
         </service>
     </model>
 
+    <model name="mysqlConnectorServiceModel">
+        <service name="mysqlConnectorService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}MySQLConnector" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="mysqlConnector" />
+            </component>
+        </service>
+    </model>
+
 </mule>
 

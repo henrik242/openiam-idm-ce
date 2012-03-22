@@ -107,6 +107,19 @@
 		<property name="userManager" ref="userManager" />
 	</bean>
 
+    <!-- MySQL Connector  -->
+    <bean id="mysqlConnector" class="org.openiam.spml2.spi.mysql.MySQLConnectorImpl">
+        <property name="addCommand" ref="mysqlAddCommmand" />
+     </bean>
+
+    <bean id="mysqlAddCommmand" class="org.openiam.spml2.spi.mysql.MySQLAddCommand">
+        <property name="managedSysService" ref="managedSysService" />
+        <property name="resourceDataService" ref="resourceDataService" />
+        <property name="connectionMgr" ref="jdbcConnection" />
+
+    </bean>
+
+    <!-- AppTable Connector -->
 
     <bean id="appTableConnector" class="org.openiam.spml2.spi.jdbc.AppTableConnectorImpl">
         <property name="connectionMgr" ref="jdbcConnection" />
