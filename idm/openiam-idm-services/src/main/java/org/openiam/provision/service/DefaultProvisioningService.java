@@ -1970,6 +1970,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     if (usr.getSecondaryStatus() == UserStatusEnum.LOCKED) {
                         usr.setSecondaryStatus(null);
                     }
+                    // if the user status was inactive, then make it active
+                    if ( usr.getStatus() == UserStatusEnum.INACTIVE) {
+                        usr.setStatus(UserStatusEnum.ACTIVE);
+
+                    }
+
                     this.userMgr.updateUserWithDependent(usr, false);
 
                 } else {
@@ -1984,6 +1990,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 }
             }
         }
+
+
+
+
 
         if (passwordSync.getManagedSystemId().equalsIgnoreCase(this.sysConfiguration.getDefaultManagedSysId())) {
             // typical sync
