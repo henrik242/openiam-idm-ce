@@ -383,7 +383,14 @@
 		<property name="resourcePropDao" ref="resourcePropDAO" />
 		<property name="resourceRoleDao" ref="resourceRoleDAO" />
 		<property name="resourceUserDao" ref="resourceUserDAO" />
-	</bean>
+
+        <property name="loginManager" ref="loginManager" />
+        <property name="userManager" ref="userManager" />
+        <property name="roleDataService" ref="roleDataService" />
+        <property name="orgManager" ref="orgManager" />
+
+
+    </bean>
 
 	<bean id="resourceDAO" class="org.openiam.idm.srvc.res.service.ResourceDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"></property>		

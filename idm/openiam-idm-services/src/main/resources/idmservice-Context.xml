@@ -138,7 +138,6 @@
 		<property name="auditDataService" ref="auditDataService" />
 	</bean>
 
-<!-- ========================= BPM Related Service ========================= -->
 
 	<!--bean id="bpmWS" class="org.openiam.idm.srvc.bpm.service.BpmServiceImpl" / -->
 
@@ -267,7 +266,41 @@
 	<bean id="defaultMatchRule" class="org.openiam.idm.srvc.synch.srcadapter.DefaultMatchObjectRule" >
 	</bean>
 
-<!-- ========================= ACTIVITY LOG ========================= -->	
+<!-- ========================= Synchronization for Generic Objects ========================= -->
+
+    <bean id="genericObjSynchServiceWS" class="org.openiam.idm.srvc.synch.ws.GenericObjectSynchWebServiceImpl">
+        <property name="synchService" ref="genericObjSynchService" />
+    </bean>
+
+    <bean id="genericObjSynchService" class="org.openiam.idm.srvc.synch.service.generic.GenericObjectSynchServiceImpl">
+        <property name="synchConfigDao" ref="synchConfigDAO" />
+        <property name="synchConfigMappingDao" ref="synchConfigDataMappingDAO" />
+        <property name="adaptorFactory" ref="genericObjAdapterFactory" />
+    </bean>
+
+    <bean id="genericObjAdapterFactory" class="org.openiam.idm.srvc.synch.service.generic.SourceAdapterFactory" >
+        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+    </bean>
+
+    <bean id="genericObjCsvAdapter" class="org.openiam.idm.srvc.synch.service.generic.CSVAdapterForGenericObject" >
+        <property name="matchRuleFactory" ref="matchRuleFactory" />
+        <property name="systemAccount" value="3000" />
+        <property name="loginManager" ref="loginManager" />
+        <property name="roleDataService" ref="roleDataService" />
+        <property name="userMgr" ref="userManager" />
+        <property name="auditHelper" ref="auditHelper" />
+    </bean>
+
+    <bean id="genericObjLdapAdapter" class="org.openiam.idm.srvc.synch.service.generic.LdapAdapterForGenericObject" >
+        <property name="matchRuleFactory" ref="matchRuleFactory" />
+        <property name="systemAccount" value="3000" />
+        <property name="loginManager" ref="loginManager" />
+        <property name="roleDataService" ref="roleDataService" />
+        <property name="userMgr" ref="userManager" />
+        <property name="auditHelper" ref="auditHelper" />
+    </bean>
+
+    <!-- ========================= ACTIVITY LOG ========================= -->
 
 	
 <!-- ========================= Reconciliation ========================= -->

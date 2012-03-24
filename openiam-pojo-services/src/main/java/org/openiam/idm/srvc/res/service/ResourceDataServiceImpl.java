@@ -13,7 +13,16 @@ import org.apache.commons.logging.LogFactory;
 import org.openiam.exception.data.ObjectNotFoundException;
 //import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 //import org.openiam.idm.srvc.mngsys.service.AttributeMapDAO;
+import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.res.dto.*;
+import org.openiam.idm.srvc.role.service.RoleDataService;
+import org.openiam.idm.srvc.user.service.UserDataService;
+import org.openiam.idm.srvc.org.service.OrganizationDataService;
+import org.openiam.idm.srvc.auth.dto.Login;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.user.dto.UserAttribute;
+import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.role.dto.Role;
 
 @WebService(endpointInterface = "org.openiam.idm.srvc.res.service.ResourceDataService", targetNamespace = "urn:idm.openiam.org/srvc/res/service", portName = "ResourceDataWebServicePort", serviceName = "ResourceDataWebService")
 public class ResourceDataServiceImpl implements ResourceDataService {
@@ -24,6 +33,11 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 	protected ResourceRoleDAO resourceRoleDao;
 	protected ResourceUserDAO resourceUserDao;
 	//protected AttributeMapDAO attributeMapDao;
+
+    protected LoginDataService loginManager;
+    protected UserDataService userManager;
+    RoleDataService roleDataService;
+    OrganizationDataService orgManager;
 
 	private static final Log log = LogFactory
 			.getLog(ResourceDataServiceImpl.class);
@@ -1224,6 +1238,165 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 		return false;
 	}
 
+    /* Temp hack ---------------------  -------------------------*/
+    
+    public String attributeString(String domainId, String principal) {
+
+        List<String> oidList = new ArrayList<String>();
+        String permitOverRide;
+
+        Login principalLg =  loginManager.getLoginByManagedSys(domainId, principal, "0");
+
+        if (principalLg == null) {
+            return null;
+        }
+
+        User usr = userManager.getUserWithDependent(principalLg.getUserId(), true);
+        List<Role> roleList =  roleDataService.getUserRoles(principalLg.getUserId());
+
+        String orgName = null;
+
+        if (usr.getCompanyId() != null && usr.getCompanyId().length() > 0) {
+
+            Organization org = orgManager.getOrganization(usr.getCompanyId());
+            if (org != null && org.getOrganizationName() != null) {
+                orgName = org.getOrganizationName();
+                // oid = org.getAlias();
+                addOid(oidList, org.getAlias());
+            }else {
+                orgName = "NA";
+            }
+        }
+
+        UserAttribute attrPermitOverride =  usr.getAttribute("permit-override");
+        if (attrPermitOverride == null  ) {
+            permitOverRide = "N";
+        }else {
+            if ( attrPermitOverride.getValue() == null || !attrPermitOverride.getValue().equalsIgnoreCase("Y")) {
+                permitOverRide = "N";
+            }else {
+                permitOverRide = "Y";
+            }
+
+        }
+
+        List<Organization> affiliationList =  orgManager.getOrganizationsForUser(principalLg.getUserId());
+        if (affiliationList != null && affiliationList.size() > 0) {
+            for (Organization o : affiliationList) {
+                String alias = o.getAlias();
+                //oid = oid + "," + o.getAlias();
+                addOid(oidList, o.getAlias());
+
+            }
+        }
+
+        String roleStr = null;
+
+        if (roleList != null && !roleList.isEmpty()) {
+
+            for ( Role r : roleList) {
+                if (roleStr == null) {
+                    roleStr = r.getId().getRoleId();
+                }else {
+                    roleStr = roleStr + "," + r.getId().getRoleId();
+                }
+
+            }
+        }
+
+
+
+        StringBuffer headerString = new StringBuffer();
+
+        if (usr.getFirstName() != null && usr.getFirstName().length() > 0) {
+            headerString.append("firstname=" + usr.getFirstName());
+        }else {
+            headerString.append("&firstname=NA");
+        }
+        if (usr.getLastName() != null && usr.getLastName().length() > 0) {
+            headerString.append("&secondname=" + usr.getLastName());
+        }else {
+            headerString.append("&secondname=NA");
+        }
+        headerString.append("&fullname=" + usr.getFirstName() + " " + usr.getLastName());
+        if (roleStr != null && roleStr.length() > 0) {
+            headerString.append("&role=" + roleStr );
+        }else {
+            headerString.append("&role=NO_ROLE");
+        }
+        headerString.append("&organization=" + orgName );
+        headerString.append("&organizationoid=" + getOidString(oidList) );
+
+        headerString.append("&permit=" + permitOverRide );
+
+        return headerString.toString();
+    }
+
+    public LoginDataService getLoginManager() {
+        return loginManager;
+    }
+
+    public void setLoginManager(LoginDataService loginManager) {
+        this.loginManager = loginManager;
+    }
+
+    public UserDataService getUserManager() {
+        return userManager;
+    }
+
+    public void setUserManager(UserDataService userManager) {
+        this.userManager = userManager;
+    }
+
+    public RoleDataService getRoleDataService() {
+        return roleDataService;
+    }
+
+    public void setRoleDataService(RoleDataService roleDataService) {
+        this.roleDataService = roleDataService;
+    }
+
+    private void addOid(List<String> oidList, String newOid) {
+
+        for (String oid : oidList) {
+            if (oid.equalsIgnoreCase(newOid)) {
+                // found - its already in the list
+                return;
+            }
+
+        }
+        oidList.add(newOid);
+    }
+
+    private String getOidString(List<String> oidList) {
+        StringBuffer oid = new StringBuffer();
+
+        int ctr = 0;
+        for ( String o : oidList) {
+
+            if (ctr == 0) {
+                oid.append( o );
+            } else {
+                oid.append("," + o);
+            }
+            ctr++;
+
+
+        }
+        if (oidList.isEmpty()) {
+            return "NA";
+        }
+        return oid.toString();
+
+    }
+
+    public OrganizationDataService getOrgManager() {
+        return orgManager;
+    }
+
+    public void setOrgManager(OrganizationDataService orgManager) {
+        this.orgManager = orgManager;
+    }
 }
 
 

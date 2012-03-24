@@ -611,4 +611,10 @@ public interface ResourceDataService {
 
     List<Resource> getResourceObjForUser(String userId);
 
+    String attributeString(
+            @WebParam(name = "domainId", targetNamespace = "")
+            String domainId,
+            @WebParam(name = "principal", targetNamespace = "")
+            String principal);
+
 }
