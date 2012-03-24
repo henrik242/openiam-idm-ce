@@ -287,10 +287,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		authSt.setToken(null);
 		this.authStateDao.saveAuthState(authSt);
 		
-	
-		//IdmAuditLog log = new IdmAuditLog( "AUTHENTICATION", "LOGOUT", "SUCCESS", null,null,userId,  null, null, null);
-		//auditUtil.log(log);
-		
+
 	}
 
 
@@ -849,6 +846,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@WebMethod
 	public Response renewToken(
 			String principal,  String token, String tokenType) {
+        
+        log.debug("RenewToken called.");
 		
 		Response resp = new Response(ResponseStatus.SUCCESS);
 		
@@ -878,19 +877,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		tokenParam.put("USER_ID",lg.getUserId());
 		tokenParam.put("PRINCIPAL",principal);
 
-        // check that this is the last token that we generated
-        AuthState state = authStateDao.findByToken(token);
-        if ( state == null || state.getToken() == null) {
+        if (!isUserStatusValid(lg.getUserId())) {
+            
+            log.debug("RenewToken: user status failed for userId = " + lg.getUserId());
+            
             resp.setStatus(ResponseStatus.FAILURE);
             return resp;
+            
         }
 
-        //
-        if (!isUserStatusValid(lg.getUserId())) {
-            resp.setStatus(ResponseStatus.FAILURE);
-            return resp;
-        }
-		
+
 		SSOTokenModule tkModule = SSOTokenFactory.createModule((String)tokenParam.get("TOKEN_TYPE"));
         tkModule.setCryptor(this.cryptor);
         tkModule.setTokenLife(Integer.parseInt( tokenLife));
@@ -902,12 +898,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		SSOToken ssoToken = tkModule.createToken(tokenParam);
 
-        // update the authstate so that the old token cant be used anymore
-        state = new AuthState(lg.getId().getDomainId(), new BigDecimal(1),   ssoToken.getExpirationTime().getTime(),
-                ssoToken.getToken(), lg.getUserId());
-
-        authStateDao.saveAuthState(state);
-
 
 		resp.setResponseValue(ssoToken);
 		return resp;
@@ -916,19 +906,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
     
     private boolean isUserStatusValid(String userId) {
+        
+
         User u =  userManager.getUserWithDependent(userId,false);
 
         UserStatusEnum en = u.getStatus();
+        
+        UserStatusEnum secondaryStatus = u.getSecondaryStatus();
+        
+
 
         if ( en == UserStatusEnum.DELETED || en == UserStatusEnum.INACTIVE ||
              en == UserStatusEnum.LEAVE  || en == UserStatusEnum.TERMINATE ) {
             return false;
 
         }
-        if ( en == UserStatusEnum.DISABLED || en == UserStatusEnum.LOCKED ||
-                en == UserStatusEnum.LOCKED_ADMIN  ) {
-            return false;
+        if ( secondaryStatus != null )  {
 
+            log.debug("- Secondary status for user = " + secondaryStatus.toString());
+
+            if (    secondaryStatus == UserStatusEnum.DISABLED ||
+                    secondaryStatus == UserStatusEnum.LOCKED ||
+                    secondaryStatus == UserStatusEnum.LOCKED_ADMIN  ) {
+                return false;
+
+            }
         }
         return true;
         
