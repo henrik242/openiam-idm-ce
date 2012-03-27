@@ -11,6 +11,7 @@ import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.openiam.exception.EncryptionException;
+import org.openiam.util.encrypt.HashDigest;
 
 import javax.naming.NamingException;
 import javax.naming.directory.ModificationItem;
@@ -20,7 +21,7 @@ import java.util.Map;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapContext;
-
+import org.openiam.util.encrypt.SHA1Hash;
 
 /**
  * Implements directory specific extensions for standard LDAP v3
@@ -30,6 +31,7 @@ public class LdapV3 implements Directory{
     
     Map<String, Object> objectMap = new HashMap<String, Object>();
     private static final Log log = LogFactory.getLog(LdapV3.class);
+    HashDigest hash = new SHA1Hash();
     
 
     public ModificationItem[] setPassword(SetPasswordRequestType reqType) throws UnsupportedEncodingException {
@@ -43,6 +45,8 @@ public class LdapV3 implements Directory{
     public ModificationItem[] suspend(SuspendRequestType request)  {
 
         String scrambledPswd =	PasswordGenerator.generatePassword(10);
+        
+        hash.HexEncodedHash( "{ssha}" + hash.hash(scrambledPswd));
 
         ModificationItem[] mods = new ModificationItem[1];
         mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("userPassword", scrambledPswd));

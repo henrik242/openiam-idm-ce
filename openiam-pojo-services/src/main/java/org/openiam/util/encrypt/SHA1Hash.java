@@ -11,6 +11,8 @@ import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.util.encoders.Hex;
 
+import static org.apache.commons.codec.binary.Base64.encodeBase64String;
+
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -68,7 +70,9 @@ public class SHA1Hash implements HashDigest {
 	 * @see org.openiam.util.encrypt.HashDigest#HexEncodedHash(java.lang.String)
 	 */
 	public String HexEncodedHash(String msg) {
-		return new String( Hex.encode(hash(msg)) );
+
+       return encodeBase64String(hash(msg));
+
 	}
 	/* (non-Javadoc)
 	 * @see org.openiam.util.encrypt.HashDigest#setKey(byte[])
@@ -83,8 +87,7 @@ public class SHA1Hash implements HashDigest {
 		System.out.println(" hash1 = " + new String ( hash.hash(str) ) );
 		System.out.println(" hash1 = " + hash.HexEncodedHash(str) );
 
-		System.out.println(" hash1 = " +
-				hash.hash("Original string = yada yada yada11") );
+
 
 		
 	}

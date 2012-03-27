@@ -558,9 +558,13 @@
 	<bean id="cryptor" class="org.openiam.util.encrypt.DESedeCryptor" >
 	</bean>	
 	<bean id="hash" class="org.openiam.util.encrypt.SHA2Hash" >
-	</bean>	
+	</bean>
+    <bean id="hash1" class="org.openiam.util.encrypt.SHA1Hash" >
+    </bean>
 
-	<!-- Batch related beans -->	
+
+
+    <!-- Batch related beans -->
 	<bean id="batchDataService" class="org.openiam.idm.srvc.batch.service.BatchDataServiceImpl" >
 		<property name="batchDao" ref="batchConfigDAO" />
 	</bean>
