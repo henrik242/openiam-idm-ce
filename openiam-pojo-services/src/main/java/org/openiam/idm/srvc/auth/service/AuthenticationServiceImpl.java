@@ -284,7 +284,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 
 		authSt.setAuthState(new BigDecimal(0));
-		authSt.setToken(null);
+		authSt.setToken("LOGOUT");
 		this.authStateDao.saveAuthState(authSt);
 		
 
@@ -884,6 +884,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             resp.setStatus(ResponseStatus.FAILURE);
             return resp;
             
+        }
+
+        AuthState authSt = authStateDao.findById(lg.getUserId());
+        if (authSt != null ) {
+
+            if ( authSt.getToken() == null || "LOGOUT".equalsIgnoreCase(authSt.getToken())) {
+                resp.setStatus(ResponseStatus.FAILURE);
+                return resp;
+            }
+
         }
 
 

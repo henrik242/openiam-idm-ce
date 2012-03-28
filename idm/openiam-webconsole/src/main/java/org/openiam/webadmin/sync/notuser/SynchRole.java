@@ -97,7 +97,7 @@ protected LdapRole ldapRole;
                         // add object to the organization service
 
                         String name = rowAttr.get("role name").getValue();
-                         String roleType = rowAttr.get("role type").getValue();
+                        String roleType = rowAttr.get("role type").getValue();
                         String category = rowAttr.get("role category").getValue();
                         String description = rowAttr.get("role description").getValue();
 
