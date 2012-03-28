@@ -66,6 +66,7 @@ import java.util.Set;
  */
 public class CSVAdapterForGenericObject implements SourceAdapter {
 
+    ObjectAdapterMap adapterMap;
 	protected LineObject rowHeader = new LineObject();
 	protected ProvisionUser pUser = new ProvisionUser();
 	public static ApplicationContext ac;
@@ -87,22 +88,24 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 	
 	public SyncResponse startSynch(SynchConfig config) {
 
-         log.debug("CSV startSynch CALLED.^^^^^^^^");
+         log.debug("Starting to Sync CSV File..^^^^^^^^");
 
 
 
 		Reader reader = null;
-		
-		MatchObjectRule matchRule = null;
-		provService = (ProvisionService)ac.getBean("defaultProvision");
 
-         String requestId = UUIDGen.getUUID();
+
+        String requestId = UUIDGen.getUUID();
 
         IdmAuditLog synchStartLog = new IdmAuditLog();
-        synchStartLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
+        synchStartLog.setSynchAttributes("SYNCH_GENERIC_OBJECT", config.getSynchConfigId(), "START", "SYSTEM", requestId);
         synchStartLog = auditHelper.logEvent(synchStartLog);
+
 		
-		try {		
+	/*	MatchObjectRule matchRule = null;
+		provService = (ProvisionService)ac.getBean("defaultProvision");
+
+  		try {
 			matchRule = matchRuleFactory.create(config);
 		}catch(ClassNotFoundException cnfe) {
 			log.error(cnfe);
@@ -117,7 +120,7 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 			resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
 			return resp;
 		}
-	
+	    */
 		
 		File file = new File(config.getFileName());
 		try {
@@ -147,8 +150,6 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 			
 			for (String[] lineAry : fileContentAry) {
 				log.debug("File Row #= " + lineAry[0]);
-
-                System.out.println("File Row #= " + lineAry[0]);
 
 				if (ctr == 0) {
 					populateTemplate(lineAry);
@@ -182,51 +183,10 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 						Map<String, Attribute> rowAttr = rowObj.getColumnMap();
 
 						//
-						matchRule =  matchRuleFactory.create(config);
-						User usr = matchRule.lookup(config, rowAttr);
 
 
-						// transform
-						if (config.getTransformationRule() != null && config.getTransformationRule().length() > 0) {
-							TransformScript transformScript =  SynchScriptFactory.createTransformationScript(config.getTransformationRule());
-							
-							// initialize the transform script
-							if (usr != null) {
-								transformScript.setNewUser(false);
-								transformScript.setUser( userMgr.getUserWithDependent(usr.getUserId(), true) );
-								transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-								transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
-								
-							}else {
-								transformScript.setNewUser(true);
-							}
 
 
-							int retval = transformScript.execute(rowObj, pUser);
-
-
-							//pUser.setSessionId(synchStartLog.getSessionId());
-							// temp code
-
-							
-							if (retval == TransformScript.DELETE && pUser.getUser() != null) {
-								provService.deleteByUserId(pUser, UserStatusEnum.DELETED, systemAccount);
-							}else {					
-								// call synch
-								if (retval != TransformScript.DELETE) {
-									if (usr != null) {
-
-										pUser.setUserId(usr.getUserId());
-										provService.modifyUser(pUser);
-
-									}else {
-
-										pUser.setUserId(null);
-										provService.addUser(pUser);
-									}
-								}
-							}
-						}
 						// show the user object
 										
 						
@@ -361,5 +321,13 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 
     public void setMuleContext(MuleContext ctx) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ObjectAdapterMap getAdapterMap() {
+        return adapterMap;
+    }
+
+    public void setAdapterMap(ObjectAdapterMap adapterMap) {
+        this.adapterMap = adapterMap;
     }
 }

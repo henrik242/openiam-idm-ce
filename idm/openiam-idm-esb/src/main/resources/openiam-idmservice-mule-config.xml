@@ -142,6 +142,34 @@
 
 				
 		<!-- Synchronization Objects  -->
+
+    <model name="genericObjSynchServiceModel">
+        <service name="genericObjSynchWebService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}GenericObjectSynchWebService" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service  />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="genericObjSynchServiceWS" />
+            </component>
+        </service>
+    </model>
+
+    <model name="asynchGenericObjSynchServiceModel">
+        <service name="asynchGenericObjSynchService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}AsynchGenericObjectSynchService" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="asynchGenericObjSynchServiceWS" />
+            </component>
+        </service>
+    </model>
+
+
 		<!-- Reconciliation Object  -->
 	
 		<!-- Web Services  -->

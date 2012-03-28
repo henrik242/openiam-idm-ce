@@ -298,6 +298,18 @@
 	  		</outbound-endpoint>
 		</flow>
 
+    <flow name="genericObjectSynchClient">
+        <vm:inbound-endpoint path="genericObjectSynchronizationMessage" exchange-pattern="one-way"  >
+        </vm:inbound-endpoint>
+
+        <outbound-endpoint responseTimeout="72000000"
+                           address="http://#[header:INBOUND:SERVICE_HOST]/#[header:INBOUND:SERVICE_CONTEXT]GenericObjectSynchWebService" exchange-pattern="request-response" >
+            <cxf:jaxws-client serviceClass="org.openiam.idm.srvc.synch.ws.GenericObjectSynchWebService" operation="startSynchronization"  >
+            </cxf:jaxws-client>
+        </outbound-endpoint>
+    </flow>
+
+
     <!-- RECONCILIATION SYNCH CALL -->
 
         <flow name="reconciliationClient">

@@ -268,6 +268,11 @@
 
 <!-- ========================= Synchronization for Generic Objects ========================= -->
 
+    <bean id="asynchGenericObjSynchServiceWS" class="org.openiam.idm.srvc.synch.ws.AsynchGenericObjectSynchServiceImpl">
+        <property name="synchService" ref="genericObjSynchServiceWS" />
+    </bean>
+
+
     <bean id="genericObjSynchServiceWS" class="org.openiam.idm.srvc.synch.ws.GenericObjectSynchWebServiceImpl">
         <property name="synchService" ref="genericObjSynchService" />
     </bean>
@@ -289,6 +294,7 @@
         <property name="roleDataService" ref="roleDataService" />
         <property name="userMgr" ref="userManager" />
         <property name="auditHelper" ref="auditHelper" />
+        <property name="adapterMap" ref="adapterMap" />
     </bean>
 
     <bean id="genericObjLdapAdapter" class="org.openiam.idm.srvc.synch.service.generic.LdapAdapterForGenericObject" >
@@ -298,6 +304,16 @@
         <property name="roleDataService" ref="roleDataService" />
         <property name="userMgr" ref="userManager" />
         <property name="auditHelper" ref="auditHelper" />
+    </bean>
+    
+    
+    <bean id="adapterMap" class="org.openiam.idm.srvc.synch.service.generic.ObjectAdapterMap">
+        <property name="adapterMap">
+            <map>
+                <entry key="csv-group" value="CsvGroupAdapter.groovy" />
+            </map>
+        </property>
+
     </bean>
 
     <!-- ========================= ACTIVITY LOG ========================= -->
