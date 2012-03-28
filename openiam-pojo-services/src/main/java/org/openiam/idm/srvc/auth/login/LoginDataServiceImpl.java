@@ -201,6 +201,8 @@ public class LoginDataServiceImpl implements LoginDataService {
 		}
 	    // password has been changed - we dont need to force a change password on the next login
 	    lg.setResetPassword(0);
+        lg.setAuthFailCount(0);
+        lg.setIsLocked(0);
 		
 		
 		// calculate when the password will expire
