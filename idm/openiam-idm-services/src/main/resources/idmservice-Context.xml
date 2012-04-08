@@ -289,12 +289,13 @@
 
     <bean id="genericObjCsvAdapter" class="org.openiam.idm.srvc.synch.service.generic.CSVAdapterForGenericObject" >
         <property name="matchRuleFactory" ref="matchRuleFactory" />
-        <property name="systemAccount" value="3000" />
         <property name="loginManager" ref="loginManager" />
         <property name="roleDataService" ref="roleDataService" />
         <property name="userMgr" ref="userManager" />
         <property name="auditHelper" ref="auditHelper" />
         <property name="adapterMap" ref="adapterMap" />
+        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+
     </bean>
 
     <bean id="genericObjLdapAdapter" class="org.openiam.idm.srvc.synch.service.generic.LdapAdapterForGenericObject" >
@@ -310,7 +311,7 @@
     <bean id="adapterMap" class="org.openiam.idm.srvc.synch.service.generic.ObjectAdapterMap">
         <property name="adapterMap">
             <map>
-                <entry key="csv-group" value="CsvGroupAdapter.groovy" />
+                <entry key="GROUP" value="/sync/generic/GroupAdapter.groovy" />
             </map>
         </property>
 

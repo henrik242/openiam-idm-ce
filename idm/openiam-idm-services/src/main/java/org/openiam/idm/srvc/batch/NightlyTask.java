@@ -21,10 +21,7 @@
  */
 package org.openiam.idm.srvc.batch;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,6 +60,9 @@ public class NightlyTask implements ApplicationContextAware {
 	protected String scriptEngine;
 	protected AuditHelper auditHelper;
 
+    static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
+    boolean isPrimary = Boolean.parseBoolean(res.getString("IS_PRIMARY"));
+
 	
 	// used to inject the application context into the groovy scripts
 	public static ApplicationContext ac;
@@ -74,7 +74,13 @@ public class NightlyTask implements ApplicationContextAware {
 		
 		ScriptIntegration se = null;
 		Map<String, Object> bindingMap = new HashMap<String, Object>();
-		bindingMap.put("context", ac);	
+		bindingMap.put("context", ac);
+
+        if (!isPrimary) {
+            log.debug("Scheduler: Not primary instance");
+            return;
+        }
+
 		
 		try {
 			se = ScriptFactory.createModule(this.scriptEngine); 

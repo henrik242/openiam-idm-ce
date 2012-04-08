@@ -1,9 +1,6 @@
 package org.openiam.idm.srvc.batch;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +32,9 @@ public class IntervalTask  implements ApplicationContextAware  {
 	protected PolicyDataService policyDataService;
 	protected String scriptEngine;
 	protected AuditHelper auditHelper;
+
+    static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
+    boolean isPrimary = Boolean.parseBoolean(res.getString("IS_PRIMARY"));
 	
 	public static ApplicationContext ac;
 	
@@ -44,8 +44,12 @@ public class IntervalTask  implements ApplicationContextAware  {
 
 	public void execute(String frequencyMeasure) 
 	{
+        if (!isPrimary) {
+            log.debug("Scheduler: Not primary instance");
+            return;
+        }
 
-		log.debug("-- Scheduled Interval Task called. Frequency=" + frequencyMeasure);
+
 	
 		ScriptIntegration se = null;
 		Map<String, Object> bindingMap = new HashMap<String, Object>();
