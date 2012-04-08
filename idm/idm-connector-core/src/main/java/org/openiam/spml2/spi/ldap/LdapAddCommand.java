@@ -12,10 +12,7 @@ import org.openiam.spml2.util.connect.ConnectionMgr;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.BasicAttributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
+import javax.naming.directory.*;
 import javax.naming.ldap.LdapContext;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -106,6 +103,15 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
             Context result = ldapctx.createSubcontext(ldapName, basicAttr);
 
+
+
+            ModificationItem passwordMod[] = getLdapPassword(reqType.getData().getAny(), ldapName);
+            if (passwordMod != null) {
+
+                log.debug("Assigning password to user ");
+                ldapctx.modifyAttributes(ldapName, passwordMod);
+            }
+
             log.debug("Associating user to objects for membership");
 
             // check if we already have any assocattions for this user - could be left over from an earlier time
@@ -174,6 +180,23 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
 
         return response;
+    }
+
+    private ModificationItem[] getLdapPassword( List<ExtensibleObject> requestAttribute, String ldapName) {
+
+        for (ExtensibleObject obj : requestAttribute) {
+            List<ExtensibleAttribute> attrList = obj.getAttributes();
+            for (ExtensibleAttribute att : attrList) {
+
+                if ("userPassword".equalsIgnoreCase(att.getName())) {
+                    ModificationItem mods[] = new ModificationItem[1];
+                    mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute(att.getValue(), ldapName));
+                    return mods;
+                }
+            }
+        }
+        return null;
+
     }
 
 
