@@ -6,6 +6,7 @@ import javax.naming.ldap.LdapContext;
 import javax.naming.ldap.InitialLdapContext;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.springframework.context.ApplicationContext;
 
 import java.util.*;
 
@@ -18,4 +19,5 @@ public interface ConnectionMgr {
 
 	public LdapContext connect(ManagedSys managedSys) throws NamingException;
 	public void close() throws NamingException;
+    public void setApplicationContext(ApplicationContext applicationContext);
 }

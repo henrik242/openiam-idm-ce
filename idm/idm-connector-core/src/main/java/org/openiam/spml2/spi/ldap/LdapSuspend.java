@@ -29,13 +29,15 @@ import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * Implements the suspend functionality for the ldap connector
  * @author suneet
  *
  */
-public class LdapSuspend {
+public class LdapSuspend implements ApplicationContextAware {
 	
 	private static final Log log = LogFactory.getLog(LdapSuspend.class);
 
@@ -43,6 +45,8 @@ public class LdapSuspend {
 	protected ManagedSystemObjectMatchDAO managedSysObjectMatchDao;
 	protected LoginDataService loginManager;
 	protected SysConfiguration sysConfiguration;
+
+    public static ApplicationContext ac;
 	
 	
 	public ResponseType suspend(SuspendRequestType request) {
@@ -69,6 +73,8 @@ public class LdapSuspend {
 		
             log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+            conMgr.setApplicationContext(ac);
+
             LdapContext ldapctx = conMgr.connect(managedSys);
 
 
@@ -167,6 +173,9 @@ public class LdapSuspend {
 	 	return respType;
 
 	}
+    public void setApplicationContext(ApplicationContext applicationContext){
+        ac = applicationContext;
+    }
 
 	public ActiveResponseType active(ActiveRequestType request) {
 		// TODO Auto-generated method stub

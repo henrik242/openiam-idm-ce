@@ -56,6 +56,9 @@ import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.jws.WebService;
 import javax.naming.Context;
@@ -77,7 +80,7 @@ import java.util.*;
         targetNamespace = "http://www.openiam.org/service/connector",
         portName = "LDAPConnectorServicePort",
         serviceName = "LDAPConnectorService")
-public class LdapConnectorImpl extends AbstractSpml2Complete implements ConnectorService {
+public class LdapConnectorImpl extends AbstractSpml2Complete implements ConnectorService, ApplicationContextAware {
 
     private static final Log log = LogFactory.getLog(LdapConnectorImpl.class);
     protected ManagedSystemDataService managedSysService;
@@ -95,6 +98,9 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
     protected LdapModifyCommand modifyCommand;
     protected LdapLookupCommand lookupCommand;
     protected LdapDeleteCommand deleteCommand;
+
+    public static ApplicationContext ac;
+
 
     static String keystore;
 
@@ -266,6 +272,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
         response.setStatus(StatusCodeType.SUCCESS);
 
         ConnectionMgr conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+        conMgr.setApplicationContext(ac);
 
         try {
 
@@ -331,6 +338,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
     * @see org.openiam.spml2.interf.SpmlCore#delete(org.openiam.spml2.msg.DeleteRequestType)
     */
     public ResponseType delete(DeleteRequestType reqType) {
+
         return  deleteCommand.delete(reqType);
 
 
@@ -359,6 +367,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
       * @see org.openiam.spml2.interf.SpmlCore#modify(org.openiam.spml2.msg.ModifyRequestType)
       */
     public ModifyResponseType modify(ModifyRequestType reqType) {
+
         return modifyCommand.modify(reqType);
 
 
@@ -412,6 +421,8 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
         try {
             log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+            conMgr.setApplicationContext(ac);
+
             LdapContext ldapctx = conMgr.connect(managedSys);
 
 
@@ -631,5 +642,9 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
 
     public void setDeleteCommand(LdapDeleteCommand deleteCommand) {
         this.deleteCommand = deleteCommand;
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        ac = applicationContext;
     }
 }

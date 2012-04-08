@@ -3,6 +3,9 @@ package org.openiam.spml2.util.connect;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 
 import javax.naming.*;
 import javax.naming.directory.*;
@@ -23,6 +26,8 @@ public class LdapConnectionMgr implements ConnectionMgr {
 	static protected ResourceBundle secres = ResourceBundle.getBundle("securityconf");
 	
     private static final Log log = LogFactory.getLog(LdapConnectionMgr.class);
+    public static ApplicationContext ac;
+
 
     public LdapConnectionMgr() {
     	keystore = secres.getString("KEYSTORE");
@@ -32,7 +37,7 @@ public class LdapConnectionMgr implements ConnectionMgr {
 
 	public LdapContext connect(ManagedSys managedSys)  throws NamingException{
 
-		//LdapContext ctxLdap = null;
+		LdapContext ldapContext = null;
 		Hashtable<String, String> envDC = new Hashtable();
 	
 		keystore = secres.getString("KEYSTORE");
@@ -62,9 +67,26 @@ public class LdapConnectionMgr implements ConnectionMgr {
 			envDC.put(Context.SECURITY_PROTOCOL, managedSys.getCommProtocol());
 		}
 		*/
-		
-		return (new InitialLdapContext(envDC,null));
 
+
+        try {
+
+            ldapContext = new InitialLdapContext(envDC,null);
+
+        }catch (CommunicationException ce) {
+            // check if there is a secondary connection linked to this
+            String secondarySysID =  managedSys.getSecondaryRepositoryId();
+            if (secondarySysID != null) {
+
+                // recursively search through the chained list of linked managed systems
+                ManagedSystemDataService managedSysService =  (ManagedSystemDataService) ac.getBean("managedSysService");
+                ManagedSys secondarySys =  managedSysService.getManagedSys(secondarySysID);
+                return connect(secondarySys);
+
+            }
+        }
+
+		return ldapContext;
 
 	}
 
@@ -78,5 +100,9 @@ public class LdapConnectionMgr implements ConnectionMgr {
 		ctxLdap = null;
 		
 	}
+
+    public void setApplicationContext(ApplicationContext applicationContext){
+        ac = applicationContext;
+    }
 
 }

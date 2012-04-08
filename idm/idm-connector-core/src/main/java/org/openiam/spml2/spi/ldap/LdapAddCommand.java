@@ -61,6 +61,7 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
         log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
         ConnectionMgr conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+        conMgr.setApplicationContext(ac);
         try {
 
             LdapContext ldapctx = conMgr.connect(managedSys);
@@ -141,41 +142,7 @@ public class LdapAddCommand extends LdapAbstractCommand {
             }
 
 
-            // add the user to a role
-            // temp hack
 
-            //String role = getRole(reqType.getData().getAny());
-            /*           List<String> roleStrList = getRole(reqType.getData().getAny());
-                     if (roleStrList != null && roleStrList.size() > 0) {
-                         for (String r : roleStrList) {
-                             //r = r.toLowerCase();
-                             String roleDN = "cn=" + r + ",ou=roles,dc=gtawestdir,dc=com";
-
-                             log.debug("Adding user to role " + roleDN);
-
-                             if (roleDN != null && roleDN.length() > 0) {
-
-                                ModificationItem mods[] = new ModificationItem[1];
-                                mods[0]= new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
-                                ldapctx.modifyAttributes(roleDN,mods);
-                             }
-
-                         }
-                     }
-
-
-                     String org = getOrg(reqType.getData().getAny());
-                     String orgDN = "cn=" + org + ",ou=affiliations,dc=gtawestdir,dc=com";
-                     if (org != null && org.length() > 0) {
-
-                         log.debug("Adding user to affiliation =" + orgDN );
-
-                        ModificationItem mods[] = new ModificationItem[1];
-                        mods[0]= new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
-                        ldapctx.modifyAttributes(orgDN,mods);
-                     }
-
-            */
 
         } catch (NamingException ne) {
             log.error(ne);
@@ -209,30 +176,5 @@ public class LdapAddCommand extends LdapAbstractCommand {
         return response;
     }
 
-/*     private List<String> getRole(List<ExtensibleObject> requestAttribute) {
-         for (ExtensibleObject obj : requestAttribute) {
-            List<ExtensibleAttribute> attrList = obj.getAttributes();
-            for (ExtensibleAttribute att : attrList) {
-                if (att.getName().equalsIgnoreCase("userRole")) {
-                    return  att.getValueList();
-                }
-            }
-         }
-        return null;
 
-    }
-
-private String getOrg(List<ExtensibleObject> requestAttribute) {
-         for (ExtensibleObject obj : requestAttribute) {
-            List<ExtensibleAttribute> attrList = obj.getAttributes();
-            for (ExtensibleAttribute att : attrList) {
-                if (att.getName().equalsIgnoreCase("userOrg")) {
-                    return  att.getValue();
-                }
-            }
-         }
-        return null;
-
-    }
- */
 }

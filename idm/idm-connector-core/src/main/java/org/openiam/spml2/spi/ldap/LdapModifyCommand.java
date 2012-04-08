@@ -74,6 +74,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         try {
 
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+            conMgr.setApplicationContext(ac);
             ldapctx = conMgr.connect(managedSys);
         }catch (NamingException ne) {
            respType.setStatus(StatusCodeType.FAILURE);

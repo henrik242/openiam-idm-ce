@@ -59,6 +59,7 @@ public class LdapLookupCommand extends LdapAbstractCommand {
         try {
 
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+            conMgr.setApplicationContext(ac);
             LdapContext ldapctx = conMgr.connect(managedSys);
             ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(psoId.getTargetID(), "USER");
             String resourceId = managedSys.getResourceId();
@@ -133,6 +134,17 @@ public class LdapLookupCommand extends LdapAbstractCommand {
             respType.addErrorMessage(e.toString());
 
             return respType;
+
+        } finally {
+            /* close the connection to the directory */
+            try {
+                if (conMgr != null) {
+                    conMgr.close();
+                }
+            } catch (NamingException n) {
+                log.error(n);
+            }
+
         }
 
 

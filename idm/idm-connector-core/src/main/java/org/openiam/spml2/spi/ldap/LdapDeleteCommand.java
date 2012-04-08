@@ -88,6 +88,7 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
             log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
+            conMgr.setApplicationContext(ac);
             LdapContext ldapctx = conMgr.connect(managedSys);
 
             String ldapName = psoID.getID();

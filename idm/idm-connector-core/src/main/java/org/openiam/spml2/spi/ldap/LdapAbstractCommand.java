@@ -11,6 +11,9 @@ import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
 import java.io.UnsupportedEncodingException;
 
 import javax.naming.NamingEnumeration;
@@ -27,7 +30,7 @@ import java.util.Set;
  * Date: 7/30/11
  * Time: 1:31 PM
  */
-public abstract class LdapAbstractCommand {
+public abstract class LdapAbstractCommand  implements ApplicationContextAware{
 
 
 
@@ -37,6 +40,7 @@ public abstract class LdapAbstractCommand {
     protected ManagedSystemDataService managedSysService;
     protected ResourceDataService resourceDataService;
     protected ManagedSystemObjectMatchDAO managedSysObjectMatchDao;
+    public static ApplicationContext ac;
 
 
     protected boolean identityExists(String ldapName, LdapContext ctx) {
@@ -346,6 +350,10 @@ public abstract class LdapAbstractCommand {
             log.error(e.getMessage());
             return null;
         }
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext){
+        ac = applicationContext;
     }
 
 
