@@ -190,7 +190,7 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
                 if ("userPassword".equalsIgnoreCase(att.getName())) {
                     ModificationItem mods[] = new ModificationItem[1];
-                    mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute(att.getValue(), ldapName));
+                    mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute(att.getName(), att.getValue()));
                     return mods;
                 }
             }
