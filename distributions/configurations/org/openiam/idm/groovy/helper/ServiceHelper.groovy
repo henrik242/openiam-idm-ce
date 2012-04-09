@@ -16,14 +16,17 @@ import org.openiam.idm.srvc.synch.ws.IdentitySynchWebService;
 import org.openiam.idm.srvc.synch.ws.AsynchIdentitySynchService;
 import org.openiam.idm.srvc.recon.ws.AsynchReconciliationService;
 import org.openiam.idm.srvc.recon.ws.ReconciliationWebService;
+import org.openiam.idm.srvc.org.service.OrganizationDataService;
+import java.util.ResourceBundle;
 
 class ServiceHelper {
-	//static ResourceBundle res = ResourceBundle.getBundle("datasource");
-	//static String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
-		
-	static String BASE_URL= "http://localhost:8080/openiam-idm-esb/idmsrvc";
-	
+ 
+
 	static UserDataWebService userService() {
+	 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 	 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+	
 		String serviceUrl = BASE_URL + "/UserDataService"
 		String port ="UserDataWebServicePort"
 		String nameSpace = "urn:idm.openiam.org/srvc/user/service"
@@ -36,8 +39,29 @@ class ServiceHelper {
 		return service.getPort(new QName(nameSpace,	port),
 				UserDataWebService.class);
 	}
+	
+	static OrganizationDataService orgService() {
+	 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 	 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+	
+		String serviceUrl = BASE_URL + "/OrganizationDataService"
+		String port ="OrganizationDataWebServicePort"
+		String nameSpace = "urn:idm.openiam.org/srvc/org/service"
+		
+		Service service = Service.create(QName.valueOf(serviceUrl))
+			
+		service.addPort(new QName(nameSpace,port),
+				SOAPBinding.SOAP11HTTP_BINDING,	serviceUrl)
+		
+		return service.getPort(new QName(nameSpace,	port),
+				OrganizationDataService.class);
+	}
 
 	static MailService emailService() {
+	 	ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 		String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
 		String serviceUrl = BASE_URL + "/EmailWebService"
 		String port ="EmailWebServicePort"
 		String nameSpace = "urn:idm.openiam.org/srvc/msg"
@@ -52,6 +76,10 @@ class ServiceHelper {
 	}
 
 	static LoginDataWebService loginService() {
+		 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 		String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+		
 		String serviceUrl = BASE_URL + "/LoginDataWebService"
 		String port ="LoginDataWebServicePort"
 		String nameSpace = "urn:idm.openiam.org/srvc/auth/service"
@@ -66,6 +94,9 @@ class ServiceHelper {
 	}
 
 	static PolicyDataService policyService() {
+		 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+		
 		String serviceUrl = BASE_URL + "/PolicyWebService"
 		String port ="PolicyWebServicePort"
 		String nameSpace = "urn:idm.openiam.org/srvc/policy/service"
@@ -80,6 +111,10 @@ class ServiceHelper {
 	}
 
 	static ChallengeResponseService challengeService() {
+		 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+		
 		String serviceUrl = BASE_URL + "/ChallengeResponseWebService"
 		String port ="ChallengeResponseWebServicePort"
 		String nameSpace = "urn:idm.openiam.org/srvc/pswd/service"
@@ -94,6 +129,10 @@ class ServiceHelper {
 	}
 
 	static PasswordWebService passwordService() {
+		 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+		
 		String serviceUrl = BASE_URL + "/PasswordWebService"
 		String port ="PasswordWebServicePort"
 		String nameSpace = "urn:idm.openiam.org/srvc/policy/service"
@@ -108,6 +147,10 @@ class ServiceHelper {
 	}
 
 	static ProvisionService povisionService() {
+		 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+		
 		String serviceUrl = BASE_URL + "/ProvisioningService"
 		String port ="ProvisionControllerServicePort"
 		String nameSpace = "http://www.openiam.org/service/provision"
@@ -123,6 +166,10 @@ class ServiceHelper {
 		
 
 	static IdentitySynchWebService synchService() {
+		 ResourceBundle res = ResourceBundle.getBundle("datasource");
+		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+
+		
 		String serviceUrl = BASE_URL + "/IdentitySynchWebService"
 		String port ="IdentitySynchWebServicePort"
 		String nameSpace = "http://www.openiam.org/service/synch"
@@ -137,6 +184,10 @@ class ServiceHelper {
 	}
 	
 	static AsynchIdentitySynchService asynchSynchService() {
+		ResourceBundle res = ResourceBundle.getBundle("datasource");
+		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+		 
+	
 		String serviceUrl = BASE_URL + "/Asynch-SynchronizatonService"
 		String port ="AsynchIdentitySynchServicePort"
 		String nameSpace = "http://www.openiam.org/service/synch"
@@ -151,6 +202,10 @@ class ServiceHelper {
 	}
 	
 		static AsynchReconciliationService asyncReconciliationService() {
+			 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 			 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 
+			
 			String serviceUrl = BASE_URL + "/AsynchReconciliationWebService"
 			String port ="AsynchReconciliationWebServicePort"
 			String nameSpace = "http://www.openiam.org/service/recon"
@@ -165,6 +220,10 @@ class ServiceHelper {
 		}
 	
 		static ReconciliationWebService reconciliationService() {
+			 ResourceBundle res = ResourceBundle.getBundle("datasource");
+ 			 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+ 	
+			
 			String serviceUrl = BASE_URL + "/ReconciliationWebService"
 			String port ="ReconciliationWebServicePort"
 			String nameSpace = "http://www.openiam.org/service/recon"
