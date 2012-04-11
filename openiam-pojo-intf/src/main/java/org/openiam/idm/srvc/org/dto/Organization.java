@@ -39,7 +39,7 @@ import java.util.Map;
         "selected",
         "operation" }
 )
-public class Organization implements java.io.Serializable {
+public class Organization implements java.io.Serializable, Comparable<Organization> {
 
 	/**
 	 * 
@@ -446,4 +446,12 @@ public class Organization implements java.io.Serializable {
     public void setOperation(AttributeOperationEnum operation) {
         this.operation = operation;
     }
+    public int compareTo(Organization o) {
+        if (getOrganizationName() == null || o == null) {
+            return Integer.MIN_VALUE;
+        }
+        return getOrganizationName().compareTo(o.getOrganizationName());
+    }
+
+
 }

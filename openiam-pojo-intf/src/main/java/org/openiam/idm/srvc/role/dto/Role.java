@@ -83,7 +83,7 @@ import org.openiam.idm.srvc.grp.dto.GroupSet;
     RoleAttribute.class,
     RolePolicy.class
 })
-public class Role extends BaseObject {
+public class Role extends BaseObject implements Comparable<Role> {
 
     /**
 	 * 
@@ -560,6 +560,14 @@ public class Role extends BaseObject {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+
+    public int compareTo(Role o) {
+        if (getRoleName() == null || o == null) {
+           return Integer.MIN_VALUE;
+        }
+        return getRoleName().compareTo(o.getRoleName());
+    }
 
 
 

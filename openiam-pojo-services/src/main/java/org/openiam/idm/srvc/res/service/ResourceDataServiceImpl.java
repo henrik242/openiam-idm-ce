@@ -1,10 +1,6 @@
 package org.openiam.idm.srvc.res.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.jws.WebService;
 
@@ -14,6 +10,7 @@ import org.openiam.exception.data.ObjectNotFoundException;
 //import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 //import org.openiam.idm.srvc.mngsys.service.AttributeMapDAO;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
+import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.res.dto.*;
 import org.openiam.idm.srvc.role.service.RoleDataService;
 import org.openiam.idm.srvc.user.service.UserDataService;
@@ -1244,6 +1241,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 
         List<String> oidList = new ArrayList<String>();
         String permitOverRide;
+        String orgName = null;
+        Organization org = null;
 
         Login principalLg =  loginManager.getLoginByManagedSys(domainId, principal, "0");
 
@@ -1254,15 +1253,16 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         User usr = userManager.getUserWithDependent(principalLg.getUserId(), true);
         List<Role> roleList =  roleDataService.getUserRoles(principalLg.getUserId());
 
-        String orgName = null;
+
+
 
         if (usr.getCompanyId() != null && usr.getCompanyId().length() > 0) {
 
-            Organization org = orgManager.getOrganization(usr.getCompanyId());
+            org = orgManager.getOrganization(usr.getCompanyId());
             if (org != null && org.getOrganizationName() != null) {
                 orgName = org.getOrganizationName();
                 // oid = org.getAlias();
-                addOid(oidList, org.getAlias());
+              //  addOid(oidList, org.getAlias());
             }else {
                 orgName = "NA";
             }
@@ -1282,19 +1282,39 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 
         List<Organization> affiliationList =  orgManager.getOrganizationsForUser(principalLg.getUserId());
         if (affiliationList != null && affiliationList.size() > 0) {
-            for (Organization o : affiliationList) {
+            Set<Organization> orgSet = new TreeSet<Organization>(affiliationList);
+            orgSet.add(org);
+
+            for (Organization o : orgSet) {
+            //for (Organization o : affiliationList) {
                 String alias = o.getAlias();
                 //oid = oid + "," + o.getAlias();
                 addOid(oidList, o.getAlias());
 
             }
+        }else {
+            if (org != null && org.getAlias() != null) {
+                addOid(oidList, org.getAlias());
+            }
+
         }
+
+       // sort objects
+       // role
+        Set<Role> roleSet = new TreeSet<Role>(roleList);
+
+       // oidList
+
+
+
+
 
         String roleStr = null;
 
         if (roleList != null && !roleList.isEmpty()) {
 
-            for ( Role r : roleList) {
+            for ( Role r : roleSet) {
+            //for ( Role r : roleList) {
                 if (roleStr == null) {
                     roleStr = r.getId().getRoleId();
                 }else {
@@ -1377,6 +1397,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             if (ctr == 0) {
                 oid.append( o );
             } else {
+                if (o != null && !o.isEmpty())
                 oid.append("," + o);
             }
             ctr++;
