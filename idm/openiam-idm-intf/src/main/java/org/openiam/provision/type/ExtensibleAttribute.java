@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,13 +111,13 @@ public class ExtensibleAttribute  implements Serializable {
         if (value == null) {
             return null;
         }
-        return new String(decodeBase64(value));
+        return fromBase64(value);
     }
     public void setValue(String value) {
         if (value == null) {
             this.value = null;
         } else {
-            this.value = encodeBase64String(value.getBytes());
+            this.value = toBase64(value);
         }
     }
     public int getOperation() {
@@ -141,7 +142,7 @@ public class ExtensibleAttribute  implements Serializable {
         }
         List<String> list = new ArrayList<String>();
         for (String val : valueList) {
-            list.add(new String(decodeBase64(val)));
+            list.add(fromBase64(val));
         }
         return list;
     }
@@ -152,7 +153,7 @@ public class ExtensibleAttribute  implements Serializable {
         } else {
             valueList = new ArrayList<String>();
             for (String val : list) {
-                valueList.add(encodeBase64String(val.getBytes()));
+                valueList.add(toBase64(val));
             }
         }
     }
@@ -171,6 +172,24 @@ public class ExtensibleAttribute  implements Serializable {
 
     public void setObjectType(String objectType) {
         this.objectType = objectType;
+    }
+
+    // Values are base64 encoded internally to keep Mule happy.  Mule would otherwise throw exceptions when
+    // values that are not really strings (e.g. binary values from Active Directory) are set here.
+    private String toBase64(String plain) {
+        try {
+            return encodeBase64String(plain.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    private String fromBase64(String encoded) {
+        try {
+            return new String(decodeBase64(encoded), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 
     @Override
