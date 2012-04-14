@@ -105,12 +105,13 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
 
 
-            ModificationItem passwordMod[] = getLdapPassword(reqType.getData().getAny(), ldapName);
+           /* ModificationItem passwordMod[] = getLdapPassword(reqType.getData().getAny(), ldapName);
             if (passwordMod != null) {
 
                 log.debug("Assigning password to user ");
                 ldapctx.modifyAttributes(ldapName, passwordMod);
             }
+            */
 
             log.debug("Associating user to objects for membership");
 

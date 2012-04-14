@@ -206,9 +206,9 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
                         a = generateActiveDirectoryPassword(att.getValue());
                     } else {
                         // add a password to a user separately. If OpenLDAP is not using PPolicy the password is not hashed
-                        if (!"userPassword".equalsIgnoreCase(att.getName())) {
-                            a = new BasicAttribute(att.getName(), att.getValue());
-                        }
+                        //if (!"userPassword".equalsIgnoreCase(att.getName())) {
+                        a = new BasicAttribute(att.getName(), att.getValue());
+                        //}
 
                     }
                     if (a != null) {
