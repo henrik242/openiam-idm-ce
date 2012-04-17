@@ -22,6 +22,11 @@
 		<property name="defaultSecurityDomain" value="${openiam.default_sec_domain}" />
 	</bean>
 
+    <!-- HEARTBEAT Beans -->
+
+    <bean id="heartBeat" class="org.openiam.idm.srvc.health.HeartBeatWebServiceImpl">
+    </bean>
+
 	<!-- Authentication Beans -->
 	<bean id="authenticate" class="org.openiam.idm.srvc.auth.service.AuthenticationServiceImpl">
 		<property name="defaultLoginModule" ref="defaultLoginModuleManager" />

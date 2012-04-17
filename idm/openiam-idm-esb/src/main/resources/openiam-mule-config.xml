@@ -334,4 +334,17 @@
 		</model>
 
 
+    <model name="heartBeatServiceModel">
+        <service name="heartBeatService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}HeartBeatService" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="heartBeat" />
+            </component>
+        </service>
+    </model>
+
 </mule>
