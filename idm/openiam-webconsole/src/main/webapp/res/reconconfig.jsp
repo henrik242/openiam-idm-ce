@@ -82,7 +82,9 @@
     		<tr class="header">
     			<tH>Situation</td>
     			<tH>Response</td>
+            <!--
     			<th>Script</td>
+    			-->
     		</tr>
          	  <c:forEach items="${reconCmd.situationList}" var="situationList" varStatus="sit">
    			
@@ -105,8 +107,9 @@
     				              <form:option value="UPD_RESOURCE" label="UPDATE RESOURCE"/> 				              
 			    	</form:select>
 				</td>
+                <!--
 				<td class="tableEntry"><form:input path="situationList[${sit.index}].script" size="30" maxlength="60" /> </td>
-
+                -->
 			
 			</tr>
 		</c:forEach>
