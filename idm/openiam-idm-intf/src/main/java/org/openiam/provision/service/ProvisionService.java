@@ -118,28 +118,7 @@ public interface ProvisionService {
 			@WebParam(name = "passwordSync", targetNamespace = "")
 			PasswordSync passwordSync);
 	
-	/**
-	 * The addGroup operation enables a requestor to create a new group on the target systems
-	 */
-	@WebMethod
-	ProvisionGroup addGroup(@WebParam(name = "group", targetNamespace = "")
-				  ProvisionGroup group);
-	
-	/**
-	 * The modifyGroup operation enables the requestor to modify an existing Group in appropriate target systems
-	 */
-	@WebMethod
-	ProvisionGroup modifyGroup(
-			@WebParam(name = "group", targetNamespace = "")
-			ProvisionGroup group);
-	
-	/**
-	 * The deleteGroup operation enables the requestor to delete an existing group from the appropriate target systems
-	 */
-	@WebMethod
-	ProvisionGroup deleteGroup(
-			@WebParam(name = "groupId", targetNamespace = "")
-			String groupId);
+
 	
 	/**
 	 * Operation locks or unlocks an account.  If the operation flag is true, then the user is locked. Otherwise

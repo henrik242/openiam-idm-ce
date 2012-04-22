@@ -153,13 +153,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     final static private String serviceContext = res.getString("openiam.idm.ws.path");
 
 
-    /* (non-Javadoc)
-      * @see org.openiam.provision.service.ProvisionService#addGroup(org.openiam.provision.dto.ProvisionGroup)
-      */
-    public ProvisionGroup addGroup(ProvisionGroup group) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public Response testConnectionConfig(String managedSysId) {
         return validateConnection.testConnection(managedSysId, muleContext);
@@ -388,6 +381,17 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
                         }
 
+                        // pre-processing
+                        String preProcessScript = getResProperty( res.getResourceProps() , "PRE_PROCESS");
+                        if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                            PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                            if (ppScript != null) {
+                                if (  executePreProcess(ppScript, bindingMap, user, "ADD") == ProvisioningConstants.FAIL  ) {
+                                   continue;
+                                }
+                            }
+                        }
+
 
                         // attributes are built using groovy script rules
                         ExtensibleUser extUser = attrListBuilder.buildFromRules(user, attrMap, se,
@@ -425,8 +429,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             log.debug("Skipping the creation of identity in openiam repository. Identity already exists" + mLg.getId());
                         }
 
-                        //loginManager.addLogin(mLg);
-
 
                         if (connector.getConnectorInterface() != null &&
                                 connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
@@ -438,6 +440,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             connectorSuccess = localAdd(mLg, requestId, mSys, matchObj, extUser, user, auditLog);
 
                         }
+
+                        // post processing
+                        String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+                        if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                            PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                            if (ppScript != null) {
+                                executePostProcess(ppScript, bindingMap, user, "ADD", connectorSuccess);
+                            }
+                        }
+
 
 
                         bindingMap.remove(MATCH_PARAM);
@@ -476,6 +488,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         resp.setUser(user);
         return resp;
     }
+
+
+
+
 
     private boolean provisionUserNow(ProvisionUser user) {
 
@@ -620,14 +636,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
-
-    /* (non-Javadoc)
-      * @see org.openiam.provision.service.ProvisionService#deleteGroup(java.lang.String)
-      */
-    public ProvisionGroup deleteGroup(String groupId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @WebMethod
     public ProvisionUserResponse deleteByUserId(
@@ -821,13 +829,53 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
             ProvisionUser pUser = new ProvisionUser(usr);
 
+            // pre-processing
+
+            Resource res = null;
+            String resourceId =  mSys.getResourceId();
+
+            Map<String, Object> bindingMap = new HashMap<String, Object>();
+            bindingMap.put("IDENTITY", login );
+            bindingMap.put("RESOURCE", res);
+
+            if (resourceId != null) {
+                res = resourceDataService.getResource(resourceId);
+                if (res != null) {
+                    String preProcessScript = getResProperty( res.getResourceProps() , "PRE_PROCESS");
+                    if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                        PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                        if (ppScript != null) {
+                            executePreProcess(ppScript, bindingMap, pUser, "DELETE");
+                        }
+                    }
+                }
+            }
+
+
+
             PSOIdentifierType idType = new PSOIdentifierType(principal, null, managedSystemId);
+
+            boolean connectorSuccess = false;
 
             if (connector.getConnectorInterface() != null &&
                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
-                remoteDelete(login, requestId, mSys, connector, matchObj, new ProvisionUser(usr), auditLog);
+                UserResponse resp = remoteDelete(login, requestId, mSys, connector, matchObj, new ProvisionUser(usr), auditLog);
+                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                    connectorSuccess = true;
+                }
             } else {
-                localDelete(login, requestId, idType, mSys, new ProvisionUser(usr), auditLog);
+                ResponseType resp = localDelete(login, requestId, idType, mSys, new ProvisionUser(usr), auditLog);
+                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                    connectorSuccess = true;
+                }
+            }
+
+            String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+            if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                if (ppScript != null) {
+                    executePostProcess(ppScript, bindingMap, pUser, "DELETE", connectorSuccess);
+                }
             }
 
 
@@ -881,17 +929,63 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             log.debug("Deleting id=" + l.getId().getLogin());
                             log.debug("- delete using managed sys id=" + mSys.getManagedSysId());
 
+
+
                             ProvisionUser pUser = new ProvisionUser(usr);
+
+                            // pre-processing
+
+
+                            Map<String, Object> bindingMap = new HashMap<String, Object>();
+                            bindingMap.put("IDENTITY", l);
+                            bindingMap.put("RESOURCE", res);
+
+                            Resource res = null;
+                            String resourceId =  mSys.getResourceId();
+                            if (resourceId != null) {
+                                res = resourceDataService.getResource(resourceId);
+                                if (res != null) {
+                                    String preProcessScript = getResProperty( res.getResourceProps() , "PRE_PROCESS");
+                                    if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                                        PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                                        if (ppScript != null) {
+                                            if (  executePreProcess(ppScript, bindingMap, pUser, "DELETE") == ProvisioningConstants.FAIL  ) {
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
 
                             PSOIdentifierType idType = new PSOIdentifierType(l.getId().getLogin(), null,
                                     l.getId().getManagedSysId());
 
+                            boolean connectorSuccess = false;
+
                             if (connector.getConnectorInterface() != null &&
                                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
-                                remoteDelete(login, requestId, mSys, connector, matchObj, pUser, auditLog);
+                                UserResponse resp = remoteDelete(login, requestId, mSys, connector, matchObj, pUser, auditLog);
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
+
                             } else {
-                                localDelete(login, requestId, idType, mSys, pUser, auditLog);
+                                ResponseType resp = localDelete(login, requestId, idType, mSys, pUser, auditLog);
+
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
                             }
+
+                            String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+                            if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                                PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                if (ppScript != null) {
+                                    executePostProcess(ppScript, bindingMap, pUser, "DELETE", connectorSuccess);
+                                }
+                            }
+
 
                         }
                     }
@@ -998,13 +1092,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
-    /* (non-Javadoc)
-      * @see org.openiam.provision.service.ProvisionService#modifyGroup(org.openiam.provision.dto.ProvisionGroup)
-      */
-    public ProvisionGroup modifyGroup(ProvisionGroup group) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /* (non-Javadoc)
       * @see org.openiam.provision.service.ProvisionService#modifyUser(org.openiam.provision.dto.ProvisionUser)
@@ -1021,13 +1108,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         log.debug("---DEFAULT PROVISIONING SERVICE: modifyUser called --");
 
-        log.debug("\npUser Object passed in=" + pUser);
-
-
         List<Login> newPrincipalList = pUser.getPrincipalList();
 
 
-        log.debug("\nPrincipals passed in = " + newPrincipalList);
+        log.debug("Principals passed in = " + newPrincipalList);
 
         modifyUser.init();
 
@@ -1245,6 +1329,17 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
                                 bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
 
+                                // pre-processing
+                                String preProcessScript = getResProperty( res.getResourceProps() , "PRE_PROCESS");
+                                if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                                    PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                                    if (ppScript != null) {
+                                        if (  executePreProcess(ppScript, bindingMap, pUser, "MODIFY") == ProvisioningConstants.FAIL  ) {
+                                            continue;
+                                        }
+                                    }
+                                }
+
 
                                 ExtensibleUser extUser = attrListBuilder.buildFromRules(pUser, attrMap, se,
                                         managedSysId, primaryIdentity.getId().getDomainId(),
@@ -1284,10 +1379,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                                 //loginManager.addLogin(mLg);
 
+                                boolean connectorSuccess = false;
+
                                 if (connector.getConnectorInterface() != null &&
                                         connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
-                                    this.remoteAdd(mLg, requestId, mSys, matchObj, extUser, connector, pUser, auditLog);
+                                    connectorSuccess = remoteAdd(mLg, requestId, mSys, matchObj, extUser, connector, pUser, auditLog);
 
                                 } else {
 
@@ -1298,8 +1395,21 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                     addReqType.getData().getAny().add(extUser);
 
                                     log.debug("Creating identity in target system:" + mLg.getId());
-                                    connectorAdapter.addRequest(mSys, addReqType, muleContext);
+                                    AddResponseType responseType =  connectorAdapter.addRequest(mSys, addReqType, muleContext);
+                                    if (responseType.getStatus() == StatusCodeType.SUCCESS)  {
+                                        connectorSuccess = true;
+                                    }
                                 }
+
+                                // post processing
+                                String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+                                if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                                    PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                    if (ppScript != null) {
+                                        executePostProcess(ppScript, bindingMap, pUser, "MODIFY", connectorSuccess);
+                                    }
+                                }
+
 
                                 auditHelper.addLog("ADD IDENTITY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
                                         "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
@@ -1335,6 +1445,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
                             }
 
+                            String preProcessScript = getResProperty( res.getResourceProps() , "PRE_PROCESS");
+                            if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                                PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                                if (ppScript != null) {
+                                    if (  executePreProcess(ppScript, bindingMap, pUser, "MODIFY") == ProvisioningConstants.FAIL  ) {
+                                        continue;
+                                    }
+                                }
+                            }
+
 
                             // what the new object will look like
                             ExtensibleUser extUser = attrListBuilder.buildModifyFromRules(pUser,
@@ -1348,7 +1468,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             List<ExtensibleAttribute> extAttList = extUser.getAttributes();
                             //
 
-
+                            boolean connectorSuccess = false;
                             if (connector.getConnectorInterface() != null &&
                                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
@@ -1368,6 +1488,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 userReq.setUser(extUser);
 
                                 UserResponse respType = remoteConnectorAdapter.modifyRequest(mSys, userReq, connector, muleContext);
+                                if (respType.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
 
                                 auditHelper.addLog("MODIFY IDENTITY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
                                         "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
@@ -1405,6 +1528,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 log.debug("Creating identity in target system:" + mLg.getId());
                                 ModifyResponseType respType = connectorAdapter.modifyRequest(mSys, modReqType, muleContext);
 
+                                if (respType.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
+
                                 auditHelper.addLog("MODIFY IDENTITY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
                                         "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
                                         null, "SUCCESS", auditLog.getLogId(), "USER_STATUS",
@@ -1413,6 +1540,14 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                         pUser.getRequestClientIP(), mLg.getId().getLogin(), mLg.getId().getDomainId());
 
 
+                            }
+                            // post processing
+                            String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+                            if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                                PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                if (ppScript != null) {
+                                    executePostProcess(ppScript, bindingMap, pUser, "MODIFY", connectorSuccess);
+                                }
                             }
 
                         }
@@ -1953,6 +2088,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         for (Login l : principalList) {
             if (l.getId().getManagedSysId().equalsIgnoreCase(passwordSync.getManagedSystemId())) {
 
+
                 boolean retval = loginManager.setPassword(l.getId().getDomainId(), l.getId().getLogin(),
                         passwordSync.getManagedSystemId(), encPassword);
                 if (retval) {
@@ -1994,6 +2130,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
 
+        boolean connectorSuccess = false;
 
         if (passwordSync.getManagedSystemId().equalsIgnoreCase(this.sysConfiguration.getDefaultManagedSysId())) {
             // typical sync
@@ -2019,6 +2156,27 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                             log.debug("Sync allowed for sys=" + managedSysId);
 
+
+                            // pre-process
+                            Map<String, Object> bindingMap = new HashMap<String, Object>();
+                            bindingMap.put("IDENTITY", lg);
+                            bindingMap.put("RESOURCE", res);
+                            bindingMap.put("PASSWORD_SYNC", passwordSync);
+
+                            if (res != null) {
+                                String preProcessScript = getResProperty( res.getResourceProps() , "PRE_PROCESS");
+                                if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                                    PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                                    if (ppScript != null) {
+                                        if (  executePreProcess(ppScript, bindingMap, null, "SET_PASSWORD") == ProvisioningConstants.FAIL  ) {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+
+
+
                             // update the password in openiam
                             loginManager.setPassword(lg.getId().getDomainId(),
                                     lg.getId().getLogin(), lg.getId().getManagedSysId(),
@@ -2038,14 +2196,30 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             if (connector.getConnectorInterface() != null &&
                                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
-                                remoteSetPassword(requestId, lg, passwordSync, mSys, matchObj, connector);
+                                org.openiam.connector.type.ResponseType  resp = remoteSetPassword(requestId, lg, passwordSync, mSys, matchObj, connector);
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
 
 
                             } else {
 
-                                localSetPassword(requestId, lg, passwordSync, mSys);
+                                ResponseType resp = localSetPassword(requestId, lg, passwordSync, mSys);
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
 
                             }
+
+                            // post-process
+                            String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+                            if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                                PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                if (ppScript != null) {
+                                    executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                                }
+                            }
+
 
                         } else {
                             log.debug("Sync not allowed for sys=" + managedSysId);
@@ -2064,6 +2238,27 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 matchObj = matchObjAry[0];
             }
 
+            // pre-process
+            Resource resource = resourceDataService.getResource(mSys.getResourceId());
+
+            Map<String, Object> bindingMap = new HashMap<String, Object>();
+            bindingMap.put("IDENTITY", login);
+            bindingMap.put("PASSWORD_SYNC", passwordSync);
+
+
+
+            if (resource != null) {
+                bindingMap.put("RESOURCE", resource);
+
+                String preProcessScript = getResProperty( resource.getResourceProps() , "PRE_PROCESS");
+                if (preProcessScript != null && !preProcessScript.isEmpty()) {
+                    PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                    if (ppScript != null) {
+                        executePreProcess(ppScript, bindingMap, null, "SET_PASSWORD");
+                    }
+                }
+            }
+
             if (connector.getConnectorInterface() != null &&
                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
@@ -2074,6 +2269,15 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 localSetPassword(requestId, login, passwordSync, mSys);
 
             }
+            // post-process
+            String postProcessScript = getResProperty( resource.getResourceProps() , "POST_PROCESS");
+            if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                if (ppScript != null) {
+                    executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                }
+            }
+
 
         }
         response.setStatus(ResponseStatus.SUCCESS);
@@ -2618,7 +2822,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
-    private void localDelete(Login l, String requestId,
+    private ResponseType localDelete(Login l, String requestId,
                              PSOIdentifierType idType,
                              ManagedSys mSys,
                              ProvisionUser user,
@@ -2651,6 +2855,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 "IDENTITY_STATUS", "DELETED",
                 requestId, resp.getrrorCodeAsStr(), user.getSessionId(), resp.getErrorMsgAsStr(),
                 user.getRequestClientIP(), l.getId().getLogin(), l.getId().getDomainId());
+
+        return resp;
 
 
     }
@@ -2707,7 +2913,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     }
 
 
-    private void remoteSetPassword(String requestId, Login login,
+    private org.openiam.connector.type.ResponseType remoteSetPassword(String requestId, Login login,
                                    PasswordSync passwordSync,
                                    ManagedSys mSys,
                                    ManagedSystemObjectMatch matchObj,
@@ -2732,10 +2938,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 requestId, respType.getErrorCodeAsStr(), null, respType.getErrorMsgAsStr(),
                 passwordSync.getRequestClientIP(), login.getId().getLogin(), login.getId().getDomainId());
 
+        return respType;
+
 
     }
 
-    private void localSetPassword(String requestId, Login login,
+    private ResponseType localSetPassword(String requestId, Login login,
                                   PasswordSync passwordSync,
                                   ManagedSys mSys) {
 
@@ -2767,6 +2975,74 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 null,
                 requestId, respType.getrrorCodeAsStr(), null, respType.getErrorMsgAsStr(),
                 passwordSync.getRequestClientIP(), login.getId().getLogin(), login.getId().getDomainId());
+        return respType;
+
+    }
+
+    /* Helper methods for Pre and Post processing scripts */
+    private PreProcessor createPreProcessScript(String scriptName) {
+        try {
+            ScriptIntegration se = null;
+            se = ScriptFactory.createModule(scriptEngine);
+            return (PreProcessor)se.instantiateClass(null, scriptName);
+        }catch(Exception ce) {
+            log.error(ce);
+            return null;
+
+        }
+
+    }
+
+    private PostProcessor createPostProcessScript(String scriptName) {
+        try {
+            ScriptIntegration se = null;
+            se = ScriptFactory.createModule(scriptEngine);
+            return (PostProcessor)se.instantiateClass(null, scriptName);
+        }catch(Exception ce) {
+            log.error(ce);
+            return null;
+
+        }
+
+    }
+
+
+    private int executePreProcess(PreProcessor ppScript, Map<String, Object> bindingMap, ProvisionUser user, String operation) {
+        if ("ADD".equalsIgnoreCase(operation)) {
+            return ppScript.addUser(user,bindingMap);
+        }
+        if ("MODIFY".equalsIgnoreCase(operation)) {
+            return ppScript.modifyUser(user,bindingMap);
+        }
+        if ("DELETE".equalsIgnoreCase(operation)) {
+            return ppScript.deleteUser(user,bindingMap);
+        }
+        if ("SET_PASSWORD".equalsIgnoreCase(operation)) {
+            return ppScript.setPassword(bindingMap);
+        }
+
+        return 0;
+
+
+    }
+
+    private int executePostProcess(PostProcessor ppScript, Map<String, Object> bindingMap, ProvisionUser user, String operation, boolean success) {
+        if ("ADD".equalsIgnoreCase(operation)) {
+            return ppScript.addUser(user,bindingMap, success);
+        }
+        if ("MODIFY".equalsIgnoreCase(operation)) {
+            return ppScript.modifyUser(user,bindingMap, success);
+
+        }
+        if ("DELETE".equalsIgnoreCase(operation)) {
+            return ppScript.deleteUser(user,bindingMap, success);
+
+        }
+
+        if ("SET_PASSWORD".equalsIgnoreCase(operation)) {
+            return ppScript.setPassword(bindingMap, success);
+        }
+        return 0;
 
 
     }

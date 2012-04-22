@@ -35,6 +35,8 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('406'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('405','MANAGED_SYS','INCLUDE_IN_SYNC');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('408','MANAGED_SYS','ON_DELETE');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('407','MANAGED_SYS','GROUP_MEMBERSHIP_ENABLED');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('409','MANAGED_SYS','PRE_PROCESS');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('410','MANAGED_SYS','POST_PROCESS');
 
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('411','AUTH_REPO','HOST_URL');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('412','AUTH_REPO','BASE_DN');
@@ -836,12 +838,20 @@ insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUE
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('205', '101','ON_DELETE', 'DELETE');
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('206', '101','GROUP_MEMBERSHIP_ENABLED', 'Y');
 
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('207', '101','PRE_PROCESS', '/prov-helper/LDAPPreProcessor.groovy');
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('208', '101','POST_PROCESS', '/prov-helper/LDAPPostProcessor.groovy');
+
 
 /* Send user object to Linux connectors */
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('210', '105','INCLUDE_USER_OBJECT', 'Y');
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('211', '105','PRINCIPAL_NAME', 'login');
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('212', '105','PRINCIPAL_PASSWORD', 'userPassword');
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('213', '105','INCLUDE_IN_PASSWORD_SYNC', 'Y');
+
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('214', '105','ON_DELETE', 'DELETE');
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('215', '105','GROUP_MEMBERSHIP_ENABLED', 'Y');
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('216', '105','PRE_PROCESS', null);
+insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('217', '105','POST_PROCESS', null);
 
 
 
