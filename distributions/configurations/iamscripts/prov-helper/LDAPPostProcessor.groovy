@@ -6,7 +6,7 @@ import org.openiam.provision.service.PostProcessor;
 import org.openiam.provision.service.ProvisioningConstants;
 
 
-public class LDAPPreProcessor implements PostProcessor {
+public class LDAPPostProcessor implements PostProcessor {
 	
 	public int addUser(ProvisionUser user, Map<String, Object> bindingMap, boolean success) {
 	
