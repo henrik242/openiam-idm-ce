@@ -40,6 +40,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.openiam.base.id.UUIDGen;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -279,8 +280,35 @@ public class CSVAdapter implements SourceAdapter {
 		return resp;
 		
 	}
-	
-	private void populateTemplate(String[] lineAry) {
+
+    public Response testConnection(SynchConfig config) {
+        File file = new File(config.getFileName());
+        FileReader reader = null;
+        try {
+            reader = new FileReader(file);
+        }catch(FileNotFoundException fe) {
+            fe.printStackTrace();
+
+            log.error(fe);
+
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
+            resp.setErrorText(fe.getMessage());
+            return resp;
+
+        }finally {
+            if(reader != null)
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // This can safely be ignored. The file was opened successfully at this point.
+                }
+        }
+        Response resp = new Response(ResponseStatus.SUCCESS);
+        return resp;
+    }
+
+    private void populateTemplate(String[] lineAry) {
 		Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
 		
 		int ctr =0;

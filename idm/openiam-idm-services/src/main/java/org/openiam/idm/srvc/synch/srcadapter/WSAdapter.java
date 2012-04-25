@@ -24,6 +24,7 @@ package org.openiam.idm.srvc.synch.srcadapter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.id.UUIDGen;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -294,6 +295,17 @@ public class WSAdapter extends  AbstractSrcAdapter { // implements SourceAdapter
 		return resp;
 		
 	}
+
+    public Response testConnection(SynchConfig config) {
+        WSOperationCommand serviceCmd = getServiceCommand(  config.getWsScript() );
+        if (serviceCmd == null) {
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            return resp;
+        }
+        Response resp = new Response(ResponseStatus.SUCCESS);
+        return resp;
+    }
 
     private WSOperationCommand getServiceCommand(String scriptName) {
         ScriptIntegration se = null;

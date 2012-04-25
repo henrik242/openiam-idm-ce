@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.openiam.base.id.UUIDGen;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -104,9 +105,27 @@ public class LdapAdapterForGenericObject implements SourceAdapter {
 
     }
 
+    public Response testConnection(SynchConfig config) {
+        try {
+            if(connect(config)){
+                closeConnection();
+                Response resp = new Response(ResponseStatus.SUCCESS);
+                return resp;
+            }else{
+                Response resp = new Response(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_CONNECTION);
+                return resp;
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+            log.error(e);
 
-
-
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.FAIL_CONNECTION);
+            resp.setErrorText(e.getMessage());
+            return resp;
+        }
+    }
 
 
     private boolean connect(SynchConfig config) throws NamingException {
