@@ -37,7 +37,7 @@ public class GenericObjectSynchServiceImpl implements GenericObjectSynchService 
 
             SyncResponse resp = adapt.startSynch(config);
 
-            log.debug("SyncReponse updateTime value=" + resp.getLastRecordTime());
+            log.debug("SyncResponse updateTime value=" + resp.getLastRecordTime());
 
             if (resp.getLastRecordTime() == null) {
 
