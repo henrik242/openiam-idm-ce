@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.openiam.base.ws.Response;
 import org.openiam.webadmin.sync.notuser.SynchOrg;
 import org.openiam.webadmin.sync.notuser.SynchRole;
 import org.springframework.validation.BindException;
@@ -151,6 +152,24 @@ public class SynchConfigurationController extends SimpleFormController {
 		}else {
 			resp = synchConfig.updateConfig(config);
 		}
+
+        //Test connection after updating the configuration, but before setting up the batch task.
+        //If the connection fails, there wont be a batch job that tries the connection over and over again.
+        if (btn != null && btn.equalsIgnoreCase("Test Connection")) {
+            Response testResponse =  synchConfig.testConnection(config);
+
+            ModelAndView mav = new ModelAndView("/sync/testconnect");
+
+            if (testResponse.getStatus() == ResponseStatus.FAILURE) {
+                mav.addObject("msg", "Connection Failed.");
+                mav.addObject("error", testResponse.getErrorText());
+
+            } else {
+                mav.addObject("msg", "Connection Successful.");
+            }
+            return mav;
+
+        }
 		
 		// update the batch synchronization settings
 		SynchConfig c = resp.getConfig();

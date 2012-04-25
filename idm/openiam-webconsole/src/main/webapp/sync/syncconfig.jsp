@@ -213,8 +213,9 @@
             <c:if test="${syncCmd.syncConfig.synchConfigId != null}" >
             <input type="submit" name="btn" value="Delete" onclick="return confirm('Are you sure you want to delete this Configuration?');"/>
             <input type="submit" name="btn" value="Sync Now" onclick="return confirm('Are your sure that you want to start synchronization?');"/>
-            </c:if> 
-           <input type="submit" name="btn" value="Submit"/>   
+            </c:if>
+                <input type="submit" name="btn" value="Test Connection"/>
+                <input type="submit" name="btn" value="Submit"/>
     	  <input type="submit" name="btn" value="Reset" />
                </td>
           </tr>

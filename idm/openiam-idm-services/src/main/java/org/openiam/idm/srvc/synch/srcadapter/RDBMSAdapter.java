@@ -42,6 +42,7 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
 import org.openiam.base.id.UUIDGen;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 
@@ -340,24 +341,48 @@ public class RDBMSAdapter extends  AbstractSrcAdapter { // implements SourceAdap
 		return resp;
 		
 	}
-	
-/*	private void logEvent(ProvisionUserResponse userResp, User usr, IdmAuditLog synchStartLog, MatchObjectRule matchRule, String reqId, String action) {
-		
-		IdmAuditLog synchUserStartLog  = new IdmAuditLog();
-		
-		if (userResp.getStatus() == ResponseStatus.SUCCESS ) {
-			
-			synchUserStartLog.setSynchUserAttributes("USER", usr.getUserId(), action, "SUCCESS" ,"SYSTEM", 
-					null, reqId, null, synchStartLog.getSessionId(), matchRule.getMatchAttrName(), matchRule.getMatchAttrValue());
-		}else {
-			synchUserStartLog.setSynchUserAttributes("USER", usr.getUserId(), action, "FAIL" ,"SYSTEM", 
-					userResp.getErrorCode().toString() + ":" + userResp.getErrorText(), 
-					reqId, null, synchStartLog.getSessionId(), matchRule.getMatchAttrName(), matchRule.getMatchAttrValue());
-		}
-		synchUserStartLog = auditHelper.logEvent(synchUserStartLog);
-	}
 
-*/
+    public Response testConnection(SynchConfig config) {
+        try {
+            Class.forName(config.getDriver());
+
+            con = DriverManager.getConnection(
+                    config.getConnectionUrl(),
+                    config.getSrcLoginId(),
+                    config.getSrcPassword());
+            closeConnection();
+            Response resp = new Response(ResponseStatus.SUCCESS);
+            return resp;
+        } catch (SQLException e) {
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.SQL_EXCEPTION);
+            resp.setErrorText(e.getMessage());
+            return resp;
+        } catch (ClassNotFoundException e) {
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            resp.setErrorText(e.getMessage());
+            return resp;
+        }
+    }
+
+    /*	private void logEvent(ProvisionUserResponse userResp, User usr, IdmAuditLog synchStartLog, MatchObjectRule matchRule, String reqId, String action) {
+
+            IdmAuditLog synchUserStartLog  = new IdmAuditLog();
+
+            if (userResp.getStatus() == ResponseStatus.SUCCESS ) {
+
+                synchUserStartLog.setSynchUserAttributes("USER", usr.getUserId(), action, "SUCCESS" ,"SYSTEM",
+                        null, reqId, null, synchStartLog.getSessionId(), matchRule.getMatchAttrName(), matchRule.getMatchAttrValue());
+            }else {
+                synchUserStartLog.setSynchUserAttributes("USER", usr.getUserId(), action, "FAIL" ,"SYSTEM",
+                        userResp.getErrorCode().toString() + ":" + userResp.getErrorText(),
+                        reqId, null, synchStartLog.getSessionId(), matchRule.getMatchAttrName(), matchRule.getMatchAttrValue());
+            }
+            synchUserStartLog = auditHelper.logEvent(synchUserStartLog);
+        }
+
+    */
 	private boolean connect(SynchConfig config) {
 	  
 		try {

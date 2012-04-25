@@ -23,6 +23,7 @@ package org.openiam.idm.srvc.synch.ws;
 
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.apache.commons.logging.Log;
@@ -83,9 +84,14 @@ public class IdentitySynchWebServiceImpl implements IdentitySynchWebService, Mul
 		return resp;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.synch.ws.IdentitySynchWebService#findById(java.lang.String)
-	 */
+    public Response testConnection(@WebParam(name = "synchConfig", targetNamespace = "") SynchConfig config) {
+        synchService.setMuleContext(muleContext);
+        return synchService.testConnection(config);
+    }
+
+    /* (non-Javadoc)
+      * @see org.openiam.idm.srvc.synch.ws.IdentitySynchWebService#findById(java.lang.String)
+      */
 	public SynchConfigResponse findById(String id) {
 		SynchConfigResponse resp = new SynchConfigResponse(ResponseStatus.SUCCESS);
 		SynchConfig config = synchService.findById(id);

@@ -31,6 +31,11 @@ public interface IdentitySynchWebService {
 			@WebParam(name = "synchConfig", targetNamespace = "")
 			SynchConfig synchConfig);
 
+    @WebMethod
+    Response testConnection(
+            @WebParam(name = "synchConfig", targetNamespace = "")
+            SynchConfig synchConfig);
+
 	@WebMethod
 	SynchConfigResponse updateConfig(
 			@WebParam(name = "synchConfig", targetNamespace = "")

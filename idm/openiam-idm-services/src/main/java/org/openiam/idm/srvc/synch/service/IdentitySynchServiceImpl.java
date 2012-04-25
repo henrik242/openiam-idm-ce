@@ -21,6 +21,7 @@
  */
 package org.openiam.idm.srvc.synch.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
@@ -143,7 +145,26 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 
 	}
 
-     public void setMuleContext(MuleContext ctx) {
+    public Response testConnection(SynchConfig config) {
+        try {
+            SourceAdapter adapt = adaptorFactory.create(config);
+            adapt.setMuleContext(muleContext);
+
+            return adapt.testConnection(config);
+        } catch (ClassNotFoundException e) {
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            resp.setErrorText(e.getMessage());
+            return resp;
+        } catch (IOException e) {
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.IO_EXCEPTION);
+            resp.setErrorText(e.getMessage());
+            return resp;
+        }
+    }
+
+    public void setMuleContext(MuleContext ctx) {
 
         muleContext = ctx;
      }

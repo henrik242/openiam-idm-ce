@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.openiam.base.id.UUIDGen;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -48,8 +49,6 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
-import org.openiam.script.ScriptFactory;
-import org.openiam.script.ScriptIntegration;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
@@ -69,16 +68,18 @@ import java.util.Set;
 public class CSVAdapterForGenericObject implements SourceAdapter {
 
     ObjectAdapterMap adapterMap;
-
+	protected LineObject rowHeader = new LineObject();
+	protected ProvisionUser pUser = new ProvisionUser();
 	public static ApplicationContext ac;
 	protected LoginDataService loginManager;
 	protected RoleDataService roleDataService;
 	protected AuditHelper auditHelper;
 	
 	protected UserDataService userMgr;
-
+	ProvisionService provService = null;
+	String systemAccount;
+	
 	MatchRuleFactory matchRuleFactory;
-    protected String scriptEngine;
 	
 	private static final Log log = LogFactory.getLog(CSVAdapterForGenericObject.class);
 	
@@ -88,54 +89,39 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 	
 	public SyncResponse startSynch(SynchConfig config) {
 
-        log.debug("CSVAdapterForGenericObject: Starting CSV File Sync");
+         log.debug("Starting to Sync CSV File..^^^^^^^^");
 
-        LineObject rowHeader = null;
+
+
 		Reader reader = null;
+
+
         String requestId = UUIDGen.getUUID();
 
-        // reference to the script based handler
-        ObjectHandler handler = null;
-
-        // START THE AUDIT PROCESS
         IdmAuditLog synchStartLog = new IdmAuditLog();
         synchStartLog.setSynchAttributes("SYNCH_GENERIC_OBJECT", config.getSynchConfigId(), "START", "SYSTEM", requestId);
         synchStartLog = auditHelper.logEvent(synchStartLog);
 
+		
+	/*	MatchObjectRule matchRule = null;
+		provService = (ProvisionService)ac.getBean("defaultProvision");
 
-        // Get the handler for this object type
-        // change this fieldname from ProcessRule to something more appropriate
+  		try {
+			matchRule = matchRuleFactory.create(config);
+		}catch(ClassNotFoundException cnfe) {
+			log.error(cnfe);
 
-        String objectHandlerName = adapterMap.getHandlerName(config.getProcessRule());
+            cnfe.printStackTrace();
 
-        log.debug("Handler Name:" +  objectHandlerName);
-
-        if (objectHandlerName == null) {
-            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.FILE_EXCEPTION.toString(),"No handler defined to object." );
+            synchStartLog.updateSynchAttributes("FAIL",ResponseCode.CLASS_NOT_FOUND.toString() , cnfe.toString());
             auditHelper.logEvent(synchStartLog);
 
-            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-            resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
-            return resp;
-        }
-        try {
 
-             handler = createHandler(objectHandlerName);
-
-            log.debug("Handler ref:" +  handler);
-
-          }catch (Exception e) {
-
-            e.printStackTrace();
-
-            synchStartLog.updateSynchAttributes("FAIL",ResponseCode.CLASS_NOT_FOUND.toString() , e.toString());
-            auditHelper.logEvent(synchStartLog);
-
-            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-            return resp;
-        }
-
+			SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+			resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+			return resp;
+		}
+	    */
 		
 		File file = new File(config.getFileName());
 		try {
@@ -153,7 +139,9 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 			return resp;
 			
 		}
+		
 
+		
 		CSVParser parser = new CSVParser(reader, CSVStrategy.EXCEL_STRATEGY);
 		try {
 			int ctr = 0;
@@ -162,40 +150,46 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 			
 			
 			for (String[] lineAry : fileContentAry) {
+				log.debug("File Row #= " + lineAry[0]);
 
 				if (ctr == 0) {
-                    rowHeader = populateTemplate(lineAry);
+					populateTemplate(lineAry);
 					ctr++;
 				}else {
 					//populate the data object
-
-                    // Build a generic object that contains the data from the source that we can pass to any handler
+					pUser = new ProvisionUser();
+					
 					LineObject rowObj = rowHeader.copy();
 					populateRowObject(rowObj, lineAry);
-
-
-                    Object obj = handler.populateObject(rowObj);
-
-                    log.debug("Populated object=" + obj.toString());
-
-                    Object existingObj = handler.existingObject(obj);
-
-                    if (existingObj != null) {
-                        // object exists
-                        log.debug("Object exists");
-                    }else {
-                        // new object
-                        log.debug("New Object");
-
-                    }
-
-                    log.debug(obj.toString());
-
 					
-				/*	try {
+					try {
+
+
+						// validate
+						if (config.getValidationRule() != null && config.getValidationRule().length() > 0) {
+							ValidationScript script = SynchScriptFactory.createValidationScript(config.getValidationRule());
+							int retval = script.isValid( rowObj );
+							if (retval == ValidationScript.NOT_VALID ) {
+								log.debug("Validation failed...");
+								// log this object in the exception log
+							}
+							if (retval == ValidationScript.SKIP) {
+								continue;
+							}
+						}
+
+                        System.out.println("Getting column map...");
+
+						// check if the user exists or not
+						Map<String, Attribute> rowAttr = rowObj.getColumnMap();
+
+						//
 
 
 
+
+						// show the user object
+										
 						
 					}catch(ClassNotFoundException cnfe) {
 						log.error(cnfe);
@@ -207,7 +201,6 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 						resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
 						return resp;
 					}
-					*/
 						
 				}
 			
@@ -235,10 +228,34 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 		
 	}
 
+    public Response testConnection(SynchConfig config) {
+        File file = new File(config.getFileName());
+        FileReader reader = null;
+        try {
+            reader = new FileReader(file);
+        }catch(FileNotFoundException fe) {
+            fe.printStackTrace();
 
-	
-	private LineObject populateTemplate(String[] lineAry) {
-        LineObject rowHeader = new LineObject();
+            log.error(fe);
+
+            Response resp = new Response(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
+            resp.setErrorText(fe.getMessage());
+            return resp;
+
+        }finally {
+            if(reader != null)
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // This can safely be ignored. The file was opened successfully at this point.
+                }
+        }
+        Response resp = new Response(ResponseStatus.SUCCESS);
+        return resp;
+    }
+
+    private void populateTemplate(String[] lineAry) {
 		Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
 		
 		int ctr =0;
@@ -250,7 +267,6 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 			ctr++;
 		}
 		rowHeader.setColumnMap(columnMap);
-        return rowHeader;
 	}
 	
 	
@@ -272,14 +288,6 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 		}
 
 	}
-
-    private ObjectHandler createHandler(String scriptName) throws ClassNotFoundException, IOException{
-        ScriptIntegration se = null;
-
-        se = ScriptFactory.createModule(scriptEngine);
-
-        return (ObjectHandler)se.instantiateClass(null, scriptName);
-    }
 
 
 
@@ -315,7 +323,13 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 		this.userMgr = userMgr;
 	}
 
+	public String getSystemAccount() {
+		return systemAccount;
+	}
 
+	public void setSystemAccount(String systemAccount) {
+		this.systemAccount = systemAccount;
+	}
 
 	public MatchRuleFactory getMatchRuleFactory() {
 		return matchRuleFactory;
@@ -343,13 +357,5 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 
     public void setAdapterMap(ObjectAdapterMap adapterMap) {
         this.adapterMap = adapterMap;
-    }
-
-    public String getScriptEngine() {
-        return scriptEngine;
-    }
-
-    public void setScriptEngine(String scriptEngine) {
-        this.scriptEngine = scriptEngine;
     }
 }

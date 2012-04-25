@@ -294,7 +294,7 @@
         <property name="userMgr" ref="userManager" />
         <property name="auditHelper" ref="auditHelper" />
         <property name="adapterMap" ref="adapterMap" />
-        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+        <!--<property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />-->
 
     </bean>
 

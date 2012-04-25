@@ -1,6 +1,7 @@
 package org.openiam.idm.srvc.synch.service;
 
 import org.mule.api.MuleContext;
+import org.openiam.base.ws.Response;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 
@@ -23,6 +24,8 @@ public interface IdentitySynchService {
 	void removeConfig(String configId);
 	
 	SyncResponse startSynchronization(SynchConfig config);
+
+    Response testConnection(SynchConfig config);
 
     public void setMuleContext(MuleContext ctx);
 
