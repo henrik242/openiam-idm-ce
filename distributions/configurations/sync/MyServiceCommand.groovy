@@ -28,7 +28,7 @@ import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
-public class MyAdapter implements WSOperationCommand {
+public class MyServiceCommand implements WSOperationCommand {
 
 	protected ProvisionUser pUser = new ProvisionUser();
 	public static ApplicationContext ac;	
@@ -55,7 +55,7 @@ public class MyAdapter implements WSOperationCommand {
 	}
 
 	public static void setAc(ApplicationContext ac) {
-		MyAdapter.ac = ac;
+        MyServiceCommand.ac = ac;
 	}
    
 
