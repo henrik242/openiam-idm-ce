@@ -30,7 +30,8 @@ import org.openiam.provision.service.ProvisionService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.openiam.idm.srvc.synch.srcadapter.MatchRuleFactory;
-import org.mule.api.MuleContext;
+import org.mule.api.MuleContext
+import org.openiam.base.ws.Response;
 
 public class MyAdapter implements SourceAdapter {
 
@@ -53,14 +54,13 @@ public class MyAdapter implements SourceAdapter {
 		return resp;
 		
 	}
-	
-	
-	
 
+    @Override
+    Response testConnection(SynchConfig config) {
+        throw new UnsupportedOperationException("Not implemented yet")
+    }
 
-
-
-	public static ApplicationContext getAc() {
+    public static ApplicationContext getAc() {
 		return ac;
 	}
 
