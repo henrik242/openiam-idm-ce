@@ -20,6 +20,11 @@ public class ObjectAdapterMap {
         this.adapterMap = adapterMap;
     }
 
+    public String getHandlerName(String key) {
+        return (String)adapterMap.get(key);
+
+    }
+
     @Override
     public String toString() {
         return "ObjectAdapterMap{" +
