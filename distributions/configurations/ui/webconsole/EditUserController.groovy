@@ -15,7 +15,7 @@ public class EditUserController extends ExtendController   {
 	
 	
 	public int post(String command, Map<String,Object> objList,Object cmd) {
-		return ExtendCommand.SUCCESS_CONTINUE;
+		return ExtendController.SUCCESS_CONTINUE;
 	}
 	
 	
