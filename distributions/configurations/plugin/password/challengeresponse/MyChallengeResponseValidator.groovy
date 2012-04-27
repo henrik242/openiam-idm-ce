@@ -95,9 +95,12 @@ public class MyChallengeResponseValidator implements ChallengeResponseValidator 
 	  return isValid
 
 	}
-	
-	
-	/**
+
+    @Override
+    boolean isResponseValid(ChallengeResponseUser req, List<UserIdentityAnswer> newAnswerList, int requiredCorrectAns) {
+        throw new UnsupportedOperationException()
+    }
+/**
 	 * Saves the answers that a user submits for a set of questions.
 	 * @param ansList
 	 */

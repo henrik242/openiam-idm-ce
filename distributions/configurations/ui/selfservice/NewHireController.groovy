@@ -10,10 +10,16 @@ import java.util.Set;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.dto.RoleId;
-import org.openiam.base.AttributeOperationEnum;
+import org.openiam.base.AttributeOperationEnum
+import org.openiam.idm.srvc.user.dto.User
+import org.openiam.provision.service.ProvisionService
+import javax.xml.ws.Service
+import javax.xml.namespace.QName
+import javax.xml.ws.soap.SOAPBinding
+import org.openiam.selfsrvc.hire.NewHireCommand;
 
 
-public class NewUserController extends ExtendController   {
+public class NewHireController extends ExtendController   {
 
 	static String BASE_URL= "http://localhost:8080/openiam-idm-esb/idmsrvc";
 	
@@ -57,7 +63,7 @@ public class NewUserController extends ExtendController   {
                                  Object cmd,
                                  Object err) {
     
-    NewHireCommand newHireCmd =  (NewHireCommand) cmd;		
+    NewHireCommand newHireCmd =  (NewHireCommand) cmd;
 		User user = newHireCmd.getUser();
 		
                                  	

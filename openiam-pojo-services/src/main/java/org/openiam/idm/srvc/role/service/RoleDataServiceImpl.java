@@ -642,8 +642,9 @@ public class RoleDataServiceImpl implements RoleDataService {
 		
 		List<User> userList = userRoleDao.findUserByRole(domainId, roleId);
 
+        // No direct association, continue with indirect
 		if (userList == null || userList.isEmpty())
-			return null;
+            userList = new ArrayList<User>();
 
 		Set<User> newUserSet = updateUserRoleAssociation(userList, UserConstant.DIRECT);
 
@@ -661,6 +662,9 @@ public class RoleDataServiceImpl implements RoleDataService {
 	 		}
 	 	}
 	 	int size = newUserSet.size();
+        // no users found, return null
+        if(size == 0)
+            return null;
 	 	User[] userAry = new User[size];
 	 	return newUserSet.toArray(userAry);
 	 	

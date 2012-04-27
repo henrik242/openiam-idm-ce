@@ -82,7 +82,7 @@
 		<cxf.version>2.3.1</cxf.version>
 		<activemq.version>5.3.2</activemq.version>
 		<xbean.version>3.6</xbean.version>
-		<groovy.version>1.7.8</groovy.version>
+		<groovy.version>1.8.6</groovy.version>
 		<googleapps.version>1.41.5</googleapps.version>
 		<bonita.version>5.4.2</bonita.version>
         <hibernate.version>3.6.6.Final</hibernate.version>
@@ -195,8 +195,8 @@
              <artifactId>maven-compiler-plugin</artifactId>
              <version>2.3.2</version>
              <configuration>
-               <source>1.5</source>
-               <target>1.5</target>
+               <source>1.6</source>
+               <target>1.6</target>
              </configuration>
            </plugin>
            <plugin>
