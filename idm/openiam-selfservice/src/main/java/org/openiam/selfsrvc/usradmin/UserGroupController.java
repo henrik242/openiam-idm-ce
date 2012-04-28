@@ -3,11 +3,14 @@ package org.openiam.selfsrvc.usradmin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.openiam.idm.srvc.user.dto.UserAttribute;
+import org.openiam.selfsrvc.IdToObjectHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -39,7 +42,8 @@ public class UserGroupController extends SimpleFormController {
 	protected GroupDataWebService groupManager;
 	protected NavigatorDataWebService navigationDataService;	
 	protected String redirectView;
-	protected ProvisionService provRequestService; 
+	protected ProvisionService provRequestService;
+    private IdToObjectHelper listToObject;
 	
 	private static final Log log = LogFactory.getLog(UserGroupController.class);
 
@@ -55,7 +59,8 @@ public class UserGroupController extends SimpleFormController {
 		
 		String menuGrp = request.getParameter("menugrp");
 		String personId = request.getParameter("personId");
-		String userId = (String)request.getSession().getAttribute("userId");		
+        String userId = (String)request.getSession().getAttribute("userId");
+        User usr = (User)request.getSession().getAttribute("userObj");
 		
 		UserGroupCommand userGroupCmd = new UserGroupCommand();
 		
@@ -67,8 +72,23 @@ public class UserGroupController extends SimpleFormController {
 		userGroupCmd.setPerId(personId);
 
 		List<Group> fullGroupList = new ArrayList<Group>();
-		List<Group> groupList =  groupManager.getAllGroups().getGroupList(); 
-		// get the groups that the user has
+		List<Group> groupList =  groupManager.getAllGroups().getGroupList();
+
+        if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+            Map<String, UserAttribute> attrMap = usr.getUserAttributes();
+
+            groupList = listToObject.groupList(attrMap);
+            if (groupList == null || groupList.isEmpty()) {
+                groupList = groupManager.getAllGroups().getGroupList();
+            }
+
+        } else {
+            groupList = groupManager.getAllGroups().getGroupList();
+
+        }
+
+
+        // get the groups that the user has
 		GroupListResponse resp = groupManager.getUserInGroupsAsFlatList(personId);  
 		
 		if (resp != null && resp.getStatus() == ResponseStatus.SUCCESS) {
@@ -239,11 +259,11 @@ public class UserGroupController extends SimpleFormController {
 	}
 
 
+    public IdToObjectHelper getListToObject() {
+        return listToObject;
+    }
 
-	
-
-
-
-
-	
+    public void setListToObject(IdToObjectHelper listToObject) {
+        this.listToObject = listToObject;
+    }
 }

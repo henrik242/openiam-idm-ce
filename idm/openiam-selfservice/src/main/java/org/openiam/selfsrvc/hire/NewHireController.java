@@ -43,7 +43,9 @@ import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
 import org.openiam.selfsrvc.AppConfiguration;
+import org.openiam.selfsrvc.IdToObjectHelper;
 import org.openiam.selfsrvc.pswd.PasswordConfiguration;
+import org.openiam.selfsrvc.usradmin.DelegationFilterHelper;
 import org.openiam.selfsrvc.usradmin.EditUserCommand;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
@@ -90,6 +92,7 @@ public class NewHireController extends AbstractWizardFormController {
 
     protected ProvisionService provisionService;
     protected IdmAuditLogWebDataService auditService;
+    private IdToObjectHelper listToObject;
     protected String requestType;
     protected String cancelView;
 
@@ -285,19 +288,60 @@ public class NewHireController extends AbstractWizardFormController {
     protected Map loadUserInformation(HttpServletRequest request) {
         log.info("referenceData called.");
 
+        List<Organization> orgList = null;
+        List<Organization> divList = null;
+        List<Organization> deptList = null;
+        List<Role> roleList = null;
+        List<Group> groupList =null;
 
-        // get the organizations
-        List<Organization> orgList = orgManager.getOrganizationList(null, "ACTIVE");
-        // get the divisions
-        List<Organization> divList = orgManager.allDivisions(null);
+        HttpSession session =  request.getSession();
+        User usr = (User)session.getAttribute("userObj");
+
+        if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+            Map<String, UserAttribute> attrMap = usr.getUserAttributes();
+
+            orgList = listToObject.organizationList(attrMap);
+
+            groupList =  listToObject.groupList(attrMap);
+
+            // filter the role
+            List<String> roleIdList = DelegationFilterHelper.getRoleFilterFromString(attrMap);
+            List<Role> completeRoleList =  roleDataService.getAllRoles().getRoleList();
+
+
+            if (roleIdList == null) {
+                roleList = completeRoleList;
+            }else {
+                // apply filter
+                roleList = new ArrayList<Role>();
+                for (Role r : completeRoleList) {
+
+                    System.out.println("Role id = " + r.getId().getRoleId());
+
+                    if (roleIdList.contains(r.getId().getServiceId() + "*" + r.getId().getRoleId())) {
+
+                        System.out.println("Role found and added to roleList");
+                        roleList.add(r);
+                    }
+                }
+            }
+
+
+
+        }else {
+            orgList = orgManager.getTopLevelOrganizations();
+            // get the divisions
+
+
+            roleList = roleDataService.getAllRoles().getRoleList();
+            groupList = groupManager.getAllGroups().getGroupList();
+
+
+        }
+
+        divList = orgManager.allDivisions(null);
         // load the department list
-        List<Organization> deptList = orgManager.allDepartments(null);
-
-
-        // get the list of groups that this user belongs to
-        List<Group> groupList = groupManager.getAllGroups().getGroupList();
-        // get the list of roles that this user belongs to
-        List<Role> roleList = roleDataService.getAllRoles().getRoleList();
+        deptList = orgManager.allDepartments(null);
 
 
         // get the list of job codes
@@ -844,5 +888,13 @@ private void setAddress(NewHireCommand cmd, ProvisionUser pUser) {
 
     public void setAppConfiguration(AppConfiguration appConfiguration) {
         this.appConfiguration = appConfiguration;
+    }
+
+    public IdToObjectHelper getListToObject() {
+        return listToObject;
+    }
+
+    public void setListToObject(IdToObjectHelper listToObject) {
+        this.listToObject = listToObject;
     }
 }

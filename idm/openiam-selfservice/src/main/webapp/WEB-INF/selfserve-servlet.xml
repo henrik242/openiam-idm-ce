@@ -333,6 +333,7 @@
 		<property name="refDataService" ref="referenceDataServiceClient" />
          <property name="metadataService" ref="metadataServiceClient"	/>
          <property name="appConfiguration" ref="appConfiguration" />
+         <property name="listToObject" ref="idToObject" />
      </bean>
    
      <bean id="newHireValidator" class="org.openiam.selfsrvc.hire.NewHireValidator">
@@ -369,6 +370,7 @@
 		<property name="provRequestService" ref="provRequestServiceClient" />	
 		<property name="refDataService" ref="referenceDataServiceClient" />
          <property name="emailCredentialsToUser" value="true" />
+         <property name="listToObject" ref="idToObject" />
      </bean>
    
      <bean id="newUserNoAppValidator" class="org.openiam.selfsrvc.hire.NewUserNoAppValidator">
@@ -437,7 +439,8 @@
      </bean>
       
       <!-- Delegated admin - user administration  -->
-      
+
+
 
     <bean id="editUser" class="org.openiam.selfsrvc.usradmin.EditUserController">
 		<property name="commandName" value="editUserCmd" />
@@ -502,7 +505,8 @@
 		<property name="navigationDataService" ref="navServiceClient" />
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="redirectView" value="idman/userSearch.do?action=view" />
-		<property name="provRequestService" ref="provisionServiceClient" />	
+		<property name="provRequestService" ref="provisionServiceClient" />
+        <property name="listToObject" ref="idToObject" />
      </bean>
      
     <bean id="userRole" class="org.openiam.selfsrvc.usradmin.UserRoleController">
@@ -515,8 +519,11 @@
 		<property name="navigationDataService" ref="navServiceClient" />
 		<property name="redirectView" value="idman/userSearch.do?action=view" />
 		<property name="userMgr" ref="userServiceClient" />
-		<property name="provRequestService" ref="provisionServiceClient" />	
-     </bean>
+		<property name="provRequestService" ref="provisionServiceClient" />
+        <property name="listToObject" ref="idToObject" />
+    </bean>
+
+
 
     <bean id="userAttr" class="org.openiam.selfsrvc.usradmin.UserAttributeController">
      	<property name="sessionForm"><value>true</value></property>
@@ -565,6 +572,12 @@
 		<property name="successView" value="user/selsupervisor.jsp" />
 		<property name="userMgr" ref="userServiceClient" />
      </bean>
+
+    <bean id="idToObject" class="org.openiam.selfsrvc.IdToObjectHelper">
+        <property name="roleDataService" ref="roleServiceClient" />
+        <property name="groupManager" ref="groupServiceClient" />
+        <property name="orgManager" ref="orgServiceClient" />
+    </bean>
       
        
  <!--     <bean id="createRequest" class="org.openiam.selfsrvc.prov.NewRequestController">

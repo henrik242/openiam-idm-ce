@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
- * Created by IntelliJ IDEA.
+ * Helper class to convert the comma separated string values used by the delegation filter into a list of String
  * User: suneetshah
  * Date: 4/28/11
  * Time: 9:35 PM

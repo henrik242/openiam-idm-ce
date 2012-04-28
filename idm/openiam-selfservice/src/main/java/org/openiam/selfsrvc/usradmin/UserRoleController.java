@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.openiam.idm.srvc.user.dto.UserAttribute;
+import org.openiam.selfsrvc.IdToObjectHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,6 +51,7 @@ public class UserRoleController extends SimpleFormController {
 	protected String redirectView;
 	protected ProvisionService provRequestService; 
 	protected UserDataWebService userMgr;
+    private IdToObjectHelper listToObject;
 	
 	private static final Log log = LogFactory.getLog(UserRoleController.class);
 
@@ -105,10 +107,24 @@ public class UserRoleController extends SimpleFormController {
 		
 		// get the list of roles
 		List<Role> fullRoleList = new ArrayList<Role>();
-		List<Role> roleList = roleDataService.getAllRoles().getRoleList();
+		List<Role> roleList = null;
+
+        if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+            Map<String, UserAttribute> attrMap = usr.getUserAttributes();
+
+            roleList = listToObject.roleList(attrMap);
+            if (roleList == null || roleList.isEmpty()) {
+                roleList = roleDataService.getAllRoles().getRoleList();
+            }
+
+        } else {
+            roleList = roleDataService.getAllRoles().getRoleList();
+
+        }
 
 
-		// get the roles that the user has
+
+        // get the roles that the user has
 		RoleListResponse resp =  roleDataService.getUserRolesAsFlatList(personId);
 		
 		if (resp != null && resp.getStatus() == ResponseStatus.SUCCESS) {
@@ -304,7 +320,11 @@ public class UserRoleController extends SimpleFormController {
 		this.userMgr = userMgr;
 	}
 
+    public IdToObjectHelper getListToObject() {
+        return listToObject;
+    }
 
-
-	
+    public void setListToObject(IdToObjectHelper listToObject) {
+        this.listToObject = listToObject;
+    }
 }

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.openiam.idm.srvc.user.dto.*;
+import org.openiam.selfsrvc.IdToObjectHelper;
 import org.openiam.selfsrvc.usradmin.DelegationFilterHelper;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -97,6 +98,7 @@ public class NewUserNoAppController extends AbstractWizardFormController {
 	protected ProvisionService provisionService;
 	protected IdmAuditLogWebDataService auditService;
     protected Boolean emailCredentialsToUser;
+    private IdToObjectHelper listToObject;
 
 	String defaultDomainId;
 	String menuGroup;
@@ -349,9 +351,9 @@ public class NewUserNoAppController extends AbstractWizardFormController {
         List<Organization> divList = null;
         List<Organization> deptList = null;
         List<Role> roleList = null;
+        List<Group> groupList =null;
 
-
-        if (usr.getDelAdmin() != null &&  usr.getDelAdmin().intValue() == 0) {
+        if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
             Map<String, UserAttribute> attrMap = usr.getUserAttributes();
 
             orgList =  getFilteredList(DelegationFilterHelper.getOrgIdFilterFromString(attrMap), orgManager.getOrganizationList(null,"ACTIVE")) ;
@@ -359,6 +361,8 @@ public class NewUserNoAppController extends AbstractWizardFormController {
             divList =  getFilteredList(DelegationFilterHelper.getDivisionFilterFromString(attrMap), orgManager.allDivisions(null) ) ;
 
             deptList =  getFilteredList(DelegationFilterHelper.getDeptFilterFromString(attrMap), orgManager.allDepartments(null) ) ;
+
+            groupList =  listToObject.groupList(attrMap);
 
             // filter the role
             List<String> roleIdList = DelegationFilterHelper.getRoleFilterFromString(attrMap);
@@ -393,15 +397,11 @@ public class NewUserNoAppController extends AbstractWizardFormController {
 
             roleList = roleDataService.getAllRoles().getRoleList();
 
+            groupList = groupManager.getAllGroups().getGroupList();
+
         }
 
 
-		
-
-		// get the list of groups that this user belongs to
-		List<Group> groupList = groupManager.getAllGroups().getGroupList();	
-		// get the list of roles that this user belongs to
-		
 		
 		// get the list of job codes
 		List<ReferenceData> jobCodeList = refDataService.getRefByGroup("JOB_CODE", "en");
@@ -624,5 +624,13 @@ public class NewUserNoAppController extends AbstractWizardFormController {
 
     public void setEmailCredentialsToUser(Boolean emailCredentialsToUser) {
         this.emailCredentialsToUser = emailCredentialsToUser;
+    }
+
+    public IdToObjectHelper getListToObject() {
+        return listToObject;
+    }
+
+    public void setListToObject(IdToObjectHelper listToObject) {
+        this.listToObject = listToObject;
     }
 }

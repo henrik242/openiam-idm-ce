@@ -114,9 +114,8 @@ public class EditUserController extends CancellableFormController {
         User usr = (User)session.getAttribute("userObj");
 		
         // filter drop downs if for delegated admin
-        if (usr.getDelAdmin() != null &&  usr.getDelAdmin().intValue() == 0) {
+        if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
 
-            System.out.println("Using delegation filter for drop downs");
 
             Map<String, UserAttribute> attrMap = usr.getUserAttributes();
 
@@ -131,8 +130,6 @@ public class EditUserController extends CancellableFormController {
 
 
         }else {
-
-            System.out.println("No delegation filter for drop downs");
 
             // get the organizations
             dataMap.put("orgList", orgManager.getOrganizationList(null,"ACTIVE")); // orgManager.getTopLevelOrganizations() );

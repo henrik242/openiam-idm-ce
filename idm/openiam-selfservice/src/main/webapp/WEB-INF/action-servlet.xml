@@ -38,7 +38,14 @@
     	<property name="refDataService" ref="referenceDataServiceClient" />	
     	<property name="userMgr" ref="userServiceClient" />	
     	<property name="configuration" ref="appConfiguration" />
-    	<property name="metadataService" ref="metadataServiceClient" />	
+    	<property name="metadataService" ref="metadataServiceClient" />
+        <property name="listToObject" ref="listHelper" />
+    </bean>
+
+    <bean id="listHelper" class="org.openiam.selfsrvc.IdToObjectHelper">
+        <property name="roleDataService" ref="roleServiceClient" />
+        <property name="groupManager" ref="groupServiceClient" />
+        <property name="orgManager" ref="orgServiceClient" />
     </bean>
 
 

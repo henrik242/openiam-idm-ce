@@ -22,6 +22,7 @@ import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.selfsrvc.AppConfiguration;
+import org.openiam.selfsrvc.IdToObjectHelper;
 import org.springframework.web.struts.DispatchActionSupport;
 
 import javax.servlet.ServletException;
@@ -43,26 +44,42 @@ public class UserSearchAction extends DispatchActionSupport {
     private ReferenceDataService refDataService;
     private int maxResultSize;
     private UserDataWebService userMgr;
-    protected AppConfiguration configuration;
-    protected MetadataWebService metadataService;
+    private AppConfiguration configuration;
+    private MetadataWebService metadataService;
+    private IdToObjectHelper listToObject;
 
 
     public ActionForward view(ActionMapping mapping, ActionForm form,
-                              HttpServletRequest request, HttpServletResponse res)
-            throws IOException, ServletException {
+                              HttpServletRequest request, HttpServletResponse res) {
 
         // set the side menu bar
         String menuId = request.getParameter("menuid");
         request.setAttribute("menuGroup", menuId);
         String mode = request.getParameter("mode");
 
+        HttpSession session = request.getSession();
+        User usr = (User) session.getAttribute("userObj");
 
-        request.setAttribute("groupList", allGroupListAsLabels());
-        request.setAttribute("roleList", allRoleListAsLabels());
+
+        if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+            Map<String, UserAttribute> attrMap = usr.getUserAttributes();
+
+            session.setAttribute("orgList", orgAsLabel(listToObject.organizationList(attrMap)));
+            session.setAttribute("roleList", roleAsLabel(listToObject.roleList(attrMap)));
+            session.setAttribute("groupList", groupAsLabel(listToObject.groupList(attrMap)));
+
+
+        } else {
+
+            request.setAttribute("groupList", allGroupListAsLabels());
+            request.setAttribute("roleList", allRoleListAsLabels());
+            session.setAttribute("orgList", allOrganizationAsLabels());
+        }
+
         if (mode != null && mode.length() > 0) {
             request.setAttribute("msg", "Information has been successfully updated. ");
         }
-        HttpSession session = request.getSession();
+
         List statusList = (List) session.getAttribute("statusList");
 
         if (statusList == null) {
@@ -72,11 +89,11 @@ public class UserSearchAction extends DispatchActionSupport {
             session.setAttribute("secondaryStatusList", secondaryStatusList);
         }
 
-        session.setAttribute("orgList", allOrganizationAsLabels());
 
         session.setAttribute("elementList", getComleteMetadataElementList());
         return (mapping.findForward("view"));
     }
+
 
     private List getComleteMetadataElementList() {
         log.info("getUserMetadataTypes called.");
@@ -106,17 +123,25 @@ public class UserSearchAction extends DispatchActionSupport {
      * Retrieves a list of Users based on the search criteria
      */
     public ActionForward search(ActionMapping mapping, ActionForm form,
-                                HttpServletRequest request, HttpServletResponse res)
-            throws IOException, ServletException {
+                                HttpServletRequest request, HttpServletResponse res) {
         try {
-            List statusList = null;
 
             HttpSession session = request.getSession();
             User usr = (User) session.getAttribute("userObj");
 
+            if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+                Map<String, UserAttribute> attrMap = usr.getUserAttributes();
 
-            request.setAttribute("groupList", allGroupListAsLabels());
-            request.setAttribute("roleList", allRoleListAsLabels());
+                session.setAttribute("roleList", roleAsLabel(listToObject.roleList(attrMap)));
+                session.setAttribute("groupList", groupAsLabel(listToObject.groupList(attrMap)));
+
+
+            } else {
+
+                request.setAttribute("groupList", allGroupListAsLabels());
+                request.setAttribute("roleList", allRoleListAsLabels());
+            }
+
 
             // Search search = new SearchImpl();
             UserSearch search = createSearch((DynaValidatorForm) form, usr);
@@ -125,13 +150,13 @@ public class UserSearchAction extends DispatchActionSupport {
                 request.setAttribute("msg", "Please enter search criteria ");
                 return (mapping.findForward("success"));
             }
-            search.setMaxResultSize(new Integer(this.maxResultSize));
+            search.setMaxResultSize(this.maxResultSize);
 
             List userList = userMgr.search(search).getUserList();
 
             if (userList != null) {
                 request.setAttribute("userList", userList);
-                request.setAttribute("resultSize", new Integer(userList.size()));
+                request.setAttribute("resultSize", userList.size());
             }
 
             // request.setAttribute("groupList", groupList);
@@ -147,8 +172,9 @@ public class UserSearchAction extends DispatchActionSupport {
 
         if (codeList != null && codeList.size() > 0) {
             newCodeList.add(new LabelValueBean("", ""));
-            for (int i = 0; i < codeList.size(); i++) {
-                ReferenceData val = codeList.get(i);
+
+            for (ReferenceData val : codeList ) {
+
                 LabelValueBean label = new LabelValueBean(val.getDescription(),
                         val.getId().getStatusCd());
                 newCodeList.add(label);
@@ -164,8 +190,9 @@ public class UserSearchAction extends DispatchActionSupport {
 
         if (codeList != null && codeList.size() > 0) {
             newCodeList.add(new LabelValueBean("", ""));
-            for (int i = 0; i < codeList.size(); i++) {
-                ReferenceData val = codeList.get(i);
+
+            for (ReferenceData val : codeList) {
+
                 LabelValueBean label = new LabelValueBean(val.getDescription(),
                         val.getId().getStatusCd());
                 newCodeList.add(label);
@@ -178,6 +205,7 @@ public class UserSearchAction extends DispatchActionSupport {
 
     private UserSearch createSearch(DynaValidatorForm form, User usr) {
         UserSearch search = new UserSearch();
+        Map<String, UserAttribute> attrMap = usr.getUserAttributes();
 
         // lastname
         if (form.get("lastName") != null
@@ -192,6 +220,16 @@ public class UserSearchAction extends DispatchActionSupport {
         if (form.get("companyName") != null
                 && ((String) form.get("companyName")).length() > 0) {
             search.setOrgId((String) form.get("companyName"));
+        } else {
+
+            if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+                // a company was not selected then make sure that we only select users in the orgs that the user can manage
+                List<String> orgFilterList = DelegationFilterHelper.getOrgIdFilterFromString(attrMap);
+                if (orgFilterList != null && orgFilterList.size() > 0) {
+                    search.setOrgIdList(orgFilterList);
+                }
+            }
+
         }
 
         if (form.get("dept") != null
@@ -218,11 +256,22 @@ public class UserSearchAction extends DispatchActionSupport {
             search.setRoleIdList(roleList);
             search.setDomainId(domainId);
         }
+
         if (form.get("group") != null
                 && ((String) form.get("group")).length() > 0) {
             List<String> groupList = new ArrayList<String>();
             groupList.add((String) form.get("group"));
             search.setGroupIdList(groupList);
+        } else {
+            if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
+                // a company was not selected then make sure that we only select users in the orgs that the user can manage
+                List<String> groupFilterList = DelegationFilterHelper.getGroupFilterFromString(attrMap);
+                if (groupFilterList != null && groupFilterList.size() > 0) {
+                    search.setGroupIdList(groupFilterList);
+
+                }
+            }
+
         }
         if (form.get("email") != null
                 && ((String) form.get("email")).length() > 0) {
@@ -253,34 +302,16 @@ public class UserSearchAction extends DispatchActionSupport {
         }
 
         if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
-            Map<String, UserAttribute> attrMap = usr.getUserAttributes();
-            List<String> deptFilterList = null;
-            List<String> orgFilterList = null;
-            List<String> divFilterList = null;
-            List<String> groupFilterList = null;
 
-            deptFilterList = DelegationFilterHelper.getDeptFilterFromString(attrMap);
+            List<String> deptFilterList =  DelegationFilterHelper.getDeptFilterFromString(attrMap);
             if (deptFilterList != null && deptFilterList.size() > 0) {
                 search.setDeptIdList(deptFilterList);
 
             }
 
-
-            orgFilterList = DelegationFilterHelper.getOrgIdFilterFromString(attrMap);
-            if (orgFilterList != null && orgFilterList.size() > 0) {
-                search.setOrgIdList(orgFilterList);
-            }
-
-
-            divFilterList = DelegationFilterHelper.getDivisionFilterFromString(attrMap);
+            List<String> divFilterList = DelegationFilterHelper.getDivisionFilterFromString(attrMap);
             if (divFilterList != null && divFilterList.size() > 0) {
                 search.setDivisionIdList(divFilterList);
-
-            }
-
-            groupFilterList = DelegationFilterHelper.getGroupFilterFromString(attrMap);
-            if (groupFilterList != null && groupFilterList.size() > 0) {
-                search.setGroupIdList(groupFilterList);
 
             }
 
@@ -290,14 +321,15 @@ public class UserSearchAction extends DispatchActionSupport {
     }
 
 
-    public List allGroupListAsLabels() {
+    private List allGroupListAsLabels() {
         List<LabelValueBean> newCodeList = new LinkedList();
         try {
             List<Group> grpList = groupManager.getAllGroups().getGroupList();
             if (grpList != null && grpList.size() > 0) {
                 newCodeList.add(new LabelValueBean("", ""));
-                for (int i = 0; i < grpList.size(); i++) {
-                    Group val = grpList.get(i);
+
+                for (Group val : grpList) {
+
                     LabelValueBean label = new LabelValueBean(val.getGrpName(), val
                             .getGrpId());
                     newCodeList.add(label);
@@ -309,14 +341,15 @@ public class UserSearchAction extends DispatchActionSupport {
         return newCodeList;
     }
 
-    public List allRoleListAsLabels() {
+    private List allRoleListAsLabels() {
         List<LabelValueBean> newCodeList = new LinkedList();
         try {
             List<Role> roleList = roleDataService.getAllRoles().getRoleList();
             if (roleList != null && roleList.size() > 0) {
                 newCodeList.add(new LabelValueBean("", ""));
-                for (int i = 0; i < roleList.size(); i++) {
-                    Role val = roleList.get(i);
+
+                for (Role val : roleList ) {
+
                     LabelValueBean label = new LabelValueBean(val.getId().getServiceId() + "->" + val.getRoleName(),
                             val.getId().getServiceId() + "*" + val.getId().getRoleId());
                     newCodeList.add(label);
@@ -331,13 +364,74 @@ public class UserSearchAction extends DispatchActionSupport {
     private List allOrganizationAsLabels() {
         List<LabelValueBean> newCodeList = new LinkedList();
         try {
-            List<Organization> orgList = this.orgManager.getAllOrganizations();
+
+
+            List<Organization> orgList = this.orgManager.getTopLevelOrganizations();
             if (orgList != null && orgList.size() > 0) {
                 newCodeList.add(new LabelValueBean("", ""));
-                for (int i = 0; i < orgList.size(); i++) {
-                    Organization org = orgList.get(i);
+                for ( Organization org : orgList ) {
+
                     LabelValueBean label = new LabelValueBean(org.getOrganizationName(),
                             org.getOrgId());
+                    newCodeList.add(label);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newCodeList;
+    }
+
+    private List orgAsLabel(List<Organization> orgList) {
+        List<LabelValueBean> newCodeList = new LinkedList();
+        newCodeList.add(new LabelValueBean("<Please Select>", ""));
+
+        try {
+            if (orgList != null && orgList.size() > 0) {
+
+                for (Organization org : orgList ) {
+
+                    LabelValueBean label = new LabelValueBean(org.getOrganizationName(),
+                            org.getOrgId());
+                    newCodeList.add(label);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newCodeList;
+    }
+
+    private List groupAsLabel(List<Group> grpList) {
+        List<LabelValueBean> newCodeList = new LinkedList();
+        newCodeList.add(new LabelValueBean("<Please Select>", ""));
+
+        try {
+            if (grpList != null && grpList.size() > 0) {
+
+                for (Group grp : grpList ) {
+
+                    LabelValueBean label = new LabelValueBean(grp.getGrpName(),
+                            grp.getGrpId());
+                    newCodeList.add(label);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newCodeList;
+    }
+
+    private List roleAsLabel(List<Role> roleList) {
+        List<LabelValueBean> newCodeList = new LinkedList();
+        newCodeList.add(new LabelValueBean("<Please Select>", ""));
+
+        try {
+            if (roleList != null && roleList.size() > 0) {
+                for (Role role : roleList) {
+
+                    LabelValueBean label = new LabelValueBean(role.getRoleName(),
+                            role.getId().getServiceId() + "*" + role.getId().getRoleId());
                     newCodeList.add(label);
                 }
             }
@@ -420,4 +514,11 @@ public class UserSearchAction extends DispatchActionSupport {
         this.metadataService = metadataService;
     }
 
+    public IdToObjectHelper getListToObject() {
+        return listToObject;
+    }
+
+    public void setListToObject(IdToObjectHelper listToObject) {
+        this.listToObject = listToObject;
+    }
 }
