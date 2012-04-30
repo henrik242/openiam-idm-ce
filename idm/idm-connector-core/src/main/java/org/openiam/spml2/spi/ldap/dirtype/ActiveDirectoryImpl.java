@@ -2,6 +2,7 @@ package org.openiam.spml2.spi.ldap.dirtype;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
 import org.openiam.spml2.msg.DeleteRequestType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
@@ -11,6 +12,7 @@ import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import javax.naming.NamingException;
 import javax.naming.directory.ModificationItem;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapContext;
@@ -85,6 +87,18 @@ public class ActiveDirectoryImpl implements Directory {
         }
 
     }
+
+    public void removeAccountMemberships( String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
+
+    }
+
+    public void updateAccountMembership(List<String> targetMembershipList, String ldapName,
+                                        ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
+
+
+
+    }
+
 
     public void setAttributes(String name, Object obj) {
 

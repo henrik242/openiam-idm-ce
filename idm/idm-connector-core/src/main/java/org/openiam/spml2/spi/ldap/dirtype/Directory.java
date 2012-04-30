@@ -1,5 +1,6 @@
 package org.openiam.spml2.spi.ldap.dirtype;
 
+import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.spml2.msg.DeleteRequestType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
@@ -9,6 +10,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.LdapContext;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,5 +41,10 @@ public interface Directory {
     void setAttributes(String name, Object obj);
 
     void delete(DeleteRequestType reqType, LdapContext ldapctx, String ldapName, String onDelete ) throws NamingException;
+
+    void removeAccountMemberships( String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx );
+
+    void updateAccountMembership(List<String> targetMembershipList, String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx );
+
     
 }

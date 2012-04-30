@@ -6,6 +6,8 @@ import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
+import org.openiam.spml2.spi.ldap.dirtype.Directory;
+import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
@@ -77,6 +79,9 @@ public class LdapAddCommand extends LdapAbstractCommand {
                 throw new ConfigurationException("LDAP configuration is missing configuration information");
             }
 
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+
+
             log.debug("baseDN=" + matchObj.getBaseDn());
             log.debug("ID field=" + matchObj.getKeyField());
 
@@ -103,52 +108,9 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
             Context result = ldapctx.createSubcontext(ldapName, basicAttr);
 
-
-
-           /* ModificationItem passwordMod[] = getLdapPassword(reqType.getData().getAny(), ldapName);
-            if (passwordMod != null) {
-
-                log.debug("Assigning password to user ");
-                ldapctx.modifyAttributes(ldapName, passwordMod);
-            }
-            */
-
             log.debug("Associating user to objects for membership");
 
-            // check if we already have any assocattions for this user - could be left over from an earlier time
-           // List<String> existingAccountMembership = getAccountMembership(ldapName, matchObj, ldapctx);
-
-            List<String> existingAccountMembership = userMembershipList(ldapName, matchObj, ldapctx);
-
-
-            // get objects that have a dataType of "memberOf"
-            for (ExtensibleObject obj : reqType.getData().getAny()) {
-                List<ExtensibleAttribute> attrList = obj.getAttributes();
-                for (ExtensibleAttribute att : attrList) {
-
-
-
-                    if ( att.getDataType() != null &&  "memberOf".equalsIgnoreCase(att.getDataType()) ) {
-                        List<String> membershipList = att.getValueList();
-                        for (String s : membershipList) {
-                            if (s != null && s.length() > 0) {
-
-                                // check if the user already has membership in this object.
-                                // ldapName and S
-                                if ( !isMemberOf(existingAccountMembership, s) ) {
-
-                                    ModificationItem mods[] = new ModificationItem[1];
-                                    mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute(att.getName(), ldapName));
-                                    ldapctx.modifyAttributes(s, mods);
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-
-
+            dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj, ldapctx);
 
 
         } catch (NamingException ne) {
