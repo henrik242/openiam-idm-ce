@@ -110,7 +110,7 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
             log.debug("Associating user to objects for membership");
 
-            dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj, ldapctx);
+            dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj, ldapctx, reqType.getData().getAny());
 
 
         } catch (NamingException ne) {

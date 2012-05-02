@@ -43,6 +43,8 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         log.debug("LDAP Modify request called..");
         ConnectionMgr conMgr = null;
         LdapContext ldapctx = null;
+        List<ExtensibleObject> extobjectList = null;
+
 
          List<String> targetMembershipList = new ArrayList<String>();
 
@@ -121,7 +123,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                 List<ModificationType> modTypeList = reqType.getModification();
                 for (ModificationType mod : modTypeList) {
                     ExtensibleType extType = mod.getData();
-                    List<ExtensibleObject> extobjectList = extType.getAny();
+                    extobjectList = extType.getAny();
                     for (ExtensibleObject obj : extobjectList) {
 
 
@@ -222,7 +224,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
             for (ModificationType mod : modTypeList) {
 
                 ExtensibleType extType = mod.getData();
-                List<ExtensibleObject> extobjectList = extType.getAny();
+                extobjectList = extType.getAny();
 
                 log.debug("Modify: Extensible Object List =" + extobjectList );
 
@@ -252,7 +254,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
         }
 
-        dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj[0], ldapctx);
+        dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj[0], ldapctx, extobjectList);
 
         return respType;
     }

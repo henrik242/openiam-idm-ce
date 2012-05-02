@@ -1,6 +1,7 @@
 package org.openiam.spml2.spi.ldap.dirtype;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
+import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.DeleteRequestType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
@@ -44,7 +45,7 @@ public interface Directory {
 
     void removeAccountMemberships( String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx );
 
-    void updateAccountMembership(List<String> targetMembershipList, String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx );
+    void updateAccountMembership(List<String> targetMembershipList, String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx, List<ExtensibleObject> requestAttribute );
 
     
 }

@@ -7,6 +7,7 @@ import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
+import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.DeleteRequestType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
@@ -126,7 +127,8 @@ public class LdapV3 implements Directory{
     }
 
     public void updateAccountMembership(List<String> targetMembershipList, String ldapName,
-                                        ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
+                                        ManagedSystemObjectMatch matchObj,  LdapContext ldapctx,
+                                        List<ExtensibleObject> requestAttribute) {
 
         List<String> currentMembershipList = userMembershipList(ldapName, matchObj,   ldapctx);
 
