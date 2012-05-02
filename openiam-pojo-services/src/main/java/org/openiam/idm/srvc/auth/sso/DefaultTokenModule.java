@@ -45,6 +45,8 @@ public class DefaultTokenModule implements SSOTokenModule {
 	
 	protected Cryptor cryptor;
 	protected int tokenLife;
+
+    static final int MIN_AS_MILLIS = 60000;
 	
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.auth.sso.SSOToken#createToken(java.util.Map)
@@ -83,6 +85,8 @@ public class DefaultTokenModule implements SSOTokenModule {
 		String decTime;			// decrypted time
 
 		String decString = null;
+        long curTime = System.currentTimeMillis();
+
 		try {
 			
 			log.debug("Token=" + token);
@@ -102,7 +106,7 @@ public class DefaultTokenModule implements SSOTokenModule {
 			return false;
 		}
 		
-		log.debug("userId = " + decUserId );
+		log.debug("- userId = " + decUserId );
 		
 		if (tokenizer.hasMoreTokens()) {
 			decTime =  tokenizer.nextToken();
@@ -110,21 +114,27 @@ public class DefaultTokenModule implements SSOTokenModule {
 			return false;
 		}
 		
-		log.debug("time = " + decTime );
+
 		
 		if (!decUserId.equalsIgnoreCase(userId))
 			return false;
 		
 		long ldecTime = Long.parseLong( decTime );
 
-        log.debug("Token life = " + getIdleTime());
+        log.debug("- Time found in Token => " + ldecTime );
+        log.debug("- Time found in Token as date => " + new Date(ldecTime) );
+
+        log.debug("- Token life in millis => " + getIdleTime());
 
         // decTime + idleTime = validTime for Token
-        long tokenValidTime = ldecTime + getIdleTime();
+       // long tokenValidTime = ldecTime + getIdleTime();
 
-        log.debug("Valid token time=" + tokenValidTime + " curtime = " + System.currentTimeMillis());
+        log.debug("Valid token time=" + ldecTime + " curtime = " + curTime);
+        log.debug("Token is valid till = " + new Date(ldecTime));
+        log.debug("Current time=" + new Date(curTime));
+        log.debug("Diff between token and curTime = " + (ldecTime - curTime));
 
-		if ( System.currentTimeMillis() > tokenValidTime ) {
+		if ( curTime > ldecTime ) {
 			//current time is greater then the allowed idle time
 			
 			log.debug("Token Failed time check"  );
