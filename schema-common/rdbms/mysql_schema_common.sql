@@ -916,7 +916,7 @@ CREATE TABLE IDM_AUDIT_LOG (
       USER_ID              varchar(32) NULL,
       SERVICE_ID           varchar(20) NULL,
       LOGIN_ID             varchar(320) CHARACTER SET latin1 NULL, /* Must be latin1. See LOGIN.LOGIN */
-      HOST                 varchar(60) NULL,              /* HOST WHERE THE EVENT OCCURRED */
+      HOST                 varchar(100) NULL,              /* HOST WHERE THE EVENT OCCURRED */
       NODE_IP              VARCHAR(60) NULL,              /* NODE THAT SENT THE REQUEST TO THE IDM SERVER */
       CLIENT_ID            VARCHAR(20) NULL,              /* CLIENT, AGENT OR INTERFACE WHERE THIS EVENT OCCURRED      */
       REQ_URL              varchar(255) NULL,

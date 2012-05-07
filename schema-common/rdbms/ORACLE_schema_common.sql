@@ -907,7 +907,7 @@ CREATE TABLE IAMUSER.IDM_AUDIT_LOG (
       USER_ID              VARCHAR2(32) NULL,
       SERVICE_ID           VARCHAR2(20) NULL,
       LOGIN_ID             VARCHAR2(320) NULL,     
-      HOST                 VARCHAR2(60) NULL,              /* HOST WHERE THE EVENT OCCURRED */
+      HOST                 VARCHAR2(100) NULL,              /* HOST WHERE THE EVENT OCCURRED */
        NODE_IP              VARCHAR2(60) NULL,              /* NODE THAT SENT THE REQUEST TO THE IDM SERVER */
       CLIENT_ID            VARCHAR2(20) NULL,              /* CLIENT, AGENT OR INTERFACE WHERE THIS EVENT OCCURRED      */
       REQ_URL              VARCHAR2(255) NULL,
