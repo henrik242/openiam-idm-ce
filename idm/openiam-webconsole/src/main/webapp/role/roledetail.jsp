@@ -2,9 +2,12 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%
+    String mode = request.getParameter("mode");
 
+%>
 
         
 		<table  width="700pt">
@@ -17,7 +20,16 @@
 						</td>
 						</tr>
 					</table>
-			</td>
+			    </td>
+            </tr>
+            <% if ("1".equals(mode)) { %>
+            <tr>
+                <td><font color="red">The information has been successfully saved.<br>
+                    To exit this screen press [Cancel]</font>
+                </td>
+            </tr>
+            <% } %>
+
 			<tr>
 				<td>       
 <form:form commandName="roleDetailCmd">
@@ -108,9 +120,53 @@
               <td><label for="username" class="attribute">Create</label></td>
 			  			<td><label for="username" class="attribute">On</label> ${roleDetailCmd.role.createDate} by ${roleDetailCmd.role.createdBy} 
 			  </td>
-		  </tr>	
-  
-	</TABLE>        
+		  </tr>
+
+                <tr>
+                    <td colspan="2">
+
+                        <table width="600pt" >
+                            <tr>
+                                <td align="center" height="100%">
+                                    <fieldset class="userform" >
+                                        <legend>CUSTOM ATTRIBUTES </legend>
+                                        <table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">
+
+                                            <tr class="header">
+                                                <th>Name</th>
+                                                <th>Value</th>
+                                            </tr>
+
+                                            <c:if test="${roleDetailCmd.attributeList != null}" >
+                                                <c:forEach items="${roleDetailCmd.attributeList}" var="attributeList" varStatus="attr">
+                                                    <tr>
+                                                        <td><form:input path="attributeList[${attr.index}].name" size="20"  />
+
+                                                            <form:hidden path="attributeList[${attr.index}].roleAttrId" />
+                                                            <form:hidden path="attributeList[${attr.index}].roleId" />
+                                                            <form:hidden path="attributeList[${attr.index}].serviceId" />
+
+                                                        </td>
+                                                        <td>
+                                                            <form:input path="attributeList[${attr.index}].value" size="40" maxlength="200" /> </td>
+                                                    </tr>
+
+                                                </c:forEach>
+                                            </c:if>
+                                            <tr>
+                                                <td colspan="2"><i>To remove a custom attribute, leave the name blank</i><br>
+                                                    <i>To add a new row, click on SAVE first. A new row will be added.</i></td>
+                                            </tr>
+                                        </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+                </TABLE>
 
 
           <tr class="buttonRow" align="right">
@@ -118,7 +174,7 @@
               <c:if test="${roleDetailCmd.role.id != null}" >
               	<input type="submit" name="btn" value="Delete" onclick="return confirm('Are you sure you want to delete this Role');">
               </c:if>
-              <input type="submit" name="btn" value="Save"> </td>
+              <input type="submit" name="btn" value="Save"> <input type="submit" name="_cancel" value="Cancel" /></td>
           </tr>
 </table>
 </form:form>

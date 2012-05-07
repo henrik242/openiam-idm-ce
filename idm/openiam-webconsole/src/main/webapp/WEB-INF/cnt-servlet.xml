@@ -115,11 +115,14 @@
 		<property name="metadataService" ref="metadataServiceClient" />	
 		<property name="roleTypeCategory" value="ROLE_TYPE" />	
 		<property name="menuGroup" value="SECURITY_ROLE" />	
-		<property name="redirectView" value="rolelist.cnt?mode=1" />
+		<property name="redirectView" value="roleDetail.cnt?mode=1" />
 		<property name="validator" ref="roleDetailValidator" />
 		<property name="auditHelper" ref="auditHelper" />
 		<property name="navigationDataService" ref="navServiceClient" />
+         <property name="cancelView" value="rolelist.cnt" />
      </bean>
+
+
      <bean id="roleDetailValidator" class="org.openiam.webadmin.role.RoleDetailValidator" >
      <property name="roleDataService" ref="roleServiceClient" />
      </bean>
