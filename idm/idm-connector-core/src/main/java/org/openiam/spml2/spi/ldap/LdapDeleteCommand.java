@@ -54,8 +54,8 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
         /* A) Use the targetID to look up the connection information under managed systems */
         ManagedSys managedSys = managedSysService.getManagedSys(targetID);
-
         ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(targetID, "USER");
+
 
         Set<ResourceProp> rpSet = getResourceAttributes(managedSys.getResourceId());
 
@@ -87,6 +87,10 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
         try {
 
             log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
+
+
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             conMgr.setApplicationContext(ac);
             LdapContext ldapctx = conMgr.connect(managedSys);
@@ -95,11 +99,8 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
 
             if (groupMembershipEnabled) {
-                removeAccountMemberships(ldapName, matchObj[0], ldapctx);
+                dirSpecificImp.removeAccountMemberships(ldapName, matchObj[0], ldapctx);
             }
-
-            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
-
 
             dirSpecificImp.delete(reqType, ldapctx, ldapName, delete);
 
@@ -134,35 +135,6 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
 
     }
-
-    private void removeAccountMemberships( String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
-
-        // get the accounts current membership list
-        //List<String> currentMembershipList =  getAccountMembership(ldapName, matchObj,   ldapctx);
-
-        List<String> currentMembershipList =  userMembershipList(ldapName, matchObj,   ldapctx);
-
-        log.debug("Current ldap role membership:" + currentMembershipList);
-
-
-        // remove membership
-        if (currentMembershipList != null) {
-            for (String s : currentMembershipList) {
-
-                    try {
-                       ModificationItem mods[] = new ModificationItem[1];
-                       mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
-                       ldapctx.modifyAttributes(s, mods);
-                    }catch (NamingException ne ) {
-                      log.error(ne);
-                    }
-                }
-            }
-
-
-    }
-
-
 
 
 }

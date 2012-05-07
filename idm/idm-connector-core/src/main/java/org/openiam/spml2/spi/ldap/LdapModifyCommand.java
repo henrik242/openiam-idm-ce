@@ -7,6 +7,8 @@ import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
 import org.openiam.spml2.spi.jdbc.AppTableAbstractCommand;
+import org.openiam.spml2.spi.ldap.dirtype.Directory;
+import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
 import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
@@ -41,6 +43,8 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         log.debug("LDAP Modify request called..");
         ConnectionMgr conMgr = null;
         LdapContext ldapctx = null;
+        List<ExtensibleObject> extobjectList = null;
+
 
          List<String> targetMembershipList = new ArrayList<String>();
 
@@ -108,6 +112,9 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         // move to separate method
         ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(targetID, "USER");
 
+        Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+
+
         if (isInDirectory(ldapName, matchObj[0], ldapctx)) {
 
             log.debug("ldapName found in directory. Update the record..");
@@ -116,7 +123,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                 List<ModificationType> modTypeList = reqType.getModification();
                 for (ModificationType mod : modTypeList) {
                     ExtensibleType extType = mod.getData();
-                    List<ExtensibleObject> extobjectList = extType.getAny();
+                    extobjectList = extType.getAny();
                     for (ExtensibleObject obj : extobjectList) {
 
 
@@ -221,7 +228,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
             for (ModificationType mod : modTypeList) {
 
                 ExtensibleType extType = mod.getData();
-                List<ExtensibleObject> extobjectList = extType.getAny();
+                extobjectList = extType.getAny();
 
                 log.debug("Modify: Extensible Object List =" + extobjectList );
 
@@ -249,99 +256,12 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                 }
             }
 
-
         }
 
-        modifyAccountMembership(targetMembershipList , ldapName, matchObj[0], ldapctx);
+        dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj[0], ldapctx, extobjectList);
 
         return respType;
     }
-
-    private void modifyAccountMembership(List<String>targetMembershipList, String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx ) {
-
-        log.debug("modifyAccountMembership() for: " + ldapName);
-
-        // get the accounts current membership list
-        //List<String> currentMembershipList =  getAccountMembership(ldapName, matchObj,   ldapctx);
-
-        List<String> currentMembershipList = userMembershipList(ldapName, matchObj,   ldapctx);
-
-        log.debug("Current ldap role membership:" + currentMembershipList);
-        log.debug("Target ldap role membership:"  + targetMembershipList);
-
-        if (targetMembershipList == null && currentMembershipList != null) {
-            // remove all associations
-            for (String s : currentMembershipList) {
-                    try {
-                        log.debug("Removing membership from: " + s + " - " + ldapName);
-                       ModificationItem mods[] = new ModificationItem[1];
-                       mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
-                       ldapctx.modifyAttributes(s, mods);
-                    }catch (NamingException ne ) {
-                      log.error(ne);
-                    }
-
-            }
-        }
-
-
-        // see if we need to add additional membership entries
-
-        if (targetMembershipList != null) {
-            for (String s : targetMembershipList) {
-                boolean found = false;
-                if (currentMembershipList != null) {
-                    for (String cur : currentMembershipList) {
-                        if (s.equalsIgnoreCase(cur))  {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found ) {
-                      if ( !isMemberOf(currentMembershipList, s) ) {
-                        try {
-                           ModificationItem mods[] = new ModificationItem[1];
-                           mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
-                           ldapctx.modifyAttributes(s, mods);
-                        }catch (NamingException ne ) {
-                          log.error(ne);
-                        }
-                      }
-                }
-            }
-        }
-
-        // remove membership
-        if (currentMembershipList != null) {
-            for (String s : currentMembershipList) {
-                boolean found = false;
-                if (targetMembershipList != null) {
-                    for (String cur : targetMembershipList) {
-                        if (s.equalsIgnoreCase(cur))  {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found ) {
-                    try {
-                        log.debug("Removing current membership from: " + s + " - " + ldapName);
-
-                       ModificationItem mods[] = new ModificationItem[1];
-                       mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
-                       ldapctx.modifyAttributes(s, mods);
-                    }catch (NamingException ne ) {
-                      log.error(ne);
-                    }
-                }
-            }
-        }
-
-
-    }
-
-
 
 
 

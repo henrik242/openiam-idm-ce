@@ -19,10 +19,12 @@ package org.openiam.webadmin.role;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.meta.dto.MetadataType;
 import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.dto.RoleAttribute;
 import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 
 /**
@@ -43,6 +45,8 @@ public class RoleDetailCommand implements Serializable {
 	private String mode;
 	private String resApproverId;
 	private String resApproverName;
+
+    private List<RoleAttribute> attributeList;
 	
 	public MetadataType[] getTypeList() {
 		return typeList;
@@ -76,8 +80,11 @@ public class RoleDetailCommand implements Serializable {
 		this.resApproverName = resApproverName;
 	}
 
-    
-    
-	
+    public List<RoleAttribute> getAttributeList() {
+        return attributeList;
+    }
 
+    public void setAttributeList(List<RoleAttribute> attributeList) {
+        this.attributeList = attributeList;
+    }
 }

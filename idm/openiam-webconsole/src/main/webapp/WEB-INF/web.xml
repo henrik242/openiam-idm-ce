@@ -42,10 +42,7 @@
       <param-name>expirePage</param-name>
       <param-value>/login.cnt?expire=1</param-value>
     </init-param>
-    <init-param>
-      <param-name>excludePath</param-name>
-      <param-value>/pub</param-value>
-    </init-param>
+
   </filter>
 
     <filter>

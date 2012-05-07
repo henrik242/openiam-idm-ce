@@ -94,7 +94,7 @@
 	</table>
 
           <tr>
-              <td align="left"> <a href="roleDetail.cnt?domainid=${domainId}&md=NEW">New Role</a></td>
+              <td align="left"> <a href="roleDetail.cnt?domainid=${domainId}&mode=NEW">New Role</a></td>
           </tr>
           
           

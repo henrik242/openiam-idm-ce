@@ -250,17 +250,15 @@ function showSupervisorDialog(idfield, namefield) {
 								  <form:option value="5" label="5" />
 				          		</form:select>
 						</td>
-						 <td  ><label for="username" class="attribute">Delegated-Admin</label></td>
-				         <td class="userformInput" for="username" class="labelValue" >
-                               <form:select path="user.delAdmin">
-								  <form:option value="0" label="NO"  />
-					              <form:option value="1" label="YES" />
-				          		</form:select>
-						</td>
-				
-						</td>
-						<td align="right" colspan="2"></td>
-				
+                        <td><label for="username" class="attribute">Delegated-Admin</label></td>
+                        <td class="userformInput" for="username" class="labelValue" colspan="3" >
+                            <form:select path="user.delAdmin">
+                                <form:option value="0" label="NO"  />
+                                <form:option value="1" label="YES" />
+                            </form:select><br>
+                            <i>Use the delegation filter to define admin capabilities.</>
+                        </td>
+
 				    </tr>
 
 				   <tr>

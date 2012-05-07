@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for roleAttribute complex type.
+ * <p>Java class for roleAttribute.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.XmlType;
     "metadataElementId",
     "name",
     "value",
-    //"role",
     "attrGroup"
     
 })
