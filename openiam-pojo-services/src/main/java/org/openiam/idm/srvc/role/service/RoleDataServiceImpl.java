@@ -582,20 +582,26 @@ public class RoleDataServiceImpl implements RoleDataService {
 		}
 		List<Role> newRoles = new ArrayList<Role>(newRoleSet);
 		// for each of these roles, figure out if there are roles above it in the hierarchy
-		
-		List<Role> newRoleList = new ArrayList<Role>();
+
+        // store the roles in sorted order
+        Set<Role> roleSet = new TreeSet<Role>();
+		//List<Role> newRoleList = new ArrayList<Role>();
 		for (Role rl : newRoles ) {
-			log.info("Role id=" + rl.getId() + " parentId=" + rl.getParentRoleId() );
-			if (rl.getParentRoleId() == null) {
-				newRoleList.add(rl);
+
+            log.debug("Role id=" + rl.getId() + " parentId=" + rl.getParentRoleId() );
+
+            if (rl.getParentRoleId() == null) {
+                roleSet.add(rl);
 			}else {
-				log.info("Get the parent role for parentId=" + rl.getParentRoleId());
-				newRoleList.add(rl);
-				newRoleList.addAll(getParentRoleFlat(rl));
+
+                log.debug("Get the parent role for parentId=" + rl.getParentRoleId());
+
+                roleSet.add(rl);
+                roleSet.addAll(getParentRoleFlat(rl));
 			}
 		}
-		
-		
+
+        List<Role> newRoleList = new ArrayList<Role>(roleSet);
 		return newRoleList;		
 	}
 	
