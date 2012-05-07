@@ -126,6 +126,10 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
                             log.debug("Extensible Attribute: " + att.getName() + " " + att.getDataType() );
 
+                            if ( att.getDataType() == null) {
+                                continue;
+                            }
+
                             if ( att.getDataType().equalsIgnoreCase("memberOf")) {
                                 buildMembershipList(att,targetMembershipList);
                             }

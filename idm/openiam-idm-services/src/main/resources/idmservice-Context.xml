@@ -330,6 +330,7 @@
         <property name="loginManager" ref="loginManager" />
         <property name="provisionService" ref="defaultProvision" />
         <property name="resourceDataService" ref="resourceDataService" />
+        <property name="userMgr" ref="userManager" />
 	</bean>
 
 
@@ -352,8 +353,10 @@
 	</bean>	
 	<bean id="reconResultDetailDAO" class="org.openiam.idm.srvc.recon.service.ReconciliationResultDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>	
+	</bean>
 
+    <!-- ========================= Reconciliation Factory ======================= -->
+    <bean id="reconciliationFactory" class="org.openiam.idm.srvc.recon.command.ReconciliationCommandFactory"/>
 	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
 
 

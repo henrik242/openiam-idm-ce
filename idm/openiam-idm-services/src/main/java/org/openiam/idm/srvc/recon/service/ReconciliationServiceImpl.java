@@ -21,24 +21,34 @@
  */
 package org.openiam.idm.srvc.recon.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
+import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
+import org.openiam.idm.srvc.recon.command.ReconciliationCommandFactory;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.recon.dto.ReconciliationResponse;
+import org.openiam.idm.srvc.recon.dto.ReconciliationSituation;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.synch.dto.SynchConfig;
+import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
+import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.resp.LookupUserResponse;
 import  org.openiam.provision.service.ProvisionService;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
+import org.openiam.provision.type.ExtensibleAttribute;
+import org.openiam.provision.type.ExtensibleObject;
 
 /**
  * @author suneet
@@ -54,7 +64,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     protected LoginDataService loginManager;
     protected  ProvisionService provisionService;
     protected ResourceDataService resourceDataService;
-
+    protected UserDataService userMgr;
 
     private static final Log log = LogFactory.getLog(ReconciliationServiceImpl.class);
 
@@ -163,6 +173,12 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             log.debug("ManagedSysId = " + managedSysId);
             log.debug("Getting identities for managedSys");
 
+            Map<String, ReconciliationCommand> situations = new HashMap<String, ReconciliationCommand>();
+            for(ReconciliationSituation situation : config.getSituationSet()){
+                situations.put(situation.getSituation().trim(), ReconciliationCommandFactory.createCommand(situation.getSituationResp(), situation));
+                log.debug("Created Command for: " + situation.getSituation());
+            }
+
             List<Login> principalList =  loginManager.getAllLoginByManagedSys(managedSysId);
             if (principalList == null || principalList.isEmpty()) {
                 log.debug("No identities found for managedSysId in IDM repository");
@@ -177,29 +193,41 @@ public class ReconciliationServiceImpl implements ReconciliationService {
 
                 log.debug("Lookup status for " + principal + " =" +  lookupResp.getStatus());
 
-                if (lookupResp.getStatus() == ResponseStatus.FAILURE) {
-                    // delete iam identity
-                    log.debug("Delete  user :" + l.getUserId());
+                User user = userMgr.getUserByPrincipal(l.getId().getDomainId(), l.getId().getLogin(), l.getId().getManagedSysId(), true);
 
-                    ProvisionUser pUser = new ProvisionUser();
-                    pUser.setUserId(l.getUserId());
-                    pUser.setNotifyTargetSystems(false);
-                    provisionService.deleteByUserId( pUser, UserStatusEnum.DELETED,"3000");
+                if (lookupResp.getStatus() == ResponseStatus.FAILURE && !l.getStatus().equalsIgnoreCase("INACTIVE")) {
+                    // Situation: Resource Delete
+                    ReconciliationCommand command = situations.get("Resource Delete");
+                    if(command != null){
+                        log.debug("Call command for Resource Delete");
+                        command.execute(l, user, null);
+                    }
+                } else if (lookupResp.getStatus() == ResponseStatus.SUCCESS) {
+                    // found entry in managed sys
+                    if(l.getStatus().equalsIgnoreCase("INACTIVE") || user.getStatus().equals(UserStatusEnum.DELETED)) {
+                        // Situation: IDM Delete
+                        ReconciliationCommand command = situations.get("IDM Delete");
+                        if(command != null){
+                            log.debug("Call command for IDM Delete");
+                            command.execute(l, user, null);
+                        }
+                    } else {
+                        // Situation: IDM Changed/Resource Changed/Match Found
+                        //TODO think about unified changed handling
+                        ReconciliationCommand command = situations.get("Match Found");
+                        if(command != null){
+                            log.debug("Call command for Match Found");
+                            command.execute(l, user, null);
+                        }
+                    }
+
                 }
-
+                //TODO: Identify IDM Not Found
 
             }
-
-
-        /*}catch( ClassNotFoundException cnfe) {
-			log.error(cnfe);
-			ReconciliationResponse resp = new ReconciliationResponse(ResponseStatus.FAILURE);
-			resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-			resp.setErrorText(cnfe.getMessage());
-			return resp;
-			*/
 		}catch(Exception e) {
 			log.error(e);
+            e.printStackTrace();
 			ReconciliationResponse resp = new ReconciliationResponse(ResponseStatus.FAILURE);
 			resp.setErrorText(e.getMessage());
 			return resp;
@@ -231,5 +259,13 @@ public class ReconciliationServiceImpl implements ReconciliationService {
 
     public void setResourceDataService(ResourceDataService resourceDataService) {
         this.resourceDataService = resourceDataService;
+    }
+
+    public UserDataService getUserMgr() {
+        return userMgr;
+    }
+
+    public void setUserMgr(UserDataService userMgr) {
+        this.userMgr = userMgr;
     }
 }

@@ -56,6 +56,7 @@
 			  <td class="tdlightnormal">
 		   <form:select path="config.frequency" multiple="false">
               <form:option value="-" label="-Please Select-"/>
+              <form:option value="5MIN" label="Every 5 min"/>
               <form:option value="15MIN" label="Every 15 min"/>
               <form:option value="60MIN" label="Every 1 Hour"/>
               <form:option value="NIGHTLY" label="Run Nightly"/>  
@@ -66,6 +67,7 @@
 
 
 		</TABLE>
+                     </fieldset>
 		</TD>
 	</TR>
 </TABLE>
@@ -80,8 +82,8 @@
               <td colspan="2">
               	
     		<tr class="header">
-    			<tH>Situation</td>
-    			<tH>Response</td>
+    			<td>Situation</td>
+    			<td>Response</td>
             <!--
     			<th>Script</td>
     			-->
@@ -107,13 +109,14 @@
     				              <form:option value="UPD_RESOURCE" label="UPDATE RESOURCE"/> 				              
 			    	</form:select>
 				</td>
-                <!--
+
 				<td class="tableEntry"><form:input path="situationList[${sit.index}].script" size="30" maxlength="60" /> </td>
-                -->
+
 			
 			</tr>
 		</c:forEach>
      </table>
+                     </fieldset>
               </td>
 		  </tr> 
 		  
