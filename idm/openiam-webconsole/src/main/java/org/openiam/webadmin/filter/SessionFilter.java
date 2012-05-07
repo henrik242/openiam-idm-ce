@@ -72,18 +72,11 @@ public class SessionFilter implements javax.servlet.Filter {
             //boolean isJsp = url.endsWith(".jsp");
         }
 
-        if (!loginPage && isCode(url) && !isExcludePath(url)) {
-            if (session == null || session.isNew()) {
+        if (!loginPage && isCode(url) ) {
+
+            if (session.getAttribute("userId") == null || ((String) session.getAttribute("userId")).isEmpty()) {
                 response.sendRedirect(request.getContextPath() + expirePage);
                 return;
-            } else {
-                
-
-                if (session.getAttribute("userId") == null || ((String) session.getAttribute("userId")).isEmpty()) {
-                    response.sendRedirect(request.getContextPath() + expirePage);
-                    return;
-                }
-
             }
 
         }
@@ -117,16 +110,5 @@ public class SessionFilter implements javax.servlet.Filter {
         return false;
     }
 
-    public boolean isExcludePath(String url) {
 
-        if (url == null) {
-            return false;
-        }
-
-        if (url.contains(excludePath)) {
-            System.out.println("exclude found..");
-            return true;
-        }
-        return false;
-    }
 }

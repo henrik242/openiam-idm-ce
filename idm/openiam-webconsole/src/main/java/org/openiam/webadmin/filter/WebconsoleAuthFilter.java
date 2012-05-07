@@ -135,19 +135,27 @@ public class WebconsoleAuthFilter implements Filter {
         //if (sessionUserId != null && sessionUserId.length() > 0) {
 
         try {
+
+            Response resp = authService.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN);
+            if (resp.getStatus() == ResponseStatus.FAILURE) {
+                log.debug("Token renewal failed:" + userId + " - " + token);
+                session.invalidate();
+                response.sendRedirect(request.getContextPath() + expirePage);
+                return;
+
+            }
+            SSOToken ssoToken = (SSOToken) resp.getResponseValue();
+            String newToken = ssoToken.getToken();
+            session.setAttribute("token", newToken);
+
             String decString = (String) loginDataWebService.decryptPassword(token).getResponseValue();
 
-            StringTokenizer tokenizer = new StringTokenizer(decString, ":");
-            if (tokenizer.hasMoreTokens()) {
-                String decUserId = tokenizer.nextToken();
-                if (decUserId == null || decUserId.isEmpty()) {
+            if (principal == null || principal.isEmpty()) {
 
+                StringTokenizer tokenizer = new StringTokenizer(decString, ":");
+                if (tokenizer.hasMoreTokens()) {
+                    String decUserId = tokenizer.nextToken();
 
-                    session.invalidate();
-                    response.sendRedirect(request.getContextPath() + expirePage);
-                    return;
-                }
-                if (principal == null || principal.isEmpty()) {
                     Login l = loginDataWebService.getPrimaryIdentity(decUserId).getPrincipal();
                     principal = l.getId().getLogin();
                     userId = decUserId;
@@ -161,9 +169,18 @@ public class WebconsoleAuthFilter implements Filter {
                     List<Menu> menuList = navigationDataService.menuGroupByUser(rootMenu, userId, "en").getMenuList();
                     session.setAttribute("permissions", menuList);
 
+                }else {
+
+                    /* Bad token */
+                    session.invalidate();
+                    response.sendRedirect(request.getContextPath() + expirePage);
+                    return;
+
                 }
 
             }
+
+
         } catch (Exception e) {
 
             log.error(e);
@@ -172,24 +189,6 @@ public class WebconsoleAuthFilter implements Filter {
             return;
         }
         //}
-
-
-        // token is valid, but renew it for this request
-        Response resp = authService.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN);
-        if (resp.getStatus() == ResponseStatus.FAILURE) {
-            log.debug("Token renewal failed:" + userId + " - " + token);
-            session.invalidate();
-            response.sendRedirect(request.getContextPath() + expirePage);
-            return;
-
-        }
-        log.debug("Token renewed");
-
-        SSOToken ssoToken = (SSOToken) resp.getResponseValue();
-        String newToken = ssoToken.getToken();
-        log.info("New token: " + userId + " - " + newToken);
-        session.setAttribute("token", newToken);
-
 
         chain.doFilter(servletRequest, servletResponse);
 
