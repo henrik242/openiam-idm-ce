@@ -3,6 +3,7 @@ package org.openiam.spml2.spi.ldap;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
@@ -24,6 +25,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 //import org.openiam.spml2.msg.ExtensibleAttribute;
 
@@ -44,6 +46,8 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         ConnectionMgr conMgr = null;
         LdapContext ldapctx = null;
         List<ExtensibleObject> extobjectList = null;
+        boolean groupMembershipEnabled = true;
+
 
 
          List<String> targetMembershipList = new ArrayList<String>();
@@ -111,6 +115,19 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         // determine if this record already exists in ldap
         // move to separate method
         ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(targetID, "USER");
+
+         Set<ResourceProp> rpSet = getResourceAttributes(managedSys.getResourceId());
+         ResourceProp rpGroupMembership = getResourceAttr(rpSet,"GROUP_MEMBERSHIP_ENABLED");
+
+         // BY DEFAULT - we want to enable group membership
+         if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "Y".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+             groupMembershipEnabled = true;
+         }else if (rpGroupMembership.getPropValue() != null) {
+
+             if ("N".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+                 groupMembershipEnabled = false;
+             }
+         }
 
         Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
 
@@ -232,7 +249,8 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
                 log.debug("Modify: Extensible Object List =" + extobjectList );
 
-                BasicAttributes basicAttr = getBasicAttributes(extobjectList, matchObj[0].getKeyField(),targetMembershipList);
+                BasicAttributes basicAttr = getBasicAttributes(extobjectList, matchObj[0].getKeyField(),
+                        targetMembershipList, groupMembershipEnabled);
 
                 try {
                     Context result = ldapctx.createSubcontext(ldapName, basicAttr);
@@ -258,7 +276,9 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
         }
 
-        dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj[0], ldapctx, extobjectList);
+         if (groupMembershipEnabled) {
+            dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj[0], ldapctx, extobjectList);
+         }
 
         return respType;
     }

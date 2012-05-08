@@ -154,7 +154,8 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
 
 
 
-    protected BasicAttributes getBasicAttributes(List<ExtensibleObject> requestAttribute, String idField, List<String> targetMembershipList) {
+    protected BasicAttributes getBasicAttributes(List<ExtensibleObject> requestAttribute, String idField,
+                                                 List<String> targetMembershipList, boolean groupMembershipEnabled) {
         BasicAttributes attrs = new BasicAttributes();
 
         // add the object class
@@ -221,7 +222,9 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
                     //attrs.put(att.getName(), att.getValue());
                 }else {
                     if ( "memberOf".equalsIgnoreCase(att.getDataType())) {
-                        buildMembershipList(att,targetMembershipList);
+                        if (groupMembershipEnabled) {
+                            buildMembershipList(att,targetMembershipList);
+                        }
                     }
                 }
             }

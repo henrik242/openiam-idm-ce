@@ -3,6 +3,7 @@ package org.openiam.spml2.spi.ldap;
 import org.openiam.exception.ConfigurationException;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
+import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
@@ -20,6 +21,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * LdapAddCommand implements the add operation for the LdapConnector
@@ -32,6 +34,8 @@ public class LdapAddCommand extends LdapAbstractCommand {
         AddResponseType response = new AddResponseType();
         response.setStatus(StatusCodeType.SUCCESS);
         List<String> targetMembershipList = new ArrayList<String>();
+        boolean groupMembershipEnabled = true;
+
 
 
         log.debug("add request called..");
@@ -79,11 +83,26 @@ public class LdapAddCommand extends LdapAbstractCommand {
                 throw new ConfigurationException("LDAP configuration is missing configuration information");
             }
 
+            Set<ResourceProp> rpSet = getResourceAttributes(managedSys.getResourceId());
+            ResourceProp rpGroupMembership = getResourceAttr(rpSet,"GROUP_MEMBERSHIP_ENABLED");
+
+            // BY DEFAULT - we want to enable group membership
+            if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "Y".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+                groupMembershipEnabled = true;
+            }else if (rpGroupMembership.getPropValue() != null) {
+
+                if ("N".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+                    groupMembershipEnabled = false;
+                }
+            }
+
+
             Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
 
 
             log.debug("baseDN=" + matchObj.getBaseDn());
             log.debug("ID field=" + matchObj.getKeyField());
+            log.debug("Group Membership enabled? " + groupMembershipEnabled);
 
             // get the baseDN
             String baseDN = matchObj.getBaseDn();
@@ -101,16 +120,20 @@ public class LdapAddCommand extends LdapAbstractCommand {
             //
 
 
-            BasicAttributes basicAttr = getBasicAttributes(reqType.getData().getAny(), matchObj.getKeyField(), targetMembershipList);
+            BasicAttributes basicAttr = getBasicAttributes(reqType.getData().getAny(), matchObj.getKeyField(),
+                    targetMembershipList, groupMembershipEnabled);
 
 
             log.debug("Creating users in ldap.." + ldapName);
 
             Context result = ldapctx.createSubcontext(ldapName, basicAttr);
 
-            log.debug("Associating user to objects for membership");
+            if (groupMembershipEnabled) {
 
-            dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj, ldapctx, reqType.getData().getAny());
+                log.debug("Updating account membership...");
+
+                dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj, ldapctx, reqType.getData().getAny());
+            }
 
 
         } catch (NamingException ne) {

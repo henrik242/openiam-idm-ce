@@ -133,7 +133,6 @@ public class LdapV3 implements Directory{
         List<String> currentMembershipList = userMembershipList(ldapName, matchObj,   ldapctx);
 
         log.debug("Current ldap role membership:" + currentMembershipList);
-        log.debug("Target ldap role membership:"  + targetMembershipList);
 
         if (targetMembershipList == null && currentMembershipList != null) {
             // remove all associations
