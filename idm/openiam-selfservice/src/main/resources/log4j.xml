@@ -28,7 +28,7 @@
 	       <appender-ref ref="A2" />
     </root>
 
-    <logger name="org.openiam.webadmin">
+    <logger name="org.openiam.selfsrvc">
         <level value="info"/>
         <appender-ref ref="openiam-esb"/>
         <appender-ref ref="STDOUT"/>
@@ -38,7 +38,7 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
         </layout>
-        <param name="File" value="../logs/idm-webconsole.log" />
+        <param name="File" value="../logs/idm-selfservice.log" />
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="20MB" />
         <param name="MaxBackupIndex" value="2" />
