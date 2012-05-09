@@ -46,6 +46,7 @@
 			<th>Name</th>
 			<th>E-mail</th>
 			<th>Status</th>
+			<th>Secondary Status</th>
 			<th>&nbsp;</th>
 		</tr>
 	  
@@ -69,6 +70,12 @@
 		          <%=JSPUtil.display(ud.getStatus())%>
 		      <% } %>
 		    </td>
+		    <td>
+		      <% if (ud.getSecondaryStatus() != null) { %>     
+		          <%=JSPUtil.display(ud.getSecondaryStatus())%>
+		      <% } %>
+		    </td>
+		    
 			<td>
 		         <a href="userChangeStatus.selfserve?personId=<%=ud.getUserId()%>&status=DELETED">DELETE</a>
 		    </td>

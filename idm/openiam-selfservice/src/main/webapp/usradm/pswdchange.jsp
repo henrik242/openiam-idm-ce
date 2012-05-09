@@ -2,96 +2,38 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 
+<div class="block">
+    <div class="wrap">
 
-<form:form commandName="pswdChangeCmd">
-    <form:hidden path="perId" />
-<table border="0" width="600pt" align="center">
-	<tr>
-	  <td>
- 
+        <form:form commandName="pswdChangeCmd">
+            <form:hidden path="perId" />
+            <form:hidden path="domainId"    />
 
-	  </td>
-	</tr>
-  <tr>
-    <td class="title">Reset Password for ${pswdChangeCmd.firstName} ${pswdChangeCmd.lastName} </td>
-    <td class="text" align="right">         
-        <font size="1" color="red">*</font> Required       
-    </td>
-  </tr>
-  
-  <tr>
- 		<td colspan="2" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr>
-		
-		
-	<tr>
-	  <td>&nbsp;</td>
- </tr>
+            <fieldset>
+                <label for="t-1">Reset Password for ${pswdChangeCmd.firstName} ${pswdChangeCmd.lastName}</label>
+                <label for="t-1">Login ID</label>
+                <form:input path="principal" size="30"  maxlength="30" readonly="true"   />
+                <label for="t-1"> New Password<span>*</span></label>
+                <form:password path="password" size="30"  maxlength="30"   />
+                <p><form:errors path="password" cssClass="error" /></p>
+                <label for="t-1">Confirm New Password<span>*</span></label>
+                <form:password path="confPassword" size="30"  maxlength="30"   />
+                <p><form:errors path="confPassword" cssClass="error" /></p>
 
-  
-    <!-- ENTER THE SERVICE FOR THIS LOGIN HERE AS A HIDDEN FIELD -->
+                <div class="button">
+                    <input type="reset" value="Cancel" />
+                </div>
+                <div class="button">
+                    <input type="submit" value="Save" />
+                </div>
+            </fieldset>
 
-	<form:hidden path="domainId"    />
-
-
-  <tr>
-    <td class="plaintext" align="right">
-       Login
-    </td>
-    <td class="plaintext">
-    	<form:input path="principal" size="30"  maxlength="30" readonly="true"   />
-    </td>
-  </tr>
-
-
-  <tr>
-    <td class="plaintext" align="right">    
-       New Password<font color=red>*</font>
-    </td>
-    <td class="plaintext">
-    	<form:password path="password" size="30"  maxlength="30"   /><br>
-    	 <form:errors path="password" cssClass="error" />
-       
-    </td>
-  </tr>
-  <tr>
-    <td class="plaintext" align="right">    
-       Confirm New Password<font color=red>*</font>
-    </td>
-    <td class="plaintext">
-       <form:password path="confPassword" size="30"  maxlength="30"   /><br>
-        <form:errors path="confPassword" cssClass="error" />
-    </td>
-  </tr>  
-  
-  <tr>
-    	  <td>&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="2" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
-
-  <tr>
-  	<td>
-
-  	</td>
-    <td align="right">
-    		<input type="submit" value="Save"> <input type="reset" >
-    </td>
-  </tr>
-
-</table>
-</form:form> 
-
-
+        </form:form>
+    </div>
+</div>
 
 

@@ -2,70 +2,37 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
-<% 
-System.out.println("unlockSetNewPassword.jsp");
-%>
-<br> 
-<form:form commandName="unlockUserCmd">
 
-<table border="0" width="500" align="center">
+<div class="block">
+				<div class="wrap">
+					
+					<div class="text-wrap">
+						<p>Set new password</p>
+					</div>
+					<form:form commandName="unlockUserCmd">
+						<fieldset>
+							<p><form:errors path="domainId" /> </p>
 
-  <tr>
-    <td class="title" colspan="2">
-        Unlock Account - Set New Password
-    </td>
-  </tr>
-  
-  <tr>
- 		<td colspan="2" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr>
-		
-	<tr>
-	  <td>&nbsp;</td>
- </tr>
+								
+							<label for="t-1">New Password<span>*</span></label>
+								<form:password path="password" size="30"  maxlength="30"   />
+    					 <p><form:errors path="password" /></p>
+							<label for="t-1">Confirm New Password<span>*</span></label>
+							  <form:password path="confPassword" size="30"  maxlength="30"   />
+							  <p><form:errors path="confPassword" /></p>
+        	
+							<div class="button">
+								<input type="submit" name="_cancel" value="Cancel" /> 
+							</div>
+							<div class="button">
+								<input type="submit" name="_finish" value="Finish" tabindex="1" />    
+							</div>
+							<div class="button">
+								<input type="submit" name="_target2" value="Previous"/>    
+							</div>
+						</fieldset>
+					</form:form>
+				</div>
+			</div>
+
  
-   <tr>
-    <td class="tddarknormal" align="right">    
-       New Password<font color=red>*</font>
-    </td>
-    <td class="tdlight">
-    	<form:password path="password" size="30"  maxlength="30"   /><br>
-    	 <form:errors path="password" cssClass="error" />
-       
-    </td>
-  </tr>
-  <tr>
-    <td class="tddarknormal" align="right">    
-       Confirm New Password<font color=red>*</font>
-    </td>
-    <td class="tdlight">
-       <form:password path="confPassword" size="30"  maxlength="30"   /><br>
-        <form:errors path="confPassword" cssClass="error" />
-    </td>
-  </tr>  
- 
-    
-    <tr>
-    	  <td>&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="2" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
-
-  <tr>
-    <td colspan="2" align="right"> 
-    	  <input type="submit" name="_target2" value="Previous"/>   
-    	  <input type="submit" name="_finish" value="Finish" tabindex="1" />   
-    	  <input type="submit" name="_cancel" value="Cancel" />  
-    </td>
-  </tr>
-
-</table>
-</form:form>
-
-

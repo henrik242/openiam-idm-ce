@@ -21,14 +21,14 @@
 						<h5>Welcome ${user.firstName}</h5>
 						<div class="wrap-box">
 							<dl>
-								<dt>Member of Groups:</dt>
-								        <c:if test="${groupList != null}" >
-													<c:forEach items="${groupList}" var="group">
-														<dd>${group.grpName}</dd>
-										      </c:forEach>
-										     </c:if>
-								<dt>Member of Roles:</dt>
-								  <c:if test="${roleList != null}" >
+								<c:if test="${groupList != null}" >
+										<dt>Member of Groups:</dt>
+										<c:forEach items="${groupList}" var="group">
+											<dd>${group.grpName}</dd>
+							      </c:forEach>
+								</c:if>
+								<c:if test="${roleList != null}" >
+										<dt>Member of Roles:</dt>							  
 										<c:forEach items="${roleList}" var="role">
 							       			<dd>${role.roleName}</dd>
 						       		</c:forEach>
@@ -48,8 +48,7 @@
 									<dd>${dept}</dd>
 								 </c:if>
 								
-								<c:if test="${user.email} != null}" >	
-									
+								<c:if test="${user.email} != null}" >									
 								<dt>E-mail:</dt>
 									<dd>${user.email}</dd>
 								

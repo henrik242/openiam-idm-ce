@@ -10,39 +10,18 @@
 
 <form:hidden path="perId" />
 
-<table width="620" border="0" cellspacing="2" cellpadding="1" align="center"> 
-	<tr>
-      <td colspan="3" class="title">         
-          <strong>User - Role Association</strong>
-      </td>
-      <td class="text" align="right">         
-          <font size="1" color="red">*</font> Required         
-      </td>
-   </tr>
-   
-   <tr>
- 		<td colspan="4" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr> 
-   <tr>
-       <td class="tddarknormal" align="right"></td>
-       <td class="tdlight" colspan="3">
-			<font color="red"></font>
-       </td>
-    </tr>
-    <tr>
-    	<td colspan="4">
-    		<table>
-    			<tr class="tdlight">
-    				<td>Role ID</td>
-    				<td>Role Name</td>
-    				<td>Parent Role</td>
-    				<td>Status</td>
-    			</tr>
-		      <c:forEach items="${userRoleCmd.roleList}" var="roleList" varStatus="role">
+<table class="resource alt"> 
+	<tbody>
+		<tr class="caption">
+			<th>Role ID</th>
+			<th>Role Name</th>
+			<th>Parent Role</th>
+			<th>Status</th>
+		</tr>
+
+	      <c:forEach items="${userRoleCmd.roleList}" var="roleList" varStatus="role">
 		  
-				<tr class="plaintext">
+						<tr>
 								<td>
 									<form:checkbox path="roleList[${role.index}].selected" />
 									${roleList.id.serviceId} - ${roleList.id.roleId}
@@ -52,22 +31,10 @@
 								<td>${roleList.roleName}</td>
 								<td>${roleList.parentRoleId}</td>
 								<td>${roleList.status}</td>
-				</tr>
-				
-			</c:forEach>
-			</table>
-	</td>	
-	</tr>    
+						</tr>				
+				</c:forEach>
+
    
-    <tr>
-    	  <td colspan="4">&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="4" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
 
   <tr>
     <td colspan="4" align="right"> 
@@ -75,7 +42,8 @@
     </td>
   </tr>
   
-</table>
+
 
 </form:form>
-
+	<tbody>
+</table>

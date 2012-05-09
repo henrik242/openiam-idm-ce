@@ -3,12 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
-
 <%
-
-
-
-
   String userId = (String)session.getAttribute("userId");
   String token = (String)session.getAttribute("token");
   String login = (String)session.getAttribute("login");
@@ -20,12 +15,7 @@
 
   }
 
-
 %>
-
-
-
-		<div id="content">
 			<h4>Pending Requests</h4>
 			<table class="resource alt">
 				<tbody>
@@ -52,4 +42,4 @@
 			</table>
 		</div>
 	</div>
-</div>
+

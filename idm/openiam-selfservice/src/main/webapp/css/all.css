@@ -67,7 +67,7 @@ form fieldset {
 #sidebar {
 	float:left;
 	width:187px;
-	margin:30px 0 0 0;
+	margin:25px 0 0 0;
 }
 .head {
 	float:left;
@@ -159,11 +159,11 @@ form fieldset {
 /* content */
 #content {
 	float:left;
-	margin:30px 0 0 0;
+	margin:25px 0 0 0;
 	width:810px;
 	text-align:center;
 }
-#content .block.alt {margin:60px 0 0 0;}
+#content .block.alt {margin:50px 0 0 0;}
 *+html #content .block {display:inline;}
 #content .block {
 	display:inline-block;
@@ -249,8 +249,8 @@ form fieldset {
 .wrap form.distinction {width:400px;}
 .wrap form.distinction input[type="text"] {width:388px;}
 .wrap form label {
-	font:11px Tahoma, Geneva, sans-serif;
-	color:#484748;
+	font:bold 11px Tahoma, Geneva, sans-serif;
+	color:#000;
 	display:block;
 	margin:15px 0 0 0;
 }
@@ -400,7 +400,7 @@ form fieldset {
 }
 *+html .profile {display:inline;}
 .wrap.alt .col label {
-	font:bold 11px/16px Tahoma, Geneva, sans-serif;
+	font:11px/16px Tahoma, Geneva, sans-serif;
 	color:#000;
 	float:left;
 	margin:0;
@@ -414,6 +414,10 @@ form fieldset {
 	font:11px/16px Tahoma, Geneva, sans-serif;
 	margin:0;
 	background: #f7f6f6;
+}
+.wrap.alt .col input[type="text"].mail {
+	width:273px;
+	margin:2px 0 0 0;
 }
 .wrap.alt .col select {
 	width:160px;
@@ -432,11 +436,14 @@ form fieldset {
 	width:100%;
 	text-align:left;
 }
-.wrap.alt .col input[type="text"].phone {width:109px;}
-.wrap.alt .col input[type="text"].code {
-	width:22px;
+.wrap.alt .col input[type="text"].phone {
+	width:78px;
 	float:left;
-	margin:0 3px 0;
+}
+.wrap.alt .col input[type="text"].code {
+	width:20px;
+	float:left;
+	margin:0 2px 0;
 }
 .wrap.alt .col .error {width:160px;}
 .user-info {
@@ -449,7 +456,7 @@ form fieldset {
 .user-info label.principal {
 	color: #000000;
 	float: left;
-	font: bold 11px/16px Tahoma,Geneva,sans-serif;
+	font:11px/16px Tahoma,Geneva,sans-serif;
 	margin:0 0 0 6px;
 }
 *+html .user-info input[type="text"].principal {margin:15px 7px 0 0;}
@@ -467,7 +474,7 @@ form fieldset {
 	padding:15px 0 0 0;
 }
 .wrap.alt .col-1 label {
-	font:bold 11px/16px Tahoma, Geneva, sans-serif;
+	font:11px/16px Tahoma, Geneva, sans-serif;
 	color:#000;
 	float:left;
 	width:132px;
@@ -514,6 +521,12 @@ form fieldset {
 	width:55px;
 	float:left;
 }
+.wrap.alt .data {
+	font:10px Tahoma, Geneva, sans-serif;
+	color:#000;
+	margin:0 0 5px 0;
+	float:left;
+}
 .wrap.alt .error {
 	font:10px Tahoma, Geneva, sans-serif;
 	color:#fd3333;
@@ -554,7 +567,7 @@ form fieldset {
 .wrap .type-user select {
 	width:100%;
 	font:10px Tahoma, Geneva, sans-serif;
-	height:16px;
+	height:18px;
 	margin:7px 0 0 0;
 }
 .wrap .type-user .add {
@@ -605,12 +618,12 @@ form fieldset {
 }
 .col-2 .reply span {font:bold 11px/12px Tahoma, Geneva, sans-serif;}
 .wrap .lookup {
-	width:495px;
+	width:510px;
 	margin:20px 10px 0;
 }
 .wrap .lookup label {
 	float:left;
-	width:162px;
+	width:177px;
 	margin:0;
 	color:#000;
 	line-height:16px;
@@ -625,7 +638,8 @@ form fieldset {
 .wrap .lookup select {
 	float:right;
 	width:333px;
-	height:16px;
+	height:18px;
+	margin:0;
 	color:#575757;
 	font:10px Tahoma, Geneva, sans-serif;
 }
@@ -648,14 +662,15 @@ form fieldset {
 .set {
 	width:100%;
 	float:left;
-	margin:15px 6px;
+	margin:15px 6px -15px;
 }
 .set label {
 	color:#000000;
 	float:left;
-	font:bold 11px/16px Tahoma,Geneva,sans-serif;
+	font:11px/16px Tahoma,Geneva,sans-serif;
 	margin:0;
-	width:82px;
+	max-width:82px;
+	min-width:45px;
 }
 .set input[type="text"] {
 	float:left;
@@ -663,7 +678,7 @@ form fieldset {
 	height:16px;
 	padding:0 5px;
 	font:11px/16px Tahoma, Geneva, sans-serif;
-	margin:0 7px 0 0;
+	margin:0 7px;
 	background: #f7f6f6;
 	color:#999;
 }
@@ -711,7 +726,7 @@ form fieldset {
 }
 .tabl td, th {padding:5px 0;}
 .tabl label {
-	font:bold 11px/16px Tahoma, Geneva, sans-serif;
+	font:11px/16px Tahoma, Geneva, sans-serif;
 	color:#000;
 	float:left;
 	width:115px;
@@ -766,91 +781,7 @@ form fieldset {
 	font:bold 11px Tahoma, Geneva, sans-serif;
 	color:#69b1d8;
 	text-decoration:underline;
-}
-/* user-role */
-#content .user-role {
-	display:inline-block;
-	width:auto;
-	text-align:center;
-}
-.user-role h5,
-.principal-list h5 {
-	text-align:center;
-	margin:0;
-	font:bold 14px 'Calibri', "Times New Roman", Times, serif;
-	color:#3f96c3;
-}
-.user-role h6 {
-	color: #178FCE;
-	font: bold 11px Tahoma,Geneva,sans-serif;
-	margin:0;
-	text-align:left;
-	width: 100%;
-}
-.user-role table {
-	border-collapse:collapse;
-	width:620px;
-	table-layout:fixed;
-}
-.user-role table td {
-	padding:5px 0;
-	text-align:left;
-	min-width:150px;
-}
-.user-role table .required {
-	margin:0;
-	text-align:right;
-	color:#000;
-}
-.user-role table .required span,
-.principal-list table .required span{
-	color:#F00;
-	height:auto;
-	width:auto;
-	border:none;
-	margin:0 5px 0 0;
-}
-.user-role table span,
-.principal-list table span {
-	width:100%;
-	border-bottom:1px solid #d3d2d2;
-	display:inline-block;
-	height:1px;
-}
-.user-role input[type="checkbox"],
-.principal-list input[type="checkbox"]{
-	margin:0 5px 0 0;
-	padding:0;
-	width:15px;
-	height:15px;
-}
-/* principal-list */
-#content .principal-list {
-	display:inline-block;
-	width:auto;
-}
-*+html .principal-list table {table-layout:auto;}
-.principal-list table {
-	border-collapse:collapse;
-	table-layout:fixed;
-	width:620px;
-}
-.principal-list table td {
-	padding:5px 0;
-	text-align:left;
-}
-*+html .principal-list table .required {width:90px;}
-.principal-list table .required {
-	margin:0;
-	text-align:right;
-	color:#000;
-}
-.principal-list input[type="text"] {
-	height:14px;
-	background:#f7f6f6;
-	padding:0 3px;
-	width:250px;
-}
+} 
 /* login-page */
 #header .west {
 	background:url(../images/ico-logo-west.jpg) no-repeat;
@@ -976,7 +907,7 @@ form fieldset {
 	border:1px solid #cfcfcf;
 	display:inline-block;
 	background:#f3f0f2;
-	padding:0 0 10px 0;
+	padding:0;
 	margin:10px 0 0 0;
 }
 .resource .caption {
@@ -992,13 +923,18 @@ form fieldset {
 .resource td {
 	padding:5px 32px 5px 0;
 	text-align:left;
-	font:bold 11px Tahoma, Geneva, sans-serif;
+	font:11px Tahoma, Geneva, sans-serif;
 	color:#545353;
 }
 .resource td a {
 	text-align:left;
 	font:bold 11px Tahoma, Geneva, sans-serif;
 	color:#545353;
+}
+.resource td a:hover, 
+.resource td .active {
+	color:#178fce;
+	text-decoration:none;
 }
 .resource th.choice {padding:15px 5px 5px 20px;}
 .resource td.choice {padding:5px 5px 5px 20px;}
@@ -1039,4 +975,109 @@ form fieldset {
 .select-roles {
 	width:640px;
 	display:inline-block;
+}
+/* webconsole-managed-connections-details */
+.webconsole {
+	display:inline-block;
+	width:620px;
+	padding:0 0 20px 0;
+}
+.webconsole .wrap.alt .row.alt {margin:0;}
+.webconsole .wrap.alt {padding:20px 23px;}
+.webconsole .wrap.alt .row {
+	margin:0 0 11px 0;
+	width:100%;
+}
+.webconsole label {
+	width:195px;
+	margin:0 2px 0 0;
+	float:left;
+	font:bold 11px Tahoma, Geneva, sans-serif;
+	color:#5e4e4b;
+	line-height:18px;
+}
+#content .webconsole .block {margin:0 0 25px 0;}
+#content .webconsole h4 {margin:0 0 10px 20px;}
+.webconsole input[type="text"],
+.webconsole input[type="password"] {
+	height:16px;
+	float:right;
+	width:358px;
+	padding:0 5px;
+	color:#565656;
+	background:#f7f6f6;
+	line-height:16px;
+}
+.webconsole input[type="checkbox"] {
+	width:15px;
+	float:left;
+	height:15px;
+	padding:0;
+}
+.webconsole select {
+	width:370px;
+	float:right;
+	height:19px;
+	margin:0;
+	color:#565656;
+	font:10px Tahoma, Geneva, sans-serif;
+	background:#f7f6f6;
+	line-height:16px;
+}
+.webconsole .wrap.alt .error {
+	width:373px;
+	float:right;
+	margin:0 -3px 3px 0;
+	line-height:12px;
+}
+.webconsole .button {margin:0 0 0 17px;}
+.webconsole textarea {
+	resize:none;
+	width:358px;
+	height:66px;
+	background:#f7f6f6;
+	border:1px solid #D4D1D2;
+	padding:5px;
+}
+/* webconsole-synchronization-list */
+.configuration  {
+	display:inline-block;
+	width:auto;
+	margin:10px auto;
+}
+*+html .configuration {display:inline;}
+#content .configuration h4 {
+	text-align:left;
+	width:auto;
+	float:none;
+}
+.configuration .new-config {
+	text-decoration:underline;
+	margin:10px 0 0 20px;
+	font:11px Tahoma, Geneva, sans-serif;
+	color:#178fce;
+	text-align:left;
+	display:block;
+}
+/* Request History */
+.wrap .lookup input[type="text"].date {
+	width:149px;
+	float:left;
+}
+.wrap .lookup .sep {
+	margin:0 3px;
+	font:10px/18px Tahoma, Geneva, sans-serif;
+	color:#000;
+	float:left;
+}
+*+html #content .lookup-wrap {display:inline;}
+#content .lookup-wrap {
+	display:inline-block;
+	margin:0 auto;
+}
+#content .lookup-wrap h4 {
+	margin:0 0 10px 20px;
+	float:none;
+	text-align:left;
+	width:auto;
 }

@@ -40,54 +40,38 @@
 <% }  %>
 
 <% if (recordCount > 0 ) { %>
-<table width="100%" border="0" cellspacing="1" cellpadding="1" align="center">
-  <tr>
-     <td colspan="5">
-        <b>Search Results - <%=recordCount%> Records Found.</b>
-     </td>
-  </tr>
-  <tr>
-    <td class="tdheader">Last Name</td>
-    <td class="tdheader">First Name</td>
-	<td class="tdheader">M.I.</td>
-    <td class="tdheader">Agency</td>
-    <td class="tdheader">Phone #</td>
-	<td class="tdheader">E-mail Address</td>
-    <td class="tdheader"></td>
-  </tr>
-  
+<h4 class="alignment">Search Results - <%=recordCount%> Found.</h4>
+
+<table class="resource alt">
+	<tbody>
+		<tr class="caption">
+			<th>Last Name</th>
+			<th>First Name</th>
+			<th>Initial</th>
+			<th>Dept</th>
+			<th>Phone</th>
+			<th>E-mail</th>
+			<th></th>
+		</tr>
   <% 
   
       if( userList != null && userList.size() > 0 ) {
-    	int x=0;
-    	int size = userList.size();
-    	// Only show the maxium # of records as defined in the maxResultSize parameter.
-    	if (size > maxResultSize) {
-    		size = maxResultSize;
-    	}
-    	for (int i=0; i < recordCount; i++ ) {
-    		User ud = (User)userList.get(i);
-    		EmailAddress em = null;
-			Phone ph = null;
-    		
-			em = null; //ud.getEmailByName("EMAIL1");
-			ph = null; //ud.getPhoneByName("DESK PHONE");
-			
-
-  %>
-  
-  <%
-     if ((x%2) != 0) {
-       
-   %>
-   <tr class="tddarknormal">
-   <% } else {%>
-   <tr class="tdlightnormal">
-   <%}%>
-  
-     <td >
+	    	
+	    	int x=0;
+	    	int size = userList.size();
+	    	
+	    	// Only show the maxium # of records as defined in the maxResultSize parameter.
+	    	if (size > maxResultSize) {
+	    		size = maxResultSize;
+	    	}
+    		for (int i=0; i < recordCount; i++ ) {
+    			User ud = (User)userList.get(i);
+	
+  %>		
+  	<tr>
+  		  <td >
      	  <% if ( ud.getLastName() != null) { %>
-             <%=ud.getLastName()%>
+        <a href="viewUser.selfserve?personId=<%=ud.getUserId()%>"><%=ud.getLastName()%></a>
         <% } %>
      	</td>
      <td >
@@ -111,23 +95,24 @@
     	(<%=ud.getAreaCd() %>)<%=ud.getPhoneNbr() %>
     	<% } %>
     </td>
-    
-
-    <td>
-    <% if (ud.getEmail() != null ) { %>
-	    <%= ud.getEmail() %>
-	<%  } %>
-    </td>
-
     <td >
-       <a href="pub/viewUser.selfserve?personId=<%=ud.getUserId()%>">View</a> 
+     <% if (ud.getEmail() != null ) { %>
+    		<%=ud.getEmail() %>
+    	<% } %>  
     </td>
-
-  </tr>
-  <%   x++;
+      
+  	</tr>
+  	<%   
        }
        }
-  %>
-
+  	%>
+	</tbody>
 </table>
-<% } %>
+
+<%   
+
+   }
+%>  
+
+  
+ 

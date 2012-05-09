@@ -8,38 +8,17 @@
 
 <form:form commandName="usergrpCmd">
 <form:hidden path="perId" />
-<table width="620" border="0" cellspacing="2" cellpadding="1" align="center"> 
-	<tr>
-      <td colspan="3" class="title">         
-          <strong>User - Group Association</strong>
-      </td>
-      <td class="text" align="right">         
-          <font size="1" color="red">*</font> Required         
-      </td>
-   </tr>
-   
-   <tr>
- 		<td colspan="4" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr> 
-   <tr>
-       <td class="tddarknormal" align="right"></td>
-       <td class="tdlight" colspan="3">
-			<font color="red"></font>
-       </td>
-    </tr>
-    <tr>
-    	<td>
-  		<table>
-    			<tr class="tdlight">
-    				<td>Group Name</td>
-    				<td>Inherit From Parent</td>
-    				<td>Status</td>
-    			</tr>
-		      <c:forEach items="${usergrpCmd.groupList}" var="groupList" varStatus="group">
+<table class="resource alt"> 
+	<tbody>
+		<tr class="caption">
+			<th>Group Name</th>
+			<th>Inherit From Parent</th>
+			<th>Status</th>
+		</tr>
+	
+    <c:forEach items="${usergrpCmd.groupList}" var="groupList" varStatus="group">
 		  
-				<tr class="plaintext">
+				<tr>
 								<td>
 									<form:checkbox path="groupList[${group.index}].selected" />
 									${groupList.grpName} 
@@ -50,21 +29,7 @@
 				</tr>
 				
 			</c:forEach>
-			</table>
-	</td>	
-	</tr>    
-   
 
-
-    <tr>
-    	  <td colspan="4">&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="4" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
 
   <tr>
     <td colspan="4" align="right"> 
@@ -73,6 +38,6 @@
   </tr>
   
 </table>
-
+</tbody>
 </form:form>
 
