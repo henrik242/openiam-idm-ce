@@ -61,6 +61,14 @@ public class LdapLookupCommand extends LdapAbstractCommand {
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             conMgr.setApplicationContext(ac);
             LdapContext ldapctx = conMgr.connect(managedSys);
+
+            if (ldapctx == null) {
+                respType.setStatus(StatusCodeType.FAILURE);
+                respType.setError(ErrorCode.DIRECTORY_ERROR);
+                respType.addErrorMessage("Unable to connect to directory.");
+                return respType;
+            }
+
             ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(psoId.getTargetID(), "USER");
             String resourceId = managedSys.getResourceId();
 

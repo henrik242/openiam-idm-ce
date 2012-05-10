@@ -45,12 +45,19 @@ public class LdapConnectionMgr implements ConnectionMgr {
 		    System.setProperty("javax.net.ssl.trustStore",keystore);
         }
 
+        if (managedSys == null) {
+            log.debug("ManagedSys is null");
+            return null;
+        }
+
 		String hostUrl = managedSys.getHostUrl();
 		if (managedSys.getPort() > 0 ) {
 			hostUrl = hostUrl + ":" + String.valueOf(managedSys.getPort());
 		}
-		
-		log.debug("Directory host url:" + hostUrl);
+
+        log.debug("Connecting to target system: " + managedSys.getManagedSysId() );
+        log.debug("Managed = " + managedSys);
+
 		//log.info(" directory login = " + managedSys.getUserId() );
 		//log.info(" directory login passowrd= " + managedSys.getDecryptPassword() );
 		
@@ -84,6 +91,17 @@ public class LdapConnectionMgr implements ConnectionMgr {
                 return connect(secondarySys);
 
             }
+            // no secondary repository
+            throw ce;
+
+
+        } catch(NamingException ne) {
+            log.error(ne.toString());
+            throw ne;
+
+        }catch (Exception e) {
+            log.error(e.toString());
+            return null;
         }
 
 		return ldapContext;

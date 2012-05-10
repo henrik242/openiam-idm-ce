@@ -267,6 +267,11 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
     }
 
 
+    /**
+     * Used to test if the connectivity information to the larget system is valid.
+     * @param managedSys
+     * @return
+     */
     public ResponseType testConnection(ManagedSys managedSys) {
         ResponseType response = new ResponseType();
         response.setStatus(StatusCodeType.SUCCESS);
@@ -279,6 +284,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
             LdapContext ldapctx = conMgr.connect(managedSys);
         } catch (NamingException ne) {
             log.error(ne);
+
             // return a response object - even if it fails so that it can be logged.
             response.setStatus(StatusCodeType.FAILURE);
             response.setError(ErrorCode.DIRECTORY_ERROR);
@@ -295,6 +301,8 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
             }
 
         }
+
+        log.debug("Test connection: Response object = " + response);
 
         return response;
     }

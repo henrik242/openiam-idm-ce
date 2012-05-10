@@ -50,7 +50,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
 
 
-         List<String> targetMembershipList = new ArrayList<String>();
+        List<String> targetMembershipList = new ArrayList<String>();
 
         ModifyResponseType respType = new ModifyResponseType();
         respType.setStatus(StatusCodeType.SUCCESS);
@@ -92,6 +92,13 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         }
 
         log.debug("Ldapcontext = " + ldapctx);
+
+         if (ldapctx == null) {
+             respType.setStatus(StatusCodeType.FAILURE);
+             respType.setError(ErrorCode.DIRECTORY_ERROR);
+             respType.addErrorMessage("Unable to connect to directory.");
+             return respType;
+         }
 
         String ldapName = psoID.getID();
 

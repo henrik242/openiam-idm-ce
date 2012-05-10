@@ -187,4 +187,13 @@ public class ResponseType
         this.error = value;
     }
 
+    @Override
+    public String toString() {
+        return "ResponseType{" +
+                "errorMessage=" + errorMessage +
+                ", status=" + status +
+                ", requestID='" + requestID + '\'' +
+                ", error=" + error +
+                '}';
+    }
 }

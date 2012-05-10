@@ -400,5 +400,38 @@ public class ManagedSys implements java.io.Serializable {
         this.handler5 = handler5;
     }
 
-
+    @Override
+    public String toString() {
+        return "ManagedSys{" +
+                "managedSysId='" + managedSysId + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", connectorId='" + connectorId + '\'' +
+                ", domainId='" + domainId + '\'' +
+                ", hostUrl='" + hostUrl + '\'' +
+                ", port=" + port +
+                ", commProtocol='" + commProtocol + '\'' +
+                ", userId='" + userId + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", resourceId='" + resourceId + '\'' +
+                ", primaryRepository=" + primaryRepository +
+                ", secondaryRepositoryId='" + secondaryRepositoryId + '\'' +
+                ", updateSecondary=" + updateSecondary +
+                ", driverUrl='" + driverUrl + '\'' +
+                ", connectionString='" + connectionString + '\'' +
+                ", addHandler='" + addHandler + '\'' +
+                ", modifyHandler='" + modifyHandler + '\'' +
+                ", deleteHandler='" + deleteHandler + '\'' +
+                ", passwordHandler='" + passwordHandler + '\'' +
+                ", suspendHandler='" + suspendHandler + '\'' +
+                ", handler1='" + handler1 + '\'' +
+                ", handler2='" + handler2 + '\'' +
+                ", handler3='" + handler3 + '\'' +
+                ", handler4='" + handler4 + '\'' +
+                ", handler5='" + handler5 + '\'' +
+                ", mngSysObjectMatchs=" + mngSysObjectMatchs +
+                '}';
+    }
 }

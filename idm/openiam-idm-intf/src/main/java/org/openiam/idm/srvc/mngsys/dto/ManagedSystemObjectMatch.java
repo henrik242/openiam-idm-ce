@@ -122,4 +122,17 @@ public class ManagedSystemObjectMatch implements java.io.Serializable {
 		this.searchBaseDn = searchBaseDn;
 	}
 
+    @Override
+    public String toString() {
+        return "ManagedSystemObjectMatch{" +
+                "objectSearchId='" + objectSearchId + '\'' +
+                ", managedSys='" + managedSys + '\'' +
+                ", objectType='" + objectType + '\'' +
+                ", matchMethod='" + matchMethod + '\'' +
+                ", searchFilter='" + searchFilter + '\'' +
+                ", baseDn='" + baseDn + '\'' +
+                ", searchBaseDn='" + searchBaseDn + '\'' +
+                ", keyField='" + keyField + '\'' +
+                '}';
+    }
 }

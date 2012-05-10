@@ -54,6 +54,7 @@ public class LdapSuspend implements ApplicationContextAware {
 		// ldap does not have suspend/disable capability.
 		// work around is to scramble the password
         ConnectionMgr conMgr = null;
+        ResponseType resp = new ResponseType();
 		
 		String requestID = request.getRequestID();
 		/* PSO - Provisioning Service Object -
@@ -77,6 +78,13 @@ public class LdapSuspend implements ApplicationContextAware {
 
             LdapContext ldapctx = conMgr.connect(managedSys);
 
+            if (ldapctx == null) {
+                resp.setStatus(StatusCodeType.FAILURE);
+                resp.setError(ErrorCode.DIRECTORY_ERROR);
+                resp.addErrorMessage("Unable to connect to directory.");
+                return resp;
+            }
+
 
             String ldapName = psoID.getID();
 
@@ -92,7 +100,7 @@ public class LdapSuspend implements ApplicationContextAware {
 	 	}catch(Exception ne) {
 	 		log.error(ne.getMessage(), ne);
 	 		
-	 		ResponseType resp = new ResponseType();
+
 	 		resp.setStatus(StatusCodeType.FAILURE);
 	 		resp.setError(ErrorCode.NO_SUCH_IDENTIFIER);
 	 		return resp;

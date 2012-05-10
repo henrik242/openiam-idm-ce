@@ -71,6 +71,14 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
             log.debug("Ldapcontext = " + ldapctx);
 
+            if (ldapctx == null) {
+                response.setStatus(StatusCodeType.FAILURE);
+                response.setError(ErrorCode.DIRECTORY_ERROR);
+                response.addErrorMessage("Unable to connect to directory.");
+                return response;
+            }
+
+
             ManagedSystemObjectMatch matchObj = null;
             List<ManagedSystemObjectMatch> matchObjList = managedSysObjectMatchDao.findBySystemId(targetID, "USER");
             if (matchObjList != null && matchObjList.size() > 0) {

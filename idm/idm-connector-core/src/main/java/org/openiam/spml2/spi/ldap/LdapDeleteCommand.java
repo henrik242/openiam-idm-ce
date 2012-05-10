@@ -35,6 +35,7 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
         ConnectionMgr conMgr = null;
         boolean groupMembershipEnabled = true;
         String delete = "DELETE";
+        ResponseType respType = new ResponseType();
 
         //String uid = null;
         String ou = null;
@@ -95,6 +96,13 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
             conMgr.setApplicationContext(ac);
             LdapContext ldapctx = conMgr.connect(managedSys);
 
+            if (ldapctx == null) {
+                respType.setStatus(StatusCodeType.FAILURE);
+                respType.setError(ErrorCode.DIRECTORY_ERROR);
+                respType.addErrorMessage("Unable to connect to directory.");
+                return respType;
+            }
+
             String ldapName = psoID.getID();
 
 
@@ -110,7 +118,6 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
             log.error(ne);
 
-            ResponseType respType = new ResponseType();
             respType.setStatus(StatusCodeType.FAILURE);
             respType.setError(ErrorCode.DIRECTORY_ERROR);
             respType.addErrorMessage(ne.toString());
@@ -129,7 +136,6 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
 
         }
 
-        ResponseType respType = new ResponseType();
         respType.setStatus(StatusCodeType.SUCCESS);
         return respType;
 

@@ -216,10 +216,6 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
                         attrs.put(a);
                     }
 
-
-                    //new BasicAttribute();
-
-                    //attrs.put(att.getName(), att.getValue());
                 }else {
                     if ( "memberOf".equalsIgnoreCase(att.getDataType())) {
                         if (groupMembershipEnabled) {
