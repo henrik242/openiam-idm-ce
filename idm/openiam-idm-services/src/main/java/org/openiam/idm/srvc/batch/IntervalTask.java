@@ -2,10 +2,16 @@ package org.openiam.idm.srvc.batch;
 
 import java.util.*;
 
+import java.net.ConnectException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.mule.api.MuleContext;
+import org.mule.api.MuleException;
+import org.mule.api.context.MuleContextAware;
+import org.mule.module.client.MuleClient;
 import org.openiam.base.id.UUIDGen;
+import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.batch.dto.BatchTask;
@@ -23,7 +29,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author suneet
  *
  */
-public class IntervalTask  implements ApplicationContextAware  {
+public class IntervalTask  implements ApplicationContextAware, MuleContextAware {
 
 	private static final Log log = LogFactory.getLog(IntervalTask.class);
 	protected BatchDataService batchService;
@@ -33,8 +39,15 @@ public class IntervalTask  implements ApplicationContextAware  {
 	protected String scriptEngine;
 	protected AuditHelper auditHelper;
 
+    protected MuleContext muleContext;
+
     static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
-    boolean isPrimary = Boolean.parseBoolean(res.getString("IS_PRIMARY"));
+
+    static boolean isPrimary = Boolean.parseBoolean(res.getString("IS_PRIMARY"));
+
+    static String serviceHost = res.getString("PRIMARY_HOST");
+    static String serviceContext = res.getString("openiam.idm.ws.path");
+
 	
 	public static ApplicationContext ac;
 	
@@ -46,7 +59,11 @@ public class IntervalTask  implements ApplicationContextAware  {
 	{
         if (!isPrimary) {
             log.debug("Scheduler: Not primary instance");
-            return;
+
+            if (isAlive()) {
+                log.debug("Primary is alive.");
+                return;
+            }
         }
 
 
@@ -113,6 +130,29 @@ public class IntervalTask  implements ApplicationContextAware  {
 	
 	}
 
+    private boolean isAlive() {
+        Map<String, String> msgPropMap = new HashMap<String, String>();
+        msgPropMap.put("SERVICE_HOST", serviceHost);
+        msgPropMap.put("SERVICE_CONTEXT", serviceContext);
+
+
+        //Create the client with the context
+        try {
+
+            MuleClient client = new MuleClient(muleContext);
+            client.send("vm://heartBeatIsAlive", null, msgPropMap);
+
+        }catch(Exception  ce) {
+            log.error(ce.toString());
+
+            if (ce instanceof ConnectException) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
 
 
 	public BatchDataService getBatchService() {
@@ -160,4 +200,13 @@ public class IntervalTask  implements ApplicationContextAware  {
 		ac = applicationContext;
 		
 	}
+
+    public void setMuleContext(MuleContext ctx) {
+
+        log.debug("** Setting MuleContext for IntervalTask **");
+
+        muleContext = ctx;
+    }
+
+
 }

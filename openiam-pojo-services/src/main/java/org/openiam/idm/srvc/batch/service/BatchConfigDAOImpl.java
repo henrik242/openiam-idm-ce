@@ -75,11 +75,9 @@ public class BatchConfigDAOImpl implements BatchConfigDAO {
 	 * @see org.openiam.idm.srvc.batch.service.BatchConfigDAO#update(org.openiam.idm.srvc.batch.dto.BatchTask)
 	 */
 	public BatchTask update(BatchTask detachedInstance) {
-		log.debug("merging BatchConfig instance");
 		try {
 			BatchTask result = (BatchTask) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
-			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
 			log.error("merge failed", re);
