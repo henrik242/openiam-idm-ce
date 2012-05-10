@@ -27,12 +27,13 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleMessage;
 import org.mule.module.client.MuleClient;
 import org.openiam.connector.type.*;
+import org.openiam.connector.type.ResponseType;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
 import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.interf.ConnectorService;
-import org.openiam.spml2.msg.ErrorCode;
-import org.openiam.spml2.msg.StatusCodeType;
+import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
@@ -396,6 +397,40 @@ public class RemoteConnectorAdapter {
 
     }
 
+    public ResponseType reconcileResource(ReconciliationConfig config, ProvisionConnector connector, MuleContext muleContext){
+        ResponseType resp = new ResponseType();
+
+        if (config == null) {
+            resp.setStatus(StatusCodeType.FAILURE);
+            resp.setError(ErrorCode.INVALID_CONFIGURATION);
+            return resp;
+        }
+
+        log.debug("ConnectorAdapter:reconcileRequest called. Resource =" + config.getResourceId());
+        try {
+
+
+            if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
+
+                MuleMessage msg = getService(connector, config, connector.getServiceUrl(), "reconcile", muleContext);
+                if (msg != null) {
+                    log.debug("Test connection Payload=" + msg.getPayload());
+                    if (msg.getPayload() != null && msg.getPayload() instanceof ResponseType) {
+                        return (ResponseType) msg.getPayload();
+                    }
+                    resp.setStatus(StatusCodeType.SUCCESS);
+                    return resp;
+                } else {
+                    log.debug("MuleMessage is null..");
+                }
+
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+        resp.setStatus(StatusCodeType.FAILURE);
+        return resp;
+    }
 
     private MuleMessage getService(ProvisionConnector connector, Object reqType, String url, String operation, MuleContext muleContext) {
         try {
@@ -420,6 +455,10 @@ public class RemoteConnectorAdapter {
             if (operation.equalsIgnoreCase("lookup")) {
 
                 msg = client.send("vm://remoteConnectorMessageLookup", (LookupRequest) reqType, msgPropMap);
+            }
+            if (operation.equalsIgnoreCase("reconcile")) {
+
+                client.sendAsync("vm://remoteConnectorMessageReconcile", (ReconciliationConfig) reqType, msgPropMap);
             }
             if (operation.equalsIgnoreCase("delete")) {
 

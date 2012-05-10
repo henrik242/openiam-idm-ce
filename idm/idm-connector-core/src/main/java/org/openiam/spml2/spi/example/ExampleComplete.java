@@ -27,6 +27,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.base.AbstractSpml2Complete;
 import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.AddRequestType;
@@ -293,6 +294,10 @@ public class ExampleComplete  extends AbstractSpml2Complete implements Connector
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     public ResponseType testConnection(@WebParam(name = "managedSys", targetNamespace = "") ManagedSys managedSys) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

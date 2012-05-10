@@ -28,10 +28,18 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
+import org.mule.api.context.MuleContextAware;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
+import org.openiam.connector.type.LookupRequest;
+import org.openiam.connector.type.LookupResponse;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
+import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
+import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
+import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
+import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.recon.command.ReconciliationCommandFactory;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.recon.dto.ReconciliationResponse;
@@ -44,17 +52,23 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.resp.LookupUserResponse;
+import org.openiam.provision.service.ConnectorAdapter;
 import  org.openiam.provision.service.ProvisionService;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
+import org.openiam.provision.service.RemoteConnectorAdapter;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
+import org.openiam.spml2.msg.LookupRequestType;
+import org.openiam.spml2.msg.LookupResponseType;
+import org.openiam.spml2.msg.PSOIdentifierType;
+import org.openiam.spml2.msg.StatusCodeType;
 
 /**
  * @author suneet
  *
  */
-public class ReconciliationServiceImpl implements ReconciliationService {
+public class ReconciliationServiceImpl implements ReconciliationService, MuleContextAware {
 
 	protected ReconciliationSituationDAO reconSituationDao;
 	protected ReconciliationResultDAO reconResultDao;
@@ -65,6 +79,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     protected  ProvisionService provisionService;
     protected ResourceDataService resourceDataService;
     protected UserDataService userMgr;
+    protected ManagedSystemDataService managedSysService;
+    protected ConnectorDataService connectorService;
+    protected ConnectorAdapter connectorAdapter;
+    protected RemoteConnectorAdapter remoteConnectorAdapter;
+
 
     private static final Log log = LogFactory.getLog(ReconciliationServiceImpl.class);
 
@@ -222,8 +241,21 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                     }
 
                 }
-                //TODO: Identify IDM Not Found
+            }
 
+            ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
+            ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
+
+            if (connector.getConnectorInterface() != null &&
+                    connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
+
+                log.debug("Calling reconcileResource with Remote connector");
+
+                remoteConnectorAdapter.reconcileResource(config, connector, muleContext);
+            } else {
+
+                log.debug("Calling reconcileResource local connector");
+                connectorAdapter.reconcileResource(mSys, config, muleContext);
             }
 		}catch(Exception e) {
 			log.error(e);
@@ -267,5 +299,21 @@ public class ReconciliationServiceImpl implements ReconciliationService {
 
     public void setUserMgr(UserDataService userMgr) {
         this.userMgr = userMgr;
+    }
+
+    public void setManagedSysService(ManagedSystemDataService managedSysService) {
+        this.managedSysService = managedSysService;
+    }
+
+    public void setConnectorService(ConnectorDataService connectorService) {
+        this.connectorService = connectorService;
+    }
+
+    public void setConnectorAdapter(ConnectorAdapter connectorAdapter) {
+        this.connectorAdapter = connectorAdapter;
+    }
+
+    public void setRemoteConnectorAdapter(RemoteConnectorAdapter remoteConnectorAdapter) {
+        this.remoteConnectorAdapter = remoteConnectorAdapter;
     }
 }

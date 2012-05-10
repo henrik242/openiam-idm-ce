@@ -28,15 +28,22 @@ import org.openiam.idm.srvc.audit.service.IdmAuditLogDataService;
 import org.openiam.idm.srvc.auth.context.AuthenticationContext;
 import org.openiam.idm.srvc.auth.context.PasswordCredential;
 import org.openiam.idm.srvc.auth.dto.Login;
+import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.auth.dto.Subject;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.auth.service.AuthenticationConstants;
 import org.openiam.idm.srvc.auth.ws.AuthenticationResponse;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.service.PolicyDAO;
+import org.openiam.idm.srvc.recon.command.ReconciliationCommandFactory;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
+import org.openiam.idm.srvc.recon.dto.ReconciliationSituation;
+import org.openiam.idm.srvc.recon.service.ReconciliationCommand;
+import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
@@ -60,6 +67,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -266,6 +274,76 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
         return null;
     }
 
+
+    public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
+        log.debug("reconcile resource called in LDAPConnector");
+
+        Resource res = resourceDataService.getResource(config.getResourceId());
+        String managedSysId =  res.getManagedSysId();
+        ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
+
+        Map<String, ReconciliationCommand> situations = new HashMap<String, ReconciliationCommand>();
+        for(ReconciliationSituation situation : config.getSituationSet()){
+            situations.put(situation.getSituation().trim(), ReconciliationCommandFactory.createCommand(situation.getSituationResp(), situation));
+            log.debug("Created Command for: " + situation.getSituation());
+        }
+
+        ResponseType response = new ResponseType();
+        response.setStatus(StatusCodeType.SUCCESS);
+
+        LookupRequestType request = new LookupRequestType();
+        ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(managedSysId, "USER");
+        if(matchObjAry.length == 0) {
+            log.error("No match object found for this managed sys");
+            response.setStatus(StatusCodeType.FAILURE);
+            return response;
+        }
+        String keyField = matchObjAry[0].getKeyField();
+        String searchString = keyField + "=*," + matchObjAry[0].getBaseDn();
+        PSOIdentifierType idType = new PSOIdentifierType(searchString, null, managedSysId);
+        request.setPsoID(idType);
+
+        LookupResponseType responseType = lookup(request);
+
+        if (responseType.getStatus() == StatusCodeType.FAILURE) {
+            response.setStatus(StatusCodeType.FAILURE);
+            return response;
+        }
+
+        if(responseType.getAny() != null && responseType.getAny().size() != 0) {
+            for(ExtensibleObject obj: responseType.getAny()){
+                log.debug("Reconcile Found User");
+                String principal = null;
+                for(ExtensibleAttribute attr: obj.getAttributes()) {
+                    if(attr.getName().equalsIgnoreCase(keyField)){
+                        principal = attr.getValue();
+                        break;
+                    }
+                }
+                if(principal != null) {
+                    log.debug("reconcile principle found");
+
+                    Login login = loginManager.getLoginByManagedSys(mSys.getDomainId(), principal, managedSysId);
+                    if(login == null) {
+                        log.debug("Situation: IDM Not Found");
+                        Login l = new Login();
+                        LoginId id = new LoginId();
+                        id.setDomainId(mSys.getDomainId());
+                        id.setLogin(principal);
+                        id.setManagedSysId(managedSysId);
+                        l.setId(id);
+                        ReconciliationCommand command = situations.get("IDM Not Found");
+                        if(command != null){
+                            log.debug("Call command for IDM Not Found");
+                            command.execute(l, null, obj.getAttributes());
+                        }
+                    }
+                }
+            }
+        }
+
+        return response;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     /**
      * Used to test if the connectivity information to the larget system is valid.

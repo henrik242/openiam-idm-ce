@@ -30,6 +30,7 @@ import org.mule.module.client.MuleClient;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
 import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.password.ResetPasswordRequestType;
@@ -174,6 +175,46 @@ public class ConnectorAdapter {
 
         }
 
+    }
+
+    public ResponseType reconcileResource(ManagedSys managedSys, ReconciliationConfig config, MuleContext muleContext){
+        ResponseType type = new ResponseType();
+        type.setStatus(StatusCodeType.FAILURE);
+
+
+        if (config == null) {
+            return type;
+        }
+
+        log.debug("ConnectorAdapter:reconcile called. Resource =" + config.getResourceId());
+
+        try {
+            ProvisionConnector connector = connectorService.getConnector(managedSys.getConnectorId());
+
+            log.debug("Connector found for " + connector.getConnectorId());
+
+            if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
+
+                MuleMessage msg = getService(connector, config, connector.getServiceUrl(), "reconcile", muleContext);
+
+                log.debug("MuleMessage payload=" + msg);
+
+                if (msg != null) {
+                    return (ResponseType) msg.getPayload();
+                } else {
+                    return type;
+                }
+
+            }
+            return type;
+        } catch (Exception e) {
+            log.error(e);
+
+            type.setError(ErrorCode.OTHER_ERROR);
+            type.addErrorMessage(e.toString());
+            return type;
+
+        }
     }
 
     public ResponseType deleteRequest(ManagedSys managedSys, DeleteRequestType delReqType, MuleContext muleContext) {
@@ -438,6 +479,10 @@ public class ConnectorAdapter {
         if (operation.equalsIgnoreCase("lookup")) {
 
             msg = client.send("vm://dispatchConnectorMessageLookup", (LookupRequestType) reqType, msgPropMap);
+        }
+        if (operation.equalsIgnoreCase("reconcile")) {
+
+            client.sendAsync("vm://dispatchConnectorMessageReconcile", (ReconciliationConfig) reqType, msgPropMap);
         }
         if (operation.equalsIgnoreCase("delete")) {
 
