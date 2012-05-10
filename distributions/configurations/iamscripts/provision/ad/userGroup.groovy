@@ -4,12 +4,11 @@ import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.groovy.helper.ServiceHelper;
-import org.openiam.base.AttributeOperationEnum;
 
 def GroupDataWebService groupService = ServiceHelper.groupService();
 def Group grp;
 
-String groupBaseDN = ",ou=group," + matchParam.baseDn;
+String groupBaseDN = ",OU=dev,DC=iamdev,DC=local";
 
 List<String> roleStrList = new ArrayList<String>();
 def List<Group> groupList = user.getMemberOfGroups();
@@ -25,19 +24,10 @@ if (groupList != null) {
         		groupName = grp.grpName;
         
 			}
-			println("group id  " + r.grpId + " --> " + groupName + " - " + r.operation);
 			
-			if (r.operation == null) {
-				
-					roleStrList.add("cn=" + groupName +  groupBaseDN);
-				
-			}else {
-				if (r.operation != AttributeOperationEnum.DELETE ) {
-					roleStrList.add("cn=" + groupName +  groupBaseDN);
-				}
-		  }
+			println("Adding group id  " + r.grpId + " --> " + groupName);
 			
-			
+			roleStrList.add("cn=" + groupName +  groupBaseDN);
 			
 		}
 		output = roleStrList;
