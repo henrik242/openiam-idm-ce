@@ -87,7 +87,20 @@
 	  			 <cxf:jaxws-client serviceClass="org.openiam.spml2.interf.ConnectorService" operation="lookup" >
 	  			 </cxf:jaxws-client>
 	  		</outbound-endpoint>
-		</flow>					
+		</flow>
+
+        <flow name="connectorClientReconcile">
+            <vm:inbound-endpoint path="dispatchConnectorMessageReconcile" exchange-pattern="request-response"  >
+            </vm:inbound-endpoint>
+
+            <outbound-endpoint
+                    address="http://#[header:INBOUND:serviceName]"
+                    exchange-pattern="request-response" >
+
+                <cxf:jaxws-client serviceClass="org.openiam.spml2.interf.ConnectorService" operation="reconcileResource" >
+                </cxf:jaxws-client>
+            </outbound-endpoint>
+        </flow>
 
 		<flow name="connectorClientResetPassword">
   			<vm:inbound-endpoint path="dispatchConnectorMessageResetPassword" exchange-pattern="request-response"  >
@@ -275,17 +288,30 @@
 		<flow name="remoteConnectorClientLookup">
   			<vm:inbound-endpoint path="remoteConnectorMessageLookup" exchange-pattern="request-response"  >
   			</vm:inbound-endpoint>
-  				 		   		
+
 	  		<outbound-endpoint responseTimeout="18000000"
 	  			address="http://#[header:INBOUND:serviceName]"
 	  			exchange-pattern="request-response" >
-	
+
 	  			 <cxf:jaxws-client serviceClass="org.openiam.spml2.interf.RemoteConnectorService" operation="lookup" >
 	  			 </cxf:jaxws-client>
 	  		</outbound-endpoint>
-		</flow>	
+		</flow>
 
-        <!-- Synchronization Service CALL -->
+        <flow name="remoteConnectorClientReconcile">
+            <vm:inbound-endpoint path="remoteConnectorMessageReconcile" exchange-pattern="request-response"  >
+            </vm:inbound-endpoint>
+
+            <outbound-endpoint responseTimeout="18000000"
+                               address="http://#[header:INBOUND:serviceName]"
+                               exchange-pattern="request-response" >
+
+                <cxf:jaxws-client serviceClass="org.openiam.spml2.interf.RemoteConnectorService" operation="reconcileResource" >
+                </cxf:jaxws-client>
+            </outbound-endpoint>
+        </flow>
+
+    <!-- Synchronization Service CALL -->
 
 		<flow name="synchronizationClient">
   			<vm:inbound-endpoint path="synchronizationMessage" exchange-pattern="one-way"  >

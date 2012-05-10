@@ -74,6 +74,7 @@ import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.service.PolicyDAO;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
@@ -903,6 +904,10 @@ $ou =				$args[11]
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     public ResponseType testConnection(@WebParam(name = "managedSys", targetNamespace = "") ManagedSys managedSys) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

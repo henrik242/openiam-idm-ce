@@ -6,7 +6,10 @@ import javax.jws.WebService;
 import javax.naming.ldap.LdapContext;
 
 import org.openiam.connector.type.*;
+import org.openiam.connector.type.ResponseType;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
+import org.openiam.spml2.msg.*;
 
 
 /**
@@ -118,7 +121,10 @@ public interface RemoteConnectorService {
     public ResponseType testConnection(
             @WebParam(name = "managedSys", targetNamespace = "")
             ManagedSys managedSys);
-	
-	
+
+    @WebMethod
+    public ResponseType reconcileResource(
+            @WebParam(name = "config", targetNamespace = "")
+            ReconciliationConfig config);
 }
 

@@ -1,4 +1,7 @@
 import org.openiam.provision.dto.ProvisionUser
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.dto.RoleId;
+import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
 public class LDAPPopulationScript implements org.openiam.idm.srvc.recon.service.PopulationScript {
     public int execute(Map<String, String> line, ProvisionUser pUser){
@@ -123,6 +126,16 @@ public class LDAPPopulationScript implements org.openiam.idm.srvc.recon.service.
                     }
                     break
             }
+        }
+        if(pUser.getMemberOfRoles() == null || pUser.getActiveMemberOfRoles().isEmpty()) {
+            List<Role> roleList = new ArrayList<Role>();
+            RoleId id = new RoleId("USR_SEC_DOMAIN", "END_USER");
+            Role r = new Role();
+            r.setId(id);
+            roleList.add(r);
+            pUser.setMemberOfRoles(roleList);
+            //set status to active: IMPORTANT!!!!
+            pUser.setStatus(UserStatusEnum.PENDING_INITIAL_LOGIN);
         }
         return retval;
     }

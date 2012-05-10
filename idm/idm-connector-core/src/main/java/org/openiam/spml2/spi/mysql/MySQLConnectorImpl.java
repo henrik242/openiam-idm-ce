@@ -1,6 +1,7 @@
 package org.openiam.spml2.spi.mysql;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.base.AbstractSpml2Complete;
 import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.*;
@@ -29,6 +30,10 @@ public class MySQLConnectorImpl extends AbstractSpml2Complete implements Connect
 
         return addCommand.add(reqType);
 
+    }
+
+    public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public ResponseType testConnection(@WebParam(name = "managedSys", targetNamespace = "") ManagedSys managedSys) {

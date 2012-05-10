@@ -16,6 +16,7 @@ import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ import java.util.Map;
 public class CreateIdmAccountCommand implements ReconciliationCommand {
     private ProvisionService provisionService;
     private ReconciliationSituation config;
-    private static final Log log = LogFactory.getLog(DeleteIdmUserExcludeTargetCommand.class);
+    private static final Log log = LogFactory.getLog(CreateIdmAccountCommand.class);
     private static String scriptEngine = "org.openiam.script.GroovyScriptEngineIntegration";
 
     public CreateIdmAccountCommand(ProvisionService provisionService, ReconciliationSituation config) {
@@ -39,12 +40,11 @@ public class CreateIdmAccountCommand implements ReconciliationCommand {
     }
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
-        LookupUserResponse lookupResp =  provisionService.getTargetSystemUser(login.getId().getLogin(), login.getId().getManagedSysId());
-        if(lookupResp.getStatus() == ResponseStatus.FAILURE){
-            log.debug("Can't create IDM user from non-existent resource...");
+        if(attributes == null){
+            log.debug("Can't create IDM user without attributes");
         } else {
             Map<String, String> line = new HashMap<String, String>();
-            for(ExtensibleAttribute attr: lookupResp.getAttrList()){
+            for(ExtensibleAttribute attr: attributes){
                 line.put(attr.getName(), attr.getValue());
             }
             try {
@@ -53,6 +53,10 @@ public class CreateIdmAccountCommand implements ReconciliationCommand {
                 ProvisionUser pUser = new ProvisionUser();
                 int retval = script.execute(line, pUser);
                 if(retval == 0){
+                    List<Login> pList = new ArrayList<Login>();
+                    pList.add(login);
+                    login.getId().setManagedSysId("0");
+                    pUser.setPrincipalList(pList);
                     provisionService.addUser(pUser);
                 }else{
                     log.debug("Couldn't populate ProvisionUser. User not added");

@@ -119,12 +119,10 @@ public class LdapLookupCommand extends LdapAbstractCommand {
                                 extObj.getAttributes().add(extAttr);
                             }
                         }
+                        respType.addObject(extObj);
+                        extObj = new ExtensibleObject();
                     }
-
                 }
-                respType.addObject(extObj);
-
-
             }
 
         } catch (NamingException ne) {

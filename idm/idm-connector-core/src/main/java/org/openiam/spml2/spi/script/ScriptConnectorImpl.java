@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
@@ -34,6 +35,7 @@ import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.openiam.spml2.spi.ldap.LdapConnectorImpl;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.io.IOException;
 import java.util.HashMap;
@@ -162,6 +164,10 @@ public class ScriptConnectorImpl extends AbstractSpml2Complete implements Connec
             resp.setStatus(StatusCodeType.FAILURE);
             return resp;
         }
+    }
+
+    public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public ResponseType testConnection(ManagedSys managedSys) {

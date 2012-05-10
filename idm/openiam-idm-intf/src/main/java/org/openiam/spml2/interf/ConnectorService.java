@@ -1,6 +1,7 @@
 package org.openiam.spml2.interf;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.password.*;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
@@ -19,6 +20,10 @@ import javax.jws.WebService;
 @WebService(targetNamespace = "http://www.openiam.org/service/connector")
 public interface ConnectorService {
 
+    @WebMethod
+    public ResponseType reconcileResource(
+            @WebParam(name = "config", targetNamespace = "")
+            ReconciliationConfig config);
 
     @WebMethod
     public ResponseType testConnection(

@@ -331,7 +331,11 @@
         <property name="provisionService" ref="defaultProvision" />
         <property name="resourceDataService" ref="resourceDataService" />
         <property name="userMgr" ref="userManager" />
-	</bean>
+        <property name="managedSysService" ref="managedSysService" />
+        <property name="connectorAdapter" ref="connectorAdapter" />
+        <property name="remoteConnectorAdapter" ref="remoteConnectorAdapter" />
+        <property name="connectorService" ref="connectorService" />
+    </bean>
 
 
 	<bean id="reconServiceWS" class="org.openiam.idm.srvc.recon.ws.ReconciliationWebServiceImpl">
