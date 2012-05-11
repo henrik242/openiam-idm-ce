@@ -82,7 +82,10 @@ public class AppTableConnectorImpl extends AbstractSpml2Complete implements Conn
 
 
     public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        ResponseType response = new ResponseType();
+        response.setStatus(StatusCodeType.FAILURE);
+        response.setError(ErrorCode.UNSUPPORTED_OPERATION);
+        return response;
     }
 
     public ResponseType testConnection(ManagedSys managedSys) {

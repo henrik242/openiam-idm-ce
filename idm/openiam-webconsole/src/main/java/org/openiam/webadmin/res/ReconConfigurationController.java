@@ -200,13 +200,13 @@ public class ReconConfigurationController extends CancellableFormController {
 		}
 
 
-         String view = redirectView + "?mode=1&menuid=RECONCILCONFIG&menugrp=SECURITY_RES&objId=" + configCommand.getConfig().getResourceId();
+         String view = redirectView + "?mode=1&menuid=RECONCILCONFIG&menugrp=SECURITY_RES&objId=" + config.getResourceId();
          log.info("redirecting to=" + view);
 
         if (btn != null && btn.equalsIgnoreCase("Reconcile Now")) {
             if(config != null) {
                 asynchReconService.startReconciliation (config);
-                return new ModelAndView(new RedirectView(redirectView, true));
+                return new ModelAndView(new RedirectView(view, true));
             }
 
         }

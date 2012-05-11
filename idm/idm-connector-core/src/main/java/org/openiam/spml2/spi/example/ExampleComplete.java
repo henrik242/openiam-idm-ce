@@ -30,9 +30,7 @@ import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.base.AbstractSpml2Complete;
 import org.openiam.spml2.interf.ConnectorService;
-import org.openiam.spml2.msg.AddRequestType;
-import org.openiam.spml2.msg.AddResponseType;
-import org.openiam.spml2.msg.DeleteRequestType;
+import org.openiam.spml2.msg.*;
 import org.openiam.provision.type.ExtensibleAddress;
 import org.openiam.provision.type.ExtensibleEmailAddress;
 import org.openiam.provision.type.ExtensibleGroup;
@@ -42,17 +40,6 @@ import org.openiam.provision.type.ExtensiblePhone;
 import org.openiam.provision.type.ExtensibleRole;
 import org.openiam.provision.type.ExtensibleUser;
 
-import org.openiam.spml2.msg.ExtensibleType;
-import org.openiam.spml2.msg.ListTargetsRequestType;
-import org.openiam.spml2.msg.ListTargetsResponseType;
-import org.openiam.spml2.msg.LookupRequestType;
-import org.openiam.spml2.msg.LookupResponseType;
-import org.openiam.spml2.msg.ModificationType;
-import org.openiam.spml2.msg.ModifyRequestType;
-import org.openiam.spml2.msg.ModifyResponseType;
-import org.openiam.spml2.msg.PSOIdentifierType;
-import org.openiam.spml2.msg.ResponseType;
-import org.openiam.spml2.msg.StatusCodeType;
 import org.openiam.spml2.msg.password.ExpirePasswordRequestType;
 import org.openiam.spml2.msg.password.ResetPasswordRequestType;
 import org.openiam.spml2.msg.password.ResetPasswordResponseType;
@@ -296,7 +283,10 @@ public class ExampleComplete  extends AbstractSpml2Complete implements Connector
 	}
 
     public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        ResponseType response = new ResponseType();
+        response.setStatus(StatusCodeType.FAILURE);
+        response.setError(ErrorCode.UNSUPPORTED_OPERATION);
+        return response;
     }
 
     public ResponseType testConnection(@WebParam(name = "managedSys", targetNamespace = "") ManagedSys managedSys) {

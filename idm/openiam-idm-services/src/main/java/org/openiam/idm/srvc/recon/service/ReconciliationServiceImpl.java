@@ -232,12 +232,16 @@ public class ReconciliationServiceImpl implements ReconciliationService, MuleCon
                     }
                 }
                 if(l == null){
+                    if(user.getStatus().equals(UserStatusEnum.DELETED)){
+                        // User is deleted and has no Identity for this managed system -> goto next user
+                        continue;
+                    }
                     // There was never a resource account for this user.
                     // Possibility: User was created before the managed Sys was associated.
                     // Situation: Login Not Found
                     ReconciliationCommand command = situations.get("Login Not Found");
                     if(command != null){
-                        log.debug("Call command for IDM Delete");
+                        log.debug("Call command for IDM Login Not Found");
                         command.execute(l, user, null);
                     }
                     ReconciliationResponse resp = new ReconciliationResponse(ResponseStatus.SUCCESS);
