@@ -6,5 +6,7 @@ package org.openiam.provision.service;
 public class ProvisioningConstants {
     static final int SUCCESS = 1;
     static final int FAIL =  0;
+    static final int VALIDATION_FAIL = 2;
+
 
 }

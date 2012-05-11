@@ -138,6 +138,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     private ConnectorDataService connectorService;
     private ValidateConnectionConfig validateConnection;
     protected PasswordHistoryDAO passwordHistoryDao;
+    private String preProcessor;
 
     MuleContext muleContext;
 
@@ -194,6 +195,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             return resp;
         }
 
+        //
+
+        //
+
 
         if (user.getUser().getCompanyId() != null) {
             org = orgManager.getOrganization(user.getUser().getCompanyId());
@@ -205,6 +210,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("org", org);
         bindingMap.put("context", ac);
         bindingMap.put("operation", "ADD");
+
+        // define rules that need to be executed before a addUser processor is invoked.
+        ProvisionServicePreProcessor addPreProcessScript = createProvPreProcessScript(preProcessor);
+        if (addPreProcessScript != null) {
+            if (  executeProvisionPreProcess(addPreProcessScript, bindingMap, user, null, "ADD") != ProvisioningConstants.SUCCESS  ) {
+                resp.setStatus(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                return resp;
+            }
+        }
 
         // CREATE THE PRIMARY IDENTITY IF IT HAS NOT BEEN PASSED IN
         
@@ -646,7 +661,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         log.debug("----deleteByUserId called.------");
 
         IdmAuditLog auditLog = null;
-
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
 
         ProvisionUserResponse response = new ProvisionUserResponse(ResponseStatus.SUCCESS);
 
@@ -668,6 +683,17 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             response.setErrorCode(ResponseCode.USER_NOT_FOUND);
             return response;
         }
+        ProvisionUser pUser = new ProvisionUser(usr);
+
+        ProvisionServicePreProcessor deletePreProcessScript = createProvPreProcessScript(preProcessor);
+        if (deletePreProcessScript != null) {
+            if (  executeProvisionPreProcess(deletePreProcessScript, bindingMap, pUser, null, "DELETE")  != ProvisioningConstants.SUCCESS  ) {
+                response.setStatus(ResponseStatus.FAILURE);
+                response.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                return response;
+            }
+        }
+
         if (usr.getStatus() == UserStatusEnum.DELETED ||
                 usr.getStatus() == UserStatusEnum.TERMINATE) {
             log.debug("User was already deleted. Nothing more to do.");
@@ -771,6 +797,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         IdmAuditLog auditLog = null;
 
         ProvisionUserResponse response = new ProvisionUserResponse(ResponseStatus.SUCCESS);
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
 
         if (status != UserStatusEnum.DELETED &&
                 status != UserStatusEnum.LEAVE &&
@@ -799,12 +826,28 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             response.setErrorCode(ResponseCode.USER_NOT_FOUND);
             return response;
         }
+
+
+
         User usr = this.userMgr.getUserWithDependent(userId, false);
         if (usr == null) {
             response.setStatus(ResponseStatus.FAILURE);
             response.setErrorCode(ResponseCode.USER_NOT_FOUND);
             return response;
         }
+        ProvisionUser pUser = new ProvisionUser(usr);
+
+        ProvisionServicePreProcessor deletePreProcessScript = createProvPreProcessScript(preProcessor);
+        if (deletePreProcessScript != null) {
+            if (  executeProvisionPreProcess(deletePreProcessScript, bindingMap, pUser, null, "DELETE")  != ProvisioningConstants.SUCCESS  ) {
+                response.setStatus(ResponseStatus.FAILURE);
+                response.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                return response;
+            }
+        }
+
+
+
         if (usr.getStatus() == UserStatusEnum.DELETED ||
                 usr.getStatus() == UserStatusEnum.TERMINATE) {
             log.debug("User was already deleted. Nothing more to do.");
@@ -827,14 +870,14 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             ManagedSystemObjectMatch matchObj = null;
             ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(mSys.getManagedSysId(), "USER");
 
-            ProvisionUser pUser = new ProvisionUser(usr);
+
 
             // pre-processing
 
             Resource res = null;
             String resourceId =  mSys.getResourceId();
 
-            Map<String, Object> bindingMap = new HashMap<String, Object>();
+
             bindingMap.put("IDENTITY", login );
             bindingMap.put("RESOURCE", res);
 
@@ -929,14 +972,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             log.debug("Deleting id=" + l.getId().getLogin());
                             log.debug("- delete using managed sys id=" + mSys.getManagedSysId());
 
-
-
-                            ProvisionUser pUser = new ProvisionUser(usr);
-
                             // pre-processing
-
-
-                            Map<String, Object> bindingMap = new HashMap<String, Object>();
                             bindingMap.put("IDENTITY", l);
                             bindingMap.put("RESOURCE", res);
 
@@ -1134,6 +1170,15 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("org", org);
         bindingMap.put("context", ac);
         bindingMap.put("operation", "MODIFY");
+
+        ProvisionServicePreProcessor modifyPreProcessScript = createProvPreProcessScript(preProcessor);
+        if (modifyPreProcessScript != null) {
+            if (  executeProvisionPreProcess(modifyPreProcessScript, bindingMap, pUser, null, "MODIFY")  != ProvisioningConstants.SUCCESS  ) {
+                resp.setStatus(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                return resp;
+            }
+        }
 
 
         // get the current user object - update it with the new values and then save it
@@ -2012,6 +2057,19 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         log.debug("----setPassword called.------");
 
         Response response = new Response(ResponseStatus.SUCCESS);
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
+
+
+        ProvisionServicePreProcessor passwordPreScript = createProvPreProcessScript(preProcessor);
+        if (passwordPreScript != null) {
+            if (  executeProvisionPreProcess(passwordPreScript, bindingMap, null, passwordSync, "SET_PASSWORD") != ProvisioningConstants.SUCCESS  ) {
+                response.setStatus(ResponseStatus.FAILURE);
+                response.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                return response;
+            }
+        }
+
+
 
         String requestId = "R" + UUIDGen.getUUID();
 
@@ -2158,7 +2216,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
                             // pre-process
-                            Map<String, Object> bindingMap = new HashMap<String, Object>();
+
                             bindingMap.put("IDENTITY", lg);
                             bindingMap.put("RESOURCE", res);
                             bindingMap.put("PASSWORD_SYNC", passwordSync);
@@ -2212,11 +2270,13 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             }
 
                             // post-process
-                            String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
-                            if (postProcessScript != null && !postProcessScript.isEmpty()) {
-                                PostProcessor ppScript = createPostProcessScript(postProcessScript);
-                                if (ppScript != null) {
-                                    executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                            if (res != null) {
+                                String postProcessScript = getResProperty( res.getResourceProps() , "POST_PROCESS");
+                                if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                                    PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                    if (ppScript != null) {
+                                        executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                                    }
                                 }
                             }
 
@@ -2241,7 +2301,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             // pre-process
             Resource resource = resourceDataService.getResource(mSys.getResourceId());
 
-            Map<String, Object> bindingMap = new HashMap<String, Object>();
             bindingMap.put("IDENTITY", login);
             bindingMap.put("PASSWORD_SYNC", passwordSync);
 
@@ -3006,6 +3065,39 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
+    private ProvisionServicePreProcessor createProvPreProcessScript(String scriptName) {
+        try {
+            ScriptIntegration se = null;
+            se = ScriptFactory.createModule(scriptEngine);
+            return (ProvisionServicePreProcessor)se.instantiateClass(null, scriptName);
+        }catch(Exception ce) {
+            log.error(ce);
+            return null;
+
+        }
+
+    }
+
+    private int executeProvisionPreProcess(ProvisionServicePreProcessor ppScript, Map<String, Object> bindingMap, ProvisionUser user, PasswordSync passwordSync, String operation) {
+        if ("ADD".equalsIgnoreCase(operation)) {
+            return ppScript.addUser(user,bindingMap);
+        }
+        if ("MODIFY".equalsIgnoreCase(operation)) {
+            return ppScript.modifyUser(user,bindingMap);
+        }
+        if ("DELETE".equalsIgnoreCase(operation)) {
+            return ppScript.deleteUser(user,bindingMap);
+        }
+        if ("SET_PASSWORD".equalsIgnoreCase(operation)) {
+            return ppScript.setPassword(passwordSync,bindingMap);
+        }
+
+        return 0;
+
+
+    }
+
+
 
     private int executePreProcess(PreProcessor ppScript, Map<String, Object> bindingMap, ProvisionUser user, String operation) {
         if ("ADD".equalsIgnoreCase(operation)) {
@@ -3060,5 +3152,13 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     public void setPasswordHistoryDao(PasswordHistoryDAO passwordHistoryDao) {
         this.passwordHistoryDao = passwordHistoryDao;
+    }
+
+    public String getPreProcessor() {
+        return preProcessor;
+    }
+
+    public void setPreProcessor(String preProcessor) {
+        this.preProcessor = preProcessor;
     }
 }
