@@ -3,7 +3,7 @@
 <%@ page language="java" %>
 <%@ page session="true" %>
 <%@ page import="java.util.*,javax.servlet.http.*, org.openiam.selfsrvc.*" %>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>

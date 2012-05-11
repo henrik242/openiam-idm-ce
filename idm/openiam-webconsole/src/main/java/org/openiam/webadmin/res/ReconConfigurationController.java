@@ -10,6 +10,7 @@ import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.recon.dto.ReconciliationSituation;
+import org.openiam.idm.srvc.recon.ws.AsynchReconciliationService;
 import org.openiam.idm.srvc.recon.ws.ReconciliationWebService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
@@ -38,7 +39,7 @@ public class ReconConfigurationController extends CancellableFormController {
     protected NavigatorDataWebService navigationDataService;
     protected ReconciliationWebService reconcileService;
     protected BatchDataService batchDataService;
-
+    protected AsynchReconciliationService asynchReconService;
 
     private static final Log log = LogFactory.getLog(ReconConfigurationController.class);
 
@@ -87,8 +88,9 @@ public class ReconConfigurationController extends CancellableFormController {
             cmd.getSituationList().add(new ReconciliationSituation(null, "Resource Delete"));
             cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Delete"));
             cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Not Found"));
-            cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Changed"));
-            cmd.getSituationList().add(new ReconciliationSituation(null, "Resource Changed"));
+            cmd.getSituationList().add(new ReconciliationSituation(null, "Login Not Found"));
+            //cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Changed"));
+            //cmd.getSituationList().add(new ReconciliationSituation(null, "Resource Changed"));
         } else {
             // move set to a list
 
@@ -198,8 +200,16 @@ public class ReconConfigurationController extends CancellableFormController {
 		}
 
 
-         String view = redirectView + "?mode=1&menuid=RECONCILCONFIG&menugrp=SECURITY_RES&objId=" + configCommand.getConfig().getResourceId();
+         String view = redirectView + "?mode=1&menuid=RECONCILCONFIG&menugrp=SECURITY_RES&objId=" + config.getResourceId();
          log.info("redirecting to=" + view);
+
+        if (btn != null && btn.equalsIgnoreCase("Reconcile Now")) {
+            if(config != null) {
+                asynchReconService.startReconciliation (config);
+                return new ModelAndView(new RedirectView(view, true));
+            }
+
+        }
 
         return new ModelAndView(new RedirectView(view, true));
 
@@ -235,5 +245,9 @@ public class ReconConfigurationController extends CancellableFormController {
 
     public void setBatchDataService(BatchDataService batchDataService) {
         this.batchDataService = batchDataService;
+    }
+
+    public void setAsynchReconService(AsynchReconciliationService asynchReconService) {
+        this.asynchReconService = asynchReconService;
     }
 }

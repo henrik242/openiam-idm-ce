@@ -20,6 +20,7 @@ public class DoNothingCommand implements ReconciliationCommand {
     private static final Log log = LogFactory.getLog(DoNothingCommand.class);
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
+        log.debug("Entering DoNothingCommand");
         log.debug("Do nothing for user :" + login.getUserId());
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }

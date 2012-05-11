@@ -115,6 +115,14 @@
 	  <property name="address" value="${openiam.service_host}${openiam.idm.ws.path}ReconciliationWebService"/>
 	</bean>
 
+    <bean id="asynchReconciliationServiceClient" class="org.openiam.idm.srvc.recon.ws.AsynchReconciliationService"
+          factory-bean="asynchReconciliationServiceFactory" factory-method="create"/>
+
+
+    <bean id="asynchReconciliationServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.recon.ws.AsynchReconciliationService"/>
+        <property name="address" value="${openiam.service_host}${openiam.idm.ws.path}AsynchReconciliationWebService"/>
+    </bean>
 
 	<!-- Audit Service -->
     <bean id="auditServiceClient" class="org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService" 

@@ -30,7 +30,7 @@ import java.util.Map;
 public class UpdateIdmUserCommand implements ReconciliationCommand {
     private ProvisionService provisionService;
     private ReconciliationSituation config;
-    private static final Log log = LogFactory.getLog(DeleteIdmUserExcludeTargetCommand.class);
+    private static final Log log = LogFactory.getLog(UpdateIdmUserCommand.class);
     private static String scriptEngine = "org.openiam.script.GroovyScriptEngineIntegration";
 
     public UpdateIdmUserCommand(ProvisionService provisionService, ReconciliationSituation config) {
@@ -39,6 +39,7 @@ public class UpdateIdmUserCommand implements ReconciliationCommand {
     }
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
+        log.debug("Entering UpdateIdmUserCommand");
         LookupUserResponse lookupResp =  provisionService.getTargetSystemUser(login.getId().getLogin(), login.getId().getManagedSysId());
         if(lookupResp.getStatus() == ResponseStatus.FAILURE){
             log.debug("Can't update IDM user from non-existent resource...");

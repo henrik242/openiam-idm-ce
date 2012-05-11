@@ -284,7 +284,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
 
         Map<String, ReconciliationCommand> situations = new HashMap<String, ReconciliationCommand>();
         for(ReconciliationSituation situation : config.getSituationSet()){
-            situations.put(situation.getSituation().trim(), ReconciliationCommandFactory.createCommand(situation.getSituationResp(), situation));
+            situations.put(situation.getSituation().trim(), ReconciliationCommandFactory.createCommand(situation.getSituationResp(), situation, managedSysId));
             log.debug("Created Command for: " + situation.getSituation());
         }
 
@@ -314,18 +314,24 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
             for(ExtensibleObject obj: responseType.getAny()){
                 log.debug("Reconcile Found User");
                 String principal = null;
+                String searchPrincipal = null;
                 for(ExtensibleAttribute attr: obj.getAttributes()) {
                     if(attr.getName().equalsIgnoreCase(keyField)){
                         principal = attr.getValue();
+                        searchPrincipal = keyField + "=" + principal + "," + matchObjAry[0].getBaseDn();
                         break;
                     }
                 }
                 if(principal != null) {
                     log.debug("reconcile principle found");
 
-                    Login login = loginManager.getLoginByManagedSys(mSys.getDomainId(), principal, managedSysId);
+                    Login login = loginManager.getLoginByManagedSys(mSys.getDomainId(), searchPrincipal, managedSysId);
                     if(login == null) {
                         log.debug("Situation: IDM Not Found");
+                        DeleteRequestType delete = new DeleteRequestType();
+                        idType = new PSOIdentifierType(searchPrincipal, null, managedSysId);
+                        delete.setPsoID(idType);
+                        delete(delete);
                         Login l = new Login();
                         LoginId id = new LoginId();
                         id.setDomainId(mSys.getDomainId());

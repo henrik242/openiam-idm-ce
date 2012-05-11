@@ -20,14 +20,15 @@ import java.util.List;
  */
 public class CreateResourceAccountCommand implements ReconciliationCommand {
     private ProvisionService provisionService;
-    private static final Log log = LogFactory.getLog(DeleteIdmUserCommand.class);
+    private static final Log log = LogFactory.getLog(CreateResourceAccountCommand.class);
 
     public CreateResourceAccountCommand(ProvisionService provisionService) {
         this.provisionService = provisionService;
     }
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
-        log.debug("Create Resource Account for user: " + login.getUserId());
+        log.debug("Entering CreateResourceAccountCommand");
+        log.debug("Create Resource Account for user: " + user.getUserId());
         ProvisionUser pUser = new ProvisionUser(user);
         provisionService.modifyUser(pUser);
         return false;  //To change body of implemented methods use File | Settings | File Templates.

@@ -606,7 +606,7 @@
 		<property name="commandClass" value="org.openiam.webadmin.res.ReconConfigurationCommand" />
 		<property name="formView" value="/res/reconconfig" />
 		<property name="successView" value="/res/reslist" />
-
+         <property name="asynchReconService" ref="asynchReconciliationServiceClient" />
          <property name="navigationDataService" ref="navServiceClient" />
          <property name="redirectView" value="reconcilConfig.cnt" />
          <property name="reconcileService" ref="reconciliationServiceClient" />
