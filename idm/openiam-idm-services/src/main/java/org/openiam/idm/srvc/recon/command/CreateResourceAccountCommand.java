@@ -28,7 +28,7 @@ public class CreateResourceAccountCommand implements ReconciliationCommand {
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
         log.debug("Entering CreateResourceAccountCommand");
-        log.debug("Create Resource Account for user: " + login.getUserId());
+        log.debug("Create Resource Account for user: " + user.getUserId());
         ProvisionUser pUser = new ProvisionUser(user);
         provisionService.modifyUser(pUser);
         return false;  //To change body of implemented methods use File | Settings | File Templates.

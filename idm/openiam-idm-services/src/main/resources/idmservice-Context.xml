@@ -329,6 +329,7 @@
 		<property name="reconResultDetailDao" ref="reconResultDetailDAO" />
         <property name="loginManager" ref="loginManager" />
         <property name="provisionService" ref="defaultProvision" />
+        <property name="roleDataService" ref="roleDataService" />
         <property name="resourceDataService" ref="resourceDataService" />
         <property name="userMgr" ref="userManager" />
         <property name="managedSysService" ref="managedSysService" />

@@ -122,7 +122,9 @@
 		  
           <tr align="right">
             <td colspan="2" >
-
+                <c:if test="${reconCmd.config != null}" >
+                    <input type="submit" name="btn" value="Reconcile Now" onclick="return confirm('Are your sure that you want to start reconciliation?');"/>
+                </c:if>
                 <input type="submit" name="btn" value="Delete" onclick="return confirm('Are you sure you want to delete this Configuration?');"/>
            <input type="submit" name="btn" value="Save" />
             <input type="submit" name="_cancel" value="Cancel" />
