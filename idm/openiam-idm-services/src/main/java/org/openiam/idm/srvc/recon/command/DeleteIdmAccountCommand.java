@@ -28,6 +28,7 @@ public class DeleteIdmAccountCommand implements ReconciliationCommand {
     }
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
+        log.debug("Entering DeleteIdmAccountCommand");
         List<Login> principleList = user.getPrincipalList();
         for(Login l : principleList){
             System.out.println("Checking login");

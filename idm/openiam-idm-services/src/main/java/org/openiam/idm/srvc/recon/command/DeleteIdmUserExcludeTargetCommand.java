@@ -28,6 +28,7 @@ public class DeleteIdmUserExcludeTargetCommand implements ReconciliationCommand 
     }
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
+        log.debug("Entering DeleteIdmUserExcludeTargetCommand");
         log.debug("Delete  user :" + login.getUserId());
 
         ProvisionUser pUser = new ProvisionUser();

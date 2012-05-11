@@ -87,8 +87,8 @@ public class ReconConfigurationController extends CancellableFormController {
             cmd.getSituationList().add(new ReconciliationSituation(null, "Resource Delete"));
             cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Delete"));
             cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Not Found"));
-            cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Changed"));
-            cmd.getSituationList().add(new ReconciliationSituation(null, "Resource Changed"));
+            //cmd.getSituationList().add(new ReconciliationSituation(null, "IDM Changed"));
+            //cmd.getSituationList().add(new ReconciliationSituation(null, "Resource Changed"));
         } else {
             // move set to a list
 

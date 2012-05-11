@@ -40,6 +40,7 @@ public class CreateIdmAccountCommand implements ReconciliationCommand {
     }
 
     public boolean execute(Login login, User user, List<ExtensibleAttribute> attributes) {
+        log.debug("Entering CreateIdmAccountCommand");
         if(attributes == null){
             log.debug("Can't create IDM user without attributes");
         } else {
@@ -53,11 +54,15 @@ public class CreateIdmAccountCommand implements ReconciliationCommand {
                 ProvisionUser pUser = new ProvisionUser();
                 int retval = script.execute(line, pUser);
                 if(retval == 0){
-                    List<Login> pList = new ArrayList<Login>();
-                    pList.add(login);
-                    login.getId().setManagedSysId("0");
-                    pUser.setPrincipalList(pList);
+                    log.debug("Population successful for user: " + login.getId());
+                    if(login != null) {
+                        List<Login> pList = new ArrayList<Login>();
+                        pList.add(login);
+                        login.getId().setManagedSysId("0");
+                        pUser.setPrincipalList(pList);
+                    }
                     provisionService.addUser(pUser);
+                    //provisionService.modifyUser(pUser);
                 }else{
                     log.debug("Couldn't populate ProvisionUser. User not added");
                     return false;

@@ -194,7 +194,7 @@ public class ReconciliationServiceImpl implements ReconciliationService, MuleCon
 
             Map<String, ReconciliationCommand> situations = new HashMap<String, ReconciliationCommand>();
             for(ReconciliationSituation situation : config.getSituationSet()){
-                situations.put(situation.getSituation().trim(), ReconciliationCommandFactory.createCommand(situation.getSituationResp(), situation));
+                situations.put(situation.getSituation().trim(), ReconciliationCommandFactory.createCommand(situation.getSituationResp(), situation, managedSysId));
                 log.debug("Created Command for: " + situation.getSituation());
             }
 
@@ -232,7 +232,6 @@ public class ReconciliationServiceImpl implements ReconciliationService, MuleCon
                         }
                     } else {
                         // Situation: IDM Changed/Resource Changed/Match Found
-                        //TODO think about unified changed handling
                         ReconciliationCommand command = situations.get("Match Found");
                         if(command != null){
                             log.debug("Call command for Match Found");
