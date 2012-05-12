@@ -4,16 +4,15 @@ import org.openiam.provision.dto.PasswordSync;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.PreProcessor;
 import org.openiam.provision.service.ProvisioningConstants;
+import org.openiam.provision.service.AbstractPreProcessor;
 
-/**
- * Resource based pre-processor. This class is called before the rules are run for the LDAP connector
- */
-public class LDAPPreProcessor implements PreProcessor {
+
+public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 	
 	public int addUser(ProvisionUser user, Map<String, Object> bindingMap) {
 		
-		println("PreProcessor: AddUser called.");
-		println("PreProcessor: User=" + user.toString());
+		println("ProvisionServicePreProcessor: AddUser called.");
+		println("ProvisionServicePreProcessor: User=" + user.toString());
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -29,8 +28,8 @@ public class LDAPPreProcessor implements PreProcessor {
 	
     public int modifyUser(ProvisionUser user, Map<String, Object> bindingMap){
     	
-    	println("PreProcessor: ModifyUser called.");
-		println("PreProcessor: User=" + user.toString());
+    	println("ProvisionServicePreProcessor: ModifyUser called.");
+		println("ProvisionServicePreProcessor: User=" + user.toString());
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -47,8 +46,8 @@ public class LDAPPreProcessor implements PreProcessor {
 	
     public int deleteUser(ProvisionUser user, Map<String, Object> bindingMap){
     
-        println("PreProcessor: DeleteUser called.");
-		println("PreProcessor: User=" + user.toString());
+        println("ProvisionServicePreProcessor: DeleteUser called.");
+		println("ProvisionServicePreProcessor: User=" + user.toString());
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -61,9 +60,9 @@ public class LDAPPreProcessor implements PreProcessor {
     	return ProvisioningConstants.SUCCESS;
 	}
 	
-    public int setPassword( Map<String, Object> bindingMap){
+    public int setPassword( PasswordSync passwordSync, Map<String, Object> bindingMap){
     
-     	println("PreProcessor: SetPassword called.");
+     	println("ProvisionServicePreProcessor: SetPassword called.");
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {

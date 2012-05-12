@@ -69,6 +69,7 @@
 			<property name="connectorService" ref="connectorService" />
             <property name="validateConnection" ref="validateConnectionConfig" />
             <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
+            <property name="preProcessor" value="/prov-helper/ProvisionServicePreProcessor.groovy" />
 
     </bean>
 
