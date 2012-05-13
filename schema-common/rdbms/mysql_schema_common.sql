@@ -1008,9 +1008,6 @@ CREATE TABLE IAM_SYS_MESSAGES (
 	PRIMARY KEY(MSG_DELIVERY_ID)
 ) ENGINE = InnoDB;
 
-ALTER TABLE EMAIL_ADDRESS
-  ADD INDEX email_address_email (EMAIL_ADDRESS);
-
 ALTER TABLE PHONE 
   ADD INDEX (AREA_CD, PHONE_NBR);
 
@@ -1018,9 +1015,6 @@ ALTER TABLE USERS
   ADD INDEX (LAST_NAME);
 
 
--- -----------------------------------------------------
--- Table PRIVILEGE_DEF
--- -----------------------------------------------------
 DROP TABLE IF EXISTS PRIVILEGE_DEF ;
 
 CREATE  TABLE IF NOT EXISTS PRIVILEGE_DEF (
@@ -1031,9 +1025,6 @@ CREATE  TABLE IF NOT EXISTS PRIVILEGE_DEF (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `RESOURCE_PRIVILEGE`
--- -----------------------------------------------------
 DROP TABLE IF EXISTS RESOURCE_PRIVILEGE ;
 
 CREATE  TABLE IF NOT EXISTS RESOURCE_PRIVILEGE (
@@ -1051,9 +1042,6 @@ CREATE  TABLE IF NOT EXISTS RESOURCE_PRIVILEGE (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table USER_PRIVILEGE
--- -----------------------------------------------------
 DROP TABLE IF EXISTS USER_PRIVILEGE;
 
 CREATE  TABLE IF NOT EXISTS USER_PRIVILEGE (
