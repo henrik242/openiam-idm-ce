@@ -2280,7 +2280,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 }
                             }
 
-
                         } else {
                             log.debug("Sync not allowed for sys=" + managedSysId);
                         }
@@ -2329,11 +2328,13 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
             }
             // post-process
-            String postProcessScript = getResProperty( resource.getResourceProps() , "POST_PROCESS");
-            if (postProcessScript != null && !postProcessScript.isEmpty()) {
-                PostProcessor ppScript = createPostProcessScript(postProcessScript);
-                if (ppScript != null) {
-                    executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+            if (res != null) {
+                String postProcessScript = getResProperty( resource.getResourceProps() , "POST_PROCESS");
+                if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                    PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                    if (ppScript != null) {
+                        executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                    }
                 }
             }
 

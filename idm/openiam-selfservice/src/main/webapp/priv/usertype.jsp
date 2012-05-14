@@ -4,40 +4,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 
-
-
-<form:form commandName="newHireCmd">
-		<table width="600pt"  class="bodyTable" height="100%" >
-				<tr>
-					<td>
-							<fieldset class="userformSearch" >
-							<legend>SELECT TYPE OF USER</legend>
-
-					<table class="fieldsetTable"  width="100%" >
-
-
-
-
-	<tr>
- 		<td ></td>
-		<td> <form:select path="user.metadataTypeId" multiple="false">
+<div class="block alt">
+<div class="wrap alt">
+<h5>SELECT TYPE OF USER</h5>
+<form:form commandName="newHireCmd" cssClass="type-user" >
+	<fieldset>
+						<form:select path="user.metadataTypeId" multiple="false">
               <form:option value="" label="-Please Select-"/>
               <form:options items="${metadataTypeAry}" itemValue="metadataTypeId" itemLabel="description"/>
-              </form:select>
-			 <BR><form:errors path="user.metadataTypeId" cssClass="error" />
-		</td>
+             </form:select>
+             <p class="error"><form:errors path="user.metadataTypeId" cssClass="error" /></p>
 
-	</tr>
-</table>
+<div class="button">
+	 <input type="submit" name="_cancel" value="Cancel" />
+</div>
+<div class="button">
+	<input type="submit" name="_target1" value="Next"/>
+</div>
 
-
-  <tr class="buttonRow">
-    <td align="right">
-          <input type="submit" name="_target1" value="Next"/>
-    	  <input type="submit" name="_cancel" value="Cancel" />
-    </td>
-  </tr>
-
-</table>
-
+</fieldset>
 </form:form>
+</div>
+</div>
