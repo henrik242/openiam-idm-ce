@@ -31,6 +31,9 @@ function selSupervisor(userId, name)
   var o = new Object();
   o.id = userId;
   o.name = name;
+  if(window.opener){
+    window.opener.returnValue = o;
+  }
   window.returnValue = o; 
 }
 </script>

@@ -35,7 +35,14 @@ function showSupervisorDialog(idfield, namefield) {
 		document.getElementById (idfield).value = dialogReturnValue.id;
 		document.getElementById (nameField).value = dialogReturnValue.name;
     }else {
-    	dialogReturnValue = window.showModalDialog("user/selsupervisor.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+        var prevReturnValue = window.returnValue;
+        window.returnValue = undefined;
+        dialogReturnValue = window.showModalDialog("user/selsupervisor.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+        if(dialogReturnValue == undefined) {
+            dialogReturnValue = window.returnValue;
+        }
+        window.returnValue = prevReturnValue;
+
     	document.getElementById (idfield).value = dialogReturnValue.id;
     	document.getElementById (namefield).value = dialogReturnValue.name;
     }

@@ -17,9 +17,16 @@ function showResourceDialog(idfield, namefield) {
 		document.getElementById (idfield).value = dialogReturnValue.id;
 		document.getElementById (nameField).value = dialogReturnValue.name;
     }else {
-    	dialogReturnValue = window.showModalDialog("res/selresource.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
-    	document.getElementById (idfield).value = dialogReturnValue.id;
-    	document.getElementById (namefield).value = dialogReturnValue.name;
+        var prevReturnValue = window.returnValue;
+        window.returnValue = undefined;
+        dialogReturnValue = window.showModalDialog("res/selresource.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+        if(dialogReturnValue == undefined) {
+            dialogReturnValue = window.returnValue;
+        }
+        window.returnValue = prevReturnValue;
+
+        document.getElementById(idfield).value = dialogReturnValue.id;
+        document.getElementById(namefield).value = dialogReturnValue.name;
     }
 }
 
