@@ -36,7 +36,7 @@
 									<form:input path="user.nickname" size="20" maxlength="20" />
 								</div>
 								<div class="row alt">
-									<label for="t-1">DOB(MM/dd/yyyy)<span>*</span></label>
+									<label for="t-1">DOB(MM/dd/yyyy)</label>
 									<form:input path="user.birthdate" size="20"/>
 								</div>
                                 <p class="error"><form:errors path="user.birthdate" /></p>
@@ -50,12 +50,12 @@
 								</div>
 	                            <p class="error"><form:errors path="user.companyId" /></p>
 								<div class="row alt">
-									<label for="t-1">Functional Title<span>*</span></label>
+									<label for="t-1">Functional Title</label>
 									<form:input path="user.title" size="40" maxlength="40" />
 								</div>
 	                            <p class="error"><form:errors path="user.title" /></p>
                                 <div class="row">
-									<label for="t-4">Gender<span>*</span></label>
+									<label for="t-4">Gender</label>
 									<form:select path="user.sex">
 									  <form:option value="-" label="-Please Select-"  />
 									  <form:option value="M" label="Male" />
