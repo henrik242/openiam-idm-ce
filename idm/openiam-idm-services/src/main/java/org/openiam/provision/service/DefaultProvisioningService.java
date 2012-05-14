@@ -2280,7 +2280,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 }
                             }
 
-
                         } else {
                             log.debug("Sync not allowed for sys=" + managedSysId);
                         }
