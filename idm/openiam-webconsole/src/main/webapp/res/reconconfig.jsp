@@ -105,8 +105,8 @@
     				              <form:option value="DEL_IDM_ACCOUNT" label="DELETE IDM ACCOUNT"/>
                                   <form:option value="DEL_IDM_USER" label="DELETE IDM USER"/>
                                   <form:option value="DEL_IDM_USER-NOT_TARGET" label="DELETE IDM USER-EXCLUDE TARGET SYSTEM"/>
-    				              <form:option value="UPD_IDM_USER" label="UPDATE IDM USER"/>
-    				              <form:option value="UPD_RESOURCE" label="UPDATE RESOURCE"/> 				              
+    				              <form:option value="UPD_IDM_USER" label="UPDATE USER"/>
+    				              <!--<form:option value="UPD_RESOURCE" label="UPDATE RESOURCE"/>-->
 			    	</form:select>
 				</td>
 
