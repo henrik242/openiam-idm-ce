@@ -22,6 +22,7 @@
 package org.openiam.idm.srvc.batch;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,7 +54,16 @@ public class NightlyTask implements ApplicationContextAware {
 	
 	
 	private static final Log log = LogFactory.getLog(NightlyTask.class);
-	
+
+
+    /*
+    * The flags for the running tasks are handled by this Thread-Safe Set.
+    * It stores the taskIds of the currently executing tasks.
+    * This is faster and as reliable as storing the flags in the database,
+    * if the tasks are only launched from ONE host in a clustered environment.
+    * It is unique for each class-loader, which means unique per war-deployment.
+    */
+    private static Set<String> runningTask = Collections.newSetFromMap(new ConcurrentHashMap());
 	protected LoginDataWebService loginManager;
 	protected PolicyDataService policyDataService;
 	protected BatchDataService batchService;
@@ -99,6 +109,17 @@ public class NightlyTask implements ApplicationContextAware {
 				log.debug("Executing task:" + task.getTaskName());
 				try {
 					if (task.getEnabled() != 0) {
+                        // This needs to be synchronized, because the check for the taskId and the insertion need to
+                        // happen atomically. It is possible for two threads, started by Quartz, to reach this point at
+                        // the same time for the same task.
+                        synchronized (runningTask) {
+                            if(runningTask.contains(task.getTaskId())) {
+                                log.debug("Task " + task.getTaskName() + " already running");
+                                continue;
+                            }
+                            runningTask.add(task.getTaskId());
+                        }
+
 						log.debug("Executing task:" + task.getTaskName());
 						if (task.getLastExecTime() == null) {
 							task.setLastExecTime(new Date(System.currentTimeMillis()));
@@ -123,6 +144,10 @@ public class NightlyTask implements ApplicationContextAware {
 					log.error(e);
 				}finally {
 					if (task.getEnabled() != 0) {
+                        // this point can only be reached by the thread, which put the taskId into the map
+                        runningTask.remove(task.getTaskId());
+                        // Get the updated status of the task
+                        task = batchService.getBatchTask(task.getTaskId());
 						task.setLastExecTime(new Date(System.currentTimeMillis()));
 						batchService.updateTask(task);
 					}
