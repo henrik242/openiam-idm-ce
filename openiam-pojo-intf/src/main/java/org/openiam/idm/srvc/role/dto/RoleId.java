@@ -102,21 +102,23 @@ public class RoleId implements java.io.Serializable {
     	return str;
     }
 
-	public boolean equals(Object obj) {
-		if (this == obj) { 
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof RoleId)) {
-			return false;
-		}
-		
-		RoleId compareRole = (RoleId)obj;
-		
-		return this.roleId.equals(compareRole.roleId) && 
-		 	this.serviceId.equals(compareRole.serviceId) ;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        RoleId roleId1 = (RoleId) o;
+
+        if (roleId != null ? !roleId.equals(roleId1.roleId) : roleId1.roleId != null) return false;
+        if (serviceId != null ? !serviceId.equals(roleId1.serviceId) : roleId1.serviceId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = roleId != null ? roleId.hashCode() : 0;
+        result = 31 * result + (serviceId != null ? serviceId.hashCode() : 0);
+        return result;
+    }
 }
