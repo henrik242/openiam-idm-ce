@@ -47,7 +47,19 @@ public class IHEAuditEvent implements ExportAuditEvent{
             return;
 
         }
-         byte[] bAry = null;
+
+        String excludePrincipal = res.getString("ATNA_EXCLUDE_PRINCIPAL");
+        if (excludePrincipal != null && excludePrincipal.length() > 0) {
+            if ( log.getPrincipal() != null ) {
+                if (excludePrincipal.equalsIgnoreCase(log.getPrincipal())) {
+                    l.debug("Skipping event for identity = " + excludePrincipal);
+                    return;
+                }
+            }
+
+        }
+
+        byte[] bAry = null;
 
         if (log.getObjectTypeId().equalsIgnoreCase("AUTHENTICATION")) {
             if (log.getActionId().equalsIgnoreCase("AUTHENTICATION")) {
