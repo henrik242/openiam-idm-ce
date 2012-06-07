@@ -162,7 +162,9 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                             }
 
                             if ( att.getDataType().equalsIgnoreCase("memberOf")) {
-                                buildMembershipList(att,targetMembershipList);
+                                if (groupMembershipEnabled)  {
+                                    buildMembershipList(att,targetMembershipList);
+                                }
                             }
 
                             if (att.getOperation() != 0 && att.getName() != null && !att.getDataType().equalsIgnoreCase("memberOf")) {
