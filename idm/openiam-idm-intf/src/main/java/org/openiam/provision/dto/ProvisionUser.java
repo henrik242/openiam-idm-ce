@@ -27,6 +27,7 @@ import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.res.dto.Resource;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,10 +43,10 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProvisionUser", propOrder = {
         "memberOfGroups",
-        "appAccess",
         "requestId",
         "sessionId",
         "memberOfRoles",
+        "userResourceList",
         "userAffiliations",
         "srcSystemId",
         "provisionModel",
@@ -66,7 +67,9 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
     protected List<Group> memberOfGroups;
     protected List<Role> memberOfRoles;
     protected List<Organization> userAffiliations;
-    protected List<Application> appAccess;
+
+    protected List<UserResourceAssociation> userResourceList;
+
     public ProvisionModelEnum provisionModel;
     public String securityDomain;
 
@@ -284,14 +287,6 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
         this.memberOfGroups = memberOfGroups;
     }
 
-    public List<Application> getAppAccess() {
-        return appAccess;
-    }
-
-    public void setAppAccess(List<Application> appAccess) {
-        this.appAccess = appAccess;
-    }
-
     public List<Role> getMemberOfRoles() {
         return memberOfRoles;
     }
@@ -348,14 +343,20 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
     @Override
     public String toString() {
         return "ProvisionUser{" +
-                ", memberOfGroups=" + memberOfGroups +
+                "memberOfGroups=" + memberOfGroups +
                 ", memberOfRoles=" + memberOfRoles +
-                ", appAccess=" + appAccess +
+                ", userAffiliations=" + userAffiliations +
+                ", userResourceList=" + userResourceList +
                 ", provisionModel=" + provisionModel +
                 ", securityDomain='" + securityDomain + '\'' +
+                ", emailCredentialsToNewUsers=" + emailCredentialsToNewUsers +
+                ", emailCredentialsToSupervisor=" + emailCredentialsToSupervisor +
+                ", addInitialPasswordToHistory=" + addInitialPasswordToHistory +
+                ", provisionOnStartDate=" + provisionOnStartDate +
                 ", requestId='" + requestId + '\'' +
                 ", sessionId='" + sessionId + '\'' +
                 ", srcSystemId='" + srcSystemId + '\'' +
+                ", notifyTargetSystems=" + notifyTargetSystems +
                 '}';
     }
 
@@ -397,5 +398,13 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     public void setAddInitialPasswordToHistory(boolean addInitialPasswordToHistory) {
         this.addInitialPasswordToHistory = addInitialPasswordToHistory;
+    }
+
+    public List<UserResourceAssociation> getUserResourceList() {
+        return userResourceList;
+    }
+
+    public void setUserResourceList(List<UserResourceAssociation> userResourceList) {
+        this.userResourceList = userResourceList;
     }
 }

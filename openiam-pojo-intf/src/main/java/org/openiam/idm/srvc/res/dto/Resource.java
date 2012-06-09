@@ -69,6 +69,11 @@ public class Resource  extends BaseObject {
 		this.resourceId = resourceId;
 	}
 
+    public Resource(String resourceId, String managedSysId) {
+        this.resourceId = resourceId;
+        this.managedSysId = managedSysId;
+    }
+
 
 	
 	public Resource(String resourceId, String name,

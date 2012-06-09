@@ -73,10 +73,7 @@ import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
-import org.openiam.provision.dto.AccountLockEnum;
-import org.openiam.provision.dto.PasswordSync;
-import org.openiam.provision.dto.ProvisionGroup;
-import org.openiam.provision.dto.ProvisionUser;
+import org.openiam.provision.dto.*;
 import org.openiam.provision.resp.LookupUserResponse;
 import org.openiam.provision.resp.PasswordResponse;
 import org.openiam.provision.resp.ProvisionUserResponse;
@@ -340,7 +337,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         if (provInTargetSystemNow) {
             List<Resource> resourceList = getResourcesForRole(user.getMemberOfRoles());
-            if (resourceList != null) {
+
+            // update the resource list to include the resources that have been added directly
+            if (resourceList == null) {
+
+                resourceList = new ArrayList<Resource>();
+            }
+
+            addDirectResourceAssociation(user, resourceList);
+
+            if (resourceList != null && !resourceList.isEmpty()) {
                 for (Resource res : resourceList) {
 
                     log.debug("Resource->managedSysId =" + res.getManagedSysId());
@@ -2579,6 +2585,76 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         }
         return null;
     }
+
+    private void addDirectResourceAssociation(ProvisionUser user, List<Resource> resourceList) {
+
+        log.debug("addDirectResourceAssociation: Adding resources to list directly.");
+
+        List<UserResourceAssociation> userResAssocList =   user.getUserResourceList();
+
+        if (userResAssocList == null || userResAssocList.isEmpty())  {
+            return;
+        }
+
+
+
+        for ( UserResourceAssociation ura  : userResAssocList ) {
+
+            if (resourceExists(ura.getResourceId(), resourceList))  {
+
+                if (ura.getOperation() == AttributeOperationEnum.DELETE) {
+
+                    for ( Resource r : resourceList) {
+                        if ( ura.getResourceId().equalsIgnoreCase(r.getResourceId())) {
+                            resourceList.remove(r);
+
+                            log.debug("Removing resource from resource list - " + ura.getResourceId());
+                        }
+                    }
+
+                }
+
+            }else {
+                // resource is not current list
+                if (ura.getOperation() == AttributeOperationEnum.ADD) {
+
+                    if (ura.getManagedSystemId() == null) {
+
+                        Resource resObj = resourceDataService.getResource(ura.getResourceId());
+                        ura.setManagedSystemId( resObj.getManagedSysId());
+
+
+                    }
+
+                    resourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()) );
+
+                    log.debug("Adding resource to resource list - " + ura.getResourceId());
+
+                }
+
+            }
+
+        }
+
+    }
+
+    private boolean resourceExists(String resId, List<Resource> resourceList) {
+
+        if (resourceList == null) {
+            return false;
+        }
+
+        for (Resource r : resourceList) {
+            if (r.getResourceId().equalsIgnoreCase(resId)) {
+                return true;
+            }
+
+        }
+        return false;
+
+
+    }
+
 
 
     /**
