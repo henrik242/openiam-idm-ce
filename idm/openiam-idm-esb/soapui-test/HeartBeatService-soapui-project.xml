@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="HeartBeatService" resourceRoot="" soapui-version="4.5.0" activeEnvironment="Default" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="HeartBeatServiceSoapBinding" type="wsdl" bindingName="{urn:idm.openiam.org/srvc/health/service}HeartBeatServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="HeartBeatService" targetNamespace="urn:idm.openiam.org/srvc/health/service" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:idm.openiam.org/srvc/health/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/health/service" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="isAlive" type="tns:isAlive"/>
+      <xs:element name="isAliveResponse" type="tns:isAliveResponse"/>
+      <xs:complexType name="isAlive">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="isAliveResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="isAlive">
+    <wsdl:part element="tns:isAlive" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isAliveResponse">
+    <wsdl:part element="tns:isAliveResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HeartBeatService">
+    <wsdl:operation name="isAlive">
+      <wsdl:input message="tns:isAlive" name="isAlive"></wsdl:input>
+      <wsdl:output message="tns:isAliveResponse" name="isAliveResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HeartBeatServiceSoapBinding" type="tns:HeartBeatService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="isAlive">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isAlive">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isAliveResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HeartBeatService">
+    <wsdl:port binding="tns:HeartBeatServiceSoapBinding" name="HeartBeatServicePort">
+      <soap:address location="http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="isAlive" bindingOperationName="isAlive" type="Request-Response" outputName="isAliveResponse" inputName="isAlive" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/health/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:isAlive/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:idm.openiam.org/srvc/health/service/HeartBeatService/isAlive"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="HeartBeatServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="isAlive TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="isAlive"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>HeartBeatServiceSoapBinding</con:interface><con:operation>isAlive</con:operation><con:request name="isAlive"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/HeartBeatService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/srvc/health/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:isAlive/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="urn:idm.openiam.org/srvc/health/service/HeartBeatService/isAlive"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>
