@@ -1204,12 +1204,18 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             return resp;
         }
 
-        // origUser2 is used for comparison purposes in the sync process
-        //User currentUser2 = UserAttributeHelper.cloneUser(origUser);
+        // check if the user is missing components
+        modifyUser.addMissingUserComponents(pUser);
 
         List<Role> curRoleList = roleDataService.getUserRolesAsFlatList(pUser.getUserId());
         List<Group> curGroupList = this.groupManager.getUserInGroupsAsFlatList(pUser.getUserId());
         List<Login> curPrincipalList = this.loginManager.getLoginByUser(pUser.getUserId());
+
+
+        // make the role and group list before these updates available to the attribute policies
+        bindingMap.put("currentRoleList", curRoleList);
+        bindingMap.put("currentGroupList", curGroupList);
+
 
 
         // update the openiam repository with the new user information
@@ -1234,6 +1240,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         List<Resource> resourceList = getResourcesForRole(modifyUser.getActiveRoleList());
         List<Resource> deleteResourceList = getResourcesForRole(modifyUser.getDeleteRoleList());
 
+        // add or remove resources that are being associated directly
+        applyResourceExceptions(pUser, resourceList, deleteResourceList);
 
         log.debug("Resources to be added ->> " + resourceList);
         log.debug("Delete the following resources ->> " + deleteResourceList);
@@ -1247,7 +1255,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         updateResourceState(resourceList, curPrincipalList);
 
         // update the principal list
-        log.debug("Principals in request2=" + pUser.getPrincipalList());
         modifyUser.updatePrincipalList(origUser.getUserId(), curPrincipalList, newPrincipalList, deleteResourceList);
 
         // get primary identity and bind it for the groovy scripts
@@ -1258,11 +1265,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             String password = primaryIdentity.getPassword();
             if (password != null) {
                 try {
+
                     decPassword = loginManager.decryptPassword(password);
                     bindingMap.put("password", decPassword);
+
                 } catch (EncryptionException e) {
-                    // Password was already decrypted
-                    log.debug("Password=" + password);
+
                     bindingMap.put("password", password);
 
                 }
@@ -2586,7 +2594,63 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         return null;
     }
 
-    private void addDirectResourceAssociation(ProvisionUser user, List<Resource> resourceList) {
+    private void applyResourceExceptions(ProvisionUser user,  List<Resource> addResourceList,  List<Resource> deleteResourceList) {
+        List<UserResourceAssociation> userResAssocList =   user.getUserResourceList();
+
+        if (userResAssocList == null || userResAssocList.isEmpty())  {
+            return;
+        }
+
+        for ( UserResourceAssociation ura  : userResAssocList ) {
+
+            if (ura.getOperation() == AttributeOperationEnum.DELETE) {
+
+                // add this resource to the delete list
+                if (!resourceExists(ura.getResourceId(), deleteResourceList))  {
+
+                    if (ura.getManagedSystemId() == null) {
+
+                        Resource resObj = resourceDataService.getResource(ura.getResourceId());
+                        ura.setManagedSystemId( resObj.getManagedSysId());
+
+
+                    }
+
+                    if (deleteResourceList == null) {
+                        deleteResourceList = new ArrayList<Resource>();
+                    }
+
+                    deleteResourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()) );
+
+                }
+
+            }else if (ura.getOperation() == AttributeOperationEnum.ADD) {
+                // add this resource to the delete list
+                if (!resourceExists(ura.getResourceId(), addResourceList))  {
+
+                    if (ura.getManagedSystemId() == null) {
+
+                        Resource resObj = resourceDataService.getResource(ura.getResourceId());
+                        ura.setManagedSystemId( resObj.getManagedSysId());
+
+
+                    }
+
+                    if (addResourceList == null) {
+                        addResourceList = new ArrayList<Resource>();
+                    }
+
+                    addResourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()) );
+                }
+            }
+
+
+
+        }
+
+    }
+
+    private void addDirectResourceAssociation(ProvisionUser user,  List<Resource> resourceList) {
 
         log.debug("addDirectResourceAssociation: Adding resources to list directly.");
 

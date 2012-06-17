@@ -51,7 +51,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	
 
 	public EmailAddress findById(java.lang.String id) {
-		log.debug("getting EmailAddress instance with id: " + id);
+
 		try {
 			EmailAddress instance = (EmailAddress) sessionFactory
 					.getCurrentSession().get(
@@ -73,7 +73,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	 * @param instance
 	 */
 	public EmailAddress add(EmailAddress instance) {
-		log.debug("persisting instance");
+
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
 			log.debug("persist successful");
@@ -90,7 +90,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	 * @param instance
 	 */
 	public void remove(EmailAddress instance) {
-		log.debug("deleting instance");
+
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
 			log.debug("delete successful");
@@ -119,7 +119,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	
 
 	public EmailAddress findByName(String name, String parentId, String parentType) {
-		log.debug("getting EmailAddress instances by userId " + parentId );
+
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
@@ -136,7 +136,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	}
 
 	public Map<String, EmailAddress> findByParent(String parentId, String parentType) {
-		log.debug("getting EmailAddress instances by userId " + parentId );
+
 		
 		Map<String, EmailAddress> adrMap = new HashMap<String,EmailAddress>();
 
@@ -155,7 +155,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	}
 
 	public List<EmailAddress> findByParentAsList(String parentId, String parentType) {
-		log.debug("getting EmailAddress instances by userId " + parentId );
+
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
@@ -170,7 +170,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	}
 
 	public EmailAddress findDefault(String parentId, String parentType) {
-		log.debug("getting EmailAddress instances by userId " + parentId );
+
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
@@ -225,7 +225,6 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	}
 
 	public EmailAddress[] findByParentAsArray(String parentId, String parentType) {
-		log.debug("getting EmailAddress instances by userId " + parentId );
 
 		List<EmailAddress> result = this.findByParentAsList(parentId, parentType);
 		if (result == null || result.size() == 0)

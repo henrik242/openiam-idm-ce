@@ -47,7 +47,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	public Phone findById(java.lang.String id) {
-		log.debug("getting Phone instance with id: " + id);
+
 		try {
 			Phone instance = (Phone) sessionFactory
 					.getCurrentSession().get(
@@ -69,7 +69,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	 * @param instance
 	 */
 	public Phone add(Phone instance) {
-		log.debug("persisting instance");
+
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
 			log.debug("persist successful");
@@ -87,7 +87,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	 * @param instance
 	 */
 	public void remove(Phone instance) {
-		log.debug("deleting instance");
+
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
 			log.debug("delete successful");
@@ -102,7 +102,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	 * @param instace
 	 */
 	public void update(Phone instance) {
-		log.debug("merging instance");
+
 		try {
 			sessionFactory.getCurrentSession().merge(instance);
 			log.debug("merge successful");
@@ -117,7 +117,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	
 
 	public Phone findByName(String name, String parentId, String parentType) {
-		log.debug("getting Phone instances by userId " + parentId );
+
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
@@ -134,8 +134,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	public Map<String, Phone> findByParent(String parentId, String parentType) {
-		log.debug("getting Phone instances by userId " + parentId );
-		
+
 		Map<String, Phone> adrMap = new HashMap<String,Phone>();
 
 		List<Phone> addrList = findByParentAsList(parentId, parentType);
@@ -153,7 +152,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	public List<Phone> findByParentAsList(String parentId, String parentType) {
-		log.debug("getting Phone instances by userId " + parentId );
+
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
@@ -168,7 +167,6 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	public Phone findDefault(String parentId, String parentType) {
-		log.debug("getting Phone instances by userId " + parentId );
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
@@ -224,7 +222,6 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	public Phone[] findByParentAsArray(String parentId, String parentType) {
-		log.debug("getting Phone instances by userId " + parentId );
 
 		List<Phone> result = this.findByParentAsList(parentId, parentType);
 		if (result == null || result.size() == 0)

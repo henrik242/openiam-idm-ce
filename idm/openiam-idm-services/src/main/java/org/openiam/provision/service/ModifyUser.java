@@ -25,6 +25,7 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.service.GroupDataService;
 import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.org.dto.UserAffiliation;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.role.dto.Role;
@@ -80,6 +81,95 @@ public class ModifyUser {
 		deleteRoleList = new ArrayList<Role>();
 		principalList = new ArrayList<Login>();		
 	}
+
+    /**
+     * UI may pass an incomplete user object.
+     * @param user
+     */
+    public void addMissingUserComponents(ProvisionUser user) {
+
+        log.debug("addMissingUserComponents() called.");
+
+        // check addresses
+        Set<Address> addressSet = user.getAddresses();
+
+        if (addressSet == null || addressSet.isEmpty()) {
+
+            log.debug("- Adding original addressSet to the user object");
+
+            List<Address> addressList = userMgr.getAddressList(user.getUserId());
+            if (addressList != null && !addressList.isEmpty()) {
+
+                user.setAddresses(new HashSet<Address>(addressList));
+
+            }
+        }
+
+        // check email addresses
+
+        Set<EmailAddress> emailAddressSet =  user.getEmailAddress();
+        if (emailAddressSet == null || emailAddressSet.isEmpty()) {
+
+            log.debug("- Adding original emailSet to the user object");
+
+            List<EmailAddress> emailList =  userMgr.getEmailAddressList(user.getUserId());
+            if ( emailList != null && !emailList.isEmpty() ) {
+
+                user.setEmailAddress( new HashSet<EmailAddress>(emailList) );
+
+            }
+
+        }
+
+        // check the phone objects
+        Set<Phone> phoneSet = user.getPhone();
+        if (phoneSet == null || phoneSet.isEmpty()) {
+
+            log.debug("- Adding original phoneSet to the user object");
+
+            List<Phone> phoneList  = userMgr.getPhoneList(user.getUserId());
+            if ( phoneList != null && !phoneList.isEmpty()) {
+
+                user.setPhone(new HashSet<Phone>(phoneList));
+
+            }
+
+        }
+
+
+        // check the user attributes
+        Map<String, UserAttribute> userAttrSet = user.getUserAttributes();
+        if (userAttrSet == null || userAttrSet.isEmpty() ) {
+
+            log.debug("- Adding original user attributes to the user object");
+
+            User u =  userMgr.getUserWithDependent(user.getUserId(), true);
+            if (  u.getUserAttributes() != null) {
+                user.setUserAttributes(u.getUserAttributes());
+            }
+
+        }
+
+
+        // the affiliations
+        List<Organization> affiliationList =  user.getUserAffiliations();
+        if (affiliationList == null || affiliationList.isEmpty()){
+
+            log.debug("- Adding original affiliationList to the user object");
+
+            List<Organization> userAffiliations = orgManager.getOrganizationsForUser(user.getUserId());
+            if (userAffiliations != null && !userAffiliations.isEmpty())  {
+
+                user.setUserAffiliations(userAffiliations);
+            }
+
+        }
+
+
+
+
+
+    }
 	
 	public String updateUser(ProvisionUser user, User origUser) {
 
@@ -97,14 +187,7 @@ public class ModifyUser {
         log.debug("User object pending update:" + origUser);
 			
 		userMgr.updateUserWithDependent(origUser, true);
-		
-/*		String linkedLogId =  auditHelper.addLog("MODIFY USER", user.getSecurityDomain(),
-				null, "IDM SERVICE",
-				user.getLastUpdatedBy(), "0",
-				"USER", user.getUserId(), "SUCCESS", null,  null, null, requestId);
-	*/	
 
-		
 		return requestId;
 	}
 
@@ -753,9 +836,9 @@ public class ModifyUser {
 	public void updateRoleAssociation(String userId, List<Role> origRoleList,  List<Role> newRoleList, List<IdmAuditLog> logList,
                                       ProvisionUser pUser, Login primaryIdentity) {
 
-		log.debug("updating role associations..");
-		log.debug("origRoleList =" + origRoleList);
-		log.debug("newRoleList=" + newRoleList);
+		log.debug("updateRoleAssociation():");
+		log.debug("-origRoleList =" + origRoleList);
+		log.debug("-newRoleList=" + newRoleList);
 		
 		// initialize the role lists
 		roleList = new ArrayList<Role>();
@@ -841,11 +924,11 @@ public class ModifyUser {
 				// check if this address is in the current list
 				// if it is - see if it has changed
 				// if it is not - add it.
-				System.out.println("evaluate Role" + r.getId());
+                log.debug("evaluate Role" + r.getId());
 				
 				Role origRole =  getRole(r.getId(), origRoleList);
-				
-				System.out.println("OrigRole found=" + origRole);
+
+                log.debug("OrigRole found=" + origRole);
 				
 				if (origRole == null) {
 					r.setOperation(AttributeOperationEnum.ADD);

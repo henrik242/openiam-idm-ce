@@ -1,10 +1,10 @@
 package org.openiam.idm.srvc.continfo.dto;
 
+import org.openiam.base.AttributeOperationEnum;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.AttributeOperationEnum;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -14,22 +14,22 @@ import org.openiam.base.AttributeOperationEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "emailAddress", propOrder = {
-    "isActive",
-    "description",
-    "emailAddress",
-    "emailId",
-    "isDefault",
-    "parentId",
-    "parentType",
-    "name",
-    "operation"
+        "isActive",
+        "description",
+        "emailAddress",
+        "emailId",
+        "isDefault",
+        "parentId",
+        "parentType",
+        "name",
+        "operation"
 })
 public class EmailAddress implements java.io.Serializable {
 
-	// Fields    
-	protected AttributeOperationEnum operation;
-	
-    protected Boolean isActive  = new Boolean("True");
+    // Fields
+    protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
+
+    protected Boolean isActive = new Boolean("True");
     protected String description;
     protected String emailAddress;
     protected String emailId;
@@ -38,184 +38,195 @@ public class EmailAddress implements java.io.Serializable {
     protected String parentType;
     protected String name;
 
-	
-	// Constructors
 
-	/** default constructor */
-	public EmailAddress() {
-	}
+    // Constructors
 
-	/** minimal constructor */
-	public EmailAddress(String emailId) {
-		this.emailId = emailId;
-	}
+    /**
+     * default constructor
+     */
+    public EmailAddress() {
+    }
 
-	/** full constructor */
-	public EmailAddress(String emailId, String description,
-			String emailAddress, Integer isDefault) {
-		this.emailId = emailId;
-		this.description = description;
-		this.emailAddress = emailAddress;
-		this.isDefault = isDefault;
-	}
+    /**
+     * minimal constructor
+     */
+    public EmailAddress(String emailId) {
+        this.emailId = emailId;
+    }
 
-	public void updateEmailAddress(EmailAddress emailAdr) {
-		this.description = emailAdr.getDescription();
-		this.emailAddress = emailAdr.getEmailAddress();
-		this.isActive = emailAdr.isActive();
-		this.isDefault = emailAdr.getIsDefault();
-		this.name = emailAdr.getName();
-	}
-	
-	// Property accessors
-	public String getEmailId() {
-		return this.emailId;
-	}
+    /**
+     * full constructor
+     */
+    public EmailAddress(String emailId, String description,
+                        String emailAddress, Integer isDefault) {
+        this.emailId = emailId;
+        this.description = description;
+        this.emailAddress = emailAddress;
+        this.isDefault = isDefault;
+    }
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+    public void updateEmailAddress(EmailAddress emailAdr) {
+        this.description = emailAdr.getDescription();
+        this.emailAddress = emailAdr.getEmailAddress();
+        this.isActive = emailAdr.isActive();
+        this.isDefault = emailAdr.getIsDefault();
+        this.name = emailAdr.getName();
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    // Property accessors
+    public String getEmailId() {
+        return this.emailId;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
 
-	public String getEmailAddress() {
-		return this.emailAddress;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Integer getIsDefault() {
-		return this.isDefault;
-	}
+    public String getEmailAddress() {
+        return this.emailAddress;
+    }
 
-	public void setIsDefault(Integer isDefault) {
-		this.isDefault = isDefault;
-	}
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public Integer getIsDefault() {
+        return this.isDefault;
+    }
+
+    public void setIsDefault(Integer isDefault) {
+        this.isDefault = isDefault;
+    }
 
 
+    /**
+     * Returns the Id of the parent that owns this address. The parent may be another entity like a
+     * USER, ORGANIZATION, etc
+     *
+     * @return
+     */
+    public String getParentId() {
+        return parentId;
+    }
 
-	/**
-	 * Returns the Id of the parent that owns this address. The parent may be another entity like a 
-	 * USER, ORGANIZATION, etc
-	 * @return
-	 */
-	public String getParentId() {
-		return parentId;
-	}
+    /**
+     * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
+     *
+     * @param parentId
+     */
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
-	/**
-	 * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
-	 * @param parentId
-	 */
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+    /**
+     * Returns the type of the parent.
+     *
+     * @return
+     */
+    public String getParentType() {
+        return parentType;
+    }
 
-	/**
-	 * Returns the type of the parent.  
-	 * @return
-	 */
-	public String getParentType() {
-		return parentType;
-	}
-	/**
-	 * Sets the type of the parent.  While the parent type can be anything you choose, a few 
-	 * constants are defined in the ContactConstants clss.
-	 * @param parentType
-	 */
-	public void setParentType(String parentType) {
-		this.parentType = parentType;
-	}
-	
-	/**
-	 * Indicates if the address is currently active if the value is 
-	 * true and inactive if the value false.
-	 * @return
-	 */
-	public Boolean isActive() {
-		return isActive;
-	}
+    /**
+     * Sets the type of the parent.  While the parent type can be anything you choose, a few
+     * constants are defined in the ContactConstants clss.
+     *
+     * @param parentType
+     */
+    public void setParentType(String parentType) {
+        this.parentType = parentType;
+    }
 
-	public void setActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
+    /**
+     * Indicates if the address is currently active if the value is
+     * true and inactive if the value false.
+     *
+     * @return
+     */
+    public Boolean isActive() {
+        return isActive;
+    }
 
-	
-	public boolean equals(Object adr) {
-		
-		EmailAddress newAdr = (EmailAddress)adr;
-		
-		if (this == newAdr)
-			return true;
-		if (newAdr == null || newAdr.getClass() != this.getClass())
-			return false;
-		
-		return ( (emailId == newAdr.getEmailId() || 
-				 ( emailId != null && emailId.equals(newAdr.getEmailId()))) && 
-			
-				 (this.description == newAdr.getDescription() ||  
-				 ( description != null && description.equals(newAdr.getDescription()))) && 
-				
-				 (this.isDefault.intValue() == newAdr.isDefault.intValue() )  &&
-				 			 
-				 (this.parentId == newAdr.getParentId() ||  
-  			     ( parentId != null && parentId.equals(newAdr.getParentId()))) && 
-  			    		
- 			    (this.parentType == newAdr.getParentType() ||  
-				( parentType != null && parentType.equals(newAdr.getParentType()))) && 
- 			    
- 			    
-				(this.emailAddress == newAdr.getEmailAddress() ||  
-				( emailAddress != null && emailAddress.equals(newAdr.getEmailAddress()))) 		) ; 
-		
+    public void setActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
 
-	}
 
-	
-/*	public int hashCode() {
-		int result = 17;
+    public boolean equals(Object adr) {
 
-		result = 37
-				* result
-				+ (this.getDescription() == null ? 0 : this.getDescription().hashCode());
-		result = 37 * result
-				+ (getEmailAddress() == null ? 0 : this.getEmailAddress().hashCode());
-		result = 37 * result
-				+ (getEmailId() == null ? 0 : this.getEmailId().hashCode());
-		result = 37 * result
-				+ (getIsDefault() == null ? 0 : this.getIsDefault().hashCode());
-		result = 37 * result
-				+ (getParentId() == null ? 0 : this.getParentId().hashCode());
-		result = 37 * result
-				+ (getParentType() == null ? 0 : getParentType().hashCode());
+        EmailAddress newAdr = (EmailAddress) adr;
 
-		return result;
-		
-	}
-*/
-	public String getName() {
-		return name;
-	}
+        if (this == newAdr)
+            return true;
+        if (newAdr == null || newAdr.getClass() != this.getClass())
+            return false;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+        return ((emailId == newAdr.getEmailId() ||
+                (emailId != null && emailId.equals(newAdr.getEmailId()))) &&
 
-	public AttributeOperationEnum getOperation() {
-		return operation;
-	}
+                (this.description == newAdr.getDescription() ||
+                        (description != null && description.equals(newAdr.getDescription()))) &&
 
-	public void setOperation(AttributeOperationEnum operation) {
-		this.operation = operation;
-	}
+                (this.isDefault.intValue() == newAdr.isDefault.intValue()) &&
+
+                (this.parentId == newAdr.getParentId() ||
+                        (parentId != null && parentId.equals(newAdr.getParentId()))) &&
+
+                (this.parentType == newAdr.getParentType() ||
+                        (parentType != null && parentType.equals(newAdr.getParentType()))) &&
+
+
+                (this.emailAddress == newAdr.getEmailAddress() ||
+                        (emailAddress != null && emailAddress.equals(newAdr.getEmailAddress()))));
+
+
+    }
+
+
+    /*	public int hashCode() {
+            int result = 17;
+
+            result = 37
+                    * result
+                    + (this.getDescription() == null ? 0 : this.getDescription().hashCode());
+            result = 37 * result
+                    + (getEmailAddress() == null ? 0 : this.getEmailAddress().hashCode());
+            result = 37 * result
+                    + (getEmailId() == null ? 0 : this.getEmailId().hashCode());
+            result = 37 * result
+                    + (getIsDefault() == null ? 0 : this.getIsDefault().hashCode());
+            result = 37 * result
+                    + (getParentId() == null ? 0 : this.getParentId().hashCode());
+            result = 37 * result
+                    + (getParentType() == null ? 0 : getParentType().hashCode());
+
+            return result;
+
+        }
+    */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public AttributeOperationEnum getOperation() {
+        return operation;
+    }
+
+    public void setOperation(AttributeOperationEnum operation) {
+        this.operation = operation;
+    }
 
     @Override
     public String toString() {

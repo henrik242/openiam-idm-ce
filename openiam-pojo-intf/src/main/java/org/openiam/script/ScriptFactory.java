@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.script;
 
@@ -25,28 +25,27 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-
 /**
  * Creates the script integration object.
- * @author suneet
  *
+ * @author suneet
  */
 public class ScriptFactory {
 
-	private static final Log log = LogFactory.getLog(ScriptFactory.class);
-	
-	public static ScriptIntegration createModule(String className) throws ClassNotFoundException {
-		Class cls = Class.forName(className);
-		try {
-			return (ScriptIntegration)cls.newInstance();
-		}catch(IllegalAccessException ia) {
-			log.error(ia.getMessage(),ia);
-			
-		}catch(InstantiationException ie) {
-			log.error(ie.getMessage(),ie);
-		}
-		return null;
-		
-	}
+    private static final Log log = LogFactory.getLog(ScriptFactory.class);
+
+    public static ScriptIntegration createModule(String className) throws ClassNotFoundException {
+        Class cls = Class.forName(className);
+        try {
+            return (ScriptIntegration) cls.newInstance();
+        } catch (IllegalAccessException ia) {
+            log.error(ia.getMessage(), ia);
+
+        } catch (InstantiationException ie) {
+            log.error(ie.getMessage(), ie);
+        }
+        return null;
+
+    }
 
 }

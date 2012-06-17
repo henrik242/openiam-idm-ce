@@ -171,7 +171,7 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @return
 	 */
 	public Map<String, Address> findByParent(String parentId,String parentType) {
-		log.debug("getting Address instances by userId " + parentId );
+
 		Map<String, Address> adrMap = new HashMap<String,Address>();
 
 		List<Address> addrList = findByParentAsList(parentId, parentType);
@@ -196,7 +196,6 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @return
 	 */	
 	public List<Address> findByParentAsList(String parentId,String parentType) {
-		log.debug("getting Address instances by userId " + parentId );
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
@@ -231,7 +230,6 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @return
 	 */
 	public Address findDefault(String parentId,String parentType) {
-		log.debug("getting Address instances by userId " + parentId );
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
@@ -251,7 +249,6 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @return
 	 */
 	public Address findByName(String name, String parentId,String parentType) {
-		log.debug("getting Address instances by userId " + parentId );
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
@@ -267,7 +264,6 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	public Address[] findByParentAsArray(String parentId, String parentType) {
-		log.debug("getting Address instances by userId " + parentId );
 
 		List<Address> result = this.findByParentAsList(parentId, parentType);
 		if (result == null || result.size() == 0)

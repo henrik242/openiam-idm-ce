@@ -89,7 +89,7 @@ public class BatchConfigDAOImpl implements BatchConfigDAO {
 	 * @see org.openiam.idm.srvc.batch.service.BatchConfigDAO#findById(java.lang.String)
 	 */
 	public BatchTask findById(java.lang.String id) {
-		log.debug("getting BatchConfig instance with id: " + id);
+
 		try {
 			BatchTask instance = (BatchTask) sessionFactory
 					.getCurrentSession()
@@ -112,11 +112,7 @@ public class BatchConfigDAOImpl implements BatchConfigDAO {
 		Query qry = session.createQuery("from org.openiam.idm.srvc.batch.dto.BatchTask task " + 
 				"  order by task.frequencyUnitOfMeasure, task.taskName asc");
 		List<BatchTask> results = (List<BatchTask>)qry.list();
-		if (results == null) {
-			log.debug("get successful, no instance found");
-		} else {
-			log.debug("get successful, instance found");
-		}
+
 		return results;		
 	}
 
@@ -130,11 +126,7 @@ public class BatchConfigDAOImpl implements BatchConfigDAO {
 				" order by task.executionOrder asc");
 		qry.setString("frequency", frequency);
 		List<BatchTask> results = (List<BatchTask>)qry.list();
-		if (results == null) {
-			log.debug("get successful, no instance found");
-		} else {
-			log.debug("get successful, instance found");
-		}
+
 		return results;		
 	}
 
@@ -144,11 +136,7 @@ public class BatchConfigDAOImpl implements BatchConfigDAO {
 				" where task.taskName = :name " );
 		qry.setString("name", name);
 		BatchTask task = (BatchTask) qry.uniqueResult();
-		if (task == null) {
-			log.debug("get successful, no instance found");
-		} else {
-			log.debug("get successful, instance found");
-		}
+
 		return task;	
 	}
 	

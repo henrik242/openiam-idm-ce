@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.script;
 
@@ -26,10 +26,11 @@ import java.util.Map;
 
 /**
  * Interface that all script integration modules must implement
- * @author suneet
  *
+ * @author suneet
  */
 public interface ScriptIntegration {
-	public Object execute(Map<String, Object> bindingMap, String scriptName);
-	public Object instantiateClass(Map<String, Object> bindingMap, String scriptName) throws IOException;
+    public Object execute(Map<String, Object> bindingMap, String scriptName);
+
+    public Object instantiateClass(Map<String, Object> bindingMap, String scriptName) throws IOException;
 }

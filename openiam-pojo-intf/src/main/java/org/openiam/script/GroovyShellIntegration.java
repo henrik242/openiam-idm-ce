@@ -17,13 +17,12 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.script;
 
 /**
  * @author suneet
- *
  */
 public class GroovyShellIntegration {
 
