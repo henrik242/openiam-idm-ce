@@ -17,86 +17,79 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.auth.ws;
+
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.auth.dto.Subject;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.auth.dto.Subject;
-
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AuthenticationResponse", propOrder = {
-    "subject",
-    "authErrorCode",
-    "authErrorMessage",
-    "status"
+        "subject",
+        "authErrorCode",
+        "authErrorMessage",
+        "status"
 })
 public class AuthenticationResponse {
 
-	@XmlAttribute(required = true)
+    @XmlAttribute(required = true)
     protected ResponseStatus status;
-	
-	protected Subject subject;
-	protected int authErrorCode;
-	protected String authErrorMessage;
 
-	public AuthenticationResponse() {
-		super();
-	}
+    protected Subject subject;
+    protected int authErrorCode;
+    protected String authErrorMessage;
 
-	public AuthenticationResponse(ResponseStatus s) {
-		status = s;
-	}
+    public AuthenticationResponse() {
+        super();
+    }
 
-	public Subject getSubject() {
-		return subject;
-	}
+    public AuthenticationResponse(ResponseStatus s) {
+        status = s;
+    }
 
-	public void setSubject(Subject subject) {
-		this.subject = subject;
-	}
+    public Subject getSubject() {
+        return subject;
+    }
 
-	public int getAuthErrorCode() {
-		return authErrorCode;
-	}
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
 
-	public void setAuthErrorCode(int authErrorCode) {
-		this.authErrorCode = authErrorCode;
-	}
+    public int getAuthErrorCode() {
+        return authErrorCode;
+    }
 
-	public String getAuthErrorMessage() {
-		return authErrorMessage;
-	}
+    public void setAuthErrorCode(int authErrorCode) {
+        this.authErrorCode = authErrorCode;
+    }
 
-	public void setAuthErrorMessage(String authErrorMessage) {
-		this.authErrorMessage = authErrorMessage;
-	}
+    public String getAuthErrorMessage() {
+        return authErrorMessage;
+    }
 
-	public ResponseStatus getStatus() {
-		return status;
-	}
+    public void setAuthErrorMessage(String authErrorMessage) {
+        this.authErrorMessage = authErrorMessage;
+    }
 
-	public void setStatus(ResponseStatus status) {
-		this.status = status;
-	}
+    public ResponseStatus getStatus() {
+        return status;
+    }
 
-
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
 
 
-
-
-
-	
-	
 }

@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.auth.context;
 
@@ -27,24 +27,24 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Factory to create the AuthenticationContext
- * @author suneet
  *
+ * @author suneet
  */
 public class AuthContextFactory {
 
-	private static final Log log = LogFactory.getLog(AuthContextFactory.class);
-	
-	public static AuthenticationContext createContext(String className) throws ClassNotFoundException {
-		Class cls = Class.forName(className);
-		try {
-			return (AuthenticationContext)cls.newInstance();
-		}catch(IllegalAccessException ia) {
-			log.error(ia.getMessage(),ia);
-			
-		}catch(InstantiationException ie) {
-			log.error(ie.getMessage(),ie);
-		}
-		return null;
-		
-	}
+    private static final Log log = LogFactory.getLog(AuthContextFactory.class);
+
+    public static AuthenticationContext createContext(String className) throws ClassNotFoundException {
+        Class cls = Class.forName(className);
+        try {
+            return (AuthenticationContext) cls.newInstance();
+        } catch (IllegalAccessException ia) {
+            log.error(ia.getMessage(), ia);
+
+        } catch (InstantiationException ie) {
+            log.error(ie.getMessage(), ie);
+        }
+        return null;
+
+    }
 }

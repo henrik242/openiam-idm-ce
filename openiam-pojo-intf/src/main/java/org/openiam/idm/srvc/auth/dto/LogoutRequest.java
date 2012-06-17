@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LogoutRequest", propOrder = {
-    "domainId",
-    "principal"
+        "domainId",
+        "principal"
 })
 public class LogoutRequest {
     String domainId;

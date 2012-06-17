@@ -17,10 +17,9 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.base.ws;
-
 
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,34 +29,34 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Response class that is used for web service operations that return a boolean.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BooleanResponse", propOrder = {
-    "value"
+        "value"
 })
 public class BooleanResponse {
 
-	@XmlAttribute(required = true)
-	protected Boolean value;
+    @XmlAttribute(required = true)
+    protected Boolean value;
 
-	public BooleanResponse() {
-		
-	}
+    public BooleanResponse() {
 
-	public BooleanResponse(Boolean value) {
-		super();
-		this.value = value;
-	}
+    }
 
-	public Boolean getValue() {
-		return value;
-	}
+    public BooleanResponse(Boolean value) {
+        super();
+        this.value = value;
+    }
 
-	public void setValue(Boolean value) {
-		this.value = value;
-	}
+    public Boolean getValue() {
+        return value;
+    }
 
-    
+    public void setValue(Boolean value) {
+        this.value = value;
+    }
+
+
 }

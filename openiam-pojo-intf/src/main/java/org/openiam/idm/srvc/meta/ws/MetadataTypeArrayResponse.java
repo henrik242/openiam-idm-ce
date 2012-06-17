@@ -17,57 +17,46 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.meta.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.meta.dto.MetadataType;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.meta.dto.MetadataType;
-import org.openiam.idm.srvc.user.dto.User;
-
 /**
  * Response object for a web service operation that returns an array of metadataType objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MetadataTypeArrayResponse", propOrder = {
-    "metadataTypeAry"
+        "metadataTypeAry"
 })
-public class MetadataTypeArrayResponse extends Response{
+public class MetadataTypeArrayResponse extends Response {
 
-	protected MetadataType[] metadataTypeAry;
-	
-	public MetadataTypeArrayResponse() {
-		super();
-	}
+    protected MetadataType[] metadataTypeAry;
 
-	public MetadataTypeArrayResponse(ResponseStatus s) {
-		super(s);
-	}
+    public MetadataTypeArrayResponse() {
+        super();
+    }
 
-	public MetadataType[] getMetadataTypeAry() {
-		return metadataTypeAry;
-	}
+    public MetadataTypeArrayResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public void setMetadataTypeAry(MetadataType[] metadataTypeAry) {
-		this.metadataTypeAry = metadataTypeAry;
-	}
+    public MetadataType[] getMetadataTypeAry() {
+        return metadataTypeAry;
+    }
 
-
+    public void setMetadataTypeAry(MetadataType[] metadataTypeAry) {
+        this.metadataTypeAry = metadataTypeAry;
+    }
 
 
-
-
-
-	
-	
 }

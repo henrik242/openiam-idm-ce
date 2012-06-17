@@ -1,23 +1,23 @@
 package org.openiam.idm.srvc.res.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.res.dto.ResourceType;
+
+import java.util.List;
 
 public interface ResourceTypeDAO {
 
-	void remove(ResourceType persistentInstance);
+    void remove(ResourceType persistentInstance);
 
-	ResourceType update(ResourceType detachedInstance);
+    ResourceType update(ResourceType detachedInstance);
 
-	ResourceType findById(java.lang.String id);
+    ResourceType findById(java.lang.String id);
 
-	List<ResourceType> findByExample(ResourceType instance);
+    List<ResourceType> findByExample(ResourceType instance);
 
-	ResourceType add(ResourceType instance);
+    ResourceType add(ResourceType instance);
 
-	List<ResourceType> findAllResourceTypes();
+    List<ResourceType> findAllResourceTypes();
 
-	int removeAllResourceTypes();
+    int removeAllResourceTypes();
 
 }

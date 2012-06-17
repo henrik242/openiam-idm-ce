@@ -17,56 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.audit.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdmAuditLogResponse", propOrder = {
-    "log"
+        "log"
 })
-public class IdmAuditLogResponse extends Response{
+public class IdmAuditLogResponse extends Response {
 
-	IdmAuditLog log;
+    IdmAuditLog log;
 
-	public IdmAuditLogResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public IdmAuditLogResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public IdmAuditLogResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public IdmAuditLogResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public IdmAuditLog getLog() {
-		return log;
-	}
+    public IdmAuditLog getLog() {
+        return log;
+    }
 
-	public void setLog(IdmAuditLog log) {
-		this.log = log;
-	}
-
-
+    public void setLog(IdmAuditLog log) {
+        this.log = log;
+    }
 
 
-
-
-	
-	
 }

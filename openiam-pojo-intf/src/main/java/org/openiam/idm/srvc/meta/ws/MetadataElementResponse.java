@@ -17,53 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.meta.ws;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.meta.dto.MetadataElement;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
  * Response object for a web service operation that returns a MetadataElement.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MetadataElementResponse", propOrder = {
-    "metadataElement"
+        "metadataElement"
 })
-public class MetadataElementResponse extends Response{
+public class MetadataElementResponse extends Response {
 
-	protected MetadataElement metadataElement;
+    protected MetadataElement metadataElement;
 
-	public MetadataElementResponse() {
-		super();
-	}
+    public MetadataElementResponse() {
+        super();
+    }
 
-	public MetadataElementResponse(ResponseStatus s) {
-		super(s);
+    public MetadataElementResponse(ResponseStatus s) {
+        super(s);
 
-	}
+    }
 
-	public MetadataElement getMetadataElement() {
-		return metadataElement;
-	}
+    public MetadataElement getMetadataElement() {
+        return metadataElement;
+    }
 
-	public void setMetadataElement(MetadataElement metadataElement) {
-		this.metadataElement = metadataElement;
-	}
-
-
+    public void setMetadataElement(MetadataElement metadataElement) {
+        this.metadataElement = metadataElement;
+    }
 
 
-	
-	
 }

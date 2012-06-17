@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchAttribute", propOrder = {
-    "attributeName",
-    "attributeValue"
+        "attributeName",
+        "attributeValue"
 })
 public class SearchAttribute {
     String attributeName;

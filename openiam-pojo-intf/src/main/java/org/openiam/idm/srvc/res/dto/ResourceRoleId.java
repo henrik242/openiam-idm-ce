@@ -11,115 +11,114 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResourceRoleId", propOrder = {
-    "resourceId",
-    "domainId",
-    "roleId",
-    "privilegeId"
+        "resourceId",
+        "domainId",
+        "roleId",
+        "privilegeId"
 })
 public class ResourceRoleId implements java.io.Serializable {
 
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 949995078674560248L;
-	private String resourceId;
-	private String domainId;
-	private String roleId;
-	private String privilegeId;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 949995078674560248L;
+    private String resourceId;
+    private String domainId;
+    private String roleId;
+    private String privilegeId;
 
-	public ResourceRoleId() {
-	}
-
-
-
-	public ResourceRoleId(String domainId, String privilegeId,
-			String resourceId, String roleId) {
-		super();
-		this.domainId = domainId;
-		this.privilegeId = privilegeId;
-		this.resourceId = resourceId;
-		this.roleId = roleId;
-	}
-
-	public String toString() {
-		String str = "ResourceRoleId=> resourceId=" + resourceId + 
-			" domainId=" + domainId +
-			" roleId=" + roleId + 
-			" privledgeId=" + privilegeId;
-		return str;
-	}
+    public ResourceRoleId() {
+    }
 
 
-	public String getResourceId() {
-		return this.resourceId;
-	}
+    public ResourceRoleId(String domainId, String privilegeId,
+                          String resourceId, String roleId) {
+        super();
+        this.domainId = domainId;
+        this.privilegeId = privilegeId;
+        this.resourceId = resourceId;
+        this.roleId = roleId;
+    }
 
-	public void setResourceId(String resourceId) {
-		this.resourceId = resourceId;
-	}
+    public String toString() {
+        String str = "ResourceRoleId=> resourceId=" + resourceId +
+                " domainId=" + domainId +
+                " roleId=" + roleId +
+                " privledgeId=" + privilegeId;
+        return str;
+    }
 
-	public String getRoleId() {
-		return this.roleId;
-	}
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
+    public String getResourceId() {
+        return this.resourceId;
+    }
 
-	public String getPrivilegeId() {
-		return this.privilegeId;
-	}
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
 
-	public void setPrivilegeId(String privilegeId) {
-		this.privilegeId = privilegeId;
-	}
+    public String getRoleId() {
+        return this.roleId;
+    }
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof ResourceRoleId))
-			return false;
-		ResourceRoleId castOther = (ResourceRoleId) other;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
-		return ((this.getResourceId() == castOther.getResourceId()) || (this
-				.getResourceId() != null
-				&& castOther.getResourceId() != null && this.getResourceId()
-				.equals(castOther.getResourceId())))
-				&& ((this.getRoleId() == castOther.getRoleId()) || (this
-						.getRoleId() != null
-						&& castOther.getRoleId() != null && this.getRoleId()
-						.equals(castOther.getRoleId())))
-				&& ((this.getPrivilegeId() == castOther.getPrivilegeId()) || (this
-						.getPrivilegeId() != null
-						&& castOther.getPrivilegeId() != null && this
-						.getPrivilegeId().equals(castOther.getPrivilegeId())));
-	}
+    public String getPrivilegeId() {
+        return this.privilegeId;
+    }
 
-	public int hashCode() {
-		int result = 17;
+    public void setPrivilegeId(String privilegeId) {
+        this.privilegeId = privilegeId;
+    }
 
-		result = 37
-				* result
-				+ (getResourceId() == null ? 0 : this.getResourceId()
-						.hashCode());
-		result = 37 * result
-				+ (getRoleId() == null ? 0 : this.getRoleId().hashCode());
-		result = 37
-				* result
-				+ (getPrivilegeId() == null ? 0 : this.getPrivilegeId()
-						.hashCode());
-		return result;
-	}
+    public boolean equals(Object other) {
+        if ((this == other))
+            return true;
+        if ((other == null))
+            return false;
+        if (!(other instanceof ResourceRoleId))
+            return false;
+        ResourceRoleId castOther = (ResourceRoleId) other;
 
-	public String getDomainId() {
-		return domainId;
-	}
+        return ((this.getResourceId() == castOther.getResourceId()) || (this
+                .getResourceId() != null
+                && castOther.getResourceId() != null && this.getResourceId()
+                .equals(castOther.getResourceId())))
+                && ((this.getRoleId() == castOther.getRoleId()) || (this
+                .getRoleId() != null
+                && castOther.getRoleId() != null && this.getRoleId()
+                .equals(castOther.getRoleId())))
+                && ((this.getPrivilegeId() == castOther.getPrivilegeId()) || (this
+                .getPrivilegeId() != null
+                && castOther.getPrivilegeId() != null && this
+                .getPrivilegeId().equals(castOther.getPrivilegeId())));
+    }
 
-	public void setDomainId(String domainId) {
-		this.domainId = domainId;
-	}
+    public int hashCode() {
+        int result = 17;
+
+        result = 37
+                * result
+                + (getResourceId() == null ? 0 : this.getResourceId()
+                .hashCode());
+        result = 37 * result
+                + (getRoleId() == null ? 0 : this.getRoleId().hashCode());
+        result = 37
+                * result
+                + (getPrivilegeId() == null ? 0 : this.getPrivilegeId()
+                .hashCode());
+        return result;
+    }
+
+    public String getDomainId() {
+        return domainId;
+    }
+
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
+    }
 
 }

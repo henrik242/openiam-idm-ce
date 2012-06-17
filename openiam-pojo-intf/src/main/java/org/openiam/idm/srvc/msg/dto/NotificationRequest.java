@@ -17,80 +17,75 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.msg.dto;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
  * NotificationRequest contains information for notification service to send out a pre-defined
  * notification
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "NotificationRequest", propOrder = {
-		"notificationType",
-		"userId",
-		"cc",
-		"to",
-		"paramList",
-		"requestId",
-		"linkedRequestId"
+        "notificationType",
+        "userId",
+        "cc",
+        "to",
+        "paramList",
+        "requestId",
+        "linkedRequestId"
 })
-@XmlRootElement(name="NotificationRequest")
+@XmlRootElement(name = "NotificationRequest")
 @XmlSeeAlso({
-    NotificationParam.class
+        NotificationParam.class
 })
 public class NotificationRequest {
 
-	String notificationType;
-	String userId;
-	String to;
-	String cc;
-	String requestId;
-	String linkedRequestId;
-	List<NotificationParam> paramList = new ArrayList<NotificationParam>();
-	
-	public NotificationRequest() {
-		
-	}
+    String notificationType;
+    String userId;
+    String to;
+    String cc;
+    String requestId;
+    String linkedRequestId;
+    List<NotificationParam> paramList = new ArrayList<NotificationParam>();
 
-	public NotificationRequest(String userId, String notificationType) {
-		super();
-		this.userId = userId;
-		this.notificationType = notificationType;
-	}
-	
-	public NotificationRequest(String cc, String notificationType,
-			List<NotificationParam> paramList, String to) {
-		super();
-		this.cc = cc;
-		this.notificationType = notificationType;
-		this.paramList = paramList;
-		this.to = to;
-	}
+    public NotificationRequest() {
 
-	public NotificationRequest(String cc, String notificationType,
-			List<NotificationParam> paramList, String to, String requestId, 
-			String linkedRequestId) {
-		super();
-		this.cc = cc;
-		this.notificationType = notificationType;
-		this.paramList = paramList;
-		this.to = to;
-		this.requestId = requestId;
-		this.linkedRequestId = linkedRequestId;
-	}
+    }
+
+    public NotificationRequest(String userId, String notificationType) {
+        super();
+        this.userId = userId;
+        this.notificationType = notificationType;
+    }
+
+    public NotificationRequest(String cc, String notificationType,
+                               List<NotificationParam> paramList, String to) {
+        super();
+        this.cc = cc;
+        this.notificationType = notificationType;
+        this.paramList = paramList;
+        this.to = to;
+    }
+
+    public NotificationRequest(String cc, String notificationType,
+                               List<NotificationParam> paramList, String to, String requestId,
+                               String linkedRequestId) {
+        super();
+        this.cc = cc;
+        this.notificationType = notificationType;
+        this.paramList = paramList;
+        this.to = to;
+        this.requestId = requestId;
+        this.linkedRequestId = linkedRequestId;
+    }
 
 
     @Override
@@ -105,74 +100,78 @@ public class NotificationRequest {
                 ", paramList=" + paramList +
                 '}';
     }
-	
-	public String getNotificationType() {
-		return notificationType;
-	}
-	public void setNotificationType(String notificationType) {
-		this.notificationType = notificationType;
-	}
 
-	public String getTo() {
-		return to;
-	}
-	public void setTo(String to) {
-		this.to = to;
-	}
-	public String getCc() {
-		return cc;
-	}
-	public void setCc(String cc) {
-		this.cc = cc;
-	}
-	public List<NotificationParam> getParamList() {
-		return paramList;
-	}
-	public void setParamList(List<NotificationParam> paramList) {
-		this.paramList = paramList;
-	}
+    public String getNotificationType() {
+        return notificationType;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	public NotificationParam getNotificationParam(String key) {
-		if (key == null) {
-			return null;
-		}
-		if (paramList == null || paramList.size() == 0) {
-			return null;
-		}
-		for ( NotificationParam param : paramList) {
-			if ( param.getName().equalsIgnoreCase(key)) {
-				return param;
-			}
-		}
-		
-		return null;
-	}
+    public String getTo() {
+        return to;
+    }
 
-	public String getRequestId() {
-		return requestId;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-	public void setRequestId(String requestId) {
-		this.requestId = requestId;
-	}
+    public String getCc() {
+        return cc;
+    }
 
-	public String getLinkedRequestId() {
-		return linkedRequestId;
-	}
+    public void setCc(String cc) {
+        this.cc = cc;
+    }
 
-	public void setLinkedRequestId(String linkedRequestId) {
-		this.linkedRequestId = linkedRequestId;
-	}
+    public List<NotificationParam> getParamList() {
+        return paramList;
+    }
+
+    public void setParamList(List<NotificationParam> paramList) {
+        this.paramList = paramList;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public NotificationParam getNotificationParam(String key) {
+        if (key == null) {
+            return null;
+        }
+        if (paramList == null || paramList.size() == 0) {
+            return null;
+        }
+        for (NotificationParam param : paramList) {
+            if (param.getName().equalsIgnoreCase(key)) {
+                return param;
+            }
+        }
+
+        return null;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getLinkedRequestId() {
+        return linkedRequestId;
+    }
+
+    public void setLinkedRequestId(String linkedRequestId) {
+        this.linkedRequestId = linkedRequestId;
+    }
 
 
-
-	
 }

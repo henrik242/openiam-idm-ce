@@ -1,25 +1,25 @@
 package org.openiam.idm.srvc.res.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.res.dto.ResourceProp;
+
+import java.util.List;
 
 public interface ResourcePropDAO {
 
-	void persist(ResourceProp transientInstance);
-	
-	void remove(ResourceProp persistentInstance);
+    void persist(ResourceProp transientInstance);
 
-	ResourceProp update(ResourceProp detachedInstance);
+    void remove(ResourceProp persistentInstance);
 
-	ResourceProp findById(java.lang.String id);
+    ResourceProp update(ResourceProp detachedInstance);
 
-	List<ResourceProp> findByExample(ResourceProp instance);
+    ResourceProp findById(java.lang.String id);
 
-	ResourceProp add(ResourceProp instance);
+    List<ResourceProp> findByExample(ResourceProp instance);
 
-	List<ResourceProp> findAllResourceProps();
+    ResourceProp add(ResourceProp instance);
 
-	int removeAllResourceProps();
+    List<ResourceProp> findAllResourceProps();
+
+    int removeAllResourceProps();
 
 }

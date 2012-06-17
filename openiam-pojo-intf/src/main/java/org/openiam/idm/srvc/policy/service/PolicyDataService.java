@@ -23,110 +23,123 @@
  */
 package org.openiam.idm.srvc.policy.service;
 
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyDef;
 import org.openiam.idm.srvc.policy.dto.PolicyDefParam;
 import org.openiam.idm.srvc.policy.dto.PolicyObjectAssoc;
 
+import javax.jws.WebService;
+import java.util.List;
+
 /**
  * @author suneet
- *
  */
 @WebService
 public interface PolicyDataService {
-	/**
-	 * Returns an array of policy types that are supported by the system.
-	 * @return
-	 */
-	String[] getPolicyTypes();
-	
-	/**
-	 * Returns an array of all policy definitions
-	 * @return
-	 */
-	PolicyDef[] getAllPolicyDef();
+    /**
+     * Returns an array of policy types that are supported by the system.
+     *
+     * @return
+     */
+    String[] getPolicyTypes();
 
-	/**
-	 * Returns a policy definition. These are the parameters that are available to a policy. 
-	 * @param policyDefId
-	 * @return
-	 */
-	PolicyDef getPolicyDefinition(String policyDefId);
-	
-	/**
-	 * Policy definitions parameters can be further categorized by parameter groups.
-	 * @param paramGroup
-	 * @return
-	 */
-	List<PolicyDefParam> getPolicyDefParamByGroup(String defId, String paramGroup);
+    /**
+     * Returns an array of all policy definitions
+     *
+     * @return
+     */
+    PolicyDef[] getAllPolicyDef();
 
-	
-	/**
-	 * Adds a new policy definition to the system. PolicyDefId must be defined.
-	 * @param val
-	 */
-	void addPolicyDefinition(PolicyDef val);
+    /**
+     * Returns a policy definition. These are the parameters that are available to a policy.
+     *
+     * @param policyDefId
+     * @return
+     */
+    PolicyDef getPolicyDefinition(String policyDefId);
 
-	/**
-	 * Updates an existing policy definition to the system. PolicyDefId must be defined.
-	 * @param val
-	 */	
-	void updatePolicyDefinition(PolicyDef val);
+    /**
+     * Policy definitions parameters can be further categorized by parameter groups.
+     *
+     * @param paramGroup
+     * @return
+     */
+    List<PolicyDefParam> getPolicyDefParamByGroup(String defId, String paramGroup);
 
-	/**
-	 * Removes a policy definition from the system.
-	 * @param definitionId
-	 */
-	void removePolicyDefinition(String definitionId);
-	
 
-	/**
-	 * Returns an array of all policies for a particular Policy definition
-	 * @return
-	 */
-	List<Policy> getAllPolicies(String policyDefId);
+    /**
+     * Adds a new policy definition to the system. PolicyDefId must be defined.
+     *
+     * @param val
+     */
+    void addPolicyDefinition(PolicyDef val);
 
-	/**
-	 * Returns a policy.  
-	 * @param policy
-	 * @return
-	 */
-	Policy getPolicy(String policyId);
+    /**
+     * Updates an existing policy definition to the system. PolicyDefId must be defined.
+     *
+     * @param val
+     */
+    void updatePolicyDefinition(PolicyDef val);
 
-	
-	/**
-	 * Adds a new policy to the system. PolicyId and PolicyDefId must be defined.
-	 * @param val
-	 */
-	void addPolicy(Policy val);
+    /**
+     * Removes a policy definition from the system.
+     *
+     * @param definitionId
+     */
+    void removePolicyDefinition(String definitionId);
 
-	/**
-	 * Updates an existing policy in the system. PolicyId and PolicyDefId must be defined.
-	 * @param val
-	 */	
-	void updatePolicy(Policy val);
 
-	/**
-	 * Removes a policy from the system.
-	 * @param policyId
-	 */
-	void removePolicy(String policyId);
-	
-	/**
-	 * Checks to see if a policyName exists for a given policy type.
-	 * @param policyType
-	 * @param policyName
-	 * @return
-	 */
-	boolean isPolicyExist(String policyType, String policyName);
-	
-	void associatePolicyToObject(PolicyObjectAssoc assoc);
-	void updatePolicyAssociation(PolicyObjectAssoc assoc);
-	List<PolicyObjectAssoc> getAssociationsForPolicy(String policyId);
+    /**
+     * Returns an array of all policies for a particular Policy definition
+     *
+     * @return
+     */
+    List<Policy> getAllPolicies(String policyDefId);
 
-	
+    /**
+     * Returns a policy.
+     *
+     * @param policy
+     * @return
+     */
+    Policy getPolicy(String policyId);
+
+
+    /**
+     * Adds a new policy to the system. PolicyId and PolicyDefId must be defined.
+     *
+     * @param val
+     */
+    void addPolicy(Policy val);
+
+    /**
+     * Updates an existing policy in the system. PolicyId and PolicyDefId must be defined.
+     *
+     * @param val
+     */
+    void updatePolicy(Policy val);
+
+    /**
+     * Removes a policy from the system.
+     *
+     * @param policyId
+     */
+    void removePolicy(String policyId);
+
+    /**
+     * Checks to see if a policyName exists for a given policy type.
+     *
+     * @param policyType
+     * @param policyName
+     * @return
+     */
+    boolean isPolicyExist(String policyType, String policyName);
+
+    void associatePolicyToObject(PolicyObjectAssoc assoc);
+
+    void updatePolicyAssociation(PolicyObjectAssoc assoc);
+
+    List<PolicyObjectAssoc> getAssociationsForPolicy(String policyId);
+
+
 }

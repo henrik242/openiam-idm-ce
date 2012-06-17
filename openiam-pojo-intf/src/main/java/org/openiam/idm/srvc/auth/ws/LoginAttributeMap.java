@@ -1,21 +1,20 @@
-
 package org.openiam.idm.srvc.auth.ws;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.openiam.idm.srvc.auth.dto.LoginAttribute;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.idm.srvc.auth.dto.LoginAttribute;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for organizationAttributeMap complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="organizationAttributeMap">
  *   &lt;complexContent>
@@ -38,12 +37,10 @@ import org.openiam.idm.srvc.auth.dto.LoginAttribute;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LoginAttributeMap", propOrder = {
-    "loginAttributeEntry"
+        "loginAttributeEntry"
 })
 public class LoginAttributeMap {
 
@@ -51,29 +48,27 @@ public class LoginAttributeMap {
 
     /**
      * Gets the value of the organizationAttributeEntry property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the organizationAttributeEntry property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getOrganizationAttributeEntry().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link LoginAttributeMap.OrganizationAttributeEntry }
-     * 
-     * 
      */
     public List<LoginAttributeMap.LoginAttributeEntry> getLoginAttributeEntry() {
         if (loginAttributeEntry == null) {
-        	loginAttributeEntry = new ArrayList<LoginAttributeMap.LoginAttributeEntry>();
+            loginAttributeEntry = new ArrayList<LoginAttributeMap.LoginAttributeEntry>();
         }
         return this.loginAttributeEntry;
     }
@@ -81,9 +76,9 @@ public class LoginAttributeMap {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -96,12 +91,10 @@ public class LoginAttributeMap {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "loginAttribute"
+            "loginAttribute"
     })
     public static class LoginAttributeEntry {
 
@@ -111,11 +104,9 @@ public class LoginAttributeMap {
 
         /**
          * Gets the value of the organizationAttribute property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link OrganizationAttribute }
-         *     
+         *
+         * @return possible object is
+         *         {@link OrganizationAttribute }
          */
         public LoginAttribute getLoginAttribute() {
             return loginAttribute;
@@ -123,11 +114,9 @@ public class LoginAttributeMap {
 
         /**
          * Sets the value of the organizationAttribute property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link OrganizationAttribute }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link OrganizationAttribute }
          */
         public void setLoginAttribute(LoginAttribute value) {
             this.loginAttribute = value;
@@ -135,11 +124,9 @@ public class LoginAttributeMap {
 
         /**
          * Gets the value of the id property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         *         {@link String }
          */
         public String getId() {
             return id;
@@ -147,11 +134,9 @@ public class LoginAttributeMap {
 
         /**
          * Sets the value of the id property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setId(String value) {
             this.id = value;

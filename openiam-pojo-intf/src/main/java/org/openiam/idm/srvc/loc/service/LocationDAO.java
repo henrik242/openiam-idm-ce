@@ -17,30 +17,30 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.loc.service;
-
-import java.util.List;
 
 import org.openiam.idm.srvc.loc.dto.Location;
 import org.openiam.idm.srvc.loc.dto.LocationSearch;
 
+import java.util.List;
+
 /**
  * @author suneet
- *
  */
 public interface LocationDAO {
 
-	public abstract void add(Location transientInstance);
+    public abstract void add(Location transientInstance);
 
-	public abstract void remove(Location persistentInstance);
+    public abstract void remove(Location persistentInstance);
 
-	public abstract Location update(Location detachedInstance);
+    public abstract Location update(Location detachedInstance);
 
-	public abstract Location findById(java.lang.String id);
+    public abstract Location findById(java.lang.String id);
 
-	public abstract List<Location> findAllLocations();
-	public abstract List<Location> searchLocations(LocationSearch search);
+    public abstract List<Location> findAllLocations();
+
+    public abstract List<Location> searchLocations(LocationSearch search);
 
 }

@@ -17,61 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.audit.ws;
-
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdmAuditLogListResponse", propOrder = {
-    "logList"
+        "logList"
 })
-public class IdmAuditLogListResponse extends Response{
+public class IdmAuditLogListResponse extends Response {
 
-	List<IdmAuditLog> logList;
+    List<IdmAuditLog> logList;
 
-	public IdmAuditLogListResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public IdmAuditLogListResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public IdmAuditLogListResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public IdmAuditLogListResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public List<IdmAuditLog> getLogList() {
-		return logList;
-	}
+    public List<IdmAuditLog> getLogList() {
+        return logList;
+    }
 
-	public void setLogList(List<IdmAuditLog> logList) {
-		this.logList = logList;
-	}
-
-
+    public void setLogList(List<IdmAuditLog> logList) {
+        this.logList = logList;
+    }
 
 
-
-
-
-
-	
-	
 }

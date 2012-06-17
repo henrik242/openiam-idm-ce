@@ -17,58 +17,51 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
 
-import java.util.Map;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
+import java.util.Map;
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlJavaTypeAdapter(org.openiam.idm.srvc.continfo.dto.EmailAddressMapAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EmailAddressMapResponse", propOrder = {
-    "emailMap"
+        "emailMap"
 })
-public class EmailAddressMapResponse extends Response{
+public class EmailAddressMapResponse extends Response {
 
-	Map<String, org.openiam.idm.srvc.continfo.dto.EmailAddress> emailMap;
+    Map<String, org.openiam.idm.srvc.continfo.dto.EmailAddress> emailMap;
 
-	public EmailAddressMapResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public EmailAddressMapResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public EmailAddressMapResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public EmailAddressMapResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Map<String, org.openiam.idm.srvc.continfo.dto.EmailAddress> getEmailMap() {
-		return emailMap;
-	}
+    public Map<String, org.openiam.idm.srvc.continfo.dto.EmailAddress> getEmailMap() {
+        return emailMap;
+    }
 
-	public void setEmailMap(
-			Map<String, org.openiam.idm.srvc.continfo.dto.EmailAddress> emailMap) {
-		this.emailMap = emailMap;
-	}
-
-
+    public void setEmailMap(
+            Map<String, org.openiam.idm.srvc.continfo.dto.EmailAddress> emailMap) {
+        this.emailMap = emailMap;
+    }
 
 
-	
-	
 }

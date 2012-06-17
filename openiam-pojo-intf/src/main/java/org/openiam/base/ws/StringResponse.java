@@ -17,10 +17,9 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.base.ws;
-
 
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,36 +29,34 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Response class that is used for web service operations that return a string.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StringResponse", propOrder = {
-    "value"
+        "value"
 })
 public class StringResponse {
 
-	@XmlAttribute(required = true)
-	protected String value;
+    @XmlAttribute(required = true)
+    protected String value;
 
-	public StringResponse() {
-		
-	}
+    public StringResponse() {
 
-	public StringResponse(String value) {
-		super();
-		this.value = value;
-	}
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public StringResponse(String value) {
+        super();
+        this.value = value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 
-
-    
 }

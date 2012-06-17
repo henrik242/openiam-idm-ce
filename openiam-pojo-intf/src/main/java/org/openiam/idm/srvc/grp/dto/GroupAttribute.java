@@ -1,31 +1,28 @@
 package org.openiam.idm.srvc.grp.dto;
 
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.idm.srvc.meta.dto.MetadataElement;
 
 
 /**
  * GroupAttribute represents an individual attribute that is associated with a group. A group may
  * have many attributes. A GroupAttribute should also be associated
- * with a MetadataElement. This approach is used as a way to extend the attributes associated with 
+ * with a MetadataElement. This approach is used as a way to extend the attributes associated with
  * group without having to extend the schema.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GroupAttribute", propOrder = {
-    "id",
-    "name",
-    "value",
-    "metadataElementId",
-    "groupId"
+        "id",
+        "name",
+        "value",
+        "metadataElementId",
+        "groupId"
 })
-public class GroupAttribute implements java.io.Serializable{
+public class GroupAttribute implements java.io.Serializable {
 
-	// Fields    
+    // Fields
 
     protected String id;
     protected String name;
@@ -33,82 +30,87 @@ public class GroupAttribute implements java.io.Serializable{
     protected String metadataElementId;
     protected String groupId;
 
-    
+
     public String toString() {
-    	String str = "id=" + id + 
-    				 " name=" + name +
-    				 " value=" + value + 
-    				 " groupId=" + groupId +
-    				 " metadataElementId=" + metadataElementId;
-    	
-    	return str;
+        String str = "id=" + id +
+                " name=" + name +
+                " value=" + value +
+                " groupId=" + groupId +
+                " metadataElementId=" + metadataElementId;
+
+        return str;
     }
 
-	// Constructors
-	/** minimal constructor */
-	public GroupAttribute(String id) {
-		this.id = id;
-	}
+    // Constructors
 
-	/** full constructor */
-	
-	public GroupAttribute(String id, 
-			String metadataElementId, String name, String value) {
-		this.id = id;
-		this.metadataElementId = metadataElementId;
-		this.name = name;
-		this.value = value;
-	}
-	
+    /**
+     * minimal constructor
+     */
+    public GroupAttribute(String id) {
+        this.id = id;
+    }
 
+    /**
+     * full constructor
+     */
 
-	/** default constructor */
-	public GroupAttribute() {
-	}
-
-	public String getMetadataElementId() {
-		return metadataElementId;
-	}
-
-	public void setMetadataElementId(String metadataElementId) {
-		this.metadataElementId = metadataElementId;
-	}
+    public GroupAttribute(String id,
+                          String metadataElementId, String name, String value) {
+        this.id = id;
+        this.metadataElementId = metadataElementId;
+        this.name = name;
+        this.value = value;
+    }
 
 
+    /**
+     * default constructor
+     */
+    public GroupAttribute() {
+    }
 
-	// Property accessors
-	public String getId() {
-		return this.id;
-	}
+    public String getMetadataElementId() {
+        return metadataElementId;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setMetadataElementId(String metadataElementId) {
+        this.metadataElementId = metadataElementId;
+    }
 
 
-	public String getName() {
-		return this.name;
-	}
+    // Property accessors
+    public String getId() {
+        return this.id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getValue() {
-		return this.value;
-	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getGroupId() {
-		return groupId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
-	}
+    public String getValue() {
+        return this.value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 
 
 }

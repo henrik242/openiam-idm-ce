@@ -17,56 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.role.dto.RolePolicy;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-
-import org.openiam.idm.srvc.grp.dto.GroupAttribute;
-import org.openiam.idm.srvc.role.dto.RoleAttribute;
-import org.openiam.idm.srvc.role.dto.RolePolicy;
-
 /**
  * Response object for a web service operation that returns a RoleAttribute.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RolePolicyResponse", propOrder = {
-    "rolePolicy"
+        "rolePolicy"
 })
-public class RolePolicyResponse extends Response{
+public class RolePolicyResponse extends Response {
 
-	RolePolicy rolePolicy;
-	
-	public RolePolicyResponse() {
-		super();
+    RolePolicy rolePolicy;
 
-	}
+    public RolePolicyResponse() {
+        super();
 
-	public RolePolicyResponse(ResponseStatus s) {
-		super(s);
-	}
+    }
 
-	public RolePolicy getRolePolicy() {
-		return rolePolicy;
-	}
+    public RolePolicyResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public void setRolePolicy(RolePolicy rolePolicy) {
-		this.rolePolicy = rolePolicy;
-	}
+    public RolePolicy getRolePolicy() {
+        return rolePolicy;
+    }
 
-
+    public void setRolePolicy(RolePolicy rolePolicy) {
+        this.rolePolicy = rolePolicy;
+    }
 
 
-
-
-	
-	
 }

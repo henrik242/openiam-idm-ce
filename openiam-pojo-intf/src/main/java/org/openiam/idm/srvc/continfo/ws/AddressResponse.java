@@ -17,54 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.continfo.dto.Address;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.continfo.dto.Address;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AddressResponse", propOrder = {
-    "address"
+        "address"
 })
-public class AddressResponse extends Response{
+public class AddressResponse extends Response {
 
-	Address address;
+    Address address;
 
-	public AddressResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public AddressResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public AddressResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public AddressResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
 
-	
-	
 }

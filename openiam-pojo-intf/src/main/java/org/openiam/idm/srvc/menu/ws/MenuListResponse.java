@@ -17,52 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.menu.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.menu.dto.Menu;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.menu.dto.Menu;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MenuListResponse", propOrder = {
-    "menuList"
+        "menuList"
 })
-public class MenuListResponse extends Response{
+public class MenuListResponse extends Response {
 
-	List<Menu> menuList;
-	
-	public MenuListResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    List<Menu> menuList;
 
-	public MenuListResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public MenuListResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public List<Menu> getMenuList() {
-		return menuList;
-	}
+    public MenuListResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setMenuList(List<Menu> menuList) {
-		this.menuList = menuList;
-	}
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
 
-	
-	
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
+
 }

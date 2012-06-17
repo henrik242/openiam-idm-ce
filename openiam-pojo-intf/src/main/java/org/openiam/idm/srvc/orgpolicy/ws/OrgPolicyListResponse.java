@@ -17,56 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.orgpolicy.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.orgpolicy.dto.OrgPolicy;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
+
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgPolicyAcceptanceListResponse", propOrder = {
-    "policyAcceptanceList"
+        "policyAcceptanceList"
 })
-public class OrgPolicyListResponse extends Response{
+public class OrgPolicyListResponse extends Response {
 
-	List<OrgPolicy> policyAcceptanceList;
-	
-	public OrgPolicyListResponse() {
-		super();
-	}
+    List<OrgPolicy> policyAcceptanceList;
 
-	public OrgPolicyListResponse(ResponseStatus s) {
-		super(s);
+    public OrgPolicyListResponse() {
+        super();
+    }
 
-	}
+    public OrgPolicyListResponse(ResponseStatus s) {
+        super(s);
 
-	public List<OrgPolicy> getPolicyAcceptanceList() {
-		return policyAcceptanceList;
-	}
+    }
 
-	public void setPolicyAcceptanceList(
-			List<OrgPolicy> policyAcceptanceList) {
-		this.policyAcceptanceList = policyAcceptanceList;
-	}
+    public List<OrgPolicy> getPolicyAcceptanceList() {
+        return policyAcceptanceList;
+    }
 
-
+    public void setPolicyAcceptanceList(
+            List<OrgPolicy> policyAcceptanceList) {
+        this.policyAcceptanceList = policyAcceptanceList;
+    }
 
 
-
-
-	
-	
 }

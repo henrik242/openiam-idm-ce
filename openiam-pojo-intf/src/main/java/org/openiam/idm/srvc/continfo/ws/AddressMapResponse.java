@@ -17,58 +17,51 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
 
-import java.util.Map;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
+import java.util.Map;
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
-@XmlJavaTypeAdapter(org.openiam.idm.srvc.continfo.dto.AddressMapAdapter.class) 
+@XmlJavaTypeAdapter(org.openiam.idm.srvc.continfo.dto.AddressMapAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AddressMapResponse", propOrder = {
-    "addressMap"
+        "addressMap"
 })
-public class AddressMapResponse extends Response{
+public class AddressMapResponse extends Response {
 
-	Map<String, org.openiam.idm.srvc.continfo.dto.Address> addressMap;
+    Map<String, org.openiam.idm.srvc.continfo.dto.Address> addressMap;
 
-	public AddressMapResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public AddressMapResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public AddressMapResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public AddressMapResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Map<String, org.openiam.idm.srvc.continfo.dto.Address> getAddressMap() {
-		return addressMap;
-	}
+    public Map<String, org.openiam.idm.srvc.continfo.dto.Address> getAddressMap() {
+        return addressMap;
+    }
 
-	public void setAddressMap(
-			Map<String, org.openiam.idm.srvc.continfo.dto.Address> addressMap) {
-		this.addressMap = addressMap;
-	}
-
-
+    public void setAddressMap(
+            Map<String, org.openiam.idm.srvc.continfo.dto.Address> addressMap) {
+        this.addressMap = addressMap;
+    }
 
 
-	
-	
 }

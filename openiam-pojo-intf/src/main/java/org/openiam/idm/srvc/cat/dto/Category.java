@@ -1,128 +1,124 @@
 package org.openiam.idm.srvc.cat.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.idm.srvc.cat.dto.CategoryLanguage;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "category", propOrder = {
-    "categoryId",
-    "createdBy",
-    "categoryName",
-    "categoryDesc",
-    "createDate",
-    "parentId",
-    "showList",
-    "displayOrder",
-    "childCategories",
-    "categoryLanguages"
+        "categoryId",
+        "createdBy",
+        "categoryName",
+        "categoryDesc",
+        "createDate",
+        "parentId",
+        "showList",
+        "displayOrder",
+        "childCategories",
+        "categoryLanguages"
 })
 public class Category implements Serializable {
-	private String categoryId;
-	private String createdBy;
-	private String categoryName;
-	private String categoryDesc;
-	@XmlSchemaType(name = "dateTime")
-	private Date createDate;
-	private String parentId;
-	private int showList;
-	private int displayOrder;
-	private Category[] childCategories;
-	private Set<CategoryLanguage> categoryLanguages = new HashSet<CategoryLanguage>(0);
-	static final long serialVersionUID = 7480627520054050204L;
-	
-	public Category() {
-		super();
-	}
+    private String categoryId;
+    private String createdBy;
+    private String categoryName;
+    private String categoryDesc;
+    @XmlSchemaType(name = "dateTime")
+    private Date createDate;
+    private String parentId;
+    private int showList;
+    private int displayOrder;
+    private Category[] childCategories;
+    private Set<CategoryLanguage> categoryLanguages = new HashSet<CategoryLanguage>(0);
+    static final long serialVersionUID = 7480627520054050204L;
 
-	public String getCategoryId() {
-		return this.categoryId;
-	}
+    public Category() {
+        super();
+    }
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
+    public String getCategoryId() {
+        return this.categoryId;
+    }
 
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
 
-	public String getCategoryName() {
-		return this.categoryName;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
+    public String getCategoryName() {
+        return this.categoryName;
+    }
 
-	public String getCategoryDesc() {
-		return this.categoryDesc;
-	}
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
-	public void setCategoryDesc(String categoryDesc) {
-		this.categoryDesc = categoryDesc;
-	}
+    public String getCategoryDesc() {
+        return this.categoryDesc;
+    }
 
-	public Date getCreateDate() {
-		return this.createDate;
-	}
+    public void setCategoryDesc(String categoryDesc) {
+        this.categoryDesc = categoryDesc;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public Date getCreateDate() {
+        return this.createDate;
+    }
 
-	public String getParentId() {
-		return this.parentId;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+    public String getParentId() {
+        return this.parentId;
+    }
 
-	public int getShowList() {
-		return this.showList;
-	}
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
-	public void setShowList(int showList) {
-		this.showList = showList;
-	}
+    public int getShowList() {
+        return this.showList;
+    }
 
-	public int getDisplayOrder() {
-		return this.displayOrder;
-	}
+    public void setShowList(int showList) {
+        this.showList = showList;
+    }
 
-	public void setDisplayOrder(int displayOrder) {
-		this.displayOrder = displayOrder;
-	}
+    public int getDisplayOrder() {
+        return this.displayOrder;
+    }
+
+    public void setDisplayOrder(int displayOrder) {
+        this.displayOrder = displayOrder;
+    }
 
 
+    public Set<CategoryLanguage> getCategoryLanguages() {
+        return categoryLanguages;
+    }
 
-	public Set<CategoryLanguage> getCategoryLanguages() {
-		return categoryLanguages;
-	}
+    public void setCategoryLanguages(Set<CategoryLanguage> categoryLanguages) {
+        this.categoryLanguages = categoryLanguages;
+    }
 
-	public void setCategoryLanguages(Set<CategoryLanguage> categoryLanguages) {
-		this.categoryLanguages = categoryLanguages;
-	}
+    public Category[] getChildCategories() {
+        return childCategories;
+    }
 
-	public Category[] getChildCategories() {
-		return childCategories;
-	}
-
-	public void setChildCategories(Category[] childCategories) {
-		this.childCategories = childCategories;
-	}
+    public void setChildCategories(Category[] childCategories) {
+        this.childCategories = childCategories;
+    }
 
 }

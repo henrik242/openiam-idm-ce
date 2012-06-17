@@ -17,46 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.service;
-
-import java.util.List;
 
 import org.openiam.idm.srvc.role.dto.UserRole;
 import org.openiam.idm.srvc.user.dto.User;
 
+import java.util.List;
+
 /**
  * DAO Interface for UserRole. Manages the relationship between user and role.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 public interface UserRoleDAO {
 
-	public abstract void add(UserRole transientInstance);
+    public abstract void add(UserRole transientInstance);
 
-	public abstract void remove(UserRole persistentInstance);
+    public abstract void remove(UserRole persistentInstance);
 
-	public abstract UserRole update(UserRole detachedInstance);
+    public abstract UserRole update(UserRole detachedInstance);
 
-	public abstract UserRole findById(java.lang.String id);
-	
-	public void removeUserFromRole(String serviceId, String roleId,	String userId);
-	
-	public void removeAllUsersInRole(String domainId, String roleId);
-	
-	/**
-	 * Get all the UserRole objects for this user
-	 * @param userId
-	 * @return
-	 */
-	public List<UserRole> findUserRoleByUser(String userId);
-	
-	/**
-	 * Returns a list of users in a role.
-	 * @param roleId
-	 * @return
-	 */
-	List<User> findUserByRole(String domainId, String roleId);
+    public abstract UserRole findById(java.lang.String id);
+
+    public void removeUserFromRole(String serviceId, String roleId, String userId);
+
+    public void removeAllUsersInRole(String domainId, String roleId);
+
+    /**
+     * Get all the UserRole objects for this user
+     *
+     * @param userId
+     * @return
+     */
+    public List<UserRole> findUserRoleByUser(String userId);
+
+    /**
+     * Returns a list of users in a role.
+     *
+     * @param roleId
+     * @return
+     */
+    List<User> findUserByRole(String domainId, String roleId);
 
 }

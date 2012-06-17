@@ -1,18 +1,17 @@
-
 package org.openiam.idm.srvc.role.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for roleAttributeSet complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="roleAttributeSet">
  *   &lt;complexContent>
@@ -34,12 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "roleAttributeSet", propOrder = {
-    "roleAttributeObj"
+        "roleAttributeObj"
 })
 public class RoleAttributeSet {
 
@@ -47,25 +44,23 @@ public class RoleAttributeSet {
 
     /**
      * Gets the value of the roleAttributeObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the roleAttributeObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getRoleAttributeObj().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link RoleAttributeSet.RoleAttributeObj }
-     * 
-     * 
      */
     public List<RoleAttributeSet.RoleAttributeObj> getRoleAttributeObj() {
         if (roleAttributeObj == null) {
@@ -77,9 +72,9 @@ public class RoleAttributeSet {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -91,12 +86,10 @@ public class RoleAttributeSet {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "roleAttribute"
+            "roleAttribute"
     })
     public static class RoleAttributeObj {
 
@@ -104,11 +97,9 @@ public class RoleAttributeSet {
 
         /**
          * Gets the value of the roleAttribute property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link RoleAttribute }
-         *     
+         *
+         * @return possible object is
+         *         {@link RoleAttribute }
          */
         public RoleAttribute getRoleAttribute() {
             return roleAttribute;
@@ -116,11 +107,9 @@ public class RoleAttributeSet {
 
         /**
          * Sets the value of the roleAttribute property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link RoleAttribute }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link RoleAttribute }
          */
         public void setRoleAttribute(RoleAttribute value) {
             this.roleAttribute = value;

@@ -17,56 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.auth.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.dto.Login;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.user.dto.User;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LoginListResponse", propOrder = {
-    "principalList"
+        "principalList"
 })
-public class LoginListResponse extends Response{
+public class LoginListResponse extends Response {
 
-	protected List<Login> principalList;
-	
-	public LoginListResponse() {
-		super();
-	}
+    protected List<Login> principalList;
 
-	public LoginListResponse(ResponseStatus s) {
-		super(s);
-	}
+    public LoginListResponse() {
+        super();
+    }
 
-	public List<Login> getPrincipalList() {
-		return principalList;
-	}
+    public LoginListResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public void setPrincipalList(List<Login> principalList) {
-		this.principalList = principalList;
-	}
+    public List<Login> getPrincipalList() {
+        return principalList;
+    }
 
-
+    public void setPrincipalList(List<Login> principalList) {
+        this.principalList = principalList;
+    }
 
 
-
-
-	
-	
 }

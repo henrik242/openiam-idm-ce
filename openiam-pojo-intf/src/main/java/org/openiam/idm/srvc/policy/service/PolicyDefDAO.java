@@ -17,31 +17,33 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.policy.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.policy.dto.PolicyDef;
+
+import java.util.List;
 
 /**
  * Data access implementation for PolicyDefinitions
- * @author suneet
  *
+ * @author suneet
  */
 public interface PolicyDefDAO {
 
-	public abstract void add(PolicyDef transientInstance);
+    public abstract void add(PolicyDef transientInstance);
 
-	public abstract void remove(PolicyDef persistentInstance);
+    public abstract void remove(PolicyDef persistentInstance);
 
-	public abstract PolicyDef update(PolicyDef detachedInstance);
+    public abstract PolicyDef update(PolicyDef detachedInstance);
 
-	public PolicyDef findById(java.lang.String id);
-	public List<String> findAllPolicyTypes();
-	public List<PolicyDef> findAllPolicyDef();
+    public PolicyDef findById(java.lang.String id);
 
-	public List<PolicyDef> findByExample(PolicyDef instance);
+    public List<String> findAllPolicyTypes();
+
+    public List<PolicyDef> findAllPolicyDef();
+
+    public List<PolicyDef> findByExample(PolicyDef instance);
 
 }

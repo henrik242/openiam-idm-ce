@@ -7,70 +7,74 @@ package org.openiam.idm.srvc.service.dto;
  */
 public class RequestFormId implements java.io.Serializable {
 
-	// Fields    
+    // Fields
 
-	private String requestType;
+    private String requestType;
 
-	private String serviceId;
+    private String serviceId;
 
-	// Constructors
+    // Constructors
 
-	/** default constructor */
-	public RequestFormId() {
-	}
+    /**
+     * default constructor
+     */
+    public RequestFormId() {
+    }
 
-	/** full constructor */
-	public RequestFormId(String requestType, String serviceId) {
-		this.requestType = requestType;
-		this.serviceId = serviceId;
-	}
+    /**
+     * full constructor
+     */
+    public RequestFormId(String requestType, String serviceId) {
+        this.requestType = requestType;
+        this.serviceId = serviceId;
+    }
 
-	// Property accessors
-	public String getRequestType() {
-		return this.requestType;
-	}
+    // Property accessors
+    public String getRequestType() {
+        return this.requestType;
+    }
 
-	public void setRequestType(String requestType) {
-		this.requestType = requestType;
-	}
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
 
-	public String getServiceId() {
-		return this.serviceId;
-	}
+    public String getServiceId() {
+        return this.serviceId;
+    }
 
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-	}
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof RequestFormId))
-			return false;
-		RequestFormId castOther = (RequestFormId) other;
+    public boolean equals(Object other) {
+        if ((this == other))
+            return true;
+        if ((other == null))
+            return false;
+        if (!(other instanceof RequestFormId))
+            return false;
+        RequestFormId castOther = (RequestFormId) other;
 
-		return ((this.getRequestType() == castOther.getRequestType()) || (this
-				.getRequestType() != null
-				&& castOther.getRequestType() != null && this.getRequestType()
-				.equals(castOther.getRequestType())))
-				&& ((this.getServiceId() == castOther.getServiceId()) || (this
-						.getServiceId() != null
-						&& castOther.getServiceId() != null && this
-						.getServiceId().equals(castOther.getServiceId())));
-	}
+        return ((this.getRequestType() == castOther.getRequestType()) || (this
+                .getRequestType() != null
+                && castOther.getRequestType() != null && this.getRequestType()
+                .equals(castOther.getRequestType())))
+                && ((this.getServiceId() == castOther.getServiceId()) || (this
+                .getServiceId() != null
+                && castOther.getServiceId() != null && this
+                .getServiceId().equals(castOther.getServiceId())));
+    }
 
-	public int hashCode() {
-		int result = 17;
+    public int hashCode() {
+        int result = 17;
 
-		result = 37
-				* result
-				+ (getRequestType() == null ? 0 : this.getRequestType()
-						.hashCode());
-		result = 37 * result
-				+ (getServiceId() == null ? 0 : this.getServiceId().hashCode());
-		return result;
-	}
+        result = 37
+                * result
+                + (getRequestType() == null ? 0 : this.getRequestType()
+                .hashCode());
+        result = 37 * result
+                + (getServiceId() == null ? 0 : this.getServiceId().hashCode());
+        return result;
+    }
 
 }

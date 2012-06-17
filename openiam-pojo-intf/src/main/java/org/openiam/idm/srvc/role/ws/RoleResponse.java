@@ -17,51 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.role.dto.Role;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoleResponse", propOrder = {
-    "role"
+        "role"
 })
-public class RoleResponse extends Response{
+public class RoleResponse extends Response {
 
-	Role role;
+    Role role;
 
-	public RoleResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public RoleResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public RoleResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public RoleResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Role getRole() {
-		return role;
-	}
+    public Role getRole() {
+        return role;
+    }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
 
-	
-	
 }

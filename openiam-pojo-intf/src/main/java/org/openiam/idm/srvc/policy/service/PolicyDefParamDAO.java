@@ -17,31 +17,30 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.policy.service;
 
-import java.util.List;
-
-import org.openiam.idm.srvc.policy.dto.PolicyDef;
 import org.openiam.idm.srvc.policy.dto.PolicyDefParam;
+
+import java.util.List;
 
 /**
  * Data access implementation for Policy Definition Parameters
- * @author suneet
  *
+ * @author suneet
  */
 public interface PolicyDefParamDAO {
 
-	void add(PolicyDefParam transientInstance);
+    void add(PolicyDefParam transientInstance);
 
-	void remove(PolicyDefParam persistentInstance);
+    void remove(PolicyDefParam persistentInstance);
 
-	PolicyDefParam update(PolicyDefParam detachedInstance);
+    PolicyDefParam update(PolicyDefParam detachedInstance);
 
-	PolicyDefParam findById(java.lang.String id);
-	
-	List<PolicyDefParam> findPolicyDefParamByGroup(String defId, String group);
+    PolicyDefParam findById(java.lang.String id);
+
+    List<PolicyDefParam> findPolicyDefParamByGroup(String defId, String group);
 
 
 }

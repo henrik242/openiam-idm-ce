@@ -17,57 +17,46 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.loc.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.loc.dto.Location;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.loc.dto.Location;
-import org.openiam.idm.srvc.user.dto.User;
-
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LocationArrayResponse", propOrder = {
-    "locationAry"
+        "locationAry"
 })
-public class LocationArrayResponse extends Response{
+public class LocationArrayResponse extends Response {
 
-	Location[] locationAry;
-	
-	public LocationArrayResponse() {
-		super();
-	}
+    Location[] locationAry;
 
-	public LocationArrayResponse(ResponseStatus s) {
-		super(s);
-	}
+    public LocationArrayResponse() {
+        super();
+    }
 
-	public Location[] getLocationAry() {
-		return locationAry;
-	}
+    public LocationArrayResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public void setLocationAry(Location[] locationAry) {
-		this.locationAry = locationAry;
-	}
+    public Location[] getLocationAry() {
+        return locationAry;
+    }
 
-
+    public void setLocationAry(Location[] locationAry) {
+        this.locationAry = locationAry;
+    }
 
 
-
-
-
-	
-	
 }

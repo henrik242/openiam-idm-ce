@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.dto;
 
@@ -25,17 +25,17 @@ import org.openiam.base.EnumUserType;
 
 /**
  * Concrete EnumUserType that is used by hibernate for persistence.
- * @author suneet
  *
+ * @author suneet
  */
 public class UserStatusEnumUserType extends EnumUserType<UserStatusEnum> {
 
-	/**
-	 * @param c
-	 */
-	public UserStatusEnumUserType() {
-		super(UserStatusEnum.class);
+    /**
+     * @param c
+     */
+    public UserStatusEnumUserType() {
+        super(UserStatusEnum.class);
 
-	}
+    }
 
 }

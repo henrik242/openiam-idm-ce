@@ -17,59 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.role.dto.Role;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-
 /**
  * Response object for a web service operation that returns a list of role objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoleArrayResponse", propOrder = {
-    "roleAry"
+        "roleAry"
 })
-public class RoleArrayResponse extends Response{
-	
-	Role[] roleAry;
-	
-	public RoleArrayResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+public class RoleArrayResponse extends Response {
 
-	public RoleArrayResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    Role[] roleAry;
 
-	public Role[] getRoleAry() {
-		return roleAry;
-	}
+    public RoleArrayResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setRoleAry(Role[] roleAry) {
-		this.roleAry = roleAry;
-	}
+    public RoleArrayResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
+    public Role[] getRoleAry() {
+        return roleAry;
+    }
 
+    public void setRoleAry(Role[] roleAry) {
+        this.roleAry = roleAry;
+    }
 
 
-
-
-
-
-	
-	
 }

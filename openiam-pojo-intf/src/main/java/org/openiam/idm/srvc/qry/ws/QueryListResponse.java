@@ -17,17 +17,9 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.qry.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
@@ -38,49 +30,47 @@ import org.openiam.idm.srvc.rpt.qryobject.dto.UserLoginStatusReport;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 
+import javax.xml.bind.annotation.*;
+import java.util.List;
+
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "QueryListResponse", propOrder = {
-    "resultList"
+        "resultList"
 })
 @XmlSeeAlso({
-    Login.class,
-    User.class,
-    Group.class,
-    Role.class, 
-    Supervisor.class,
-    UserLoginStatusReport.class
+        Login.class,
+        User.class,
+        Group.class,
+        Role.class,
+        Supervisor.class,
+        UserLoginStatusReport.class
 })
-public class QueryListResponse extends Response{
+public class QueryListResponse extends Response {
 
-	@XmlAnyElement(lax = true)
-	List<Object> resultList;
+    @XmlAnyElement(lax = true)
+    List<Object> resultList;
 
-	public QueryListResponse() {
-		super();
-	}
+    public QueryListResponse() {
+        super();
+    }
 
-	public QueryListResponse(ResponseStatus s) {
-		super(s);
-	}
+    public QueryListResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public List<Object> getResultList() {
-		return resultList;
-	}
+    public List<Object> getResultList() {
+        return resultList;
+    }
 
-	public void setResultList(List<Object> resultList) {
-		this.resultList = resultList;
-	}
-
-
+    public void setResultList(List<Object> resultList) {
+        this.resultList = resultList;
+    }
 
 
-
-	
-	
 }

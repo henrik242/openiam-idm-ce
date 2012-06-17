@@ -17,13 +17,12 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.exception;
 
 /**
  * @author suneet
- *
  */
 public class ObjectNotFoundException extends Exception {
 

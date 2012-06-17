@@ -17,75 +17,78 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.base.ws;
 
-
-
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 /**
  * Base class that is used for responses from a web service.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Response", propOrder = {
-    "status",
-    "errorCode",
-    "responseValue",
-    "errorText"
+        "status",
+        "errorCode",
+        "responseValue",
+        "errorText"
 })
 public class Response implements Serializable {
 
-	@XmlAttribute(required = true)
+    @XmlAttribute(required = true)
     protected ResponseStatus status;
-	protected ResponseCode errorCode;
-	protected String errorText;
-	
-	protected Object responseValue;
+    protected ResponseCode errorCode;
+    protected String errorText;
 
-	public Response() {
-		
-	}
-	public Response(ResponseStatus s) {
-		status = s;
-	}
-	public ResponseStatus getStatus() {
-		return status;
-	}
+    protected Object responseValue;
 
-	public void setStatus(ResponseStatus status) {
-		this.status = status;
-	}
+    public Response() {
+
+    }
+
+    public Response(ResponseStatus s) {
+        status = s;
+    }
+
+    public ResponseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
 
 
+    public Object getResponseValue() {
+        return responseValue;
+    }
 
-	public Object getResponseValue() {
-		return responseValue;
-	}
+    public void setResponseValue(Object responseValue) {
+        this.responseValue = responseValue;
+    }
 
-	public void setResponseValue(Object responseValue) {
-		this.responseValue = responseValue;
-	}
-	public ResponseCode getErrorCode() {
-		return errorCode;
-	}
-	public void setErrorCode(ResponseCode errorCode) {
-		this.errorCode = errorCode;
-	}
-	public String getErrorText() {
-		return errorText;
-	}
-	public void setErrorText(String errorText) {
-		this.errorText = errorText;
-	}
+    public ResponseCode getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(ResponseCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorText() {
+        return errorText;
+    }
+
+    public void setErrorText(String errorText) {
+        this.errorText = errorText;
+    }
 
     @Override
     public String toString() {

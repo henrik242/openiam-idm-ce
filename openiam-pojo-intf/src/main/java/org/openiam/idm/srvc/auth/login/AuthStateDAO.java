@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.auth.login;
 
@@ -25,21 +25,21 @@ import org.openiam.idm.srvc.auth.dto.AuthState;
 
 /**
  * DAO interface for AuthState.
- * @author suneet
  *
+ * @author suneet
  */
 public interface AuthStateDAO {
 
-	void add(AuthState transientInstance);
+    void add(AuthState transientInstance);
 
-	void remove(AuthState persistentInstance);
+    void remove(AuthState persistentInstance);
 
-	AuthState update(AuthState detachedInstance);
+    AuthState update(AuthState detachedInstance);
 
-	AuthState findById(java.lang.String id);
-	
-	AuthState findByToken(String token);
-	
-	void saveAuthState(AuthState state);
+    AuthState findById(java.lang.String id);
+
+    AuthState findByToken(String token);
+
+    void saveAuthState(AuthState state);
 
 }

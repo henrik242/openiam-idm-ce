@@ -1,50 +1,43 @@
 package org.openiam.idm.srvc.cat.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.idm.srvc.cat.dto.CategoryLanguage;
+import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CategoryTypeId", propOrder = {
-    "categoryId",
-    "typeId"
+        "categoryId",
+        "typeId"
 })
 public class CategoryTypeId implements Serializable {
-	private String categoryId;
-	private String typeId;
-
-	
-	public CategoryTypeId() {
-		super();
-	}
+    private String categoryId;
+    private String typeId;
 
 
-	public String getCategoryId() {
-		return categoryId;
-	}
+    public CategoryTypeId() {
+        super();
+    }
 
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
+    public String getCategoryId() {
+        return categoryId;
+    }
 
 
-	public String getTypeId() {
-		return typeId;
-	}
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
 
 
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
-	}
+    public String getTypeId() {
+        return typeId;
+    }
+
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
 
     @Override
     public boolean equals(Object o) {

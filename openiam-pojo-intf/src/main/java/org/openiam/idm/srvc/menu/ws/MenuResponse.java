@@ -17,51 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.menu.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.menu.dto.Menu;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.menu.dto.Menu;
-
 /**
  * Response object for a web service operation that returns a group.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MenuResponse", propOrder = {
-    "menu"
+        "menu"
 })
-public class MenuResponse extends Response{
+public class MenuResponse extends Response {
 
-	Menu menu;
+    Menu menu;
 
-	public MenuResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public MenuResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public MenuResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public MenuResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Menu getMenu() {
-		return menu;
-	}
+    public Menu getMenu() {
+        return menu;
+    }
 
-	public void setMenu(Menu menu) {
-		this.menu = menu;
-	}
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
 
 
-	
-	
 }

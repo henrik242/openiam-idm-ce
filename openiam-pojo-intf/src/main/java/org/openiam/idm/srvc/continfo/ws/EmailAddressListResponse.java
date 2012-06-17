@@ -17,56 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EmailAddressListResponse", propOrder = {
-    "emailAddressList"
+        "emailAddressList"
 })
-public class EmailAddressListResponse extends Response{
+public class EmailAddressListResponse extends Response {
 
-	List<EmailAddress> emailAddressList;
+    List<EmailAddress> emailAddressList;
 
-	public EmailAddressListResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public EmailAddressListResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public EmailAddressListResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public EmailAddressListResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public List<EmailAddress> getEmailAddressList() {
-		return emailAddressList;
-	}
+    public List<EmailAddress> getEmailAddressList() {
+        return emailAddressList;
+    }
 
-	public void setEmailAddressList(List<EmailAddress> emailAddressList) {
-		this.emailAddressList = emailAddressList;
-	}
-
-
+    public void setEmailAddressList(List<EmailAddress> emailAddressList) {
+        this.emailAddressList = emailAddressList;
+    }
 
 
-	
-	
 }

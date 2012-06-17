@@ -4,72 +4,79 @@ package org.openiam.idm.srvc.service.dto;
 
 /**
  * <code>ServiceConfig</code> is used to define the configuration parameters for a service
- * @version 3
+ *
  * @author Suneet Shah
+ * @version 3
  */
 public class ServiceConfig implements java.io.Serializable {
 
-	// Fields    
+    // Fields
 
-	private String serviceConfigId;
+    private String serviceConfigId;
 
-	private Service service;
+    private Service service;
 
-	private String name;
+    private String name;
 
-	private String value;
+    private String value;
 
-	// Constructors
+    // Constructors
 
-	/** default constructor */
-	public ServiceConfig() {
-	}
+    /**
+     * default constructor
+     */
+    public ServiceConfig() {
+    }
 
-	/** minimal constructor */
-	public ServiceConfig(String serviceConfigId) {
-		this.serviceConfigId = serviceConfigId;
-	}
+    /**
+     * minimal constructor
+     */
+    public ServiceConfig(String serviceConfigId) {
+        this.serviceConfigId = serviceConfigId;
+    }
 
-	/** full constructor */
-	public ServiceConfig(String serviceConfigId, Service service, String name,
-			String value) {
-		this.serviceConfigId = serviceConfigId;
-		this.service = service;
-		this.name = name;
-		this.value = value;
-	}
+    /**
+     * full constructor
+     */
+    public ServiceConfig(String serviceConfigId, Service service, String name,
+                         String value) {
+        this.serviceConfigId = serviceConfigId;
+        this.service = service;
+        this.name = name;
+        this.value = value;
+    }
 
-	// Property accessors
-	public String getServiceConfigId() {
-		return this.serviceConfigId;
-	}
+    // Property accessors
+    public String getServiceConfigId() {
+        return this.serviceConfigId;
+    }
 
-	public void setServiceConfigId(String serviceConfigId) {
-		this.serviceConfigId = serviceConfigId;
-	}
+    public void setServiceConfigId(String serviceConfigId) {
+        this.serviceConfigId = serviceConfigId;
+    }
 
-	public Service getService() {
-		return this.service;
-	}
+    public Service getService() {
+        return this.service;
+    }
 
-	public void setService(Service service) {
-		this.service = service;
-	}
+    public void setService(Service service) {
+        this.service = service;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getValue() {
-		return this.value;
-	}
+    public String getValue() {
+        return this.value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 }

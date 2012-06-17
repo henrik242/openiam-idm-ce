@@ -17,36 +17,30 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.qry.service;
 
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.openiam.idm.srvc.qry.dto.Query;
 
-
+import java.util.List;
 
 
 /**
  * QueryDataService allows your to execute adhoc sql queries.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 
 public interface QueryDataService {
 
-	/**
-	 * Executes a query and returns the result as collection of objects.
-	 * @param qry
-	 * @return
-	 */
-	List<Object> executeQuery(Query qry);
+    /**
+     * Executes a query and returns the result as collection of objects.
+     *
+     * @param qry
+     * @return
+     */
+    List<Object> executeQuery(Query qry);
 
-	
-
-	
 
 }

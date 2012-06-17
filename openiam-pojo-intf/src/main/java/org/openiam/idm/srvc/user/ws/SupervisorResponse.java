@@ -17,54 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.user.dto.Supervisor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.Supervisor;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SupervisorResponse", propOrder = {
-    "supervisor"
+        "supervisor"
 })
-public class SupervisorResponse extends Response{
+public class SupervisorResponse extends Response {
 
-	Supervisor supervisor;
+    Supervisor supervisor;
 
-	public SupervisorResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public SupervisorResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public SupervisorResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public SupervisorResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Supervisor getSupervisor() {
-		return supervisor;
-	}
+    public Supervisor getSupervisor() {
+        return supervisor;
+    }
 
-	public void setSupervisor(Supervisor supervisor) {
-		this.supervisor = supervisor;
-	}
-
-
+    public void setSupervisor(Supervisor supervisor) {
+        this.supervisor = supervisor;
+    }
 
 
-	
-	
 }

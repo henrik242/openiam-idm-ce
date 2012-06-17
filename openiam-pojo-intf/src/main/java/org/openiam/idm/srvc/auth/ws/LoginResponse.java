@@ -17,52 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.auth.ws;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.dto.Login;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LoginResponse", propOrder = {
-    "principal"
+        "principal"
 })
-public class LoginResponse extends Response{
+public class LoginResponse extends Response {
 
-	protected Login principal;
+    protected Login principal;
 
-	public LoginResponse() {
-		super();
-	}
+    public LoginResponse() {
+        super();
+    }
 
-	public LoginResponse(ResponseStatus s) {
-		super(s);
-	}
+    public LoginResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public Login getPrincipal() {
-		return principal;
-	}
+    public Login getPrincipal() {
+        return principal;
+    }
 
-	public void setPrincipal(Login principal) {
-		this.principal = principal;
-	}
-
-
+    public void setPrincipal(Login principal) {
+        this.principal = principal;
+    }
 
 
-
-	
-	
 }

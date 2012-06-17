@@ -17,53 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.policy.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.policy.dto.Policy;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-
-import org.openiam.idm.srvc.policy.dto.Policy;
-
 
 /**
  * Response object for a web service operation that returns a policy.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PolicyResponse", propOrder = {
-    "policy"
+        "policy"
 })
-public class PolicyResponse extends Response{
+public class PolicyResponse extends Response {
 
-	Policy policy;
+    Policy policy;
 
-	public PolicyResponse() {
-		super();
-	}
+    public PolicyResponse() {
+        super();
+    }
 
-	public PolicyResponse(ResponseStatus s) {
-		super(s);
+    public PolicyResponse(ResponseStatus s) {
+        super(s);
 
-	}
+    }
 
-	public Policy getPolicy() {
-		return policy;
-	}
+    public Policy getPolicy() {
+        return policy;
+    }
 
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
-	}
-
-
+    public void setPolicy(Policy policy) {
+        this.policy = policy;
+    }
 
 
-	
-	
 }

@@ -23,7 +23,6 @@ public class SessionFilter implements javax.servlet.Filter {
 
     private FilterConfig filterConfig = null;
     private String expirePage = null;
-    private String excludePath = null;
     private static final Log log = LogFactory.getLog(SessionFilter.class);
 
 
@@ -33,7 +32,7 @@ public class SessionFilter implements javax.servlet.Filter {
 
         // the expire page is the url of the page to display if the session has expired.
         this.expirePage = filterConfig.getInitParameter("expirePage");
-        excludePath = filterConfig.getInitParameter("excludePath");
+
 
 
     }
@@ -48,10 +47,8 @@ public class SessionFilter implements javax.servlet.Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
-        String userId = null;
+        String userId;
 
-
-        ServletContext context = getFilterConfig().getServletContext();
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -74,10 +71,17 @@ public class SessionFilter implements javax.servlet.Filter {
 
         if (!loginPage && isCode(url) ) {
 
-            if (session.getAttribute("userId") == null || ((String) session.getAttribute("userId")).isEmpty()) {
+           if (session.getAttribute("userId") != null) {
+               userId = (String)session.getAttribute("userId");
+
+               if ( userId != null && userId.isEmpty()) {
                 response.sendRedirect(request.getContextPath() + expirePage);
                 return;
             }
+           }else {
+               response.sendRedirect(request.getContextPath() + expirePage);
+               return;
+           }
 
         }
 

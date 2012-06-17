@@ -17,57 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.role.dto.UserRole;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.UserRole;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a list of role objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UserRoleListResponse", propOrder = {
-    "userRoleList"
+        "userRoleList"
 })
-public class UserRoleListResponse extends Response{
-	
-	List<UserRole> userRoleList;
-	
-	public UserRoleListResponse() {
-		super();
-	}
+public class UserRoleListResponse extends Response {
 
-	public UserRoleListResponse(ResponseStatus s) {
-		super(s);
+    List<UserRole> userRoleList;
 
-	}
+    public UserRoleListResponse() {
+        super();
+    }
 
-	public List<UserRole> getUserRoleList() {
-		return userRoleList;
-	}
+    public UserRoleListResponse(ResponseStatus s) {
+        super(s);
 
-	public void setUserRoleList(List<UserRole> userRoleList) {
-		this.userRoleList = userRoleList;
-	}
+    }
 
+    public List<UserRole> getUserRoleList() {
+        return userRoleList;
+    }
 
+    public void setUserRoleList(List<UserRole> userRoleList) {
+        this.userRoleList = userRoleList;
+    }
 
 
-
-
-	
-	
 }

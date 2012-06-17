@@ -12,11 +12,11 @@ import java.util.Date;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResourceGroup", propOrder = {
-    "resGroupId",
-    "resourceId",
-    "groupId",
-    "startDate",
-    "endDate"
+        "resGroupId",
+        "resourceId",
+        "groupId",
+        "startDate",
+        "endDate"
 })
 public class ResourceGroup implements java.io.Serializable {
 
@@ -27,8 +27,8 @@ public class ResourceGroup implements java.io.Serializable {
     Date endDate;
 
 
-	public ResourceGroup() {
-	}
+    public ResourceGroup() {
+    }
 
     public ResourceGroup(String resourceId, String groupId) {
         this.resourceId = resourceId;

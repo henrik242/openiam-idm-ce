@@ -17,55 +17,59 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.service;
-
-import java.util.List;
 
 import org.openiam.idm.srvc.pswd.dto.ChallengeResponseUser;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
 
+import java.util.List;
+
 /**
  * Challenge response interface that allows extension of the challenge response model to be outside the OpenIAM repository
- * @author suneet
  *
+ * @author suneet
  */
 public interface ChallengeResponseValidator {
 
-	/**
-	 * Returns the list of questions based on the parameters specified in the ChallengeResponseUser object.
-	 * @param req
-	 * @return
-	 */
-	List<IdentityQuestion> getQuestions(ChallengeResponseUser req);
-	
-	/**
-	 * Retrives a specific question that is identified by the question id.
-	 * @param questionId
-	 * @return
-	 */
-	IdentityQuestion getQuestion(String questionId);
-	
-	/*
-	 * Checks if the user response is valid
-	 */
-	boolean isResponseValid(ChallengeResponseUser req, List<UserIdentityAnswer> newAnswerList);
-	
-	boolean isResponseValid(ChallengeResponseUser req, List<UserIdentityAnswer> newAnswerList, int requiredCorrectAns);
-	
-	/**
-	 * Saves the answers that a user submits for a set of questions.
-	 * @param ansList
-	 */
-	void saveAnswers(List<UserIdentityAnswer> ansList );
-	
-	/**
-	 * returns the answers to questions that a user previously provided.
-	 * @param userId
-	 * @return
-	 */
-	List<UserIdentityAnswer> answersByUser(String userId);
-	
+    /**
+     * Returns the list of questions based on the parameters specified in the ChallengeResponseUser object.
+     *
+     * @param req
+     * @return
+     */
+    List<IdentityQuestion> getQuestions(ChallengeResponseUser req);
+
+    /**
+     * Retrives a specific question that is identified by the question id.
+     *
+     * @param questionId
+     * @return
+     */
+    IdentityQuestion getQuestion(String questionId);
+
+    /*
+      * Checks if the user response is valid
+      */
+    boolean isResponseValid(ChallengeResponseUser req, List<UserIdentityAnswer> newAnswerList);
+
+    boolean isResponseValid(ChallengeResponseUser req, List<UserIdentityAnswer> newAnswerList, int requiredCorrectAns);
+
+    /**
+     * Saves the answers that a user submits for a set of questions.
+     *
+     * @param ansList
+     */
+    void saveAnswers(List<UserIdentityAnswer> ansList);
+
+    /**
+     * returns the answers to questions that a user previously provided.
+     *
+     * @param userId
+     * @return
+     */
+    List<UserIdentityAnswer> answersByUser(String userId);
+
 }

@@ -17,56 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.orgpolicy.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.orgpolicy.dto.OrgPolicyUserLog;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
+
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgPolicyUserLogListResponse", propOrder = {
-    "userLogList"
+        "userLogList"
 })
-public class OrgPolicyUserLogListResponse extends Response{
+public class OrgPolicyUserLogListResponse extends Response {
 
-	protected List<OrgPolicyUserLog> userLogList;
-	
-	public OrgPolicyUserLogListResponse() {
-		super();
-	}
+    protected List<OrgPolicyUserLog> userLogList;
 
-	public OrgPolicyUserLogListResponse(ResponseStatus s) {
-		super(s);
+    public OrgPolicyUserLogListResponse() {
+        super();
+    }
 
-	}
+    public OrgPolicyUserLogListResponse(ResponseStatus s) {
+        super(s);
 
-	public List<OrgPolicyUserLog> getUserLogList() {
-		return userLogList;
-	}
+    }
 
-	public void setUserLogList(List<OrgPolicyUserLog> userLogList) {
-		this.userLogList = userLogList;
-	}
+    public List<OrgPolicyUserLog> getUserLogList() {
+        return userLogList;
+    }
 
-
+    public void setUserLogList(List<OrgPolicyUserLog> userLogList) {
+        this.userLogList = userLogList;
+    }
 
 
-
-
-
-	
-	
 }

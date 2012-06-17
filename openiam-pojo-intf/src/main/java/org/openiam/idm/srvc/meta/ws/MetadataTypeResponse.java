@@ -17,51 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.meta.ws;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.meta.dto.MetadataType;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 
 /**
  * Response object for a web service operation that returns a metadataType.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MetadataTypeResponse", propOrder = {
-    "metadataType"
+        "metadataType"
 })
-public class MetadataTypeResponse extends Response{
+public class MetadataTypeResponse extends Response {
 
-	protected MetadataType metadataType;
+    protected MetadataType metadataType;
 
-	public MetadataTypeResponse() {
-		super();
+    public MetadataTypeResponse() {
+        super();
 
-	}
+    }
 
-	public MetadataTypeResponse(ResponseStatus s) {
-		super(s);
-	}
+    public MetadataTypeResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public MetadataType getMetadataType() {
-		return metadataType;
-	}
+    public MetadataType getMetadataType() {
+        return metadataType;
+    }
 
-	public void setMetadataType(MetadataType metadataType) {
-		this.metadataType = metadataType;
-	}
+    public void setMetadataType(MetadataType metadataType) {
+        this.metadataType = metadataType;
+    }
 
 
-
-	
-	
 }

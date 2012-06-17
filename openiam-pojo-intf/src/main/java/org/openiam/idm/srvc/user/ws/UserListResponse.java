@@ -17,54 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.user.dto.User;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.user.dto.User;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UserListResponse", propOrder = {
-    "userList"
+        "userList"
 })
-public class UserListResponse extends Response{
+public class UserListResponse extends Response {
 
-	public UserListResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public UserListResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public UserListResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public UserListResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	List<User> userList;
+    List<User> userList;
 
-	public List<User> getUserList() {
-		return userList;
-	}
+    public List<User> getUserList() {
+        return userList;
+    }
 
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
-	}
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
 
 
-
-	
-	
 }

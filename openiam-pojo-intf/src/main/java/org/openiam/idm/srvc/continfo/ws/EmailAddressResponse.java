@@ -17,54 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EmailAddressResponse", propOrder = {
-    "emailAddress"
+        "emailAddress"
 })
-public class EmailAddressResponse extends Response{
+public class EmailAddressResponse extends Response {
 
-	EmailAddress emailAddress;
+    EmailAddress emailAddress;
 
-	public EmailAddressResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public EmailAddressResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public EmailAddressResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public EmailAddressResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public EmailAddress getEmailAddress() {
-		return emailAddress;
-	}
+    public EmailAddress getEmailAddress() {
+        return emailAddress;
+    }
 
-	public void setEmailAddress(EmailAddress emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-
-
+    public void setEmailAddress(EmailAddress emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
 
-	
-	
 }

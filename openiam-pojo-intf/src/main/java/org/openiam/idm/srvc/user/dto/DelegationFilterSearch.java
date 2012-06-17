@@ -17,35 +17,31 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * UserSearch is used to capture the parameters for an ad-hoc search on the user object.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DelegationFilterSearch", propOrder = {
 
-	"role",
-	"delAdmin",
-	"orgFilter"
+        "role",
+        "delAdmin",
+        "orgFilter"
 })
 public class DelegationFilterSearch implements Serializable {
 
 
-	protected String role = null;
+    protected String role = null;
     protected int delAdmin = 0;
     protected String orgFilter = null;
 

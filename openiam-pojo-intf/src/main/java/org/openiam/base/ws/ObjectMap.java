@@ -1,18 +1,16 @@
-
 package org.openiam.base.ws;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ObjectMap", propOrder = {
-    "objEntry"
+        "objEntry"
 })
 public class ObjectMap {
 
@@ -26,10 +24,9 @@ public class ObjectMap {
     }
 
 
-
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "obj"
+            "obj"
     })
     public static class ObjectEntry {
 
@@ -39,11 +36,9 @@ public class ObjectMap {
 
         /**
          * Gets the value of the userAttribute property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link UserAttribute }
-         *     
+         *
+         * @return possible object is
+         *         {@link UserAttribute }
          */
         public Object getObject() {
             return obj;
@@ -51,11 +46,9 @@ public class ObjectMap {
 
         /**
          * Sets the value of the userAttribute property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link UserAttribute }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link UserAttribute }
          */
         public void setObject(Object value) {
             this.obj = value;
@@ -63,11 +56,9 @@ public class ObjectMap {
 
         /**
          * Gets the value of the key property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         *         {@link String }
          */
         public String getKey() {
             return key;
@@ -75,11 +66,9 @@ public class ObjectMap {
 
         /**
          * Sets the value of the key property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setKey(String value) {
             this.key = value;

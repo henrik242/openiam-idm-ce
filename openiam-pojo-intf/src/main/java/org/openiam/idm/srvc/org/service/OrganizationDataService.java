@@ -1,28 +1,22 @@
-
 /*
- * 
- */
+*
+*/
 
 package org.openiam.idm.srvc.org.service;
-
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
-
-import java.util.List;
-import java.util.Map;
 
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.dto.OrganizationAttribute;
 import org.openiam.idm.srvc.org.dto.OrganizationAttributeMapAdapter;
 import org.openiam.idm.srvc.org.dto.UserAffiliation;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.UserRole;
+
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
+import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -43,8 +37,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "updateOrganizationResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.UpdateOrganizationResponse")
     @WebMethod
     public void updateOrganization(
-        @WebParam(name = "organization", targetNamespace = "")
-        org.openiam.idm.srvc.org.dto.Organization organization
+            @WebParam(name = "organization", targetNamespace = "")
+            org.openiam.idm.srvc.org.dto.Organization organization
     );
 
 /*
@@ -56,26 +50,26 @@ public interface OrganizationDataService {
     @WebMethod
     public java.util.List<org.openiam.idm.srvc.org.dto.Organization> getTopLevelOrganizations();
 
-    
+
     @RequestWrapper(localName = "getOrganizationList", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.getOrganizationList")
     @ResponseWrapper(localName = "getOrganizationListResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.getOrganizationListResponse")
     @WebMethod
     public java.util.List<org.openiam.idm.srvc.org.dto.Organization> getOrganizationList(
-    		 @WebParam(name = "parentOrgId", targetNamespace = "")
-    		 String parentOrgId, 
-    		 @WebParam(name = "status", targetNamespace = "")
-    		 String status);
-    
+            @WebParam(name = "parentOrgId", targetNamespace = "")
+            String parentOrgId,
+            @WebParam(name = "status", targetNamespace = "")
+            String status);
+
 /*
- * 
- */
+*
+*/
 
     @RequestWrapper(localName = "subOrganizations", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.SubOrganizations")
     @ResponseWrapper(localName = "subOrganizationsResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.SubOrganizationsResponse")
     @WebMethod
     public java.util.List<org.openiam.idm.srvc.org.dto.Organization> subOrganizations(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
 
 /*
@@ -86,8 +80,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "removeAttributeResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.RemoveAttributeResponse")
     @WebMethod
     public void removeAttribute(
-        @WebParam(name = "organizationAttribute", targetNamespace = "")
-        org.openiam.idm.srvc.org.dto.OrganizationAttribute organizationAttribute
+            @WebParam(name = "organizationAttribute", targetNamespace = "")
+            org.openiam.idm.srvc.org.dto.OrganizationAttribute organizationAttribute
     );
 
 /*
@@ -98,8 +92,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "getOrganizationResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.GetOrganizationResponse")
     @WebMethod
     public org.openiam.idm.srvc.org.dto.Organization getOrganization(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
 
 /*
@@ -110,15 +104,15 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "searchResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.SearchResponse")
     @WebMethod
     public java.util.List<org.openiam.idm.srvc.org.dto.Organization> search(
-        @WebParam(name = "name", targetNamespace = "")
-        java.lang.String name,
-        @WebParam(name = "type", targetNamespace = "")
-        java.lang.String type,
-        @WebParam(name = "classification", targetNamespace = "")
-        java.lang.String classification,
-        @WebParam(name = "internalOrgId", targetNamespace = "")
-        java.lang.String internalOrgId
-        );
+            @WebParam(name = "name", targetNamespace = "")
+            java.lang.String name,
+            @WebParam(name = "type", targetNamespace = "")
+            java.lang.String type,
+            @WebParam(name = "classification", targetNamespace = "")
+            java.lang.String classification,
+            @WebParam(name = "internalOrgId", targetNamespace = "")
+            java.lang.String internalOrgId
+    );
 
 /*
  * 
@@ -128,20 +122,20 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "addOrganizationResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.AddOrganizationResponse")
     @WebMethod
     public Organization addOrganization(
-        @WebParam(name = "organization", targetNamespace = "")
-        Organization organization
+            @WebParam(name = "organization", targetNamespace = "")
+            Organization organization
     );
 
 /*
  * 
  */
 
-     @RequestWrapper(localName = "getAttribute", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.GetAttribute")
+    @RequestWrapper(localName = "getAttribute", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.GetAttribute")
     @ResponseWrapper(localName = "getAttributeResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.GetAttributeResponse")
     @WebMethod
     public OrganizationAttribute getAttribute(
-        @WebParam(name = "attributeId", targetNamespace = "")
-        java.lang.String attributeId
+            @WebParam(name = "attributeId", targetNamespace = "")
+            java.lang.String attributeId
     );
 
 /*
@@ -152,8 +146,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "addAttributeResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.AddAttributeResponse")
     @WebMethod
     public void addAttribute(
-        @WebParam(name = "organizationAttribute", targetNamespace = "")
-        org.openiam.idm.srvc.org.dto.OrganizationAttribute organizationAttribute
+            @WebParam(name = "organizationAttribute", targetNamespace = "")
+            org.openiam.idm.srvc.org.dto.OrganizationAttribute organizationAttribute
     );
 
 /*
@@ -164,8 +158,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "updateAttributeResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.UpdateAttributeResponse")
     @WebMethod
     public void updateAttribute(
-        @WebParam(name = "organizationAttribute", targetNamespace = "")
-        org.openiam.idm.srvc.org.dto.OrganizationAttribute organizationAttribute
+            @WebParam(name = "organizationAttribute", targetNamespace = "")
+            org.openiam.idm.srvc.org.dto.OrganizationAttribute organizationAttribute
     );
 
 /*
@@ -176,8 +170,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "containsChildrenResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.ContainsChildrenResponse")
     @WebMethod
     public boolean containsChildren(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
 
 /*
@@ -188,8 +182,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "isRootOrganizationResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.IsRootOrganizationResponse")
     @WebMethod
     public boolean isRootOrganization(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
 
 /*
@@ -200,8 +194,8 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "removeOrganizationResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.RemoveOrganizationResponse")
     @WebMethod
     public void removeOrganization(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
 
 /*
@@ -212,97 +206,102 @@ public interface OrganizationDataService {
     @ResponseWrapper(localName = "removeAllAttributesResponse", targetNamespace = "urn:idm.openiam.org/srvc/org/types", className = "org.openiam.idm.srvc.org.types.RemoveAllAttributesResponse")
     @WebMethod
     public void removeAllAttributes(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
 
-/*
- * 
- */
+    /*
+    *
+    */
     // Note: do not include response wrapper if we plan to use Map and Adapter class
     @WebMethod
-    @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class) 
-    public Map<String,org.openiam.idm.srvc.org.dto.OrganizationAttribute> getAllAttributes(
-        @WebParam(name = "orgId", targetNamespace = "")
-        java.lang.String orgId
+    @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class)
+    public Map<String, org.openiam.idm.srvc.org.dto.OrganizationAttribute> getAllAttributes(
+            @WebParam(name = "orgId", targetNamespace = "")
+            java.lang.String orgId
     );
-    
-	/**
-	 * Returns a list of all organizations based on a metadataType. The parentId parameter can be used to get 
-	 * values that are nested further in the hierarchy. If parentId is null, the method will search only on the typeId and parentId 
-	 * will be ignored.
-	 * @param typeId
-	 * @param parentId
-	 * @return
-	 */
+
+    /**
+     * Returns a list of all organizations based on a metadataType. The parentId parameter can be used to get
+     * values that are nested further in the hierarchy. If parentId is null, the method will search only on the typeId and parentId
+     * will be ignored.
+     *
+     * @param typeId
+     * @param parentId
+     * @return
+     */
     @WebMethod
-    List<Organization>  getOrganizationByType(
-    		  @WebParam(name = "typeId", targetNamespace = "")
-    		  String typeId, 
-    		  @WebParam(name = "parentId", targetNamespace = "")
-    		  String parentId);
-    
+    List<Organization> getOrganizationByType(
+            @WebParam(name = "typeId", targetNamespace = "")
+            String typeId,
+            @WebParam(name = "parentId", targetNamespace = "")
+            String parentId);
+
     /**
      * Returns all entries in the organization table that are classified as Department.
+     *
      * @param parentId
      * @return
      */
     @WebMethod
     List<Organization> allDepartments(
-    		  @WebParam(name = "parentId", targetNamespace = "")
-    		  String parentId);
+            @WebParam(name = "parentId", targetNamespace = "")
+            String parentId);
+
     /**
      * Returns all entries in the organization table that are classified as Divisions.
+     *
      * @param parentId
      * @return
-     */    
+     */
     @WebMethod
     List<Organization> allDivisions(
-    		  @WebParam(name = "parentId", targetNamespace = "")
-    		  String parentId) ;
-    
-    @WebMethod    
+            @WebParam(name = "parentId", targetNamespace = "")
+            String parentId);
+
+    @WebMethod
     List<Organization> getAllOrganizations();
 
-        /* User Affiliation */
+    /* User Affiliation */
+
     /**
-	 * Adds a user to a org using the UserOrg object.
-	 */
+     * Adds a user to a org using the UserOrg object.
+     */
     @WebMethod
-	public void assocUserToOrg(
-             @WebParam(name = "userorg", targetNamespace = "")
-             UserAffiliation userorg);
-
-
-    @WebMethod
-	public void updateUserOrgAssoc(
+    public void assocUserToOrg(
             @WebParam(name = "userorg", targetNamespace = "")
-            UserAffiliation userorg) ;
+            UserAffiliation userorg);
+
 
     @WebMethod
-	public List<Organization> getOrganizationsForUser(
+    public void updateUserOrgAssoc(
+            @WebParam(name = "userorg", targetNamespace = "")
+            UserAffiliation userorg);
+
+    @WebMethod
+    public List<Organization> getOrganizationsForUser(
             @WebParam(name = "userId", targetNamespace = "")
-            String userId) ;
+            String userId);
 
     @WebMethod
-	public void addUserToOrg(
-             @WebParam(name = "orgId", targetNamespace = "")
-             String orgId,
-              @WebParam(name = "userId", targetNamespace = "")
-              String userId) ;
-
-	@WebMethod
-    public boolean isUserAffilatedWithOrg(
-            @WebParam(name = "orgId", targetNamespace = "")
-             String orgId,
-              @WebParam(name = "userId", targetNamespace = "")
-              String userId) ;
-
-    @WebMethod
-	public void removeUserFromOrg(
+    public void addUserToOrg(
             @WebParam(name = "orgId", targetNamespace = "")
             String orgId,
             @WebParam(name = "userId", targetNamespace = "")
-            String userId) ;
+            String userId);
+
+    @WebMethod
+    public boolean isUserAffilatedWithOrg(
+            @WebParam(name = "orgId", targetNamespace = "")
+            String orgId,
+            @WebParam(name = "userId", targetNamespace = "")
+            String userId);
+
+    @WebMethod
+    public void removeUserFromOrg(
+            @WebParam(name = "orgId", targetNamespace = "")
+            String orgId,
+            @WebParam(name = "userId", targetNamespace = "")
+            String userId);
 
 }

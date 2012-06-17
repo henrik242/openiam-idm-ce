@@ -17,48 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.org.service;
 
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.dto.UserAffiliation;
-import org.openiam.idm.srvc.role.dto.UserRole;
-import org.openiam.idm.srvc.user.dto.User;
 
 import java.util.List;
 
 /**
  * DAO Interface for UserRole. Manages the relationship between user and role.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 public interface UserAffiliationDAO {
 
-	public abstract void add(UserAffiliation transientInstance);
+    public abstract void add(UserAffiliation transientInstance);
 
-	public abstract void remove(UserAffiliation persistentInstance);
+    public abstract void remove(UserAffiliation persistentInstance);
 
-	public abstract UserAffiliation update(UserAffiliation detachedInstance);
+    public abstract UserAffiliation update(UserAffiliation detachedInstance);
 
-	public abstract UserAffiliation findById(String id);
-	
-	public void removeUserFromOrg(String orgId, String userId);
-	
-	public void removeAllUsersInOrg(String orgId);
-	
-	/**
-	 * Get all the UserRole objects for this user
-	 * @param userId
-	 * @return
-	 */
-	public List<UserAffiliation> findUserOrgByUser(String userId);
-	
-	/**
-	 * Returns a list of users in a role.
-	 * @param userId
-	 * @return
-	 */
-	List<Organization> findOrgAffiliationsByUser(String userId);
+    public abstract UserAffiliation findById(String id);
+
+    public void removeUserFromOrg(String orgId, String userId);
+
+    public void removeAllUsersInOrg(String orgId);
+
+    /**
+     * Get all the UserRole objects for this user
+     *
+     * @param userId
+     * @return
+     */
+    public List<UserAffiliation> findUserOrgByUser(String userId);
+
+    /**
+     * Returns a list of users in a role.
+     *
+     * @param userId
+     * @return
+     */
+    List<Organization> findOrgAffiliationsByUser(String userId);
 
 }

@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.rule;
 
@@ -30,16 +30,17 @@ import java.io.IOException;
 
 /**
  * Interface for the PasswordValidator
- * @author suneet
  *
+ * @author suneet
  */
 public interface PasswordValidator {
 
-	/**
-	 * Validates the password against the password policy that is passed in.
-	 * @param password
-	 * @return
-	 */
-	PasswordValidationCode validate(Policy policy, Password password) throws ObjectNotFoundException, IOException;
+    /**
+     * Validates the password against the password policy that is passed in.
+     *
+     * @param password
+     * @return
+     */
+    PasswordValidationCode validate(Policy policy, Password password) throws ObjectNotFoundException, IOException;
 
 }

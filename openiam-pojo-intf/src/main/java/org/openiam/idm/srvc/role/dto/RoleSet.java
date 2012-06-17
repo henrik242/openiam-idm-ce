@@ -1,18 +1,17 @@
-
 package org.openiam.idm.srvc.role.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for roleSet complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="roleSet">
  *   &lt;complexContent>
@@ -34,12 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "roleSet", propOrder = {
-    "roleObj"
+        "roleObj"
 })
 public class RoleSet {
 
@@ -47,25 +44,23 @@ public class RoleSet {
 
     /**
      * Gets the value of the roleObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the roleObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getRoleObj().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link RoleSet.RoleObj }
-     * 
-     * 
      */
     public List<RoleSet.RoleObj> getRoleObj() {
         if (roleObj == null) {
@@ -77,9 +72,9 @@ public class RoleSet {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -91,12 +86,10 @@ public class RoleSet {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "role"
+            "role"
     })
     public static class RoleObj {
 
@@ -104,11 +97,9 @@ public class RoleSet {
 
         /**
          * Gets the value of the role property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link Role }
-         *     
+         *
+         * @return possible object is
+         *         {@link Role }
          */
         public Role getRole() {
             return role;
@@ -116,11 +107,9 @@ public class RoleSet {
 
         /**
          * Sets the value of the role property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link Role }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link Role }
          */
         public void setRole(Role value) {
             this.role = value;

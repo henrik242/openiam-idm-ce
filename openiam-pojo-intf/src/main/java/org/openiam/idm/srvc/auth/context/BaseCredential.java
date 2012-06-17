@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Base credential object from which all other concrete credentials are inherited.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BaseCredential", propOrder = {
 })
 public abstract class BaseCredential implements Credential {
 
-	public BaseCredential() {
-		
-	}
+    public BaseCredential() {
+
+    }
 }

@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.service;
 
@@ -25,17 +25,16 @@ import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
 
 /**
  * @author suneet
- *
  */
 public interface IdentityQuestGroupDAO {
 
-	public abstract void add(IdentityQuestGroup transientInstance);
+    public abstract void add(IdentityQuestGroup transientInstance);
 
-	public abstract void remove(IdentityQuestGroup persistentInstance);
+    public abstract void remove(IdentityQuestGroup persistentInstance);
 
-	public abstract IdentityQuestGroup update(
-			IdentityQuestGroup detachedInstance);
+    public abstract IdentityQuestGroup update(
+            IdentityQuestGroup detachedInstance);
 
-	public IdentityQuestGroup findById(java.lang.String id);
+    public IdentityQuestGroup findById(java.lang.String id);
 
 }

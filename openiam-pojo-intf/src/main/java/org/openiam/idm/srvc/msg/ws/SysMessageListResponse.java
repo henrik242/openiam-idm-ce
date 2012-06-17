@@ -17,57 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.msg.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.msg.dto.SysMessage;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.msg.dto.SysMessage;
-import org.openiam.idm.srvc.user.dto.User;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SysMessageDeliveryListResponse", propOrder = {
-    "sysMessageList"
+        "sysMessageList"
 })
-public class SysMessageListResponse extends Response{
+public class SysMessageListResponse extends Response {
 
-	List<SysMessage> sysMessageList;;
-	
-	public SysMessageListResponse() {
-		super();
-	}
+    List<SysMessage> sysMessageList;
+    ;
 
-	public SysMessageListResponse(ResponseStatus s) {
-		super(s);
+    public SysMessageListResponse() {
+        super();
+    }
 
-	}
+    public SysMessageListResponse(ResponseStatus s) {
+        super(s);
 
-	public List<SysMessage> getSysMessageList() {
-		return sysMessageList;
-	}
+    }
 
-	public void setSysMessageList(List<SysMessage> sysMessageList) {
-		this.sysMessageList = sysMessageList;
-	}
+    public List<SysMessage> getSysMessageList() {
+        return sysMessageList;
+    }
 
-
-
+    public void setSysMessageList(List<SysMessage> sysMessageList) {
+        this.sysMessageList = sysMessageList;
+    }
 
 
-
-	
-	
 }

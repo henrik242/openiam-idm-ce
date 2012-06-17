@@ -17,53 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.continfo.dto.Phone;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PhoneResponse", propOrder = {
-    "phone"
+        "phone"
 })
-public class PhoneResponse extends Response{
+public class PhoneResponse extends Response {
 
-	Phone phone;
+    Phone phone;
 
-	public PhoneResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public PhoneResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public PhoneResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public PhoneResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Phone getPhone() {
-		return phone;
-	}
+    public Phone getPhone() {
+        return phone;
+    }
 
-	public void setPhone(Phone phone) {
-		this.phone = phone;
-	}
-
-
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
 
 
-	
-	
 }

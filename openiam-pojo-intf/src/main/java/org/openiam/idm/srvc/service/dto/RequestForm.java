@@ -9,90 +9,96 @@ import java.util.Date;
  */
 public class RequestForm implements java.io.Serializable {
 
-	// Fields    
+    // Fields
 
-	private RequestFormId id;
+    private RequestFormId id;
 
-	private Service service;
+    private Service service;
 
-	private Integer isDefault;
+    private Integer isDefault;
 
-	private Date createDate;
+    private Date createDate;
 
-	private String createdBy;
+    private String createdBy;
 
-	private String formTemplateUrl;
+    private String formTemplateUrl;
 
-	// Constructors
+    // Constructors
 
-	/** default constructor */
-	public RequestForm() {
-	}
+    /**
+     * default constructor
+     */
+    public RequestForm() {
+    }
 
-	/** minimal constructor */
-	public RequestForm(RequestFormId id, Service service) {
-		this.id = id;
-		this.service = service;
-	}
+    /**
+     * minimal constructor
+     */
+    public RequestForm(RequestFormId id, Service service) {
+        this.id = id;
+        this.service = service;
+    }
 
-	/** full constructor */
-	public RequestForm(RequestFormId id, Service service, Integer isDefault,
-			Date createDate, String createdBy, String formTemplateUrl) {
-		this.id = id;
-		this.service = service;
-		this.isDefault = isDefault;
-		this.createDate = createDate;
-		this.createdBy = createdBy;
-		this.formTemplateUrl = formTemplateUrl;
-	}
+    /**
+     * full constructor
+     */
+    public RequestForm(RequestFormId id, Service service, Integer isDefault,
+                       Date createDate, String createdBy, String formTemplateUrl) {
+        this.id = id;
+        this.service = service;
+        this.isDefault = isDefault;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.formTemplateUrl = formTemplateUrl;
+    }
 
-	// Property accessors
-	public RequestFormId getId() {
-		return this.id;
-	}
+    // Property accessors
+    public RequestFormId getId() {
+        return this.id;
+    }
 
-	public void setId(RequestFormId id) {
-		this.id = id;
-	}
+    public void setId(RequestFormId id) {
+        this.id = id;
+    }
 
-	public Service getService() {
-		return this.service;
-	}
+    public Service getService() {
+        return this.service;
+    }
 
-	public void setService(Service service) {
-		this.service = service;
-	}
+    public void setService(Service service) {
+        this.service = service;
+    }
 
-	public Integer getIsDefault() {
-		return this.isDefault;
-	}
+    public Integer getIsDefault() {
+        return this.isDefault;
+    }
 
-	public void setIsDefault(Integer isDefault) {
-		this.isDefault = isDefault;
-	}
+    public void setIsDefault(Integer isDefault) {
+        this.isDefault = isDefault;
+    }
 
-	public Date getCreateDate() {
-		return this.createDate;
-	}
+    public Date getCreateDate() {
+        return this.createDate;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public String getFormTemplateUrl() {
-		return this.formTemplateUrl;
-	}
+    public String getFormTemplateUrl() {
+        return this.formTemplateUrl;
+    }
 
-	public void setFormTemplateUrl(String formTemplateUrl) {
-		this.formTemplateUrl = formTemplateUrl;
-	}
+    public void setFormTemplateUrl(String formTemplateUrl) {
+        this.formTemplateUrl = formTemplateUrl;
+    }
 
 }

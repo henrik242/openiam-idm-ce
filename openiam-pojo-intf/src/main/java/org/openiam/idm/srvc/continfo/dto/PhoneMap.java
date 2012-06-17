@@ -1,19 +1,18 @@
-
 package org.openiam.idm.srvc.continfo.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for phoneMap complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="phoneMap">
  *   &lt;complexContent>
@@ -36,12 +35,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "phoneMap", propOrder = {
-    "phoneEntry"
+        "phoneEntry"
 })
 public class PhoneMap {
 
@@ -49,25 +46,23 @@ public class PhoneMap {
 
     /**
      * Gets the value of the phoneEntry property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the phoneEntry property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getPhoneEntry().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link PhoneMap.PhoneEntry }
-     * 
-     * 
      */
     public List<PhoneMap.PhoneEntry> getPhoneEntry() {
         if (phoneEntry == null) {
@@ -79,9 +74,9 @@ public class PhoneMap {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -94,12 +89,10 @@ public class PhoneMap {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "phone"
+            "phone"
     })
     public static class PhoneEntry {
 
@@ -109,11 +102,9 @@ public class PhoneMap {
 
         /**
          * Gets the value of the phone property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link Phone }
-         *     
+         *
+         * @return possible object is
+         *         {@link Phone }
          */
         public Phone getPhone() {
             return phone;
@@ -121,11 +112,9 @@ public class PhoneMap {
 
         /**
          * Sets the value of the phone property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link Phone }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link Phone }
          */
         public void setPhone(Phone value) {
             this.phone = value;
@@ -133,11 +122,9 @@ public class PhoneMap {
 
         /**
          * Gets the value of the key property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         *         {@link String }
          */
         public String getKey() {
             return key;
@@ -145,11 +132,9 @@ public class PhoneMap {
 
         /**
          * Sets the value of the key property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setKey(String value) {
             this.key = value;

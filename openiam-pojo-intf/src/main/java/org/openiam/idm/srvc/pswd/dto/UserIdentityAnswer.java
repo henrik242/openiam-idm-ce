@@ -26,80 +26,80 @@ import javax.xml.bind.annotation.XmlType;
  * Domain object representing an answer by the user for a challenge response question.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UserIdentityAnswer", propOrder = { 
-		"identityAnsId",
-		"identityQuestionId",
-		"questionText",
-		"userId",
-		"questionAnswer"
-	})
+@XmlType(name = "UserIdentityAnswer", propOrder = {
+        "identityAnsId",
+        "identityQuestionId",
+        "questionText",
+        "userId",
+        "questionAnswer"
+})
 public class UserIdentityAnswer extends org.openiam.base.BaseObject implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8841064146448209034L;
-	protected String identityAnsId;
-	protected String identityQuestionId;
-	protected String questionText;
-	protected String userId;
-	protected String questionAnswer;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8841064146448209034L;
+    protected String identityAnsId;
+    protected String identityQuestionId;
+    protected String questionText;
+    protected String userId;
+    protected String questionAnswer;
 
-	public UserIdentityAnswer() {
-	}
+    public UserIdentityAnswer() {
+    }
 
-	public UserIdentityAnswer(String identityAnsId) {
-		this.identityAnsId = identityAnsId;
-	}
+    public UserIdentityAnswer(String identityAnsId) {
+        this.identityAnsId = identityAnsId;
+    }
 
-	public UserIdentityAnswer(String identityAnsId,
-			String questionText,
-			String userId, String questionAnswer) {
-		this.identityAnsId = identityAnsId;
-		this.questionText = questionText;
-		this.userId = userId;
-		this.questionAnswer = questionAnswer;
-	}
+    public UserIdentityAnswer(String identityAnsId,
+                              String questionText,
+                              String userId, String questionAnswer) {
+        this.identityAnsId = identityAnsId;
+        this.questionText = questionText;
+        this.userId = userId;
+        this.questionAnswer = questionAnswer;
+    }
 
-	public String getIdentityAnsId() {
-		return this.identityAnsId;
-	}
+    public String getIdentityAnsId() {
+        return this.identityAnsId;
+    }
 
-	public void setIdentityAnsId(String identityAnsId) {
-		this.identityAnsId = identityAnsId;
-	}
+    public void setIdentityAnsId(String identityAnsId) {
+        this.identityAnsId = identityAnsId;
+    }
 
 
-	public String getQuestionText() {
-		return this.questionText;
-	}
+    public String getQuestionText() {
+        return this.questionText;
+    }
 
-	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
-	}
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 
-	public String getUserId() {
-		return this.userId;
-	}
+    public String getUserId() {
+        return this.userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public String getQuestionAnswer() {
-		return this.questionAnswer;
-	}
+    public String getQuestionAnswer() {
+        return this.questionAnswer;
+    }
 
-	public void setQuestionAnswer(String questionAnswer) {
-		this.questionAnswer = questionAnswer;
-	}
+    public void setQuestionAnswer(String questionAnswer) {
+        this.questionAnswer = questionAnswer;
+    }
 
-	public String getIdentityQuestionId() {
-		return identityQuestionId;
-	}
+    public String getIdentityQuestionId() {
+        return identityQuestionId;
+    }
 
-	public void setIdentityQuestionId(String identityQuestionId) {
-		this.identityQuestionId = identityQuestionId;
-	}
+    public void setIdentityQuestionId(String identityQuestionId) {
+        this.identityQuestionId = identityQuestionId;
+    }
 
 }

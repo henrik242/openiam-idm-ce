@@ -11,98 +11,97 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResourceProp", propOrder = {
-    "resourcePropId",
-    "resourceId",
-    "metadataId",
-    "propValue",
-    "name"
+        "resourcePropId",
+        "resourceId",
+        "metadataId",
+        "propValue",
+        "name"
 })
 public class ResourceProp implements java.io.Serializable, Comparable<ResourceProp> {
 
-	private String resourcePropId;
-	private String resourceId;
-	private String metadataId;
- 	private String propValue;
- 	private String name;
+    private String resourcePropId;
+    private String resourceId;
+    private String metadataId;
+    private String propValue;
+    private String name;
 
-	public ResourceProp() {
-	}
-
-	
-	public ResourceProp(String metadataId, String resourceId,
-			String resourcePropId, String propValue) {
-		super();
-		this.metadataId = metadataId;
-		this.resourceId = resourceId;
-		this.resourcePropId = resourcePropId;
-		this.propValue = propValue;
-	}
-
-	
-	public ResourceProp(String resourcePropId) {
-		this.resourcePropId = resourcePropId;
-	}
+    public ResourceProp() {
+    }
 
 
-	public String getResourcePropId() {
-		return this.resourcePropId;
-	}
-
-	public void setResourcePropId(String resourcePropId) {
-		this.resourcePropId = resourcePropId;
-	}
-
-	public String getResourceId() {
-		return this.resourceId;
-	}
-
-	public void setResourceId(String resourceId) {
-		this.resourceId = resourceId;
-	}
+    public ResourceProp(String metadataId, String resourceId,
+                        String resourcePropId, String propValue) {
+        super();
+        this.metadataId = metadataId;
+        this.resourceId = resourceId;
+        this.resourcePropId = resourcePropId;
+        this.propValue = propValue;
+    }
 
 
-
-	public String getMetadataId() {
-		return this.metadataId;
-	}
-
-	public void setMetadataId(String metadataId) {
-		this.metadataId = metadataId;
-	}
-
-	public String getPropValue() {
-		return propValue;
-	}
-
-	public void setPropValue(String propValue) {
-		this.propValue = propValue;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+    public ResourceProp(String resourcePropId) {
+        this.resourcePropId = resourcePropId;
+    }
 
 
-	public String toString() {
-		String str = "resourcePropId=" + resourcePropId + 
-			" resourceId=" + resourceId + 
-			" metadataId=" + metadataId + 
-			" name=" + name + 
-			" value=" + propValue;
-		
-		return str;
-		
-	}
+    public String getResourcePropId() {
+        return this.resourcePropId;
+    }
 
-	public int compareTo(ResourceProp o) {
-		if (getName() == null || o == null) {
-			// Not recommended, but compareTo() is only used for display purposes in this case
-			return Integer.MIN_VALUE;
-		}
-		return getName().compareTo(o.getName());
-	}
+    public void setResourcePropId(String resourcePropId) {
+        this.resourcePropId = resourcePropId;
+    }
+
+    public String getResourceId() {
+        return this.resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+
+    public String getMetadataId() {
+        return this.metadataId;
+    }
+
+    public void setMetadataId(String metadataId) {
+        this.metadataId = metadataId;
+    }
+
+    public String getPropValue() {
+        return propValue;
+    }
+
+    public void setPropValue(String propValue) {
+        this.propValue = propValue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String toString() {
+        String str = "resourcePropId=" + resourcePropId +
+                " resourceId=" + resourceId +
+                " metadataId=" + metadataId +
+                " name=" + name +
+                " value=" + propValue;
+
+        return str;
+
+    }
+
+    public int compareTo(ResourceProp o) {
+        if (getName() == null || o == null) {
+            // Not recommended, but compareTo() is only used for display purposes in this case
+            return Integer.MIN_VALUE;
+        }
+        return getName().compareTo(o.getName());
+    }
 }

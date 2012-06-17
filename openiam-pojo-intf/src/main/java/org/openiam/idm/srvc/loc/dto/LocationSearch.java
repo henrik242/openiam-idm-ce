@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.loc.dto;
 
@@ -27,27 +27,31 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Allows you to define the search criteria to search for a location
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "locationSearch", propOrder = {
-    "name",
-    "address1"
+        "name",
+        "address1"
 })
 public class LocationSearch {
-	String address1;
-	String name;
-	public String getAddress1() {
-		return address1;
-	}
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+    String address1;
+    String name;
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

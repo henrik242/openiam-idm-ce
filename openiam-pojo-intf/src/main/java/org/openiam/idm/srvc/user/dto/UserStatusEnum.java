@@ -5,11 +5,10 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
-
 /**
  * Status' that a user can be in.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlType(name = "UserStatus")
 @XmlEnum
@@ -26,7 +25,7 @@ public enum UserStatusEnum {
     @XmlEnumValue("approval_declined")
     APPROVAL_DECLINED("APPROVAL_DECLINED"),
     @XmlEnumValue("pending_user_validation")
-    PENDING_USER_VALIDATION("PENDING_USER_VALIDATION"),   
+    PENDING_USER_VALIDATION("PENDING_USER_VALIDATION"),
     @XmlEnumValue("pending_initial_login")
     PENDING_INITIAL_LOGIN("PENDING_INITIAL_LOGIN"),
     @XmlEnumValue("terminate")
@@ -44,16 +43,18 @@ public enum UserStatusEnum {
     @XmlEnumValue("leave")
     LEAVE("LEAVE");
     private String value;
-  
+
     UserStatusEnum(String val) {
-    	value = val;
+        value = val;
     }
+
     public String getValue() {
-    	return value;
+        return value;
     }
+
     public void setValue(String val) {
-    	value = val;
-    }  
+        value = val;
+    }
 
 
 }

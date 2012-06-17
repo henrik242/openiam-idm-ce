@@ -2,13 +2,11 @@ package org.openiam.idm.srvc.user.dto;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
 
 
 /**
@@ -17,18 +15,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "userNote", propOrder = {
-    "createDate",
-    "createdBy",
-    "description",
-    "noteType",
-    "userId",
-    "userNoteId"
+        "createDate",
+        "createdBy",
+        "description",
+        "noteType",
+        "userId",
+        "userNoteId"
 })
 
 public class UserNote implements java.io.Serializable {
 
-	// Fields    
-	
+    // Fields
+
     @XmlSchemaType(name = "dateTime")
     protected Date createDate;
     protected String createdBy;
@@ -38,84 +36,89 @@ public class UserNote implements java.io.Serializable {
     protected String userNoteId;
 
 
-	// Constructors
+    // Constructors
 
-	/** default constructor */
-	public UserNote() {
-	}
+    /**
+     * default constructor
+     */
+    public UserNote() {
+    }
 
-	/** minimal constructor */
-	public UserNote(String userNoteId) {
-		this.userNoteId = userNoteId;
-		
-		createDate = new Date(System.currentTimeMillis());
-		
-	}
+    /**
+     * minimal constructor
+     */
+    public UserNote(String userNoteId) {
+        this.userNoteId = userNoteId;
 
-	/** full constructor */
-	public UserNote(String userNoteId, String users, String noteType,
-			String description, Date createDate, String createdBy) {
-		this.userNoteId = userNoteId;
-		this.userId = users;
-		this.noteType = noteType;
-		this.description = description;
-		if (createDate == null) {
-			this.createDate = new Date(System.currentTimeMillis());
-		}else {
-			this.createDate = createDate;
-		}
-		this.createdBy = createdBy;
-	}
+        createDate = new Date(System.currentTimeMillis());
 
-	// Property accessors
-	public String getUserNoteId() {
-		return this.userNoteId;
-	}
+    }
 
-	public void setUserNoteId(String userNoteId) {
-		this.userNoteId = userNoteId;
-	}
+    /**
+     * full constructor
+     */
+    public UserNote(String userNoteId, String users, String noteType,
+                    String description, Date createDate, String createdBy) {
+        this.userNoteId = userNoteId;
+        this.userId = users;
+        this.noteType = noteType;
+        this.description = description;
+        if (createDate == null) {
+            this.createDate = new Date(System.currentTimeMillis());
+        } else {
+            this.createDate = createDate;
+        }
+        this.createdBy = createdBy;
+    }
+
+    // Property accessors
+    public String getUserNoteId() {
+        return this.userNoteId;
+    }
+
+    public void setUserNoteId(String userNoteId) {
+        this.userNoteId = userNoteId;
+    }
 
 
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getNoteType() {
+        return this.noteType;
+    }
 
-	public String getNoteType() {
-		return this.noteType;
-	}
+    public void setNoteType(String noteType) {
+        this.noteType = noteType;
+    }
 
-	public void setNoteType(String noteType) {
-		this.noteType = noteType;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public Date getCreateDate() {
+        return this.createDate;
+    }
 
-	public Date getCreateDate() {
-		return this.createDate;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
 
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
 }

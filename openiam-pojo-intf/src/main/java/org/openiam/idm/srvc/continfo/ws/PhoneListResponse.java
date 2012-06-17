@@ -17,55 +17,50 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.continfo.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.continfo.dto.Phone;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PhoneListResponse", propOrder = {
-    "phoneList"
+        "phoneList"
 })
-public class PhoneListResponse extends Response{
+public class PhoneListResponse extends Response {
 
-	List<Phone> phoneList;
+    List<Phone> phoneList;
 
-	public PhoneListResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public PhoneListResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public PhoneListResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
-
-
-	public List<Phone> getPhoneList() {
-		return phoneList;
-	}
-
-	public void setPhoneList(List<Phone> phoneList) {
-		this.phoneList = phoneList;
-	}
+    public PhoneListResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
 
-	
-	
+    public List<Phone> getPhoneList() {
+        return phoneList;
+    }
+
+    public void setPhoneList(List<Phone> phoneList) {
+        this.phoneList = phoneList;
+    }
+
+
 }

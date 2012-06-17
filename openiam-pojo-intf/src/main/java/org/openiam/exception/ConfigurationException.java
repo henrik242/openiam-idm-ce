@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.exception;
 
@@ -27,25 +27,25 @@ import javax.xml.ws.WebFault;
 
 /**
  * Exception to indicate an error in configuration.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
-@WebFault(name="ConfigurationException")
-@XmlAccessorType( XmlAccessType.FIELD )
+@WebFault(name = "ConfigurationException")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ConfigurationException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8468710241862529647L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8468710241862529647L;
 
-	public ConfigurationException() {
-		super();
-	}
+    public ConfigurationException() {
+        super();
+    }
 
-	public ConfigurationException(String msg) {
-		super(msg);
+    public ConfigurationException(String msg) {
+        super(msg);
 
-	}
+    }
 
 }

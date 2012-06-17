@@ -17,74 +17,79 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.grp.dto;
-
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 /**
  * @author suneet
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "groupsearch", propOrder = {
-    "grpId",
-    "grpName",
-     "status",
-     "ownerId",
-     "internalGroupId"
+        "grpId",
+        "grpName",
+        "status",
+        "ownerId",
+        "internalGroupId"
 
 })
 public class GroupSearch implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8856853212412392870L;
-	protected String grpId;
-	protected String grpName;
-	protected String status;
-	protected String ownerId;
-	protected String internalGroupId;
-	
-	public GroupSearch() {
-		
-	}
-	
-	public String getGrpId() {
-		return grpId;
-	}
-	public void setGrpId(String grpId) {
-		this.grpId = grpId;
-	}
-	public String getGrpName() {
-		return grpName;
-	}
-	public void setGrpName(String grpName) {
-		this.grpName = grpName;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public String getOwnerId() {
-		return ownerId;
-	}
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8856853212412392870L;
+    protected String grpId;
+    protected String grpName;
+    protected String status;
+    protected String ownerId;
+    protected String internalGroupId;
 
-	public String getInternalGroupId() {
-		return internalGroupId;
-	}
+    public GroupSearch() {
 
-	public void setInternalGroupId(String internalGroupId) {
-		this.internalGroupId = internalGroupId;
-	}
+    }
+
+    public String getGrpId() {
+        return grpId;
+    }
+
+    public void setGrpId(String grpId) {
+        this.grpId = grpId;
+    }
+
+    public String getGrpName() {
+        return grpName;
+    }
+
+    public void setGrpName(String grpName) {
+        this.grpName = grpName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getInternalGroupId() {
+        return internalGroupId;
+    }
+
+    public void setInternalGroupId(String internalGroupId) {
+        this.internalGroupId = internalGroupId;
+    }
 }

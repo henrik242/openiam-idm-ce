@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.dto;
 
@@ -27,54 +27,63 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Object that allows you define the identity of the user for a request
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ChallengeResponseUser", propOrder = {
-    "userId",
-    "principal",
-    "domain",
-    "managedSysId",
-    "questionGroup"
+        "userId",
+        "principal",
+        "domain",
+        "managedSysId",
+        "questionGroup"
 })
 public class ChallengeResponseUser {
 
-	String userId;
-	String principal;
-	String domain;
-	String managedSysId;
-	String questionGroup;
-	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getPrincipal() {
-		return principal;
-	}
-	public void setPrincipal(String principal) {
-		this.principal = principal;
-	}
-	public String getDomain() {
-		return domain;
-	}
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
-	public String getManagedSysId() {
-		return managedSysId;
-	}
-	public void setManagedSysId(String managedSysId) {
-		this.managedSysId = managedSysId;
-	}
-	public String getQuestionGroup() {
-		return questionGroup;
-	}
-	public void setQuestionGroup(String questionGroup) {
-		this.questionGroup = questionGroup;
-	}
-	
+    String userId;
+    String principal;
+    String domain;
+    String managedSysId;
+    String questionGroup;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getManagedSysId() {
+        return managedSysId;
+    }
+
+    public void setManagedSysId(String managedSysId) {
+        this.managedSysId = managedSysId;
+    }
+
+    public String getQuestionGroup() {
+        return questionGroup;
+    }
+
+    public void setQuestionGroup(String questionGroup) {
+        this.questionGroup = questionGroup;
+    }
+
 }

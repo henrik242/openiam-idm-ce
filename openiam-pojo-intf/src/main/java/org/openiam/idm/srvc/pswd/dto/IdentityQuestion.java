@@ -19,9 +19,6 @@
 package org.openiam.idm.srvc.pswd.dto;
 
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -30,92 +27,91 @@ import javax.xml.bind.annotation.XmlType;
  * Domain object that represents a question for use in the challenge response functionality
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IdentityQuestion", propOrder = { 
-		"identityQuestionId",
-		"identityQuestGrp",
-		"questionText",
-		"required",
-		"active",
-		"userId"
-	})
+@XmlType(name = "IdentityQuestion", propOrder = {
+        "identityQuestionId",
+        "identityQuestGrp",
+        "questionText",
+        "required",
+        "active",
+        "userId"
+})
 public class IdentityQuestion extends org.openiam.base.BaseObject implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1802758764731284709L;
-	protected String identityQuestionId;
-	protected IdentityQuestGroup identityQuestGrp;
-	protected String questionText;
-	protected Integer required = new Integer(0);
-	protected Integer active = new Integer(1);
-	protected String userId;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1802758764731284709L;
+    protected String identityQuestionId;
+    protected IdentityQuestGroup identityQuestGrp;
+    protected String questionText;
+    protected Integer required = new Integer(0);
+    protected Integer active = new Integer(1);
+    protected String userId;
 
-	public IdentityQuestion() {
-	}
+    public IdentityQuestion() {
+    }
 
-	public IdentityQuestion(String identityQuestionId) {
-		this.identityQuestionId = identityQuestionId;
-	}
+    public IdentityQuestion(String identityQuestionId) {
+        this.identityQuestionId = identityQuestionId;
+    }
 
-	public IdentityQuestion(String identityQuestionId,
-			IdentityQuestGroup identityQuestGrp, String questionText,
-			Integer required, String userId) {
-		this.identityQuestionId = identityQuestionId;
-		this.identityQuestGrp = identityQuestGrp;
-		this.questionText = questionText;
-		this.required = required;
-		this.userId = userId;
-	}
+    public IdentityQuestion(String identityQuestionId,
+                            IdentityQuestGroup identityQuestGrp, String questionText,
+                            Integer required, String userId) {
+        this.identityQuestionId = identityQuestionId;
+        this.identityQuestGrp = identityQuestGrp;
+        this.questionText = questionText;
+        this.required = required;
+        this.userId = userId;
+    }
 
-	public String getIdentityQuestionId() {
-		return this.identityQuestionId;
-	}
+    public String getIdentityQuestionId() {
+        return this.identityQuestionId;
+    }
 
-	public void setIdentityQuestionId(String identityQuestionId) {
-		this.identityQuestionId = identityQuestionId;
-	}
+    public void setIdentityQuestionId(String identityQuestionId) {
+        this.identityQuestionId = identityQuestionId;
+    }
 
-	public IdentityQuestGroup getIdentityQuestGrp() {
-		return this.identityQuestGrp;
-	}
+    public IdentityQuestGroup getIdentityQuestGrp() {
+        return this.identityQuestGrp;
+    }
 
-	public void setIdentityQuestGrp(IdentityQuestGroup identityQuestGrp) {
-		this.identityQuestGrp = identityQuestGrp;
-	}
+    public void setIdentityQuestGrp(IdentityQuestGroup identityQuestGrp) {
+        this.identityQuestGrp = identityQuestGrp;
+    }
 
-	public String getQuestionText() {
-		return this.questionText;
-	}
+    public String getQuestionText() {
+        return this.questionText;
+    }
 
-	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
-	}
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 
-	public Integer getRequired() {
-		return this.required;
-	}
+    public Integer getRequired() {
+        return this.required;
+    }
 
-	public void setRequired(Integer required) {
-		this.required = required;
-	}
+    public void setRequired(Integer required) {
+        this.required = required;
+    }
 
-	public String getUserId() {
-		return this.userId;
-	}
+    public String getUserId() {
+        return this.userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public Integer getActive() {
-		return active;
-	}
+    public Integer getActive() {
+        return active;
+    }
 
-	public void setActive(Integer active) {
-		this.active = active;
-	}
-
+    public void setActive(Integer active) {
+        this.active = active;
+    }
 
 
 }

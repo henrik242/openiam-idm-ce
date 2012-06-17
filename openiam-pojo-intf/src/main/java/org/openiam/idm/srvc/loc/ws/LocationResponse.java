@@ -17,56 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.loc.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.loc.dto.Location;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.loc.dto.Location;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.User;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LocationResponse", propOrder = {
-    "location"
+        "location"
 })
-public class LocationResponse extends Response{
+public class LocationResponse extends Response {
 
-	Location location;
+    Location location;
 
-	public LocationResponse() {
-		super();
-	}
+    public LocationResponse() {
+        super();
+    }
 
-	public LocationResponse(ResponseStatus s) {
-		super(s);
+    public LocationResponse(ResponseStatus s) {
+        super(s);
 
-	}
+    }
 
-	public Location getLocation() {
-		return location;
-	}
+    public Location getLocation() {
+        return location;
+    }
 
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
 
-
-
-	
-	
 }

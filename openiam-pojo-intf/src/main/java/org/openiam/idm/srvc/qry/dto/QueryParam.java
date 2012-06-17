@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.qry.dto;
 
@@ -26,42 +26,49 @@ import java.util.List;
 
 /**
  * @author suneet
- *
  */
 public class QueryParam implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1858970104714815975L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1858970104714815975L;
 
-	protected ParameterTypeEnum paramType;
-	protected String paramName;
-	protected Object paramValue;
-	protected List<Object> paramValueList;
-	public ParameterTypeEnum getParamType() {
-		return paramType;
-	}
-	public void setParamType(ParameterTypeEnum paramType) {
-		this.paramType = paramType;
-	}
-	public String getParamName() {
-		return paramName;
-	}
-	public void setParamName(String paramName) {
-		this.paramName = paramName;
-	}
-	public Object getParamValue() {
-		return paramValue;
-	}
-	public void setParamValue(Object paramValue) {
-		this.paramValue = paramValue;
-	}
-	public List<Object> getParamValueList() {
-		return paramValueList;
-	}
-	public void setParamValueList(List<Object> paramValueList) {
-		this.paramValueList = paramValueList;
-	}
+    protected ParameterTypeEnum paramType;
+    protected String paramName;
+    protected Object paramValue;
+    protected List<Object> paramValueList;
+
+    public ParameterTypeEnum getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(ParameterTypeEnum paramType) {
+        this.paramType = paramType;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public void setParamName(String paramName) {
+        this.paramName = paramName;
+    }
+
+    public Object getParamValue() {
+        return paramValue;
+    }
+
+    public void setParamValue(Object paramValue) {
+        this.paramValue = paramValue;
+    }
+
+    public List<Object> getParamValueList() {
+        return paramValueList;
+    }
+
+    public void setParamValueList(List<Object> paramValueList) {
+        this.paramValueList = paramValueList;
+    }
 
 }

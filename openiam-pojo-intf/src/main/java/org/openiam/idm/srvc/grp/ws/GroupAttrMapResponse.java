@@ -17,58 +17,53 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.grp.ws;
 
-import java.util.List;
-import java.util.Map;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.grp.dto.GroupAttribute;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.grp.dto.GroupAttribute;
+import java.util.Map;
 
 /**
  * Response object for a web service operation that returns a Map of GroupAttribute objects.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlJavaTypeAdapter(org.openiam.idm.srvc.grp.dto.GroupAttributeMapAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GroupAttrMapResponse", propOrder = {
-    "groupAttrMap"
+        "groupAttrMap"
 })
-public class GroupAttrMapResponse extends Response{
+public class GroupAttrMapResponse extends Response {
 
-	public GroupAttrMapResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public GroupAttrMapResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public GroupAttrMapResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public GroupAttrMapResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	Map<String,GroupAttribute> groupAttrMap;
+    Map<String, GroupAttribute> groupAttrMap;
 
-	//@XmlJavaTypeAdapter(org.openiam.idm.srvc.grp.dto.GroupAttributeMapAdapter.class)
-	public Map<String, GroupAttribute> getGroupAttrMap() {
-		return groupAttrMap;
-	}
+    //@XmlJavaTypeAdapter(org.openiam.idm.srvc.grp.dto.GroupAttributeMapAdapter.class)
+    public Map<String, GroupAttribute> getGroupAttrMap() {
+        return groupAttrMap;
+    }
 
-	//@XmlJavaTypeAdapter(org.openiam.idm.srvc.grp.dto.GroupAttributeMapAdapter.class)
-	public void setGroupAttrMap(Map<String, GroupAttribute> groupAttrMap) {
-		this.groupAttrMap = groupAttrMap;
-	}
+    //@XmlJavaTypeAdapter(org.openiam.idm.srvc.grp.dto.GroupAttributeMapAdapter.class)
+    public void setGroupAttrMap(Map<String, GroupAttribute> groupAttrMap) {
+        this.groupAttrMap = groupAttrMap;
+    }
 
 
-	
-	
 }

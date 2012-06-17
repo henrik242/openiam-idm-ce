@@ -17,54 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.grp.ws;
-
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.grp.dto.Group;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GroupArrayResponse", propOrder = {
-    "groupAry"
+        "groupAry"
 })
-public class GroupArrayResponse extends Response{
+public class GroupArrayResponse extends Response {
 
-	public GroupArrayResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public GroupArrayResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public GroupArrayResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public GroupArrayResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	Group[] groupAry;
+    Group[] groupAry;
 
-	public Group[] getGroupAry() {
-		return groupAry;
-	}
+    public Group[] getGroupAry() {
+        return groupAry;
+    }
 
-	public void setGroupAry(Group[] groupAry) {
-		this.groupAry = groupAry;
-	}
-
-
+    public void setGroupAry(Group[] groupAry) {
+        this.groupAry = groupAry;
+    }
 
 
-	
-	
 }

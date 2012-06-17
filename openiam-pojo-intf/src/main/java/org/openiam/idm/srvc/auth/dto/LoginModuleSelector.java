@@ -17,46 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.auth.dto;
 
 /**
  * Class used to specify which Login module to use for authentication the type of login module that we have.
- * @author suneet
  *
+ * @author suneet
  */
 public class LoginModuleSelector {
-	
-	static public int MODULE_TYPE_LOGIN_MODULE = 1;
-	static public int MODULE_TYPE_CONNECTOR = 2;
-	
-	
-	protected int moduleType = MODULE_TYPE_LOGIN_MODULE;	
-	protected String moduleName;
-	
-	public LoginModuleSelector() {
-		
-	}
-	public LoginModuleSelector(String moduleName, int moduleType) {
-		super();
-		this.moduleName = moduleName;
-		this.moduleType = moduleType;
-	}
-	
-	public int getModuleType() {
-		return moduleType;
-	}
-	public void setModuleType(int moduleType) {
-		this.moduleType = moduleType;
-	}
-	public String getModuleName() {
-		return moduleName;
-	}
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
-	}
+
+    static public int MODULE_TYPE_LOGIN_MODULE = 1;
+    static public int MODULE_TYPE_CONNECTOR = 2;
 
 
-	
+    protected int moduleType = MODULE_TYPE_LOGIN_MODULE;
+    protected String moduleName;
+
+    public LoginModuleSelector() {
+
+    }
+
+    public LoginModuleSelector(String moduleName, int moduleType) {
+        super();
+        this.moduleName = moduleName;
+        this.moduleType = moduleType;
+    }
+
+    public int getModuleType() {
+        return moduleType;
+    }
+
+    public void setModuleType(int moduleType) {
+        this.moduleType = moduleType;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+
 }

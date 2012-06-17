@@ -1,19 +1,14 @@
 package org.openiam.idm.srvc.meta.dto;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
+import org.openiam.idm.srvc.cat.dto.Category;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.idm.srvc.cat.dto.Category;
-
-import org.openiam.idm.srvc.user.dto.UserAttribute;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 // Generated Nov 4, 2008 12:11:29 AM by Hibernate Tools 3.2.2.GA
 
@@ -22,94 +17,95 @@ import org.openiam.idm.srvc.user.dto.UserAttribute;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MetadataType", propOrder = {
-    "metadataTypeId",
-    "description",
-    "active",
-    "syncManagedSys",
-    "elementAttributes",
-    "categories"
+        "metadataTypeId",
+        "description",
+        "active",
+        "syncManagedSys",
+        "elementAttributes",
+        "categories"
 })
 public class MetadataType implements java.io.Serializable {
 
-	private String metadataTypeId;
-	private String description;
+    private String metadataTypeId;
+    private String description;
 
-	private int active = 0;
-	private int syncManagedSys = 0;
-	
-	
-	protected Map<String, MetadataElement> elementAttributes = new HashMap<String, MetadataElement>(0);
-	protected Set<Category> categories = new HashSet<Category>(0); 
+    private int active = 0;
+    private int syncManagedSys = 0;
 
-	
-	//List<MetadataElement> elementAttributes = new ArrayList<MetadataElement>(0);
-	
-	
-	public MetadataType() {
-	}
 
-	public MetadataType(String metadataTypeId) {
-		this.metadataTypeId = metadataTypeId;
-	}
+    protected Map<String, MetadataElement> elementAttributes = new HashMap<String, MetadataElement>(0);
+    protected Set<Category> categories = new HashSet<Category>(0);
 
-	public MetadataType(String metadataTypeId, String description) {
-		this.metadataTypeId = metadataTypeId;
-		this.description = description;
-	}
 
-	public String getMetadataTypeId() {
-		return this.metadataTypeId;
-	}
+    //List<MetadataElement> elementAttributes = new ArrayList<MetadataElement>(0);
 
-	public void setMetadataTypeId(String metadataTypeId) {
-		this.metadataTypeId = metadataTypeId;
-	}
 
-	public String getDescription() {
-		return this.description;
-	}
+    public MetadataType() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public Map<String,MetadataElement> getElementAttributes() {
-		return this.elementAttributes;
-	}
+    public MetadataType(String metadataTypeId) {
+        this.metadataTypeId = metadataTypeId;
+    }
 
-	public void setElementAttributes(Map<String,MetadataElement> elementAttributes) {
-		this.elementAttributes = elementAttributes;
-	}
+    public MetadataType(String metadataTypeId, String description) {
+        this.metadataTypeId = metadataTypeId;
+        this.description = description;
+    }
 
-	public Set<Category> getCategories() {
-		return categories;
-	}
+    public String getMetadataTypeId() {
+        return this.metadataTypeId;
+    }
 
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
+    public void setMetadataTypeId(String metadataTypeId) {
+        this.metadataTypeId = metadataTypeId;
+    }
 
-	/*
-	public boolean isActive() {
-		if (active == 0)
-			return false;
-		return true;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-*/
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getActive() {
-		return active;
-	}
+    public Map<String, MetadataElement> getElementAttributes() {
+        return this.elementAttributes;
+    }
 
-	public void setActive(int active) {
-		this.active = active;
-	}
-	
-	/**
-	 * Flag indicating where the object should be synch'd with a managed system
-	 * @return
-	 */
+    public void setElementAttributes(Map<String, MetadataElement> elementAttributes) {
+        this.elementAttributes = elementAttributes;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    /*
+        public boolean isActive() {
+            if (active == 0)
+                return false;
+            return true;
+        }
+
+    */
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    /**
+     * Flag indicating where the object should be synch'd with a managed system
+     *
+     * @return
+     */
 /*
 	public boolean isSyncManagedSys() {
 		if ( syncManagedSys == 0)
@@ -117,18 +113,18 @@ public class MetadataType implements java.io.Serializable {
 		return true;
 	}
 */
-	public int getSyncManagedSys() {
-		return syncManagedSys;
-	}
+    public int getSyncManagedSys() {
+        return syncManagedSys;
+    }
 
-	/**
-	 * Sets a flag indicating where the object should be synch'd with a managed system
-	 * @param syncManagedSys
-	 */
-	public void setSyncManagedSys(int syncManagedSys) {
-		this.syncManagedSys = syncManagedSys;
-	}
-
+    /**
+     * Sets a flag indicating where the object should be synch'd with a managed system
+     *
+     * @param syncManagedSys
+     */
+    public void setSyncManagedSys(int syncManagedSys) {
+        this.syncManagedSys = syncManagedSys;
+    }
 
 
 }

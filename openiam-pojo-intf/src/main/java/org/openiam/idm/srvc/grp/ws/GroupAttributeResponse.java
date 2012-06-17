@@ -17,50 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.grp.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.grp.dto.GroupAttribute;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-
-import org.openiam.idm.srvc.grp.dto.GroupAttribute;
-
 /**
  * Response object for a web service operation that returns a GroupAttribute.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GroupAttributeResponse", propOrder = {
-    "groupAttr"
+        "groupAttr"
 })
-public class GroupAttributeResponse extends Response{
+public class GroupAttributeResponse extends Response {
 
-	public GroupAttributeResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public GroupAttributeResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public GroupAttributeResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public GroupAttributeResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	GroupAttribute groupAttr;
+    GroupAttribute groupAttr;
 
-	public GroupAttribute getGroupAttr() {
-		return groupAttr;
-	}
+    public GroupAttribute getGroupAttr() {
+        return groupAttr;
+    }
 
-	public void setGroupAttr(GroupAttribute groupAttr) {
-		this.groupAttr = groupAttr;
-	}
+    public void setGroupAttr(GroupAttribute groupAttr) {
+        this.groupAttr = groupAttr;
+    }
 
-	
-	
+
 }

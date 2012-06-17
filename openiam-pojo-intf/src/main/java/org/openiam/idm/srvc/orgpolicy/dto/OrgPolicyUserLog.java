@@ -9,70 +9,70 @@ import java.util.Date;
  */
 public class OrgPolicyUserLog implements java.io.Serializable {
 
-	private String orgPolicyLogId;
-	private String orgPolicyId;
-	private String userId;
-	private Date timeStamp;
-	private String response;
+    private String orgPolicyLogId;
+    private String orgPolicyId;
+    private String userId;
+    private Date timeStamp;
+    private String response;
 
-	public OrgPolicyUserLog() {
-	}
+    public OrgPolicyUserLog() {
+    }
 
-	public OrgPolicyUserLog(String orgPolicyLogId, String orgPolicyId,
-			String userId, Date timeStamp) {
-		this.orgPolicyLogId = orgPolicyLogId;
-		this.orgPolicyId = orgPolicyId;
-		this.userId = userId;
-		this.timeStamp = timeStamp;
-	}
+    public OrgPolicyUserLog(String orgPolicyLogId, String orgPolicyId,
+                            String userId, Date timeStamp) {
+        this.orgPolicyLogId = orgPolicyLogId;
+        this.orgPolicyId = orgPolicyId;
+        this.userId = userId;
+        this.timeStamp = timeStamp;
+    }
 
-	public OrgPolicyUserLog(String orgPolicyLogId, String orgPolicyId,
-			String userId, Date timeStamp, String response) {
-		this.orgPolicyLogId = orgPolicyLogId;
-		this.orgPolicyId = orgPolicyId;
-		this.userId = userId;
-		this.timeStamp = timeStamp;
-		this.response = response;
-	}
+    public OrgPolicyUserLog(String orgPolicyLogId, String orgPolicyId,
+                            String userId, Date timeStamp, String response) {
+        this.orgPolicyLogId = orgPolicyLogId;
+        this.orgPolicyId = orgPolicyId;
+        this.userId = userId;
+        this.timeStamp = timeStamp;
+        this.response = response;
+    }
 
-	public String getOrgPolicyLogId() {
-		return this.orgPolicyLogId;
-	}
+    public String getOrgPolicyLogId() {
+        return this.orgPolicyLogId;
+    }
 
-	public void setOrgPolicyLogId(String orgPolicyLogId) {
-		this.orgPolicyLogId = orgPolicyLogId;
-	}
+    public void setOrgPolicyLogId(String orgPolicyLogId) {
+        this.orgPolicyLogId = orgPolicyLogId;
+    }
 
-	public String getOrgPolicyId() {
-		return this.orgPolicyId;
-	}
+    public String getOrgPolicyId() {
+        return this.orgPolicyId;
+    }
 
-	public void setOrgPolicyId(String orgPolicyId) {
-		this.orgPolicyId = orgPolicyId;
-	}
+    public void setOrgPolicyId(String orgPolicyId) {
+        this.orgPolicyId = orgPolicyId;
+    }
 
-	public String getUserId() {
-		return this.userId;
-	}
+    public String getUserId() {
+        return this.userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public Date getTimeStamp() {
-		return this.timeStamp;
-	}
+    public Date getTimeStamp() {
+        return this.timeStamp;
+    }
 
-	public void setTimeStamp(Date timeStamp) {
-		this.timeStamp = timeStamp;
-	}
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
-	public String getResponse() {
-		return this.response;
-	}
+    public String getResponse() {
+        return this.response;
+    }
 
-	public void setResponse(String response) {
-		this.response = response;
-	}
+    public void setResponse(String response) {
+        this.response = response;
+    }
 
 }

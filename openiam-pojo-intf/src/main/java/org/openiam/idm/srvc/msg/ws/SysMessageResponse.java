@@ -17,54 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.msg.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.msg.dto.SysMessage;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.msg.dto.SysMessage;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.User;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SysMessageDeliveryResponse", propOrder = {
-    "sysMessage"
+        "sysMessage"
 })
-public class SysMessageResponse extends Response{
+public class SysMessageResponse extends Response {
 
-	SysMessage sysMessage;
+    SysMessage sysMessage;
 
-	public SysMessageResponse() {
-		super();
-	}
+    public SysMessageResponse() {
+        super();
+    }
 
-	public SysMessageResponse(ResponseStatus s) {
-		super(s);
+    public SysMessageResponse(ResponseStatus s) {
+        super(s);
 
-	}
+    }
 
-	public SysMessage getSysMessage() {
-		return sysMessage;
-	}
+    public SysMessage getSysMessage() {
+        return sysMessage;
+    }
 
-	public void setSysMessage(SysMessage sysMessage) {
-		this.sysMessage = sysMessage;
-	}
-
-
+    public void setSysMessage(SysMessage sysMessage) {
+        this.sysMessage = sysMessage;
+    }
 
 
-	
-	
 }

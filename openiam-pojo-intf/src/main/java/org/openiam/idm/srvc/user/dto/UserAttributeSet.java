@@ -1,18 +1,17 @@
-
 package org.openiam.idm.srvc.user.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for userAttributeSet complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="userAttributeSet">
  *   &lt;complexContent>
@@ -34,12 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "userAttributeSet", propOrder = {
-    "userAttributeObj"
+        "userAttributeObj"
 })
 public class UserAttributeSet {
 
@@ -47,25 +44,23 @@ public class UserAttributeSet {
 
     /**
      * Gets the value of the userAttributeObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the userAttributeObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getUserAttributeObj().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link UserAttributeSet.UserAttributeObj }
-     * 
-     * 
      */
     public List<UserAttributeSet.UserAttributeObj> getUserAttributeObj() {
         if (userAttributeObj == null) {
@@ -77,9 +72,9 @@ public class UserAttributeSet {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -91,12 +86,10 @@ public class UserAttributeSet {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "userAttribute"
+            "userAttribute"
     })
     public static class UserAttributeObj {
 
@@ -104,11 +97,9 @@ public class UserAttributeSet {
 
         /**
          * Gets the value of the userAttribute property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link UserAttribute }
-         *     
+         *
+         * @return possible object is
+         *         {@link UserAttribute }
          */
         public UserAttribute getUserAttribute() {
             return userAttribute;
@@ -116,11 +107,9 @@ public class UserAttributeSet {
 
         /**
          * Sets the value of the userAttribute property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link UserAttribute }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link UserAttribute }
          */
         public void setUserAttribute(UserAttribute value) {
             this.userAttribute = value;

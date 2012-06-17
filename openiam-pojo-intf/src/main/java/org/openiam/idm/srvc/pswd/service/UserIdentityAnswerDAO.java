@@ -17,28 +17,28 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
+
+import java.util.List;
 
 /**
  * @author suneet
- *
  */
 public interface UserIdentityAnswerDAO {
 
-	public abstract UserIdentityAnswer add(UserIdentityAnswer transientInstance);
+    public abstract UserIdentityAnswer add(UserIdentityAnswer transientInstance);
 
-	public abstract void delete(UserIdentityAnswer persistentInstance);
+    public abstract void delete(UserIdentityAnswer persistentInstance);
 
-	public UserIdentityAnswer update(
-			UserIdentityAnswer detachedInstance);
+    public UserIdentityAnswer update(
+            UserIdentityAnswer detachedInstance);
 
-	UserIdentityAnswer findById(java.lang.String id);
-	List<UserIdentityAnswer> findAnswersByUser(String userId);
+    UserIdentityAnswer findById(java.lang.String id);
+
+    List<UserIdentityAnswer> findAnswersByUser(String userId);
 
 }

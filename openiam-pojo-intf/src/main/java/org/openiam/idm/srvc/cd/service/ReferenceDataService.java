@@ -17,58 +17,57 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.cd.service;
-
-import java.util.List;
-
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
 
 import org.openiam.idm.srvc.cd.dto.ReferenceData;
 import org.openiam.idm.srvc.cd.dto.ReferenceDataId;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import java.util.List;
+
 /**
  * @author suneet
- *
  */
-@WebService(targetNamespace = "urn:idm.openiam.org/srvc/ref/service",	name = "ReferenceDataWebService")	
+@WebService(targetNamespace = "urn:idm.openiam.org/srvc/ref/service", name = "ReferenceDataWebService")
 public interface ReferenceDataService {
 
-	/**
-	 * Finds a list of reference data for a particular codeGroup.. 
-	 * @param codeGroup - A service may have several groups of code. Code Group breaks that down
-	 * @param languageCd - LanguageCode
-	 * @return List of ReferenceData objects.
-	 * @throws FinderException
-	 */
-	@WebMethod
-	public abstract List<ReferenceData> getRefByGroup(
-			@WebParam(name = "codeGroup", targetNamespace = "")
-			String codeGroup,
-			@WebParam(name = "languageCd", targetNamespace = "")
-			String languageCd);
+    /**
+     * Finds a list of reference data for a particular codeGroup..
+     *
+     * @param codeGroup  - A service may have several groups of code. Code Group breaks that down
+     * @param languageCd - LanguageCode
+     * @return List of ReferenceData objects.
+     * @throws FinderException
+     */
+    @WebMethod
+    public abstract List<ReferenceData> getRefByGroup(
+            @WebParam(name = "codeGroup", targetNamespace = "")
+            String codeGroup,
+            @WebParam(name = "languageCd", targetNamespace = "")
+            String languageCd);
 
-	@WebMethod
-	public abstract void addRefData(
-			@WebParam(name = "val", targetNamespace = "")
-			ReferenceData val);
+    @WebMethod
+    public abstract void addRefData(
+            @WebParam(name = "val", targetNamespace = "")
+            ReferenceData val);
 
-	@WebMethod
-	public abstract void saveRefData(
-			@WebParam(name = "val", targetNamespace = "")
-			ReferenceData val);
+    @WebMethod
+    public abstract void saveRefData(
+            @WebParam(name = "val", targetNamespace = "")
+            ReferenceData val);
 
-	@WebMethod
-	public abstract void removeRefData(
-			@WebParam(name = "val", targetNamespace = "")
-			ReferenceData val);
+    @WebMethod
+    public abstract void removeRefData(
+            @WebParam(name = "val", targetNamespace = "")
+            ReferenceData val);
 
-	@WebMethod
-	public abstract void getRefDataById(
-			@WebParam(name = "val", targetNamespace = "")
-			ReferenceDataId val);
+    @WebMethod
+    public abstract void getRefDataById(
+            @WebParam(name = "val", targetNamespace = "")
+            ReferenceDataId val);
 
 }

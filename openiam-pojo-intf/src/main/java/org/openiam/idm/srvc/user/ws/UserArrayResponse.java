@@ -17,58 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.user.dto.User;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.user.dto.User;
-
 /**
  * Response object for a web service operation that returns a list of group objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UserArrayResponse", propOrder = {
-    "userAry"
+        "userAry"
 })
-public class UserArrayResponse extends Response{
+public class UserArrayResponse extends Response {
 
-	User[] userAry;
-	
-	public UserArrayResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    User[] userAry;
 
-	public UserArrayResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public UserArrayResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-
-
-	public User[] getUserAry() {
-		return userAry;
-	}
-
-	public void setUserAry(User[] userAry) {
-		this.userAry = userAry;
-	}
+    public UserArrayResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
 
+    public User[] getUserAry() {
+        return userAry;
+    }
+
+    public void setUserAry(User[] userAry) {
+        this.userAry = userAry;
+    }
 
 
-
-	
-	
 }

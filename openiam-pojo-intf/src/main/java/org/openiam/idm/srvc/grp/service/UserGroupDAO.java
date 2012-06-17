@@ -17,40 +17,41 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.grp.service;
-
-import java.util.List;
 
 import org.openiam.idm.srvc.grp.dto.UserGroup;
 import org.openiam.idm.srvc.user.dto.User;
 
+import java.util.List;
+
 /**
  * Interface for the User-Group DAO which manages the relationship between users and groups.
- * @author suneet
  *
+ * @author suneet
  */
 public interface UserGroupDAO {
 
-	public abstract void add(UserGroup transientInstance);
+    public abstract void add(UserGroup transientInstance);
 
-	public abstract void remove(UserGroup persistentInstance);
+    public abstract void remove(UserGroup persistentInstance);
 
-	public abstract UserGroup update(UserGroup detachedInstance);
+    public abstract UserGroup update(UserGroup detachedInstance);
 
-	public abstract UserGroup findById(java.lang.String id);
-	
-	void removeUserFromGroup(String grpId, String userId);
-	
-	List<UserGroup> findUserInGroup(String groupId, String userId);
-	
-	/**
-	 * Returns a list of users that are associated with a group.
-	 * @param groupId
-	 * @return
-	 */
-	List<User> findUserByGroup(String groupId);
-	
+    public abstract UserGroup findById(java.lang.String id);
+
+    void removeUserFromGroup(String grpId, String userId);
+
+    List<UserGroup> findUserInGroup(String groupId, String userId);
+
+    /**
+     * Returns a list of users that are associated with a group.
+     *
+     * @param groupId
+     * @return
+     */
+    List<User> findUserByGroup(String groupId);
+
 
 }

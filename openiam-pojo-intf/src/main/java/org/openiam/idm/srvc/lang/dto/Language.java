@@ -17,72 +17,77 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.lang.dto;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 /**
  * Domain object representing a language
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Language", propOrder = {
-    "langCd",
-    "name",
-    "locale"
+        "langCd",
+        "name",
+        "locale"
 })
 public class Language implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6695606794883491243L;
-	
-	private String langCd;
-	private String name;
-	private boolean locale;
-	
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6695606794883491243L;
 
-	public Language() {
-	}
-	
-	public Language(String langCd) {
-		super();
-		this.langCd = langCd;
-	}
-	public String getLangCd() {
-		return langCd;
-	}
-	public void setLangCd(String langCd) {
-		this.langCd = langCd;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
-	 * Indicates if a language is part of the locale list and therefore a language that is supported on the OpenIAM UI.
-	 * @return
-	 */
-	public boolean isLocale() {
-		return locale;
-	}
-	/*
-	 * Indicates if a language is part of the locale list and therefore a language that is supported on the OpenIAM UI. True - indicates 
-	 * that it is part of the locale.
-	 */
-	public void setLocale(boolean locale) {
-		this.locale = locale;
-	}
-	
+    private String langCd;
+    private String name;
+    private boolean locale;
+
+
+    public Language() {
+    }
+
+    public Language(String langCd) {
+        super();
+        this.langCd = langCd;
+    }
+
+    public String getLangCd() {
+        return langCd;
+    }
+
+    public void setLangCd(String langCd) {
+        this.langCd = langCd;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Indicates if a language is part of the locale list and therefore a language that is supported on the OpenIAM UI.
+     *
+     * @return
+     */
+    public boolean isLocale() {
+        return locale;
+    }
+
+    /*
+      * Indicates if a language is part of the locale list and therefore a language that is supported on the OpenIAM UI. True - indicates
+      * that it is part of the locale.
+      */
+    public void setLocale(boolean locale) {
+        this.locale = locale;
+    }
+
 }

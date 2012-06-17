@@ -7,78 +7,84 @@ package org.openiam.idm.srvc.service.dto;
  */
 public class RequestApprover implements java.io.Serializable {
 
-	// Fields    
+    // Fields
 
-	private String requestApproverId;
+    private String requestApproverId;
 
-	private Service service;
+    private Service service;
 
-	private String approverType;
+    private String approverType;
 
-	private String approverId;
+    private String approverId;
 
-	private String approvalLevel;
+    private String approvalLevel;
 
-	// Constructors
+    // Constructors
 
-	/** default constructor */
-	public RequestApprover() {
-	}
+    /**
+     * default constructor
+     */
+    public RequestApprover() {
+    }
 
-	/** minimal constructor */
-	public RequestApprover(String requestApproverId) {
-		this.requestApproverId = requestApproverId;
-	}
+    /**
+     * minimal constructor
+     */
+    public RequestApprover(String requestApproverId) {
+        this.requestApproverId = requestApproverId;
+    }
 
-	/** full constructor */
-	public RequestApprover(String requestApproverId, Service service,
-			String approverType, String approverId, String approvalLevel) {
-		this.requestApproverId = requestApproverId;
-		this.service = service;
-		this.approverType = approverType;
-		this.approverId = approverId;
-		this.approvalLevel = approvalLevel;
-	}
+    /**
+     * full constructor
+     */
+    public RequestApprover(String requestApproverId, Service service,
+                           String approverType, String approverId, String approvalLevel) {
+        this.requestApproverId = requestApproverId;
+        this.service = service;
+        this.approverType = approverType;
+        this.approverId = approverId;
+        this.approvalLevel = approvalLevel;
+    }
 
-	// Property accessors
-	public String getRequestApproverId() {
-		return this.requestApproverId;
-	}
+    // Property accessors
+    public String getRequestApproverId() {
+        return this.requestApproverId;
+    }
 
-	public void setRequestApproverId(String requestApproverId) {
-		this.requestApproverId = requestApproverId;
-	}
+    public void setRequestApproverId(String requestApproverId) {
+        this.requestApproverId = requestApproverId;
+    }
 
-	public Service getService() {
-		return this.service;
-	}
+    public Service getService() {
+        return this.service;
+    }
 
-	public void setService(Service service) {
-		this.service = service;
-	}
+    public void setService(Service service) {
+        this.service = service;
+    }
 
-	public String getApproverType() {
-		return this.approverType;
-	}
+    public String getApproverType() {
+        return this.approverType;
+    }
 
-	public void setApproverType(String approverType) {
-		this.approverType = approverType;
-	}
+    public void setApproverType(String approverType) {
+        this.approverType = approverType;
+    }
 
-	public String getApproverId() {
-		return this.approverId;
-	}
+    public String getApproverId() {
+        return this.approverId;
+    }
 
-	public void setApproverId(String approverId) {
-		this.approverId = approverId;
-	}
+    public void setApproverId(String approverId) {
+        this.approverId = approverId;
+    }
 
-	public String getApprovalLevel() {
-		return this.approvalLevel;
-	}
+    public String getApprovalLevel() {
+        return this.approvalLevel;
+    }
 
-	public void setApprovalLevel(String approvalLevel) {
-		this.approvalLevel = approvalLevel;
-	}
+    public void setApprovalLevel(String approvalLevel) {
+        this.approvalLevel = approvalLevel;
+    }
 
 }

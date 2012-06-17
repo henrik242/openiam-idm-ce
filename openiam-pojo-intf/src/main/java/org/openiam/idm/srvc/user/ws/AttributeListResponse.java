@@ -17,41 +17,41 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.ws;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.user.dto.UserAttribute;    
-import java.util.List;
+import org.openiam.idm.srvc.user.dto.UserAttribute;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a List of Attributes.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeListResponse", propOrder = {
-    "attributeList"
+        "attributeList"
 })
-public class AttributeListResponse extends Response{
+public class AttributeListResponse extends Response {
 
-	List<UserAttribute> attributeList;
+    List<UserAttribute> attributeList;
 
-	public AttributeListResponse() {
-		super();
+    public AttributeListResponse() {
+        super();
 
-	}
+    }
 
-	public AttributeListResponse(ResponseStatus s) {
-		super(s);
+    public AttributeListResponse(ResponseStatus s) {
+        super(s);
 
-	}
+    }
 
     public List<UserAttribute> getAttributeList() {
         return attributeList;

@@ -17,33 +17,33 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.policy.dto;
 
 /**
  * Constants used by the policy services and applications
- * @author suneet
  *
+ * @author suneet
  */
 public class PolicyConstants {
-	static final public String PASSWORD_POLICY = "100";
-	static final public String ACCESS_POLICY = "101";
-	static final public String AUDIT_POLICY = "102";
-	static final public String AUTHENTICATION_POLICY = "103";
-	static final public String ATTRIBUTE_POLICY = "104";
-	static final public String FORM_POLICY = "105";
-	
-	static final public int STATUS_ACTIVE = 1;
-	static final public int STATUS_INACTIVE = 0;
-	
-	/* POLICY ASSOCIATION LEVEL */
-	static final public String LEVEL_USER_CLASSIFICATION = "CLASSIFICATION";
-	static final public String LEVEL_USER_TYPE = "TYPE";
-	static final public String LEVEL_RESOURCE = "RESOURCE";
-	static final public String LEVEL_ORGANIZATION = "ORGANIZATION";
-	static final public String LEVEL_DOMAIN = "SECURITY_DOMAIN";
-	static final public String LEVEL_GLOBAL = "GLOBAL";
-	
-	
+    static final public String PASSWORD_POLICY = "100";
+    static final public String ACCESS_POLICY = "101";
+    static final public String AUDIT_POLICY = "102";
+    static final public String AUTHENTICATION_POLICY = "103";
+    static final public String ATTRIBUTE_POLICY = "104";
+    static final public String FORM_POLICY = "105";
+
+    static final public int STATUS_ACTIVE = 1;
+    static final public int STATUS_INACTIVE = 0;
+
+    /* POLICY ASSOCIATION LEVEL */
+    static final public String LEVEL_USER_CLASSIFICATION = "CLASSIFICATION";
+    static final public String LEVEL_USER_TYPE = "TYPE";
+    static final public String LEVEL_RESOURCE = "RESOURCE";
+    static final public String LEVEL_ORGANIZATION = "ORGANIZATION";
+    static final public String LEVEL_DOMAIN = "SECURITY_DOMAIN";
+    static final public String LEVEL_GLOBAL = "GLOBAL";
+
+
 }

@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.base;
 
@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Defines values to indicate how an attribute is being modified.
- * @author suneet
  *
+ * @author suneet
  */
 
 @XmlType(name = "AttributeOperationEnum")
@@ -43,16 +43,18 @@ public enum AttributeOperationEnum {
     @XmlEnumValue("delete")
     DELETE(3);
     private int value;
-   
+
     AttributeOperationEnum(int val) {
-    	value = val;
+        value = val;
     }
+
     public int getValue() {
-    	return value;
+        return value;
     }
+
     public void setValue(int val) {
-    	value = val;
-    }  
+        value = val;
+    }
 }
 
     

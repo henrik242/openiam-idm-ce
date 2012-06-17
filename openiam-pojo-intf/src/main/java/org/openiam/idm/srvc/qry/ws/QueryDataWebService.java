@@ -17,39 +17,33 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.qry.ws;
 
-import java.util.List;
+import org.openiam.idm.srvc.qry.dto.Query;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
 
-import org.openiam.idm.srvc.qry.dto.Query;
-
-
-
 /**
  * @author Suneet Shah
- *
  */
 @WebService(targetNamespace = "urn:idm.openiam.org/srvc/qry/service", name = "QueryDataWebService")
 public interface QueryDataWebService {
 
-	/**
-	 * Executes a sql query
-	 * @param pswd
-	 * @return
-	 */
-	@WebMethod
-	QueryListResponse executeQuery(
-			@WebParam(name = "qry", targetNamespace = "")
-			Query qry);
-	
+    /**
+     * Executes a sql query
+     *
+     * @param pswd
+     * @return
+     */
+    @WebMethod
+    QueryListResponse executeQuery(
+            @WebParam(name = "qry", targetNamespace = "")
+            Query qry);
 
-	
 
 }

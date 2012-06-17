@@ -17,63 +17,49 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.role.dto.RolePolicy;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.RoleAttribute;
-import org.openiam.idm.srvc.role.dto.RolePolicy;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a list of role objects
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RolePolicyListResponse", propOrder = {
-    "rolePolicy"
+        "rolePolicy"
 })
-public class RolePolicyListResponse extends Response{
-	
-	List<RolePolicy> rolePolicy;
-	
-	public RolePolicyListResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+public class RolePolicyListResponse extends Response {
 
-	public RolePolicyListResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    List<RolePolicy> rolePolicy;
 
-	public List<RolePolicy> getRolePolicy() {
-		return rolePolicy;
-	}
+    public RolePolicyListResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setRolePolicy(List<RolePolicy> rolePolicy) {
-		this.rolePolicy = rolePolicy;
-	}
+    public RolePolicyListResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
+    public List<RolePolicy> getRolePolicy() {
+        return rolePolicy;
+    }
 
+    public void setRolePolicy(List<RolePolicy> rolePolicy) {
+        this.rolePolicy = rolePolicy;
+    }
 
 
-
-
-
-
-
-
-	
-	
 }

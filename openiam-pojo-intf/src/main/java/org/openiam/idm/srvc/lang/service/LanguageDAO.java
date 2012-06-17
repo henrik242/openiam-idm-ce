@@ -17,29 +17,29 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.lang.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.lang.dto.Language;
+
+import java.util.List;
 
 /**
  * Interface for the LanguageDAO which provides the ability to manage Language information.
- * @author suneet
  *
+ * @author suneet
  */
 public interface LanguageDAO {
 
-	public abstract void add(Language transientInstance);
+    public abstract void add(Language transientInstance);
 
-	public abstract void remove(Language persistentInstance);
+    public abstract void remove(Language persistentInstance);
 
-	public abstract Language update(Language detachedInstance);
+    public abstract Language update(Language detachedInstance);
 
-	public abstract Language findById(java.lang.String id);
+    public abstract Language findById(java.lang.String id);
 
-	public abstract List<Language> findAllLanguages();
+    public abstract List<Language> findAllLanguages();
 
 }

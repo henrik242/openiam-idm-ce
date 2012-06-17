@@ -17,48 +17,48 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.grp.ws;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.grp.dto.Group;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Response object for a web service operation that returns a group.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GroupResponse", propOrder = {
-    "group"
+        "group"
 })
-public class GroupResponse extends Response{
+public class GroupResponse extends Response {
 
-	Group group;
+    Group group;
 
-	public GroupResponse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public GroupResponse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public GroupResponse(ResponseStatus s) {
-		super(s);
-		// TODO Auto-generated constructor stub
-	}
+    public GroupResponse(ResponseStatus s) {
+        super(s);
+        // TODO Auto-generated constructor stub
+    }
 
-	public Group getGroup() {
-		return group;
-	}
+    public Group getGroup() {
+        return group;
+    }
 
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-	
-	
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+
 }

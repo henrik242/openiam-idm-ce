@@ -17,55 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.orgpolicy.ws;
+
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.orgpolicy.dto.OrgPolicy;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.msg.dto.SysMessage;
-import org.openiam.idm.srvc.orgpolicy.dto.OrgPolicy;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.User;
-
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgPolicyAcceptanceResponse", propOrder = {
-    "acceptanceMsg"
+        "acceptanceMsg"
 })
-public class OrgPolicyResponse extends Response{
+public class OrgPolicyResponse extends Response {
 
-	OrgPolicy acceptanceMsg;
+    OrgPolicy acceptanceMsg;
 
-	public OrgPolicyResponse() {
-		super();
-	}
+    public OrgPolicyResponse() {
+        super();
+    }
 
-	public OrgPolicyResponse(ResponseStatus s) {
-		super(s);
+    public OrgPolicyResponse(ResponseStatus s) {
+        super(s);
 
-	}
+    }
 
-	public OrgPolicy getAcceptanceMsg() {
-		return acceptanceMsg;
-	}
+    public OrgPolicy getAcceptanceMsg() {
+        return acceptanceMsg;
+    }
 
-	public void setAcceptanceMsg(OrgPolicy acceptanceMsg) {
-		this.acceptanceMsg = acceptanceMsg;
-	}
-
-
+    public void setAcceptanceMsg(OrgPolicy acceptanceMsg) {
+        this.acceptanceMsg = acceptanceMsg;
+    }
 
 
-	
-	
 }

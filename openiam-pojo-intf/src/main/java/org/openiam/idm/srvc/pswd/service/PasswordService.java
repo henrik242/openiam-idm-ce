@@ -17,57 +17,54 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.service;
-
-import javax.jws.WebService;
 
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
-import org.openiam.idm.srvc.user.dto.User;
 
 
 /**
  * Password service provides operations to manage passwords. This includes validation against policy,
- * as well as information such as days to expiration, the number of times a password was changed in 
+ * as well as information such as days to expiration, the number of times a password was changed in
  * day, etc.
- * @author Suneet Shah
  *
+ * @author Suneet Shah
  */
 
 public interface PasswordService {
 
-	/**
-	 * Determines if a password associated with a principal is valid based on the policies for a security domain.
-	 * @param pswd
-	 * @return
-	 */
-	PasswordValidationCode isPasswordValid(Password pswd)  throws ObjectNotFoundException ;
-	
-	boolean isPasswordChangeAllowed(String domainId, String principal, String managedSysId );
-	
-	int daysToPasswordExpiration(String domainId, String principal, String managedSysId);
-	
-	int passwordChangeCount(String domainId, String principal, String managedSysId);
+    /**
+     * Determines if a password associated with a principal is valid based on the policies for a security domain.
+     *
+     * @param pswd
+     * @return
+     */
+    PasswordValidationCode isPasswordValid(Password pswd) throws ObjectNotFoundException;
 
-	/**
-	 * Determines if a password associated with a principal is valid based on the policies for a security domain.
-	 * @param pswd
-	 * @return
-	 */
-	Policy getPasswordPolicy(String domainId, String principal, String managedSysId) ;
-	
-	/**
-	 * Checks to see if a password exists in the history log based on the policy
-	 * 
-	 * @return 1 - In History, 0 - Not in history, -1 No policy defined
-	 */
-	int passwordInHistory(Password pswd, Policy policy);
-	
+    boolean isPasswordChangeAllowed(String domainId, String principal, String managedSysId);
 
-	
+    int daysToPasswordExpiration(String domainId, String principal, String managedSysId);
+
+    int passwordChangeCount(String domainId, String principal, String managedSysId);
+
+    /**
+     * Determines if a password associated with a principal is valid based on the policies for a security domain.
+     *
+     * @param pswd
+     * @return
+     */
+    Policy getPasswordPolicy(String domainId, String principal, String managedSysId);
+
+    /**
+     * Checks to see if a password exists in the history log based on the policy
+     *
+     * @return 1 - In History, 0 - Not in history, -1 No policy defined
+     */
+    int passwordInHistory(Password pswd, Policy policy);
+
 
 }

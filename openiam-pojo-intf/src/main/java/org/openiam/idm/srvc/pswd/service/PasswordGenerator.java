@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.pswd.service;
 
@@ -26,24 +26,24 @@ import java.util.ResourceBundle;
 
 /**
  * Generates a random string that is used to create a password.
- * @author suneet
  *
+ * @author suneet
  */
 public class PasswordGenerator {
-	
-	static protected ResourceBundle res = ResourceBundle.getBundle("securityconf");
-	
-	private static final String charset = res.getString("PSWD_GEN_CHARSET");
-	
 
-	 public static String generatePassword(int length) {
-	        Random rand = new Random(System.currentTimeMillis());
-	        StringBuffer sb = new StringBuffer();
-	        for (int i = 0; i < length; i++) {
-	            int pos = rand.nextInt(charset.length());
-	            sb.append(charset.charAt(pos));
-	        }
-	        return sb.toString();
-	    }
+    static protected ResourceBundle res = ResourceBundle.getBundle("securityconf");
+
+    private static final String charset = res.getString("PSWD_GEN_CHARSET");
+
+
+    public static String generatePassword(int length) {
+        Random rand = new Random(System.currentTimeMillis());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int pos = rand.nextInt(charset.length());
+            sb.append(charset.charAt(pos));
+        }
+        return sb.toString();
+    }
 
 }

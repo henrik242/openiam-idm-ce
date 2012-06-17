@@ -17,32 +17,31 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.batch.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.batch.dto.BatchTask;
+
+import java.util.List;
 
 /**
  * @author suneet
- *
  */
 public interface BatchConfigDAO {
 
-	public abstract void add(BatchTask transientInstance);
+    public abstract void add(BatchTask transientInstance);
 
-	public abstract void remove(BatchTask persistentInstance);
+    public abstract void remove(BatchTask persistentInstance);
 
-	public abstract BatchTask update(BatchTask detachedInstance);
+    public abstract BatchTask update(BatchTask detachedInstance);
 
-	public abstract BatchTask findById(java.lang.String id);
-	
-	public abstract BatchTask findByName(String name);
+    public abstract BatchTask findById(java.lang.String id);
 
-	public abstract List<BatchTask> findAllBatchTasks();
+    public abstract BatchTask findByName(String name);
 
-	public abstract List<BatchTask> findBatchTasksByFrequency(String frequency);
+    public abstract List<BatchTask> findAllBatchTasks();
+
+    public abstract List<BatchTask> findBatchTasksByFrequency(String frequency);
 
 }

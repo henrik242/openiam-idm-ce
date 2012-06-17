@@ -1,24 +1,25 @@
 package org.openiam.idm.srvc.role.service;
 
-import java.util.List;
-
 import org.openiam.idm.srvc.role.dto.RolePolicy;
+
+import java.util.List;
 
 /**
  * Data access interface for domain model class RolePolicy.
+ *
  * @see org.openiam.idm.srvc.role.dto.RolePolicy
  */
 public interface RolePolicyDAO {
 
-	public void add(RolePolicy transientInstance);
-	
-	public void remove(RolePolicy persistentInstance);
+    public void add(RolePolicy transientInstance);
 
-	 public RolePolicy findById( java.lang.String id);
-	
-	public RolePolicy update(RolePolicy detachedInstance);
+    public void remove(RolePolicy persistentInstance);
 
-	
-	public List<RolePolicy> findRolePolicies(String serviceId, String roleId);
+    public RolePolicy findById(java.lang.String id);
+
+    public RolePolicy update(RolePolicy detachedInstance);
+
+
+    public List<RolePolicy> findRolePolicies(String serviceId, String roleId);
 
 }

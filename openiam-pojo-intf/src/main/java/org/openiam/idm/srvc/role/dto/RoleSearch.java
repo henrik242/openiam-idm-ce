@@ -17,93 +17,91 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.role.dto;
-
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 /**
  * @author suneet
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "rolesearch", propOrder = {
-    "roleId",
-    "domainId",
-    "roleName",
-    "ownerId",
-    "typeId",
-    "internalRoleId"
+        "roleId",
+        "domainId",
+        "roleName",
+        "ownerId",
+        "typeId",
+        "internalRoleId"
 
 })
 public class RoleSearch implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3783034583600227719L;
-	protected String roleId;
-	protected String domainId;
-	protected String roleName;
-	protected String typeId;
-	protected String ownerId;
-	protected String internalRoleId;
-	
-	public RoleSearch() {
-		
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3783034583600227719L;
+    protected String roleId;
+    protected String domainId;
+    protected String roleName;
+    protected String typeId;
+    protected String ownerId;
+    protected String internalRoleId;
 
-	public String getRoleId() {
-		return roleId;
-	}
+    public RoleSearch() {
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
+    }
 
-	public String getDomainId() {
-		return domainId;
-	}
+    public String getRoleId() {
+        return roleId;
+    }
 
-	public void setDomainId(String domainId) {
-		this.domainId = domainId;
-	}
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
-	public String getRoleName() {
-		return roleName;
-	}
+    public String getDomainId() {
+        return domainId;
+    }
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
+    }
 
-	public String getTypeId() {
-		return typeId;
-	}
+    public String getRoleName() {
+        return roleName;
+    }
 
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
-	}
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
-	public String getOwnerId() {
-		return ownerId;
-	}
+    public String getTypeId() {
+        return typeId;
+    }
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
 
-	public String getInternalRoleId() {
-		return internalRoleId;
-	}
+    public String getOwnerId() {
+        return ownerId;
+    }
 
-	public void setInternalRoleId(String internalRoleId) {
-		this.internalRoleId = internalRoleId;
-	}
-	
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getInternalRoleId() {
+        return internalRoleId;
+    }
+
+    public void setInternalRoleId(String internalRoleId) {
+        this.internalRoleId = internalRoleId;
+    }
+
 
 }

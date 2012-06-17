@@ -12,91 +12,90 @@ import java.util.Date;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UserAffiliation", propOrder = {
-		 "userAffiliationId",
-		 "organizationId",
-		 "userId",
-         "createDate",
-         "startDate",
-         "endDate",
-         "status",
-         "createdBy"
+        "userAffiliationId",
+        "organizationId",
+        "userId",
+        "createDate",
+        "startDate",
+        "endDate",
+        "status",
+        "createdBy"
 })
 public class UserAffiliation implements java.io.Serializable {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -3785768336629177182L;
-	private String userAffiliationId;
-	private String userId;
-	private String organizationId;
-	private String status;
-	private Date createDate;
-	private Date startDate;
-	private Date endDate;
-	private String createdBy;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3785768336629177182L;
+    private String userAffiliationId;
+    private String userId;
+    private String organizationId;
+    private String status;
+    private Date createDate;
+    private Date startDate;
+    private Date endDate;
+    private String createdBy;
 
-	public UserAffiliation() {
-	}
+    public UserAffiliation() {
+    }
 
-	public UserAffiliation(String userId, String organizationId) {
-		this.userId = userId;
-		this.organizationId = organizationId;
-		status = "ACTIVE";
-		long curTime = System.currentTimeMillis();
-		createDate = new Date(curTime);
-		startDate = new Date(curTime);
-	}
+    public UserAffiliation(String userId, String organizationId) {
+        this.userId = userId;
+        this.organizationId = organizationId;
+        status = "ACTIVE";
+        long curTime = System.currentTimeMillis();
+        createDate = new Date(curTime);
+        startDate = new Date(curTime);
+    }
 
 
+    public String getStatus() {
+        return this.status;
+    }
 
-	public String getStatus() {
-		return this.status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public Date getCreateDate() {
+        return this.createDate;
+    }
 
-	public Date getCreateDate() {
-		return this.createDate;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
 
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public String getUserAffiliationId() {
         return userAffiliationId;

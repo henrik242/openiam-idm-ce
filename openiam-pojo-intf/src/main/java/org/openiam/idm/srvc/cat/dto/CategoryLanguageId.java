@@ -7,64 +7,64 @@ package org.openiam.idm.srvc.cat.dto;
  */
 public class CategoryLanguageId implements java.io.Serializable {
 
-	private String categoryId;
-	private String languageCd;
+    private String categoryId;
+    private String languageCd;
 
-	public CategoryLanguageId() {
-	}
+    public CategoryLanguageId() {
+    }
 
-	public CategoryLanguageId(String categoryId, String languageCd) {
-		this.categoryId = categoryId;
-		this.languageCd = languageCd;
-	}
+    public CategoryLanguageId(String categoryId, String languageCd) {
+        this.categoryId = categoryId;
+        this.languageCd = languageCd;
+    }
 
-	public String getCategoryId() {
-		return this.categoryId;
-	}
+    public String getCategoryId() {
+        return this.categoryId;
+    }
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
 
-	public String getLanguageCd() {
-		return this.languageCd;
-	}
+    public String getLanguageCd() {
+        return this.languageCd;
+    }
 
-	public void setLanguageCd(String languageCd) {
-		this.languageCd = languageCd;
-	}
+    public void setLanguageCd(String languageCd) {
+        this.languageCd = languageCd;
+    }
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof CategoryLanguageId))
-			return false;
-		CategoryLanguageId castOther = (CategoryLanguageId) other;
+    public boolean equals(Object other) {
+        if ((this == other))
+            return true;
+        if ((other == null))
+            return false;
+        if (!(other instanceof CategoryLanguageId))
+            return false;
+        CategoryLanguageId castOther = (CategoryLanguageId) other;
 
-		return ((this.getCategoryId() == castOther.getCategoryId()) || (this
-				.getCategoryId() != null
-				&& castOther.getCategoryId() != null && this.getCategoryId()
-				.equals(castOther.getCategoryId())))
-				&& ((this.getLanguageCd() == castOther.getLanguageCd()) || (this
-						.getLanguageCd() != null
-						&& castOther.getLanguageCd() != null && this
-						.getLanguageCd().equals(castOther.getLanguageCd())));
-	}
+        return ((this.getCategoryId() == castOther.getCategoryId()) || (this
+                .getCategoryId() != null
+                && castOther.getCategoryId() != null && this.getCategoryId()
+                .equals(castOther.getCategoryId())))
+                && ((this.getLanguageCd() == castOther.getLanguageCd()) || (this
+                .getLanguageCd() != null
+                && castOther.getLanguageCd() != null && this
+                .getLanguageCd().equals(castOther.getLanguageCd())));
+    }
 
-	public int hashCode() {
-		int result = 17;
+    public int hashCode() {
+        int result = 17;
 
-		result = 37
-				* result
-				+ (getCategoryId() == null ? 0 : this.getCategoryId()
-						.hashCode());
-		result = 37
-				* result
-				+ (getLanguageCd() == null ? 0 : this.getLanguageCd()
-						.hashCode());
-		return result;
-	}
+        result = 37
+                * result
+                + (getCategoryId() == null ? 0 : this.getCategoryId()
+                .hashCode());
+        result = 37
+                * result
+                + (getLanguageCd() == null ? 0 : this.getLanguageCd()
+                .hashCode());
+        return result;
+    }
 
 }

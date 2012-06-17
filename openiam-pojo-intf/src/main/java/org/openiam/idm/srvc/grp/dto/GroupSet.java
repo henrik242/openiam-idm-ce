@@ -1,18 +1,17 @@
-
 package org.openiam.idm.srvc.grp.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for groupSet complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="groupSet">
  *   &lt;complexContent>
@@ -34,12 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "groupSet", propOrder = {
-    "groupObj"
+        "groupObj"
 })
 public class GroupSet {
 
@@ -47,25 +44,23 @@ public class GroupSet {
 
     /**
      * Gets the value of the groupObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the groupObj property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getGroupObj().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link GroupSet.GroupObj }
-     * 
-     * 
      */
     public List<GroupSet.GroupObj> getGroupObj() {
         if (groupObj == null) {
@@ -77,9 +72,9 @@ public class GroupSet {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -91,12 +86,10 @@ public class GroupSet {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "group"
+            "group"
     })
     public static class GroupObj {
 
@@ -104,11 +97,9 @@ public class GroupSet {
 
         /**
          * Gets the value of the group property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link Group }
-         *     
+         *
+         * @return possible object is
+         *         {@link Group }
          */
         public Group getGroup() {
             return group;
@@ -116,11 +107,9 @@ public class GroupSet {
 
         /**
          * Sets the value of the group property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link Group }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link Group }
          */
         public void setGroup(Group value) {
             this.group = value;

@@ -17,55 +17,47 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.user.ws;
 
-import java.util.List;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.user.dto.UserNote;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.UserNote;
+import java.util.List;
 
 /**
  * Response object for a web service operation that returns a role.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UserNoteListResponse", propOrder = {
-    "userNoteList"
+        "userNoteList"
 })
-public class UserNoteListResponse extends Response{
+public class UserNoteListResponse extends Response {
 
-	List<UserNote> userNoteList;
+    List<UserNote> userNoteList;
 
-	public UserNoteListResponse() {
-		super();
-	}
+    public UserNoteListResponse() {
+        super();
+    }
 
-	public UserNoteListResponse(ResponseStatus s) {
-		super(s);
-	}
+    public UserNoteListResponse(ResponseStatus s) {
+        super(s);
+    }
 
-	public List<UserNote> getUserNoteList() {
-		return userNoteList;
-	}
+    public List<UserNote> getUserNoteList() {
+        return userNoteList;
+    }
 
-	public void setUserNoteList(List<UserNote> userNoteList) {
-		this.userNoteList = userNoteList;
-	}
-
-
+    public void setUserNoteList(List<UserNote> userNoteList) {
+        this.userNoteList = userNoteList;
+    }
 
 
-
-	
-	
 }

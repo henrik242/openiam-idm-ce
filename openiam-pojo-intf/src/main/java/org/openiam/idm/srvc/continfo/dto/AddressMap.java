@@ -1,19 +1,18 @@
-
 package org.openiam.idm.srvc.continfo.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for addressMap complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="addressMap">
  *   &lt;complexContent>
@@ -36,12 +35,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "addressMap", propOrder = {
-    "addressEntry"
+        "addressEntry"
 })
 public class AddressMap {
 
@@ -49,25 +46,23 @@ public class AddressMap {
 
     /**
      * Gets the value of the addressEntry property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the addressEntry property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAddressEntry().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link AddressMap.AddressEntry }
-     * 
-     * 
      */
     public List<AddressMap.AddressEntry> getAddressEntry() {
         if (addressEntry == null) {
@@ -79,9 +74,9 @@ public class AddressMap {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p/>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p/>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -94,12 +89,10 @@ public class AddressMap {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "address"
+            "address"
     })
     public static class AddressEntry {
 
@@ -109,11 +102,9 @@ public class AddressMap {
 
         /**
          * Gets the value of the address property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link Address }
-         *     
+         *
+         * @return possible object is
+         *         {@link Address }
          */
         public Address getAddress() {
             return address;
@@ -121,11 +112,9 @@ public class AddressMap {
 
         /**
          * Sets the value of the address property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link Address }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link Address }
          */
         public void setAddress(Address value) {
             this.address = value;
@@ -133,11 +122,9 @@ public class AddressMap {
 
         /**
          * Gets the value of the key property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         *         {@link String }
          */
         public String getKey() {
             return key;
@@ -145,11 +132,9 @@ public class AddressMap {
 
         /**
          * Sets the value of the key property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setKey(String value) {
             this.key = value;

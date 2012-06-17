@@ -1,4 +1,3 @@
-
 package org.openiam.idm.srvc.org.dto;
 
 import javax.xml.bind.annotation.XmlEnum;
@@ -6,11 +5,10 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
-
 /**
  * Classification that an be used to further organize the entries in the organization list.
- * @author suneet
  *
+ * @author suneet
  */
 @XmlType(name = "OrgClassification")
 @XmlEnum
@@ -27,7 +25,7 @@ public enum OrgClassificationEnum {
     @XmlEnumValue("vendor")
     VENDOR("VENDOR"),
     @XmlEnumValue("partner")
-    PARTNER("PARTNER"),   
+    PARTNER("PARTNER"),
     @XmlEnumValue("subsidiary")
     SUBSIDIARY("SUBSIDIARY"),
     @XmlEnumValue("customer")
@@ -35,16 +33,18 @@ public enum OrgClassificationEnum {
     @XmlEnumValue("affiliate")
     AFFILIATE("AFFILIATE");
     private String value;
-  
+
     OrgClassificationEnum(String val) {
-    	value = val;
+        value = val;
     }
+
     public String getValue() {
-    	return value;
+        return value;
     }
+
     public void setValue(String val) {
-    	value = val;
-    }  
+        value = val;
+    }
 
 
 }

@@ -17,89 +17,84 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.qry.dto;
-
-import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Object used to capture an adhoc sql query
- * @author suneet
  *
+ * @author suneet
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Query", propOrder = { 
-		"sql",
-		"maxRowCount",
-		"objectClass",
-		"paramList"
-	})
+@XmlType(name = "Query", propOrder = {
+        "sql",
+        "maxRowCount",
+        "objectClass",
+        "paramList"
+})
 public class Query implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3948465313736129128L;
-	protected String sql;
-	protected int maxRowCount;
-	protected String objectClass;
-	protected List<QueryParam> paramList;
-
-	
-	public Query() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3948465313736129128L;
+    protected String sql;
+    protected int maxRowCount;
+    protected String objectClass;
+    protected List<QueryParam> paramList;
 
 
-	public String getSql() {
-		return sql;
-	}
+    public Query() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 
-	public void setSql(String sql) {
-		this.sql = sql;
-	}
+    public String getSql() {
+        return sql;
+    }
 
 
-	public int getMaxRowCount() {
-		return maxRowCount;
-	}
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
 
 
-	public void setMaxRowCount(int maxRowCount) {
-		this.maxRowCount = maxRowCount;
-	}
+    public int getMaxRowCount() {
+        return maxRowCount;
+    }
 
 
+    public void setMaxRowCount(int maxRowCount) {
+        this.maxRowCount = maxRowCount;
+    }
 
 
-	public List<QueryParam> getParamList() {
-		return paramList;
-	}
+    public List<QueryParam> getParamList() {
+        return paramList;
+    }
 
 
-	public void setParamList(List<QueryParam> paramList) {
-		this.paramList = paramList;
-	}
+    public void setParamList(List<QueryParam> paramList) {
+        this.paramList = paramList;
+    }
 
 
-	public String getObjectClass() {
-		return objectClass;
-	}
+    public String getObjectClass() {
+        return objectClass;
+    }
 
 
-	public void setObjectClass(String objectClass) {
-		this.objectClass = objectClass;
-	}
-	
-	
-	
-	
+    public void setObjectClass(String objectClass) {
+        this.objectClass = objectClass;
+    }
+
+
 }

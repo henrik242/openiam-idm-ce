@@ -17,7 +17,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.openiam.idm.srvc.msg.dto;
 
@@ -27,58 +27,63 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Parameters that are to be sent with a notification request
- * @author suneet
  *
+ * @author suneet
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "NotificationParam", propOrder = {
-		"name",
-		"value",
-		"valueObj"
+        "name",
+        "value",
+        "valueObj"
 })
 public class NotificationParam {
-	String name;
-	String value;
-	Object valueObj;
+    String name;
+    String value;
+    Object valueObj;
 
-	public NotificationParam() {
-		super();
+    public NotificationParam() {
+        super();
 
-	}
+    }
 
-	public NotificationParam(String name,Object valueObj) {
-		super();
-		this.name = name;
-		this.valueObj = valueObj;
-	}
-	
-	public NotificationParam(String name, String value, Object valueObj) {
-		super();
-		this.name = name;
-		this.value = value;
-		this.valueObj = valueObj;
-	}
-	
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
-	public Object getValueObj() {
-		return valueObj;
-	}
-	public void setValueObj(Object valueObj) {
-		this.valueObj = valueObj;
-	}
+    public NotificationParam(String name, Object valueObj) {
+        super();
+        this.name = name;
+        this.valueObj = valueObj;
+    }
+
+    public NotificationParam(String name, String value, Object valueObj) {
+        super();
+        this.name = name;
+        this.value = value;
+        this.valueObj = valueObj;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public Object getValueObj() {
+        return valueObj;
+    }
+
+    public void setValueObj(Object valueObj) {
+        this.valueObj = valueObj;
+    }
 
     @Override
     public String toString() {

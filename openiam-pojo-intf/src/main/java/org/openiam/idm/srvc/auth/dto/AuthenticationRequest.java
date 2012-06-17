@@ -9,12 +9,12 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AuthenticationRequest", propOrder = {
-    "domainId",
-    "principal",
-    "password",
-    "clientIP",
-    "nodeIP",
-    "requestSource"
+        "domainId",
+        "principal",
+        "password",
+        "clientIP",
+        "nodeIP",
+        "requestSource"
 })
 public class AuthenticationRequest {
     String domainId;

@@ -11,76 +11,75 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PolicyMembership", propOrder = {
-    "policyMemId",
-    "policyId",
-    "domainId",
-    "resourceType",
-    "resourceObjId"
+        "policyMemId",
+        "policyId",
+        "domainId",
+        "resourceType",
+        "resourceObjId"
 })
 public class PolicyMembership implements java.io.Serializable {
 
-	private String policyMemId;
-	private String policyId;
-	private String domainId;
-	private String resourceType;
-	private String resourceObjId;
+    private String policyMemId;
+    private String policyId;
+    private String domainId;
+    private String resourceType;
+    private String resourceObjId;
 
-	public PolicyMembership() {
-	}
+    public PolicyMembership() {
+    }
 
-	public PolicyMembership(String policyMemId) {
-		this.policyMemId = policyMemId;
-	}
+    public PolicyMembership(String policyMemId) {
+        this.policyMemId = policyMemId;
+    }
 
-	public PolicyMembership(String policyMemId, String policy,
-			String serviceId, String resourceType, String resourceObjId) {
-		this.policyMemId = policyMemId;
-		this.policyId = policy;
-		this.domainId = serviceId;
-		this.resourceType = resourceType;
-		this.resourceObjId = resourceObjId;
-	}
+    public PolicyMembership(String policyMemId, String policy,
+                            String serviceId, String resourceType, String resourceObjId) {
+        this.policyMemId = policyMemId;
+        this.policyId = policy;
+        this.domainId = serviceId;
+        this.resourceType = resourceType;
+        this.resourceObjId = resourceObjId;
+    }
 
-	public String getPolicyMemId() {
-		return this.policyMemId;
-	}
+    public String getPolicyMemId() {
+        return this.policyMemId;
+    }
 
-	public void setPolicyMemId(String policyMemId) {
-		this.policyMemId = policyMemId;
-	}
+    public void setPolicyMemId(String policyMemId) {
+        this.policyMemId = policyMemId;
+    }
 
 
+    public String getResourceType() {
+        return this.resourceType;
+    }
 
-	public String getResourceType() {
-		return this.resourceType;
-	}
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
 
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
-	}
+    public String getResourceObjId() {
+        return this.resourceObjId;
+    }
 
-	public String getResourceObjId() {
-		return this.resourceObjId;
-	}
+    public void setResourceObjId(String resourceObjId) {
+        this.resourceObjId = resourceObjId;
+    }
 
-	public void setResourceObjId(String resourceObjId) {
-		this.resourceObjId = resourceObjId;
-	}
+    public String getPolicyId() {
+        return policyId;
+    }
 
-	public String getPolicyId() {
-		return policyId;
-	}
+    public void setPolicyId(String policyId) {
+        this.policyId = policyId;
+    }
 
-	public void setPolicyId(String policyId) {
-		this.policyId = policyId;
-	}
+    public String getDomainId() {
+        return domainId;
+    }
 
-	public String getDomainId() {
-		return domainId;
-	}
-
-	public void setDomainId(String domainId) {
-		this.domainId = domainId;
-	}
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
+    }
 
 }
