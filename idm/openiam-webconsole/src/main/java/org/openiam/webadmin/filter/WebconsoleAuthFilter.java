@@ -63,9 +63,6 @@ public class WebconsoleAuthFilter implements Filter {
 
         // the expire page is the url of the page to display if the session has expired.
         this.expirePage = filterConfig.getInitParameter("expirePage");
-        excludePath = filterConfig.getInitParameter("excludePath");
-        rootMenu = filterConfig.getInitParameter("rootMenu");
-
     }
 
 
@@ -97,6 +94,9 @@ public class WebconsoleAuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
+
+        log.info("WebconsoleAuthFilter()...doFilter start");
+
 
         ServletContext context = getFilterConfig().getServletContext();
 
@@ -138,7 +138,7 @@ public class WebconsoleAuthFilter implements Filter {
 
             Response resp = authService.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN);
             if (resp.getStatus() == ResponseStatus.FAILURE) {
-                log.debug("Token renewal failed:" + userId + " - " + token);
+                log.info("Token renewal failed:" + userId + " - " + token);
                 session.invalidate();
                 response.sendRedirect(request.getContextPath() + expirePage);
                 return;
@@ -151,6 +151,8 @@ public class WebconsoleAuthFilter implements Filter {
             String decString = (String) loginDataWebService.decryptPassword(token).getResponseValue();
 
             if (principal == null || principal.isEmpty()) {
+
+                log.info("Extracting user information from token");
 
                 StringTokenizer tokenizer = new StringTokenizer(decString, ":");
                 if (tokenizer.hasMoreTokens()) {
@@ -171,7 +173,9 @@ public class WebconsoleAuthFilter implements Filter {
 
                 }else {
 
-                    /* Bad token */
+                    /* expired  token */
+                    log.info("Invalid token - session has expired.");
+
                     session.invalidate();
                     response.sendRedirect(request.getContextPath() + expirePage);
                     return;
@@ -183,6 +187,8 @@ public class WebconsoleAuthFilter implements Filter {
 
         } catch (Exception e) {
 
+            e.printStackTrace();
+
             log.error(e);
             session.invalidate();
             response.sendRedirect(request.getContextPath() + expirePage);
@@ -191,6 +197,8 @@ public class WebconsoleAuthFilter implements Filter {
         //}
 
         chain.doFilter(servletRequest, servletResponse);
+
+        log.info("WebconsoleAuthFilter()...doFilter end");
 
 
     }

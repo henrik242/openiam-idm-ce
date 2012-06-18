@@ -47,11 +47,17 @@ public class SessionFilter implements javax.servlet.Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
-        String userId;
+        log.info("SessionFilter()...start");
+
+
 
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        String redirectURL = request.getContextPath() + expirePage;
+
+        log.info("Redirect URL :" + redirectURL);
 
         HttpSession session = request.getSession(false);
         boolean loginPage = false;
@@ -59,35 +65,61 @@ public class SessionFilter implements javax.servlet.Filter {
 
         String url = request.getRequestURI();
 
+        log.info("Requested URL: " + url);
+
 
         if (url == null || url.equals("/") || url.endsWith("index.do")
                 || url.endsWith("login.cnt") || url.endsWith("index.jsp")) {
            loginPage = true;
-           // chain.doFilter(servletRequest, servletResponse);
-           // return;
 
-            //boolean isJsp = url.endsWith(".jsp");
         }
+
+
+        String userId;
 
         if (!loginPage && isCode(url) ) {
 
-           if (session.getAttribute("userId") != null) {
-               userId = (String)session.getAttribute("userId");
+            log.info("Session object = " + session);
 
-               if ( userId != null && userId.isEmpty()) {
-                response.sendRedirect(request.getContextPath() + expirePage);
+            if (session == null) {
+                log.info("Session object is null. Redirecting to the login page");
+                response.sendRedirect(redirectURL);
                 return;
             }
+
+
+            log.info("Checking session. isNew?" + session.isNew());
+
+
+           if (  session.getAttribute("userId") != null) {
+
+               userId = (String)session.getAttribute("userId");
+
+               log.info(" - UserId : " + userId);
+
+               if ( userId == null ||  userId.isEmpty()) {
+
+                   log.info("User ID is null. Redirect to login page");
+
+                    response.sendRedirect(redirectURL);
+                    return;
+               }
            }else {
-               response.sendRedirect(request.getContextPath() + expirePage);
+
+               log.info("Redirect to login page");
+
+               response.sendRedirect(redirectURL);
                return;
            }
+
 
         }
 
 
 
         chain.doFilter(servletRequest, servletResponse);
+
+        log.info("SessionFilter()...end");
 
 
     }

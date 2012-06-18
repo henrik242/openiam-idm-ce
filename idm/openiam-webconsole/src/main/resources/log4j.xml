@@ -29,14 +29,14 @@
     </root>
 
     <logger name="org.openiam.webadmin">
-        <level value="info"/>
-        <appender-ref ref="openiam-esb"/>
+        <level value="debug"/>
+        <appender-ref ref="A2"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <appender name="openiam-esb" class="org.apache.log4j.RollingFileAppender">
+    <appender name="A2" class="org.apache.log4j.RollingFileAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+            <param name="ConversionPattern" value="%d [%t] %-5p [%c] %m%n" />
         </layout>
         <param name="File" value="../logs/idm-webconsole.log" />
         <param name="Append" value="true" />

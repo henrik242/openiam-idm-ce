@@ -835,10 +835,39 @@
 		<property name="userMgr" ref="userServiceClient" />
      </bean>
 
+    <bean id="bulkProvisioning" class="org.openiam.webadmin.user.BulkProvisioningController">
+        <property name="pages">
+            <list>
+                <value>user/bulkprovisionsearch</value>
+            </list>
+        </property>
+        <property name="sessionForm"><value>true</value></property>
+        <property name="commandName" value="bulkProvisionCmd" />
+        <property name="commandClass" value="org.openiam.webadmin.user.BulkProvisioningCommand" />
+        <property name="validator" ref="bulkProvisioningValidator" />
 
-     
+        <property name="groupManager" ref="groupServiceClient" />
+        <property name="roleDataService" ref="roleServiceClient" />
+        <property name="provService" ref="asynchProvisionServiceClient" />
+        <property name="configuration" ref="appConfiguration" />
+        <property name="refDataService" ref="referenceDataServiceClient" />
 
-      <bean id="viewResolver"  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="orgManager" ref="orgServiceClient" />
+        <property name="locationService" ref="locationServiceClient" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="metadataService" ref="metadataServiceClient"	/>
+
+
+    </bean>
+
+    <bean id="bulkProvisioningValidator" class="org.openiam.webadmin.user.BulkProvsioningValidator">
+
+    </bean>
+
+
+
+
+    <bean id="viewResolver"  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
      	<property name="prefix" value="home.jsp?bodyjsp=" />
      	<property name="suffix" value=".jsp" />
      </bean>
@@ -917,6 +946,9 @@
 
                 <prop key="/custlist.cnt">clientList</prop>
              	<prop key="/custDetail.cnt">clientDetail</prop>
+                <prop key="/custDetail.cnt">clientDetail</prop>
+
+                <prop key="/userBulk.cnt">bulkProvisioning</prop>
                    
             </props>
         </property>
