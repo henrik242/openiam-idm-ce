@@ -55,8 +55,8 @@ public class LdapConnectionMgr implements ConnectionMgr {
 			hostUrl = hostUrl + ":" + String.valueOf(managedSys.getPort());
 		}
 
-        log.debug("Connecting to target system: " + managedSys.getManagedSysId() );
-        log.debug("Managed = " + managedSys);
+        log.debug("connect: Connecting to target system: " + managedSys.getManagedSysId() );
+        log.debug("connect: Managed System object : " + managedSys);
 
 		//log.info(" directory login = " + managedSys.getUserId() );
 		//log.info(" directory login passowrd= " + managedSys.getDecryptPassword() );
@@ -83,7 +83,10 @@ public class LdapConnectionMgr implements ConnectionMgr {
         }catch (CommunicationException ce) {
             // check if there is a secondary connection linked to this
             String secondarySysID =  managedSys.getSecondaryRepositoryId();
-            if (secondarySysID != null) {
+
+            log.debug("Secondary Sys ID is " + secondarySysID);
+
+            if (secondarySysID != null && !secondarySysID.isEmpty()) {
 
                 // recursively search through the chained list of linked managed systems
                 ManagedSystemDataService managedSysService =  (ManagedSystemDataService) ac.getBean("managedSysService");
@@ -92,6 +95,7 @@ public class LdapConnectionMgr implements ConnectionMgr {
 
             }
             // no secondary repository
+            log.debug("Throw communication exception." + ce.toString());
             throw ce;
 
 

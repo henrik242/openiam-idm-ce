@@ -55,7 +55,7 @@
 		</layout>
 		<param name="File" value="../logs/openiam-idm.log" />
 		<param name="Append" value="true" />
-		<param name="MaxFileSize" value="150MB" />
+		<param name="MaxFileSize" value="50MB" />
 		<param name="MaxBackupIndex" value="2" />
 
 
@@ -65,7 +65,7 @@
 	       <param name="AcceptOnMatch" value="true" />
        </filter>
 
-		</appender>
+	</appender>
     
  
        	
@@ -80,16 +80,16 @@
        </filter>
       </appender>
 
-       	<appender name="A2" class="org.apache.log4j.RollingFileAppender">
+      <appender name="A2" class="org.apache.log4j.RollingFileAppender">
 	       <param name="File" value="../logs/idm-service.log" />
-	       <param name="MaxFileSize" value="150MB" />
+	       <param name="MaxFileSize" value="50MB" />
 	       <param name="MaxBackupIndex" value="5" />
 					<layout class="org.apache.log4j.PatternLayout">
-						<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+						<param name="ConversionPattern" value="%d [%t] %-5p [%c] %m%n" />
 					</layout>
-       	</appender>
+      </appender>
 
-       	<appender name="A3" class="org.apache.log4j.RollingFileAppender">
+      <appender name="A3" class="org.apache.log4j.RollingFileAppender">
 					<layout class="org.apache.log4j.PatternLayout">
 						<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
 					</layout>
@@ -97,7 +97,7 @@
 	       <param name="MaxFileSize" value="50MB" />
 	       <param name="MaxBackupIndex" value="1" />
 
-       	</appender>     
+      </appender>
 
  	
  </log4j:configuration> 

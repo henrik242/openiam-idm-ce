@@ -62,10 +62,11 @@ public class LdapAddCommand extends LdapAbstractCommand {
         /* A) Use the targetID to look up the connection information under managed systems */
         ManagedSys managedSys = managedSysService.getManagedSys(targetID);
 
-        log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
+
         ConnectionMgr conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
         conMgr.setApplicationContext(ac);
         try {
+            log.debug("Connecting to directory:  " + managedSys.getName());
 
             LdapContext ldapctx = conMgr.connect(managedSys);
 
@@ -145,12 +146,16 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
 
         } catch (NamingException ne) {
+
+            ne.printStackTrace();
+
             log.error(ne);
             // return a response object - even if it fails so that it can be logged.
             response.setStatus(StatusCodeType.FAILURE);
             response.setError(ErrorCode.DIRECTORY_ERROR);
             response.addErrorMessage(ne.toString());
         } catch (Exception e) {
+
             e.printStackTrace();
 
             log.error(e);

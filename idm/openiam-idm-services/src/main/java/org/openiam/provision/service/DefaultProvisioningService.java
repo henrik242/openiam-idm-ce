@@ -1241,6 +1241,14 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         List<Resource> deleteResourceList = getResourcesForRole(modifyUser.getDeleteRoleList());
 
         // add or remove resources that are being associated directly
+
+        if (deleteResourceList == null) {
+            deleteResourceList = new ArrayList<Resource>();
+        }
+        if (resourceList == null) {
+            resourceList = new ArrayList<Resource>();
+        }
+
         applyResourceExceptions(pUser, resourceList, deleteResourceList);
 
         log.debug("Resources to be added ->> " + resourceList);
@@ -2605,6 +2613,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
             if (ura.getOperation() == AttributeOperationEnum.DELETE) {
 
+                log.debug("Adding resource " + ura.getResourceId() + " to the delete list ");
+
                 // add this resource to the delete list
                 if (!resourceExists(ura.getResourceId(), deleteResourceList))  {
 
@@ -2616,10 +2626,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                     }
 
-                    if (deleteResourceList == null) {
-                        deleteResourceList = new ArrayList<Resource>();
-                    }
-
+                    log.debug(" - Adding to deleteResourceList " + ura);
                     deleteResourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()) );
 
                 }
@@ -2634,10 +2641,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                         ura.setManagedSystemId( resObj.getManagedSysId());
 
 
-                    }
-
-                    if (addResourceList == null) {
-                        addResourceList = new ArrayList<Resource>();
                     }
 
                     addResourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()) );
