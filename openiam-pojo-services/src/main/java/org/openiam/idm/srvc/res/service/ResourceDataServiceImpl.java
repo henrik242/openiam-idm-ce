@@ -1279,17 +1279,29 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             }
 
         }
+        List<Organization> affiliationList = null;
 
-        List<Organization> affiliationList =  orgManager.getOrganizationsForUser(principalLg.getUserId());
+        if (roleContains("EMERGENCY_ROLE", roleList)) {
+
+            log.info("Emergency role found");
+
+
+            affiliationList = orgManager.getAllOrganizations();
+        } else {
+
+            affiliationList =  orgManager.getOrganizationsForUser(principalLg.getUserId());
+        }
+
         if (affiliationList != null && affiliationList.size() > 0) {
             Set<Organization> orgSet = new TreeSet<Organization>(affiliationList);
             orgSet.add(org);
 
             for (Organization o : orgSet) {
             //for (Organization o : affiliationList) {
-                String alias = o.getAlias();
-                //oid = oid + "," + o.getAlias();
-                addOid(oidList, o.getAlias());
+                if ( o.getAlias() != null && !o.getAlias().isEmpty() ) {
+
+                    addOid(oidList, o.getAlias());
+                }
 
             }
         }else {
@@ -1410,6 +1422,30 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         return oid.toString();
 
     }
+
+
+    private boolean roleContains(String roleId, List<Role> roleList) {
+
+        if (roleList == null || roleList.isEmpty()) {
+            return false;
+        }
+
+
+
+        for (Role r : roleList) {
+            if (r != null) {
+                log.info("Checking Role name " + r);
+
+                if (r.getId().getRoleId().equalsIgnoreCase(roleId)) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+
+    }
+
 
     public OrganizationDataService getOrgManager() {
         return orgManager;
