@@ -27,7 +27,14 @@ public class UserResourceAssociation {
     // default to ADD
     private AttributeOperationEnum operation = AttributeOperationEnum.ADD;
 
+    public UserResourceAssociation() {
 
+    }
+
+    public UserResourceAssociation(String resourceId, AttributeOperationEnum operation) {
+        this.resourceId = resourceId;
+        this.operation = operation;
+    }
 
     public String getResourceId() {
         return resourceId;

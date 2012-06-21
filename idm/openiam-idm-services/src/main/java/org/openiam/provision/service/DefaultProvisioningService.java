@@ -208,6 +208,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("context", ac);
         bindingMap.put("operation", "ADD");
 
+
+
         // define rules that need to be executed before a addUser processor is invoked.
         ProvisionServicePreProcessor addPreProcessScript = createProvPreProcessScript(preProcessor);
         if (addPreProcessScript != null) {
