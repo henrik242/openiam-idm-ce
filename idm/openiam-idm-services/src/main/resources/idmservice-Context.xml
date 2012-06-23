@@ -199,8 +199,10 @@
 	<bean id="synchService" class="org.openiam.idm.srvc.synch.service.IdentitySynchServiceImpl">
 		<property name="synchConfigDao" ref="synchConfigDAO" />	
 		<property name="synchConfigMappingDao" ref="synchConfigDataMappingDAO" />	
-		<property name="adaptorFactory" ref="adapterFactory" />	
-	</bean>
+		<property name="adaptorFactory" ref="adapterFactory" />
+        <property name="userMgr" ref="userManager" />
+        <property name="provisionService" ref="defaultProvision" />
+    </bean>
 	<bean id="synchServiceWS" class="org.openiam.idm.srvc.synch.ws.IdentitySynchWebServiceImpl">
 		<property name="synchService" ref="synchService" />	
 	</bean>
@@ -405,6 +407,11 @@
     <aop:pointcut id="synchServiceWSOperation" expression="execution(* org.openiam.idm.srvc.synch.ws.IdentitySynchWebServiceImpl.*(..))"/>
     <aop:advisor advice-ref="txAdvice" pointcut-ref="synchServiceWSOperation"/>
   </aop:config>
+
+    <aop:config>
+        <aop:pointcut id="synchServiceOperation" expression="execution(* org.openiam.idm.srvc.synch.service.IdentitySynchServiceImpl.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="synchServiceOperation"/>
+    </aop:config>
  
   <aop:config>
     <aop:pointcut id="reconServiceWSOperation" expression="execution(* org.openiam.idm.srvc.recon.ws.ReconciliationWebServiceImpl.*(..))"/>

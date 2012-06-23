@@ -1,5 +1,7 @@
 package org.openiam.webadmin.user;
 
+import org.openiam.idm.srvc.user.dto.UserStatusEnum;
+
 import java.io.Serializable;
 
 
@@ -16,9 +18,12 @@ public class BulkProvisioningCommand implements Serializable {
     String division;
     String attributeName;
     String attributeValue;
+    UserStatusEnum userStatus;
 
     String operation;
-    String targetType;
+    String targetRole;
+    String targetResource;
+
 
 
     public String getLastName() {
@@ -77,11 +82,27 @@ public class BulkProvisioningCommand implements Serializable {
         this.operation = operation;
     }
 
-    public String getTargetType() {
-        return targetType;
+    public String getTargetRole() {
+        return targetRole;
     }
 
-    public void setTargetType(String targetType) {
-        this.targetType = targetType;
+    public void setTargetRole(String targetRole) {
+        this.targetRole = targetRole;
+    }
+
+    public String getTargetResource() {
+        return targetResource;
+    }
+
+    public void setTargetResource(String targetResource) {
+        this.targetResource = targetResource;
+    }
+
+    public UserStatusEnum getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatusEnum userStatus) {
+        this.userStatus = userStatus;
     }
 }

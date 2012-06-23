@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="Asynch-SynchronizatonService" soapui-version="4.5.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="AsynchIdentitySynchServiceSoapBinding" type="wsdl" bindingName="{http://www.openiam.org/service/synch}AsynchIdentitySynchServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="AsynchIdentitySynchService" targetNamespace="http://www.openiam.org/service/synch" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.openiam.org/service/synch" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/synch" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="bulkUserMigration" type="tns:bulkUserMigration"/>
+      <xs:element name="bulkUserMigrationResponse" type="tns:bulkUserMigrationResponse"/>
+      <xs:element name="startSynchronization" type="tns:startSynchronization"/>
+      <xs:element name="startSynchronizationResponse" type="tns:startSynchronizationResponse"/>
+      <xs:complexType name="bulkUserMigration">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="config" type="tns:bulkMigrationConfig"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="bulkMigrationConfig">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="attributeName" type="xs:string"/>
+          <xs:element minOccurs="0" name="attributeValue" type="xs:string"/>
+          <xs:element minOccurs="0" name="deptId" type="xs:string"/>
+          <xs:element minOccurs="0" name="division" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+          <xs:element minOccurs="0" name="operation" type="xs:string"/>
+          <xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+          <xs:element minOccurs="0" name="targetResource" type="xs:string"/>
+          <xs:element minOccurs="0" name="targetRole" type="xs:string"/>
+          <xs:element minOccurs="0" name="userStatus" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="bulkUserMigrationResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="startSynchronization">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="config" type="tns:SynchConfig"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="SynchConfig">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="synchConfigId" type="xs:string"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="status" type="xs:string"/>
+          <xs:element minOccurs="0" name="synchAdapter" type="xs:string"/>
+          <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+          <xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+          <xs:element minOccurs="0" name="loadMatchOnly" type="xs:int"/>
+          <xs:element minOccurs="0" name="updateAttribute" type="xs:int"/>
+          <xs:element minOccurs="0" name="synchFrequency" type="xs:string"/>
+          <xs:element minOccurs="0" name="synchType" type="xs:string"/>
+          <xs:element minOccurs="0" name="processRule" type="xs:string"/>
+          <xs:element minOccurs="0" name="validationRule" type="xs:string"/>
+          <xs:element minOccurs="0" name="transformationRule" type="xs:string"/>
+          <xs:element minOccurs="0" name="matchFieldName" type="xs:string"/>
+          <xs:element minOccurs="0" name="matchManagedSysId" type="xs:string"/>
+          <xs:element minOccurs="0" name="matchSrcFieldName" type="xs:string"/>
+          <xs:element minOccurs="0" name="srcLoginId" type="xs:string"/>
+          <xs:element minOccurs="0" name="srcPassword" type="xs:string"/>
+          <xs:element minOccurs="0" name="srcHost" type="xs:string"/>
+          <xs:element minOccurs="0" name="driver" type="xs:string"/>
+          <xs:element minOccurs="0" name="connectionUrl" type="xs:string"/>
+          <xs:element minOccurs="0" name="query" type="xs:string"/>
+          <xs:element minOccurs="0" name="queryTimeField" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastExecTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="customMatchRule" type="xs:string"/>
+          <xs:element minOccurs="0" name="customMatchAttr" type="xs:string"/>
+          <xs:element minOccurs="0" name="customAdatperScript" type="xs:string"/>
+          <xs:element minOccurs="0" name="baseDn" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastRecProcessed" type="xs:string"/>
+          <xs:element minOccurs="0" name="wsScript" type="xs:string"/>
+          <xs:element minOccurs="0" name="wsUrl" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="startSynchronizationResponse">
+        <xs:sequence/>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="startSynchronization">
+    <wsdl:part element="tns:startSynchronization" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startSynchronizationResponse">
+    <wsdl:part element="tns:startSynchronizationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bulkUserMigration">
+    <wsdl:part element="tns:bulkUserMigration" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bulkUserMigrationResponse">
+    <wsdl:part element="tns:bulkUserMigrationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AsynchIdentitySynchService">
+    <wsdl:operation name="bulkUserMigration">
+      <wsdl:input message="tns:bulkUserMigration" name="bulkUserMigration"></wsdl:input>
+      <wsdl:output message="tns:bulkUserMigrationResponse" name="bulkUserMigrationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="startSynchronization">
+      <wsdl:input message="tns:startSynchronization" name="startSynchronization"></wsdl:input>
+      <wsdl:output message="tns:startSynchronizationResponse" name="startSynchronizationResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AsynchIdentitySynchServiceSoapBinding" type="tns:AsynchIdentitySynchService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="bulkUserMigration">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="bulkUserMigration">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="bulkUserMigrationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="startSynchronization">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="startSynchronization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="startSynchronizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AsynchIdentitySynchService">
+    <wsdl:port binding="tns:AsynchIdentitySynchServiceSoapBinding" name="AsynchIdentitySynchServicePort">
+      <soap:address location="http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="bulkUserMigration" bindingOperationName="bulkUserMigration" type="Request-Response" outputName="bulkUserMigrationResponse" inputName="bulkUserMigration" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:bulkUserMigration>
+         <!--Optional:-->
+         <config>
+            <!--Optional:-->
+            <attributeName>?</attributeName>
+            <!--Optional:-->
+            <attributeValue>?</attributeValue>
+            <!--Optional:-->
+            <deptId>?</deptId>
+            <!--Optional:-->
+            <division>?</division>
+            <!--Optional:-->
+            <lastName>?</lastName>
+            <!--Optional:-->
+            <operation>?</operation>
+            <!--Optional:-->
+            <organizationId>?</organizationId>
+            <!--Optional:-->
+            <targetResource>?</targetResource>
+            <!--Optional:-->
+            <targetRole>?</targetRole>
+            <!--Optional:-->
+            <userStatus>?</userStatus>
+         </config>
+      </syn:bulkUserMigration>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/bulkUserMigration"/></con:call></con:operation><con:operation isOneWay="false" action="" name="startSynchronization" bindingOperationName="startSynchronization" type="Request-Response" outputName="startSynchronizationResponse" inputName="startSynchronization" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:startSynchronization>
+         <!--Optional:-->
+         <config>
+            <!--Optional:-->
+            <synchConfigId>?</synchConfigId>
+            <!--Optional:-->
+            <name>?</name>
+            <!--Optional:-->
+            <status>?</status>
+            <!--Optional:-->
+            <synchAdapter>?</synchAdapter>
+            <!--Optional:-->
+            <fileName>?</fileName>
+            <!--Optional:-->
+            <managedSysId>?</managedSysId>
+            <!--Optional:-->
+            <loadMatchOnly>?</loadMatchOnly>
+            <!--Optional:-->
+            <updateAttribute>?</updateAttribute>
+            <!--Optional:-->
+            <synchFrequency>?</synchFrequency>
+            <!--Optional:-->
+            <synchType>?</synchType>
+            <!--Optional:-->
+            <processRule>?</processRule>
+            <!--Optional:-->
+            <validationRule>?</validationRule>
+            <!--Optional:-->
+            <transformationRule>?</transformationRule>
+            <!--Optional:-->
+            <matchFieldName>?</matchFieldName>
+            <!--Optional:-->
+            <matchManagedSysId>?</matchManagedSysId>
+            <!--Optional:-->
+            <matchSrcFieldName>?</matchSrcFieldName>
+            <!--Optional:-->
+            <srcLoginId>?</srcLoginId>
+            <!--Optional:-->
+            <srcPassword>?</srcPassword>
+            <!--Optional:-->
+            <srcHost>?</srcHost>
+            <!--Optional:-->
+            <driver>?</driver>
+            <!--Optional:-->
+            <connectionUrl>?</connectionUrl>
+            <!--Optional:-->
+            <query>?</query>
+            <!--Optional:-->
+            <queryTimeField>?</queryTimeField>
+            <!--Optional:-->
+            <lastExecTime>?</lastExecTime>
+            <!--Optional:-->
+            <customMatchRule>?</customMatchRule>
+            <!--Optional:-->
+            <customMatchAttr>?</customMatchAttr>
+            <!--Optional:-->
+            <customAdatperScript>?</customAdatperScript>
+            <!--Optional:-->
+            <baseDn>?</baseDn>
+            <!--Optional:-->
+            <lastRecProcessed>?</lastRecProcessed>
+            <!--Optional:-->
+            <wsScript>?</wsScript>
+            <!--Optional:-->
+            <wsUrl>?</wsUrl>
+         </config>
+      </syn:startSynchronization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/startSynchronization"/></con:call></con:operation></con:interface><con:testSuite name="AsynchIdentitySynchServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="bulkUserMigration TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="bulkUserMigration"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AsynchIdentitySynchServiceSoapBinding</con:interface><con:operation>bulkUserMigration</con:operation><con:request name="bulkUserMigration"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:bulkUserMigration>
+         <!--Optional:-->
+         <config>
+            <operation>ADD</operation>
+            <organizationId>40288111380ccce601380cd0150d0002</organizationId>
+            <targetRole>USR_SEC_DOMAIN*END_USER</targetRole>
+            <userStatus>PENDING_INITIAL_LOGIN</userStatus>
+         </config>
+      </syn:bulkUserMigration>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/bulkUserMigration" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="bulkUserMigrationRoleRemove"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AsynchIdentitySynchServiceSoapBinding</con:interface><con:operation>bulkUserMigration</con:operation><con:request name="bulkUserMigrationRoleRemove"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:bulkUserMigration>
+         <!--Optional:-->
+         <config>
+            <operation>DELETE</operation>
+            <organizationId>40288111380ccce601380cd0150d0002</organizationId>
+            <targetRole>USR_SEC_DOMAIN*END_USER</targetRole>
+            <userStatus>PENDING_INITIAL_LOGIN</userStatus>
+         </config>
+      </syn:bulkUserMigration>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/bulkUserMigration" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="bulkUserMigrationResADD"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AsynchIdentitySynchServiceSoapBinding</con:interface><con:operation>bulkUserMigration</con:operation><con:request name="bulkUserMigrationResADD"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:bulkUserMigration>
+         <!--Optional:-->
+         <config>
+            <operation>ADD</operation>
+            <organizationId>40288111380ccce601380cd0150d0002</organizationId>
+            <targetResource>110</targetResource>
+            <userStatus>PENDING_INITIAL_LOGIN</userStatus>
+         </config>
+      </syn:bulkUserMigration>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/bulkUserMigration" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="bulkUserMigrationResREMOVE"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AsynchIdentitySynchServiceSoapBinding</con:interface><con:operation>bulkUserMigration</con:operation><con:request name="bulkUserMigrationResREMOVE"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:bulkUserMigration>
+         <!--Optional:-->
+         <config>
+            <operation>DELETE</operation>
+            <organizationId>40288111380ccce601380cd0150d0002</organizationId>
+            <targetResource>110</targetResource>
+            <userStatus>PENDING_INITIAL_LOGIN</userStatus>
+         </config>
+      </syn:bulkUserMigration>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/bulkUserMigration" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="startSynchronization TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="startSynchronization"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AsynchIdentitySynchServiceSoapBinding</con:interface><con:operation>startSynchronization</con:operation><con:request name="startSynchronization"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/Asynch-SynchronizatonService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:syn="http://www.openiam.org/service/synch">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <syn:startSynchronization>
+         <!--Optional:-->
+         <config>
+            <!--Optional:-->
+            <synchConfigId>?</synchConfigId>
+            <!--Optional:-->
+            <name>?</name>
+            <!--Optional:-->
+            <status>?</status>
+            <!--Optional:-->
+            <synchAdapter>?</synchAdapter>
+            <!--Optional:-->
+            <fileName>?</fileName>
+            <!--Optional:-->
+            <managedSysId>?</managedSysId>
+            <!--Optional:-->
+            <loadMatchOnly>?</loadMatchOnly>
+            <!--Optional:-->
+            <updateAttribute>?</updateAttribute>
+            <!--Optional:-->
+            <synchFrequency>?</synchFrequency>
+            <!--Optional:-->
+            <synchType>?</synchType>
+            <!--Optional:-->
+            <processRule>?</processRule>
+            <!--Optional:-->
+            <validationRule>?</validationRule>
+            <!--Optional:-->
+            <transformationRule>?</transformationRule>
+            <!--Optional:-->
+            <matchFieldName>?</matchFieldName>
+            <!--Optional:-->
+            <matchManagedSysId>?</matchManagedSysId>
+            <!--Optional:-->
+            <matchSrcFieldName>?</matchSrcFieldName>
+            <!--Optional:-->
+            <srcLoginId>?</srcLoginId>
+            <!--Optional:-->
+            <srcPassword>?</srcPassword>
+            <!--Optional:-->
+            <srcHost>?</srcHost>
+            <!--Optional:-->
+            <driver>?</driver>
+            <!--Optional:-->
+            <connectionUrl>?</connectionUrl>
+            <!--Optional:-->
+            <query>?</query>
+            <!--Optional:-->
+            <queryTimeField>?</queryTimeField>
+            <!--Optional:-->
+            <lastExecTime>?</lastExecTime>
+            <!--Optional:-->
+            <customMatchRule>?</customMatchRule>
+            <!--Optional:-->
+            <customMatchAttr>?</customMatchAttr>
+            <!--Optional:-->
+            <customAdatperScript>?</customAdatperScript>
+            <!--Optional:-->
+            <baseDn>?</baseDn>
+            <!--Optional:-->
+            <lastRecProcessed>?</lastRecProcessed>
+            <!--Optional:-->
+            <wsScript>?</wsScript>
+            <!--Optional:-->
+            <wsUrl>?</wsUrl>
+         </config>
+      </syn:startSynchronization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://www.openiam.org/service/synch/AsynchIdentitySynchService/startSynchronization"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/></con:soapui-project>

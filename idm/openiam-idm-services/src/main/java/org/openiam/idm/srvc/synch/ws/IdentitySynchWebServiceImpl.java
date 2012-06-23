@@ -33,6 +33,7 @@ import org.mule.api.context.MuleContextAware;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.msg.ws.SysMessageResponse;
+import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.IdentitySynchService;
@@ -89,9 +90,16 @@ public class IdentitySynchWebServiceImpl implements IdentitySynchWebService, Mul
         return synchService.testConnection(config);
     }
 
+    @Override
+    public Response bulkUserMigration(BulkMigrationConfig config) {
+        synchService.setMuleContext(muleContext);
+        return synchService.bulkUserMigration(config);
+
+    }
+
     /* (non-Javadoc)
-      * @see org.openiam.idm.srvc.synch.ws.IdentitySynchWebService#findById(java.lang.String)
-      */
+    * @see org.openiam.idm.srvc.synch.ws.IdentitySynchWebService#findById(java.lang.String)
+    */
 	public SynchConfigResponse findById(String id) {
 		SynchConfigResponse resp = new SynchConfigResponse(ResponseStatus.SUCCESS);
 		SynchConfig config = synchService.findById(id);

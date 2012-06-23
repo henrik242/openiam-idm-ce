@@ -324,6 +324,17 @@
 	  		</outbound-endpoint>
 		</flow>
 
+    <flow name="bulkUserMigrationClient">
+        <vm:inbound-endpoint path="bulkUserMigrationMessage" exchange-pattern="one-way"  >
+        </vm:inbound-endpoint>
+
+        <outbound-endpoint responseTimeout="72000000"
+                           address="http://#[header:INBOUND:SERVICE_HOST]/#[header:INBOUND:SERVICE_CONTEXT]IdentitySynchWebService" exchange-pattern="request-response" >
+            <cxf:jaxws-client serviceClass="org.openiam.idm.srvc.synch.ws.IdentitySynchWebService" operation="bulkUserMigration"  >
+            </cxf:jaxws-client>
+        </outbound-endpoint>
+    </flow>
+
     <flow name="genericObjectSynchClient">
         <vm:inbound-endpoint path="genericObjectSynchronizationMessage" exchange-pattern="one-way"  >
         </vm:inbound-endpoint>

@@ -8,6 +8,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.openiam.base.ws.Response;
+import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 
@@ -35,6 +36,17 @@ public interface IdentitySynchWebService {
     Response testConnection(
             @WebParam(name = "synchConfig", targetNamespace = "")
             SynchConfig synchConfig);
+
+    /**
+     * Moves a set of users from resource or role. Users are selected based on some search criteria defined in the
+     * config object.
+     * @param config
+     * @return
+     */
+    @WebMethod
+    Response bulkUserMigration(
+            @WebParam(name = "config", targetNamespace = "")
+            BulkMigrationConfig config);
 
 	@WebMethod
 	SynchConfigResponse updateConfig(

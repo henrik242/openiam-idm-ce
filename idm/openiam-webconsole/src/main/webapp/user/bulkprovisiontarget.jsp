@@ -49,35 +49,37 @@
                                 </tr>
 
                                 <tr>
+                                    <td><label for="username" class="attribute">Target Role</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue">
+                                        <form:select path="targetRole" multiple="false">
+                                            <form:option value="" label="-Please Select-"/>
+                                            <c:forEach items="${roleList}" var="role">
+                                                <form:option value="${role.id.serviceId}*${role.id.roleId}" label="${role.id.serviceId}-${role.roleName}" />
+                                            </c:forEach>
+                                    </form:select>
+                                    </td>
+
+
+                                </tr>
+
+
+                                <tr>
                                     <td><label for="username" class="attribute">Target System</label></td>
                                     <td  class="userformInput" for="username" class="labelValue">
-                                        <form:select path="division" multiple="false">
+                                        <form:select path="targetResource" multiple="false">
                                             <form:option value="" label="-Please Select-"/>
-                                            <form:options items="${divList}" itemValue="orgId" itemLabel="organizationName"/>
+                                            <form:options items="${resourceList}" itemValue="resourceId" itemLabel="name"/>
                                         </form:select>
                                     </td>
 
 
                                 </tr>
 
-                                <tr>
-                                    <td><label for="username" class="attribute">Extended Attributes</label></td>
-                                    <td class="userformInput" for="username" class="labelValue" colspan="3">
-                                        <form:select path="attributeName" multiple="false">
-                                            <form:option value="" label="-Please Select-"/>
-                                            <c:forEach items="${elementList}" var="element">
-                                                <form:option value="${element.metadataElementId} " label="${element.metadataTypeId}->${element.attributeName}" />
-                                            </c:forEach>
-                                        </form:select>
 
-                                        <form:input path="attributeValue" size="35" maxlength="40"  />
-
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td colspan="4" align ="right"  >
-                                        <input type="submit" name="_target1" value="Next"/>
+                                        <input type="submit" name="_target0" value="Previous"/>
+                                        <input type="submit" name="_finish" value="Submit"/>
                                         <input type="submit" name="_cancel" value="Cancel" />
                                     </td>
                                 </tr>

@@ -839,6 +839,7 @@
         <property name="pages">
             <list>
                 <value>user/bulkprovisionsearch</value>
+                <value>user/bulkprovisiontarget</value>
             </list>
         </property>
         <property name="sessionForm"><value>true</value></property>
@@ -856,6 +857,7 @@
         <property name="locationService" ref="locationServiceClient" />
         <property name="resourceDataService" ref="resourceServiceClient" />
         <property name="metadataService" ref="metadataServiceClient"	/>
+        <property name="resourceType" value="MANAGED_SYS" />
 
 
     </bean>

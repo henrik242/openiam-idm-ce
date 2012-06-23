@@ -26,58 +26,26 @@ public class BulkProvsioningValidator implements Validator {
 	 * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
 	 */
 	public void validate(Object cmd, Errors arg1) {
-		NewUserCommand newHireCmd =  (NewUserCommand) cmd;
+        BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
 		
 	}
 
 	
 	public void validateNewUserType(Object cmd, Errors err) {
 		// TODO Auto-generated method stub
-		NewUserCommand newUserCmd =  (NewUserCommand) cmd;
-		
-		User user = newUserCmd.getUser();
+        BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
+
 	
-		if (user.getMetadataTypeId() == null ||
-			user.getMetadataTypeId().length() == 0) {
-			err.rejectValue("user.metadataTypeId", "required");
-			return;
-		}
+
 
 		
 		
 	}
 
-	private List<UserAttribute> toAttributeList(MetadataElement[] elementAry) {
-		List<UserAttribute> attrList = new ArrayList<UserAttribute>();
-		if (elementAry == null) {
-			return null;
-		}
-		
-		for (MetadataElement elem  :elementAry) {
-			UserAttribute attr = new UserAttribute();
-			attr.setMetadataElementId(elem.getMetadataElementId());
-			attr.setName(elem.getAttributeName());
-			attrList.add(attr);
-		}
-		return attrList;
-		
-	}
+
 	
 	public void validateNewUserForm(Object cmd, Errors err) {
-		// TODO Auto-generated method stub
-		NewUserCommand newHireCmd =  (NewUserCommand) cmd;
-		
-		User user = newHireCmd.getUser();
-		log.info("User from form = " + user);
-		
-		
-		if (newHireCmd.getUser().getFirstName() == null || newHireCmd.getUser().getFirstName().length() == 0) {
-			err.rejectValue("user.firstName", "required");
-		}
-		if (user.getLastName() == null || user.getLastName().length() == 0) {
-			err.rejectValue("user.lastName", "required");
-		}	
-	
+        BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
 		
 	}
 

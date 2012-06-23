@@ -23,29 +23,46 @@ package org.openiam.idm.srvc.synch.service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
+import org.mule.module.client.MuleClient;
+import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
+import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.srcadapter.AdapterFactory;
+import org.openiam.idm.srvc.user.service.UserDataService;
+import org.openiam.idm.srvc.user.dto.UserSearch;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.provision.dto.ProvisionUser;
+import org.openiam.provision.dto.UserResourceAssociation;
+import org.openiam.provision.service.ProvisionService;
 
 /**
  * @author suneet
  *
  */
 public class IdentitySynchServiceImpl implements IdentitySynchService {
-    protected SynchConfigDAO synchConfigDao;
-	protected SynchConfigDataMappingDAO synchConfigMappingDao;
-	protected AdapterFactory adaptorFactory;
-    protected MuleContext muleContext;
+    private SynchConfigDAO synchConfigDao;
+    private SynchConfigDataMappingDAO synchConfigMappingDao;
+    private AdapterFactory adaptorFactory;
+    private MuleContext muleContext;
+    private UserDataService userMgr;
+    private ProvisionService provisionService;
 
+    static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
+
+    static String serviceHost = res.getString("openiam.service_base");
+    static String serviceContext = res.getString("openiam.idm.ws.path");
 
 	
 	private static final Log log = LogFactory.getLog(IdentitySynchServiceImpl.class);
@@ -164,6 +181,153 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         }
     }
 
+
+    public Response bulkUserMigration(BulkMigrationConfig config) {
+
+        Response resp = new Response(ResponseStatus.SUCCESS);
+
+        // select the user that we need to move
+        UserSearch search = buildSearch(config);
+        if (search.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        List<User> searchResult =  userMgr.search(search);
+
+        // all the provisioning service
+        for ( User user :  searchResult) {
+
+            log.debug("Migrating user: " + user.getUserId() + " " + user.getLastName());
+
+            ProvisionUser pUser = new ProvisionUser(user);
+
+            if (config.getTargetRole() != null && !config.getTargetRole().isEmpty() ) {
+
+                Role r = parseRole(config.getTargetRole());
+                if ( pUser.getMemberOfRoles() == null ) {
+                    List<Role> roleList = new ArrayList<Role>();
+                    pUser.setMemberOfRoles(roleList);
+                }
+
+                if ("ADD".equalsIgnoreCase(config.getOperation())) {
+                    // add to role
+                    r.setOperation(AttributeOperationEnum.ADD);
+
+
+                    pUser.getMemberOfRoles().add(r);
+
+                } else {
+                    // remove from role
+                    r.setOperation(AttributeOperationEnum.DELETE);
+                    pUser.getMemberOfRoles().add(r);
+                }
+
+            }else if (config.getTargetResource() != null && !config.getTargetResource().isEmpty()) {
+
+                List<UserResourceAssociation> uraList = new ArrayList<UserResourceAssociation>();
+
+                UserResourceAssociation ura = new UserResourceAssociation();
+                ura.setResourceId(config.getTargetResource());
+
+                if ("ADD".equalsIgnoreCase(config.getOperation())) {
+                    // add to resourceList
+                    ura.setOperation(AttributeOperationEnum.ADD);
+                    uraList.add(ura);
+                    pUser.setUserResourceList(uraList);
+
+                } else {
+                    // remove from resource List
+
+                    ura.setOperation(AttributeOperationEnum.DELETE);
+                    uraList.add(ura);
+                    pUser.setUserResourceList(uraList);
+
+                }
+
+            }
+            // send message to provisioning service asynchronously
+            //invokeOperation(pUser);
+            provisionService.modifyUser(pUser);
+
+        }
+
+
+        return null;
+    }
+
+
+    private void invokeOperation(ProvisionUser pUser) {
+        try {
+
+
+            Map<String, String> msgPropMap = new HashMap<String, String>();
+            msgPropMap.put("SERVICE_HOST", serviceHost);
+            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
+
+
+            //Create the client with the context
+            MuleClient client = new MuleClient(muleContext);
+            client.sendAsync("vm://provisionServiceModifyMessage", pUser, msgPropMap);
+
+
+        } catch (Exception e) {
+            log.debug("EXCEPTION:bulkUserMigration");
+            log.error(e);
+        }
+    }
+
+    private UserSearch buildSearch(BulkMigrationConfig config){
+        UserSearch search = new UserSearch();
+        if (config.getOrganizationId() != null && !config.getOrganizationId().isEmpty()) {
+             search.setOrgId(config.getOrganizationId());
+        }
+
+        if (config.getLastName() != null && !config.getLastName().isEmpty()) {
+            search.setLastName(config.getLastName() + "%");
+        }
+
+        if (config.getDeptId() != null && !config.getDeptId().isEmpty()) {
+            search.setDeptCd(config.getDeptId());
+        }
+
+        if (config.getDivision() != null && !config.getDivision().isEmpty()) {
+            search.setDivision(config.getDivision());
+        }
+
+        if (config.getAttributeName() != null && !config.getAttributeName().isEmpty()) {
+            search.setAttributeName(config.getAttributeName());
+            search.setAttributeValue(config.getAttributeValue());
+        }
+
+        if (config.getUserStatus() != null ) {
+            search.setStatus(config.getUserStatus().toString());
+        }
+
+        return search;
+
+    }
+
+    private Role parseRole(String roleStr) {
+        String domainId = null;
+        String roleId = null;
+
+        StringTokenizer st = new StringTokenizer(roleStr, "*");
+        if (st.hasMoreTokens()) {
+            domainId = st.nextToken();
+        }
+        if (st.hasMoreElements()) {
+            roleId = st.nextToken();
+        }
+        RoleId id = new RoleId(domainId , roleId);
+        Role r = new Role();
+        r.setId(id);
+
+        return r;
+    }
+
+
+
     public void setMuleContext(MuleContext ctx) {
 
         muleContext = ctx;
@@ -199,7 +363,19 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 		this.adaptorFactory = adaptorFactory;
 	}
 
+    public UserDataService getUserMgr() {
+        return userMgr;
+    }
 
+    public void setUserMgr(UserDataService userMgr) {
+        this.userMgr = userMgr;
+    }
 
+    public ProvisionService getProvisionService() {
+        return provisionService;
+    }
 
+    public void setProvisionService(ProvisionService provisionService) {
+        this.provisionService = provisionService;
+    }
 }

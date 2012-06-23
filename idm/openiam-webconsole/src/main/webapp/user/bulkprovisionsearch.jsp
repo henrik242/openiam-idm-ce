@@ -72,6 +72,27 @@
                                 </tr>
 
                                 <tr>
+                                    <td><label for="username" class="attribute">User Status</label></td>
+                                    <td class="userformInput" for="username" class="labelValue" colspan="3">
+                                        <form:select path="userStatus" multiple="false">
+                                            <form:option value="" label="-Please Select-"/>
+                                            <form:option value="ACTIVE" label="ACTIVE"/>
+                                            <form:option value="APPROVAL_DECLINED" label="APPROVAL_DECLINED"/>
+                                            <form:option value="DELETED" label="DELETED"/>
+                                            <form:option value="INACTIVE" label="INACTIVE"/>
+                                            <form:option value="LEAVE" label="LEAVE"/>
+                                            <form:option value="PENDING_START_DATE" label="PENDING_START_DATE"/>
+                                            <form:option value="PENDING_APPROVAL" label="PENDING_APPROVAL"/>
+                                            <form:option value="PENDING_USER_VALIDATION" label="PENDING_USER_VALIDATION"/>
+                                            <form:option value="PENDING_INITIAL_LOGIN" label="PENDING_INITIAL_LOGIN"/>
+                                            <form:option value="RETIRED" label="RETIRED"/>
+                                            <form:option value="TERMINATE" label="TERMINATE"/>
+                                        </form:select>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <td><label for="username" class="attribute">Extended Attributes</label></td>
                                     <td class="userformInput" for="username" class="labelValue" colspan="3">
                                         <form:select path="attributeName" multiple="false">

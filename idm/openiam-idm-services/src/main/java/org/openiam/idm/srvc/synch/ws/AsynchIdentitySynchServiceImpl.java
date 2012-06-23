@@ -27,9 +27,12 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
 import org.mule.module.client.MuleClient;
+import org.openiam.base.ws.Response;
+import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.IdentitySynchService;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,9 +67,6 @@ public class AsynchIdentitySynchServiceImpl implements AsynchIdentitySynchServic
         try {
 
 
-            log.debug("MuleContext = " + muleContext);
-
-
             Map<String, String> msgPropMap = new HashMap<String, String>();
             msgPropMap.put("SERVICE_HOST", serviceHost);
             msgPropMap.put("SERVICE_CONTEXT", serviceContext);
@@ -78,12 +78,34 @@ public class AsynchIdentitySynchServiceImpl implements AsynchIdentitySynchServic
 
 
         } catch (Exception e) {
-            log.debug("EXCEPTION:AsynchIdentitySynchService");
+            log.debug("EXCEPTION:AsynchIdentitySynchService:startSynchronization");
             log.error(e);
             //e.printStackTrace();
         }
         log.debug("A-START SYNCH END ---------------------");
 
+    }
+
+    @Override
+    public void bulkUserMigration(BulkMigrationConfig config) {
+        try {
+
+
+            Map<String, String> msgPropMap = new HashMap<String, String>();
+            msgPropMap.put("SERVICE_HOST", serviceHost);
+            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
+
+
+            //Create the client with the context
+            MuleClient client = new MuleClient(muleContext);
+            client.sendAsync("vm://bulkUserMigrationMessage", (BulkMigrationConfig) config, msgPropMap);
+
+
+        } catch (Exception e) {
+            log.debug("EXCEPTION:AsynchIdentitySynchService:bulkUserMigration");
+            log.error(e);
+
+        }
     }
 
     public IdentitySynchService getSynchService() {

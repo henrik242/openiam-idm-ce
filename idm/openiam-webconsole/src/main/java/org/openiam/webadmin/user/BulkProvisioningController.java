@@ -73,6 +73,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
 
 	protected AppConfiguration configuration;
+    String resourceType;
 
 
 	private static final Log log = LogFactory.getLog(BulkProvisioningController.class);
@@ -93,7 +94,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 	@Override
 	protected void validatePage(Object command, Errors errors, int page) {
 		log.debug("Validate page:" + page);
-		NewUserValidator validator = (NewUserValidator)getValidator();
+        BulkProvsioningValidator validator = (BulkProvsioningValidator)getValidator();
 		switch (page) {
 		case 0: 
 			validator.validateNewUserType(command, errors);
@@ -111,84 +112,12 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 			throws Exception {
 		
 		log.debug("In processFinish..");
-		
-		NewUserCommand newUserCmd =(NewUserCommand)command;
+
+        BulkProvisioningCommand newUserCmd =(BulkProvisioningCommand)command;
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
 
-		User user = newUserCmd.getUser();
 
-		
-
-        // add the attributes
-        List<UserAttribute> attrList =  newUserCmd.getAttributeList();
-        if (attrList != null) {
-            for ( UserAttribute ua : attrList) {
-                ua.setOperation(AttributeOperationEnum.ADD);
-                ua.setUserId(null);
-                ua.setId(null);
-                user.getUserAttributes().put(ua.getName(), ua);
-            }
-        }
-		
-        ProvisionUser pUser = new ProvisionUser(user);
-
-        pUser.setProvisionOnStartDate(newUserCmd.isProvisionOnStartDate());
-        
-
-         
-        // set the supervisor
-        if (newUserCmd.getSupervisorId() != null && newUserCmd.getSupervisorId().length() > 0) {
-        	User supervisorUser = new User(newUserCmd.getSupervisorId());
-        	Supervisor sup = new Supervisor();
-    		sup.setSupervisor(supervisorUser);
-    		sup.setStatus("ACTIVE");
-    		sup.setSupervisor(supervisorUser);
-    		pUser.setSupervisor(sup);
-        }
-
-           
-        
-        // add contact information
-        pUser.getAddresses().add(getAddress(newUserCmd));
-        
-        addPhoneToUser(pUser, newUserCmd);
-        addEmailToUser(pUser, newUserCmd);
-        
-      //  pUser.getPhone().add(getPhone(newUserCmd));
-      //  pUser.getEmailAddress().add(getEmailAddress(newUserCmd));
-        
-        // add group
-        if (newUserCmd.getGroup() != null && !newUserCmd.getGroup().isEmpty()) {
-        	pUser.setMemberOfGroups(getGroupList(newUserCmd, user));
-        }
-        // add role
-        if (newUserCmd.getRole() != null && !newUserCmd.getRole().isEmpty()) {
-        	pUser.setMemberOfRoles(getRoleList(newUserCmd, user));
-        }
-        
-        // update the type
-        if (user.getMetadataTypeId().equalsIgnoreCase("-")){
-        	user.setMetadataTypeId(null);
-        }
-
-        if (newUserCmd.isNotifyUserViaEmail()) {
-            pUser.setEmailCredentialsToNewUsers(true);
-        }else{
-            pUser.setEmailCredentialsToNewUsers(false);
-        }
-
-        if (newUserCmd.isNotifySupervisorViaEmail()) {
-            pUser.setEmailCredentialsToSupervisor(true);
-        }else {
-            pUser.setEmailCredentialsToSupervisor(false);
-        }
-
-        String login = (String)session.getAttribute("login");
-        String domain = (String)session.getAttribute("domainId");
-        pUser.setRequestClientIP(request.getRemoteHost());
-        pUser.setRequestorLogin(login);
-        pUser.setRequestorDomain(domain);
 
         return new ModelAndView("pub/confirm");
 
@@ -198,142 +127,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
 
 
-    private Address getAddress(NewUserCommand newUserCmd) {
-    	Address adr = new Address();
-    	adr.setAddress1(newUserCmd.getUser().getAddress1());
-    	adr.setAddress2(newUserCmd.getUser().getAddress2());
-    	adr.setAddress3(newUserCmd.getUser().getAddress3());
-    	adr.setAddress4(newUserCmd.getUser().getAddress4());
-    	adr.setAddress5(newUserCmd.getUser().getAddress5());
-    	adr.setBldgNumber(newUserCmd.getUser().getBldgNum());
-    	adr.setStreetDirection(newUserCmd.getUser().getStreetDirection());
-    	adr.setCity(newUserCmd.getUser().getCity());
-    	adr.setState(newUserCmd.getUser().getState());
-    	adr.setPostalCd(newUserCmd.getUser().getPostalCd());
 
-    	return adr;
-    	
-    }
-
-    
-	private void addPhoneToUser (ProvisionUser usr, NewUserCommand newHireCmd) {
-		Set<Phone> phSet = usr.getPhone();
-
-		Phone deskPhone = new Phone();
-		deskPhone.setAreaCd(newHireCmd.getUser().getAreaCd());
-		deskPhone.setPhoneNbr(newHireCmd.getUser().getPhoneNbr());
-		deskPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
-		deskPhone.setName("DESK PHONE");
-		deskPhone.setParentId(usr.getUserId());
-
-		Phone cellPhone = new Phone();
-		cellPhone.setAreaCd(newHireCmd.getCellAreaCode());
-		cellPhone.setPhoneNbr(newHireCmd.getCellPhone());
-		cellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
-		cellPhone.setName("CELL PHONE");
-		cellPhone.setParentId(usr.getUserId());
-
-		Phone faxPhone = new Phone();
-		faxPhone.setAreaCd(newHireCmd.getFaxAreaCode());
-		faxPhone.setPhoneNbr(newHireCmd.getFaxPhone());
-		faxPhone.setDescription("FAX");
-		faxPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
-		faxPhone.setName("FAX");
-		faxPhone.setParentId(usr.getUserId());
-
-		Phone homePhone = new Phone();
-		homePhone.setAreaCd(newHireCmd.getHomePhoneAreaCode());
-		homePhone.setPhoneNbr(newHireCmd.getHomePhoneNbr());
-		homePhone.setParentType(ContactConstants.PARENT_TYPE_USER);
-		homePhone.setName("HOME PHONE");
-		homePhone.setParentId(usr.getUserId());
-		
-		Phone altCellPhone = new Phone();
-		altCellPhone.setAreaCd(newHireCmd.getAltCellAreaCode());
-		altCellPhone.setPhoneNbr(newHireCmd.getAltCellNbr());
-		altCellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
-		altCellPhone.setName("ALT CELL PHONE");
-		altCellPhone.setParentId(usr.getUserId());
-		
-		Phone personalPhone = new Phone();
-		personalPhone.setAreaCd(newHireCmd.getPersonalAreaCode());
-		personalPhone.setPhoneNbr(newHireCmd.getPersonalNbr());
-		personalPhone.setDescription("PERSONAL PHONE");
-		personalPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
-		personalPhone.setName("PERSONAL PHONE");
-		personalPhone.setParentId(usr.getUserId());
-		
-		phSet.add(deskPhone);
-		phSet.add(cellPhone);
-		phSet.add(faxPhone);
-		phSet.add(homePhone);
-		phSet.add(altCellPhone);
-		phSet.add(personalPhone);
-
-		
-		
-	}
-	
-	private void addEmailToUser(ProvisionUser usr, NewUserCommand newHireCmd) {
-		Set<EmailAddress> emailAdrSet =  usr.getEmailAddress();
-		
-		EmailAddress email1 = new EmailAddress();
-		email1.setEmailAddress(newHireCmd.getUser().getEmail());
-		email1.setParentId(usr.getUserId());
-		email1.setName("EMAIL1");
-		email1.setParentType(ContactConstants.PARENT_TYPE_USER);
-        usr.setEmail(newHireCmd.getUser().getEmail());
-
-		EmailAddress email2 = new EmailAddress();
-		email2.setEmailAddress(newHireCmd.getEmail2());
-		email2.setParentId(usr.getUserId());
-		email2.setName("EMAIL2");
-		email2.setParentType(ContactConstants.PARENT_TYPE_USER);
-
-		emailAdrSet.add(email1);
-		emailAdrSet.add(email2);
-
-		
-	}
-	
-    
-    private EmailAddress getEmailAddress(NewUserCommand newUserCmd) {
-    	EmailAddress email = new EmailAddress();
-    	email.setName("EMAIL1");
-    	email.setEmailAddress(newUserCmd.getUser().getEmail());
-    	return email;
-    }
-    
-	
-	private List<Group> getGroupList(NewUserCommand newHireCmd, User user) {
-		List<Group> groupList = new ArrayList<Group>();
-		String groupId = newHireCmd.getGroup();
-		Group g = new Group();
-		g.setGrpId(groupId);
-		groupList.add(g);
-		return groupList;
-	}
-	private List<Role> getRoleList(NewUserCommand newHireCmd, User user) {
-		List<Role> roleList = new ArrayList<Role>();
-		String cmdRole = newHireCmd.getRole();
-		/* parse the role */
-		String domainId = null;
-		String roleId = null;
-		
-		StringTokenizer st = new StringTokenizer(cmdRole, "*");
-		if (st.hasMoreTokens()) {
-			domainId = st.nextToken();
-		}
-		if (st.hasMoreElements()) {
-			roleId = st.nextToken();
-		}
-		RoleId id = new RoleId(domainId , roleId);
-		Role r = new Role();
-		r.setId(id);
-		roleList.add(r);
-		
-		return roleList;
-	}
 
 	protected ModelAndView processCancel(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
@@ -346,15 +140,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 	}
 	
 	
-	@Override
-	protected Object formBackingObject(HttpServletRequest request) 			throws Exception {
-		List<Resource> resourceList = resourceDataService.getResourcesByType(this.configuration.getManagedSystemType());
 
-        BulkProvisioningCommand cmd = new BulkProvisioningCommand();
-
-		
-		return cmd;
-	}
 	
 	@Override
 	protected Map referenceData(HttpServletRequest request, int page) throws Exception {
@@ -365,7 +151,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 		case 0:
 			return loadUserSearchValues(request);
 		case 1:
-			return loadUserInformation(request);
+			return loadTargetSystemValue(request);
 
 		}
 		return null;
@@ -376,7 +162,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 		
 		HttpSession session =  request.getSession();
 		
-		log.debug("User type category =" + configuration.getUserCategoryType());
+		log.info("User type category =" + configuration.getUserCategoryType());
 		
 
 		Map model = new HashMap();
@@ -394,45 +180,20 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 	}
 
 	
-	protected Map loadUserInformation(HttpServletRequest request) {
-		log.debug("referenceData:loadUserInformation called.");
+	protected Map loadTargetSystemValue(HttpServletRequest request) {
+		log.info("referenceData:loadUserInformation called.");
 		
 		HttpSession session =  request.getSession();
-		String userId = (String)session.getAttribute("userId");
-		
-		// get the organizations
-		List<Organization> orgList = orgManager.getOrganizationList(null,"ACTIVE");  //orgManager.getTopLevelOrganizations();
-		// get the divisions
-		List<Organization> divList = orgManager.allDivisions(null);
-		// load the department list
-		List<Organization> deptList = orgManager.allDepartments(null);
-		
 
-		// get the list of groups that this user belongs to
-		List<Group> groupList = groupManager.getAllGroups().getGroupList();	
-		// get the list of roles that this user belongs to
-		List<Role> roleList = roleDataService.getAllRoles().getRoleList();
-		
-		
-		// get the list of job codes
-		List<ReferenceData> jobCodeList = refDataService.getRefByGroup("JOB_CODE", "en");
-		
-		// get the list of user type codes
-		List<ReferenceData> userTypeList = refDataService.getRefByGroup("USER_TYPE", "en");
-		
-		// get location list and the address for the user
-		Location[] locationAry = locationService.allLocations().getLocationAry();
-		
-		Map model = new HashMap();
-		model.put("orgList",orgList);
-		model.put("divList",divList);
-		model.put("deptList",deptList);
-		model.put("groupList",groupList);
-		model.put("roleList", roleList);
-		model.put("jobCodeList",jobCodeList);
-		model.put("userTypeList", userTypeList);
-		model.put("locationAry", locationAry);
-		
+        List<Resource> resourceList = resourceDataService.getResourcesByType(resourceType);
+        Map model = new HashMap();
+        if (resourceList != null ) {
+            model.put("resourceList", resourceList);
+        }
+
+        model.put("roleList", roleDataService.getAllRoles().getRoleList());
+
+
 		return model;
 		
 	}
@@ -442,7 +203,6 @@ public class BulkProvisioningController extends AbstractWizardFormController {
     private MetadataElement[]  getComleteMetadataElementList()  {
         log.info("getUserMetadataTypes called.");
 
-        ArrayList<LabelValueBean> newCodeList = new ArrayList();
         return metadataService.getAllElementsForCategoryType("USER_TYPE").getMetadataElementAry();
 
     }
@@ -549,5 +309,13 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
     public void setMetadataService(MetadataWebService metadataService) {
         this.metadataService = metadataService;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
     }
 }

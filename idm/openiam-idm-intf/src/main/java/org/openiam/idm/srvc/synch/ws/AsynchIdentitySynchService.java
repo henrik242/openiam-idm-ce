@@ -1,5 +1,7 @@
 package org.openiam.idm.srvc.synch.ws;
 
+import org.openiam.base.ws.Response;
+import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 
@@ -20,4 +22,15 @@ public interface AsynchIdentitySynchService {
 			@WebParam(name = "config", targetNamespace = "")
 			SynchConfig config);
 
+
+    /**
+     * Moves a set of users from resource or role. Users are selected based on some search criteria defined in the
+     * config object.
+     * @param config
+     * @return
+     */
+    @WebMethod
+    void bulkUserMigration(
+            @WebParam(name = "config", targetNamespace = "")
+            BulkMigrationConfig config);
 }
