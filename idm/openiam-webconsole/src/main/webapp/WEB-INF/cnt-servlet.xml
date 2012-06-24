@@ -849,17 +849,12 @@
 
         <property name="groupManager" ref="groupServiceClient" />
         <property name="roleDataService" ref="roleServiceClient" />
-        <property name="provService" ref="asynchProvisionServiceClient" />
-        <property name="configuration" ref="appConfiguration" />
-        <property name="refDataService" ref="referenceDataServiceClient" />
-
         <property name="orgManager" ref="orgServiceClient" />
-        <property name="locationService" ref="locationServiceClient" />
         <property name="resourceDataService" ref="resourceServiceClient" />
         <property name="metadataService" ref="metadataServiceClient"	/>
         <property name="resourceType" value="MANAGED_SYS" />
-
-
+        <property name="syncClient" ref="asynchSynchConfigServiceClient" />
+        <property name="redirectView" value="idman/userSearch.do?action=view" />
     </bean>
 
     <bean id="bulkProvisioningValidator" class="org.openiam.webadmin.user.BulkProvsioningValidator">

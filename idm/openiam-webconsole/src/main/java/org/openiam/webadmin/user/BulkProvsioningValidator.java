@@ -31,21 +31,37 @@ public class BulkProvsioningValidator implements Validator {
 	}
 
 	
-	public void validateNewUserType(Object cmd, Errors err) {
-		// TODO Auto-generated method stub
+	public void validateUserSelectionForm(Object cmd, Errors err) {
+
         BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
 
-	
-
-
-		
-		
+        // check if at least on search criteria has been selected.
+        if (! provCmd.isSearchDefined()) {
+            err.rejectValue("lastName", "required");
+        }
 	}
 
 
 	
-	public void validateNewUserForm(Object cmd, Errors err) {
+	public void validateOperation(Object cmd, Errors err) {
         BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
+
+
+        if (    (provCmd.getTargetResource() == null || provCmd.getTargetResource().isEmpty()) &&
+                (provCmd.getTargetRole() == null || provCmd.getTargetRole().isEmpty())  ) {
+
+            err.rejectValue("targetResource", "required");
+            return;
+
+        }
+
+
+        if (    (provCmd.getTargetResource() != null && !provCmd.getTargetResource().isEmpty()) &&
+                (provCmd.getTargetRole() != null && !provCmd.getTargetRole().isEmpty())  ) {
+
+            err.rejectValue("targetResource", "both");
+
+        }
 		
 	}
 

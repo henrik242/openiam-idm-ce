@@ -40,6 +40,7 @@
                                     <td><label for="username" class="attribute">Last Name</label></td>
                                     <td  class="userformInput" for="username" class="labelValue">
                                         <form:input path="lastName" size="35" maxlength="40"  />
+                                        <form:errors path="lastName" cssClass="error" />
                                     </td>
 
                                     <td><label for="username" class="attribute">Organization</label></td>

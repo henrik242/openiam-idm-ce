@@ -56,7 +56,8 @@
                                             <c:forEach items="${roleList}" var="role">
                                                 <form:option value="${role.id.serviceId}*${role.id.roleId}" label="${role.id.serviceId}-${role.roleName}" />
                                             </c:forEach>
-                                    </form:select>
+                                        </form:select>
+                                        <form:errors path="targetResource" cssClass="error" />
                                     </td>
 
 

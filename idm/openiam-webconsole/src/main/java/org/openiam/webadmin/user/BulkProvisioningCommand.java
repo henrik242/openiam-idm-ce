@@ -12,17 +12,17 @@ import java.io.Serializable;
  */
 public class BulkProvisioningCommand implements Serializable {
 
-    String lastName;
-    String companyId;
-    String deptId;
-    String division;
-    String attributeName;
-    String attributeValue;
-    UserStatusEnum userStatus;
+    private String lastName;
+    private String companyId;
+    private String deptId;
+    private String division;
+    private String attributeName;
+    private String attributeValue;
+    private UserStatusEnum userStatus;
 
-    String operation;
-    String targetRole;
-    String targetResource;
+    private String operation;
+    private String targetRole;
+    private String targetResource;
 
 
 
@@ -105,4 +105,42 @@ public class BulkProvisioningCommand implements Serializable {
     public void setUserStatus(UserStatusEnum userStatus) {
         this.userStatus = userStatus;
     }
+
+    public boolean isSearchDefined() {
+
+        if (lastName != null && !lastName.isEmpty()) {
+            return true;
+        }
+
+        if (companyId != null && !companyId.isEmpty()) {
+            return true;
+        }
+
+        if (deptId != null && !deptId.isEmpty()) {
+            return true;
+        }
+
+        if (deptId != null && !deptId.isEmpty()) {
+            return true;
+        }
+
+        if (attributeName != null && !attributeName.isEmpty()) {
+            return true;
+        }
+
+
+        if (attributeValue != null && !attributeValue.isEmpty()) {
+            return true;
+        }
+
+
+        if (userStatus != null) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
+
+
