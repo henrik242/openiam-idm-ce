@@ -64,8 +64,9 @@ public class ModifyUser {
 	List<Role> roleList = new ArrayList<Role>();
 	List<Role> deleteRoleList = new ArrayList<Role>();
 	List<Login> principalList = new ArrayList<Login>();
-	
+
 	public ModifyUser() {
+        log.debug("Creating new modifyUser object..");
         init();
 		
 	}
