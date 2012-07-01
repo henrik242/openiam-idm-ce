@@ -10,7 +10,7 @@
 
 <%  
 	String bpmToken = (String)request.getSession().getAttribute("identityKey");
-	String rMenu = (String)request.getAttribute("hideRMenu");  
+	String rMenu = (String)request.getSession().getAttribute("hideRMenu");
 	if (rMenu == null ||  !rMenu.equals("1")) {
 
 %>	

@@ -85,10 +85,10 @@ public class PasswordChangeController extends CancellableFormController {
 		}
 		
 		if (rMenu != null && rMenu.length() > 0) {		
-			request.setAttribute("hideRMenu","1");
+			request.getSession().setAttribute("hideRMenu","1");
 		}
 		if (header != null && header.length() > 0) {
-			request.setAttribute("hideHeader","1");
+            request.getSession().setAttribute("hideHeader","1");
 		}
 		
 		HttpSession session =  request.getSession();
@@ -109,6 +109,9 @@ public class PasswordChangeController extends CancellableFormController {
 		
 		String userId = (String)request.getSession().getAttribute("userId");
 
+        // password change passed validation - make sure that we enable the side menus
+        request.getSession().removeAttribute("hideHeader");
+        request.getSession().removeAttribute("hideRMenu");
 
 
 		PasswordChangeCommand pswdChangeCmd =(PasswordChangeCommand)command;
