@@ -954,6 +954,13 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 		return resourceRoleDao.findById(resourceRoleId);
 	}
 
+    public List<Role> getRolesForResource(String resourceId) {
+        if (resourceId == null)
+            throw new IllegalArgumentException("resourceRoleId is null");
+
+        return resourceRoleDao.findRolesForResource(resourceId);
+    }
+
 	/**
 	 * Update resource role.
 	 * 
@@ -1234,6 +1241,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 		}
 		return false;
 	}
+
+
 
     /* Temp hack ---------------------  -------------------------*/
     

@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
 
 import org.openiam.idm.srvc.res.dto.*;
+import org.openiam.idm.srvc.role.dto.Role;
 
 
 /**
@@ -201,7 +202,27 @@ public class ResourceRoleDAOImpl implements ResourceRoleDAO {
 
 	}
 
+    public List<Role> findRolesForResource(String resourceId) {
+        try {
+            Session session = sessionFactory.getCurrentSession();
 
+            String sql = "  SELECT  role " +
+                    "       FROM    ResourceRole resourceRole, Role role, Resource resource " +
+                    "       WHERE   resource.resourceId = resourceRole.id.resourceId and " +
+                    "        resourceRole.id.roleId = role.id.roleId AND " +
+                    "        resourceRole.id.domainId = role.id.serviceId and " +
+                    "        resource.resourceId = :resourceId  ";
+            Query qry = session.createQuery(sql);
+            qry.setString("resourceId", resourceId);
+
+
+            List<Role> result = (List<Role>)qry.list();
+            return result;
+        } catch (HibernateException re) {
+            log.error("persist failed", re);
+            throw re;
+        }
+    }
 
     public void removeResourceRole(String domainId, String roleId) {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -216,4 +237,7 @@ public class ResourceRoleDAOImpl implements ResourceRoleDAO {
 		qry.setString("domainId", domainId);
 		qry.executeUpdate();
     }
+
+
 }
+

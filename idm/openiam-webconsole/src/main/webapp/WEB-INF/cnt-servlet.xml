@@ -466,6 +466,7 @@
 	    <property name="metadataService" ref="metadataServiceClient" />	
 	    <property name="managedSysClient" ref="managedSysServiceClient" />
          <property name="cancelView" value="resourcelist.cnt" />
+         <property name="errorView" value="resourceDetail.cnt?" />
          <property name="auditHelper" ref="auditHelper" />
      </bean>
      

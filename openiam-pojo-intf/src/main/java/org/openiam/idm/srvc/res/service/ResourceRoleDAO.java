@@ -2,6 +2,7 @@ package org.openiam.idm.srvc.res.service;
 
 import org.openiam.idm.srvc.res.dto.ResourceRole;
 import org.openiam.idm.srvc.res.dto.ResourceRoleId;
+import org.openiam.idm.srvc.role.dto.Role;
 
 import java.util.List;
 
@@ -42,5 +43,7 @@ public interface ResourceRoleDAO {
       * @see org.openiam.idm.srvc.res.service.ResourceRoleDAO#removeAllResourceRoles()
       */
     void removeAllResourceRoles();
+
+    public List<Role> findRolesForResource(String resourceId);
 
 }

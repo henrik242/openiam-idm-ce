@@ -27,8 +27,10 @@ import org.openiam.idm.srvc.meta.dto.MetadataElement;
 import org.openiam.idm.srvc.meta.ws.MetadataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
+import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
+import org.openiam.idm.srvc.res.dto.ResourceRoleId;
 import org.openiam.idm.srvc.res.dto.ResourceType;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.webadmin.util.AuditHelper;
@@ -46,6 +48,7 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 /**
  * Controller to manage connectivity information for a managed system
  *
@@ -62,6 +65,7 @@ public class ResourceDetailController  extends CancellableFormController {
     protected String redirectView;
     protected ManagedSystemDataService managedSysClient;
     protected AuditHelper auditHelper;
+    private String errorView;
 
 
     public ResourceDetailController() {
@@ -96,6 +100,9 @@ public class ResourceDetailController  extends CancellableFormController {
         String mode = request.getParameter("mode");
         if (mode != null && mode.equalsIgnoreCase("1")) {
             request.setAttribute("msg", "Information has been successfully updated.");
+        }
+        if (mode != null && mode.equalsIgnoreCase("2")) {
+            request.setAttribute("msg", "This resource can not be deleted. It is associated with a role");
         }
 
 
@@ -169,7 +176,24 @@ public class ResourceDetailController  extends CancellableFormController {
         String btn = request.getParameter("btn");
 
         if (btn != null && btn.equalsIgnoreCase("Delete")) {
+
             Resource res = resCommand.getResource();
+
+            log.debug("Deleting resource.. " + res.getResourceId());
+
+            // check if the resource is in use first
+            // only delete if its not being used.
+
+            List<Role> roleList =  resourceDataService.getRolesForResource(res.getResourceId());
+
+            log.info(" - Roles for resourceid  " + roleList );
+
+            if (roleList != null && !roleList.isEmpty()) {
+                // show a message that there are roles associated with this resource and dont try to delete
+
+                return new ModelAndView(new RedirectView(errorView + "menugrp=SECURITY_RES&mode=2&resId=" + res.getResourceId() , true));
+
+            }
             resourceDataService.removeResource(res.getResourceId());
 
              auditHelper.addLog("DELETE", domainId,	login,
@@ -241,15 +265,7 @@ public class ResourceDetailController  extends CancellableFormController {
             }
 
         }
-        /*
 
-http://localhost:8080/webconsole/resourceDetail.cnt?resId=101&menugrp=SECURITY_RES
-         log.info("refreshing attr list for resourceId=" + resId);
-        String view = redirectView + "&menuid=RESAPPROVER&menugrp=SECURITY_RES&objId=" + resId;
-        log.info("redirecting to=" + view);
-
-        return new ModelAndView(new RedirectView(view, true));
-         */
 
         String view = redirectView + "&menugrp=SECURITY_RES&resId=" + res.getResourceId();
 
@@ -306,5 +322,13 @@ http://localhost:8080/webconsole/resourceDetail.cnt?resId=101&menugrp=SECURITY_R
 
     public void setAuditHelper(AuditHelper auditHelper) {
         this.auditHelper = auditHelper;
+    }
+
+    public String getErrorView() {
+        return errorView;
+    }
+
+    public void setErrorView(String errorView) {
+        this.errorView = errorView;
     }
 }
