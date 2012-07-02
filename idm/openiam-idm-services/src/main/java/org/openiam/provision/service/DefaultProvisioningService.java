@@ -125,13 +125,13 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     private String scriptEngine;
     private OrganizationDataService orgManager;
     private PasswordService passwordDS;
-    private AddUser addUser;
-    private ModifyUser modifyUser;
+    //private AddUser addUser;
+    //private ModifyUser modifyUser;
     private AuditHelper auditHelper;
-    private AttributeListBuilder attrListBuilder;
+    //private AttributeListBuilder attrListBuilder;
     private ConnectorAdapter connectorAdapter;
     private RemoteConnectorAdapter remoteConnectorAdapter;
-    private DisableUserDelegate disableUser;
+    //private DisableUserDelegate disableUser;
     private ConnectorDataService connectorService;
     private ValidateConnectionConfig validateConnection;
     protected PasswordHistoryDAO passwordHistoryDao;
@@ -167,6 +167,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         Organization org = null;
         IdmAuditLog auditLog = null;
         boolean connectorSuccess = true;
+
+        AddUser addUser = (AddUser)ac.getBean("addUser");
+        AttributeListBuilder attrListBuilder = (AttributeListBuilder)ac.getBean("attributeListBuilder");
 
         log.debug("Request object being passed to addUser ---->" + user);
 
@@ -1106,6 +1109,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
       */
     public Response disableUser(String userId, boolean operation, String requestorId) {
         // get the user
+        DisableUserDelegate disableUser = (DisableUserDelegate)ac.getBean("disableUser");
 
         return disableUser.disableUser(userId, operation, requestorId, muleContext);
 
@@ -1206,15 +1210,15 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         String primaryLogin = null;
         List<IdmAuditLog> pendingLogItems = new ArrayList<IdmAuditLog>();
 
+        ModifyUser modifyUser = (ModifyUser)ac.getBean("modifyUser");
+        AttributeListBuilder attrListBuilder = (AttributeListBuilder)ac.getBean("attributeListBuilder");
+
 
         log.debug("---DEFAULT PROVISIONING SERVICE: modifyUser called --");
 
         List<Login> newPrincipalList = pUser.getPrincipalList();
 
-
-        log.debug("Principals passed in = " + newPrincipalList);
-
-        modifyUser.init();
+       //  modifyUser.init();
 
 
         try {
@@ -2904,21 +2908,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         this.passwordDS = passwordDS;
     }
 
-    public AddUser getAddUser() {
-        return addUser;
-    }
 
-    public void setAddUser(AddUser addUser) {
-        this.addUser = addUser;
-    }
 
-    public ModifyUser getModifyUser() {
-        return modifyUser;
-    }
 
-    public void setModifyUser(ModifyUser modifyUser) {
-        this.modifyUser = modifyUser;
-    }
 
     public AuditHelper getAuditHelper() {
         return auditHelper;
@@ -2928,13 +2920,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         this.auditHelper = auditHelper;
     }
 
-    public AttributeListBuilder getAttrListBuilder() {
-        return attrListBuilder;
-    }
 
-    public void setAttrListBuilder(AttributeListBuilder attrListBuilder) {
-        this.attrListBuilder = attrListBuilder;
-    }
 
     public ConnectorAdapter getConnectorAdapter() {
         return connectorAdapter;
@@ -2944,13 +2930,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         this.connectorAdapter = connectorAdapter;
     }
 
-    public DisableUserDelegate getDisableUser() {
-        return disableUser;
-    }
 
-    public void setDisableUser(DisableUserDelegate disableUser) {
-        this.disableUser = disableUser;
-    }
 
     public RemoteConnectorAdapter getRemoteConnectorAdapter() {
         return remoteConnectorAdapter;

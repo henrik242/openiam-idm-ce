@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="ProvisioningService" resourceRoot="" soapui-version="4.5.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="$Proxy37ServiceSoapBinding" type="wsdl" bindingName="{http://unknown.namespace/}$Proxy37ServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="$Proxy37Service" targetNamespace="http://unknown.namespace/" xmlns:ns1="http://www.openiam.org/service/provision" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://unknown.namespace/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<con:soapui-project activeEnvironment="Default" name="ProvisioningService" resourceRoot="" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="$Proxy37ServiceSoapBinding" type="wsdl" bindingName="{http://unknown.namespace/}$Proxy37ServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="$Proxy37Service" targetNamespace="http://unknown.namespace/" xmlns:ns1="http://www.openiam.org/service/provision" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://unknown.namespace/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:import location="http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService?wsdl=ProvisionControllerService.wsdl" namespace="http://www.openiam.org/service/provision"></wsdl:import>
   <wsdl:binding name="$Proxy37ServiceSoapBinding" type="ns1:ProvisionControllerService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -7706,16 +7706,16 @@
          </user>
       </prov:addUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>
          <!--Optional:-->
          <user>
             <!--Optional:-->
-            <dto:firstName>Bruce1</dto:firstName>
+            <dto:firstName>Austin</dto:firstName>
             <dto:jobCode>100</dto:jobCode>
-            <dto:lastName>Wayne1</dto:lastName>
+            <dto:lastName>Powers</dto:lastName>
             <dto:managerId>3006</dto:managerId>
             <dto:sex>M</dto:sex>
             <dto:status>active</dto:status>
@@ -7737,7 +7737,7 @@
          </user>
       </prov:addUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRoleAndAffiliation"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRoleAndAffiliation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRoleAndAffiliation"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRoleAndAffiliation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
   <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>
@@ -7767,7 +7767,7 @@
          </user>
       </prov:addUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRoleAndRes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRoleAndRes"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRoleAndRes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRoleAndRes"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>
@@ -7800,7 +7800,7 @@
          </user>
       </prov:addUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithResNoRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithResNoRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithResNoRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithResNoRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>
@@ -7827,7 +7827,7 @@
          </user>
       </prov:addUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRoleAndRemoveRes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRoleAndRemoveRes"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createUserWithRoleAndRemoveRes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="createUserWithRoleAndRemoveRes"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>
@@ -7861,7 +7861,7 @@
          </user>
       </prov:addUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="deleteByUserId TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="deleteByUserId"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>deleteByUserId</con:operation><con:request name="deleteByUserId"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/addUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="deleteByUserId TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="deleteByUserId"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>deleteByUserId</con:operation><con:request name="deleteByUserId"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:deleteByUserId>
@@ -9449,7 +9449,7 @@
          <requestorId>?</requestorId>
       </prov:deleteByUserId>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/deleteByUserId"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="deleteUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="deleteUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>deleteUser</con:operation><con:request name="deleteUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/deleteByUserId"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="deleteUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="deleteUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>deleteUser</con:operation><con:request name="deleteUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:deleteUser>
@@ -9465,18 +9465,18 @@
          <requestorId>?</requestorId>
       </prov:deleteUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/deleteUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="disableUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="disableUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>disableUser</con:operation><con:request name="disableUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/deleteUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="disableUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="disableUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>disableUser</con:operation><con:request name="disableUser"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:disableUser>
          <!--Optional:-->
-         <userId>?</userId>
-         <operation>?</operation>
+         
+         <userId>8a8080c0383a0fa201383a2219120001</userId><operation>false</operation><requestor>3001</requestor>
          <!--Optional:-->
-         <requestor>?</requestor>
+         
       </prov:disableUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/disableUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getTargetSystemUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getTargetSystemUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>getTargetSystemUser</con:operation><con:request name="getTargetSystemUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/disableUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getTargetSystemUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getTargetSystemUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>getTargetSystemUser</con:operation><con:request name="getTargetSystemUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:getTargetSystemUser>
@@ -9486,7 +9486,7 @@
          <managedSysId>?</managedSysId>
       </prov:getTargetSystemUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/getTargetSystemUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getTargetSystemUserWithUserId TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getTargetSystemUserWithUserId"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>getTargetSystemUserWithUserId</con:operation><con:request name="getTargetSystemUserWithUserId"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/getTargetSystemUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getTargetSystemUserWithUserId TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="getTargetSystemUserWithUserId"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>getTargetSystemUserWithUserId</con:operation><con:request name="getTargetSystemUserWithUserId"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:getTargetSystemUserWithUserId>
@@ -9496,7 +9496,7 @@
          <managedSysId>?</managedSysId>
       </prov:getTargetSystemUserWithUserId>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/getTargetSystemUserWithUserId"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="lockUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="lockUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>lockUser</con:operation><con:request name="lockUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/getTargetSystemUserWithUserId"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="lockUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="lockUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>lockUser</con:operation><con:request name="lockUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:lockUser>
@@ -9508,7 +9508,7 @@
          <requestorId>?</requestorId>
       </prov:lockUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/lockUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="modifyUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="modifyUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/lockUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="modifyUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="modifyUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUser"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:modifyUser>
@@ -10229,7 +10229,7 @@
                      <prevLogin>?</prevLogin>
                   </dto:principalList>
                   <!--Optional:-->
-                  <dto:supervisor/>
+                  
                   <!--Optional:-->
                   <dto:alternateContactId>?</dto:alternateContactId>
                   <!--Optional:-->
@@ -10608,7 +10608,7 @@
                      <prevLogin>?</prevLogin>
                   </dto:principalList>
                   <!--Optional:-->
-                  <dto:supervisor/>
+                  
                   <!--Optional:-->
                   <dto:alternateContactId>?</dto:alternateContactId>
                   <!--Optional:-->
@@ -10662,7 +10662,7 @@
                            <!--Zero or more repetitions:-->
                            <dto2:groupObj>
                               <!--Optional:-->
-                              <dto2:group/>
+                              
                            </dto2:groupObj>
                         </dto3:groups>
                         <!--Optional:-->
@@ -10711,7 +10711,7 @@
                         <!--Optional:-->
                         <dto3:status>?</dto3:status>
                         <!--Zero or more repetitions:-->
-                        <dto3:childRoles/>
+                        <dto3:childRoles><dto3:userAssociationMethod/></dto3:childRoles>
                         <!--Optional:-->
                         <dto3:selected>?</dto3:selected>
                         <!--Optional:-->
@@ -10806,7 +10806,7 @@
                <!--Optional:-->
                <dto2:status>?</dto2:status>
                <!--Zero or more repetitions:-->
-               <dto2:subGroup/>
+               <dto2:subGroup xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                <!--Optional:-->
                <dto2:metadataTypeId>?</dto2:metadataTypeId>
                <!--Optional:-->
@@ -10851,8 +10851,8 @@
                            <!--Zero or more repetitions:-->
                            <dto3:roleObj>
                               <!--Optional:-->
-                              <dto3:role/>
-                           </dto3:roleObj>
+                              
+                           <dto3:role><dto3:userAssociationMethod/></dto3:role></dto3:roleObj>
                         </dto2:roles>
                         <!--Optional:-->
                         <dto2:attributes>
@@ -10902,7 +10902,7 @@
                         <!--Optional:-->
                         <dto2:status>?</dto2:status>
                         <!--Zero or more repetitions:-->
-                        <dto2:subGroup/>
+                        <dto2:subGroup xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <!--Optional:-->
                         <dto2:metadataTypeId>?</dto2:metadataTypeId>
                         <!--Optional:-->
@@ -10962,7 +10962,7 @@
                <!--Optional:-->
                <dto3:status>?</dto3:status>
                <!--Zero or more repetitions:-->
-               <dto3:childRoles/>
+               <dto3:childRoles><dto3:userAssociationMethod/></dto3:childRoles>
                <!--Optional:-->
                <dto3:selected>?</dto3:selected>
                <!--Optional:-->
@@ -11092,7 +11092,7 @@
          </user>
       </prov:modifyUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUserAddResPlusRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUserAddResPlusRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUserAddResPlusRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUserAddResPlusRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:modifyUser>
@@ -11124,7 +11124,7 @@
          </user>
       </prov:modifyUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUserRemoveResPlusRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUserRemoveResPlusRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUserRemoveResPlusRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUserRemoveResPlusRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:modifyUser>
@@ -11156,7 +11156,65 @@
          </user>
       </prov:modifyUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="resetPassword TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="resetPassword"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>resetPassword</con:operation><con:request name="resetPassword"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUserAddRes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUserAddRes"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>AUSTIN</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>POWERS</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:status>active</dto:status>
+            <dto:userId>8a8080c0383a0fa201383a2219120001</dto:userId>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>MIGRATION-TEST</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+               
+            </memberOfRoles>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <dto:employeeId>ABC-123</dto:employeeId>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUserRemoveRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUserRemoveRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>AUSTIN</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>POWERS</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:status>active</dto:status>
+            <dto:userId>8a8080c0383a0fa201383a2219120001</dto:userId>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>MIGRATION-TEST</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+               <dto3:operation>delete</dto3:operation>
+            </memberOfRoles>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <dto:employeeId>ABC-123</dto:employeeId>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="resetPassword TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="resetPassword"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>resetPassword</con:operation><con:request name="resetPassword"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:resetPassword>
@@ -11208,7 +11266,7 @@
          </passwordSync>
       </prov:resetPassword>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/resetPassword"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="setPassword TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="setPassword"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>setPassword</con:operation><con:request name="setPassword"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/resetPassword"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="setPassword TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="setPassword"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>setPassword</con:operation><con:request name="setPassword"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:setPassword>
@@ -11260,7 +11318,7 @@
          </passwordSync>
       </prov:setPassword>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/setPassword"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="syncPasswordFromSrc TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="syncPasswordFromSrc"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>syncPasswordFromSrc</con:operation><con:request name="syncPasswordFromSrc"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/setPassword"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="syncPasswordFromSrc TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="syncPasswordFromSrc"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>syncPasswordFromSrc</con:operation><con:request name="syncPasswordFromSrc"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:syncPasswordFromSrc>
@@ -11312,7 +11370,7 @@
          </passwordSync>
       </prov:syncPasswordFromSrc>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/syncPasswordFromSrc"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="testConnectionConfig TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="testConnectionConfig"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>testConnectionConfig</con:operation><con:request name="testConnectionConfig"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/syncPasswordFromSrc"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="testConnectionConfig TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="testConnectionConfig"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>testConnectionConfig</con:operation><con:request name="testConnectionConfig"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:testConnectionConfig>
@@ -11320,4 +11378,4 @@
          <managedSysId>?</managedSysId>
       </prov:testConnectionConfig>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/testConnectionConfig"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/testConnectionConfig"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>

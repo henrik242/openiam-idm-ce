@@ -37,7 +37,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author suneet
  *
  */
-public class LdapSuspend implements ApplicationContextAware {
+public class LdapSuspend extends  LdapAbstractCommand implements ApplicationContextAware {
 	
 	private static final Log log = LogFactory.getLog(LdapSuspend.class);
 
@@ -88,14 +88,19 @@ public class LdapSuspend implements ApplicationContextAware {
 
             String ldapName = psoID.getID();
 
-            // Each directory
-            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
-            
-            log.debug("Directory specific object name = " + dirSpecificImp.getClass().getName());
-            
-            ModificationItem[] mods = dirSpecificImp.suspend(request);
+            // check if this object exists in the target system
+            // dont try to disable and object that does not exist
+            if (identityExists(ldapName, ldapctx)) {
 
-	 		ldapctx.modifyAttributes(ldapName, mods);
+                // Each directory
+                Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+
+                log.debug("Directory specific object name = " + dirSpecificImp.getClass().getName());
+
+                ModificationItem[] mods = dirSpecificImp.suspend(request);
+
+                ldapctx.modifyAttributes(ldapName, mods);
+                }
 	
 	 	}catch(Exception ne) {
 	 		log.error(ne.getMessage(), ne);
@@ -149,16 +154,20 @@ public class LdapSuspend implements ApplicationContextAware {
             log.debug("Ldapcontext = " + ldapctx);
             String ldapName = psoID.getID();
 
+            // check if this object exists in the target system
+            // dont try to enable and object that does not exist
+            if (identityExists(ldapName, ldapctx)) {
 
-            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
-            dirSpecificImp.setAttributes("LDAP_NAME", ldapName);
-            dirSpecificImp.setAttributes("LOGIN_MANAGER", loginManager);
-            dirSpecificImp.setAttributes("CONFIGURATION", sysConfiguration);
-            dirSpecificImp.setAttributes("TARGET_ID",targetID);
+                Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+                dirSpecificImp.setAttributes("LDAP_NAME", ldapName);
+                dirSpecificImp.setAttributes("LOGIN_MANAGER", loginManager);
+                dirSpecificImp.setAttributes("CONFIGURATION", sysConfiguration);
+                dirSpecificImp.setAttributes("TARGET_ID",targetID);
 
-            ModificationItem[] mods = dirSpecificImp.resume(request);
+                ModificationItem[] mods = dirSpecificImp.resume(request);
 
-	 		ldapctx.modifyAttributes(ldapName, mods);
+                ldapctx.modifyAttributes(ldapName, mods);
+                }
 	
 	 	}catch(Exception ne) {
 	 		log.error(ne.getMessage(), ne);

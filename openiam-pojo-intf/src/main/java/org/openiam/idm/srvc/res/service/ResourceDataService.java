@@ -1,6 +1,7 @@
 package org.openiam.idm.srvc.res.service;
 
 import org.openiam.idm.srvc.res.dto.*;
+import org.openiam.idm.srvc.role.dto.Role;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -564,6 +565,17 @@ public interface ResourceDataService {
             String domainId,
             @WebParam(name = "roleIdList", targetNamespace = "")
             List<String> roleIdList);
+
+    /**
+     *
+     * @param resourceId
+     * @return
+     */
+    @WebMethod
+    List<Role> getRolesForResource(
+            @WebParam(name = "resourceId", targetNamespace = "")
+            String resourceId);
+
 
     List<Resource> getResourceObjForUser(String userId);
 
