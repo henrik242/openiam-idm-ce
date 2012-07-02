@@ -12,8 +12,9 @@
 	<name>OpenIAM Tomcat Distribution</name>
 	
 	<modules>
-		<module>../../openiam-idm-esb</module>
-		<module>../../openiam-webconsole</module>				
+		<module>../../idm/openiam-idm-esb</module>
+		<module>../../idm/openiam-webconsole</module>				
+		<module>../../idm/openiam-selfservice</module>
 	</modules>
 	
 	<build>

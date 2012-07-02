@@ -6,25 +6,25 @@
   
   <fileSets>
       <fileSet>
-          <directory>../../openiam-webconsole/target/</directory>
+          <directory>../../idm/openiam-selfservice/target/</directory>
+          <outputDirectory>webapps</outputDirectory>
+          <includes>
+          	<include>selfservice.war</include>
+          </includes>
+    </fileSet>
+	<fileSet>
+          <directory>../../idm/openiam-webconsole/target/</directory>
           <outputDirectory>webapps</outputDirectory>
           <includes>
           	<include>webconsole.war</include>
           </includes>
     </fileSet>
       <fileSet>
-          <directory>../../openiam-idm-esb/target/</directory>
+          <directory>../../idm/openiam-idm-esb/target/</directory>
           <outputDirectory>webapps</outputDirectory>
           <includes>
           	<include>openiam-idm-esb.war</include>
           </includes>
-    </fileSet>
-    <fileSet>
-    	<directory>../configurations</directory>
-    	<outputDirectory>lib</outputDirectory>
-    	<includes>
-    		<include>*.properties</include>
-    	</includes>
     </fileSet>
     <fileSet>
         	<directory>../configurations/iamconf</directory>
@@ -39,7 +39,14 @@
         	<includes>
         		<include>**</include>
         	</includes>
-    </fileSet>    
+    </fileSet>  
+	<fileSet>
+        	<directory>../configurations/conf</directory>
+        	<outputDirectory>conf</outputDirectory>
+        	<includes>
+        		<include>**</include>
+        	</includes>
+    </fileSet> 
     
   </fileSets>
   
