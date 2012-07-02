@@ -74,79 +74,93 @@ public class PasswordValidatorImpl implements PasswordValidator {
 	 * @see org.openiam.idm.srvc.pswd.rule.PasswordValidator#validate(org.openiam.idm.srvc.pswd.dto.Password)
 	 */
 	public PasswordValidationCode validate(Policy pswdPolicy, Password password) throws ObjectNotFoundException, IOException {
-		Class cls = null;
-		AbstractPasswordRule rule  = null;
-		ScriptIntegration se = null;
-		
-		// get the password policy for this domain
-		//SecurityDomain securityDomain =  secDomainService.getSecurityDomain( password.getDomainId() );
-		//Policy pswdPolicy =  policyDataService.getPolicy( securityDomain.getPasswordPolicyId() ) ;
-		// get the list of rules for password validation
-		List<PolicyDefParam> defParam = policyDataService.getPolicyDefParamByGroup(pswdPolicy.getPolicyDefId(),"PSWD_COMPOSITION");
-		
 		// get the user object for the principal
 		Login lg = loginDao.findById(new LoginId(password.getDomainId(), password.getPrincipal(), password.getManagedSysId()));
 		User usr = userDao.findById(lg.getUserId());
-		
-		
-		// for each rule
-		if (defParam != null) {
-			   for ( PolicyDefParam param : defParam) {
-				  //check if this is parameter that is the policy that we need to check 
-				  if (policyToCheck(param.getDefParamId(), pswdPolicy)) {
-				  //
-					  String strRule =  param.getPolicyParamHandler();
-					  if (strRule != null && strRule.length() > 0) {
-							// -- instantiate the rule class
-						  log.info("StrRule:" + strRule);
-						  if (param.getHandlerLanguage() == null || param.getHandlerLanguage().equalsIgnoreCase("java")) {
-							  try {
-								  cls = Class.forName(strRule);
-								  rule = (AbstractPasswordRule)cls.newInstance();
-							  }catch(Exception c) {
-								  log.info("Error creating object: " + strRule);
-								  log.error(c);
-								  throw new ObjectNotFoundException();
-							  }
-						  }else {
-							  try {
-									se = ScriptFactory.createModule(this.scriptEngine); 
-								}catch(Exception e) {
-									log.error(e);
-									e.printStackTrace();
-									return null;
-								}
-								rule = (AbstractPasswordRule)se.instantiateClass(null, strRule);
-							  
-						  }
-					  }
-					  // -- set the parameters
-					  rule.setPassword(password.getPassword());
-					  rule.setPrincipal(password.getPrincipal());
-					  rule.setManagedSysId(password.getManagedSysId());
-					  rule.setUser(usr);
-					  rule.setLg(lg);
-					  rule.setPolicy(pswdPolicy);
-					  rule.setPasswordHistoryDao(passwordHistoryDao);
-					  rule.setCryptor(cryptor);
-					// -- check if valid
-					  PasswordValidationCode retval = rule.isValid();
-					  
-					  if ( retval != PasswordValidationCode.SUCCESS ) {
-						  log.info("Password failed validation check for rule:" + strRule);
-						  return retval;
-					  }else {
-						  log.info("Passed validation for:" + strRule);
-					  }
-				  }
-				  
-			   }
-		}
-	
-		return PasswordValidationCode.SUCCESS;
+
+        return validateForUser(pswdPolicy, password, usr, lg);
 	}
 
-	private boolean policyToCheck(String defParamId, Policy pswdPolicy) {
+    @Override
+    public PasswordValidationCode validateForUser(Policy pswdPolicy, Password password, User user, Login login) throws ObjectNotFoundException, IOException {
+        Class cls = null;
+        AbstractPasswordRule rule  = null;
+        ScriptIntegration se = null;
+
+        // get the password policy for this domain
+        //SecurityDomain securityDomain =  secDomainService.getSecurityDomain( password.getDomainId() );
+        //Policy pswdPolicy =  policyDataService.getPolicy( securityDomain.getPasswordPolicyId() ) ;
+        // get the list of rules for password validation
+        List<PolicyDefParam> defParam = policyDataService.getPolicyDefParamByGroup(pswdPolicy.getPolicyDefId(),"PSWD_COMPOSITION");
+
+        // get the user object for the principal if they are null
+        Login lg = login;
+        if(lg == null) {
+            lg = loginDao.findById(new LoginId(password.getDomainId(), password.getPrincipal(), password.getManagedSysId()));
+        }
+        User usr = user;
+        if(usr == null) {
+            usr = userDao.findById(lg.getUserId());
+        }
+
+        // for each rule
+        if (defParam != null) {
+            for ( PolicyDefParam param : defParam) {
+                //check if this is parameter that is the policy that we need to check
+                if (policyToCheck(param.getDefParamId(), pswdPolicy)) {
+                    //
+                    String strRule =  param.getPolicyParamHandler();
+                    if (strRule != null && strRule.length() > 0) {
+                        // -- instantiate the rule class
+                        log.info("StrRule:" + strRule);
+                        if (param.getHandlerLanguage() == null || param.getHandlerLanguage().equalsIgnoreCase("java")) {
+                            try {
+                                cls = Class.forName(strRule);
+                                rule = (AbstractPasswordRule)cls.newInstance();
+                            }catch(Exception c) {
+                                log.info("Error creating object: " + strRule);
+                                log.error(c);
+                                throw new ObjectNotFoundException();
+                            }
+                        }else {
+                            try {
+                                se = ScriptFactory.createModule(this.scriptEngine);
+                            }catch(Exception e) {
+                                log.error(e);
+                                e.printStackTrace();
+                                return null;
+                            }
+                            rule = (AbstractPasswordRule)se.instantiateClass(null, strRule);
+
+                        }
+                    }
+                    // -- set the parameters
+                    rule.setPassword(password.getPassword());
+                    rule.setPrincipal(password.getPrincipal());
+                    rule.setManagedSysId(password.getManagedSysId());
+                    rule.setUser(usr);
+                    rule.setLg(lg);
+                    rule.setPolicy(pswdPolicy);
+                    rule.setPasswordHistoryDao(passwordHistoryDao);
+                    rule.setCryptor(cryptor);
+                    // -- check if valid
+                    PasswordValidationCode retval = rule.isValid();
+
+                    if ( retval != PasswordValidationCode.SUCCESS ) {
+                        log.info("Password failed validation check for rule:" + strRule);
+                        return retval;
+                    }else {
+                        log.info("Passed validation for:" + strRule);
+                    }
+                }
+
+            }
+        }
+
+        return PasswordValidationCode.SUCCESS;
+    }
+
+    private boolean policyToCheck(String defParamId, Policy pswdPolicy) {
 
 		Set<PolicyAttribute> attrSet = pswdPolicy.getPolicyAttributes();
 		Iterator<PolicyAttribute> atrIt = attrSet.iterator();

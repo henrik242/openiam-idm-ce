@@ -25,6 +25,7 @@ import org.openiam.base.AttributeOperationEnum;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.res.dto.Resource;
@@ -55,7 +56,9 @@ import java.util.List;
         "emailCredentialsToNewUsers",
         "emailCredentialsToSupervisor",
         "provisionOnStartDate",
-        "addInitialPasswordToHistory"
+        "addInitialPasswordToHistory",
+        "passwordPolicy",
+        "password"
 })
 
 public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
@@ -90,6 +93,9 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
      */
     protected boolean notifyTargetSystems = true;
 
+    protected Policy passwordPolicy = null;
+
+    protected String password = null;
 
     public ProvisionUser() {
 
@@ -406,5 +412,21 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     public void setUserResourceList(List<UserResourceAssociation> userResourceList) {
         this.userResourceList = userResourceList;
+    }
+
+    public Policy getPasswordPolicy() {
+        return passwordPolicy;
+    }
+
+    public void setPasswordPolicy(Policy passwordPolicy) {
+        this.passwordPolicy = passwordPolicy;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

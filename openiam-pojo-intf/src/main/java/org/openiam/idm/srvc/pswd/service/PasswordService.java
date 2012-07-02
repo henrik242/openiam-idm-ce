@@ -22,9 +22,11 @@
 package org.openiam.idm.srvc.pswd.service;
 
 import org.openiam.exception.ObjectNotFoundException;
+import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
+import org.openiam.idm.srvc.user.dto.User;
 
 
 /**
@@ -45,6 +47,10 @@ public interface PasswordService {
      */
     PasswordValidationCode isPasswordValid(Password pswd) throws ObjectNotFoundException;
 
+    PasswordValidationCode isPasswordValidForUser(Password pswd, User user, Login lg) throws ObjectNotFoundException;
+
+    PasswordValidationCode isPasswordValidForUserAndPolicy(Password pswd, User user, Login lg, Policy policy) throws ObjectNotFoundException;
+
     boolean isPasswordChangeAllowed(String domainId, String principal, String managedSysId);
 
     int daysToPasswordExpiration(String domainId, String principal, String managedSysId);
@@ -58,6 +64,8 @@ public interface PasswordService {
      * @return
      */
     Policy getPasswordPolicy(String domainId, String principal, String managedSysId);
+
+    Policy getPasswordPolicyByUser(String domainId, User user);
 
     /**
      * Checks to see if a password exists in the history log based on the policy

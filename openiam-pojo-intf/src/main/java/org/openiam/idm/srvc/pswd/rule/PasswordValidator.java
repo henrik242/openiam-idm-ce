@@ -22,9 +22,11 @@
 package org.openiam.idm.srvc.pswd.rule;
 
 import org.openiam.exception.ObjectNotFoundException;
+import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
+import org.openiam.idm.srvc.user.dto.User;
 
 import java.io.IOException;
 
@@ -43,4 +45,11 @@ public interface PasswordValidator {
      */
     PasswordValidationCode validate(Policy policy, Password password) throws ObjectNotFoundException, IOException;
 
+    /**
+     * Validates the password against the password policy that is passed in for the given user and login
+     *
+     * @param password
+     * @return
+     */
+    PasswordValidationCode validateForUser(Policy policy, Password password, User usr, Login lg) throws ObjectNotFoundException, IOException;
 }

@@ -223,17 +223,73 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         // CREATE THE PRIMARY IDENTITY IF IT HAS NOT BEEN PASSED IN
         
         log.debug("Principals being passed as part of the request object: " + user.getPrincipalList());
-        
+        boolean customPassword = false;
+        Login primaryLogin = null;
+
         if (user.getPrincipalList() == null || user.getPrincipalList().isEmpty()) {
             // build the list
             addUser.buildPrimaryPrincipal(user, bindingMap, se);
 
         } else {
-            addUser.setPrimaryIDPassword(user, bindingMap, se);
+            primaryLogin = user.getPrimaryPrincipal(sysConfiguration.getDefaultManagedSysId());
+            // Check if a custom password is set
+            if( primaryLogin.getPassword() != null && !primaryLogin.getPassword().trim().isEmpty() ) {
+                customPassword = true;
+            } else {
+                addUser.setPrimaryIDPassword(user, bindingMap, se);
+            }
         }
 
+        if(primaryLogin == null) {
+            primaryLogin = user.getPrimaryPrincipal(sysConfiguration.getDefaultManagedSysId());
+        }
 
-        Login primaryLogin = user.getPrimaryPrincipal(sysConfiguration.getDefaultManagedSysId());
+        // check if there is a custom password provided in the request
+        if(user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
+            customPassword = true;
+            primaryLogin.setPassword(user.getPassword());
+        }
+
+        Policy passwordPolicy = user.getPasswordPolicy();
+        if(passwordPolicy == null) {
+            passwordPolicy = passwordDS.getPasswordPolicyByUser(primaryLogin.getId().getDomainId(), user.getUser());
+        }
+
+        // if the password of the primaryIdentity is a custom password validate the password
+        if(customPassword) {
+            Password password = new Password();
+            password.setDomainId(primaryLogin.getId().getDomainId());
+            password.setManagedSysId(primaryLogin.getId().getManagedSysId());
+            password.setPassword(primaryLogin.getPassword());
+            password.setPrincipal(primaryLogin.getId().getLogin());
+
+            try {
+                PasswordValidationCode valCode = passwordDS.isPasswordValidForUserAndPolicy(password, user.getUser(), primaryLogin, passwordPolicy);
+                if(valCode == null || valCode != PasswordValidationCode.SUCCESS){
+                    auditHelper.addLog("CREATE", user.getRequestorDomain(), user.getRequestorLogin(),
+                            "IDM SERVICE", user.getCreatedBy(), "0", "USER", user.getUserId(),
+                            null, "FAIL", null, "USER_STATUS",
+                            user.getUser().getStatus().toString(),
+                            requestId, ResponseCode.FAIL_DECRYPTION.toString(), user.getSessionId(), "Password validation failed",
+                            user.getRequestClientIP(), primaryLogin.getId().getLogin(), primaryLogin.getId().getDomainId());
+
+                    resp.setStatus(ResponseStatus.FAILURE);
+                    resp.setErrorCode(ResponseCode.FAIL_NEQ_PASSWORD);
+                    return resp;
+                }
+            } catch (ObjectNotFoundException e) {
+                auditHelper.addLog("CREATE", user.getRequestorDomain(), user.getRequestorLogin(),
+                        "IDM SERVICE", user.getCreatedBy(), "0", "USER", user.getUserId(),
+                        null, "FAIL", null, "USER_STATUS",
+                        user.getUser().getStatus().toString(),
+                        requestId, ResponseCode.FAIL_DECRYPTION.toString(), user.getSessionId(), e.toString(),
+                        user.getRequestClientIP(), primaryLogin.getId().getLogin(), primaryLogin.getId().getDomainId());
+
+                resp.setStatus(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_NEQ_PASSWORD);
+                return resp;
+            }
+        }
 
         // validate that this identity does not already exist
         LoginId dupId = primaryLogin.getId();
@@ -306,7 +362,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         
         
 
-        if (user.isAddInitialPasswordToHistory()) {
+        if (user.isAddInitialPasswordToHistory() || customPassword) {
             // add the auto generated password to the history so that the user can not use this password as their first password
             PasswordHistory hist = new PasswordHistory(primaryLogin.getId().getLogin() , primaryLogin.getId().getDomainId(),
                     primaryLogin.getId().getManagedSysId());
@@ -316,10 +372,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
         // Update attributes that will be used by the password policy
-        Policy passwordPolicy = passwordDS.getPasswordPolicy(primaryLogin.getId().getDomainId(), primaryLogin.getId().getLogin(), primaryLogin.getId().getManagedSysId());
+        passwordPolicy = passwordDS.getPasswordPolicy(primaryLogin.getId().getDomainId(), primaryLogin.getId().getLogin(), primaryLogin.getId().getManagedSysId());
         PolicyAttribute policyAttr = getPolicyAttribute("CHNG_PSWD_ON_RESET", passwordPolicy);
         if (policyAttr != null) {
-            if (policyAttr.getValue1().equalsIgnoreCase("1")) {
+            // don't force the user to immediately change it's own password
+            if (policyAttr.getValue1().equalsIgnoreCase("1") && !customPassword) {
                 primaryLogin.setResetPassword(1);
             } else {
                 primaryLogin.setResetPassword(0);
