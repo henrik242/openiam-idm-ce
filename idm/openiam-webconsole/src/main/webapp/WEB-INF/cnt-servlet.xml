@@ -119,7 +119,8 @@
 		<property name="validator" ref="roleDetailValidator" />
 		<property name="auditHelper" ref="auditHelper" />
 		<property name="navigationDataService" ref="navServiceClient" />
-         <property name="cancelView" value="rolelist.cnt" />
+        <property name="cancelView" value="rolelist.cnt" />
+        <property name="syncClient" ref="asynchSynchConfigServiceClient" />
      </bean>
 
 

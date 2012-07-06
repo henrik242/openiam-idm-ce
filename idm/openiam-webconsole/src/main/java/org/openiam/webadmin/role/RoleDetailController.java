@@ -31,6 +31,7 @@ import org.openiam.idm.srvc.role.dto.RoleAttribute;
 import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.role.ws.RoleResponse;
+import org.openiam.idm.srvc.synch.ws.AsynchIdentitySynchService;
 import org.openiam.webadmin.util.AuditHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,6 +53,7 @@ public class RoleDetailController extends CancellableFormController {
     protected AuditHelper auditHelper;
     protected NavigatorDataWebService navigationDataService;
     protected String menuGroup;
+    protected AsynchIdentitySynchService syncClient;
 
     private static final Log log = LogFactory.getLog(RoleDetailController.class);
 
@@ -182,6 +184,8 @@ public class RoleDetailController extends CancellableFormController {
         String domainId = (String) request.getSession().getAttribute("domainid");
         String login = (String) request.getSession().getAttribute("login");
 
+        String url = redirectView + "&menuid=ROLE_SUMMARY&menugrp=SECURITY_ROLE&objId=null";
+
         Role role = roleCommand.getRole();
         prepareObject(role);
 
@@ -203,6 +207,12 @@ public class RoleDetailController extends CancellableFormController {
             return new ModelAndView(new RedirectView("rolelist.cnt", true));
 
 
+        }
+
+        if ("Re-Synchronize".equalsIgnoreCase(btn) ) {
+
+            syncClient.resynchRole(role.getId());
+            return new ModelAndView(new RedirectView(url, true));
         }
 
         List<RoleAttribute> attributeList = roleCommand.getAttributeList();
@@ -250,7 +260,7 @@ public class RoleDetailController extends CancellableFormController {
 
 
 
-        String url = redirectView + "&menuid=ROLE_SUMMARY&menugrp=SECURITY_ROLE&objId=null";
+
 
         log.info("Redirecting to: " + url);
 
@@ -375,5 +385,11 @@ public class RoleDetailController extends CancellableFormController {
         this.menuGroup = menuGroup;
     }
 
+    public AsynchIdentitySynchService getSyncClient() {
+        return syncClient;
+    }
 
+    public void setSyncClient(AsynchIdentitySynchService syncClient) {
+        this.syncClient = syncClient;
+    }
 }
