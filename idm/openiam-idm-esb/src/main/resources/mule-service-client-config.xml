@@ -328,9 +328,20 @@
         <vm:inbound-endpoint path="bulkUserMigrationMessage" exchange-pattern="one-way"  >
         </vm:inbound-endpoint>
 
-        <outbound-endpoint responseTimeout="72000000"
+        <outbound-endpoint responseTimeout="990000000"
                            address="http://#[header:INBOUND:SERVICE_HOST]/#[header:INBOUND:SERVICE_CONTEXT]IdentitySynchWebService" exchange-pattern="request-response" >
             <cxf:jaxws-client serviceClass="org.openiam.idm.srvc.synch.ws.IdentitySynchWebService" operation="bulkUserMigration"  >
+            </cxf:jaxws-client>
+        </outbound-endpoint>
+    </flow>
+
+    <flow name="resynchRoleClient">
+        <vm:inbound-endpoint path="resynchRoleMessage" exchange-pattern="one-way"  >
+        </vm:inbound-endpoint>
+
+        <outbound-endpoint responseTimeout="990000000"
+                           address="http://#[header:INBOUND:SERVICE_HOST]/#[header:INBOUND:SERVICE_CONTEXT]IdentitySynchWebService" exchange-pattern="request-response" >
+            <cxf:jaxws-client serviceClass="org.openiam.idm.srvc.synch.ws.IdentitySynchWebService" operation="resynchRole"  >
             </cxf:jaxws-client>
         </outbound-endpoint>
     </flow>

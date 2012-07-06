@@ -5,10 +5,13 @@ import org.openiam.idm.groovy.helper.ServiceHelper;
 def OrganizationDataService orgService = ServiceHelper.orgService();
 def Organization org;
 
-if (user.companyId != null) {
-	org = orgService.getOrganization(user.companyId);
-	output = org.getOrganizationName();
+if (user.companyId != null && user.companyId.length() > 0) {
+
+    org = orgService.getOrganization(user.companyId);
+    if (org != null) {
+        output = org.getOrganizationName();
+    }
 }else{
 
-	output=null
+    output=null
 }

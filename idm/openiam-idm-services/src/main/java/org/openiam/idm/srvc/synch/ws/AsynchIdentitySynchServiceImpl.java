@@ -28,6 +28,7 @@ import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
 import org.mule.module.client.MuleClient;
 import org.openiam.base.ws.Response;
+import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.IdentitySynchService;
@@ -103,6 +104,28 @@ public class AsynchIdentitySynchServiceImpl implements AsynchIdentitySynchServic
 
         } catch (Exception e) {
             log.debug("EXCEPTION:AsynchIdentitySynchService:bulkUserMigration");
+            log.error(e);
+
+        }
+    }
+
+    @Override
+    public void resynchRole( RoleId roleId) {
+        try {
+
+
+            Map<String, String> msgPropMap = new HashMap<String, String>();
+            msgPropMap.put("SERVICE_HOST", serviceHost);
+            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
+
+
+            //Create the client with the context
+            MuleClient client = new MuleClient(muleContext);
+            client.sendAsync("vm://resynchRoleMessage", (RoleId) roleId, msgPropMap);
+
+
+        } catch (Exception e) {
+            log.debug("EXCEPTION:AsynchIdentitySynchService:resynchRole");
             log.error(e);
 
         }
