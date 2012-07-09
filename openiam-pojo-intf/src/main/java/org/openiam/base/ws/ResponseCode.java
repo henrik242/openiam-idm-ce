@@ -162,6 +162,9 @@ public enum ResponseCode {
     @XmlEnumValue("FAIL_PREPROCESSOR")
     FAIL_PREPROCESSOR("FAIL_PREPROCESSOR"),
 
+    @XmlEnumValue("FAIL_POSTPROCESSOR")
+    FAIL_POSTPROCESSOR("FAIL_POSTPROCESSOR"),
+
     @XmlEnumValue("FAIL_OTHER")
     FAIL_OTHER("FAIL_OTHER");
 
