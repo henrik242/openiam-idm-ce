@@ -4,9 +4,7 @@ package org.openiam.provision.service;
  * Constants used during provisioning
  */
 public class ProvisioningConstants {
-    static final int SUCCESS = 1;
-    static final int FAIL =  0;
-    static final int VALIDATION_FAIL = 2;
-
-
+    public static final int SUCCESS = 1;
+    public static final int FAIL =  0;
+    public static final int VALIDATION_FAIL = 2;
 }
