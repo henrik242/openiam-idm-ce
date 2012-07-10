@@ -58,7 +58,9 @@ import java.util.List;
         "provisionOnStartDate",
         "addInitialPasswordToHistory",
         "passwordPolicy",
-        "password"
+        "password",
+        "skipPreprocessor",
+        "skipPostProcessor"
 })
 
 public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
@@ -87,7 +89,12 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
     protected String requestId;
     protected String sessionId;
 
-    /* ID of the system where this request came from */
+    // flags to skip over the service level pre and post processors
+    boolean skipPreprocessor = false;
+    boolean skipPostProcessor = false;
+
+    /* ID of the system where this request came from.  If this value is set, then in the modify operation, that resource will not
+     * be updated. */
     protected String srcSystemId;
     /* Flag that indicates if target systems should be updated or not
      */
@@ -361,8 +368,12 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
                 ", provisionOnStartDate=" + provisionOnStartDate +
                 ", requestId='" + requestId + '\'' +
                 ", sessionId='" + sessionId + '\'' +
+                ", skipPreprocessor=" + skipPreprocessor +
+                ", skipPostProcessor=" + skipPostProcessor +
                 ", srcSystemId='" + srcSystemId + '\'' +
                 ", notifyTargetSystems=" + notifyTargetSystems +
+                ", passwordPolicy=" + passwordPolicy +
+                ", password='" + password + '\'' +
                 '}';
     }
 
@@ -428,5 +439,21 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isSkipPreprocessor() {
+        return skipPreprocessor;
+    }
+
+    public void setSkipPreprocessor(boolean skipPreprocessor) {
+        this.skipPreprocessor = skipPreprocessor;
+    }
+
+    public boolean isSkipPostProcessor() {
+        return skipPostProcessor;
+    }
+
+    public void setSkipPostProcessor(boolean skipPostProcessor) {
+        this.skipPostProcessor = skipPostProcessor;
     }
 }

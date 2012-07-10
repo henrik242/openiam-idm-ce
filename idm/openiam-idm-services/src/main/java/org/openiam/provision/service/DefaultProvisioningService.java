@@ -217,7 +217,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         // define rules that need to be executed before a addUser processor is invoked.
         ProvisionServicePreProcessor addPreProcessScript = createProvPreProcessScript(preProcessor);
-        if (addPreProcessScript != null) {
+        if (addPreProcessScript != null && !user.isSkipPreprocessor() ) {
             addPreProcessScript.setMuleContext(muleContext);
             if (executeProvisionPreProcess(addPreProcessScript, bindingMap, user, null, "ADD") != ProvisioningConstants.SUCCESS) {
                 resp.setStatus(ResponseStatus.FAILURE);
@@ -574,7 +574,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         // call the post processor
         ProvisionServicePostProcessor addPostProcessScript = createProvPostProcessScript(postProcessor);
-        if (addPostProcessScript != null) {
+        if (addPostProcessScript != null && !user.isSkipPostProcessor()) {
             addPostProcessScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(addPostProcessScript, bindingMap, user, null, "ADD") != ProvisioningConstants.SUCCESS) {
                 resp.setStatus(ResponseStatus.FAILURE);
@@ -765,7 +765,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         ProvisionUser pUser = new ProvisionUser(usr);
 
         ProvisionServicePreProcessor deletePreProcessScript = createProvPreProcessScript(preProcessor);
-        if (deletePreProcessScript != null) {
+        if (deletePreProcessScript != null && !user.isSkipPreprocessor()) {
             deletePreProcessScript.setMuleContext(muleContext);
             if (executeProvisionPreProcess(deletePreProcessScript, bindingMap, pUser, null, "DELETE") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
@@ -858,11 +858,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         }
 
         ProvisionServicePostProcessor deletePostProcessScript = createProvPostProcessScript(postProcessor);
-        if (deletePostProcessScript != null) {
+        if (deletePostProcessScript != null && !user.isSkipPostProcessor() ) {
             deletePostProcessScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(deletePostProcessScript, bindingMap, pUser, null, "DELETE") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
-                response.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                response.setErrorCode(ResponseCode.FAIL_POSTPROCESSOR);
                 return response;
             }
         }
@@ -927,7 +927,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         ProvisionUser pUser = new ProvisionUser(usr);
 
         ProvisionServicePreProcessor deletePreProcessScript = createProvPreProcessScript(preProcessor);
-        if (deletePreProcessScript != null) {
+        if (deletePreProcessScript != null && !pUser.isSkipPreprocessor()) {
             deletePreProcessScript.setMuleContext(muleContext);
             if (executeProvisionPreProcess(deletePreProcessScript, bindingMap, pUser, null, "DELETE") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
@@ -1119,11 +1119,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         }
 
         ProvisionServicePostProcessor deletePostProcessScript = createProvPostProcessScript(postProcessor);
-        if (deletePostProcessScript != null) {
+        if (deletePostProcessScript != null && !pUser.isSkipPostProcessor() ) {
             deletePostProcessScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(deletePostProcessScript, bindingMap, pUser, null, "DELETE") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
-                response.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                response.setErrorCode(ResponseCode.FAIL_POSTPROCESSOR);
                 return response;
             }
         }
@@ -1276,7 +1276,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("userBeforeModify", origUser);
 
         ProvisionServicePreProcessor modifyPreProcessScript = createProvPreProcessScript(preProcessor);
-        if (modifyPreProcessScript != null) {
+        if (modifyPreProcessScript != null && !pUser.isSkipPreprocessor()) {
             modifyPreProcessScript.setMuleContext(muleContext);
             if (executeProvisionPreProcess(modifyPreProcessScript, bindingMap, pUser, null, "MODIFY") != ProvisioningConstants.SUCCESS) {
                 resp.setStatus(ResponseStatus.FAILURE);
@@ -1429,6 +1429,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
             for (Resource res : resourceList) {
                 String managedSysId = res.getManagedSysId();
+
+                if (pUser.getSrcSystemId() != null) {
+                    if (res.getResourceId().equalsIgnoreCase(pUser.getSrcSystemId())) {
+                        continue;
+                    }
+                }
 
                 log.debug("Sysid=" + managedSysId);
 
@@ -1734,11 +1740,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
         ProvisionServicePostProcessor modifyPostProcessScript = createProvPostProcessScript(postProcessor);
-        if (modifyPostProcessScript != null) {
+        if (modifyPostProcessScript != null && !pUser.isSkipPostProcessor()) {
             modifyPostProcessScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(modifyPostProcessScript, bindingMap, pUser, null, "MODIFY") != ProvisioningConstants.SUCCESS) {
                 resp.setStatus(ResponseStatus.FAILURE);
-                resp.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                resp.setErrorCode(ResponseCode.FAIL_POSTPROCESSOR);
                 return resp;
             }
         }
@@ -2475,7 +2481,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             passwordPostScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(passwordPostScript, bindingMap, null, passwordSync, "SET_PASSWORD") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
-                response.setErrorCode(ResponseCode.FAIL_PREPROCESSOR);
+                response.setErrorCode(ResponseCode.FAIL_POSTPROCESSOR);
                 return response;
             }
         }
