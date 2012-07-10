@@ -3,29 +3,23 @@
   <formats>
     <format>zip</format>
   </formats>
-  
+  <moduleSets>
+    <moduleSet>
+	  <useAllReactorProjects>true</useAllReactorProjects>
+	  <includes>
+		<include>org.openiam:openiam-selfservice</include>
+		<include>org.openiam:openiam-webconsole</include>
+		<include>org.openiam:openiam-idm-esb</include>
+	  </includes>
+      <binaries>
+		<!--<outputDirectory>webapps/${artifact.name}</outputDirectory>-->
+		<outputFileNameMapping>webapps/${artifact.name}.war</outputFileNameMapping>
+		<includeDependencies>false</includeDependencies>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
   <fileSets>
-      <fileSet>
-          <directory>../../idm/openiam-selfservice/target/</directory>
-          <outputDirectory>webapps</outputDirectory>
-          <includes>
-          	<include>selfservice.war</include>
-          </includes>
-    </fileSet>
-	<fileSet>
-          <directory>../../idm/openiam-webconsole/target/</directory>
-          <outputDirectory>webapps</outputDirectory>
-          <includes>
-          	<include>webconsole.war</include>
-          </includes>
-    </fileSet>
-      <fileSet>
-          <directory>../../idm/openiam-idm-esb/target/</directory>
-          <outputDirectory>webapps</outputDirectory>
-          <includes>
-          	<include>openiam-idm-esb.war</include>
-          </includes>
-    </fileSet>
     <fileSet>
         	<directory>../configurations/iamconf</directory>
         	<outputDirectory>iamconf</outputDirectory>
