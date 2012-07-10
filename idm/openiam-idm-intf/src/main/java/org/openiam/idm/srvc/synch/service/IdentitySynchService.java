@@ -2,10 +2,13 @@ package org.openiam.idm.srvc.synch.service;
 
 import org.mule.api.MuleContext;
 import org.openiam.base.ws.Response;
+import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import java.util.*;
 
 /**
@@ -44,7 +47,14 @@ public interface IdentitySynchService {
      * @param config
      * @return
      */
-    public Response bulkUserMigration(BulkMigrationConfig config);
+    Response bulkUserMigration(BulkMigrationConfig config);
+
+    /**
+     * When resources associated with a role have been modified, the role membership needs to be resynchronized
+     * @param roleId
+     * @return
+     */
+    Response resynchRole(RoleId roleId);
 
 
     public void setMuleContext(MuleContext ctx);

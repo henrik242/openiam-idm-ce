@@ -63,7 +63,7 @@ public abstract class AppTableAbstractCommand {
         log.debug("- datatype = " + dataType);
         log.debug("- search value " + value);
 
-        if (dataType.equalsIgnoreCase("Date")) {
+        if ("Date".equalsIgnoreCase(dataType)) {
 
             String DATE_FORMAT = "MM/dd/yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -72,19 +72,18 @@ public abstract class AppTableAbstractCommand {
             // get the date into a java.sql.Date
             statement.setDate(column, new Date(d.getTime()));
         }
-        if (dataType.equalsIgnoreCase("Integer")) {
+        if ("Integer".equalsIgnoreCase(dataType)) {
             statement.setInt(column, Integer.valueOf(value));
         }
-        if (dataType.equalsIgnoreCase("Float")) {
+        if ("Float".equalsIgnoreCase(dataType)) {
             statement.setFloat(column, Float.valueOf(value));
         }
-        if (dataType.equalsIgnoreCase("String")) {
+        if ("String".equalsIgnoreCase(dataType)) {
 
-            log.debug(" - Set string search parameter ");
 
             statement.setString(column, value);
         }
-        if (dataType.equalsIgnoreCase("Timestamp")) {
+        if ("Timestamp".equalsIgnoreCase(dataType)) {
             statement.setTimestamp(column, Timestamp.valueOf(value));
         }
 
@@ -208,10 +207,10 @@ public abstract class AppTableAbstractCommand {
         }
 
         qryObj.columnList.append(" FROM ");
-        qryObj.columnList.append( tableName );
-        qryObj.columnList.append(" WHERE  " );
-        qryObj.columnList.append( qryObj.principalFieldName );
-        qryObj.columnList.append( " = ?");
+        qryObj.columnList.append(tableName);
+        qryObj.columnList.append(" WHERE  ");
+        qryObj.columnList.append(qryObj.principalFieldName);
+        qryObj.columnList.append(" = ?");
 
         String sql = qryObj.columnList.toString();
 
@@ -272,6 +271,12 @@ public abstract class AppTableAbstractCommand {
         }
 
         for (org.openiam.idm.srvc.mngsys.dto.AttributeMap atr : attrMap) {
+
+            if (atr.getDataType() == null) {
+
+                atr.setDataType("String");
+
+            }
 
             if (atr.getMapForObjectType().equalsIgnoreCase("PASSWORD")) {
                 colName = atr.getAttributeName();

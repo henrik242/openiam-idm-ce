@@ -4,13 +4,12 @@ import org.openiam.provision.dto.PasswordSync;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.PreProcessor;
 import org.openiam.provision.service.ProvisioningConstants;
-import org.openiam.provision.service.AbstractPreProcessor;
+import org.openiam.provision.service.AbstractPostProcessor;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.base.AttributeOperationEnum;
 import org.springframework.context.ApplicationContext;
-
 import org.openiam.idm.srvc.user.dto.UserStatusEnum
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.role.dto.Role;
@@ -19,19 +18,20 @@ import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.msg.dto.NotificationParam;
+import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 
 
-
-
-public class ProvisionServicePreProcessor extends AbstractPreProcessor {
+public class ProvisionServicePostProcessor extends AbstractPostProcessor {
 
 
 	public int addUser(ProvisionUser user, Map<String, Object> bindingMap) {
 		// context to look up spring beans
 		ApplicationContext context = (ApplicationContext)bindingMap.get("context");
 		
-		println("ProvisionServicePreProcessor: AddUser called.");
-		println("ProvisionServicePreProcessor: User=" + user.toString());
+		println("ProvisionServicePostProcessor: AddUser called.");
+		println("ProvisionServicePostProcessor: User=" + user.toString());
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -40,19 +40,19 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 				println("- Key=" + key + "  value=" + value.toString() );
 		}
 
+		
 
-	
-	
-	
 		return ProvisioningConstants.SUCCESS;
 	}
 	
     public int modifyUser(ProvisionUser user, Map<String, Object> bindingMap){
+    
     	// context to look up spring beans
 		ApplicationContext context = (ApplicationContext)bindingMap.get("context");
-		
-    	println("ProvisionServicePreProcessor: ModifyUser called.");
-		println("ProvisionServicePreProcessor: User=" + user.toString());
+    	
+    	
+    	println("ProvisionServicePostProcessor: ModifyUser called.");
+		println("ProvisionServicePostProcessor: User=" + user.toString());
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -60,7 +60,8 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
     			Object value = entry.getValue();
 				println("- Key=" + key + "  value=" + value.toString() );
 		}
-		
+	
+
     
     
     	return ProvisioningConstants.SUCCESS;
@@ -73,9 +74,9 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
     
     	// context to look up spring beans
 		ApplicationContext context = (ApplicationContext)bindingMap.get("context");
-		
-        println("ProvisionServicePreProcessor: DeleteUser called.");
-		println("ProvisionServicePreProcessor: User=" + user.toString());
+    
+        println("ProvisionServicePostProcessor: DeleteUser called.");
+		println("ProvisionServicePostProcessor: User=" + user.toString());
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -90,7 +91,7 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 	
     public int setPassword( PasswordSync passwordSync, Map<String, Object> bindingMap){
     
-     	println("ProvisionServicePreProcessor: SetPassword called.");
+     	println("ProvisionServicePostProcessor: SetPassword called.");
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {

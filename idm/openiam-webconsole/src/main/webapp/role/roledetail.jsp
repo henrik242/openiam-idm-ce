@@ -172,6 +172,8 @@
           <tr class="buttonRow" align="right">
               <td c align="right">
               <c:if test="${roleDetailCmd.role.id != null}" >
+                <input type="submit" name="btn" value="Re-Synchronize" onclick="return confirm('Are you sure you want to Re-Synchronize this Role');">
+
               	<input type="submit" name="btn" value="Delete" onclick="return confirm('Are you sure you want to delete this Role');">
               </c:if>
               <input type="submit" name="btn" value="Save"> <input type="submit" name="_cancel" value="Cancel" /></td>

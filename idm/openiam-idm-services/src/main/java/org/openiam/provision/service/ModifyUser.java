@@ -178,7 +178,7 @@ public class ModifyUser {
 	
 		String requestId = UUIDGen.getUUID();
 
-        log.debug("ModifyUser: updateUser called." + requestId);
+        log.debug("ModifyUser: updateUser called." );
 
 
 		
@@ -355,15 +355,25 @@ public class ModifyUser {
 		return null;
 	}
 	public Login getPrimaryIdentity(String managedSysId) {
-		if (	principalList == null || 
+
+        log.debug("Getting identity for ManagedSysId");
+
+        if (	principalList == null ||
 				principalList.size() == 0) {
 			return null;
 		}
+
+        log.debug(" - principals ->" + principalList);
+
 		for (Login l  : principalList) {
 			if (l.getId().getManagedSysId().equalsIgnoreCase(managedSysId)) {
+
+                log.debug("getPrimaryIdentity() return ->" + l);
+
 				return l;
 			}
 		}
+        log.debug("getPrimaryIdentity() not found. returning null" );
 		return null;
  	}
 	
@@ -409,7 +419,7 @@ public class ModifyUser {
                     // check if this address is in the current list
                     // if it is - see if it has changed
                     // if it is not - add it.
-                    log.debug("evaluate phone");
+
                     Phone origPhone =  getPhone(ph.getPhoneId(), origPhoneSet);
                     if (origPhone == null) {
                         ph.setOperation(AttributeOperationEnum.ADD);
@@ -648,7 +658,7 @@ public class ModifyUser {
 
 		// if in new login, but not in old, then add it with operation 1
 		// else add with operation 2
-        log.debug("New PrincipalLis is not null and OriginalList is not null - Compare the list of identities.");
+        log.debug("New Principal List is not null and OriginalList is not null - Compare the list of identities.");
 
 		for (Login l : newLoginList) {
 

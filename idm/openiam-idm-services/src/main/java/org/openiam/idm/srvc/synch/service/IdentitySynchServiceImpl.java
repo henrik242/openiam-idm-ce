@@ -308,6 +308,19 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 
     }
 
+    private UserSearch buildSearchByRole(RoleId roleId) {
+        UserSearch search = new UserSearch();
+
+
+        List<String> roleList = new ArrayList<String>();
+        roleList.add(roleId.getRoleId() );
+        search.setRoleIdList(roleList);
+        search.setDomainId(roleId.getServiceId());
+
+        return search;
+    }
+
+
     private Role parseRole(String roleStr) {
         String domainId = null;
         String roleId = null;
@@ -327,6 +340,57 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
     }
 
 
+    @Override
+    public Response resynchRole(RoleId roleId) {
+
+        Response resp = new Response(ResponseStatus.SUCCESS);
+
+        log.debug("Resynch Role: " + roleId );
+
+        // select the user that we need to move
+        UserSearch search = buildSearchByRole(roleId);
+        if (search.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        List<User> searchResult =  userMgr.search(search);
+
+
+        if (searchResult == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        // create role object to show role membership
+        Role rl = new Role();
+        rl.setId(roleId);
+
+        // all the provisioning service
+        for ( User user :  searchResult) {
+
+            log.debug("Updating the user since this role's configuration has changed.: " + user.getUserId() + " " + user.getLastName());
+
+            ProvisionUser pUser = new ProvisionUser(user);
+
+            if (pUser.getMemberOfRoles() == null ) {
+                List<Role> rList = new ArrayList<Role>();
+                rList.add(rl);
+                pUser.setMemberOfRoles(rList);
+
+            }  else {
+
+                pUser.getMemberOfRoles().add(rl);
+
+            }
+
+            provisionService.modifyUser(pUser);
+
+        }
+
+
+        return resp;
+    }
 
     public void setMuleContext(MuleContext ctx) {
 

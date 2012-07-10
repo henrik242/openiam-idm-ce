@@ -5,7 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
+import org.openiam.idm.srvc.msg.dto.NotificationParam;
 import org.openiam.idm.srvc.msg.dto.NotificationRequest;
+import org.openiam.provision.dto.PasswordSync;
 import org.openiam.provision.dto.ProvisionUser;
 
 import java.util.HashMap;
@@ -23,8 +25,7 @@ import java.util.ResourceBundle;
  * Time: 10:00 PM
  * @version 2.2
  */
-public abstract class AbstractPreProcessor implements ProvisionServicePreProcessor {
-
+public abstract class AbstractPostProcessor implements ProvisionServicePostProcessor {
     protected MuleContext muleContext;
 
     private static final Log log = LogFactory.getLog(AbstractPostProcessor.class);
@@ -53,4 +54,14 @@ public abstract class AbstractPreProcessor implements ProvisionServicePreProcess
             log.error(me.toString());
         }
     }
+
+    public abstract int addUser(ProvisionUser user, Map<String, Object> bindingMap);
+
+
+    public abstract int modifyUser(ProvisionUser user, Map<String, Object> bindingMap);
+
+
+    public abstract int deleteUser(ProvisionUser user, Map<String, Object> bindingMap);
+
+    public abstract int setPassword(PasswordSync passwordSync, Map<String, Object> bindingMap);
 }

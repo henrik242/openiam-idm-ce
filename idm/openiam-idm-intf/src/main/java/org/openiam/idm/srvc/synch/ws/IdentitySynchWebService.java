@@ -8,6 +8,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.openiam.base.ws.Response;
+import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
@@ -47,6 +48,16 @@ public interface IdentitySynchWebService {
     Response bulkUserMigration(
             @WebParam(name = "config", targetNamespace = "")
             BulkMigrationConfig config);
+
+    /**
+     * When resources associated with a role have been modified, the role membership needs to be resynchronized
+     * @param roleId
+     * @return
+     */
+    @WebMethod
+    Response resynchRole(
+            @WebParam(name = "roleId", targetNamespace = "")
+            RoleId roleId);
 
 	@WebMethod
 	SynchConfigResponse updateConfig(

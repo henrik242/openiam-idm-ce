@@ -7,7 +7,7 @@ import org.openiam.provision.dto.ProvisionUser;
 import java.util.Map;
 
 /**
- * Interface which all pre-processor scripts used in the provisioning process should implement
+ * Interface which all post-processor scripts used in the provisioning process should implement
  *
  * Add User:
  * The following objects are passed to addUser: ProvisionUser and BindingMap. The binding map contains the following keys:
@@ -31,7 +31,7 @@ import java.util.Map;
 
  *
  */
-public interface ProvisionServicePreProcessor {
+public interface ProvisionServicePostProcessor {
 
     /**
      * Provides pre-processing capabilities for each resource that a user is being provisioned into
@@ -43,7 +43,7 @@ public interface ProvisionServicePreProcessor {
     int addUser(ProvisionUser user, Map<String, Object> bindingMap);
     int modifyUser(ProvisionUser user, Map<String, Object> bindingMap);
     int deleteUser(ProvisionUser user, Map<String, Object> bindingMap);
-    int setPassword(PasswordSync passwordSync,Map<String, Object> bindingMap);
+    int setPassword(PasswordSync passwordSync, Map<String, Object> bindingMap);
     void setMuleContext(MuleContext ctx);
 
 }
