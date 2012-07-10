@@ -1,0 +1,32 @@
+<assembly>
+  <id>openiam-distribution-tomcat-6.0</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <moduleSets>
+    <moduleSet>
+	  <useAllReactorProjects>true</useAllReactorProjects>
+	  <includes>
+		<include>org.openiam:openiam-selfservice</include>
+		<include>org.openiam:openiam-webconsole</include>
+		<include>org.openiam:openiam-idm-esb</include>
+	  </includes>
+      <binaries>
+		<outputDirectory>${artifact.name}.war</outputDirectory>
+		<!--<outputFileNameMapping>webapps/${artifact.name}.war</outputFileNameMapping>-->
+		<includeDependencies>false</includeDependencies>
+        <unpack>true</unpack>
+		<unpackOptions>
+			<excludes>
+                <exclude>WEB-INF/lib/xercesImpl*</exclude>
+				<exclude>WEB-INF/lib/xml-apis*</exclude>
+				<exclude>WEB-INF/lib/stax-api*</exclude>
+				<exclude>WEB-INF/lib/servlet-api*</exclude>
+				<exclude>WEB-INF/lib/xpp3*</exclude>
+        </excludes>
+		</unpackOptions>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+  
+</assembly>
