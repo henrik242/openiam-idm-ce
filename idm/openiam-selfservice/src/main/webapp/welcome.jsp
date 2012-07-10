@@ -33,22 +33,22 @@
 							       			<dd>${role.roleName}</dd>
 						       		</c:forEach>
        						</c:if>
-       					<c:if test="${user.title} != null}" >	
+       					<c:if test="${user.title != null}" >
 									<dt>Title:</dt>
 										<dd>${user.title}</dd>
 							  </c:if>
 								
-								<c:if test="${supervisor} != null}" >	
+								<c:if test="${supervisor != null}" >
 									<dt>Supervisor:</dt>
 										<dd>${supervisor}</dd>
 								 </c:if>
 								
-								<c:if test="${dept} != null}" >	
+								<c:if test="${dept != null}" >
 								<dt>Department:</dt>
 									<dd>${dept}</dd>
 								 </c:if>
 								
-								<c:if test="${user.email} != null}" >									
+								<c:if test="${user.email != null}" >
 								<dt>E-mail:</dt>
 									<dd>${user.email}</dd>
 								
