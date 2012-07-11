@@ -31,7 +31,9 @@ import java.util.Set;
         "resourceProps",
         "childResources",
         "resourceGroups",
-        "privileges"
+        "privileges",
+        "resOwnerUserId",
+        "resOwnerGroupId"
 })
 public class Resource extends BaseObject {
 
@@ -47,18 +49,20 @@ public class Resource extends BaseObject {
     private Integer sensitiveApp;
     private String managedSysId;
     private String URL;
+
+    private String resOwnerUserId;
+    private String resOwnerGroupId;
+
+
     private Set<ResourceRole> resourceRoles = new HashSet<ResourceRole>(0);
-    //private Set<ResourceUser> resourceUsers = new HashSet<ResourceUser>(0); // may lead to performance issues?
-    //private Set<ResourcePolicy> resourcePolicies = new HashSet<ResourcePolicy>(0);
+
     private Set<ResourceProp> resourceProps = new HashSet<ResourceProp>(0); // defined as a Set in Hibernate map
     private Set<Resource> childResources = new HashSet<Resource>(0);
 
 
-    //protected Boolean selected = new Boolean(false);
     private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>(0);
 
     private Set<PrivilegeDef> privileges = new HashSet<PrivilegeDef>(0);
-    //private Set<UserPrivilege> userPrivileges = new HashSet<UserPrivilege>(0);
 
 
     public Resource() {
@@ -225,15 +229,29 @@ public class Resource extends BaseObject {
 
     }
 
+    @Override
     public String toString() {
-        String str = "resourceId=" + resourceId +
-                " resourceType=" + resourceType +
-                " name=" + name +
-                " description=" + description +
-                " resourceParent=" + resourceParent +
-                " resourceProps=" + resourceProps;
-
-        return str;
+        return "Resource{" +
+                "resourceId='" + resourceId + '\'' +
+                ", resourceType=" + resourceType +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", resourceParent='" + resourceParent + '\'' +
+                ", branchId='" + branchId + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", displayOrder=" + displayOrder +
+                ", nodeLevel=" + nodeLevel +
+                ", sensitiveApp=" + sensitiveApp +
+                ", managedSysId='" + managedSysId + '\'' +
+                ", URL='" + URL + '\'' +
+                ", resOwnerUserId='" + resOwnerUserId + '\'' +
+                ", resOwnerGroupId='" + resOwnerGroupId + '\'' +
+                ", resourceRoles=" + resourceRoles +
+                ", resourceProps=" + resourceProps +
+                ", childResources=" + childResources +
+                ", resourceGroups=" + resourceGroups +
+                ", privileges=" + privileges +
+                '}';
     }
 
     public String getManagedSysId() {
@@ -283,5 +301,19 @@ public class Resource extends BaseObject {
         this.privileges = privileges;
     }
 
+    public String getResOwnerUserId() {
+        return resOwnerUserId;
+    }
 
+    public void setResOwnerUserId(String resOwnerUserId) {
+        this.resOwnerUserId = resOwnerUserId;
+    }
+
+    public String getResOwnerGroupId() {
+        return resOwnerGroupId;
+    }
+
+    public void setResOwnerGroupId(String resOwnerGroupId) {
+        this.resOwnerGroupId = resOwnerGroupId;
+    }
 }

@@ -24,12 +24,14 @@ package org.openiam.webadmin.res;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
+import org.openiam.idm.srvc.grp.dto.Group;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
 
 /**
  * Command object for ManagedSystemConnection
@@ -45,9 +47,11 @@ public class ResourceDetailCommand implements Serializable {
     Resource resource;
     Set<ResourceProp> resourceProp;
     ManagedSys[] managedSysAry;
+    List<Group> groupList;
     String resApproverId;
     String resApproverName;
     String resourceType;
+    String resOwnerName;
 
     public ResourceDetailCommand() {
 
@@ -102,5 +106,19 @@ public class ResourceDetailCommand implements Serializable {
         this.resourceType = resourceType;
     }
 
+    public List<Group> getGroupList() {
+        return groupList;
+    }
 
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    public String getResOwnerName() {
+        return resOwnerName;
+    }
+
+    public void setResOwnerName(String resOwnerName) {
+        this.resOwnerName = resOwnerName;
+    }
 }

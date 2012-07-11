@@ -11,14 +11,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.openiam.idm.srvc.msg.dto.SysMessage;
-import org.openiam.idm.srvc.msg.service.SysMessageDAO;
-
+import org.openiam.idm.srvc.msg.dto.NotificationConfig;
 
 
 /**
  * Home object for domain model class SysMessageDelivery.
- * @see org.openiam.idm.srvc.msg.dto.SysMessage
+ * @see org.openiam.idm.srvc.msg.dto.NotificationConfig
  * @author Hibernate Tools
  */
 public class SysMessageDAOImpl implements SysMessageDAO {
@@ -43,7 +41,7 @@ public class SysMessageDAOImpl implements SysMessageDAO {
 		}
 	}
 
-	public SysMessage add(SysMessage transientInstance) {
+	public NotificationConfig add(NotificationConfig transientInstance) {
 		log.debug("persisting SysMessageDelivery instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -56,7 +54,7 @@ public class SysMessageDAOImpl implements SysMessageDAO {
 	}
 
 
-	public void remove(SysMessage persistentInstance) {
+	public void remove(NotificationConfig persistentInstance) {
 		log.debug("deleting SysMessageDelivery instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -67,10 +65,10 @@ public class SysMessageDAOImpl implements SysMessageDAO {
 		}
 	}
 
-	public SysMessage update(SysMessage detachedInstance) {
+	public NotificationConfig update(NotificationConfig detachedInstance) {
 		log.debug("merging SysMessageDelivery instance");
 		try {
-			SysMessage result = (SysMessage) sessionFactory
+			NotificationConfig result = (NotificationConfig) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -80,10 +78,10 @@ public class SysMessageDAOImpl implements SysMessageDAO {
 		}
 	}
 
-	public SysMessage findById(java.lang.String id) {
+	public NotificationConfig findById(java.lang.String id) {
 		log.debug("getting SysMessageDelivery instance with id: " + id);
 		try {
-			SysMessage instance = (SysMessage) sessionFactory
+			NotificationConfig instance = (NotificationConfig) sessionFactory
 					.getCurrentSession()
 					.get(
 							"org.openiam.idm.srvc.msg.dto.SysMessage",
@@ -103,12 +101,12 @@ public class SysMessageDAOImpl implements SysMessageDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.msg.service.SysMessageDAO#findAll()
 	 */
-	public List<SysMessage> findAll() {
+	public List<NotificationConfig> findAll() {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query qry = session.createQuery("from org.openiam.idm.srvc.msg.dto.SysMessage msg " +
+			Query qry = session.createQuery("from org.openiam.idm.srvc.msg.dto.NotificationConfig msg " +
 					" order by msg.name asc");
-			List<SysMessage> results = (List<SysMessage>)qry.list();
+			List<NotificationConfig> results = (List<NotificationConfig>)qry.list();
 			return results;
 		} catch (HibernateException re) {
 			log.error("get failed", re);

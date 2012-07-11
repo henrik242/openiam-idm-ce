@@ -469,6 +469,8 @@
          <property name="cancelView" value="resourcelist.cnt" />
          <property name="errorView" value="resourceDetail.cnt?" />
          <property name="auditHelper" ref="auditHelper" />
+         <property name="groupManager" ref="groupServiceClient" />
+         <property name="userMgr" ref="userServiceClient" />
      </bean>
      
      <bean id="resDetailValidator" class="org.openiam.webadmin.res.ResourceDetailValidator" />

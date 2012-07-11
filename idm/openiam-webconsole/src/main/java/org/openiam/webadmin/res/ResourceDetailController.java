@@ -21,6 +21,9 @@ package org.openiam.webadmin.res;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
+import org.openiam.idm.srvc.grp.ws.GroupListResponse;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.meta.dto.MetadataElement;
@@ -33,6 +36,7 @@ import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.idm.srvc.res.dto.ResourceRoleId;
 import org.openiam.idm.srvc.res.dto.ResourceType;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.webadmin.util.AuditHelper;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
@@ -41,6 +45,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
+import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.user.dto.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,6 +72,8 @@ public class ResourceDetailController  extends CancellableFormController {
     protected ManagedSystemDataService managedSysClient;
     protected AuditHelper auditHelper;
     private String errorView;
+    protected GroupDataWebService groupManager;
+    protected UserDataWebService userMgr;
 
 
     public ResourceDetailController() {
@@ -116,10 +124,20 @@ public class ResourceDetailController  extends CancellableFormController {
 
         String menuGrp = request.getParameter("menugrp");
 
+        ResourceDetailCommand cmd = new ResourceDetailCommand();
+
         if (resId != null && resId.length() > 0) {
             // existing
             res = resourceDataService.getResource(resId);
             res.setResourceProps(new TreeSet<ResourceProp>(res.getResourceProps()));
+
+            if (res.getResOwnerUserId() != null && res.getResOwnerUserId().length() > 0) {
+
+               User u =  userMgr.getUserWithDependent(res.getResOwnerUserId(),false).getUser();
+               cmd.setResOwnerName(u.getFirstName() + " " + u.getLastName());
+
+            }
+
         } else {
             // new
             res = new Resource();
@@ -141,12 +159,26 @@ public class ResourceDetailController  extends CancellableFormController {
         }
 
 
+
+        // get the list of groups for the drop down
+        GroupListResponse grpResponse =  groupManager.getAllGroups();
+        if (grpResponse.getStatus() == ResponseStatus.SUCCESS) {
+
+            List<Group> groupList =  grpResponse.getGroupList();
+            cmd.setGroupList(groupList);
+
+        }
+
+
+
+
+
         ManagedSys[] sysAry = managedSysClient.getAllManagedSys();
 
         List<Menu> level3MenuList = navigationDataService.menuGroupByUser(menuGrp, userId, "en").getMenuList();
         request.setAttribute("menuL3", level3MenuList);
 
-        ResourceDetailCommand cmd = new ResourceDetailCommand();
+
         cmd.setResource(res);
         if (res != null && res.getResourceProps() != null) {
             cmd.setResourceProp(res.getResourceProps());
@@ -330,5 +362,21 @@ public class ResourceDetailController  extends CancellableFormController {
 
     public void setErrorView(String errorView) {
         this.errorView = errorView;
+    }
+
+    public GroupDataWebService getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(GroupDataWebService groupManager) {
+        this.groupManager = groupManager;
+    }
+
+    public UserDataWebService getUserMgr() {
+        return userMgr;
+    }
+
+    public void setUserMgr(UserDataWebService userMgr) {
+        this.userMgr = userMgr;
     }
 }

@@ -691,7 +691,7 @@
 
                 <!-- End idm maps -->
 
-				<value>org/openiam/idm/srvc/msg/service/SysMessage.hbm.xml</value>
+				<value>org/openiam/idm/srvc/msg/service/NotificationConfig.hbm.xml</value>
 				<value>org/openiam/idm/srvc/orgpolicy/service/OrgPolicy.hbm.xml</value>
 				<value>org/openiam/idm/srvc/orgpolicy/service/OrgPolicyUserLog.hbm.xml</value>
 				<value>org/openiam/idm/srvc/batch/service/BatchConfig.hbm.xml</value>

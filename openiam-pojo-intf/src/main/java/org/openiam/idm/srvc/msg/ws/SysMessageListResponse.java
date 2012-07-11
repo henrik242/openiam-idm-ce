@@ -23,7 +23,7 @@ package org.openiam.idm.srvc.msg.ws;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.msg.dto.SysMessage;
+import org.openiam.idm.srvc.msg.dto.NotificationConfig;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -41,7 +41,7 @@ import java.util.List;
 })
 public class SysMessageListResponse extends Response {
 
-    List<SysMessage> sysMessageList;
+    List<NotificationConfig> sysMessageList;
     ;
 
     public SysMessageListResponse() {
@@ -53,11 +53,11 @@ public class SysMessageListResponse extends Response {
 
     }
 
-    public List<SysMessage> getSysMessageList() {
+    public List<NotificationConfig> getSysMessageList() {
         return sysMessageList;
     }
 
-    public void setSysMessageList(List<SysMessage> sysMessageList) {
+    public void setSysMessageList(List<NotificationConfig> sysMessageList) {
         this.sysMessageList = sysMessageList;
     }
 

@@ -84,5 +84,14 @@ public class ResourceType implements java.io.Serializable {
         this.processName = processName;
     }
 
-
+    @Override
+    public String toString() {
+        return "ResourceType{" +
+                "resourceTypeId='" + resourceTypeId + '\'' +
+                ", description='" + description + '\'' +
+                ", metadataTypeId='" + metadataTypeId + '\'' +
+                ", provisionResource=" + provisionResource +
+                ", processName='" + processName + '\'' +
+                '}';
+    }
 }

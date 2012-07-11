@@ -2,7 +2,7 @@ package org.openiam.idm.srvc.msg.service;
 
 // Generated Nov 27, 2009 11:18:13 PM by Hibernate Tools 3.2.2.GA
 
-import org.openiam.idm.srvc.msg.dto.SysMessage;
+import org.openiam.idm.srvc.msg.dto.NotificationConfig;
 
 import java.util.List;
 
@@ -11,18 +11,18 @@ import java.util.List;
  * delivered to the audience an application such as the selfservice app..
  *
  * @author Suneet shah
- * @see org.openiam.idm.srvc.msg.dto.SysMessage
+ * @see org.openiam.idm.srvc.msg.dto.NotificationConfig
  */
 public interface SysMessageService {
 
-    public SysMessage addMessage(SysMessage transientInstance);
+    public NotificationConfig addMessage(NotificationConfig transientInstance);
 
     public void removeMessage(String id);
 
-    public SysMessage updateMessage(SysMessage detachedInstance);
+    public NotificationConfig updateMessage(NotificationConfig detachedInstance);
 
-    public SysMessage getMessageById(java.lang.String id);
+    public NotificationConfig getMessageById(java.lang.String id);
 
 
-    public List<SysMessage> getAllMessages();
+    public List<NotificationConfig> getAllMessages();
 }

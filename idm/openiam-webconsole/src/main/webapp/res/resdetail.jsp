@@ -31,6 +31,30 @@ function showResourceDialog(idfield, namefield) {
 }
 
 
+function showSupervisorDialog(idfield, namefield) {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0) {
+        dialogReturnValue = window.showModalDialog("user/dialogshell.jsp", null, "dialogWidth:670px;dialogHeight:600px;");
+
+        document.getElementById(idfield).value = dialogReturnValue.id;
+        document.getElementById(namefield).value = dialogReturnValue.name;
+    } else {
+        var prevReturnValue = window.returnValue;
+        window.returnValue = undefined;
+        dialogReturnValue = window.showModalDialog("user/selsupervisor.jsp", null, "dialogWidth:670px;dialogHeight:600px;");
+        if(dialogReturnValue == undefined) {
+            dialogReturnValue = window.returnValue;
+        }
+        window.returnValue = prevReturnValue;
+
+        document.getElementById(idfield).value = dialogReturnValue.id;
+        document.getElementById(namefield).value = dialogReturnValue.name;
+    }
+}
+
+
 //-->
 </script>
 
@@ -87,7 +111,7 @@ function showResourceDialog(idfield, namefield) {
          <tr>
 			  <td><label for="username" class="attribute">Parent</label></td>
               <td  class="userformInput" for="username" class="labelValue" ><form:input path="resource.resourceParent" size="32" maxlength="32" />
-              <a href="javascript:showSupervisorDialog('supervisorId', 'supervisorName' );">Select Parent Resource</a>
+
               </td>
           </tr>
          <tr>
@@ -113,6 +137,27 @@ function showResourceDialog(idfield, namefield) {
               
               </td>
           </tr>
+
+            <tr>
+                <td><label for="username" class="attribute">Resource Owner (User)</label></td>
+                <td  class="userformInput" for="username" class="labelValue" >
+                    <form:hidden path="resource.resOwnerUserId"  />
+                    <form:input path="resOwnerName" size="35" readonly="true" /> <a href="javascript:showSupervisorDialog('resource.resOwnerUserId', 'resOwnerName' );">Select Owner</a>
+
+
+                </td>
+            </tr>
+            <tr>
+                <td><label for="username" class="attribute">Resource Owner (Group)</label></td>
+                <td  class="userformInput" for="username" class="labelValue" >
+
+                    <form:select path="resource.resOwnerGroupId" multiple="false">
+                        <form:option value="" label="-Please Select-"/>
+                        <form:options items="${resourceDetailCmd.groupList}" itemValue="grpId" itemLabel="grpName"/>
+                    </form:select>
+
+                </td>
+            </tr>
          <tr>
 			  <td><label for="username" class="attribute">Linked to Managed System</label></td>
               <td  class="userformInput" for="username" class="labelValue" >

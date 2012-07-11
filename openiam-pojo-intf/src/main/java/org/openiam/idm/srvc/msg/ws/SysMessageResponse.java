@@ -23,7 +23,7 @@ package org.openiam.idm.srvc.msg.ws;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.msg.dto.SysMessage;
+import org.openiam.idm.srvc.msg.dto.NotificationConfig;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class SysMessageResponse extends Response {
 
-    SysMessage sysMessage;
+    NotificationConfig sysMessage;
 
     public SysMessageResponse() {
         super();
@@ -51,11 +51,11 @@ public class SysMessageResponse extends Response {
 
     }
 
-    public SysMessage getSysMessage() {
+    public NotificationConfig getSysMessage() {
         return sysMessage;
     }
 
-    public void setSysMessage(SysMessage sysMessage) {
+    public void setSysMessage(NotificationConfig sysMessage) {
         this.sysMessage = sysMessage;
     }
 

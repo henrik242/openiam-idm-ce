@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM "classpath://hibernate-mapping-3.0.dtd" >
+<!-- Generated Nov 27, 2009 11:18:13 PM by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="org.openiam.idm.srvc.msg.dto.NotificationConfig" table="NOTIFICATION_CONFIG" >
+        <cache usage="read-write"/>
+        <id name="notificationConfigId" type="string">
+            <column name="NOTIFICATION_CONFIG_ID" length="32" />
+             <generator class="uuid" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="40" />
+        </property>
+
+        <property name="selectionParamXml" type="string">
+            <column name="SELECTION_PARAM_XML" length="40" />
+        </property>
+        <property name="msgTemplateUrl" type="string">
+            <column name="MSG_TEMPLATE_URL" length="20" />
+        </property>
+        <property name="msgBcc" type="date">
+            <column name="MSG_BCC" length="10" />
+        </property>
+
+        <property name="msgSubject" type="string">
+            <column name="MSG_SUBJECT" length="100" />
+        </property>
+
+        <property name="msgFrom" type="string">
+            <column name="MSG_FROM" length="80" />
+        </property>
+    </class>
+</hibernate-mapping>
+
+

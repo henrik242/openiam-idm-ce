@@ -17,7 +17,7 @@ import org.openiam.idm.srvc.orgpolicy.dto.OrgPolicy;
 
 /**
  * Home object for domain model class SysMessageDelivery.
- * @see org.openiam.idm.srvc.msg.dto.SysMessage
+ * @see org.openiam.idm.srvc.msg.dto.NotificationConfig
  * @author Hibernate Tools
  */
 public class OrgPolicyDAOImpl implements OrgPolicyDAO {

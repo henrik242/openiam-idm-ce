@@ -14,7 +14,7 @@ import javax.jws.WebService;
  * delivered to the audience an application such as the selfservice app..
  *
  * @author Suneet shah
- * @see org.openiam.idm.srvc.msg.dto.SysMessage
+ * @see org.openiam.idm.srvc.msg.dto.NotificationConfig
  */
 @WebService(targetNamespace = "urn:idm.openiam.org/srvc/orgpolicy/service", name = "OrgPolicyAcceptanceWebService")
 public interface OrgPolicyWebService {

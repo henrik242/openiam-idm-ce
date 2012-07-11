@@ -23,7 +23,7 @@ package org.openiam.idm.srvc.msg.service;
 
 import java.util.List;
 
-import org.openiam.idm.srvc.msg.dto.SysMessage;
+import org.openiam.idm.srvc.msg.dto.NotificationConfig;
 
 /**
  * @author suneet
@@ -36,9 +36,9 @@ public class SysMessageServiceImpl implements SysMessageService {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#addMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
-	public SysMessage addMessage(SysMessage msg) {
+	public NotificationConfig addMessage(NotificationConfig msg) {
 		if (msg == null) {
-			throw new NullPointerException("policy is null");
+			throw new NullPointerException("Config object is null");
 		}
 		
 		return msgDao.add(msg);
@@ -49,7 +49,7 @@ public class SysMessageServiceImpl implements SysMessageService {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#getMessageById(java.lang.String)
 	 */
-	public SysMessage getMessageById(String id) {
+	public NotificationConfig getMessageById(String id) {
 		if (id == null) {
 			throw new NullPointerException("id is null");
 		}
@@ -64,15 +64,15 @@ public class SysMessageServiceImpl implements SysMessageService {
 		if (id == null) {
 			throw new NullPointerException("id is null");
 		}
-		SysMessage msg = new SysMessage();
-		msg.setMsgId(id);	
+		NotificationConfig msg = new NotificationConfig();
+		msg.setNotificationConfigId(id);
 		msgDao.remove(msg);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#updateMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
-	public SysMessage updateMessage(SysMessage msg) {
+	public NotificationConfig updateMessage(NotificationConfig msg) {
 		if (msg == null) {
 			throw new NullPointerException("policy is null");
 		}
@@ -84,7 +84,7 @@ public class SysMessageServiceImpl implements SysMessageService {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.msg.service.SysMessageService#getAllMessages()
 	 */
-	public List<SysMessage> getAllMessages() {
+	public List<NotificationConfig> getAllMessages() {
 		return msgDao.findAll();
 	}
 

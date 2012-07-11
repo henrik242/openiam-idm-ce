@@ -46,7 +46,16 @@
          <property name="URL" type="string">
             <column name="URL" length="255" />
         </property>
-                
+
+
+        <property name="resOwnerUserId" type="string">
+            <column name="RES_OWNER_USER_ID" />
+        </property>
+        <property name="resOwnerGroupId" type="string">
+            <column name="RES_OWNER_GROUP_ID" />
+        </property>
+
+
         
         <set name="resourceRoles" inverse="false" cascade="all" lazy="false" >
             <key>

@@ -69,4 +69,14 @@ public class ResourceRole implements java.io.Serializable {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return "ResourceRole{" +
+                "id=" + id +
+                ", permit=" + permit +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }

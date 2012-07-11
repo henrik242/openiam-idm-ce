@@ -58,6 +58,7 @@ create public synonym ORG_POLICY_USER_LOG for IAMUSER.ORG_POLICY_USER_LOG;
 create public synonym IAM_SYS_MESSAGES for IAMUSER.IAM_SYS_MESSAGES;
 
 create public synonym USER_AFFILIATION for IAMUSER.USER_AFFILIATION;
-
+create public synonym NOTIFICATION_CONFIG for IAMUSER.NOTIFICATION_CONFIG;
 
 commit;
+

@@ -85,16 +85,15 @@ public class ResourceProp implements java.io.Serializable, Comparable<ResourcePr
         this.name = name;
     }
 
-
+    @Override
     public String toString() {
-        String str = "resourcePropId=" + resourcePropId +
-                " resourceId=" + resourceId +
-                " metadataId=" + metadataId +
-                " name=" + name +
-                " value=" + propValue;
-
-        return str;
-
+        return "ResourceProp{" +
+                "resourcePropId='" + resourcePropId + '\'' +
+                ", resourceId='" + resourceId + '\'' +
+                ", metadataId='" + metadataId + '\'' +
+                ", propValue='" + propValue + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     public int compareTo(ResourceProp o) {

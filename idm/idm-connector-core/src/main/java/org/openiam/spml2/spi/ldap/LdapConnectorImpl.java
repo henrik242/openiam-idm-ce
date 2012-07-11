@@ -399,31 +399,6 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
 
     }
 
-    private List<String> getRole(List<ExtensibleObject> requestAttribute) {
-        for (ExtensibleObject obj : requestAttribute) {
-            List<ExtensibleAttribute> attrList = obj.getAttributes();
-            for (ExtensibleAttribute att : attrList) {
-                if (att.getName().equalsIgnoreCase("userRole")) {
-                    return att.getValueList();
-                }
-            }
-        }
-        return null;
-
-    }
-
-    private String getOrg(List<ExtensibleObject> requestAttribute) {
-        for (ExtensibleObject obj : requestAttribute) {
-            List<ExtensibleAttribute> attrList = obj.getAttributes();
-            for (ExtensibleAttribute att : attrList) {
-                if (att.getName().equalsIgnoreCase("userOrg")) {
-                    return att.getValue();
-                }
-            }
-        }
-        return null;
-
-    }
 
 
     /* (non-Javadoc)
