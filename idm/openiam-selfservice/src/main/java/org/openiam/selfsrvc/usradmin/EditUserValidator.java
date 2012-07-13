@@ -34,9 +34,6 @@ public class EditUserValidator implements Validator {
 		if (user.getLastName() == null || user.getLastName().length() == 0) {
 			err.rejectValue("user.lastName", "required");
 		}
-		if (user.getSex() == null || user.getSex().equalsIgnoreCase("-") ) {
-			err.rejectValue("user.sex", "required");
-		}
 
         // check if the required attributes have been filled in
         List<UserAttribute> attrList =  editUserCommand.getAttributeList();
