@@ -142,7 +142,7 @@ CREATE TABLE RESOURCE_POLICY (
        RESOURCE_POLICY_ID   varchar(32) NOT NULL,
 	   SERVICE_ID           varchar(20) NOT NULL,
        ROLE_ID              varchar(32) NULL,
-       RESOURCE_ID          varchar(20) NULL,
+       RESOURCE_ID          varchar(32) NULL,
        POLICY_START         datetime NULL,
        POLICY_END           datetime NULL,
        APPLY_TO_CHILDREN    int NULL,

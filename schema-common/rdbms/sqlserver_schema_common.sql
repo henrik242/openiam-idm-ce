@@ -1,3 +1,5 @@
+USE openiam;
+
 CREATE TABLE SECURITY_DOMAIN (
        DOMAIN_ID            nvarchar(20) NOT NULL,
        NAME         		nvarchar(40) NULL,
