@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.id.UUIDGen;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
@@ -107,6 +108,9 @@ public class NightlyTask implements ApplicationContextAware {
 		if (taskList != null) {
 			for (BatchTask task : taskList) {
 				log.debug("Executing task:" + task.getTaskName());
+
+                String requestId = UUIDGen.getUUID();
+
 				try {
 					if (task.getEnabled() != 0) {
                         // This needs to be synchronized, because the check for the taskId and the insertion need to
@@ -125,7 +129,10 @@ public class NightlyTask implements ApplicationContextAware {
 							task.setLastExecTime(new Date(System.currentTimeMillis()));
 						}
 				
-						bindingMap.put("lastExecTime", task.getLastExecTime());
+
+                        bindingMap.put("taskObj", task);
+                        bindingMap.put("lastExecTime", task.getLastExecTime());
+                        bindingMap.put("parentRequestId", requestId);
 						
 						Integer output = (Integer)se.execute(bindingMap, task.getTaskUrl());
 						if (output.intValue() == 0 ) {
