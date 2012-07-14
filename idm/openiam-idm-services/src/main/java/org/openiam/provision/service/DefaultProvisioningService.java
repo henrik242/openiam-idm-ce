@@ -1273,7 +1273,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         bindingMap.put("org", org);
         bindingMap.put("context", ac);
         bindingMap.put("operation", "MODIFY");
-        bindingMap.put("userBeforeModify", origUser);
+        // clone the user object so that we have it for comparison in the scripts
+        bindingMap.put("userBeforeModify", new ProvisionUser(origUser));
 
         ProvisionServicePreProcessor modifyPreProcessScript = createProvPreProcessScript(preProcessor);
         if (modifyPreProcessScript != null && !pUser.isSkipPreprocessor()) {
