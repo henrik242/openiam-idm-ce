@@ -48,8 +48,8 @@
 <div id="menu12">
  <ul>
     <!-- CSS Tabs -->
-	<li><a href="metadataType.cnt?typeId=<%=typeId%>&menuGroup=METADATA">Type</a></li>
-	<li><a href="metadataAttribute.cnt?typeId=<%=typeId%>&menuGroup=METADATA">Attributes</a></li>
+	<li><a href="<%=request.getContextPath() %>/metadataType.cnt?typeId=<%=typeId%>&menuGroup=METADATA">Type</a></li>
+	<li><a href="<%=request.getContextPath() %>/metadataAttribute.cnt?typeId=<%=typeId%>&menuGroup=METADATA">Attributes</a></li>
 
  </ul>
 </div>
@@ -62,9 +62,9 @@
  <% for (Menu menu : menuList) { 
 	 	String url = null;
 	 	if ( menu.getUrl().contains("?") ) {
- 			url = menu.getUrl() + "&" + queryString + "&menuid=" + menu.getId().getMenuId();
+ 			url = request.getContextPath() + "/" + menu.getUrl() + "&" + queryString + "&menuid=" + menu.getId().getMenuId();
  		}else {
- 			url = menu.getUrl() + "?" + queryString + "&menuid=" + menu.getId().getMenuId();
+ 			url = request.getContextPath() + "/" + menu.getUrl() + "?" + queryString + "&menuid=" + menu.getId().getMenuId();
 	 	}
 	 	if (personId != null) {
 	 		url = url + "&personId=" + personId;
@@ -87,9 +87,9 @@
  <% for (Menu menu : menuL3) { 
 	 	String url = null;
 	 	if ( menu.getUrl().contains("?") ) {
- 			url = menu.getUrl() + "&" +  "menuid=" + menu.getId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId;
+ 			url = request.getContextPath() + "/" + menu.getUrl() + "&" +  "menuid=" + menu.getId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId;
  		}else {
- 			url = menu.getUrl() + "?" +  "menuid=" + menu.getId().getMenuId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId;
+ 			url = request.getContextPath() + "/" + menu.getUrl() + "?" +  "menuid=" + menu.getId().getMenuId() + "&menugrp=" + menu.getMenuGroup() + "&objId=" + objId;
 	 	}
 	 	if (personId != null) {
 	 		url = url + "&personId=" + personId;

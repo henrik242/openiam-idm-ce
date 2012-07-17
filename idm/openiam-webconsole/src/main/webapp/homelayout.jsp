@@ -51,7 +51,7 @@
 <table width="980" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
-    <img src="images/openiamlogo.jpg"  width="150" height="50">
+    <img src="<%=request.getContextPath()%>/images/openiamlogo.jpg"  width="150" height="50">
     </td>
   </tr>
   <% if (login != null && !login.isEmpty()) { %>

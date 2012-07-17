@@ -32,7 +32,7 @@
 
     while (it.hasNext()) {
       Menu md = (Menu)it.next();
-      String url = md.getUrl();
+      String url = request.getContextPath() + "/" + md.getUrl();
       if (url != null) {
     	  // sas - 10242007 = l->level p->parent
    		String menuId = "&menuid=" + md.getId().getMenuId() + "&l=p";

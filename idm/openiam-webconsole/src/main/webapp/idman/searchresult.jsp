@@ -88,7 +88,7 @@
                                 String name = ud.getFirstName() + " " + ud.getLastName();
 
                             %>
-                            <a href="editUser.cnt?personId=<%=ud.getUserId()%>&menugrp=QUERYUSER"><%= JSPUtil.display(name)%></a>
+                            <a href="<%=request.getContextPath()%>/editUser.cnt?personId=<%=ud.getUserId()%>&menugrp=QUERYUSER"><%= JSPUtil.display(name)%></a>
                             <% } %>
                         </td>
                         <td width="30%"  class="tableEntry"  valign="top"><%= JSPUtil.display(ud.getEmail() )%> </td>
@@ -106,7 +106,7 @@
 
 
                         <td width="5%" class="tableEntry"  valign="top">
-                            <a href="userChangeStatus.cnt?personId=<%=ud.getUserId()%>&status=DELETED">DELETE</a>
+                            <a href="<%=request.getContextPath()%>/userChangeStatus.cnt?personId=<%=ud.getUserId()%>&status=DELETED">DELETE</a>
                         </td>
 
 

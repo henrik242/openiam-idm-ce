@@ -20,8 +20,6 @@ was available, the menuList could be extracted there ======================= -->
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 
-<html:base />
-
  <%
 
 
@@ -53,7 +51,7 @@ was available, the menuList could be extracted there ======================= -->
   Iterator it = menuList.iterator();
     while (it.hasNext()) {
       Menu md = (Menu)it.next();
-      String url = md.getUrl();
+      String url = request.getContextPath() + "/" + md.getUrl();
       if (url != null) {
         if (url.indexOf("?") == -1) {
            url = url + "?";
