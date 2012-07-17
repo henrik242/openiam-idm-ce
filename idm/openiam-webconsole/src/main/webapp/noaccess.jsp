@@ -6,7 +6,6 @@
 <html:html locale="true">
 <head>
 
-<html:base/>
 </head>
 <body bgcolor="white">
 

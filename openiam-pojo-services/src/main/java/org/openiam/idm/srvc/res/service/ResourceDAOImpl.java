@@ -142,7 +142,7 @@ public void setSessionFactory(SessionFactory session) {
 				Hibernate.initialize(instance.getResourceProps());
 				Hibernate.initialize(instance.getResourceRoles());
                 Hibernate.initialize(instance.getChildResources());
-                Hibernate.initialize(instance.getPrivileges());
+                Hibernate.initialize(instance.getEntitlements());
                 Hibernate.initialize(instance.getResourceGroups());
 			}	
 			return instance;
@@ -168,7 +168,7 @@ public void setSessionFactory(SessionFactory session) {
 				Hibernate.initialize(r.getResourceProps());
 				Hibernate.initialize(r.getResourceRoles());
                 Hibernate.initialize(r.getChildResources());
-                Hibernate.initialize(r.getPrivileges());
+                Hibernate.initialize(r.getEntitlements());
                 Hibernate.initialize(r.getResourceGroups());
 			}
 			
@@ -205,7 +205,7 @@ public void setSessionFactory(SessionFactory session) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
 		}
 		
@@ -226,7 +226,7 @@ public void setSessionFactory(SessionFactory session) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
         }
 		
@@ -253,7 +253,7 @@ public void setSessionFactory(SessionFactory session) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
             return r;
         }
@@ -290,7 +290,7 @@ public void setSessionFactory(SessionFactory session) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
         }
 
@@ -329,7 +329,7 @@ public void setSessionFactory(SessionFactory session) {
                 Hibernate.initialize(r.getResourceProps());
                 Hibernate.initialize(r.getResourceRoles());
                 Hibernate.initialize(r.getChildResources());
-                Hibernate.initialize(r.getPrivileges());
+                Hibernate.initialize(r.getEntitlements());
                 Hibernate.initialize(r.getResourceGroups());
                 return r;
             }
@@ -430,7 +430,7 @@ public List<Resource> getResourcesByType(String resourceTypeId) {
         Hibernate.initialize(r.getResourceProps());
         Hibernate.initialize(r.getResourceRoles());
         Hibernate.initialize(r.getChildResources());
-        Hibernate.initialize(r.getPrivileges());
+        Hibernate.initialize(r.getEntitlements());
         Hibernate.initialize(r.getResourceGroups());
     }
 		
@@ -457,7 +457,7 @@ public List<Resource> getResourcesByType(String resourceTypeId) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
         }
 		
@@ -483,7 +483,7 @@ public List<Resource> getResourcesByType(String resourceTypeId) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
         }
 		
@@ -509,7 +509,7 @@ public List<Resource> getResourcesByType(String resourceTypeId) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
         }
 		
@@ -535,7 +535,7 @@ public List<Resource> getResourcesByType(String resourceTypeId) {
             Hibernate.initialize(r.getResourceProps());
             Hibernate.initialize(r.getResourceRoles());
             Hibernate.initialize(r.getChildResources());
-            Hibernate.initialize(r.getPrivileges());
+            Hibernate.initialize(r.getEntitlements());
             Hibernate.initialize(r.getResourceGroups());
         }
 		
@@ -659,7 +659,7 @@ public List<ResourceRole> findResourceRolesByResource(String resourceId) {
                 Hibernate.initialize(r.getResourceProps());
                 Hibernate.initialize(r.getResourceRoles());
                 Hibernate.initialize(r.getChildResources());
-                Hibernate.initialize(r.getPrivileges());
+                Hibernate.initialize(r.getEntitlements());
                 Hibernate.initialize(r.getResourceGroups());
             }
 

@@ -38,9 +38,6 @@
 
 </head>
 
-<html:base/>
-
-
 <body bgcolor="white" leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
 
 

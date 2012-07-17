@@ -8,8 +8,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.List;
 
-//import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
-//import org.openiam.idm.srvc.mngsys.service.AttributeMapDAO;
 
 @WebService(targetNamespace = "urn:idm.openiam.org/srvc/res/service", name = "ResourceDataWebService")
 public interface ResourceDataService {
@@ -584,5 +582,30 @@ public interface ResourceDataService {
             String domainId,
             @WebParam(name = "principal", targetNamespace = "")
             String principal);
+
+
+    ResourcePrivilege addResourcePrivilege(
+            @WebParam(name = "resourcePrivilege", targetNamespace = "")
+            ResourcePrivilege resourcePrivilege);
+
+    void removeResourcePrivilege(
+            @WebParam(name = "resourcePrivilegeId", targetNamespace = "")
+            String resourcePrivilegeId);
+
+    ResourcePrivilege updateResourcePrivilege(
+            @WebParam(name = "resourcePrivilege", targetNamespace = "")
+            ResourcePrivilege instance);
+
+
+    List<ResourcePrivilege> getPrivilegesByResourceId(
+            @WebParam(name = "resourceId", targetNamespace = "")
+            String resourceId);
+
+    List<ResourcePrivilege> getPrivilegesByEntitlementType(
+            @WebParam(name = "resourceId", targetNamespace = "")
+            String resourceId,
+            @WebParam(name = "type", targetNamespace = "")
+            String type);
+
 
 }

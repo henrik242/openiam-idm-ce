@@ -517,6 +517,22 @@
      </bean>
 
      <bean id="resApprovalFlowValidator" class="org.openiam.webadmin.res.ResourceApprovalFlowValidator" />
+
+
+    <bean id="resourceEntitlement" class="org.openiam.webadmin.res.ResEntitlementController">
+        <property name="commandName" value="entitlementCmd" />
+        <property name="commandClass" value="org.openiam.webadmin.res.ResEntitlementCommand" />
+        <property name="formView" value="/res/entitlement" />
+        <property name="successView" value="/res/reslist" />
+        <property name="validator" ref="resourceEntitlementValidator" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="navigationDataService" ref="navServiceClient" />
+        <property name="managedSysService" ref="managedSysServiceClient" />
+        <property name="redirectView" value="resourceEntitlement.cnt?mode=1" />
+        <property name="cancelView" value="resourcelist.cnt" />
+        <property name="auditHelper" ref="auditHelper" />
+    </bean>
+    <bean id="resourceEntitlementValidator" class="org.openiam.webadmin.res.ResEntitlementValidator" />
 <!-- Sys Message controller -->     
 
      <bean id="sysMessageList" class="org.openiam.webadmin.admin.sysmsg.SysMsgListController">
@@ -927,7 +943,8 @@
                 <prop key="/resourceDetail.cnt">resourceDetail</prop>
                 <prop key="/resourceMap.cnt">resourceMap</prop>
                 <prop key="/resApprovalFlow.cnt">resourceApprovalFlow</prop>
-                <prop key="/deleteResourceMap.cnt">deleteResourceMap</prop>     
+                <prop key="/deleteResourceMap.cnt">deleteResourceMap</prop>
+                <prop key="/resourceEntitlement.cnt">resourceEntitlement</prop>
 
                 <prop key="/batchList.cnt">batchTaskList</prop>
                 <prop key="/batchDetail.cnt">batchTaskDetail</prop>

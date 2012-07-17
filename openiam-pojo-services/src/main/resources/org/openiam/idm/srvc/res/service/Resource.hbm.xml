@@ -79,14 +79,13 @@
              <one-to-many class="org.openiam.idm.srvc.res.dto.ResourceGroup" />
          </set>
 
-        <set name="privileges" inverse="false" table="RESOURCE_PRIVILEGE" lazy="false">
+        <set name="entitlements" inverse="false" cascade="all" lazy="false">
             <key>
                 <column name="RESOURCE_ID" length="32" not-null="true" />
             </key>
-            <many-to-many entity-name="org.openiam.idm.srvc.res.dto.PrivilegeDef">
-                <column name="PRIVILEGE_ID" length="32" not-null="true" />
-            </many-to-many>
+            <one-to-many class="org.openiam.idm.srvc.res.dto.ResourcePrivilege" />
         </set>
+
 
 
 

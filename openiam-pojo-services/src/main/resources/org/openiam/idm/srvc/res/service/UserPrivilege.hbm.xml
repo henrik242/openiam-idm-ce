@@ -21,11 +21,11 @@
         <!--property name="privilegeId">
             <column name="PRIVILEGE_ID" sql-type="varchar" length="32"/>
         </property-->
-
+       <!--
         <many-to-one name="privilege" class="org.openiam.idm.srvc.res.dto.PrivilegeDef" lazy="false">
             <column name="PRIVILEGE_ID" length="32" />
         </many-to-one>
-
+        -->
 
          <property name="permit">
             <column name="PERMIT" sql-type="bit"/>

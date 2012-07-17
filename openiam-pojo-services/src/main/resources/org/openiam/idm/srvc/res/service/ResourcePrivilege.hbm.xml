@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM "classpath://hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+    <class name="org.openiam.idm.srvc.res.dto.ResourcePrivilege" table="RESOURCE_PRIVILEGE">
+        <id name="resourcePrivilegeId" type="string">
+            <column name="RESOURCE_PRIVLEGE_ID" length="32" />
+            <generator class="uuid" />
+        </id>
+
+        <property name="resourceId" type="string">
+            <column name="RESOURCE_ID" length="32" />
+        </property>
+
+
+        <property name="name" type="string">
+            <column name="PRIVILEGE_NAME" length="32" />
+        </property>
+        <property name="privilegeType" type="string">
+            <column name="PRIVILEGE_TYPE" length="20" />
+        </property>
+
+
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="40" />
+        </property>
+
+    </class>
+</hibernate-mapping>
+

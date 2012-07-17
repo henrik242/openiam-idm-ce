@@ -18,7 +18,7 @@ public class UserPrivilege extends BaseObject {
     private String userPrivilegeId;
     private String userId;
     private String resourceId;
-    private PrivilegeDef privilege;
+   // private PrivilegeDef privilege;
     private boolean permit;
     @XmlSchemaType(name = "dateTime")
     private Timestamp startDate;
@@ -52,13 +52,7 @@ public class UserPrivilege extends BaseObject {
     }
 
 
-    public PrivilegeDef getPrivilege() {
-        return privilege;
-    }
 
-    public void setPrivilege(PrivilegeDef privilege) {
-        this.privilege = privilege;
-    }
 
 
     public boolean getPermit() {

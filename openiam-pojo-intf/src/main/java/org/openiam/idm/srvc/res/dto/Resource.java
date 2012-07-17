@@ -31,7 +31,7 @@ import java.util.Set;
         "resourceProps",
         "childResources",
         "resourceGroups",
-        "privileges",
+        "entitlements",
         "resOwnerUserId",
         "resOwnerGroupId"
 })
@@ -62,7 +62,7 @@ public class Resource extends BaseObject {
 
     private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>(0);
 
-    private Set<PrivilegeDef> privileges = new HashSet<PrivilegeDef>(0);
+    private Set<ResourcePrivilege> entitlements = new HashSet<ResourcePrivilege>(0);
 
 
     public Resource() {
@@ -250,7 +250,7 @@ public class Resource extends BaseObject {
                 ", resourceProps=" + resourceProps +
                 ", childResources=" + childResources +
                 ", resourceGroups=" + resourceGroups +
-                ", privileges=" + privileges +
+                ", entitlements=" + entitlements +
                 '}';
     }
 
@@ -293,13 +293,7 @@ public class Resource extends BaseObject {
         this.resourceGroups = resourceGroups;
     }
 
-    public Set<PrivilegeDef> getPrivileges() {
-        return privileges;
-    }
 
-    public void setPrivileges(Set<PrivilegeDef> privileges) {
-        this.privileges = privileges;
-    }
 
     public String getResOwnerUserId() {
         return resOwnerUserId;
@@ -315,5 +309,13 @@ public class Resource extends BaseObject {
 
     public void setResOwnerGroupId(String resOwnerGroupId) {
         this.resOwnerGroupId = resOwnerGroupId;
+    }
+
+    public Set<ResourcePrivilege> getEntitlements() {
+        return entitlements;
+    }
+
+    public void setEntitlements(Set<ResourcePrivilege> entitlements) {
+        this.entitlements = entitlements;
     }
 }

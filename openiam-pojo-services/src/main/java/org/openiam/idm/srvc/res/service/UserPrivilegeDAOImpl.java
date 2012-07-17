@@ -110,7 +110,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
                 log.debug("get successful, instance found");			
             }
 			
-            Hibernate.initialize(instance.getPrivilege());
+           // Hibernate.initialize(instance.getPrivilege());
 
             return instance;
 			
@@ -131,7 +131,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
                     + results.size());
 
             for (UserPrivilege obj:results) {
-                Hibernate.initialize(obj.getPrivilege());
+               // Hibernate.initialize(obj.());
             }
 
             return results;
@@ -150,7 +150,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
             sessionFactory.getCurrentSession().persist(instance);
             log.debug("persist successful");
 
-            Hibernate.initialize(instance.getPrivilege());
+           // Hibernate.initialize(instance.getPrivilege());
 
             return instance;
         } catch (RuntimeException re) {
@@ -176,7 +176,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
             sessionFactory.getCurrentSession().merge(instance);
             log.debug("merge successful");
 
-            Hibernate.initialize(instance.getPrivilege());
+        //    Hibernate.initialize(instance.getPrivilege());
 
             return instance;
         } catch (HibernateException re) {
@@ -194,7 +194,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         List<UserPrivilege> result = (List<UserPrivilege>)qry.list();
 		
         for (UserPrivilege obj:result) {
-            Hibernate.initialize(obj.getPrivilege());
+            //Hibernate.initialize(obj.getPrivilege());
         }
 
         return result;

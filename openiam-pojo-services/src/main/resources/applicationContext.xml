@@ -388,6 +388,7 @@
 		<property name="resourcePropDao" ref="resourcePropDAO" />
 		<property name="resourceRoleDao" ref="resourceRoleDAO" />
 		<property name="resourceUserDao" ref="resourceUserDAO" />
+        <property name="resourcePrivilegeDao" ref="resourcePrivilegeDAO" />
 
         <property name="loginManager" ref="loginManager" />
         <property name="userManager" ref="userManager" />
@@ -418,9 +419,13 @@
 
 	<bean id="resourceUserDAO" class="org.openiam.idm.srvc.res.service.ResourceUserDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"></property>		
-	</bean>	
-		
-	<!-- Reference Data Beans -->
+	</bean>
+
+    <bean id="resourcePrivilegeDAO" class="org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!-- Reference Data Beans -->
 	<bean id="refDataService" class="org.openiam.idm.srvc.cd.service.ReferenceDataServiceImpl" >
 		<property name="refDao" ref="refDAO" />
 	</bean>
@@ -658,14 +663,14 @@
                 <value>org/openiam/idm/srvc/res/service/ResourceGroup.hbm.xml</value>
 				<value>org/openiam/idm/srvc/lang/service/Language.hbm.xml</value>
 				<value>org/openiam/idm/srvc/loc/service/Location.hbm.xml</value>
-                <value>org/openiam/idm/srvc/res/service/PrivilegeDef.hbm.xml</value>
+                <value>org/openiam/idm/srvc/res/service/ResourcePrivilege.hbm.xml</value>
 
 				<value>org/openiam/idm/srvc/pswd/service/IdentityQuestGroup.hbm.xml</value>
 				<value>org/openiam/idm/srvc/pswd/service/IdentityQuestion.hbm.xml</value>
 				<value>org/openiam/idm/srvc/pswd/service/UserIdentityAnswer.hbm.xml</value>
 				<value>org/openiam/idm/srvc/pswd/service/PwdHistory.hbm.xml</value>
 
-                <!-- Move map entries to teh IDM project. Should not be part of the general project  -->
+                <!-- Move map entries to the IDM project. Should not be part of the general project  -->
 
   			    <value>org/openiam/idm/srvc/recon/service/ReconciliationConfig.hbm.xml</value>
 				<value>org/openiam/idm/srvc/recon/service/ReconciliationResult.hbm.xml</value>

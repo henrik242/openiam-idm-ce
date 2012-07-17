@@ -2,6 +2,7 @@ package org.openiam.idm.srvc.res.service;
 
 import java.util.*;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.apache.commons.logging.Log;
@@ -29,12 +30,12 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 	protected ResourcePropDAO resourcePropDao;
 	protected ResourceRoleDAO resourceRoleDao;
 	protected ResourceUserDAO resourceUserDao;
-	//protected AttributeMapDAO attributeMapDao;
+    protected ResourcePrivilegeDAO resourcePrivilegeDao;
 
     protected LoginDataService loginManager;
     protected UserDataService userManager;
-    RoleDataService roleDataService;
-    OrganizationDataService orgManager;
+    protected RoleDataService roleDataService;
+    protected OrganizationDataService orgManager;
 
 	private static final Log log = LogFactory
 			.getLog(ResourceDataServiceImpl.class);
@@ -1455,6 +1456,50 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 
     }
 
+    @Override
+    public ResourcePrivilege addResourcePrivilege(ResourcePrivilege resourcePrivilege) {
+        if (resourcePrivilege == null) {
+            throw new IllegalArgumentException("ResourcePrivilege object is null");
+        }
+        return resourcePrivilegeDao.add(resourcePrivilege);
+
+    }
+
+    @Override
+    public void removeResourcePrivilege(String resourcePrivilegeId) {
+        if (resourcePrivilegeId == null) {
+            throw new IllegalArgumentException("resourcePrivilegeId object is null");
+        }
+        resourcePrivilegeDao.remove(new ResourcePrivilege(resourcePrivilegeId));
+    }
+
+    @Override
+    public ResourcePrivilege updateResourcePrivilege( ResourcePrivilege resourcePrivilege) {
+        if (resourcePrivilege == null) {
+            throw new IllegalArgumentException("ResourcePrivilege object is null");
+        }
+        return resourcePrivilegeDao.update(resourcePrivilege);
+    }
+
+    @Override
+    public List<ResourcePrivilege> getPrivilegesByResourceId(String resourceId) {
+        if (resourceId == null) {
+            throw new IllegalArgumentException("resourceId object is null");
+        }
+        return resourcePrivilegeDao.findPrivilegesByResourceId(resourceId);
+
+    }
+
+    @Override
+    public List<ResourcePrivilege> getPrivilegesByEntitlementType( String resourceId,  String type) {
+        if (resourceId == null) {
+            throw new IllegalArgumentException("resourceId object is null");
+        }
+        if (type == null) {
+            throw new IllegalArgumentException("type object is null");
+        }
+        return resourcePrivilegeDao.findPrivilegesByEntitlementType(resourceId, type);
+    }
 
     public OrganizationDataService getOrgManager() {
         return orgManager;
@@ -1462,6 +1507,14 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 
     public void setOrgManager(OrganizationDataService orgManager) {
         this.orgManager = orgManager;
+    }
+
+    public ResourcePrivilegeDAO getResourcePrivilegeDao() {
+        return resourcePrivilegeDao;
+    }
+
+    public void setResourcePrivilegeDao(ResourcePrivilegeDAO resourcePrivilegeDao) {
+        this.resourcePrivilegeDao = resourcePrivilegeDao;
     }
 }
 
