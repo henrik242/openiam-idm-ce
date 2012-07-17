@@ -633,7 +633,7 @@ public List<ResourceRole> findResourceRolesByResource(String resourceId) {
                 " r.DESCRIPTION, r.NAME, r.RESOURCE_PARENT, " +
                 " r.BRANCH_ID, r.CATEGORY_ID, r.DISPLAY_ORDER, " +
                 " r.NODE_LEVEL, r.SENSITIVE_APP, r.MANAGED_SYS_ID," +
-                " r.URL " +
+                " r.URL, r.RES_OWNER_GROUP_ID, r.RES_OWNER_USER_ID " +
                 " FROM  USER_ROLE ur, RESOURCE_ROLE rr, RES r " +
                 " WHERE ur.USER_ID = :userId and ur.SERVICE_ID = rr.SERVICE_ID AND ur.ROLE_ID = rr.ROLE_ID AND " +
                 "       rr.RESOURCE_ID = r.RESOURCE_ID";
