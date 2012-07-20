@@ -2852,15 +2852,30 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                     if (ura.getManagedSystemId() == null) {
 
-                        Resource resObj = resourceDataService.getResource(ura.getResourceId());
-                        ura.setManagedSystemId(resObj.getManagedSysId());
+                        log.debug("addDirectResourceAssociation: URA=" + ura);
+
+                        if (ura.getResourceId() != null) {
+
+                            Resource resObj = resourceDataService.getResource(ura.getResourceId());
+
+                            if (resObj != null) {
+
+                                ura.setManagedSystemId(resObj.getManagedSysId());
+
+                            }
+                        }
 
 
                     }
 
-                    resourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()));
+                    if (ura.getResourceId() != null && ura.getManagedSystemId() != null) {
 
-                    log.debug("Adding resource to resource list - " + ura.getResourceId());
+                        log.debug("addDirectResourceAssociation:: Adding resource to resource list - " + ura.getResourceId());
+
+                        resourceList.add(new Resource(ura.getResourceId(), ura.getManagedSystemId()));
+                    }
+
+
 
                 }
 
