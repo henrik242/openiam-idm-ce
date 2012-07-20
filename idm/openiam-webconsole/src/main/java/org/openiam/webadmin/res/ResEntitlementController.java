@@ -95,6 +95,10 @@ public class ResEntitlementController extends CancellableFormController {
     protected Object formBackingObject(HttpServletRequest request)
             throws Exception {
 
+        List<ResourcePrivilege> currentPrivilegeList = null;
+
+        log.info("FormBacking Object.");
+
         String mode = request.getParameter("mode");
         if (mode != null && mode.equalsIgnoreCase("1")) {
             request.setAttribute("msg", "Information has been successfully updated.");
@@ -104,6 +108,7 @@ public class ResEntitlementController extends CancellableFormController {
         String userId = (String) session.getAttribute("userId");
 
         String resId = request.getParameter("objId");
+        String type = request.getParameter("type");
 
         if (resId != null && resId.length() > 0) {
             request.setAttribute("objId", resId);
@@ -116,20 +121,25 @@ public class ResEntitlementController extends CancellableFormController {
 
         Resource res = resourceDataService.getResource(resId);
 
-        List<ResourcePrivilege> privilegeList = this.resourceDataService.getPrivilegesByResourceId(resId);
+        if (type != null && !type.isEmpty()) {
+            currentPrivilegeList = this.resourceDataService.getPrivilegesByEntitlementType(resId,type);
 
-        if (privilegeList == null) {
+            if (currentPrivilegeList == null) {
 
-            privilegeList = new ArrayList<ResourcePrivilege>();
+                currentPrivilegeList = new ArrayList<ResourcePrivilege>();
+            }
+            ResourcePrivilege resourcePrivilege = new ResourcePrivilege();
+            resourcePrivilege.setResourcePrivilegeId("NEW");
+            resourcePrivilege.setResourceId(resId);
+            resourcePrivilege.setName("**ENTER ENTITLEMENT NAME**");
+
+            currentPrivilegeList.add(resourcePrivilege);
+
+
         }
 
 
-        ResourcePrivilege resourcePrivilege = new ResourcePrivilege();
-        resourcePrivilege.setResourcePrivilegeId("NEW");
-        resourcePrivilege.setResourceId(resId);
-        resourcePrivilege.setName("**ENTER ENTITLEMENT NAME**");
 
-        privilegeList.add(resourcePrivilege);
 
 
 
@@ -139,10 +149,11 @@ public class ResEntitlementController extends CancellableFormController {
 
         ResEntitlementCommand cmd = new ResEntitlementCommand();
 
-        cmd.setResourcePrivileges(privilegeList);
+        cmd.setResourcePrivileges(currentPrivilegeList);
         cmd.setResourceName(res.getName());
         cmd.setResId(resId);
         cmd.setManagedSysId(res.getManagedSysId());
+        cmd.setPrivlegeType(type);
 
         return cmd;
     }
@@ -164,12 +175,22 @@ public class ResEntitlementController extends CancellableFormController {
 		String domainId = (String)request.getSession().getAttribute("domainid");
 		String login = (String)request.getSession().getAttribute("login");
 
-         Resource res = resourceDataService.getResource(resId);
+        Resource res = resourceDataService.getResource(resId);
 
         //ManagedSys sys;
         List<ResourcePrivilege> privilegeList = cmd.getResourcePrivileges();
 
         String btn = request.getParameter("btn");
+        if ("Go".equalsIgnoreCase(btn)) {
+
+
+
+            String view = redirectView + "&menuid=RESENTITLEMENT&menugrp=SECURITY_RES&objId=" + resId + "&type=" + cmd.getPrivlegeType();
+
+            return new ModelAndView(new RedirectView(view, true));
+
+
+        }
         if (btn.equalsIgnoreCase("Delete")) {
 
             if (privilegeList != null) {
@@ -232,7 +253,7 @@ public class ResEntitlementController extends CancellableFormController {
             }
         }
         log.info("refreshing attr list for resourceId=" + resId);
-        String view = redirectView + "&menuid=RESENTITLEMENT&menugrp=SECURITY_RES&objId=" + resId;
+        String view = redirectView + "&menuid=RESENTITLEMENT&menugrp=SECURITY_RES&objId=" + resId + "&type=" + cmd.getPrivlegeType();
         log.info("redirecting to=" + view);
 
         return new ModelAndView(new RedirectView(view, true));

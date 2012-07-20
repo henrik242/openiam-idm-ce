@@ -520,6 +520,7 @@
 
 
     <bean id="resourceEntitlement" class="org.openiam.webadmin.res.ResEntitlementController">
+        <property name="sessionForm"><value>true</value></property>
         <property name="commandName" value="entitlementCmd" />
         <property name="commandClass" value="org.openiam.webadmin.res.ResEntitlementCommand" />
         <property name="formView" value="/res/entitlement" />

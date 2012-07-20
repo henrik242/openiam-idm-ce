@@ -47,11 +47,13 @@
                             <td class="tddark">Select Entitlement Type</td>
                             <td class="tdlightnormal">
                                 <form:select path="privlegeType">
+                                    <form:option value="" />
                                     <form:option value="ROLE" />
                                     <form:option value="GROUP" />
                                     <form:option value="MODULE / COMPONENT" />
                                     <form:option value="OTHER" />
                                 </form:select>
+                                <input type="submit" name="btn" value="Go" />
                             </td>
                         </tr>
                     </TABLE>
@@ -81,9 +83,9 @@
 			    <td class="tableEntry"><form:hidden path="resourcePrivileges[${privilege.index}].resourcePrivilegeId" />
 			    	<form:hidden path="resourcePrivileges[${privilege.index}].resourceId" />
                     <form:hidden path="resourcePrivileges[${privilege.index}].privilegeType" />
-                    <form:input path="resourcePrivileges[${privilege.index}].name" maxlength="30" />
+                    <form:input path="resourcePrivileges[${privilege.index}].name" maxlength="30" size="30" />
 			     </td>
-				<td class="tableEntry"><form:input path="resourcePrivileges[${privilege.index}].description" maxlength="40" />  </td>
+				<td class="tableEntry"><form:input path="resourcePrivileges[${privilege.index}].description" maxlength="40" size="40"/>  </td>
 
 			</tr>
 		</c:forEach>
