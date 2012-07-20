@@ -634,6 +634,7 @@ public class UserDAOImpl implements UserDAO {
         boolean bDivIdList = false;
         boolean bAttrIdList = false;
 
+        StringBuilder join = new StringBuilder();
 
         String select = " select DISTINCT u.USER_ID, u.TYPE_ID, " +
                 " u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME," +
@@ -648,17 +649,17 @@ public class UserDAOImpl implements UserDAO {
                 " u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7," +
                 " u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED," +
                 " u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN " +
-                " from 	USERS u " +
-                "  		LEFT JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) " +
-                "  		LEFT JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID) " +
-                "  		LEFT JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) " +
-                "  		LEFT JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID) " +
-                "  		LEFT JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) " +
-                "  		LEFT JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) " +
-                "	 	LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID) ";
+                " from 	USERS u ";
+
+        // MySQL's optimizer has a hard time with the large number of outer joins
+        // changing outer joins to inner-joins has a big impact on performance
+
+        join.append("   JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) ");
+        join.append("   LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID)");
 
 
-        StringBuffer where = new StringBuffer();
+
+        StringBuilder where = new StringBuilder();
 
         if (search.getShowInSearch() != null) {
             if (where.length() > 0) {
@@ -805,7 +806,12 @@ public class UserDAOImpl implements UserDAO {
                 where.append(" and ");
             }
             where.append(" c.COMPANY_NAME like :orgName ");
+            join.append("  JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) ");
             orgName = true;
+        } else {
+
+            join.append("   LEFT JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) ");
+
         }
 
 
@@ -824,21 +830,39 @@ public class UserDAOImpl implements UserDAO {
             phoneNbr = true;
         }
 
+        if (phoneNbr || phoneAreaCd) {
+            join.append("   JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) ");
+        }else {
+
+            join.append("   LEFT JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) ");
+
+
+        }
+
         if (search.getEmailAddress() != null) {
             if (where.length() > 0) {
                 where.append(" and ");
             }
             //where.append(" u.EMAIL_ADDRESS = :emailAddress ");
             where.append(" (em.EMAIL_ADDRESS LIKE :emailAddress  OR u.EMAIL_ADDRESS LIKE :emailAddress) ");
+            join.append("   JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID)");
             emailAddress = true;
+        } else {
+
+            join.append("   LEFT JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID)");
+
         }
         if (!search.getGroupIdList().isEmpty()) {
             if (where.length() > 0) {
                 where.append(" and ");
             }
             where.append(" g.GRP_ID in (:groupList) ");
+            join.append("   JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) ");
             groupId = true;
+        }else {
+            join.append("   LEFT JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) ");
         }
+
         if (!search.getRoleIdList().isEmpty()) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -915,6 +939,16 @@ public class UserDAOImpl implements UserDAO {
 
         }
 
+        if (bAttrIdList) {
+
+            join.append(" JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID)" );
+
+        }else {
+
+            join.append(" LEFT JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID)" ) ;
+
+        }
+
 
         /* Login  */
         if (search.getPrincipal() != null) {
@@ -931,6 +965,8 @@ public class UserDAOImpl implements UserDAO {
             where.append(" lg.SERVICE_ID = :domainId ");
             domainId = true;
         }
+
+
         if (search.getLoggedIn() != null) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -968,10 +1004,12 @@ public class UserDAOImpl implements UserDAO {
         }
 
         if (where.length() > 0) {
-            select = select + " WHERE " + where.toString();
+            select = select + join.toString() + " WHERE " + where.toString();
         }
 
         select = select + "  ORDER BY u.LAST_NAME, u.FIRST_NAME";
+
+
         log.debug("search select: " + select);
 
 
