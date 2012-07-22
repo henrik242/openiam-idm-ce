@@ -2452,6 +2452,10 @@ implements ProvisionService,  ApplicationContextAware  {
 		return null;
 	}
 
+    @Override
+    public ProvisionUserResponse deprovisionSelectedResources(@WebParam(name = "userId", targetNamespace = "") String userId, @WebParam(name = "requestorUserId", targetNamespace = "") String requestorUserId, @WebParam(name = "resourceList", targetNamespace = "") List<String> resourceList) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     public LookupUserResponse getTargetSystemUser(@WebParam(name = "principalName", targetNamespace = "") String principalName, @WebParam(name = "managedSysId", targetNamespace = "") String managedSysId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

@@ -93,6 +93,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.*;
 
@@ -140,6 +141,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     protected PasswordHistoryDAO passwordHistoryDao;
     private String preProcessor;
     private String postProcessor;
+    private DeprovisionSelectedResourceHelper deprovisionSelectedResource;
 
     MuleContext muleContext;
 
@@ -1133,9 +1135,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
+
+    @Override
+    public ProvisionUserResponse deprovisionSelectedResources( String userId, String requestorUserId, List<String> resourceList) {
+        deprovisionSelectedResource.setMuleContext(muleContext);
+        return deprovisionSelectedResource.deprovisionSelectedResources(userId,requestorUserId, resourceList);
+    }
+
     /* (non-Javadoc)
-      * @see org.openiam.provision.service.ProvisionService#disableUser(java.lang.String, boolean)
-      */
+    * @see org.openiam.provision.service.ProvisionService#disableUser(java.lang.String, boolean)
+    */
     public Response disableUser(String userId, boolean operation, String requestorId) {
         // get the user
         DisableUserDelegate disableUser = (DisableUserDelegate) ac.getBean("disableUser");
@@ -3494,5 +3503,13 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     public void setPostProcessor(String postProcessor) {
         this.postProcessor = postProcessor;
+    }
+
+    public DeprovisionSelectedResourceHelper getDeprovisionSelectedResource() {
+        return deprovisionSelectedResource;
+    }
+
+    public void setDeprovisionSelectedResource(DeprovisionSelectedResourceHelper deprovisionSelectedResource) {
+        this.deprovisionSelectedResource = deprovisionSelectedResource;
     }
 }

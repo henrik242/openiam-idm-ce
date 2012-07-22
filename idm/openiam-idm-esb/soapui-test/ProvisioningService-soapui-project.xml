@@ -102,6 +102,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="deprovisionSelectedResources">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deprovisionSelectedResources">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deprovisionSelectedResourcesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="resetPassword">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="resetPassword">
@@ -616,6 +625,8 @@
       <xs:element name="deleteByUserIdResponse" type="tns:deleteByUserIdResponse"/>
       <xs:element name="deleteUser" type="tns:deleteUser"/>
       <xs:element name="deleteUserResponse" type="tns:deleteUserResponse"/>
+      <xs:element name="deprovisionSelectedResources" type="tns:deprovisionSelectedResources"/>
+      <xs:element name="deprovisionSelectedResourcesResponse" type="tns:deprovisionSelectedResourcesResponse"/>
       <xs:element name="disableUser" type="tns:disableUser"/>
       <xs:element name="disableUserResponse" type="tns:disableUserResponse"/>
       <xs:element name="getTargetSystemUser" type="tns:getTargetSystemUser"/>
@@ -963,6 +974,18 @@
           <xs:element minOccurs="0" name="return" type="tns:ProvisionUserResponse"/>
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="deprovisionSelectedResources">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+          <xs:element minOccurs="0" name="requestorUserId" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="resourceList" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deprovisionSelectedResourcesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:ProvisionUserResponse"/>
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="resetPassword">
         <xs:sequence>
           <xs:element minOccurs="0" name="passwordSync" type="tns:PasswordSync"/>
@@ -1070,32 +1093,20 @@
   <wsdl:message name="addUser">
     <wsdl:part element="ns1:addUser" name="parameters"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="disableUserResponse">
-    <wsdl:part element="ns1:disableUserResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="resetPassword">
     <wsdl:part element="ns1:resetPassword" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteByUserId">
-    <wsdl:part element="ns1:deleteByUserId" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="modifyUserResponse">
-    <wsdl:part element="ns1:modifyUserResponse" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="addUserResponse">
     <wsdl:part element="ns1:addUserResponse" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="modifyUserResponse">
+    <wsdl:part element="ns1:modifyUserResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="syncPasswordFromSrcResponse">
     <wsdl:part element="ns1:syncPasswordFromSrcResponse" name="parameters"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="disableUser">
-    <wsdl:part element="ns1:disableUser" name="parameters"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getTargetSystemUserResponse">
     <wsdl:part element="ns1:getTargetSystemUserResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getTargetSystemUserWithUserId">
-    <wsdl:part element="ns1:getTargetSystemUserWithUserId" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="syncPasswordFromSrc">
     <wsdl:part element="ns1:syncPasswordFromSrc" name="parameters"></wsdl:part>
@@ -1103,38 +1114,56 @@
   <wsdl:message name="setPassword">
     <wsdl:part element="ns1:setPassword" name="parameters"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="lockUser">
-    <wsdl:part element="ns1:lockUser" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="testConnectionConfig">
-    <wsdl:part element="ns1:testConnectionConfig" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteByUserIdResponse">
-    <wsdl:part element="ns1:deleteByUserIdResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getTargetSystemUserWithUserIdResponse">
-    <wsdl:part element="ns1:getTargetSystemUserWithUserIdResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="resetPasswordResponse">
     <wsdl:part element="ns1:resetPasswordResponse" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="getTargetSystemUser">
     <wsdl:part element="ns1:getTargetSystemUser" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deprovisionSelectedResourcesResponse">
+    <wsdl:part element="ns1:deprovisionSelectedResourcesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUserResponse">
+    <wsdl:part element="ns1:deleteUserResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deprovisionSelectedResources">
+    <wsdl:part element="ns1:deprovisionSelectedResources" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableUserResponse">
+    <wsdl:part element="ns1:disableUserResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteByUserId">
+    <wsdl:part element="ns1:deleteByUserId" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableUser">
+    <wsdl:part element="ns1:disableUser" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTargetSystemUserWithUserId">
+    <wsdl:part element="ns1:getTargetSystemUserWithUserId" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lockUser">
+    <wsdl:part element="ns1:lockUser" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testConnectionConfig">
+    <wsdl:part element="ns1:testConnectionConfig" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTargetSystemUserWithUserIdResponse">
+    <wsdl:part element="ns1:getTargetSystemUserWithUserIdResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteByUserIdResponse">
+    <wsdl:part element="ns1:deleteByUserIdResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteUser">
     <wsdl:part element="ns1:deleteUser" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="modifyUser">
-    <wsdl:part element="ns1:modifyUser" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="setPasswordResponse">
     <wsdl:part element="ns1:setPasswordResponse" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="modifyUser">
+    <wsdl:part element="ns1:modifyUser" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="lockUserResponse">
     <wsdl:part element="ns1:lockUserResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUserResponse">
-    <wsdl:part element="ns1:deleteUserResponse" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ProvisionControllerService">
     <wsdl:operation name="setPassword">
@@ -1181,6 +1210,10 @@
       <wsdl:input message="ns1:deleteByUserId" name="deleteByUserId"></wsdl:input>
       <wsdl:output message="ns1:deleteByUserIdResponse" name="deleteByUserIdResponse"></wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="deprovisionSelectedResources">
+      <wsdl:input message="ns1:deprovisionSelectedResources" name="deprovisionSelectedResources"></wsdl:input>
+      <wsdl:output message="ns1:deprovisionSelectedResourcesResponse" name="deprovisionSelectedResourcesResponse"></wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="resetPassword">
       <wsdl:input message="ns1:resetPassword" name="resetPassword"></wsdl:input>
       <wsdl:output message="ns1:resetPasswordResponse" name="resetPasswordResponse"></wsdl:output>
@@ -1190,14 +1223,39 @@
    <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>
+         </prov:addUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/addUser"/><con:wsrmConfig version="1.2"/></con:call><con:call name="createUserWithRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:addUser>
+         <!--Optional:-->
          <user>
+            <!--Optional:-->
+            <dto:firstName>Dennis</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>DeYoung2-B</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:sex>M</dto:sex>
+            <dto:status>active</dto:status>
+            <dto:title>MANAGER</dto:title>
+            <dto:startDate>2012-06-30T00:00:00.000-04:00</dto:startDate>
+            <dto:email>suneet_shah@openiam.com</dto:email>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>END_USER</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+            </memberOfRoles>
+            <securityDomain>USR_SEC_DOMAIN</securityDomain>
             <notifyTargetSystems/>
             <emailCredentialsToNewUsers/>
             <emailCredentialsToSupervisor/>
             <provisionOnStartDate/>
             <addInitialPasswordToHistory/>
             <skipPreprocessor>true</skipPreprocessor>
-            <skipPostProcessor>true</skipPostProcessor>
+            <skipPostProcessor>false</skipPostProcessor>
          </user>
       </prov:addUser>
    </soapenv:Body>
@@ -1268,7 +1326,17 @@
       <prov:testConnectionConfig>
          </prov:testConnectionConfig>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/testConnectionConfig"/></con:call></con:operation></con:interface><con:testSuite name="$Proxy37ServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="addUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="addUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="addUser"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/testConnectionConfig"/></con:call></con:operation><con:operation isOneWay="false" action="" name="deprovisionSelectedResources" bindingOperationName="deprovisionSelectedResources" type="Request-Response" outputName="deprovisionSelectedResourcesResponse" inputName="deprovisionSelectedResources" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:deprovisionSelectedResources>
+         <userId>4028810c38ad64520138ad7038030022</userId>
+         <requestorUserId>3000</requestorUserId>
+         <resourceList>110</resourceList>
+         <resourceList>40288111385f6b230138633e2dce0009</resourceList>
+      </prov:deprovisionSelectedResources>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/deprovisionSelectedResources"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="$Proxy37ServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="addUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="addUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>addUser</con:operation><con:request name="addUser"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:addUser>

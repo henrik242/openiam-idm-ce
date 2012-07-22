@@ -25,6 +25,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import java.util.List;
+
 import org.openiam.base.ws.Response;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.provision.dto.AccountLockEnum;
@@ -97,7 +99,16 @@ public interface ProvisionService {
 			UserStatusEnum status,
 			@WebParam(name="requestorId", targetNamespace="")
 			String requestorId);
-	
+
+
+    @WebMethod
+    public ProvisionUserResponse deprovisionSelectedResources(
+            @WebParam(name = "userId", targetNamespace = "")
+            String userId,
+            @WebParam(name = "requestorUserId", targetNamespace = "")
+            String requestorUserId,
+            @WebParam(name="resourceList", targetNamespace="")
+            List<String> resourceList);
 	
 	/**
 	 * The setPassword operation enables a requestor to specify a new password for an user across target systems

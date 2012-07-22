@@ -44,6 +44,33 @@
 		<property name="provisionService" ref="defaultProvision" />
 	</bean>
 
+
+    <bean id="deprovisionSelectedResource" class="org.openiam.provision.service.DeprovisionSelectedResourceHelper">
+        <property name="loginManager" ref="loginManager" />
+        <property name="loginDao" ref="loginDAO" />
+        <property name="userMgr" ref="userManager" />
+        <property name="auditDataService" ref="auditDataService" />
+        <property name="managedSysService" ref="managedSysService" />
+        <property name="roleDataService" ref="roleDataService" />
+        <property name="groupManager" ref="groupManager" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
+        <property name="connectorWsdl" value="WEB-INF/wsdl/ConnectorService.wsdl" />
+        <property name="defaultProvisioningModel" value="ROLE" />
+        <property name="resourceDataService" ref="resourceDataService" />
+        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="passwordDS" ref="passwordManager" />
+        <property name="auditHelper" ref="auditHelper" />
+        <property name="connectorAdapter" ref="connectorAdapter" />
+        <property name="remoteConnectorAdapter" ref="remoteConnectorAdapter" />
+        <property name="connectorService" ref="connectorService" />
+        <property name="validateConnection" ref="validateConnectionConfig" />
+        <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
+        <property name="preProcessor" value="/prov-helper/ProvisionServicePreProcessor.groovy" />
+        <property name="postProcessor" value="/prov-helper/ProvisionServicePostProcessor.groovy" />
+
+    </bean>
+
 	<bean id="defaultProvision" class="org.openiam.provision.service.DefaultProvisioningService">
 			<property name="loginManager" ref="loginManager" />
 			<property name="loginDao" ref="loginDAO" />
@@ -71,6 +98,7 @@
             <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
             <property name="preProcessor" value="/prov-helper/ProvisionServicePreProcessor.groovy" />
             <property name="postProcessor" value="/prov-helper/ProvisionServicePostProcessor.groovy" />
+            <property name="deprovisionSelectedResource" ref="deprovisionSelectedResource" />
 
     </bean>
 
