@@ -42,7 +42,6 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
-import org.openiam.selfsrvc.hire.NewHireCommand;
 import org.openiam.selfsrvc.pswd.PasswordConfiguration;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
@@ -123,8 +122,6 @@ public class SelfRegistrationController extends CancellableFormController {
     }
 
 
-
-
     private List<Group> getGroupList(SelfRegistrationCommand newHireCmd, User user) {
         List<Group> groupList = new ArrayList<Group>();
         String groupId = newHireCmd.getGroup();
@@ -136,36 +133,35 @@ public class SelfRegistrationController extends CancellableFormController {
 
     private List<Role> getRoleList(SelfRegistrationCommand newHireCmd, User user) {
 
-           List<Role> roleList = new ArrayList<Role>();
-           String cmdRole = newHireCmd.getRole();
+        List<Role> roleList = new ArrayList<Role>();
+        String cmdRole = newHireCmd.getRole();
 
 
-           StringTokenizer rl = new StringTokenizer(cmdRole, ",");
-           while (rl.hasMoreTokens()) {
+        StringTokenizer rl = new StringTokenizer(cmdRole, ",");
+        while (rl.hasMoreTokens()) {
 
-               String roleElement = rl.nextToken();
+            String roleElement = rl.nextToken();
 
-               /* parse the role */
-               String domainId = null;
-               String roleId = null;
+            /* parse the role */
+            String domainId = null;
+            String roleId = null;
 
-               StringTokenizer st = new StringTokenizer(roleElement, "*");
-               if (st.hasMoreTokens()) {
-                   domainId = st.nextToken();
-               }
-               if (st.hasMoreElements()) {
-                   roleId = st.nextToken();
-               }
-               RoleId id = new RoleId(domainId , roleId);
-               Role r = new Role();
-               r.setId(id);
-               roleList.add(r);
-           }
+            StringTokenizer st = new StringTokenizer(roleElement, "*");
+            if (st.hasMoreTokens()) {
+                domainId = st.nextToken();
+            }
+            if (st.hasMoreElements()) {
+                roleId = st.nextToken();
+            }
+            RoleId id = new RoleId(domainId, roleId);
+            Role r = new Role();
+            r.setId(id);
+            roleList.add(r);
+        }
 
-           return roleList;
+        return roleList;
 
-       }
-
+    }
 
 
     @Override
@@ -189,8 +185,6 @@ public class SelfRegistrationController extends CancellableFormController {
         setEmail(newHireCmd, pUser);
         setAddress(newHireCmd, pUser);
         setPhone(newHireCmd, pUser);
-
-
 
 
         if (newHireCmd.getGroup() != null && !newHireCmd.getGroup().isEmpty()) {
@@ -241,7 +235,7 @@ public class SelfRegistrationController extends CancellableFormController {
 
 
         ProvisionRequest req = new ProvisionRequest();
-        req.setRequestorId("ANONYMOUS");
+        req.setRequestorId("SELFREGISTER: " + usr.getFirstName() + " " + usr.getLastName());
         req.setStatus("PENDING");
         req.setStatusDate(curDate);
         req.setRequestDate(curDate);
@@ -272,7 +266,7 @@ public class SelfRegistrationController extends CancellableFormController {
         List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
         if (apList != null) {
 
-            for (ApproverAssociation ap : apList)  {
+            for (ApproverAssociation ap : apList) {
                 String approverType;
                 String roleDomain = null;
 
@@ -280,12 +274,12 @@ public class SelfRegistrationController extends CancellableFormController {
                     approverType = ap.getAssociationType();
                     System.out.println("Approver =" + ap.getApproverRoleId());
 
-                    if ( ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
+                    if (ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
                         Supervisor supVisor = pUser.getSupervisor();
                         approverId = supVisor.getSupervisor().getUserId();
 
 
-                    } else if ( ap.getAssociationType().equalsIgnoreCase("ROLE")) {
+                    } else if (ap.getAssociationType().equalsIgnoreCase("ROLE")) {
                         approverId = ap.getApproverRoleId();
                         roleDomain = ap.getApproverRoleDomain();
 
@@ -316,7 +310,7 @@ public class SelfRegistrationController extends CancellableFormController {
 
         provRequestService.addRequest(req);
 
-        notifyApprover(req, reqUser,  usr, approverRole, userOrg, applyDelegationFilter);
+        notifyApprover(req, reqUser, usr, approverRole, userOrg, applyDelegationFilter);
 
         return req;
 
@@ -324,17 +318,17 @@ public class SelfRegistrationController extends CancellableFormController {
     }
 
 
-    private void notifyApprover(ProvisionRequest pReq, RequestUser reqUser,  User usr,
-                                String approverRole, String userOrg, int  applyDelegationFilter) {
+    private void notifyApprover(ProvisionRequest pReq, RequestUser reqUser, User usr,
+                                String approverRole, String userOrg, int applyDelegationFilter) {
 
 
-        Set<RequestApprover> approverList =  pReq.getRequestApprovers();
-        for ( RequestApprover ra : approverList) {
+        Set<RequestApprover> approverList = pReq.getRequestApprovers();
+        for (RequestApprover ra : approverList) {
 
-            if (! ra.getApproverType().equalsIgnoreCase("ROLE")) {
+            if (!ra.getApproverType().equalsIgnoreCase("ROLE")) {
 
                 NotificationRequest request = new NotificationRequest();
-                request.setUserId( ra.getApproverId());
+                request.setUserId(ra.getApproverId());
                 request.setNotificationType("NEW_PENDING_REQUEST");
 
                 request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
@@ -345,25 +339,28 @@ public class SelfRegistrationController extends CancellableFormController {
 
 
                 mailService.sendNotification(request);
-            }else {
+            } else {
                 // approverType is ROLE
                 // get
+
+                log.info("notifyApprover:: Approver type = " + ra.getApproverType());
+
                 DelegationFilterSearch search = new DelegationFilterSearch();
                 search.setRole(approverRole);
                 search.setDelAdmin(applyDelegationFilter);
                 search.setOrgFilter("%" + userOrg + "%");
 
 
+                List<User> roleApprovers = userMgr.searchByDelegationProperties(search).getUserList();
 
-                List<User> roleApprovers =  userMgr.searchByDelegationProperties(search).getUserList();
-
+                log.info("notifyApprover:: List of Approvers = " + roleApprovers);
 
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
-                    for (User u :roleApprovers) {
-                       NotificationRequest request = new NotificationRequest();
+                    for (User u : roleApprovers) {
+                        NotificationRequest request = new NotificationRequest();
                         // one of the approvers
-                        request.setUserId( u.getUserId()) ;
+                        request.setUserId(u.getUserId());
                         request.setNotificationType("NEW_PENDING_REQUEST");
 
                         request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
@@ -372,6 +369,7 @@ public class SelfRegistrationController extends CancellableFormController {
                         request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
                         request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
 
+                        log.info("notifyApprover:: Sending message to:   " + u);
 
                         mailService.sendNotification(request);
 
@@ -382,7 +380,6 @@ public class SelfRegistrationController extends CancellableFormController {
             }
 
         }
-
 
 
     }
@@ -458,7 +455,6 @@ public class SelfRegistrationController extends CancellableFormController {
     }
 
 
-
     private void createRequest(String userId, User usr) {
         ProvisionRequest req = new ProvisionRequest();
         req.setRequestorId(userId);
@@ -485,103 +481,101 @@ public class SelfRegistrationController extends CancellableFormController {
     }
 
 
-
     private void setEmail(SelfRegistrationCommand cmd, ProvisionUser pUser) {
 
-            String email = cmd.getEmail1();
-            String emailId = cmd.getEmail1Id();
-            if (email != null && email.length() > 0) {
-                EmailAddress em = buildEmail(emailId, email,"EMAIL1");
-                log.info("EmailId 1 = " + em.getEmailId());
-                pUser.getEmailAddress().add(em);
-                pUser.setEmail(email);
-            }
-            email = cmd.getEmail2();
-            emailId = cmd.getEmail2Id();
-            if (email != null && email.length() > 0) {
-                EmailAddress em = buildEmail(emailId, email, "EMAIL2");
-                log.info("EmailId 2 = " + em.getEmailId());
-                pUser.getEmailAddress().add(em);
-            }
-            email = cmd.getEmail3();
-            emailId = cmd.getEmail3Id();
-            if (email != null && email.length() > 0) {
-                EmailAddress em = buildEmail(emailId, email, "EMAIL3");
-                pUser.getEmailAddress().add(em);
-            }
-
-
+        String email = cmd.getEmail1();
+        String emailId = cmd.getEmail1Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email, "EMAIL1");
+            log.info("EmailId 1 = " + em.getEmailId());
+            pUser.getEmailAddress().add(em);
+            pUser.setEmail(email);
+        }
+        email = cmd.getEmail2();
+        emailId = cmd.getEmail2Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email, "EMAIL2");
+            log.info("EmailId 2 = " + em.getEmailId());
+            pUser.getEmailAddress().add(em);
+        }
+        email = cmd.getEmail3();
+        emailId = cmd.getEmail3Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email, "EMAIL3");
+            pUser.getEmailAddress().add(em);
         }
 
+
+    }
+
     private void setPhone(SelfRegistrationCommand cmd, ProvisionUser usr) {
-	//	Set<Phone> phSet = usr.getPhone();
+        //	Set<Phone> phSet = usr.getPhone();
 
- 	// add obbject
+        // add obbject
 
 
-		Phone ph = buildPhone( usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
-		if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0 ) {
-			ph.setPhoneId(cmd.getWorkPhoneId());
-		}
+        Phone ph = buildPhone(usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
+        if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0) {
+            ph.setPhoneId(cmd.getWorkPhoneId());
+        }
         usr.setAreaCd(ph.getAreaCd());
         usr.setPhoneNbr(ph.getPhoneNbr());
-		usr.getPhone().add(ph);
+        usr.getPhone().add(ph);
 
-		ph = buildPhone( usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
-		log.info("CELL PHONE: " + cmd.getCellPhoneId());
-		if (cmd.getCellPhoneId() != null && cmd.getCellPhoneId().length() > 0 ) {
-			ph.setPhoneId(cmd.getCellPhoneId());
-		}
-		usr.getPhone().add(ph);
+        ph = buildPhone(usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
+        log.info("CELL PHONE: " + cmd.getCellPhoneId());
+        if (cmd.getCellPhoneId() != null && cmd.getCellPhoneId().length() > 0) {
+            ph.setPhoneId(cmd.getCellPhoneId());
+        }
+        usr.getPhone().add(ph);
 
-		ph = buildPhone( usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone() );
-		if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0 ) {
-			ph.setPhoneId(cmd.getFaxPhoneId());
-		}
-		usr.getPhone().add(ph);
+        ph = buildPhone(usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone());
+        if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0) {
+            ph.setPhoneId(cmd.getFaxPhoneId());
+        }
+        usr.getPhone().add(ph);
 
-		ph = buildPhone( usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr() );
-		if (cmd.getHomePhoneIdr() != null && cmd.getHomePhoneIdr().length() > 0 ) {
-			ph.setPhoneId(cmd.getHomePhoneIdr());
-		}
-		usr.getPhone().add(ph);
+        ph = buildPhone(usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr());
+        if (cmd.getHomePhoneIdr() != null && cmd.getHomePhoneIdr().length() > 0) {
+            ph.setPhoneId(cmd.getHomePhoneIdr());
+        }
+        usr.getPhone().add(ph);
 
-		ph = buildPhone( usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr() );
-		if (cmd.getAltCellNbrId() != null && cmd.getAltCellNbrId().length() > 0 ) {
-			ph.setPhoneId(cmd.getAltCellNbrId());
-		}
-		usr.getPhone().add(ph);
+        ph = buildPhone(usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr());
+        if (cmd.getAltCellNbrId() != null && cmd.getAltCellNbrId().length() > 0) {
+            ph.setPhoneId(cmd.getAltCellNbrId());
+        }
+        usr.getPhone().add(ph);
 
-		ph = buildPhone( usr, "PERSONAL PHONE", cmd.getPersonalAreaCode(), cmd.getPersonalNbr() );
-		if (cmd.getPersonalNbrId() != null && cmd.getPersonalNbrId().length() > 0 ) {
-			ph.setPhoneId(cmd.getPersonalNbrId());
-		}
-		usr.getPhone().add(ph);
+        ph = buildPhone(usr, "PERSONAL PHONE", cmd.getPersonalAreaCode(), cmd.getPersonalNbr());
+        if (cmd.getPersonalNbrId() != null && cmd.getPersonalNbrId().length() > 0) {
+            ph.setPhoneId(cmd.getPersonalNbrId());
+        }
+        usr.getPhone().add(ph);
 
 
-	}
+    }
 
     private void setAddress(SelfRegistrationCommand cmd, ProvisionUser pUser) {
-		log.info("setAddress called.");
+        log.info("setAddress called.");
 
-		Address adr = new Address();
+        Address adr = new Address();
 
-		adr.setAddress1(cmd.getUser().getAddress1());
-		adr.setAddress2(cmd.getUser().getAddress2());
-		adr.setBldgNumber(cmd.getUser().getBldgNum());
-		adr.setCity(cmd.getUser().getCity());
-		adr.setCountry(cmd.getUser().getCountry());
-		adr.setState(cmd.getUser().getState());
-		adr.setStreetDirection(cmd.getUser().getStreetDirection());
-		adr.setName("DEFAULT ADR");
-		adr.setParentId(pUser.getUser().getUserId());
-		adr.setParentType(ContactConstants.PARENT_TYPE_USER);
-		adr.setPostalCd(cmd.getUser().getPostalCd());
-		pUser.getAddresses().add(adr);
+        adr.setAddress1(cmd.getUser().getAddress1());
+        adr.setAddress2(cmd.getUser().getAddress2());
+        adr.setBldgNumber(cmd.getUser().getBldgNum());
+        adr.setCity(cmd.getUser().getCity());
+        adr.setCountry(cmd.getUser().getCountry());
+        adr.setState(cmd.getUser().getState());
+        adr.setStreetDirection(cmd.getUser().getStreetDirection());
+        adr.setName("DEFAULT ADR");
+        adr.setParentId(pUser.getUser().getUserId());
+        adr.setParentType(ContactConstants.PARENT_TYPE_USER);
+        adr.setPostalCd(cmd.getUser().getPostalCd());
+        pUser.getAddresses().add(adr);
 
 
-
-	}
+    }
 
     private EmailAddress buildEmail(String emailId, String email, String name) {
         EmailAddress em = new EmailAddress();
@@ -594,22 +588,19 @@ public class SelfRegistrationController extends CancellableFormController {
         return em;
     }
 
-    private Phone buildPhone( ProvisionUser usr, String name,
-			String areaCode, String phone) {
-		Phone ph = new Phone();
+    private Phone buildPhone(ProvisionUser usr, String name,
+                             String areaCode, String phone) {
+        Phone ph = new Phone();
 
-		ph.setAreaCd(areaCode);
-		ph.setPhoneNbr(phone);
-		ph.setDescription(name);
-		ph.setParentType(ContactConstants.PARENT_TYPE_USER);
-		ph.setName(name);
-		ph.setParentId(usr.getUserId());
+        ph.setAreaCd(areaCode);
+        ph.setPhoneNbr(phone);
+        ph.setDescription(name);
+        ph.setParentType(ContactConstants.PARENT_TYPE_USER);
+        ph.setName(name);
+        ph.setParentId(usr.getUserId());
 
-		return ph;
-	}
-
-
-
+        return ph;
+    }
 
 
     public MailService getMailService() {

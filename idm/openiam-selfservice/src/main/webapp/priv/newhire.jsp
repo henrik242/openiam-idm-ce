@@ -104,10 +104,10 @@ function selectChange(ctrl) {
 							<div class="row">
 									<label>Organization<span>*</span></label>
 									   <form:select path="user.companyId" multiple="false">
-              				<form:option value="-" label="-Please Select-"/>
-              				<form:options items="${orgList}" itemValue="orgId" itemLabel="organizationName"/>
-          					</form:select> 
-          					<p class="error"><form:errors path="user.companyId" />    </p>  
+                                        <form:option value="" label="-Please Select-"/>
+                                        <form:options items="${orgList}" itemValue="orgId" itemLabel="organizationName"/>
+                                        </form:select>
+          					            <p class="error"><form:errors path="user.companyId" />    </p>
 								</div>
 								<div class="row">
 									<label>Organizational Title</label>

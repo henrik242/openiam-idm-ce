@@ -46,7 +46,6 @@ import org.openiam.selfsrvc.AppConfiguration;
 import org.openiam.selfsrvc.IdToObjectHelper;
 import org.openiam.selfsrvc.pswd.PasswordConfiguration;
 import org.openiam.selfsrvc.usradmin.DelegationFilterHelper;
-import org.openiam.selfsrvc.usradmin.EditUserCommand;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -122,7 +121,7 @@ public class NewHireController extends AbstractWizardFormController {
         NewHireValidator validator = (NewHireValidator) getValidator();
         switch (page) {
             case 0:
-			    validator.validateNewUserType(command, errors);
+                validator.validateNewUserType(command, errors);
                 break;
             case 1:
                 validator.validateNewHireForm(command, errors);
@@ -156,7 +155,7 @@ public class NewHireController extends AbstractWizardFormController {
     protected Map referenceData(HttpServletRequest request, int page) throws Exception {
         switch (page) {
             case 0:
-			    return loadUserTypes(request);
+                return loadUserTypes(request);
             case 1:
                 return loadUserInformation(request);
             case 2:
@@ -179,13 +178,13 @@ public class NewHireController extends AbstractWizardFormController {
         User user = newHireCmd.getUser();
         prepareObject(user, userId);
 
-        List<UserAttribute> attrList =  newHireCmd.getAttributeList();
+        List<UserAttribute> attrList = newHireCmd.getAttributeList();
         if (attrList != null) {
-            for ( UserAttribute ua : attrList) {
+            for (UserAttribute ua : attrList) {
                 ua.setOperation(AttributeOperationEnum.ADD);
                 ua.setUserId(null);
                 ua.setId(null);
-                log.info("Name=" + ua.getName() + "-"+ ua.getValue());
+                log.info("Name=" + ua.getName() + "-" + ua.getValue());
                 user.getUserAttributes().put(ua.getName(), ua);
             }
         }
@@ -264,24 +263,24 @@ public class NewHireController extends AbstractWizardFormController {
 
     private List<Role> getRoleList(NewHireCommand newHireCmd, User user) {
         List<Role> roleList = new ArrayList<Role>();
-		String cmdRole = newHireCmd.getRole();
-		/* parse the role */
-		String domainId = null;
-		String roleId = null;
+        String cmdRole = newHireCmd.getRole();
+        /* parse the role */
+        String domainId = null;
+        String roleId = null;
 
-		StringTokenizer st = new StringTokenizer(cmdRole, "*");
-		if (st.hasMoreTokens()) {
-			domainId = st.nextToken();
-		}
-		if (st.hasMoreElements()) {
-			roleId = st.nextToken();
-		}
-		RoleId id = new RoleId(domainId , roleId);
-		Role r = new Role();
-		r.setId(id);
-		roleList.add(r);
+        StringTokenizer st = new StringTokenizer(cmdRole, "*");
+        if (st.hasMoreTokens()) {
+            domainId = st.nextToken();
+        }
+        if (st.hasMoreElements()) {
+            roleId = st.nextToken();
+        }
+        RoleId id = new RoleId(domainId, roleId);
+        Role r = new Role();
+        r.setId(id);
+        roleList.add(r);
 
-		return roleList;
+        return roleList;
     }
 
 
@@ -292,44 +291,48 @@ public class NewHireController extends AbstractWizardFormController {
         List<Organization> divList = null;
         List<Organization> deptList = null;
         List<Role> roleList = null;
-        List<Group> groupList =null;
+        List<Group> groupList = null;
 
-        HttpSession session =  request.getSession();
-        User usr = (User)session.getAttribute("userObj");
+        HttpSession session = request.getSession();
+        User usr = (User) session.getAttribute("userObj");
 
         if (usr.getDelAdmin() != null && usr.getDelAdmin().intValue() == 1) {
             Map<String, UserAttribute> attrMap = usr.getUserAttributes();
 
             orgList = listToObject.organizationList(attrMap);
 
-            groupList =  listToObject.groupList(attrMap);
+            groupList = listToObject.groupList(attrMap);
 
             // filter the role
             List<String> roleIdList = DelegationFilterHelper.getRoleFilterFromString(attrMap);
-            List<Role> completeRoleList =  roleDataService.getAllRoles().getRoleList();
+            List<Role> completeRoleList = roleDataService.getAllRoles().getRoleList();
 
 
             if (roleIdList == null) {
                 roleList = completeRoleList;
-            }else {
+            } else {
                 // apply filter
                 roleList = new ArrayList<Role>();
                 for (Role r : completeRoleList) {
 
-                    System.out.println("Role id = " + r.getId().getRoleId());
+                    log.info("Role id = " + r.getId().getRoleId());
 
                     if (roleIdList.contains(r.getId().getServiceId() + "*" + r.getId().getRoleId())) {
 
-                        System.out.println("Role found and added to roleList");
+                        log.info("Role found and added to roleList");
                         roleList.add(r);
                     }
                 }
             }
 
 
-
-        }else {
-            orgList = orgManager.getTopLevelOrganizations();
+        } else {
+            // if you are not a delegated admin,then you should only be able to create users for your own organization
+            String companyId =  usr.getCompanyId();
+            if (companyId != null) {
+                orgList = new ArrayList<Organization>();
+                orgList.add(orgManager.getOrganization(companyId));
+            }
             // get the divisions
 
 
@@ -368,21 +371,21 @@ public class NewHireController extends AbstractWizardFormController {
     }
 
     protected Map loadUserTypes(HttpServletRequest request) {
-		log.info("referenceData:loadUserTypes called.");
+        log.info("referenceData:loadUserTypes called.");
 
-		HttpSession session =  request.getSession();
+        HttpSession session = request.getSession();
 
-		log.info("User type category =" + appConfiguration.getUserCategoryType());
+        log.info("User type category =" + appConfiguration.getUserCategoryType());
 
-		MetadataType[] typeAry = metadataService.getTypesInCategory(appConfiguration.getUserCategoryType()).getMetadataTypeAry();
+        MetadataType[] typeAry = metadataService.getTypesInCategory(appConfiguration.getUserCategoryType()).getMetadataTypeAry();
 
 
-		Map model = new HashMap();
-		model.put("metadataTypeAry",typeAry);
+        Map model = new HashMap();
+        model.put("metadataTypeAry", typeAry);
 
-		return model;
+        return model;
 
-	}
+    }
 
 
     protected Map loadAppInformation(HttpServletRequest request) {
@@ -408,9 +411,9 @@ public class NewHireController extends AbstractWizardFormController {
     }
 
 
-    private ProvisionRequest createRequest(String userId, User usr, String asXML, ProvisionUser pUser) {
+    private ProvisionRequest createRequest(String requestorID, User usr, String asXML, ProvisionUser pUser) {
 
-       String approverId = null;
+        String approverId = null;
 
         Resource newUserResource = resourceDataService.getResource(requestType);
 
@@ -419,7 +422,13 @@ public class NewHireController extends AbstractWizardFormController {
 
         ProvisionRequest req = new ProvisionRequest();
         req.setRequestId(null);
-        req.setRequestorId(userId);
+
+        User requestor = userMgr.getUserWithDependent(requestorID, false).getUser();
+        if (requestor != null) {
+
+            req.setRequestorId(requestor.getFirstName() + " " + requestor.getLastName());
+
+        }
         req.setStatus("PENDING");
         req.setStatusDate(curDate);
         req.setRequestDate(curDate);
@@ -431,8 +440,6 @@ public class NewHireController extends AbstractWizardFormController {
             req.setRequestForOrgId(usr.getCompanyId());
         }
 
-
-        //req.setManagedResourceId(managedResource.getManagedSysId());
 
         // add a user to the request - this is the person in the New Hire
         Set<RequestUser> reqUserSet = req.getRequestUsers();
@@ -451,20 +458,20 @@ public class NewHireController extends AbstractWizardFormController {
 
         if (apList != null) {
 
-            for (ApproverAssociation ap : apList)  {
+            for (ApproverAssociation ap : apList) {
                 String approverType;
                 String roleDomain = null;
 
                 if (ap != null) {
                     approverType = ap.getAssociationType();
-                    System.out.println("Approver =" + ap.getApproverRoleId());
 
-                    if ( ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
+
+                    if (ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
                         Supervisor supVisor = pUser.getSupervisor();
                         approverId = supVisor.getSupervisor().getUserId();
 
 
-                    } else if ( ap.getAssociationType().equalsIgnoreCase("ROLE")) {
+                    } else if (ap.getAssociationType().equalsIgnoreCase("ROLE")) {
                         approverId = ap.getApproverRoleId();
                         roleDomain = ap.getApproverRoleDomain();
 
@@ -475,7 +482,6 @@ public class NewHireController extends AbstractWizardFormController {
                         if (usr.getCompanyId() != null) {
                             userOrg = usr.getCompanyId();
                         }
-
 
 
                     } else {
@@ -496,7 +502,7 @@ public class NewHireController extends AbstractWizardFormController {
 
         provRequestService.addRequest(req);
 
-        notifyApprover(req, reqUser, userId, usr, approverRole, userOrg, applyDelegationFilter);
+        notifyApprover(req, reqUser, requestorID, usr, approverRole, userOrg, applyDelegationFilter);
 
         return req;
 
@@ -505,17 +511,17 @@ public class NewHireController extends AbstractWizardFormController {
 
 
     private void notifyApprover(ProvisionRequest pReq, RequestUser reqUser, String requestorId,
-                                 User usr, String approverRole, String userOrg, int  applyDelegationFilter) {
+                                User usr, String approverRole, String userOrg, int applyDelegationFilter) {
 
         // requestor information
-      //  User approver = userMgr.getUserWithDependent(approverUserId, false).getUser();
+        //  User approver = userMgr.getUserWithDependent(approverUserId, false).getUser();
 
-        Set<RequestApprover> approverList =  pReq.getRequestApprovers();
-        for ( RequestApprover ra : approverList) {
+        Set<RequestApprover> approverList = pReq.getRequestApprovers();
+        for (RequestApprover ra : approverList) {
 
             User requestor = userMgr.getUserWithDependent(requestorId, false).getUser();
 
-               if (! ra.getApproverType().equalsIgnoreCase("ROLE")) {
+            if (!ra.getApproverType().equalsIgnoreCase("ROLE")) {
 
                 NotificationRequest request = new NotificationRequest();
                 request.setUserId(ra.getApproverId());
@@ -530,38 +536,38 @@ public class NewHireController extends AbstractWizardFormController {
 
                 mailService.sendNotification(request);
 
-               }else {
-                    DelegationFilterSearch search = new DelegationFilterSearch();
-                    search.setRole(approverRole);
-                    search.setDelAdmin(applyDelegationFilter);
-                    search.setOrgFilter("%" + userOrg + "%");
+            } else {
+                DelegationFilterSearch search = new DelegationFilterSearch();
+                search.setRole(approverRole);
+                search.setDelAdmin(applyDelegationFilter);
+                search.setOrgFilter("%" + userOrg + "%");
 
-                    System.out.println("User Org value =" + userOrg);
+                System.out.println("User Org value =" + userOrg);
 
-                    List<User> roleApprovers =  userMgr.searchByDelegationProperties(search).getUserList();
+                List<User> roleApprovers = userMgr.searchByDelegationProperties(search).getUserList();
 
-                    System.out.println("List of approvers for Role: " + roleApprovers);
+                System.out.println("List of approvers for Role: " + roleApprovers);
 
-                    if (roleApprovers != null && !roleApprovers.isEmpty()) {
-                        for (User u :roleApprovers) {
-                           NotificationRequest request = new NotificationRequest();
-                            // one of the approvers
-                            request.setUserId( u.getUserId()) ;
-                            request.setNotificationType("NEW_PENDING_REQUEST");
+                if (roleApprovers != null && !roleApprovers.isEmpty()) {
+                    for (User u : roleApprovers) {
+                        NotificationRequest request = new NotificationRequest();
+                        // one of the approvers
+                        request.setUserId(u.getUserId());
+                        request.setNotificationType("NEW_PENDING_REQUEST");
 
-                            request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
+                        request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
 
-                            request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
-                            request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
-                            request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
+                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
+                        request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
+                        request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
 
 
-                            mailService.sendNotification(request);
-
-                        }
+                        mailService.sendNotification(request);
 
                     }
-                   }
+
+                }
+            }
         }
 
 
@@ -570,98 +576,97 @@ public class NewHireController extends AbstractWizardFormController {
 
     private void setEmail(NewHireCommand cmd, ProvisionUser pUser) {
 
-            String email = cmd.getEmail1();
-            String emailId = cmd.getEmail1Id();
-            if (email != null && email.length() > 0) {
-                EmailAddress em = buildEmail(emailId, email,"EMAIL1");
-                log.info("EmailId 1 = " + em.getEmailId());
-                pUser.getEmailAddress().add(em);
-                pUser.setEmail(email);
-            }
-            email = cmd.getEmail2();
-            emailId = cmd.getEmail2Id();
-            if (email != null && email.length() > 0) {
-                EmailAddress em = buildEmail(emailId, email, "EMAIL2");
-                log.info("EmailId 2 = " + em.getEmailId());
-                pUser.getEmailAddress().add(em);
-            }
-            email = cmd.getEmail3();
-            emailId = cmd.getEmail3Id();
-            if (email != null && email.length() > 0) {
-                EmailAddress em = buildEmail(emailId, email, "EMAIL3");
-                pUser.getEmailAddress().add(em);
-            }
-
-
+        String email = cmd.getEmail1();
+        String emailId = cmd.getEmail1Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email, "EMAIL1");
+            log.info("EmailId 1 = " + em.getEmailId());
+            pUser.getEmailAddress().add(em);
+            pUser.setEmail(email);
+        }
+        email = cmd.getEmail2();
+        emailId = cmd.getEmail2Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email, "EMAIL2");
+            log.info("EmailId 2 = " + em.getEmailId());
+            pUser.getEmailAddress().add(em);
+        }
+        email = cmd.getEmail3();
+        emailId = cmd.getEmail3Id();
+        if (email != null && email.length() > 0) {
+            EmailAddress em = buildEmail(emailId, email, "EMAIL3");
+            pUser.getEmailAddress().add(em);
         }
 
+
+    }
+
     private void setPhone(NewHireCommand cmd, ProvisionUser usr) {
-	//	Set<Phone> phSet = usr.getPhone();
+        //	Set<Phone> phSet = usr.getPhone();
 
- 	// add obbject
-
-
-		Phone ph = buildPhone( usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
-		if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0 ) {
-			ph.setPhoneId(cmd.getWorkPhoneId());
-		}
-		usr.getPhone().add(ph);
-
-		ph = buildPhone( usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
-		log.info("CELL PHONE: " + cmd.getCellPhoneId());
-		if (cmd.getCellPhoneId() != null && cmd.getCellPhoneId().length() > 0 ) {
-			ph.setPhoneId(cmd.getCellPhoneId());
-		}
-		usr.getPhone().add(ph);
-
-		ph = buildPhone( usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone() );
-		if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0 ) {
-			ph.setPhoneId(cmd.getFaxPhoneId());
-		}
-		usr.getPhone().add(ph);
-
-		ph = buildPhone( usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr() );
-		if (cmd.getHomePhoneIdr() != null && cmd.getHomePhoneIdr().length() > 0 ) {
-			ph.setPhoneId(cmd.getHomePhoneIdr());
-		}
-		usr.getPhone().add(ph);
-
-		ph = buildPhone( usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr() );
-		if (cmd.getAltCellNbrId() != null && cmd.getAltCellNbrId().length() > 0 ) {
-			ph.setPhoneId(cmd.getAltCellNbrId());
-		}
-		usr.getPhone().add(ph);
-
-		ph = buildPhone( usr, "PERSONAL PHONE", cmd.getPersonalAreaCode(), cmd.getPersonalNbr() );
-		if (cmd.getPersonalNbrId() != null && cmd.getPersonalNbrId().length() > 0 ) {
-			ph.setPhoneId(cmd.getPersonalNbrId());
-		}
-		usr.getPhone().add(ph);
+        // add obbject
 
 
-	}
+        Phone ph = buildPhone(usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
+        if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0) {
+            ph.setPhoneId(cmd.getWorkPhoneId());
+        }
+        usr.getPhone().add(ph);
 
-private void setAddress(NewHireCommand cmd, ProvisionUser pUser) {
-		log.info("setAddress called.");
+        ph = buildPhone(usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
+        log.info("CELL PHONE: " + cmd.getCellPhoneId());
+        if (cmd.getCellPhoneId() != null && cmd.getCellPhoneId().length() > 0) {
+            ph.setPhoneId(cmd.getCellPhoneId());
+        }
+        usr.getPhone().add(ph);
 
-		Address adr = new Address();
+        ph = buildPhone(usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone());
+        if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0) {
+            ph.setPhoneId(cmd.getFaxPhoneId());
+        }
+        usr.getPhone().add(ph);
 
-		adr.setAddress1(cmd.getUser().getAddress1());
-		adr.setAddress2(cmd.getUser().getAddress2());
-		adr.setBldgNumber(cmd.getUser().getBldgNum());
-		adr.setCity(cmd.getUser().getCity());
-		adr.setCountry(cmd.getUser().getCountry());
-		adr.setState(cmd.getUser().getState());
-		adr.setStreetDirection(cmd.getUser().getStreetDirection());
-		adr.setName("DEFAULT ADR");
-		adr.setParentId(pUser.getUser().getUserId());
-		adr.setParentType(ContactConstants.PARENT_TYPE_USER);
-		adr.setPostalCd(cmd.getUser().getPostalCd());
-		pUser.getAddresses().add(adr);
+        ph = buildPhone(usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr());
+        if (cmd.getHomePhoneIdr() != null && cmd.getHomePhoneIdr().length() > 0) {
+            ph.setPhoneId(cmd.getHomePhoneIdr());
+        }
+        usr.getPhone().add(ph);
+
+        ph = buildPhone(usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr());
+        if (cmd.getAltCellNbrId() != null && cmd.getAltCellNbrId().length() > 0) {
+            ph.setPhoneId(cmd.getAltCellNbrId());
+        }
+        usr.getPhone().add(ph);
+
+        ph = buildPhone(usr, "PERSONAL PHONE", cmd.getPersonalAreaCode(), cmd.getPersonalNbr());
+        if (cmd.getPersonalNbrId() != null && cmd.getPersonalNbrId().length() > 0) {
+            ph.setPhoneId(cmd.getPersonalNbrId());
+        }
+        usr.getPhone().add(ph);
 
 
+    }
 
-	}
+    private void setAddress(NewHireCommand cmd, ProvisionUser pUser) {
+        log.info("setAddress called.");
+
+        Address adr = new Address();
+
+        adr.setAddress1(cmd.getUser().getAddress1());
+        adr.setAddress2(cmd.getUser().getAddress2());
+        adr.setBldgNumber(cmd.getUser().getBldgNum());
+        adr.setCity(cmd.getUser().getCity());
+        adr.setCountry(cmd.getUser().getCountry());
+        adr.setState(cmd.getUser().getState());
+        adr.setStreetDirection(cmd.getUser().getStreetDirection());
+        adr.setName("DEFAULT ADR");
+        adr.setParentId(pUser.getUser().getUserId());
+        adr.setParentType(ContactConstants.PARENT_TYPE_USER);
+        adr.setPostalCd(cmd.getUser().getPostalCd());
+        pUser.getAddresses().add(adr);
+
+
+    }
 
 
     private EmailAddress buildEmail(String emailId, String email, String name) {
@@ -675,19 +680,19 @@ private void setAddress(NewHireCommand cmd, ProvisionUser pUser) {
         return em;
     }
 
-    private Phone buildPhone( ProvisionUser usr, String name,
-			String areaCode, String phone) {
-		Phone ph = new Phone();
+    private Phone buildPhone(ProvisionUser usr, String name,
+                             String areaCode, String phone) {
+        Phone ph = new Phone();
 
-		ph.setAreaCd(areaCode);
-		ph.setPhoneNbr(phone);
-		ph.setDescription(name);
-		ph.setParentType(ContactConstants.PARENT_TYPE_USER);
-		ph.setName(name);
-		ph.setParentId(usr.getUserId());
+        ph.setAreaCd(areaCode);
+        ph.setPhoneNbr(phone);
+        ph.setDescription(name);
+        ph.setParentType(ContactConstants.PARENT_TYPE_USER);
+        ph.setName(name);
+        ph.setParentId(usr.getUserId());
 
-		return ph;
-	}
+        return ph;
+    }
 
     public String getDefaultDomainId() {
         return defaultDomainId;

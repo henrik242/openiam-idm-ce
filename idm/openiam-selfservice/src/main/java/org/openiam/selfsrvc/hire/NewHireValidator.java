@@ -54,7 +54,7 @@ public class NewHireValidator implements Validator {
 	}
 
 	public void validateNewHireForm(Object cmd, Errors err) {
-		// TODO Auto-generated method stub
+
 		NewHireCommand newHireCmd =  (NewHireCommand) cmd;
 		
 		
@@ -70,13 +70,12 @@ public class NewHireValidator implements Validator {
 			err.rejectValue("user.lastName", "required");
 		}
 
+        if (user.getCompanyId() == null || user.getCompanyId().length() == 0) {
+            err.rejectValue("user.companyId", "required");
+        }
 
-		if (newHireCmd.getStatus() == null || newHireCmd.getStatus().equalsIgnoreCase("-") ) {
-			err.rejectValue("status", "required");
-		}
-		if (user.getSex() == null || user.getSex().equalsIgnoreCase("-") ) {
-			err.rejectValue("user.sex", "required");
-		}
+
+
 		if (newHireCmd.getRole() == null || newHireCmd.getRole().equalsIgnoreCase("-") ) {
 			err.rejectValue("role", "required");
         }
