@@ -1,0 +1,15 @@
+<jboss-deployment-structure>
+  <deployment>
+    <!-- Exclusions allow you to prevent the server from automatically adding some dependencies     -->
+    <exclusions>
+        <module name="org.apache" />
+        <module name="org.hibernate" />
+    </exclusions>
+    <!-- This allows you to define additional dependencies, it is the same as using the Dependencies: manifest attribute -->
+    <dependencies>
+      <module name="openiam.conf" />
+      <module name="com.mysql" />
+    </dependencies>
+  </deployment>
+
+</jboss-deployment-structure>
