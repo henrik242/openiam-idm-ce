@@ -1,0 +1,11 @@
+Configuration:
+1. OpenIAM properties files: The configuration files of OpenIAM are now located in a module of JBoss 7. They can be found in ${JBOSS_HOME}/modules/openiam/conf/main
+
+2. Our webservice configuration is not compatible with the JBoss built-in webservices. The "<subsystem xmlns="urn:jboss:domain:webservices:1.1">" tag with all it's children
+needs to be removed from ${JBOSS_HOME}/standalone/configuration/standalone.xml before starting JBoss 7 for the first time.
+
+JDBC Driver:
+If MySQL is being used as rdms no additional steps need to be done.
+For every other database a new module needs to be created. For more documentation on this, please look here: https://community.jboss.org/wiki/DataSourceConfigurationInAS7 "Installing a JDBC driver as a module"
+
+After a new driver is added as module, openiam-idm-esb needs to know about this new driver. In the WEB-INF/jboss-deployment-structure.xml below <dependecies> the module "com.mysql" needs to be changed to the new module.
