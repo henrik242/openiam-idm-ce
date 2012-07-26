@@ -371,13 +371,25 @@ public class EditUserController extends CancellableFormController {
 		if (btnName.equalsIgnoreCase("DELETE")) {
 			pUser.setStatus(UserStatusEnum.DELETED);
 			// get the primary identity
-			Login lg = loginManager.getPrimaryIdentity(usr.getUserId()).getPrincipal();
-			provRequestService.deleteUser(configuration.getDefaultSecurityDomain(),
-					configuration.getDefaultManagedSysId(),
-					lg.getId().getLogin(), UserStatusEnum.DELETED,
-					pUser.getLastUpdatedBy());
+            provRequestService.deleteByUserId(pUser, UserStatusEnum.DELETED, userId);
+
+
 			 return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
 		}
+
+        /**
+         *
+         * pUser.setStatus(UserStatusEnum.DELETED);
+         // get the primary identity
+         Login lg = loginManager.getPrimaryIdentity(usr.getUserId()).getPrincipal();
+
+         // add scripting here
+
+         if (extCmd.pre("DELETE", controllerObj, null) == ExtendController.SUCCESS_CONTINUE) {
+
+         provRequestService.deleteByUserId(pUser, UserStatusEnum.DELETED, userId);
+         }
+         */
 		
 
 

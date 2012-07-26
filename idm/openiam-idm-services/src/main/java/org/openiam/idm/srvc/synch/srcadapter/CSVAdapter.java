@@ -92,12 +92,10 @@ public class CSVAdapter implements SourceAdapter {
 	
 	public SyncResponse startSynch(SynchConfig config) {
 
-         log.debug("CSV startSynch CALLED.^^^^^^^^");
+       log.debug("CSV startSynch CALLED.^^^^^^^^");
 
 
-        System.out.println("CSV startSynch CALLED.^^^^^^^^");
 
-		
 		Reader reader = null;
 		
 		MatchObjectRule matchRule = null;
@@ -155,8 +153,6 @@ public class CSVAdapter implements SourceAdapter {
 			for (String[] lineAry : fileContentAry) {
 				log.debug("File Row #= " + lineAry[0]);
 
-                System.out.println("File Row #= " + lineAry[0]);
-
 				if (ctr == 0) {
 					populateTemplate(lineAry);
 					ctr++;
@@ -169,7 +165,7 @@ public class CSVAdapter implements SourceAdapter {
 					
 					try {
 
-                        System.out.println("Validation being called");
+                        log.debug("Validation being called");
 
 						// validate
 						if (config.getValidationRule() != null && config.getValidationRule().length() > 0) {
@@ -184,17 +180,17 @@ public class CSVAdapter implements SourceAdapter {
 							}
 						}
 
-                        System.out.println("Getting column map...");
+                        log.debug("Getting column map...");
 
 						// check if the user exists or not
 						Map<String, Attribute> rowAttr = rowObj.getColumnMap();
 
-                        System.out.println("Row Attr..." + rowAttr);
+                        log.debug("Row Attr..." + rowAttr);
 						//
 						matchRule =  matchRuleFactory.create(config);
 						User usr = matchRule.lookup(config, rowAttr);
 
-                        System.out.println("Preparing transform script");
+                        log.debug("Preparing transform script");
 
 						// transform
 						if (config.getTransformationRule() != null && config.getTransformationRule().length() > 0) {
@@ -211,11 +207,11 @@ public class CSVAdapter implements SourceAdapter {
 								transformScript.setNewUser(true);
 							}
 
-                             System.out.println("Execute transform script");
+                            log.debug("Execute transform script");
 
 							int retval = transformScript.execute(rowObj, pUser);
 
-                             System.out.println("Execute complete transform script");
+                            log.debug("Execute complete transform script");
 
 							//pUser.setSessionId(synchStartLog.getSessionId());
 							// temp code
@@ -227,12 +223,12 @@ public class CSVAdapter implements SourceAdapter {
 								// call synch
 								if (retval != TransformScript.DELETE) {
 									if (usr != null) {
-										System.out.println("Updating existing user");
+										log.debug("Updating existing user");
 										pUser.setUserId(usr.getUserId());
 										provService.modifyUser(pUser);
 
 									}else {
-                                        System.out.println("New user being provisioned");
+                                        log.debug("New user being provisioned");
 
 										pUser.setUserId(null);
 										provService.addUser(pUser);
@@ -274,7 +270,6 @@ public class CSVAdapter implements SourceAdapter {
 
         log.debug("CSV SYNCHRONIZATION COMPLETE^^^^^^^^");
 
-        System.out.println("CSV SYNCHRONIZATION COMPLETE^^^^^^^^");
 		
 		SyncResponse resp = new SyncResponse(ResponseStatus.SUCCESS);
 		return resp;
