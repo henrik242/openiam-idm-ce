@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 public abstract class AbstractSrcAdapter implements SourceAdapter {
 
     public static ApplicationContext ac;
-    private static final Log log = LogFactory.getLog(RDBMSAdapter.class);
+    private static final Log log = LogFactory.getLog(AbstractSrcAdapter.class);
 
     protected AuditHelper auditHelper;
     protected MuleContext muleContext;
