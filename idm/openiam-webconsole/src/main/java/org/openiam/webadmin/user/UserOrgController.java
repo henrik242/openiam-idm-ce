@@ -173,8 +173,9 @@ public class UserOrgController extends CancellableFormController {
 		// get the current user object
 		String personId = orgCmd.getPerId();
 
-        System.out.println("PersonId=" + personId);
-        System.out.println("Org List =" + orgCmd.getOrgList());
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
+
+
 
 		UserResponse usrResp =  userMgr.getUserWithDependent(personId, true);
 		if (usrResp.getStatus() == ResponseStatus.SUCCESS ) {
@@ -184,7 +185,6 @@ public class UserOrgController extends CancellableFormController {
             }
 		}
 
-        System.out.println("UserOrgController: onsubmit found..");
 
 		ProvisionUser pUser = new ProvisionUser(usr);
 
@@ -215,7 +215,7 @@ public class UserOrgController extends CancellableFormController {
         pUser.setUserAffiliations(provOrgList);
 		provRequestService.modifyUser(pUser);
 
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 
 	}
 

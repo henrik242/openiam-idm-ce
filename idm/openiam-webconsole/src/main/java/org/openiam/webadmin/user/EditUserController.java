@@ -177,8 +177,10 @@ public class EditUserController extends CancellableFormController {
 		String personId = request.getParameter("personId");
 		String menuGrp = request.getParameter("menugrp");
 
+
 		log.info("PersonId=" + personId);
-		
+
+
 		HttpSession session =  request.getSession();
 		String userId = (String)session.getAttribute("userId");
 		String domainId = (String)request.getSession().getAttribute("domainid");
@@ -200,11 +202,7 @@ public class EditUserController extends CancellableFormController {
 		}
 		User usr =resp.getUser();
 		
-		log.info("User jobcode=" + usr.getJobCode());
-		log.info("User classification:" + usr.getClassification());
-		log.info("User Employment Type:" + usr.getEmployeeType());
-		log.info("User show in search:" + usr.getShowInSearch());
-		
+
 		editUserCmd.setUser(usr);
 		
 		// get supervisor information
@@ -302,7 +300,10 @@ public class EditUserController extends CancellableFormController {
 
 		ProvisionUser pUser = new ProvisionUser(usr);
         controllerObj.put("user", pUser);
-		
+
+        String url =  redirectView + "&personId=" + usr.getUserId() + "&menugrp=QUERYUSER";
+
+
 		// check what type of button was picked.
 		// based on that take action
 		log.info("Btn clicked=" + request.getParameter("saveBtn"));
@@ -314,13 +315,13 @@ public class EditUserController extends CancellableFormController {
 			    provRequestService.disableUser(usr.getUserId(), true, userId);
             }
 
-            return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+            return new ModelAndView(new RedirectView(url, true));
 		}
 		if (btnName.equalsIgnoreCase("ENABLE")) {
             if (extCmd.pre("ENABLE", controllerObj, null) == ExtendController.SUCCESS_CONTINUE) {
 			    provRequestService.disableUser(usr.getUserId(), false, userId);
             }
-			return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));			
+			return new ModelAndView(new RedirectView(url, true));
 		}
 
         String login = (String)session.getAttribute("login");
@@ -349,7 +350,7 @@ public class EditUserController extends CancellableFormController {
 		
 			// add post scripting here
 			
-			 return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+			 return new ModelAndView(new RedirectView(url, true));
 		}
 		
 
@@ -376,7 +377,7 @@ public class EditUserController extends CancellableFormController {
        }
 		
 
-        return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+        return new ModelAndView(new RedirectView(url, true));
 
 	}
 

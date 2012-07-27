@@ -126,6 +126,7 @@ public class ResetUserPasswordController extends CancellableFormController {
             return new ModelAndView(new RedirectView(redirectView, true));
         }
 
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
 
         // need to sync the passwords across all domains that this user belongs to
 
@@ -163,7 +164,7 @@ public class ResetUserPasswordController extends CancellableFormController {
 		
 		
 				
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 		
 
 	}

@@ -211,7 +211,7 @@ public class IndexAction extends DispatchActionSupport  {
 		log.info("getCompanyList called.");
 		ArrayList<LabelValueBean> newCodeList = new ArrayList();
 	   	
-	   	List<Organization> companyList = orgDataService.getAllOrganizations();   	
+	   	List<Organization> companyList = orgDataService.getTopLevelOrganizations();
         if (companyList != null && companyList.size() > 0) {
         	newCodeList.add(new LabelValueBean("",""));
         	for (int i=0; i< companyList.size(); i++) {       		

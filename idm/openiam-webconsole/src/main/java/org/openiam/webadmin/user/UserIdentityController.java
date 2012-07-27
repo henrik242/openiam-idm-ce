@@ -146,8 +146,7 @@ public class UserIdentityController extends CancellableFormController {
 	
 		User usr = null;
 		
-		System.out.println("UserIdentityController: onSubmit");
-		
+
 		UserIdentityCommand identityCmd =(UserIdentityCommand)command;
 		
 		HttpSession session = request.getSession();
@@ -155,6 +154,8 @@ public class UserIdentityController extends CancellableFormController {
 		
 		// get the current user object
 		String personId = identityCmd.getPerId();
+
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
 
 		
 		UserResponse usrResp =  userMgr.getUserWithDependent(personId, true);
@@ -170,7 +171,6 @@ public class UserIdentityController extends CancellableFormController {
 				if (lg.isSelected()) {
 					lg.setOperation(AttributeOperationEnum.DELETE);
 
-                    System.out.println("Identity marked for deletion: " + lg.getId());
 				}
 				// decrypt the password so that it does not fail in the modify operation
 				if (lg.getPassword() != null) {
@@ -188,7 +188,7 @@ public class UserIdentityController extends CancellableFormController {
 		
 		provRequestService.modifyUser(pUser);
 		
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 
 	}
 

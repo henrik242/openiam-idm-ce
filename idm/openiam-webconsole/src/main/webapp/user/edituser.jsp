@@ -62,7 +62,15 @@ function showSupervisorDialog(idfield, namefield) {
 					</table>
 			</td>
 		</tr>
-			<tr>
+            <% if ("1".equals(request.getParameter("mode"))) { %>
+            <tr>
+                <td><font color="red">The information has been successfully saved.<br>
+                    To exit this screen press [Cancel]</font>
+                </td>
+            </tr>
+            <% } %>
+
+		<tr>
 				<td>
 
 <form:form commandName="editUserCmd">

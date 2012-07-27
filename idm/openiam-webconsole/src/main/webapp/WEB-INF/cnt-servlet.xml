@@ -698,7 +698,7 @@
         <property name="emailUserIdentity" value="true" />
         <property name="notificationService" ref="mailServiceClient" />
 				
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
         <property name="cancelView" value="idman/userSearch.do?action=view" />
 
         <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
@@ -719,7 +719,7 @@
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="provRequestService" ref="provisionServiceClient" />	
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
 		<property name="managedSysService" ref="managedSysServiceClient" />
         <property name="cancelView" value="idman/userSearch.do?action=view" />
      </bean>
@@ -746,7 +746,7 @@
 		<property name="groupManager" ref="groupServiceClient" />
 		<property name="navigationDataService" ref="navServiceClient" />
 		<property name="userMgr" ref="userServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
 		<property name="provRequestService" ref="provisionServiceClient" />
         <property name="cancelView" value="idman/userSearch.do?action=view" />
      </bean>
@@ -759,7 +759,7 @@
 		<property name="successView" value="/user/confirm" />
 		<property name="roleDataService" ref="roleServiceClient" />
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="provRequestService" ref="provisionServiceClient" />
         <property name="cancelView" value="idman/userSearch.do?action=view" />
@@ -775,7 +775,7 @@
 		<property name="successView" value="/user/confirm" />
         <property name="orgManager" ref="orgServiceClient" />
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="provRequestService" ref="provisionServiceClient" />
         <property name="cancelView" value="idman/userSearch.do?action=view" />
@@ -788,7 +788,7 @@
 		<property name="formView" value="/user/userattr" />
 		<property name="successView" value="/user/confirm" />
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="provRequestService" ref="provisionServiceClient" />	
 		<property name="metadataService" ref="metadataServiceClient"	/>
@@ -804,7 +804,7 @@
 		<property name="formView" value="/user/delegatefilter" />
 		<property name="successView" value="/user/confirm" />
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="loginManager" ref="loginServiceClient" />
 
@@ -841,7 +841,7 @@
 		<property name="userMgr" ref="userServiceClient" />	
 		<property name="provRequestService" ref="provisionServiceClient" />	
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="redirectView" value="idman/userSearch.do?action=view" />
+		<property name="redirectView" value="editUser.cnt?mode=1" />
          <property name="cancelView" value="idman/userSearch.do?action=view" />
      </bean>
 

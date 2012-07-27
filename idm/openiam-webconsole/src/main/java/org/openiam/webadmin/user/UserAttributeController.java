@@ -223,7 +223,9 @@ public class UserAttributeController extends CancellableFormController {
 			return mv;
 		}
 		usr = resp.getUser();
-		
+
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
+
 		
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
@@ -275,7 +277,7 @@ public class UserAttributeController extends CancellableFormController {
 			 	
 		this.provRequestService.modifyUser(pUser);
 				
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 
 	}
 	

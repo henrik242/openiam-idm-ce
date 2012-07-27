@@ -169,6 +169,8 @@ public class UserRoleController extends CancellableFormController {
 		}
 		ProvisionUser pUser = new ProvisionUser(usr);
 
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
+
         // carry forward any affiliations that may be linked to this user
         currentOrgList = orgManager.getOrganizationsForUser(personId);
         pUser.setUserAffiliations(currentOrgList);
@@ -217,7 +219,7 @@ public class UserRoleController extends CancellableFormController {
 		log.info("modifyUser on ProvisioningService to be called.");
 		provRequestService.modifyUser(pUser);
 		
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 
 	}
 

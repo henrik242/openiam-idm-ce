@@ -311,7 +311,7 @@ public class UserSearchAction extends DispatchActionSupport {
 	public List allOrganizationAsLabels() {
 		List<LabelValueBean> newCodeList = new LinkedList();
 		try {
-			List<Organization> orgList = this.orgManager.getAllOrganizations();
+			List<Organization> orgList = this.orgManager.getTopLevelOrganizations();
 			if (orgList != null && orgList.size() > 0) {
 				newCodeList.add(new LabelValueBean("", ""));
 				for (int i = 0; i < orgList.size(); i++) {

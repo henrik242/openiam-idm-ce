@@ -230,11 +230,13 @@ public class DelegationFilterController extends CancellableFormController {
         pUser.setRequestorDomain(domain);
 		// check the user attributes
 
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
+
 	 //	Map<String, UserAttribute> attrMap = pUser.getUserAttributes();
 
 		this.provRequestService.modifyUser(pUser);
 
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 	}
 
 

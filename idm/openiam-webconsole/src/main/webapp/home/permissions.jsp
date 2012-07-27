@@ -53,7 +53,7 @@
     if (userId != null) { 
            
        %>
-&nbsp;<a href="logout.do" class="menuBar">Logout</a>
+&nbsp;<a href="<%=request.getContextPath() %>/logout.do" class="menuBar">Logout</a>
             </font>
          </td>
       </tr>

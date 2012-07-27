@@ -138,6 +138,8 @@ public class UserGroupController extends CancellableFormController {
 		// get the current user object
 		String personId = userGroupCmd.getPerId();
 		log.info("Person id=" + personId);
+
+        String url =  redirectView + "&personId=" + personId + "&menugrp=QUERYUSER";
 		
 		UserResponse usrResp =  userMgr.getUserWithDependent(personId, true);
 		if (usrResp.getStatus() == ResponseStatus.SUCCESS ) {
@@ -190,7 +192,7 @@ public class UserGroupController extends CancellableFormController {
 		log.info("modifyUser on ProvisioningService to be called.");
 		provRequestService.modifyUser(pUser);
 		
-		return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+		return new ModelAndView(new RedirectView(url, true));
 
 	}
 
