@@ -53,17 +53,18 @@ public class MetadataAttributeController extends SimpleFormController {
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
-		// TODO Auto-generated method stub
+
 		MetadataAttributeCommand cmd = new MetadataAttributeCommand();
 		
 		String typeId = request.getParameter("typeId");
 		String menuGroup = request.getParameter("menuGroup");
 		String attrId = request.getParameter("attrId");
-		
+
+        cmd.setTypeId(typeId);
 		
 		// used by the UI for to show the side menu
 		request.setAttribute("menuGroup", menuGroup);
-        System.out.println("typeId = " + typeId);
+
 		request.setAttribute("typeId", typeId);
 		cmd.getElement().setMetadataTypeId(typeId);
 		
@@ -77,10 +78,11 @@ public class MetadataAttributeController extends SimpleFormController {
 		}
 		
 		if (elementAry == null) {
-			return new MetadataAttributeCommand();
+
+
+			return cmd;
 		}else {
 			cmd.setElementAry(elementAry);
-            cmd.setTypeId(typeId);
 			if (attr != null) {
 				cmd.setElement(attr);
 			}
@@ -114,18 +116,21 @@ public class MetadataAttributeController extends SimpleFormController {
 		}else {		
 			if (element.getMetadataElementId() == null || element.getMetadataElementId().length() == 0) {
 				element.setMetadataElementId(null);
-                System.out.println("metadataElementID = " + element.getMetadataElementId());
-                System.out.println("metadataTypeID = " + element.getMetadataTypeId());
+
+                log.info("Adding metadata element = " + element);
 
 				metadataService.addMetadataElement(element);
 			}else {
+
+                log.info("Updating metadata element = " + element);
+
 				metadataService.updateMetadataElement(element);
 			}
 
 		}
 	
 	
-		return new ModelAndView(new RedirectView("metadataAttribute.cnt?typeId=" + element.getMetadataTypeId() +"&menuGroup=METADATA", true));
+		return new ModelAndView(new RedirectView("metadataAttribute.cnt?typeId=" + element.getMetadataTypeId() +"&menuGroup=METADATA&mode=1", true));
 
 
 		

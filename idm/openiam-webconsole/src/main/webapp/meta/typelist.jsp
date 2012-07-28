@@ -69,7 +69,6 @@
 		    <tr class="header">
 			  	<th>Type ID</td>
 		        <th>Description</td>
-				<th>Status</td>
 		    </tr>
 
 
@@ -77,8 +76,7 @@
 		<tr>
 
 			<td class="tableEntry"><a href="metadataType.cnt?typeId=${metadataType.metadataTypeId}&menuGroup=METADATA"> ${metadataType.metadataTypeId}</a></td>
-			<td class="tableEntry"> ${managedSys.description}</td>
-			<td class="tableEntry"> ${ManagedSys.active}</td>
+			<td class="tableEntry"> ${metadataType.description}</td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -86,7 +84,7 @@
 </tr>
 
           <tr>
-              <td colspan="5" align="left"> <a href="metadataType.cnt?typeId=NEW">New Metadata</a></td>
+              <td colspan="5" align="left"> <a href="metadataType.cnt?typeId=NEW&categoryId=${categoryId}">New Metadata</a></td>
           </tr>
 
 

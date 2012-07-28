@@ -119,7 +119,7 @@ public class NewHireValidator implements Validator {
 			UserAttribute attr = new UserAttribute();
 			attr.setMetadataElementId(elem.getMetadataElementId());
 			attr.setName(elem.getAttributeName());
-            attr.setRequired(elem.isRequired());
+            attr.setRequired(elem.isRequire());
 			attrList.add(attr);
 		}
 		return attrList;

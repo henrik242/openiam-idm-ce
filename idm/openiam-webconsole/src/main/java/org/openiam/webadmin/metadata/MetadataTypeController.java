@@ -50,19 +50,23 @@ public class MetadataTypeController extends SimpleFormController {
 
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) 			throws Exception {
-		// TODO Auto-generated method stub
-		
+
 		log.info("formBackingObject called.");
 		MetadataTypeCommand cmd = new MetadataTypeCommand();
 		
 		String typeId = request.getParameter("typeId");
 		String menuGroup = request.getParameter("menuGroup");
-		
+        String categoryId = request.getParameter("categoryId");
+
+
+        cmd.setCatId(categoryId);
+
 		// used by the UI for to show the side menu
 		request.setAttribute("menuGroup", menuGroup);
 		request.setAttribute("typeId", typeId);
 		
 		if (typeId.equalsIgnoreCase("NEW")) {
+            cmd.setMode("NEW");
 			return cmd;
 		}else {
 			MetadataType type = metadataService.getMetadataType(typeId).getMetadataType();
@@ -86,19 +90,26 @@ public class MetadataTypeController extends SimpleFormController {
 	
 		MetadataTypeCommand typeCommand = (MetadataTypeCommand)command;
 		MetadataType type = typeCommand.getMetadataType();
-		
-		String categoryId = (String)request.getSession().getAttribute("metadataCategoryId");
 
-	
+        log.info("- Mode = " + typeCommand.getMode());
+		
+
 		String btn = request.getParameter("btn");
 		if (btn != null && btn.equalsIgnoreCase("Delete")) {
 			metadataService.removeMetadataType(type.getMetadataTypeId());
 		}
-		if (type.getMetadataTypeId() == null || type.getMetadataTypeId().length() == 0) {
-			type.setMetadataTypeId(null);
+
+        if ("NEW".equalsIgnoreCase(typeCommand.getMode())) {
+
 			metadataService.addMetadataType(type);
-			metadataService.addTypeToCategory(type.getMetadataTypeId(), categoryId);
+            // associate the new type with a category - USERS, RESOURCES, ETC.
+
+            log.info("Associating type and category =" + type.getMetadataTypeId() + " - " + typeCommand.getCatId());
+
+			metadataService.addTypeToCategory(type.getMetadataTypeId(), typeCommand.getCatId());
+
 		}else {
+
 			metadataService.updateMetdataType(type);
 		}
 		

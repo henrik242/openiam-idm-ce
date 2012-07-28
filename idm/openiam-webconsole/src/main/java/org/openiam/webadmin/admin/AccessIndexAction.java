@@ -36,16 +36,19 @@ public class AccessIndexAction extends DispatchActionSupport {
 		HttpServletRequest request,
 		HttpServletResponse response) {
 
-		HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
+        session.removeAttribute("sideMenus");
+        session.removeAttribute("categories");
+        session.removeAttribute("menus");
+
 		List<Menu> maintMenu = navDS.menuGroup("ACC_CONTROL","en").getMenuList();
 		session.setAttribute("topLevelMenus", maintMenu);
 		
-		session.removeAttribute("sideMenus");
-		session.removeAttribute("categories");
-		session.removeAttribute("menus");
-			
 
-		return mapping.findForward("success");
+
+
+
+        return mapping.findForward("success");
 
 
 	}

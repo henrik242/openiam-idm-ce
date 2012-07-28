@@ -75,20 +75,13 @@ public class MetadataAttributeValidator implements Validator {
                  err.rejectValue("element.attributeName", "required");
         }
 
-       if (listCommand.getElement().getMaxLen() != null && listCommand.getElement().getMinLen() != null) {
 
-           if (listCommand.getElement().getMaxLen() < listCommand.getElement().getMinLen()) {
-                err.rejectValue("element.maxLen", "required");
-           }
-       }
-
-
-        if (listCommand.getElement().getMaxValue() != null && listCommand.getElement().getMinValue() != null) {
-
-            if (listCommand.getElement().getMaxValue() < listCommand.getElement().getMinValue()) {
-                err.rejectValue("element.maxValue", "required");
+        if (listCommand.getElement().getMaxLen() != null  && listCommand.getElement().getMinLen() != null) {
+            if (listCommand.getElement().getMaxLen() < listCommand.getElement().getMinLen()) {
+                    err.rejectValue("element.maxLen", "incorrectValue");
             }
         }
+
 
 
 

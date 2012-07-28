@@ -37,7 +37,6 @@ public class MetadataType implements java.io.Serializable {
     protected Set<Category> categories = new HashSet<Category>(0);
 
 
-    //List<MetadataElement> elementAttributes = new ArrayList<MetadataElement>(0);
 
 
     public MetadataType() {
@@ -126,5 +125,15 @@ public class MetadataType implements java.io.Serializable {
         this.syncManagedSys = syncManagedSys;
     }
 
-
+    @Override
+    public String toString() {
+        return "MetadataType{" +
+                "metadataTypeId='" + metadataTypeId + '\'' +
+                ", description='" + description + '\'' +
+                ", active=" + active +
+                ", syncManagedSys=" + syncManagedSys +
+                ", elementAttributes=" + elementAttributes +
+                ", categories=" + categories +
+                '}';
+    }
 }

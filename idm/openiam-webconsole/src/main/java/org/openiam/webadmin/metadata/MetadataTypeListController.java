@@ -107,7 +107,6 @@ public class MetadataTypeListController extends SimpleFormController {
         String categoryId = typeListCommand.getCategoryId();
         MetadataTypeArrayResponse typeAry = metadataService.getTypesInCategory(categoryId);
 
-        System.out.println("typeAry value is " + typeAry.getMetadataTypeAry());
 
 
 		ModelAndView mav = new ModelAndView(getSuccessView());
@@ -119,6 +118,8 @@ public class MetadataTypeListController extends SimpleFormController {
         } else {
             mav.addObject("searchResults", 0);
         }
+
+        mav.addObject("categoryId", categoryId);
 
         loadReferenceDataMAV(mav);
 		

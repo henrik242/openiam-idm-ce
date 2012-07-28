@@ -20,10 +20,10 @@
         <property name="description" type="string">
             <column name="DESCRIPTION" length="40" />
         </property>
-        <property name="minLen" type="java.lang.Integer">
+        <property name="minLen" type="int">
             <column name="MIN_LEN" />
         </property>
-        <property name="maxLen" type="java.lang.Integer">
+        <property name="maxLen" type="int">
             <column name="MAX_LEN" />
         </property>
         <property name="textCase" type="string">
@@ -32,10 +32,10 @@
         <property name="dataType" type="string">
             <column name="DATA_TYPE" length="20" />
         </property>
-        <property name="minValue" type="java.lang.Long">
+        <property name="minValue" type="long">
             <column name="MIN_VALUE" precision="10" scale="0" />
         </property>
-        <property name="maxValue" type="java.lang.Long">
+        <property name="maxValue" type="long">
             <column name="MAX_VALUE" precision="10" scale="0" />
         </property>
         <property name="defaultValue" type="string">
@@ -50,16 +50,16 @@
         <property name="multiValue" type="string">
             <column name="MULTI_VALUE" length="500" />
         </property>
-        <property name="auditable" type="java.lang.Integer">
+        <property name="auditable" type="int">
             <column name="AUDITABLE" />
         </property>
-        <property name="required" type="java.lang.Integer">
+        <property name="required" type="int">
             <column name="REQUIRED" />
         </property>
-        <property name="selfEditable" type="java.lang.Integer">
+        <property name="selfEditable" type="int">
             <column name="SELF_EDITABLE" />
         </property>
-        <property name="selfViewable" type="java.lang.Integer">
+        <property name="selfViewable" type="int">
             <column name="SELF_VIEWABLE" />
         </property>
         <property name="uiType" type="string">

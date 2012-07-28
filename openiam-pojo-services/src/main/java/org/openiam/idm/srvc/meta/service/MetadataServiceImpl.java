@@ -3,6 +3,9 @@ package org.openiam.idm.srvc.meta.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.meta.dto.MetadataElement;
 import org.openiam.idm.srvc.meta.dto.MetadataType;
 
@@ -17,6 +20,8 @@ public class MetadataServiceImpl implements MetadataService {
 
 	MetadataTypeDAO metadataTypeDao;
 	MetadataElementDAO metadataElementDao;
+
+    private static final Log log = LogFactory.getLog(MetadataServiceImpl.class);
 	
 	
 	public MetadataElement addMetadataElement(MetadataElement metadataElement) {
@@ -149,6 +154,9 @@ public class MetadataServiceImpl implements MetadataService {
 		if (type == null) {
 			throw new NullPointerException("Metadatatype is null");
 		}
+
+        log.debug("updateMetdataType: " + type);
+
 		metadataTypeDao.update(type);
 		return type;
 

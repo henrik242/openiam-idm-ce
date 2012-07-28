@@ -298,7 +298,13 @@
 		<property name="formView" value="/meta/type" />
 		<property name="successView" value="/confirm" />
 		<property name="metadataService" ref="metadataServiceClient"	/>
+         <property name="validator" ref="metadataTypeValidator" />
      </bean>
+
+    <bean id="metadataTypeValidator" class="org.openiam.webadmin.metadata.MetadataTypeValidator" >
+        <property name="metadataService" ref="metadataServiceClient"	/>
+    </bean>
+
      <bean id="metadataAttribute" class="org.openiam.webadmin.metadata.MetadataAttributeController">
 		<property name="commandName" value="metadataAttrCmd" />
 		<property name="commandClass" value="org.openiam.webadmin.metadata.MetadataAttributeCommand" />

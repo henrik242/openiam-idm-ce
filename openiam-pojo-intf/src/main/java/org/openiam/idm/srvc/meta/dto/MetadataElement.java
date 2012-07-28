@@ -40,7 +40,7 @@ public class MetadataElement implements java.io.Serializable {
     private String metadataTypeId;
     private String attributeName;
     private String description;
-    private Integer minLen;
+    private Integer minLen = 0;
     private Integer maxLen;
     private String textCase;
     private String dataType;
@@ -50,11 +50,11 @@ public class MetadataElement implements java.io.Serializable {
     private String valueList;
     private String label;
     private String multiValue;
-    private Integer auditable;
-    private Integer required;
+    private Integer auditable = 1;
+    private Integer required = 0;
 
-    private Integer selfEditable;
-    private Integer selfViewable;
+    private int selfEditable;
+    private int selfViewable;
 
     private String uiType;
     private String uiSize;
@@ -91,23 +91,23 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getMetadataElementId() {
-        return this.metadataElementId;
+        return metadataElementId;
     }
 
-    public void setMetadataElementId(String metadataId) {
-        this.metadataElementId = metadataId;
+    public void setMetadataElementId(String metadataElementId) {
+        this.metadataElementId = metadataElementId;
     }
 
     public String getMetadataTypeId() {
-        return this.metadataTypeId;
+        return metadataTypeId;
     }
 
-    public void setMetadataTypeId(String typeId) {
-        this.metadataTypeId = typeId;
+    public void setMetadataTypeId(String metadataTypeId) {
+        this.metadataTypeId = metadataTypeId;
     }
 
     public String getAttributeName() {
-        return this.attributeName;
+        return attributeName;
     }
 
     public void setAttributeName(String attributeName) {
@@ -115,7 +115,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -123,7 +123,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public Integer getMinLen() {
-        return this.minLen;
+        return minLen;
     }
 
     public void setMinLen(Integer minLen) {
@@ -131,7 +131,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public Integer getMaxLen() {
-        return this.maxLen;
+        return maxLen;
     }
 
     public void setMaxLen(Integer maxLen) {
@@ -139,15 +139,15 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getTextCase() {
-        return this.textCase;
+        return textCase;
     }
 
-    public void setTextCase(String cs) {
-        this.textCase = cs;
+    public void setTextCase(String textCase) {
+        this.textCase = textCase;
     }
 
     public String getDataType() {
-        return this.dataType;
+        return dataType;
     }
 
     public void setDataType(String dataType) {
@@ -155,7 +155,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public Long getMinValue() {
-        return this.minValue;
+        return minValue;
     }
 
     public void setMinValue(Long minValue) {
@@ -163,7 +163,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public Long getMaxValue() {
-        return this.maxValue;
+        return maxValue;
     }
 
     public void setMaxValue(Long maxValue) {
@@ -171,7 +171,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getDefaultValue() {
-        return this.defaultValue;
+        return defaultValue;
     }
 
     public void setDefaultValue(String defaultValue) {
@@ -179,7 +179,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getValueList() {
-        return this.valueList;
+        return valueList;
     }
 
     public void setValueList(String valueList) {
@@ -187,7 +187,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getLabel() {
-        return this.label;
+        return label;
     }
 
     public void setLabel(String label) {
@@ -195,7 +195,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public String getMultiValue() {
-        return this.multiValue;
+        return multiValue;
     }
 
     public void setMultiValue(String multiValue) {
@@ -203,7 +203,7 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public Integer getAuditable() {
-        return this.auditable;
+        return auditable;
     }
 
     public void setAuditable(Integer auditable) {
@@ -211,43 +211,26 @@ public class MetadataElement implements java.io.Serializable {
     }
 
     public Integer getRequired() {
-        return this.required;
+        return required;
     }
 
     public void setRequired(Integer required) {
         this.required = required;
     }
 
-    public boolean isRequired() {
-        if (required == null || required == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Flag indicating whether the user owning this record can edit this field
-     *
-     * @return
-     */
-    public Integer isSelfEditable() {
+    public int getSelfEditable() {
         return selfEditable;
     }
 
-    public void setSelfEditable(Integer selfEditable) {
+    public void setSelfEditable(int selfEditable) {
         this.selfEditable = selfEditable;
     }
 
-    /**
-     * Flag indicating whether the user owning this record can view this field.
-     *
-     * @return
-     */
-    public Integer isSelfViewable() {
+    public int getSelfViewable() {
         return selfViewable;
     }
 
-    public void setSelfViewable(Integer selfViewable) {
+    public void setSelfViewable(int selfViewable) {
         this.selfViewable = selfViewable;
     }
 
@@ -255,34 +238,10 @@ public class MetadataElement implements java.io.Serializable {
         return uiType;
     }
 
-    /**
-     * Sets the type of UI object to use when rendering this element.
-     *
-     * @param uiType
-     */
     public void setUiType(String uiType) {
         this.uiType = uiType;
     }
 
-    public String getValueSrc() {
-        return valueSrc;
-    }
-
-    /**
-     * Sets a rule or script that will handle retrieving the list data for this element. Typically used
-     * when working with a list that needs to be dynamically populated.
-     *
-     * @param valueSrc
-     */
-    public void setValueSrc(String valueSrc) {
-        this.valueSrc = valueSrc;
-    }
-
-    /**
-     * Defines the size related information that is to be used for the UI
-     *
-     * @return
-     */
     public String getUiSize() {
         return uiSize;
     }
@@ -290,5 +249,22 @@ public class MetadataElement implements java.io.Serializable {
     public void setUiSize(String uiSize) {
         this.uiSize = uiSize;
     }
+
+    public String getValueSrc() {
+        return valueSrc;
+    }
+
+    public void setValueSrc(String valueSrc) {
+        this.valueSrc = valueSrc;
+    }
+
+    public boolean isRequire() {
+        if ( required == null ||  required == 0) {
+            return false;
+        }
+        return true;
+    }
+
+
 
 }

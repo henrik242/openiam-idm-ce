@@ -16,6 +16,11 @@
 				</tr>
 			</table>
 	</td>
+     <% if ("1".equals(request.getParameter("mode"))) { %>
+    <tr>
+        <td><font color="red">The information has been successfully saved.</font></td>
+    </tr>
+        <% } %>
 	<tr>
 		<td>
 

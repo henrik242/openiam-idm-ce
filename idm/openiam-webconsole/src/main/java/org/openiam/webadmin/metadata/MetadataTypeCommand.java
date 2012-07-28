@@ -36,6 +36,8 @@ public class MetadataTypeCommand implements Serializable {
 	 */
 	private static final long serialVersionUID = -2780174689384407535L;
 	private MetadataType metadataType = new MetadataType();
+    private String catId;
+    private String mode;
 	
 	
 
@@ -55,10 +57,19 @@ public class MetadataTypeCommand implements Serializable {
 		this.metadataType = metadataType;
 	}
 
+    public String getCatId() {
+        return catId;
+    }
 
+    public void setCatId(String catId) {
+        this.catId = catId;
+    }
 
+    public String getMode() {
+        return mode;
+    }
 
-	
-	
-
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 }
