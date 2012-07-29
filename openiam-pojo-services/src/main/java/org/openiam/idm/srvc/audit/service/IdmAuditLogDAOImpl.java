@@ -142,6 +142,26 @@ public class IdmAuditLogDAOImpl implements IdmAuditLogDAO {
     	return results;
     }
 
+    public List<IdmAuditLog> findEventsAboutIdentityList(List<String> principalList, Date startDate) {
+        Session session = sessionFactory.getCurrentSession();
+        Query qry = session.createQuery("from org.openiam.idm.srvc.audit.dto.IdmAuditLog log " +
+                " where log.actionDatetime >= :startDate AND " +
+                "       (log.principal in ( :principalList )  OR log.customAttrvalue3 in ( :principalList ) )"    +
+                " ORDER BY log.actionDatetime ");
+        qry.setDate("startDate", startDate);
+        qry.setParameterList("principalList", principalList);
+
+        List results = (List<IdmAuditLog>)qry.list();
+
+        if (results != null) {
+            log.debug("- Found audit events for :" + principalList + " " + results.size());
+        }else {
+            log.debug("No audit events found for user " + principalList);
+        }
+
+        return results;
+    }
+
 
     
     public List<IdmAuditLog> search(SearchAudit search) throws DataException {

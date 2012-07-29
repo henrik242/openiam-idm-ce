@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResponseType", propOrder = {
-    "errorMessage"
 })
 @XmlSeeAlso({
     AddResponseType.class,
@@ -47,11 +46,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     LookupResponseType.class,
     ArrayList.class
 })
-public class ResponseType
-    extends ExtensibleType
+public class ResponseType extends ExtensibleType
 {
 
-    protected List<String> errorMessage;
     @XmlAttribute(required = true)
     protected StatusCodeType status;
     @XmlAttribute
@@ -63,56 +60,20 @@ public class ResponseType
     protected ErrorCode error;
 
 
-    /**
-     * Gets the value of the errorMessage property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the errorMessage property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getErrorMessage().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
-     */
-    public List<String> getErrorMessage() {
-        if (errorMessage == null) {
-            errorMessage = new ArrayList<String>();
-        }
-        return this.errorMessage;
+    public void addErrorMessage(String msg) {
+         errorMessage = msg;
 
     }
 
-    public void addErrorMessage(String errorText) {
-        if (errorMessage == null) {
-            errorMessage = new ArrayList<String>();
-        }
-        errorMessage.add(errorText);
-    }
 
-    public String getrrorCodeAsStr() {
+    public String getErrorCodeAsStr() {
         if (error == null ) {
             return null;
         }
 
         return error.value();
     }
-    public String getErrorMsgAsStr() {
-        if (errorMessage == null || errorMessage.size() == 0) {
-            return null;
-        }
-        return errorMessage.toString();
-    }
+
 
 
     /**
@@ -190,8 +151,7 @@ public class ResponseType
     @Override
     public String toString() {
         return "ResponseType{" +
-                "errorMessage=" + errorMessage +
-                ", status=" + status +
+                "status=" + status +
                 ", requestID='" + requestID + '\'' +
                 ", error=" + error +
                 '}';

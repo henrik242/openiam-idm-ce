@@ -1,10 +1,14 @@
 
 package org.openiam.spml2.msg.password;
 
+import javax.naming.OperationNotSupportedException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+
+import org.openiam.spml2.msg.ErrorCode;
 import org.openiam.spml2.msg.ResponseType;
+import org.openiam.spml2.msg.StatusCodeType;
 
 
 /**
@@ -30,9 +34,16 @@ import org.openiam.spml2.msg.ResponseType;
 @XmlType(name = "ResetPasswordResponseType", propOrder = {
     "password"
 })
-public class ResetPasswordResponseType
-    extends ResponseType
+public class ResetPasswordResponseType extends ResponseType
 {
+
+    public void ResetPasswordResponseType(ResponseType type) {
+
+        this.status = type.getStatus();
+        this.error = type.getError();
+
+    }
+
 
     protected String password;
 

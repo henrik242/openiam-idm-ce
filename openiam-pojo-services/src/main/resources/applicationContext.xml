@@ -191,6 +191,9 @@
 	<bean id="auditDataService" class="org.openiam.idm.srvc.audit.service.IdmAuditLogDataServiceImpl" >
 		<property name="auditDao" ref="auditDAO" />
 		<property name="hash" ref="hash" />
+
+        <property name="loginDS" ref="loginManager" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
 	</bean>
 
 	<bean id="auditDAO" class="org.openiam.idm.srvc.audit.service.IdmAuditLogDAOImpl" >

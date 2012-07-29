@@ -271,11 +271,27 @@ public class ConnectorAdapter {
             if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
 
                 MuleMessage msg = getService(connector, request, connector.getServiceUrl(), "setPassword", muleContext);
-                if (msg != null) {
+
+
+                if ( msg.getPayload() instanceof  org.mule.transport.NullPayload) {
+                    // payload is null - exception was thrown
+                    log.debug("Exception payload as a string: " +  msg.getExceptionPayload().toString() );
+                    return type;
+                }else {
+                    // valid payload
+
+                    log.debug("Message payload found on password change: " + msg.getPayload());
+
+                    return (ResponseType)msg.getPayload();
+
+                }
+
+               /* if (msg != null) {
                     return (ResponseType) msg.getPayload();
                 } else {
                     log.debug("MuleMessage is null..");
                 }
+               */
 
 
                 //ConnectorService port = getService(connector);
@@ -311,11 +327,26 @@ public class ConnectorAdapter {
             if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
 
                 MuleMessage msg = getService(connector, request, connector.getServiceUrl(), "resetPassword", muleContext);
-                if (msg != null) {
+
+
+                if ( msg.getPayload() instanceof  org.mule.transport.NullPayload) {
+                     // payload is null - exception was thrown
+                    log.debug("Exception payload as a string: " +  msg.getExceptionPayload().toString() );
+                    return type;
+                }else {
+                    // valid payload
+
+                    log.debug("Message payload found on password reset: " + msg.getPayload());
+
+                    return (ResetPasswordResponseType) msg.getPayload();
+                }
+
+               /* if (msg != null) {
                     return (ResetPasswordResponseType) msg.getPayload();
                 } else {
                     return type;
                 }
+                */
 
             }
             return type;
@@ -465,8 +496,8 @@ public class ConnectorAdapter {
 
         MuleMessage msg = null;
 
-        log.debug("- Connector interface- Calling dynamic interface =" + url);
-        log.debug("- Operation=" + operation);
+        log.debug("- Service:: Connector interface- Calling dynamic interface =" + url);
+        log.debug("- Service:: Operation=" + operation);
 
         if (operation.equalsIgnoreCase("add")) {
 
@@ -496,6 +527,7 @@ public class ConnectorAdapter {
         if (operation.equalsIgnoreCase("resetPassword")) {
 
             msg = client.send("vm://dispatchConnectorMessageResetPassword", (ResetPasswordRequestType) reqType, msgPropMap);
+
         }
         if (operation.equalsIgnoreCase("suspend")) {
 
@@ -511,6 +543,7 @@ public class ConnectorAdapter {
             msg = client.send("vm://dispatchConnectorMsgTestConnection", (ManagedSys) reqType, msgPropMap);
         }
 
+        log.debug("Service:: Mule Message object: " + msg.toString());
 
         return msg;
 

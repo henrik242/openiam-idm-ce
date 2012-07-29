@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.namespace.QName;
 
 import org.openiam.provision.type.ExtensibleObject;
@@ -50,7 +45,8 @@ import org.openiam.provision.type.ExtensibleGroup;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExtensibleType", propOrder = {
-    "any"
+    "any",
+    "errorMessage"
 })
 @XmlSeeAlso({
     ResponseType.class,
@@ -71,12 +67,14 @@ import org.openiam.provision.type.ExtensibleGroup;
 })
 public class ExtensibleType implements java.io.Serializable  {
 
-    //@XmlAnyElement(lax = true)
-    //protected List<Object> any = new ArrayList<Object>();
+
 	@XmlAnyElement(lax = true)
 	protected List<ExtensibleObject> any = new ArrayList<ExtensibleObject>();
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+
+    @XmlAttribute
+    protected String errorMessage;
 
     /**
      * Gets the value of the any property.
@@ -149,5 +147,12 @@ public class ExtensibleType implements java.io.Serializable  {
     	any.add(obj);
     	
     }
-    
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

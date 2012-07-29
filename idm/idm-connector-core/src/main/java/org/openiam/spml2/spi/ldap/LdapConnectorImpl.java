@@ -69,11 +69,11 @@ import org.springframework.context.ApplicationContextAware;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.naming.Context;
-import javax.naming.NamingException;
+import javax.naming.*;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
+import javax.naming.directory.SearchControls;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 import java.util.*;
@@ -447,7 +447,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
     * @see org.openiam.spml2.interf.SpmlPassword#expirePassword(org.openiam.spml2.msg.password.ExpirePasswordRequestType)
     */
     public ResponseType expirePassword(ExpirePasswordRequestType request) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -456,7 +456,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
       */
     public ResetPasswordResponseType resetPassword(
             ResetPasswordRequestType request) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -495,6 +495,29 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
 
             String ldapName = psoID.getID();
 
+            // check if the identity exists before setting the password
+
+            ManagedSystemObjectMatch matchObj = null;
+            List<ManagedSystemObjectMatch> matchObjList = managedSysObjectMatchDao.findBySystemId(targetID, "USER");
+            if (matchObjList != null && matchObjList.size() > 0) {
+                matchObj = matchObjList.get(0);
+            }
+
+            if (matchObj != null) {
+
+                log.debug("setPassword:: Checking if identity exists before changing the password ");
+
+                if ( !isInDirectory(ldapName, matchObj, ldapctx) ) {
+
+                    ResponseType resp = new ResponseType();
+                    resp.setStatus(StatusCodeType.FAILURE);
+                    resp.setError(ErrorCode.NO_SUCH_OBJECT);
+                    return resp;
+
+                }
+            }
+
+
             Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
             ModificationItem[] mods = dirSpecificImp.setPassword(reqType);
 
@@ -519,19 +542,25 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
 
 
         } catch (NamingException ne) {
-            log.error(ne.getMessage(), ne);
+            log.error(ne.toString());
+
+            log.debug("Returning response object from set password with Status of Failure...");
 
             ResponseType resp = new ResponseType();
             resp.setStatus(StatusCodeType.FAILURE);
-            resp.setError(ErrorCode.NO_SUCH_IDENTIFIER);
+            if (ne instanceof OperationNotSupportedException) {
+                resp.setError(ErrorCode.OPERATION_NOT_SUPPORTED_EXCEPTION);
+            }
+
             return resp;
+
         } catch (Exception ne) {
             log.error(ne.getMessage(), ne);
 
             ResponseType resp = new ResponseType();
             resp.setStatus(StatusCodeType.FAILURE);
             resp.setError(ErrorCode.OTHER_ERROR);
-            resp.addErrorMessage(ne.toString());
+
             return resp;
 
         } finally {
@@ -711,7 +740,65 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
         this.deleteCommand = deleteCommand;
     }
 
+    // move the password operations to a separate object as we have other operations
+
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ac = applicationContext;
+    }
+
+    protected boolean isInDirectory(String ldapName, ManagedSystemObjectMatch matchObj,
+                                    LdapContext ldapctx) {
+        int indx = ldapName.indexOf(",");
+        String rdn = null;
+        String objectBaseDN = null;
+        if (indx > 0) {
+            rdn = ldapName.substring(0, ldapName.indexOf(","));
+            objectBaseDN = ldapName.substring(indx + 1);
+        } else {
+            rdn = ldapName;
+        }
+        log.debug("Lookup rdn = " + rdn);
+        log.debug("Search in: " + objectBaseDN);
+
+        String[] attrAry = {"uid", "cn", "fn"};
+        NamingEnumeration results = null;
+        try {
+            //results = search(matchObj, ldapctx, rdn, attrAry);
+            results = lookupSearch(matchObj, ldapctx, rdn, attrAry, objectBaseDN);
+            if (results != null && results.hasMoreElements()) {
+                return true;
+            }
+            return false;
+        } catch (NamingException ne) {
+            log.error(ne);
+            return false;
+        }
+    }
+
+    protected NamingEnumeration lookupSearch(ManagedSystemObjectMatch matchObj,
+                                             LdapContext ctx,
+                                             String searchValue, String[] attrAry, String objectBaseDN) throws NamingException {
+
+        String attrIds[] = {"1.1", "+", "*", "accountUnlockTime", "aci", "aclRights", "aclRightsInfo", "altServer", "attributeTypes", "changeHasReplFixupOp", "changeIsReplFixupOp", "copiedFrom", "copyingFrom", "createTimestamp", "creatorsName", "deletedEntryAttrs", "dITContentRules", "dITStructureRules", "dncomp", "ds-pluginDigest", "ds-pluginSignature", "ds6ruv", "dsKeyedPassword", "entrydn", "entryid", "hasSubordinates", "idmpasswd", "isMemberOf", "ldapSchemas", "ldapSyntaxes", "matchingRules", "matchingRuleUse", "modDNEnabledSuffixes", "modifiersName", "modifyTimestamp", "nameForms", "namingContexts", "nsAccountLock", "nsBackendSuffix", "nscpEntryDN", "nsds5ReplConflict", "nsIdleTimeout", "nsLookThroughLimit", "nsRole", "nsRoleDN", "nsSchemaCSN", "nsSizeLimit", "nsTimeLimit", "nsUniqueId", "numSubordinates", "objectClasses", "parentid", "passwordAllowChangeTime", "passwordExpirationTime", "passwordExpWarned", "passwordHistory", "passwordPolicySubentry", "passwordRetryCount", "pwdAccountLockedTime", "pwdChangedTime", "pwdFailureTime", "pwdGraceUseTime", "pwdHistory", "pwdLastAuthTime", "pwdPolicySubentry", "pwdReset", "replicaIdentifier", "replicationCSN", "retryCountResetTime", "subschemaSubentry", "supportedControl", "supportedExtension", "supportedLDAPVersion", "supportedSASLMechanisms", "supportedSSLCiphers", "targetUniqueId", "vendorName", "vendorVersion"};
+
+        SearchControls searchCtls = new SearchControls();
+        searchCtls.setReturningAttributes(attrIds);
+
+
+        String searchFilter = matchObj.getSearchFilter();
+        // replace the place holder in the search filter
+        searchFilter = searchFilter.replace("?", searchValue);
+
+        if (objectBaseDN == null) {
+            objectBaseDN = matchObj.getSearchBaseDn();
+        }
+
+
+        log.debug("Search Filter=" + searchFilter);
+        log.debug("Searching BaseDN=" + objectBaseDN);
+
+        return ctx.search(objectBaseDN, searchFilter, searchCtls);
+
+
     }
 }

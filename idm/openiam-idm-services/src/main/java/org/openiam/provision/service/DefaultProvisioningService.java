@@ -1718,7 +1718,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                         "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
                                         null, "SUCCESS", auditLog.getLogId(), "USER_STATUS",
                                         userStatus,
-                                        requestId, respType.getrrorCodeAsStr(), pUser.getSessionId(), respType.getErrorMsgAsStr(),
+                                        requestId, respType.getErrorCodeAsStr(), pUser.getSessionId(), respType.getErrorMessage(),
                                         pUser.getRequestClientIP(), mLg.getId().getLogin(), mLg.getId().getDomainId());
 
 
@@ -2061,7 +2061,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             }
 
         } else {
-            // update just the system that as specific
+            // update just the system that was specified
 
 
             ManagedSys mSys = managedSysService.getManagedSys(passwordSync.getManagedSystemId());
@@ -3100,7 +3100,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 "USER", user.getUserId(),
                 idmAuditLog.getLogId(), resp.getStatus().toString(), idmAuditLog.getLogId(), "IDENTITY_STATUS",
                 mLg.getStatus().toString(),
-                requestId, resp.getrrorCodeAsStr(), user.getSessionId(), resp.getErrorMsgAsStr(),
+                requestId, resp.getErrorCodeAsStr(), user.getSessionId(), resp.getErrorMessage(),
                 user.getRequestorLogin(), mLg.getId().getLogin(), mLg.getId().getDomainId());
         return resp.getStatus() != StatusCodeType.FAILURE;
 
@@ -3215,7 +3215,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 "IDENTITY", user.getUserId(),
                 logid, status, logid,
                 "IDENTITY_STATUS", "DELETED",
-                requestId, resp.getrrorCodeAsStr(), user.getSessionId(), resp.getErrorMsgAsStr(),
+                requestId, resp.getErrorCodeAsStr(), user.getSessionId(), resp.getErrorMessage(),
                 user.getRequestClientIP(), l.getId().getLogin(), l.getId().getDomainId());
 
         return resp;
@@ -3239,7 +3239,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         auditHelper.addLog("RESET PASSWORD IDENTITY", passwordSync.getRequestorDomain(), passwordSync.getRequestorLogin(),
                 "IDM SERVICE", null, mSys.getManagedSysId(), "PASSWORD", null, null, respType.getStatus().toString(), "NA", null,
                 null,
-                requestId, respType.getrrorCodeAsStr(), null, respType.getErrorMsgAsStr(),
+                requestId, respType.getErrorCodeAsStr(), null, respType.getErrorMessage(),
                 null, login.getId().getLogin(), login.getId().getDomainId());
 
 
@@ -3335,7 +3335,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         auditHelper.addLog("SET PASSWORD IDENTITY", passwordSync.getRequestorDomain(), passwordSync.getRequestorLogin(),
                 "IDM SERVICE", null, "PASSWORD", "PASSWORD", null, null, respType.getStatus().toString(), "NA", null,
                 null,
-                requestId, respType.getrrorCodeAsStr(), null, respType.getErrorMsgAsStr(),
+                requestId, respType.getErrorCodeAsStr(), null, respType.getErrorMessage(),
                 passwordSync.getRequestClientIP(), login.getId().getLogin(), login.getId().getDomainId());
         return respType;
 

@@ -58,7 +58,7 @@ public class ValidateConnectionConfig {
                 log.debug("Test connection failed.");
 
                 resp.setStatus(org.openiam.base.ws.ResponseStatus.FAILURE);
-                resp.setErrorText(localResp.getErrorMsgAsStr());
+                resp.setErrorText(localResp.getErrorMessage());
             }
 
         }

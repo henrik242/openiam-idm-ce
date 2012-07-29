@@ -195,7 +195,7 @@ public class BaseProvisioningHelper implements ApplicationContextAware {
                 "IDENTITY", user.getUserId(),
                 logid, status, logid,
                 "IDENTITY_STATUS", "DELETED",
-                requestId, resp.getrrorCodeAsStr(), user.getSessionId(), resp.getErrorMsgAsStr(),
+                requestId, resp.getErrorCodeAsStr(), user.getSessionId(), resp.getErrorMessage(),
                 user.getRequestClientIP(), l.getId().getLogin(), l.getId().getDomainId());
 
         return resp;

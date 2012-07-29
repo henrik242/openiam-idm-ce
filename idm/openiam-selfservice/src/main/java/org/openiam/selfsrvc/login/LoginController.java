@@ -22,6 +22,7 @@ import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
+import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
@@ -282,7 +283,11 @@ public class LoginController extends SimpleFormController {
         String deptCd = usr.getDeptCd();
         String deptName = "NA";
         if (deptCd != null && deptCd.length() >0) {
-             deptName = orgManager.getOrganization(deptCd).getOrganizationName();
+             Organization o = orgManager.getOrganization(deptCd);
+             if ( o != null) {
+                 deptName = orgManager.getOrganization(deptCd).getOrganizationName();
+             }
+
 
         }
 

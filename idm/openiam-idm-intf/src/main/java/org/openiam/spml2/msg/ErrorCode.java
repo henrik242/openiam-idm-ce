@@ -36,6 +36,12 @@ public enum ErrorCode {
     @XmlEnumValue("directoryError")
     DIRECTORY_ERROR("directoryError"),
 
+    @XmlEnumValue("namingException")
+    NAMING_EXCEPTION("namingException"),
+
+    @XmlEnumValue("operationNotSupportedException")
+    OPERATION_NOT_SUPPORTED_EXCEPTION("operationNotSupportedException"),
+
     @XmlEnumValue("sqlError")
     SQL_ERROR("sqlError"),
 
