@@ -733,22 +733,19 @@
         <property name="user" value="${openiam.username}" />
         <property name="password" value="${openiam.password}"/>
 
-        <property name="minPoolSize" value="3"/>
-        <property name="maxPoolSize" value="20"/>
-        <property name="maxStatements" value="50"/>
-        <property name="idleConnectionTestPeriod" value="3000"/>
+        <property name="minPoolSize" value="${openiam.hibernate.minPoolSize}"/>
+        <property name="maxPoolSize" value="${openiam.hibernate.maxPoolSize}"/>
+        <property name="maxStatements" value="${openiam.hibernate.max_statement}"/>
+        <property name="idleConnectionTestPeriod" value="${openiam.hibernate.idle_test_period}"/>
         <property name="loginTimeout" value="300"/>
-
-
-         <property name="acquireRetryAttempts" value="0"/>
-         <property name="acquireRetryDelay" value="1000"/>
-         <property name="breakAfterAcquireFailure" value="false"/>
-         <property name="automaticTestTable" value="IAM_C3PO"/>
-         <property name="testConnectionOnCheckin" value="true"/>
-
-
-
+        <property name="acquireIncrement" value="${openiam.hibernate.acquireIncrement}" />
+        <property name="acquireRetryAttempts" value="${openiam.hibernate.acquireRetryAttempts}"/>
+        <property name="acquireRetryDelay" value="${openiam.hibernate.acquireRetryDelay}"/>
+        <property name="breakAfterAcquireFailure" value="${openiam.hibernate.breakAfterAcquireFailure}"/>
+        <property name="automaticTestTable" value="${openiam.hibernate.automaticTestTable}"/>
+        <property name="testConnectionOnCheckin" value="${openiam.hibernate.testConnectionOnCheckin}"/>
      </bean>
+
 
 
 
