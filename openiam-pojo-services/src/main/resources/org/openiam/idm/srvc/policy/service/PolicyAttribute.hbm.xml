@@ -43,7 +43,7 @@
         </property>
         
          <property name="rule" type="string">
-            <column name="RULE" length="65535"  />
+            <column name="RULE_TEXT" length="65535"  />
         </property>
         
     </class>
