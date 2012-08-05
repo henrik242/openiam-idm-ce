@@ -110,9 +110,9 @@
 			<TD class="tableEntry"><%=JSPUtil.display(policyValue.getCreatedBy())%></TD>
 			
 			<% if (policyDefId !=null && policyDefId.equalsIgnoreCase("104")) { %>
-				<TD class="tableEntry"><a href="attrPolicy.cnt?policyId=<%=policyValue.getPolicyId()%>">View</a></TD>
+				<TD class="tableEntry"><a href="<%=request.getContextPath()%>/attrPolicy.cnt?policyId=<%=policyValue.getPolicyId()%>">View</a></TD>
 			<% } else {%>
-				<TD class="tableEntry"><a href="policyDetail.cnt?policyId=<%=policyValue.getPolicyId()%>">View</a></TD>
+				<TD class="tableEntry"><a href="<%=request.getContextPath()%>/policyDetail.cnt?policyId=<%=policyValue.getPolicyId()%>">View</a></TD>
 			<% }  %>
 			
 		</tr>
@@ -135,9 +135,9 @@
 			<TD colspan="4"></TD>
 			<td align="right">
 			<% if (policyDefId !=null && policyDefId.equalsIgnoreCase("104")) { %>
-				<a href="attrPolicy.cnt">New Policy</a>	
+				<a href="<%=request.getContextPath()%>/attrPolicy.cnt">New Policy</a>
 			<% }else { %>
-	    		<a href="policyDetail.cnt?policyDefId=<%=(String)session.getAttribute("policyDefId")%>">New Policy</a>					
+	    		<a href="<%=request.getContextPath()%>/policyDetail.cnt?policyDefId=<%=(String)session.getAttribute("policyDefId")%>">New Policy</a>
 			<% } %>
 			</td>
 		</tr>

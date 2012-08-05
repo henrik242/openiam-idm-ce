@@ -53,8 +53,8 @@ public class MetadataElement implements java.io.Serializable {
     private Integer auditable = 1;
     private Integer required = 0;
 
-    private int selfEditable;
-    private int selfViewable;
+    private Integer selfEditable =0;
+    private Integer selfViewable = 0;
 
     private String uiType;
     private String uiSize;
@@ -218,21 +218,7 @@ public class MetadataElement implements java.io.Serializable {
         this.required = required;
     }
 
-    public int getSelfEditable() {
-        return selfEditable;
-    }
 
-    public void setSelfEditable(int selfEditable) {
-        this.selfEditable = selfEditable;
-    }
-
-    public int getSelfViewable() {
-        return selfViewable;
-    }
-
-    public void setSelfViewable(int selfViewable) {
-        this.selfViewable = selfViewable;
-    }
 
     public String getUiType() {
         return uiType;
@@ -265,6 +251,19 @@ public class MetadataElement implements java.io.Serializable {
         return true;
     }
 
+    public Integer getSelfEditable() {
+        return selfEditable;
+    }
 
+    public void setSelfEditable(Integer selfEditable) {
+        this.selfEditable = selfEditable;
+    }
 
+    public Integer getSelfViewable() {
+        return selfViewable;
+    }
+
+    public void setSelfViewable(Integer selfViewable) {
+        this.selfViewable = selfViewable;
+    }
 }

@@ -54,8 +54,6 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('440'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('450','NO-PROVISION-APP','URL');
 
 
-insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('ROLE_TYPE', 'ROOT', 'ROLE Types',0);
-insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('GROUP_TYPE', 'ROOT', 'GROUP Types',0);
 insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('ORG_TYPE', 'ROOT', 'ORGANIZATION Types',0);
 insert into CATEGORY_TYPE (category_id, type_id) values('ORG_TYPE','divisionType');
 insert into CATEGORY_TYPE (category_id, type_id) values('ORG_TYPE','departmentType');
