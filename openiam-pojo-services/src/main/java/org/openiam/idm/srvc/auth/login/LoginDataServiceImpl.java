@@ -579,4 +579,9 @@ public class LoginDataServiceImpl implements LoginDataService {
         return loginDao.findAllLoginByManagedSys(managedSysId);
 
     }
+
+    public Login getPasswordResetToken(String token) {
+
+        return loginDao.findByPasswordResetToken(token);
+    }
 }

@@ -41,7 +41,9 @@ import java.util.Set;
         "managedSysName",
         "lastLoginIP",
         "prevLoginIP",
-        "prevLogin"
+        "prevLogin",
+        "pswdResetToken",
+        "pswdResetTokenExp"
 })
 @XmlSeeAlso({
         Subject.class,
@@ -91,6 +93,10 @@ public class Login implements java.io.Serializable, Cloneable {
     @XmlSchemaType(name = "dateTime")
     protected Date prevLogin;
     protected String prevLoginIP;
+
+    protected String pswdResetToken;
+    @XmlSchemaType(name = "dateTime")
+    protected Date pswdResetTokenExp;
 
 
     public Login() {
@@ -446,6 +452,20 @@ public class Login implements java.io.Serializable, Cloneable {
         this.prevLoginIP = prevLoginIP;
     }
 
+    public Date getPswdResetTokenExp() {
+        return pswdResetTokenExp;
+    }
 
+    public void setPswdResetTokenExp(Date pswdResetTokenExp) {
+        this.pswdResetTokenExp = pswdResetTokenExp;
+    }
+
+    public String getPswdResetToken() {
+        return pswdResetToken;
+    }
+
+    public void setPswdResetToken(String pswdResetToken) {
+        this.pswdResetToken = pswdResetToken;
+    }
 }
 

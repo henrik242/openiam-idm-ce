@@ -332,8 +332,9 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, disp
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('ACCESSCENTER','SELFSERVICE', 'Access Management Center', 'Access Management Center', null, 'en', '1',0);
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('REQINBOX', 'ACCESSCENTER' , 'In-Box','In-Box','myPendingRequest.selfserve', 'en','3',0);
+INSERT INTO MENU (MENU_ID,LANGUAGE_CD,MENU_GROUP,MENU_NAME,MENU_DESC,URL,ACTIVE,DISPLAY_ORDER,PUBLIC_URL) VALUES ('CREATEREQ','en','ACCESSCENTER','Change Access','Change Access','createRequest.selfserve',null,'4',0);
 
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MANAGEREQ', 'ACCESSCENTER' , 'Request History','Request History','requestList.selfserve', 'en','4',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MANAGEREQ', 'ACCESSCENTER' , 'Request History','Request History','requestList.selfserve', 'en','5',0);
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('NEWUSER','ACCESSCENTER','New User', 'New User', 'newHire.selfserve', 'en', '6',0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('NEWUSER-NOAPPRV','ACCESSCENTER','New User-NO Approver', 'New User-No Approver', 'newUserNoApp.selfserve', 'en', '7',0);

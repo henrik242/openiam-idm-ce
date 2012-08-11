@@ -256,6 +256,15 @@ public class LoginDAOImpl implements LoginDAO {
 
     }
 
+    public Login findByPasswordResetToken(String token) {
+        Session session = sessionFactory.getCurrentSession();
+        Query qry = session.createQuery("from org.openiam.idm.srvc.auth.dto.Login l " +
+                " where  l.pswdResetToken = :token  " );
+
+        qry.setString("token", token);
+        return (Login) qry.uniqueResult();
+    }
+
     public List findLoginByDept(String managedSysId, String department, String div) {
 		Session session = sessionFactory.getCurrentSession();
 		

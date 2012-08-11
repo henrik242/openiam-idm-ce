@@ -55,5 +55,7 @@ public interface LoginDAO {
 
     List<Login> findLoginByManagedSys(String principalName, String managedSysId);
 
+    Login findByPasswordResetToken(String token);
+
 }
 

@@ -190,5 +190,8 @@ public interface LoginDataService {
 
     public List<Login> getLoginByManagedSys(String principalName, String managedSysId);
 
+    Login getPasswordResetToken(String token);
+
+
 
 }

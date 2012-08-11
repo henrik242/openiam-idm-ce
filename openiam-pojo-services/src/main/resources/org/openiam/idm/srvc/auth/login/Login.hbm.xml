@@ -132,8 +132,13 @@
         </property>
 
 
-        <property name="isDefault" type="java.lang.Integer">
-            <column name="IS_DEFAULT" />
+        <property name="pswdResetToken" type="string">
+            <column name="PSWD_RESET_TOKEN" />
+        </property>
+
+
+        <property name="pswdResetTokenExp" type="timestamp">
+            <column name="PSWD_RESET_TOKEN_EXP"  />
         </property>
    <!--      
         <set name="loginAttributes" inverse="true" cascade="all-delete-orphan" lazy="false">
@@ -153,3 +158,5 @@
  -->
     </class>
 </hibernate-mapping>
+
+

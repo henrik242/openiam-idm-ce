@@ -300,7 +300,8 @@
 		<property name="policyAssocDao" ref="policyObjectAssocDAO" />
 		<property name="policyDataService" ref="policyDataService" />
 		<property name="cryptor" ref="cryptor" />	
-		<property name="passwordHistoryDao" ref="passwordHistoryDAO" />	
+		<property name="passwordHistoryDao" ref="passwordHistoryDAO" />
+        <property name="hash" ref="hash" />
 		
 	</bean>	
 

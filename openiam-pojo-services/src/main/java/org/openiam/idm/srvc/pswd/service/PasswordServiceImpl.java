@@ -31,6 +31,9 @@ import javax.jws.WebService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseCode;
+import org.openiam.base.ws.ResponseStatus;
 import org.openiam.exception.EncryptionException;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.auth.dto.Login;
@@ -42,15 +45,14 @@ import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.policy.dto.PolicyObjectAssoc;
 import org.openiam.idm.srvc.policy.service.PolicyDataService;
 import org.openiam.idm.srvc.policy.service.PolicyObjectAssocDAO;
-import org.openiam.idm.srvc.pswd.dto.Password;
-import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
-import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
+import org.openiam.idm.srvc.pswd.dto.*;
 import org.openiam.idm.srvc.pswd.rule.PasswordValidator;
 import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.util.encrypt.Cryptor;
+import org.openiam.util.encrypt.HashDigest;
 
 
 /**
@@ -70,9 +72,11 @@ public class PasswordServiceImpl implements PasswordService {
 	
 	protected Cryptor cryptor;
 	protected PasswordHistoryDAO passwordHistoryDao;
+    protected HashDigest hash;
 	
 	
 	private static final Log log = LogFactory.getLog(PasswordServiceImpl.class);
+    private static final long DAY_AS_MILLIS = 86400000l;
 
 
 
@@ -332,13 +336,105 @@ public class PasswordServiceImpl implements PasswordService {
 		return 0;
 	}
 
-	
-	
 
-	
+    @Override
+    public PasswordResetTokenResponse generatePasswordResetToken(PasswordResetTokenRequest request) {
+
+        PasswordResetTokenResponse resp = new PasswordResetTokenResponse(ResponseStatus.SUCCESS );
+
+        // number of days in which the password token will expire
+        int expirationDays = 0;
+
+        if (request == null ||
+                request.getPrincipal() == null ||
+                request.getDomainId() == null ||
+                request.getManagedSysId() == null) {
+
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        Policy pl =  getPasswordPolicy(request.getDomainId(), request.getPrincipal(), request.getManagedSysId());
+        if (pl == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.PASSWORD_POLICY_NOT_FOUND);
+            return resp;
+        }
+
+        PolicyAttribute expirationTime = pl.getAttribute("PWD_EXPIRATION_ON_RESET");
+        if (expirationTime != null) {
+            if (expirationTime.getValue1() != null ) {
+                expirationDays = Integer.parseInt(expirationTime.getValue1());
+            }else {
+                // default to expiration time if the policy has not been defined.
+                expirationDays = 3;
+            }
+        }
+
+        Login l = loginManager.getLoginByManagedSys(request.getDomainId(), request.getPrincipal(), request.getManagedSysId());
 
 
-	public SecurityDomainDataService getSecDomainService() {
+        long expireDate = getExpirationTime(expirationDays);
+
+        Date tokenExpDate = new Date(expireDate);
+
+        String str = request.getPrincipal() + "*" + expireDate;
+
+        String token = hash.HexEncodedHash(str);
+
+        resp.setPasswordResetToken(token );
+
+
+        // update our database
+        l.setPswdResetToken(token);
+        l.setPswdResetTokenExp(tokenExpDate);
+        loginManager.updateLogin(l);
+
+
+        return resp;
+    }
+
+    @Override
+    public Response validatePasswordResetToken(String token) {
+
+        Response resp = new Response(ResponseStatus.SUCCESS );
+
+        // look up the token
+        Login l = loginManager.getPasswordResetToken(token);
+        if ( l == null ) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+
+        }
+
+        // check if the token is still valid
+        Date expToken = l.getPswdResetTokenExp();
+        long expTokenMillis = expToken.getTime();
+
+        long curTime = System.currentTimeMillis();
+
+        if (curTime > expTokenMillis) {
+
+            // token is old - fails validation
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+
+        }
+        return resp;
+    }
+
+
+    protected long getExpirationTime(int numberOfDays) {
+
+        long curTime = System.currentTimeMillis();
+        long tokenLife = numberOfDays * DAY_AS_MILLIS;
+
+        return (curTime + tokenLife);
+
+
+    }
+
+    public SecurityDomainDataService getSecDomainService() {
 		return secDomainService;
 	}
 
@@ -417,8 +513,11 @@ public class PasswordServiceImpl implements PasswordService {
 	}
 
 
+    public HashDigest getHash() {
+        return hash;
+    }
 
-
-
-
+    public void setHash(HashDigest hash) {
+        this.hash = hash;
+    }
 }
