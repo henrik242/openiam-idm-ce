@@ -275,12 +275,69 @@
 		<property name="secDomainService" ref="secDomainServiceClient" />
 		<property name="passwordService" ref="passwordServiceClient" />
 		<property name="userMgr" ref="userServiceClient" />
-     </bean> 
+     </bean>
+
+
+    <!-- Secure Unlock Account - Passes security assesment  -->
+
+    <bean id="secureUnlockUser" class="org.openiam.selfsrvc.pswd.SecureUnlockUserController">
+        <property name="commandName" value="secureUnlockUserCmd" />
+        <property name="commandClass" value="org.openiam.selfsrvc.pswd.SecureUnlockUserCommand" />
+        <property name="formView" value="/pub/secureUnlockUser" />
+        <property name="successView" value="/pub/confirmMessageSent" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+        <property name="validator" ref="secureUnlockUserValidator" />
+        <property name="configuration" ref="passwordConfiguration" />
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="mailService" ref="mailServiceClient" />
+        <property name="passwordService" ref="passwordServiceClient" />
+        <property name="userMgr" ref="userServiceClient" />
+    </bean>
+
+
+    <bean id="secureUnlockUserValidator" class="org.openiam.selfsrvc.pswd.SecureUnlockUserValidator">
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="configuration" ref="passwordConfiguration" />
+        <property name="challengeResponse" ref="challengeServiceClient" />
+        <property name="policyDataService" ref="policyServiceClient" />
+        <property name="secDomainService" ref="secDomainServiceClient" />
+        <property name="userMgr" ref="userServiceClient" />
+    </bean>
+
+
+    <bean id="secureIdVerificationWizard" class="org.openiam.selfsrvc.pswd.SecureIdVerificationWizardController">
+        <property name="pages">
+            <list>
+                <value>pub/secureUnlockVerifyIdentity</value>
+                <value>pub/secureUnlockSetNewPassword</value>
+            </list>
+        </property>
+        <property name="commandName" value="verifyIdCmd" />
+        <property name="commandClass" value="org.openiam.selfsrvc.pswd.SecureIdVerificationCommand" />
+        <property name="validator" ref="secureIdVerificationValidator" />
+
+        <property name="configuration" ref="passwordConfiguration" />
+        <property name="policyDataService" ref="policyServiceClient" />
+        <property name="secDomainService" ref="secDomainServiceClient" />
+        <property name="challengeResponse" ref="challengeServiceClient" />
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="provisionService" ref="provisionServiceClient" />
+        <property name="passwordService" ref="passwordServiceClient" />
+    </bean>
+    <bean id="secureIdVerificationValidator" class="org.openiam.selfsrvc.pswd.SecureIdVerificationValidator">
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="configuration" ref="passwordConfiguration" />
+        <property name="challengeResponse" ref="challengeServiceClient" />
+        <property name="policyDataService" ref="policyServiceClient" />
+        <property name="secDomainService" ref="secDomainServiceClient" />
+        <property name="passwordService" ref="passwordServiceClient" />
+        <property name="userMgr" ref="userServiceClient" />
+    </bean>
 
 
 
 
-<!-- Forgot Login  -->
+    <!-- Forgot Login  -->
      <bean id="forgotLogin" class="org.openiam.selfsrvc.pswd.ForgotLoginController">
 		<property name="commandName" value="forgotLoginCmd" />
 		<property name="commandClass" value="org.openiam.selfsrvc.pswd.ForgotLoginCommand" />
@@ -381,14 +438,13 @@
      <bean id="changeAccess" class="org.openiam.selfsrvc.prov.ChangeAccessWizardController">
         <property name="pages">  
             <list>  
-             	<value>prov/createrequest</value>
-                <value>prov/selectusers</value>  
+                <value>prov/selectusers</value>
                 <value>prov/selectapps</value>  
             </list>  
         </property>  
 		<property name="commandName" value="changeAccessCmd" />
 		<property name="commandClass" value="org.openiam.selfsrvc.prov.ChangeAccessCommand" />
-				<property name="resourceName" value="SELFSERVICE_CREATEREQUEST" />
+		<property name="resourceName" value="SELFSERVICE_CREATEREQUEST" />
 		<property name="validator" ref="changeAccessValidator" />
 		<property name="userMgr" ref="userServiceClient" />
 		<property name="resourceDataService" ref="resourceServiceClient" />
@@ -617,8 +673,10 @@
                 <prop key="pub/unlockUser.selfserve">unlockUserWizard</prop>
                 <prop key="/identityQuestion.selfserve">identityQuestion</prop>
                 <prop key="pub/selfRegister.selfserve">selfRegister</prop>
-                
-                
+                <prop key="pub/secureUnlockUser.selfserve">secureUnlockUser</prop>
+                <prop key="pub/secureIdentityVerification.selfserve">secureIdVerificationWizard</prop>
+
+
                 <prop key="/welcomePage.selfserve">welcomePage</prop>
                 <prop key="/selectUser.selfserve">selectUser</prop>
                 <prop key="pub/forgotLogin.selfserve">forgotLogin</prop>

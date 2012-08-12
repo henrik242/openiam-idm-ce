@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 
 <div class="lookup-wrap">
-				<h4>Manage Requests</h4>
+				<h4>Request History</h4>
 				<div class="block">
 					<div class="wrap alt">
 						
@@ -14,10 +14,8 @@
 						<div class="row alt">
 									<label>Status:</label>
 										<form:select path="status">
-	              			<form:option value="PENDING" />
 	              			<form:option value="APPROVED" />
 	              			<form:option value="REJECTED" />
-	              			<form:option value="CLAIMED" />
           					</form:select>
 						 </div>
 						<div class="row alt">

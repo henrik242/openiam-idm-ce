@@ -29,6 +29,7 @@ import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenRequest;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenResponse;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.pswd.dto.ValidatePasswordResetTokenResponse;
 
 import org.openiam.base.ws.Response;
 
@@ -140,7 +141,7 @@ public interface PasswordService {
      * @param token
      * @return
      */
-    Response validatePasswordResetToken(String token);
+    ValidatePasswordResetTokenResponse validatePasswordResetToken(String token);
 
 
 }

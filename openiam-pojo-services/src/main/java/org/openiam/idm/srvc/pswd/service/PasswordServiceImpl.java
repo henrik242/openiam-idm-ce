@@ -53,6 +53,7 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.util.encrypt.Cryptor;
 import org.openiam.util.encrypt.HashDigest;
+import org.openiam.idm.srvc.pswd.dto.ValidatePasswordResetTokenResponse;
 
 
 /**
@@ -395,9 +396,10 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public Response validatePasswordResetToken(String token) {
+    public ValidatePasswordResetTokenResponse validatePasswordResetToken(String token) {
 
-        Response resp = new Response(ResponseStatus.SUCCESS );
+        ValidatePasswordResetTokenResponse resp =
+                new ValidatePasswordResetTokenResponse(ResponseStatus.SUCCESS );
 
         // look up the token
         Login l = loginManager.getPasswordResetToken(token);
@@ -420,6 +422,9 @@ public class PasswordServiceImpl implements PasswordService {
             return resp;
 
         }
+
+        resp.setPrincipal(l);
+
         return resp;
     }
 

@@ -37,6 +37,7 @@ import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenResponse;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.pswd.dto.ValidatePasswordResetTokenResponse;
 
 /**
  * Web service implementation for the PasswordWebService
@@ -124,7 +125,7 @@ public class PasswordWebServiceImpl implements PasswordWebService {
     }
 
     @Override
-    public Response validatePasswordResetToken(String token) {
+    public ValidatePasswordResetTokenResponse validatePasswordResetToken(String token) {
         return passwordDS.validatePasswordResetToken(token);
     }
 

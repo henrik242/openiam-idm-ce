@@ -28,6 +28,7 @@ import org.openiam.idm.srvc.policy.ws.PolicyResponse;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenRequest;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenResponse;
+import org.openiam.idm.srvc.pswd.dto.ValidatePasswordResetTokenResponse;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -135,7 +136,7 @@ public interface PasswordWebService {
      * @return
      */
     @WebMethod
-    Response validatePasswordResetToken(
+    ValidatePasswordResetTokenResponse validatePasswordResetToken(
             @WebParam(name = "token", targetNamespace = "")
             String token);
 

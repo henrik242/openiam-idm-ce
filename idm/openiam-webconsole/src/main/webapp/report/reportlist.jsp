@@ -51,7 +51,7 @@
 	%>
 	<tr class="plaintext">
 		<td>
-			<a href="<%=md.getUrl()%>"><%=md.getMenuName()%></a>
+			<a href="<%=request.getContextPath()%>/<%=md.getUrl()%>"><%=md.getMenuName()%></a>
 		</td>
 		<td></td>
 	</tr>

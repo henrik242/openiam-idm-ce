@@ -117,8 +117,8 @@ public class SelfRegistrationController extends CancellableFormController {
 
     @Override
     protected ModelAndView onCancel(Object command) throws Exception {
-        // return super.onCancel(command);    //To change body of overridden methods use File | Settings | File Templates.
-        return new ModelAndView(new RedirectView(this.getCancelView(), true));
+
+        return new ModelAndView(new RedirectView("/login.selfserve",true));
     }
 
 

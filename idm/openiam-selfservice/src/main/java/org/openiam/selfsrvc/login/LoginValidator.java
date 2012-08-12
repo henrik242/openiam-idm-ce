@@ -88,7 +88,8 @@ public class LoginValidator implements Validator {
 			err.rejectValue("principal","invalid");
 			break;
 		case AuthenticationConstants.RESULT_INVALID_PASSWORD:
-			err.rejectValue("password","invalid");
+            // per penetration test - do not give messages that will tell the user what is wrong with the login
+			err.rejectValue("principal","invalid");
 			break;
 		case AuthenticationConstants.RESULT_INVALID_USER_STATUS:
 			err.rejectValue("principal","status");

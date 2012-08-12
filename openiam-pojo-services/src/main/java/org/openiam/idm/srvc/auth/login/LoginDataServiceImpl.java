@@ -203,6 +203,10 @@ public class LoginDataServiceImpl implements LoginDataService {
 	    lg.setResetPassword(0);
         lg.setAuthFailCount(0);
         lg.setIsLocked(0);
+
+        // password has been changed the token is no longer valid
+        lg.setPswdResetToken(null);
+        lg.setPswdResetTokenExp(null);
 		
 		
 		// calculate when the password will expire
