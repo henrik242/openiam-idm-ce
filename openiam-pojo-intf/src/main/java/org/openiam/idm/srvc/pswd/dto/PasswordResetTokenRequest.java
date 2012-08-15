@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "PasswordResetTokenRequest", propOrder = {
         "domainId",
         "principal",
-        "managedSysId",
+        "managedSysId"
 })
 public class PasswordResetTokenRequest {
 
