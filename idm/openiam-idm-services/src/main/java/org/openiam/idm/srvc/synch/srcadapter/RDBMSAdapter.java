@@ -91,8 +91,23 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         synchStartLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
         synchStartLog = auditHelper.logEvent(synchStartLog);
 
+        synchronized (runningTask) {
+            if(runningTask.contains(config.getSynchConfigId())) {
+                log.debug("**** Synchronization Configuration " + config.getName() + " is already running");
+
+                SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_PROCESS_ALREADY_RUNNING);
+                return resp;
+            }
+            runningTask.add(config.getSynchConfigId());
+        }
+
+
 
         if (!connect(config)) {
+
+            runningTask.remove(config.getSynchConfigId());
+
             SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
             resp.setErrorCode(ResponseCode.FAIL_SQL_ERROR);
             return resp;
@@ -263,6 +278,9 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
 
 
                 } catch (ClassNotFoundException cnfe) {
+
+                    runningTask.remove(config.getSynchConfigId());
+
                     log.error(cnfe);
 
                     synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
@@ -275,6 +293,8 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
 
                     return resp;
                 } catch (IOException fe) {
+
+                    runningTask.remove(config.getSynchConfigId());
 
                     log.error(fe);
 
@@ -292,6 +312,9 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
             }
 
         } catch (SQLException se) {
+
+            runningTask.remove(config.getSynchConfigId());
+
             log.error(se);
             closeConnection();
 
@@ -304,6 +327,8 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
             resp.setErrorText(se.toString());
             return resp;
         } finally {
+            runningTask.remove(config.getSynchConfigId());
+
             // mark the end of the synch
             IdmAuditLog synchEndLog = new IdmAuditLog();
             synchEndLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "END", "SYSTEM", synchStartLog.getSessionId());

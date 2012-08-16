@@ -111,11 +111,15 @@ public class ConnectorAdapter {
                 //ConnectorService port = getService(connector);
                 //port.modify(modReqType);
                 MuleMessage msg = getService(connector, modReqType, connector.getServiceUrl(), "modify", muleContext);
-                if (msg != null) {
-                    return (ModifyResponseType) msg.getPayload();
-                } else {
+
+                if ( msg.getPayload() instanceof  org.mule.transport.NullPayload ) {
+
                     log.debug("MuleMessage is null..");
                     return respType;
+
+                } else {
+                    return (ModifyResponseType) msg.getPayload();
+
                 }
 
             }
@@ -131,6 +135,9 @@ public class ConnectorAdapter {
 
 
     }
+
+
+
 
     public LookupResponseType lookupRequest(ManagedSys managedSys, LookupRequestType req, MuleContext muleContext) {
         LookupResponseType resp = new LookupResponseType();

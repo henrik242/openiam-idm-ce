@@ -94,12 +94,25 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
         synchStartLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
         synchStartLog = auditHelper.logEvent(synchStartLog);
 
+        synchronized (runningTask) {
+            if(runningTask.contains(config.getSynchConfigId())) {
+                log.debug("**** Synchronization Configuration " + config.getName() + " is already running");
+
+                SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_PROCESS_ALREADY_RUNNING);
+                return resp;
+            }
+            runningTask.add(config.getSynchConfigId());
+        }
+
         try {
             matchRule = matchRuleFactory.create(config);
         } catch (ClassNotFoundException cnfe) {
+
+            runningTask.remove(config.getSynchConfigId());
+
             log.error(cnfe);
 
-            cnfe.printStackTrace();
 
             synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
             auditHelper.logEvent(synchStartLog);
@@ -225,6 +238,9 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
 
 
                     } catch (ClassNotFoundException cnfe) {
+
+                        runningTask.remove(config.getSynchConfigId());
+
                         log.error(cnfe);
 
                         synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
@@ -241,6 +257,8 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
 
         } catch (IOException io) {
 
+            runningTask.remove(config.getSynchConfigId());
+
             io.printStackTrace();
 
             synchStartLog.updateSynchAttributes("FAIL", ResponseCode.IO_EXCEPTION.toString(), io.toString());
@@ -252,6 +270,8 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
 
 
         }
+
+        runningTask.remove(config.getSynchConfigId());
 
         log.debug("CSV SYNCHRONIZATION COMPLETE^^^^^^^^");
 
