@@ -42,6 +42,9 @@ public class AuditHelperImpl implements AuditHelper {
 	 * @return
 	 */
 	public IdmAuditLog logEvent(IdmAuditLog log) {
+
+        log.setLogId(null);
+
 		auditDataService.addLog(log);
 		return log;
 		

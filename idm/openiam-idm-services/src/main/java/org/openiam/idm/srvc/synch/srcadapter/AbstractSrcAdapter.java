@@ -16,9 +16,8 @@ import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Abstract class which all Source System adapters must extend
@@ -28,6 +27,15 @@ import java.util.ResourceBundle;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractSrcAdapter implements SourceAdapter {
+
+    /*
+     * The flags for the running tasks are handled by this Thread-Safe Set.
+     * It stores the taskIds of the currently executing tasks.
+     * This is faster and as reliable as storing the flags in the database,
+     * if the tasks are only launched from ONE host in a clustered environment.
+     * It is unique for each class-loader, which means unique per war-deployment.
+     */
+    protected static Set<String> runningTask = Collections.newSetFromMap(new ConcurrentHashMap());
 
     public static ApplicationContext ac;
     private static final Log log = LogFactory.getLog(AbstractSrcAdapter.class);
