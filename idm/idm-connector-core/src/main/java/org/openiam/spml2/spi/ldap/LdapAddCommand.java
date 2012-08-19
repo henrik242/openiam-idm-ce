@@ -121,12 +121,18 @@ public class LdapAddCommand extends LdapAbstractCommand {
             //String ldapName = matchObj.getKeyField() +"=" + psoID.getID() + "," + baseDN;
             String ldapName = psoID.getID();
 
+            log.debug("Checking if the identity exists: " + ldapName);
+
             // check if the identity exists in ldap first before creating the identity
             if (identityExists(ldapName, ldapctx)) {
                 log.debug(ldapName + "exists. Returning success from the connector");
                 return response;
             }
             //
+
+            log.debug(ldapName + " does not exist. building attribute list");
+
+
 
 
             BasicAttributes basicAttr = getBasicAttributes(reqType.getData().getAny(), matchObj.getKeyField(),
@@ -154,6 +160,7 @@ public class LdapAddCommand extends LdapAbstractCommand {
             response.setStatus(StatusCodeType.FAILURE);
             response.setError(ErrorCode.DIRECTORY_ERROR);
             response.addErrorMessage(ne.toString());
+
         } catch (Exception e) {
 
             e.printStackTrace();

@@ -43,7 +43,11 @@ public class AuditHelperImpl implements AuditHelper {
 	 */
 	public IdmAuditLog logEvent(IdmAuditLog log) {
 
-        log.setLogId(null);
+        if (log.getLogId() != null && log.getLogId().isEmpty()) {
+            log.setLogId(null);
+        }
+
+
 
 		auditDataService.addLog(log);
 		return log;

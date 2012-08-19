@@ -4,7 +4,8 @@ def loginManager = context.getBean("loginManager")
 
 loginId=user.firstName + "." + user.lastName
 
-loginId = matchParam.keyField + "=" + loginId + ",CN=Users,DC=iamdev,DC=local";
+
+loginId = matchParam.keyField + "=" + loginId  + "," + matchParam.baseDn;
 
 output=loginId
 

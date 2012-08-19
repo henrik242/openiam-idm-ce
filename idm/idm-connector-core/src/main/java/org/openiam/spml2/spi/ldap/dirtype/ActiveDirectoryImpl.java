@@ -123,8 +123,8 @@ public class ActiveDirectoryImpl implements Directory {
         List<String> currentMembershipList = userMembershipList(samAccountName, matchObj,   ldapctx);
 
         log.debug("- samAccountName = " + samAccountName);
-        log.debug("- Current ldap role membership:" + currentMembershipList);
-        log.debug("- Target ldap role membership:"  + targetMembershipList);
+        log.debug("- Current Active Dir group membership:" + currentMembershipList);
+        log.debug("- Target Active Dir group membership:"  + targetMembershipList);
 
         if (targetMembershipList == null && currentMembershipList != null) {
             // remove all associations
