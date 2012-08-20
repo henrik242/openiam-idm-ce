@@ -71,7 +71,7 @@ public class DisableUserDelegate {
 		User usr = this.userMgr.getUserWithDependent(userId, false);
 
 		if (usr == null) {
-            auditHelper.addLog(strOperation, sysConfiguration.getDefaultSecurityDomain(), null,
+            auditHelper.addLog((operation) ? "DISABLE" : "ENABLE", sysConfiguration.getDefaultSecurityDomain(), null,
 				"IDM SERVICE", requestorId, "IDM", "USER",
 				userId, null,  "FAILURE", null,  null,
 				null, requestId, null, null, null);
@@ -102,9 +102,14 @@ public class DisableUserDelegate {
                     null, requestId, null, null, null,
                     null, lTargetUser.getId().getLogin(), lTargetUser.getId().getDomainId() );
         }else {
-            log.debug("Unable to log disable operation. Of of the following is null:");
-            log.debug("Requestor identity=" + lRequestor);
-            log.debug("Target identity=" + lTargetUser);
+            if(log.isDebugEnabled()) {
+                log.debug(String.format("Unable to log disable operation.  Requestor: %s, Target: %s", lRequestor, lTargetUser));
+            }
+
+            response.setStatus(ResponseStatus.FAILURE);
+            response.setErrorCode(ResponseCode.OBJECT_NOT_FOUND);
+            response.setErrorText(String.format("Requestor: '%s' or User: '%s' not found", requestorId, userId));
+            return response;
         }
 		// disable the user in the managed systems
 		
