@@ -2,9 +2,7 @@ package org.openiam.spml2.spi.ldap;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
-import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
-import org.openiam.spml2.spi.jdbc.AppTableAbstractCommand;
 import org.openiam.spml2.spi.ldap.dirtype.Directory;
 import org.openiam.spml2.spi.ldap.dirtype.DirectorySpecificImplFactory;
 import org.openiam.spml2.util.connect.ConnectionFactory;
@@ -12,18 +10,10 @@ import org.openiam.spml2.util.connect.ConnectionManagerConstant;
 import org.openiam.spml2.util.connect.ConnectionMgr;
 
 import javax.naming.NamingException;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.LdapContext;
-import org.openiam.idm.srvc.res.dto.Resource;
+
 import org.openiam.idm.srvc.res.dto.ResourceProp;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.List;
 import java.util.Set;
 
 

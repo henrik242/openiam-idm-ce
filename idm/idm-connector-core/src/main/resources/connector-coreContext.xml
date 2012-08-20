@@ -115,73 +115,8 @@
         <property name="connectionMgr" ref="jdbcConnection" />
     </bean>
 
-    <!-- AppTable Connector -->
 
-    <bean id="appTableConnector" class="org.openiam.spml2.spi.jdbc.AppTableConnectorImpl">
-         <property name="connectionMgr" ref="jdbcConnection" />
-         <property name="addCommand" ref="appTableAddCommmand" />
-         <property name="delCommand" ref="appTableDelCommmand" />
-
-        <property name="lookupCommand" ref="appTableLookupCommmand" />
-        <property name="setPasswordCommand" ref="appTableSetPasswordCommmand" />
-
-        <property name="suspendCommand" ref="appTableSuspendCommmand" />
-        <property name="resumeCommand" ref="appTableResumeCommmand" />
-         <property name="modifyCommand" ref="appTableModifyCommmand" />
-	</bean>
-
-    <bean id="jdbcConnection" class="org.openiam.spml2.spi.jdbc.JDBCConnectionMgr">
-
-	</bean>
-
-    <bean id="appTableAddCommmand" class="org.openiam.spml2.spi.jdbc.AppTableAddCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-
-	</bean>
-
-    <bean id="appTableDelCommmand" class="org.openiam.spml2.spi.jdbc.AppTableDeleteCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-
-	</bean>
-
-    <bean id="appTableLookupCommmand" class="org.openiam.spml2.spi.jdbc.AppTableLookupCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-
-	</bean>
-
-    <bean id="appTableSetPasswordCommmand" class="org.openiam.spml2.spi.jdbc.AppTableSetPasswordCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-
-	</bean>
-
-      <bean id="appTableSuspendCommmand" class="org.openiam.spml2.spi.jdbc.AppTableSuspendCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-
-	</bean>
-
-    <bean id="appTableResumeCommmand" class="org.openiam.spml2.spi.jdbc.AppTableResumeCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-        <property name="loginManager" ref="loginManager" />
-
-	</bean>
-
-    <bean id="appTableModifyCommmand" class="org.openiam.spml2.spi.jdbc.AppTableModifyCommand">
-        <property name="managedSysService" ref="managedSysService" />
-        <property name="resourceDataService" ref="resourceDataService" />
-        <property name="connectionMgr" ref="jdbcConnection" />
-	</bean>
+    <bean id="jdbcConnection" class="org.openiam.spml2.spi.common.jdbc.JDBCConnectionMgr" />
 
     <bean id="scriptConnector" class="org.openiam.spml2.spi.script.ScriptConnectorImpl">
 
@@ -231,15 +166,47 @@
 
      </bean-->
 
+    <bean id="abstractJDBCCommand" class="org.openiam.spml2.spi.common.jdbc.AbstractJDBCCommand" abstract="true">
+        <property name="connectionMgr" ref="jdbcConnection" />
+        <property name="managedSysService" ref="managedSysService" />
+        <property name="resourceDataService" ref="resourceDataService" />
+    </bean>
+
+    <!-- Start AppTable Connector -->
+
+    <bean id="appTableConnector" class="org.openiam.spml2.spi.jdbc.AppTableConnectorImpl">
+        <property name="addCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCAddCommand" parent="abstractJDBCCommand"/>
+        </property>
+        <property name="deleteCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCDeleteCommand" parent="abstractJDBCCommand"/>
+        </property>
+        <property name="lookupCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCLookupCommand" parent="abstractJDBCCommand"/>
+        </property>
+        <property name="modifyCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCModifyCommand" parent="abstractJDBCCommand"/>
+        </property>
+        <property name="resumeCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCResumeCommand" parent="abstractJDBCCommand">
+                <property name="loginManager" ref="loginManager" />
+            </bean>
+        </property>
+        <property name="setPasswordCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCPasswordCommand" parent="abstractJDBCCommand"/>
+        </property>
+        <property name="suspendCommand">
+            <bean class="org.openiam.spml2.spi.common.jdbc.CommonJDBCSuspendCommand" parent="abstractJDBCCommand"/>
+        </property>
+        <property name="connectionMgr">
+            <ref local="jdbcConnection" />
+        </property>
+    </bean>
+
+    <!-- End AppTable Connector -->
 
 
     <!-- Start Oracle Connector -->
-
-        <bean id="abstractJDBCCommand" class="org.openiam.spml2.spi.common.jdbc.AbstractJDBCCommand" abstract="true">
-            <property name="connectionMgr" ref="jdbcConnection" />
-            <property name="managedSysService" ref="managedSysService" />
-            <property name="resourceDataService" ref="resourceDataService" />
-        </bean>
 
         <bean id="oracleConnector" class="org.openiam.spml2.spi.orcl.OracleConnectorImpl">
             <property name="addCommand">
