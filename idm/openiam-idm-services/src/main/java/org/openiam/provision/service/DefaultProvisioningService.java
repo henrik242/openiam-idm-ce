@@ -149,6 +149,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     private static final String TARGET_SYSTEM_IDENTITY_STATUS = "targetSystemIdentityStatus";
     private static final String TARGET_SYSTEM_IDENTITY = "targetSystemIdentity";
     private static final String TARGET_SYSTEM_ATTRIBUTES = "targetSystemAttributes";
+
+    private static final String TARGET_SYS_RES_ID = "resourceId";
+    private static final String TARGET_SYS_MANAGED_SYS_ID = "managedSysId";
+    private static final String TARGET_SYS_SECURITY_DOMAIN = "securityDomain";
+
     private static final String IDENTITY_NEW = "NEW";
     private static final String IDENTITY_EXIST = "EXIST";
 
@@ -422,6 +427,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                     if (managedSysId != null && managedSysId.length() > 0) {
 
+                        bindingMap.put(TARGET_SYS_RES_ID, res.getResourceId());
+                        bindingMap.put(TARGET_SYS_MANAGED_SYS_ID, res.getManagedSysId());
+
+
                         // object that will be sent to the connectors
                         List<AttributeMap> attrMap = managedSysService.getResourceAttributeMaps(res.getResourceId());
                         //List<AttributeMap> attrMap = resourceDataService.getResourceAttributeMaps(res.getResourceId());
@@ -467,6 +476,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                             bindingMap.put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
                             bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
                         }
+                        bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, resLoginId.getDomainId());
 
                         // pre-processing
                         String preProcessScript = getResProperty(res.getResourceProps(), "PRE_PROCESS");
@@ -1452,6 +1462,11 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
                 log.debug("Sysid=" + managedSysId);
 
+                bindingMap.put(TARGET_SYS_RES_ID, res.getResourceId());
+                bindingMap.put(TARGET_SYS_MANAGED_SYS_ID, res.getManagedSysId());
+
+
+
                 if (managedSysId != null) {
 
                     // object that will be sent to the connectors
@@ -1484,6 +1499,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     Login mLg = getPrincipalForManagedSys(managedSysId, modifyUser.getPrincipalList());
                     //Login mLg = getPrincipalForManagedSys(managedSysId, curPrincipalList);
 
+                    bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, mLg.getId().getDomainId());
+
                     log.debug("PROCESSING IDENTITY =" + mLg);
 
                     if (mLg != null && mLg.getOperation() == AttributeOperationEnum.DELETE) {
@@ -1514,6 +1531,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
                                 bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+
+
 
                                 // pre-processing
                                 String preProcessScript = getResProperty(res.getResourceProps(), "PRE_PROCESS");
@@ -1549,6 +1568,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 }
                                 // mLg.setPassword(primaryLogin.getPassword());
                                 mLg.setUserId(primaryIdentity.getUserId());
+
+                                bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, mLg.getId().getDomainId());
 
                                 log.debug("Creating identity in openiam repository:" + mLg.getId());
                                 if (mLg.getPassword() == null) {
@@ -1630,6 +1651,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY, mLg.getId().getLogin());
                                 bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, currentValueMap);
                             }
+
+                            bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, mLg.getId().getDomainId());
 
                             String preProcessScript = getResProperty(res.getResourceProps(), "PRE_PROCESS");
                             if (preProcessScript != null && !preProcessScript.isEmpty()) {

@@ -75,12 +75,17 @@ public class ConnectorAdapter {
             if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
 
                 MuleMessage msg = getService(connector, addReqType, connector.getServiceUrl(), "add", muleContext);
-                if (msg != null) {
-                    return (AddResponseType) msg.getPayload();
-                } else {
+
+                if ( msg.getPayload() instanceof  org.mule.transport.NullPayload ) {
+
                     log.debug("MuleMessage is null..");
                     return respType;
+
+                } else {
+                    return (AddResponseType) msg.getPayload();
+
                 }
+
             }
             return respType;
 
@@ -293,16 +298,6 @@ public class ConnectorAdapter {
 
                 }
 
-               /* if (msg != null) {
-                    return (ResponseType) msg.getPayload();
-                } else {
-                    log.debug("MuleMessage is null..");
-                }
-               */
-
-
-                //ConnectorService port = getService(connector);
-                //port.setPassword(request);
 
             }
             return type;
@@ -348,12 +343,6 @@ public class ConnectorAdapter {
                     return (ResetPasswordResponseType) msg.getPayload();
                 }
 
-               /* if (msg != null) {
-                    return (ResetPasswordResponseType) msg.getPayload();
-                } else {
-                    return type;
-                }
-                */
 
             }
             return type;
