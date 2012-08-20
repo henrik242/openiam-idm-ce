@@ -1222,8 +1222,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             domain = lg.getId().getDomainId();
         }
 
-        auditHelper.addLog(auditReason, lRequestor.getId().getDomainId(), lRequestor.getId().getLogin(),
-                "IDM SERVICE", requestorId, "USER", "USER", user.getUserId(), null, "SUCCESS", null, null,
+        final String logDomainId = (lRequestor != null && lRequestor.getId() != null) ? lRequestor.getId().getDomainId() : null;
+        final String logLoginId = (lRequestor != null && lRequestor.getId() != null) ? lRequestor.getId().getLogin() : null;
+        final String logUserId = (user != null && user.getUserId() != null) ? user.getUserId() : null;
+
+        auditHelper.addLog(auditReason, logDomainId, logLoginId,
+                "IDM SERVICE", requestorId, "USER", "USER", logUserId, null, "SUCCESS", null, null,
                 null,
                 requestId, auditReason, null, null,
                 null, login, domain);

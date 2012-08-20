@@ -65,6 +65,19 @@
 			</service>
 		</model>
 
+    <model name="oracleConnectorServiceModel">
+        <service name="oracleConnectorService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}OracleConnector" exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="oracleConnector" />
+            </component>
+        </service>
+    </model>
+
     <model name="scriptConnectorServiceModel">
 
                 <service name="scriptConnectorService">
@@ -119,6 +132,5 @@
             </component>
         </service>
     </model>
-
 </mule>
 

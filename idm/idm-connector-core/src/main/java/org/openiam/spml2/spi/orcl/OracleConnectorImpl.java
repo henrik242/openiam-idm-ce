@@ -21,204 +21,55 @@
  */
 package org.openiam.spml2.spi.orcl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
+import org.openiam.spml2.base.AbstractSpml2Complete;
 import org.openiam.spml2.interf.ConnectorService;
-import org.openiam.spml2.msg.AddRequestType;
-import org.openiam.spml2.msg.AddResponseType;
-import org.openiam.spml2.msg.DeleteRequestType;
+import org.openiam.spml2.msg.*;
 import org.openiam.provision.type.ExtensibleGroup;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleRole;
 import org.openiam.provision.type.ExtensibleUser;
 
-import org.openiam.spml2.msg.ExtensibleType;
-import org.openiam.spml2.msg.ListTargetsRequestType;
-import org.openiam.spml2.msg.ListTargetsResponseType;
-import org.openiam.spml2.msg.LookupRequestType;
-import org.openiam.spml2.msg.LookupResponseType;
-import org.openiam.spml2.msg.ModificationType;
-import org.openiam.spml2.msg.ModifyRequestType;
-import org.openiam.spml2.msg.ModifyResponseType;
-import org.openiam.spml2.msg.PSOIdentifierType;
-import org.openiam.spml2.msg.ResponseType;
-import org.openiam.spml2.msg.StatusCodeType;
 import org.openiam.spml2.msg.password.ExpirePasswordRequestType;
 import org.openiam.spml2.msg.password.ResetPasswordRequestType;
 import org.openiam.spml2.msg.password.ResetPasswordResponseType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.password.ValidatePasswordRequestType;
 import org.openiam.spml2.msg.password.ValidatePasswordResponseType;
+import org.openiam.spml2.msg.suspend.ResumeRequestType;
+import org.openiam.spml2.msg.suspend.SuspendRequestType;
+import org.openiam.spml2.spi.common.jdbc.*;
+import org.openiam.spml2.spi.jdbc.JDBCConnectionMgr;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Connector shell that can be used to jumpstart the creation of a connector service.
  * @author suneet
  *
  */
-
 @WebService(endpointInterface="org.openiam.spml2.interf.ConnectorService",
 		targetNamespace="http://www.openiam.org/service/connector",
 		portName = "OracleConnectorServicePort", 
 		serviceName="OracleConnectorService")
+public class OracleConnectorImpl extends AbstractJDBCConnectorImpl implements InitializingBean {
 
+    private static final Log log = LogFactory.getLog(OracleConnectorImpl.class);
 
-public class OracleConnectorImpl  {
-
-	public boolean testConnection(String targetID) {
-		return false;
-	}
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#add(org.openiam.spml2.msg.AddRequestType)
-	 */
-	public AddResponseType add(AddRequestType reqType) {
-		System.out.println("add request called..");
-		
-		System.out.println("POS Identitfier: " + reqType.getPsoID().getID());
-		System.out.println("RequestID: " + reqType.getRequestID());
-		System.out.println("TargetId: " + reqType.getTargetID());
-		
-		System.out.println("Data:" );
-		List<ExtensibleObject> objList = reqType.getData().getAny();
-		for (ExtensibleObject obj: objList) {
-			System.out.println("Object:" + obj.getName() + " - operation=" + obj.getOperation());
-			List<ExtensibleAttribute> attrList =  obj.getAttributes();
-			for (ExtensibleAttribute att: attrList) {
-				System.out.println("-->Attribute:" + att.getName() + " - value=" + att.getValue());
-			}
-			
-			ExtensibleUser extUser =  (ExtensibleUser)obj;
-		
-			// show the groups for this user
-			List<ExtensibleGroup> extGroupList =  extUser.getGroup();
-			for (ExtensibleGroup g : extGroupList) {
-				System.out.println("Group:" + g.getGroup().getGrpId());
-			}
-			
-			// show the roles for this user
-			List<ExtensibleRole> extRoleList =  extUser.getRole();
-			for (ExtensibleRole r : extRoleList) {
-				System.out.println("Role:" + r.getRole().getId());
-			}
-			
-		}
-
-		AddResponseType resp = new AddResponseType();
-		resp.setRequestID(reqType.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
-		
-
-	}
-	
-
-	
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#delete(org.openiam.spml2.msg.DeleteRequestType)
-	 */
-	public ResponseType delete(DeleteRequestType reqType) {
-		System.out.println("delete request called..");
-		
-		System.out.println("POS Identitfier: " + reqType.getPsoID().getID());
-		System.out.println("RequestID: " + reqType.getRequestID());
-		System.out.println("Target: " + reqType.getPsoID().getTargetID());
-		
-	
-		ResponseType resp = new ResponseType();
-		resp.setRequestID(reqType.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#listTargets(org.openiam.spml2.msg.ListTargetsRequestType)
-	 */
-	public ListTargetsResponseType listTargets(ListTargetsRequestType reqType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#lookup(org.openiam.spml2.msg.LookupRequestType)
-	 */
-	public LookupResponseType lookup(LookupRequestType reqType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlCore#modify(org.openiam.spml2.msg.ModifyRequestType)
-	 */
-	public ModifyResponseType modify(ModifyRequestType reqType) {
-		System.out.println("add request called..");
-		
-		System.out.println("POS Identitfier: " + reqType.getPsoID().getID());
-		System.out.println("RequestID: " + reqType.getRequestID());
-		System.out.println("TargetId: " + reqType.getPsoID().getTargetID());
-		
-		System.out.println("Data:" );
-		List<ModificationType> modTypeList = reqType.getModification(); 
-		for (ModificationType mod: modTypeList) {
-			ExtensibleType extType =  mod.getData();
-			List<ExtensibleObject> extobjectList = extType.getAny();
-			for (ExtensibleObject obj: extobjectList) {
-				System.out.println("Object:" + obj.getName() + " - operation=" + obj.getOperation());
-				List<ExtensibleAttribute> attrList =  obj.getAttributes();
-				for (ExtensibleAttribute att: attrList) {
-					System.out.println("-->Attribute:" + att.getName() + " - value=" + att.getValue());
-				}
-			}
-		}
-		ModifyResponseType resp = new ModifyResponseType();
-		resp.setRequestID(reqType.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#expirePassword(org.openiam.spml2.msg.password.ExpirePasswordRequestType)
-	 */
-	public ResponseType expirePassword(ExpirePasswordRequestType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#resetPassword(org.openiam.spml2.msg.password.ResetPasswordRequestType)
-	 */
-	public ResetPasswordResponseType resetPassword(
-			ResetPasswordRequestType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#setPassword(org.openiam.spml2.msg.password.SetPasswordRequestType)
-	 */
-	public ResponseType setPassword(SetPasswordRequestType request) {
-		System.out.println("setPassword request called..");
-		
-		System.out.println("POS Identitfier: " + request.getPsoID().getID());
-		System.out.println("RequestID: " + request.getRequestID());
-		System.out.println("Password: " + request.getPassword());
-		
-	
-		ResponseType resp = new ResponseType();
-		resp.setRequestID(request.getRequestID());
-		resp.setStatus(StatusCodeType.SUCCESS);
-		return resp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.openiam.spml2.interf.SpmlPassword#validatePassword(org.openiam.spml2.msg.password.ValidatePasswordRequestType)
-	 */
-	public ValidatePasswordResponseType validatePassword(
-			ValidatePasswordRequestType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("Initializing");
+    }
 }
