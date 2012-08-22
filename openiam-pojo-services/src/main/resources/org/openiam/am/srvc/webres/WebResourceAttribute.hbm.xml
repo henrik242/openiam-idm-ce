@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM "classpath://hibernate-mapping-3.0.dtd" >
+<!--
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"
+        [<!ENTITY hibernate-mapping SYSTEM "classpath://hibernate-mapping-3.0.dtd"> ]>
+-->
+
+<!-- Generated Nov 30, 2007 3:01:46 AM by Hibernate Tools 3.2.0.b11 -->
+<hibernate-mapping>
+    <class name="org.openiam.am.srvc.webres.dto.WebResourceAttribute" table="WEB_RESOURCE_ATTRIBUTE" >
+
+        <comment></comment>
+        <id name="attributeMapId" type="string">
+            <column name="ATTRIBUTE_MAP_ID" length="32" />
+            <generator class="uuid" />
+        </id>
+
+        <property name="resourceId" type="string">
+            <column name="RESOURCE_ID" length="32" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="targetAttributeName" type="string">
+            <column name="TARGET_ATTRIBUTE_NAME" length="100" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="amAttributeName" type="string">
+            <column name="AM_ATTRIBUTE_NAME" length="100" not-null="false">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="amPolicyUrl" type="string">
+            <column name="AM_POLICY_URL" length="100" not-null="false">
+                <comment></comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
