@@ -182,8 +182,14 @@
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>/WEB-INF/applicationContext*.xml /WEB-INF/webconsoleBeans.xml /WEB-INF/ws-beans.xml </param-value>
-	</context-param> 
-  
+	</context-param>
+
+    <context-param>
+        <param-name>defaultHtmlEscape</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+
 </web-app>
 
 

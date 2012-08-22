@@ -1417,9 +1417,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         pUser.setMemberOfRoles(activeRoleList);
         //  bindingMap.put("user", origUser);
 
-        log.debug("pUser =" + pUser);
-        log.debug("orgUser=" + origUser);
-
         bindingMap.put("user", pUser);
 
 
@@ -1460,7 +1457,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     }
                 }
 
-                log.debug("Sysid=" + managedSysId);
 
                 bindingMap.put(TARGET_SYS_RES_ID, res.getResourceId());
                 bindingMap.put(TARGET_SYS_MANAGED_SYS_ID, res.getManagedSysId());
@@ -1499,7 +1495,12 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     Login mLg = getPrincipalForManagedSys(managedSysId, modifyUser.getPrincipalList());
                     //Login mLg = getPrincipalForManagedSys(managedSysId, curPrincipalList);
 
-                    bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, mLg.getId().getDomainId());
+
+                    if (mLg != null && mLg.getId() != null) {
+                        bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, mLg.getId().getDomainId());
+                    } else {
+                        bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, sysConfiguration.getDefaultSecurityDomain());
+                    }
 
                     log.debug("PROCESSING IDENTITY =" + mLg);
 
@@ -1531,6 +1532,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS, IDENTITY_NEW);
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
                                 bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+
+                                bindingMap.put(TARGET_SYS_SECURITY_DOMAIN,  sysConfiguration.getDefaultSecurityDomain());
 
 
 
