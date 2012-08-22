@@ -28,13 +28,11 @@ import java.util.List;
  * Time: 10:50 AM
  * To change this template use File | Settings | File Templates.
  */
-public class OracleResumeCommand extends AbstractOraclePasswordCommand implements ResumeCommand {
+public class OracleResumeCommand extends AbstractOracleAccountStatusCommand implements ResumeCommand {
     private LoginDataService loginManager;
 
     @Override
     public ResponseType resume(ResumeRequestType request) {
-        Connection con = null;
-
         final ResponseType response = new ResponseType();
         response.setStatus(StatusCodeType.SUCCESS);
 
@@ -44,68 +42,34 @@ public class OracleResumeCommand extends AbstractOraclePasswordCommand implement
         /* targetID -  */
         final String targetID = psoID.getTargetID();
 
-        List<Login> loginList = loginManager.getLoginByManagedSys(principalName, targetID);
-        if (loginList == null || loginList.isEmpty()) {
-            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_IDENTIFIER, "Principal not found");
+        final ManagedSys managedSys = managedSysService.getManagedSys(targetID);
+        if(managedSys == null) {
+            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, String.format("No Managed System with target id: %s", targetID));
+            return response;
+        }
+
+        if (StringUtils.isBlank(managedSys.getResourceId())) {
+            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "ResourceID is not defined in the ManagedSys Object");
+            return response;
+        }
+
+        final Resource res = resourceDataService.getResource(managedSys.getResourceId());
+        if(res == null) {
+            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "No resource for managed resource found");
             return response;
         }
 
         try {
-
-            final Login login = loginList.get(0);
-            final String encPassword = login.getPassword();
-            final String decPassword = loginManager.decryptPassword(encPassword);
-
-            final ManagedSys managedSys = managedSysService.getManagedSys(targetID);
-            if(managedSys == null) {
-                populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, String.format("No Managed System with target id: %s", targetID));
-                return response;
-            }
-
-            if (StringUtils.isBlank(managedSys.getResourceId())) {
-                populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "ResourceID is not defined in the ManagedSys Object");
-                return response;
-            }
-
-            final Resource res = resourceDataService.getResource(managedSys.getResourceId());
-            if(res == null) {
-                populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "No resource for managed resource found");
-                return response;
-            }
-
-            final ResourceProp prop = res.getResourceProperty("TABLE_NAME");
-            if(prop == null) {
-                populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "No TABLE_NAME property found");
-                return response;
-            }
-
-            final String tableName = prop.getPropValue();
-            if (StringUtils.isBlank(tableName)) {
-                populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "TABLE NAME is not defined.");
-                return response;
-            }
-            changePassword(managedSys, principalName, decPassword);
+            changeAccountStatus(managedSys, principalName, AccountStatus.UNLOCKED);
         } catch (SQLException se) {
             log.error(se);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.SQL_ERROR, se.toString());
         } catch (ClassNotFoundException cnfe) {
             log.error(cnfe);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, cnfe.toString());
-        } catch (EncryptionException ee) {
-            log.error(ee);
-            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.OTHER_ERROR, ee.toString());
         } catch(Throwable e) {
             log.error(e);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.OTHER_ERROR, e.toString());
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException s) {
-                    log.error(s);
-                    populateResponse(response, StatusCodeType.FAILURE, ErrorCode.SQL_ERROR, s.toString());
-                }
-            }
         }
         return response;
     }

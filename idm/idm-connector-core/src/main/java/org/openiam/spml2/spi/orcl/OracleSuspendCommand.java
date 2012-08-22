@@ -24,7 +24,7 @@ import java.text.ParseException;
  * Time: 10:50 AM
  * To change this template use File | Settings | File Templates.
  */
-public class OracleSuspendCommand extends AbstractOraclePasswordCommand implements SuspendCommand {
+public class OracleSuspendCommand extends AbstractOracleAccountStatusCommand implements SuspendCommand {
     @Override
     public ResponseType suspend(final SuspendRequestType request) {
         final ResponseType response = new ResponseType();
@@ -35,8 +35,6 @@ public class OracleSuspendCommand extends AbstractOraclePasswordCommand implemen
         final PSOIdentifierType psoID = request.getPsoID();
         /* targetID -  */
         final String targetID = psoID.getTargetID();
-
-        final String password = PasswordGenerator.generatePassword(10);
 
         final ManagedSys managedSys = managedSysService.getManagedSys(targetID);
         if(managedSys == null) {
@@ -55,9 +53,8 @@ public class OracleSuspendCommand extends AbstractOraclePasswordCommand implemen
             return response;
         }
 
-        Connection con = null;
         try {
-            changePassword(managedSys, principalName, password);
+            changeAccountStatus(managedSys, principalName, AccountStatus.LOCKED);
         } catch (SQLException se) {
             log.error(se);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.SQL_ERROR, se.toString());
@@ -67,15 +64,6 @@ public class OracleSuspendCommand extends AbstractOraclePasswordCommand implemen
         } catch(Throwable e) {
             log.error(e);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.OTHER_ERROR, e.toString());
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException s) {
-                    log.error(s);
-                    populateResponse(response, StatusCodeType.FAILURE, ErrorCode.SQL_ERROR, s.toString());
-                }
-            }
         }
         return response;
     }

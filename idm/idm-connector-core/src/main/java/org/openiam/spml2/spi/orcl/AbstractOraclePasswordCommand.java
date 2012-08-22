@@ -17,12 +17,21 @@ public abstract class AbstractOraclePasswordCommand extends AbstractOracleComman
     private static final String CHANGE_PASSWORD_SQL = "ALTER USER \"%s\" IDENTIFIED BY \"%s\"";
 
     protected void changePassword(final ManagedSys managedSys, final String principalName, final String password) throws SQLException, ClassNotFoundException {
-        final Connection connection = connectionMgr.connect(managedSys);
-        final String sql = String.format(CHANGE_PASSWORD_SQL, principalName, password);
-        if(log.isDebugEnabled()) {
-            log.debug(String.format("SQL=%s", sql));
-        }
 
-        connection.createStatement().execute(sql);
+        Connection connection = null;
+
+        try {
+            connection = connectionMgr.connect(managedSys);
+            final String sql = String.format(CHANGE_PASSWORD_SQL, principalName, password);
+            if(log.isDebugEnabled()) {
+                log.debug(String.format("SQL=%s", sql));
+            }
+
+            connection.createStatement().execute(sql);
+        } finally {
+            if(connection != null) {
+                connection.close();
+            }
+        }
     }
 }
