@@ -1,13 +1,11 @@
-package org.openiam.spml2.spi.common.jdbc;
+package org.openiam.spml2.spi.jdbc;
 
 import org.apache.commons.lang.StringUtils;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
-import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.openiam.spml2.spi.common.DeleteCommand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +19,7 @@ import java.text.ParseException;
  * Time: 7:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CommonJDBCDeleteCommand extends AbstractJDBCCommand {
+public class AppTableDeleteCommand extends AbstractAppTableCommand implements DeleteCommand {
 
     public ResponseType delete(final DeleteRequestType reqType) {
         final ResponseType response = new ResponseType();

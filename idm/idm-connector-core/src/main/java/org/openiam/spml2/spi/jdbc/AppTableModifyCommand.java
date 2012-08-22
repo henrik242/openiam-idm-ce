@@ -1,4 +1,4 @@
-package org.openiam.spml2.spi.common.jdbc;
+package org.openiam.spml2.spi.jdbc;
 
 import org.apache.commons.lang.StringUtils;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
@@ -7,8 +7,7 @@ import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.openiam.spml2.spi.common.ModifyCommand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +22,7 @@ import java.util.List;
  * Time: 8:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CommonJDBCModifyCommand extends AbstractJDBCCommand {
+public class AppTableModifyCommand extends AbstractAppTableCommand implements ModifyCommand {
 
     private static final String UPDATE_SQL = "UPDATE %s SET %s WHERE %s=?";
     private static final String INSERT_SQL = "INSERT INTO %s (%s) VALUES (%s)";

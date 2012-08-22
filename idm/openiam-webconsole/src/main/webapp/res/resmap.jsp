@@ -59,6 +59,7 @@ if (msgPrincipal != null) { %>
 			  <th>Attribute Name</td>
 			  <th>Policy</td>
               <th>DATA TYPE</td>
+              <th>Default Value</th>
 			  <th>Status</td>
        </tr>
       	  <c:forEach items="${attrMapCmd.attrMapList}" var="resAttr" varStatus="attr">
@@ -92,6 +93,9 @@ if (msgPrincipal != null) { %>
                                   <form:option value="memberOf" label="Member Of"/>
        					  </form:select>
        			</td>
+                <td class="tableEntry">
+                    <form:input title="Default Value of the Attribute" path="attrMapList[${attr.index}].defaultValue" />
+                </td>
 				 <td class="tableEntry"> <form:select path="attrMapList[${attr.index}].status">
     				              <form:option value="-" label="-Please Select-"/>
     				              <form:option value="ACTIVE" label="ACTIVE"/>

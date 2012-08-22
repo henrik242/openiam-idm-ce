@@ -25,6 +25,9 @@
         <property name="authoritativeSrc" type="java.lang.Integer">
             <column name="AUTHORITATIVE_SRC" />
         </property>
+        <property name="defaultValue" type="java.lang.String">
+            <column name="DEFAULT_VALUE" />
+        </property>
          
          <many-to-one name="attributePolicy" class="org.openiam.idm.srvc.policy.dto.Policy" fetch="select" lazy="false">
             <column name="ATTRIBUTE_POLICY_ID" length="32" />

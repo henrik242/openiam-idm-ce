@@ -1,4 +1,4 @@
-package org.openiam.spml2.spi.common.jdbc;
+package org.openiam.spml2.spi.orcl;
 
 import org.apache.commons.lang.StringUtils;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
@@ -7,8 +7,7 @@ import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.*;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.openiam.spml2.spi.common.LookupCommand;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -16,12 +15,15 @@ import java.text.ParseException;
 /**
  * Created with IntelliJ IDEA.
  * User: Lev
- * Date: 8/17/12
- * Time: 8:06 PM
+ * Date: 8/21/12
+ * Time: 10:48 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CommonJDBCLookupCommand extends AbstractJDBCCommand {
+public class OracleLookupCommand extends AbstractOracleCommand implements LookupCommand {
 
+    private static final String SELECT_USER = "SELECT * FROM DBA_USERS WHERE USERNAME=?";
+
+    @Override
     public LookupResponseType lookup(LookupRequestType reqType) {
         boolean found = false;
 
@@ -55,36 +57,16 @@ public class CommonJDBCLookupCommand extends AbstractJDBCCommand {
             return response;
         }
 
-        final ResourceProp prop = res.getResourceProperty("TABLE_NAME");
-        if(prop == null) {
-            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "No TABLE_NAME property found");
-            return response;
-        }
-
-        final String tableName = prop.getPropValue();
-        if (StringUtils.isBlank(tableName)) {
-            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "TABLE NAME is not defined.");
-            return response;
-        }
-
-
         Connection con = null;
 
-        final ExtensibleObject resultObject = new ExtensibleObject();
-        resultObject.setObjectId(principalName);
-
-
         try {
+            final ExtensibleObject resultObject = new ExtensibleObject();
+            resultObject.setObjectId(principalName);
+
             con = connectionMgr.connect(managedSys);
 
-            final PreparedStatement statement = createSelectStatement(con, res, tableName, principalName);
-            if (statement == null) {
-                populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "Unable to generate SQL based on configuration");
-                return response;
-            }
-            if(log.isDebugEnabled()) {
-                log.debug("Executing lookup query");
-            }
+            final PreparedStatement statement = con.prepareStatement(SELECT_USER);
+            statement.setString(1, principalName);
 
             final ResultSet rs = statement.executeQuery();
             final ResultSetMetaData rsMetadata = rs.getMetaData();
@@ -97,16 +79,13 @@ public class CommonJDBCLookupCommand extends AbstractJDBCCommand {
             if (rs.next()) {
                 found = true;
                 for (int colIndx = 1; colIndx <= columnCount; colIndx++) {
-
                     final ExtensibleAttribute extAttr = new ExtensibleAttribute();
-
                     extAttr.setName(rsMetadata.getColumnName(colIndx));
-
                     setColumnValue(extAttr, colIndx, rsMetadata, rs);
                     resultObject.getAttributes().add(extAttr);
                 }
-
                 response.getAny().add(resultObject);
+                response.setStatus(StatusCodeType.SUCCESS);
             } else {
                 if(log.isDebugEnabled()) {
                     log.debug("Principal not found");
@@ -114,18 +93,12 @@ public class CommonJDBCLookupCommand extends AbstractJDBCCommand {
                 response.setStatus(StatusCodeType.FAILURE);
                 return response;
             }
-
-            response.setStatus(StatusCodeType.SUCCESS);
         } catch (SQLException se) {
             log.error(se);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.SQL_ERROR, se.toString());
-
         } catch (ClassNotFoundException cnfe) {
             log.error(cnfe);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, cnfe.toString());
-        } catch (ParseException pe) {
-            log.error(pe);
-            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, pe.toString());
         } catch(Throwable e) {
             log.error(e);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.OTHER_ERROR, e.toString());
@@ -140,8 +113,6 @@ public class CommonJDBCLookupCommand extends AbstractJDBCCommand {
             }
         }
         return response;
-
-
     }
 
     private void setColumnValue(ExtensibleAttribute extAttr, int colIndx, ResultSetMetaData rsMetadata, ResultSet rs)
@@ -198,7 +169,5 @@ public class CommonJDBCLookupCommand extends AbstractJDBCCommand {
             }
 
         }
-
-
     }
 }

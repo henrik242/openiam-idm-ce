@@ -23,6 +23,7 @@ package org.openiam.provision.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mule.util.StringUtils;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
@@ -57,36 +58,39 @@ public class AttributeListBuilder {
                                          Map<String, Object> bindingMap,
                                          String createdBy) {
 
-        ExtensibleUser extUser = new ExtensibleUser();
+        final ExtensibleUser extUser = new ExtensibleUser();
 
 
         if (attrMap != null) {
 
-            log.debug("buildFromRules: attrMap IS NOT null");
+            if(log.isDebugEnabled()) {
+                log.debug("buildFromRules: attrMap IS NOT null");
+            }
 
-            Login identity = new Login();
-            LoginId loginId = new LoginId();
+            final Login identity = new Login();
+            final LoginId loginId = new LoginId();
 
             // init values
             loginId.setDomainId(domainId);
             loginId.setManagedSysId(managedSysId);
 
-            for (AttributeMap attr : attrMap) {
+            for (final AttributeMap attr : attrMap) {
 
-                if ("IN-ACTIVE".equalsIgnoreCase(attr.getStatus())) {
+                if(StringUtils.equalsIgnoreCase(attr.getStatus(), "IN-ACTIVE")) {
                     continue;
                 }
 
-                Policy policy = attr.getAttributePolicy();
-                String url = policy.getRuleSrcUrl();
+                final Policy policy = attr.getAttributePolicy();
+                final String url = policy.getRuleSrcUrl();
                 if (url != null) {
                     Object output = se.execute(bindingMap, url);
                     if (output != null) {
-                        String objectType = attr.getMapForObjectType();
+                        final String objectType = attr.getMapForObjectType();
                         if (objectType != null) {
-                            if ("PRINCIPAL".equalsIgnoreCase(objectType)) {
-
-                                log.debug("buildFromRules: ManagedSysId=" + managedSysId + " login=" + output);
+                            if(StringUtils.equalsIgnoreCase("PRINCIPAL", objectType)) {
+                                if(log.isDebugEnabled()) {
+                                    log.debug(String.format("buildFromRules: ManagedSysId=%s, login=%s", managedSysId, output));
+                                }
 
                                 loginId.setLogin((String) output);
                                 extUser.setPrincipalFieldName(attr.getAttributeName());
@@ -95,17 +99,19 @@ public class AttributeListBuilder {
                             }
 
 
-                            if ("USER".equalsIgnoreCase(objectType) || "PASSWORD".equalsIgnoreCase(objectType)) {
+                            if(StringUtils.equalsIgnoreCase(objectType, "USER") || StringUtils.equalsIgnoreCase(objectType, "PASSWORD")) {
 
-                                log.debug("buildFromRules: attribute:" + attr.getAttributeName() + "->" + output);
+                                if(log.isDebugEnabled()) {
+                                    log.debug(String.format("buildFromRules: attribute: %s->%s", attr.getAttributeName(), output));
+                                }
 
                                 if (output instanceof String) {
+                                    output = (StringUtils.isBlank((String)output)) ? attr.getDefaultValue() : output;
                                     extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (String) output, 1, attr.getDataType()));
                                 } else if (output instanceof Date) {
-                                    Date d = (Date) output;
-                                    String DATE_FORMAT = "MM/dd/yyyy";
-                                    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-
+                                    final Date d = (Date) output;
+                                    final String DATE_FORMAT = "MM/dd/yyyy";
+                                    final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                                     extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), sdf.format(d), 1, attr.getDataType()));
                                 } else {
                                     extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (List) output, 1, attr.getDataType()));

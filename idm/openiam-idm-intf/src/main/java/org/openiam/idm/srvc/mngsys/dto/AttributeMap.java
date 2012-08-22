@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.StringUtils;
 import org.openiam.idm.srvc.policy.dto.Policy;
 
 /**
@@ -31,7 +32,8 @@ import org.openiam.idm.srvc.policy.dto.Policy;
     "endDate",
     "storeInIamdb",
     "selected",
-    "dataType"
+    "dataType",
+    "defaultValue"
 })
 public class AttributeMap implements java.io.Serializable {
 
@@ -57,6 +59,7 @@ public class AttributeMap implements java.io.Serializable {
 	private Boolean selected = new Boolean(false);
     /* Data type of the attribute*/
     private String dataType;
+    private String defaultValue;
 
 	public AttributeMap() {
 	}
@@ -205,6 +208,14 @@ public class AttributeMap implements java.io.Serializable {
         this.dataType = dataType;
     }
 
+    public void setDefaultValue(final String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
     @Override
     public String toString() {
         return "AttributeMap{" +
@@ -223,6 +234,7 @@ public class AttributeMap implements java.io.Serializable {
                 ", storeInIamdb=" + storeInIamdb +
                 ", selected=" + selected +
                 ", dataType='" + dataType + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
                 '}';
     }
 }

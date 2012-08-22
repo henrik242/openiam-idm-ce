@@ -10,6 +10,8 @@ import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.password.*;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
+import org.openiam.spml2.spi.common.*;
+import org.openiam.spml2.spi.jdbc.*;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.jws.WebParam;
@@ -29,13 +31,13 @@ public abstract class AbstractJDBCConnectorImpl extends AbstractSpml2Complete im
 
     /* these have Spring setters (not annotations) to allow the caller to provide a unique implementation of the commands */
     private JDBCConnectionMgr connectionMgr;
-    private CommonJDBCAddCommand addCommand;
-    private CommonJDBCDeleteCommand deleteCommand;
-    private CommonJDBCLookupCommand lookupCommand;
-    private CommonJDBCModifyCommand modifyCommand;
-    private CommonJDBCResumeCommand resumeCommand;
-    private CommonJDBCPasswordCommand setPasswordCommand;
-    private CommonJDBCSuspendCommand suspendCommand;
+    private AddCommand addCommand;
+    private DeleteCommand deleteCommand;
+    private LookupCommand lookupCommand;
+    private ModifyCommand modifyCommand;
+    private ResumeCommand resumeCommand;
+    private PasswordCommand setPasswordCommand;
+    private SuspendCommand suspendCommand;
 
     public ResponseType reconcileResource(@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
         ResponseType response = new ResponseType();
@@ -84,9 +86,7 @@ public abstract class AbstractJDBCConnectorImpl extends AbstractSpml2Complete im
     }
 
     public AddResponseType add(AddRequestType reqType) {
-
         return addCommand.add(reqType);
-
     }
 
 
@@ -119,51 +119,51 @@ public abstract class AbstractJDBCConnectorImpl extends AbstractSpml2Complete im
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public ResponseType suspend( SuspendRequestType request) {
+    public ResponseType suspend(final SuspendRequestType request) {
         return suspendCommand.suspend(request);
     }
 
-    public ResponseType resume( ResumeRequestType request) {
+    public ResponseType resume(final ResumeRequestType request) {
         return resumeCommand.resume(request);
     }
 
     @Required
-    public void setConnectionMgr(JDBCConnectionMgr connectionMgr) {
+    public void setConnectionMgr(final JDBCConnectionMgr connectionMgr) {
         this.connectionMgr = connectionMgr;
     }
 
     @Required
-    public void setAddCommand(CommonJDBCAddCommand addCommand) {
+    public void setAddCommand(final AddCommand addCommand) {
         this.addCommand = addCommand;
     }
 
     @Required
-    public void setDeleteCommand(CommonJDBCDeleteCommand deleteCommand) {
+    public void setDeleteCommand(final DeleteCommand deleteCommand) {
         this.deleteCommand = deleteCommand;
     }
 
     @Required
-    public void setLookupCommand(CommonJDBCLookupCommand lookupCommand) {
+    public void setLookupCommand(final LookupCommand lookupCommand) {
         this.lookupCommand = lookupCommand;
     }
 
     @Required
-    public void setModifyCommand(CommonJDBCModifyCommand modifyCommand) {
+    public void setModifyCommand(final ModifyCommand modifyCommand) {
         this.modifyCommand = modifyCommand;
     }
 
     @Required
-    public void setResumeCommand(CommonJDBCResumeCommand resumeCommand) {
+    public void setResumeCommand(final ResumeCommand resumeCommand) {
         this.resumeCommand = resumeCommand;
     }
 
     @Required
-    public void setSetPasswordCommand(CommonJDBCPasswordCommand setPasswordCommand) {
+    public void setSetPasswordCommand(final PasswordCommand setPasswordCommand) {
         this.setPasswordCommand = setPasswordCommand;
     }
 
     @Required
-    public void setSuspendCommand(CommonJDBCSuspendCommand suspendCommand) {
+    public void setSuspendCommand(final SuspendCommand suspendCommand) {
         this.suspendCommand = suspendCommand;
     }
 }

@@ -1,6 +1,5 @@
-package org.openiam.spml2.spi.common.jdbc;
+package org.openiam.spml2.spi.jdbc;
 
-import com.mchange.v1.db.sql.ConnectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.res.dto.Resource;
@@ -11,8 +10,7 @@ import org.openiam.spml2.msg.AddRequestType;
 import org.openiam.spml2.msg.AddResponseType;
 import org.openiam.spml2.msg.ErrorCode;
 import org.openiam.spml2.msg.StatusCodeType;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.openiam.spml2.spi.common.AddCommand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +25,7 @@ import java.util.List;
  * Time: 7:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CommonJDBCAddCommand extends AbstractJDBCCommand {
+public class AppTableAddCommand extends AbstractAppTableCommand implements AddCommand {
 
     private static final String INSERT_SQL = "INSERT INTO %s (%s) VALUES (%s)";
 

@@ -51,6 +51,8 @@ public enum ErrorCode {
     @XmlEnumValue("invalidConfiguration")
     INVALID_CONFIGURATION("invalidConfiguration"),
 
+    @XmlEnumValue("invalidAttribute")
+    INVALID_ATTRIBUTE("invalidAttribute"),
 
     @XmlEnumValue("unsupportedExecutionMode")
     UNSUPPORTED_EXECUTION_MODE("unsupportedExecutionMode"),

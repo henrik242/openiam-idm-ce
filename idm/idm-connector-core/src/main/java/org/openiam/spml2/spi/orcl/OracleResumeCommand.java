@@ -1,4 +1,4 @@
-package org.openiam.spml2.spi.common.jdbc;
+package org.openiam.spml2.spi.orcl;
 
 import org.apache.commons.lang.StringUtils;
 import org.openiam.exception.EncryptionException;
@@ -12,11 +12,8 @@ import org.openiam.spml2.msg.PSOIdentifierType;
 import org.openiam.spml2.msg.ResponseType;
 import org.openiam.spml2.msg.StatusCodeType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.openiam.spml2.spi.common.ResumeCommand;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,14 +24,14 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: Lev
- * Date: 8/17/12
- * Time: 10:03 PM
+ * Date: 8/21/12
+ * Time: 10:50 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CommonJDBCResumeCommand extends AbstractJDBCCommand {
-
+public class OracleResumeCommand extends AbstractOraclePasswordCommand implements ResumeCommand {
     private LoginDataService loginManager;
 
+    @Override
     public ResponseType resume(ResumeRequestType request) {
         Connection con = null;
 
@@ -87,23 +84,13 @@ public class CommonJDBCResumeCommand extends AbstractJDBCCommand {
                 populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, "TABLE NAME is not defined.");
                 return response;
             }
-
-
-            con = connectionMgr.connect(managedSys);
-
-            final PreparedStatement statement = createSetPasswordStatement(con, res, tableName, principalName, decPassword);
-
-            statement.executeUpdate();
-
+            changePassword(managedSys, principalName, decPassword);
         } catch (SQLException se) {
             log.error(se);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.SQL_ERROR, se.toString());
         } catch (ClassNotFoundException cnfe) {
             log.error(cnfe);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, cnfe.toString());
-        } catch (ParseException pe) {
-            log.error(pe);
-            populateResponse(response, StatusCodeType.FAILURE, ErrorCode.INVALID_CONFIGURATION, pe.toString());
         } catch (EncryptionException ee) {
             log.error(ee);
             populateResponse(response, StatusCodeType.FAILURE, ErrorCode.OTHER_ERROR, ee.toString());
