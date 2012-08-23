@@ -362,23 +362,24 @@ CREATE TABLE REQUEST_USER(
 
 
 CREATE TABLE ATTRIBUTE_MAP (
-	ATTRIBUTE_MAP_ID nvarchar(32) NOT NULL,
-	MANAGED_SYS_ID nvarchar(32) NOT NULL,
-	RESOURCE_ID nvarchar(32) NULL,
+	ATTRIBUTE_MAP_ID      nvarchar(32) NOT NULL,
+	MANAGED_SYS_ID        nvarchar(32) NOT NULL,
+	RESOURCE_ID           nvarchar(32) NULL,
 	/* User, Group, OTHER */
-	MAP_FOR_OBJECT_TYPE nvarchar(20) DEFAULT 'USER',
-	ATTRIBUTE_NAME	nvarchar(50) NULL,
+	MAP_FOR_OBJECT_TYPE   nvarchar(20) DEFAULT 'USER',
+	ATTRIBUTE_NAME	      nvarchar(50) NULL,
 	/* CN, DN, UID, ETC   */
-	TARGET_ATTRIBUTE_NAME nvarchar(50) NULL,
+	TARGET_ATTRIBUTE_NAME   nvarchar(50) NULL,
 	/* IS AUTHORITATIVE SRC. 0-FALSE, 1-TRUE */
-	AUTHORITATIVE_SRC int default 0,
-	ATTRIBUTE_POLICY_ID  nvarchar(32) NULL,
-	RULE_TEXT			text null,
-	STATUS nvarchar(20) default 'ACTIVE',
-	START_DATE 		date default NULL,
-	END_DATE 			date default NULL,
-	STORE_IN_IAMDB INT DEFAULT 0,
-	DATA_TYPE       nvarchar(20) NULL,
+	AUTHORITATIVE_SRC     int default 0,
+	ATTRIBUTE_POLICY_ID   nvarchar(32) NULL,
+	RULE_TEXT			  text null,
+	STATUS nvarchar(20)   default 'ACTIVE',
+	START_DATE 		    date default NULL,
+	END_DATE 		    date default NULL,
+	STORE_IN_IAMDB      INT DEFAULT 0,
+	DATA_TYPE           nvarchar(20) NULL,
+	DEFAULT_VALUE       nvarchar(32) NULL,
 	PRIMARY KEY  (ATTRIBUTE_MAP_ID)
 )  
 
