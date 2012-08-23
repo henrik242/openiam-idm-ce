@@ -21,12 +21,16 @@
  */
 package org.openiam.provision.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.context.MuleContextAware;
 import org.mule.module.client.MuleClient;
+import org.mule.util.StringUtils;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
 import org.openiam.base.SysConfiguration;
@@ -68,6 +72,7 @@ import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.role.service.RoleDataService;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
@@ -85,9 +90,12 @@ import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.provision.type.ExtensibleUser;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
+import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.ResponseType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
+import org.openiam.spml2.msg.suspend.ResumeRequestType;
+import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -1168,6 +1176,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
       * @see org.openiam.provision.service.ProvisionService#lockUser(java.lang.String, org.openiam.provision.dto.AccountLockEnum)
       */
     public Response lockUser(String userId, AccountLockEnum operation, String requestorId) {
+        final Response response = new Response();
         String auditReason = null;
 
         if (userId == null) {
@@ -1184,10 +1193,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         User user = userMgr.getUserWithDependent(userId, false);
         if (user == null) {
             log.error("UserId " + userId + " not found");
-            Response resp = new Response();
-            resp.setStatus(ResponseStatus.FAILURE);
-            resp.setErrorCode(ResponseCode.OBJECT_NOT_FOUND);
-            return resp;
+            response.setStatus(ResponseStatus.FAILURE);
+            response.setErrorCode(ResponseCode.OBJECT_NOT_FOUND);
+            return response;
 
         }
         Login lg = loginManager.getPrimaryIdentity(userId);
@@ -1195,7 +1203,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         if (operation.equals(AccountLockEnum.LOCKED)) {
             user.setSecondaryStatus(UserStatusEnum.LOCKED);
             if (lg != null) {
-                log.debug("Identity flag set to locked.");
+                if(log.isDebugEnabled()) {
+                    log.debug("Identity flag set to locked.");
+                }
                 lg.setIsLocked(1);
             }
             auditReason = "LOCKED";
@@ -1208,11 +1218,10 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         } else {
             user.setSecondaryStatus(null);
             if (lg == null) {
-                log.error("Primary identity for UserId " + userId + " not found");
-                Response resp = new Response();
-                resp.setStatus(ResponseStatus.FAILURE);
-                resp.setErrorCode(ResponseCode.PRINCIPAL_NOT_FOUND);
-                return resp;
+                log.error(String.format("Primary identity for UserId %s not found", userId));
+                response.setStatus(ResponseStatus.FAILURE);
+                response.setErrorCode(ResponseCode.PRINCIPAL_NOT_FOUND);
+                return response;
             }
             lg.setAuthFailCount(0);
             lg.setIsLocked(0);
@@ -1243,10 +1252,140 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 null, login, domain);
 
 
-        Response resp = new Response();
-        resp.setStatus(ResponseStatus.SUCCESS);
-        return resp;
 
+        final List<Login> loginList = loginManager.getLoginByUser(userId);
+        for(final Login userLogin : loginList) {
+            if(userLogin != null) {
+                final LoginId id = userLogin.getId();
+                if(id != null && id.getManagedSysId() != null && !id.getManagedSysId().equals("0")) {
+                    ResponseType responsetype = null;
+                    final String managedSysId = id.getManagedSysId();
+                    final ManagedSys managedSys = managedSysService.getManagedSys(managedSysId);
+                    final PSOIdentifierType psoIdentifierType = new PSOIdentifierType(id.getLogin(), null, managedSysId);
+                    if(AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
+                        final SuspendRequestType suspendCommand = new SuspendRequestType();
+                        suspendCommand.setPsoID(psoIdentifierType);
+                        suspendCommand.setRequestID("R" + System.currentTimeMillis());
+                        connectorAdapter.suspendRequest(managedSys, suspendCommand, muleContext);
+                    } else {
+                        final ResumeRequestType resumeRequest = new ResumeRequestType();
+                        resumeRequest.setPsoID(psoIdentifierType);
+                        resumeRequest.setRequestID("R" + System.currentTimeMillis());
+                        //responsetype = client.resume(resumeRequest);
+                        connectorAdapter.resumeRequest(managedSys, resumeRequest, muleContext);
+                    }
+
+                    if (responsetype == null) {
+                        log.info("Response object from set password is null");
+                        response.setStatus(ResponseStatus.FAILURE);
+                        return response;
+                    }
+
+                    if (responsetype.getStatus() == null) {
+                        log.info("Response status is null");
+                        response.setStatus(ResponseStatus.FAILURE);
+                        return response;
+                    }
+                    log.info(String.format("Response status=%s", response.getStatus()));
+
+                    //TODO:  process the result of the WS call to resume/suspend of teh connector
+                }
+            }
+        }
+        final List<Role> roleList = roleDataService.getUserRoles(user.getUserId());
+        if(CollectionUtils.isNotEmpty(roleList)) {
+            for(final Role role : roleList) {
+                final RoleId roleId = role.getId();
+                final List<Resource> resourceList = resourceDataService.getResourcesForRole(roleId.getServiceId(), roleId.getRoleId());
+                if(CollectionUtils.isNotEmpty(resourceList)) {
+                    for(final Resource resource : resourceList) {
+                        final ManagedSys managedSys = managedSysService.getManagedSys(resource.getManagedSysId());
+                        if(managedSys != null) {
+                            ResponseType responsetype = null;
+                            final PSOIdentifierType psoIdentifierType = new PSOIdentifierType(lg.getId().getLogin(),null, managedSys.getManagedSysId());
+                            if(AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
+                                final SuspendRequestType suspendCommand = new SuspendRequestType();
+                                suspendCommand.setPsoID(psoIdentifierType);
+                                suspendCommand.setRequestID("R" + System.currentTimeMillis());
+                                connectorAdapter.suspendRequest(managedSys, suspendCommand, muleContext);
+                            } else {
+                                final ResumeRequestType resumeRequest = new ResumeRequestType();
+                                resumeRequest.setPsoID(psoIdentifierType);
+                                resumeRequest.setRequestID("R" + System.currentTimeMillis());
+                                //responsetype = client.resume(resumeRequest);
+                                connectorAdapter.resumeRequest(managedSys, resumeRequest, muleContext);
+                            }
+
+                            if (responsetype == null) {
+                                log.info("Response object from set password is null");
+                                response.setStatus(ResponseStatus.FAILURE);
+                                return response;
+                            }
+
+                            if (responsetype.getStatus() == null) {
+                                log.info("Response status is null");
+                                response.setStatus(ResponseStatus.FAILURE);
+                                return response;
+                            }
+                            log.info(String.format("Response status=%s", response.getStatus()));
+
+                            //TODO:  process the result of the WS call to resume/suspend of teh connector
+                            /*
+                            if(StringUtils.isNotBlank(managedSys.getConnectorId())) {
+                                final ProvisionConnector connector = connectorService.getConnector(managedSys.getConnectorId());
+                                if(connector != null) {
+                                    final ClientProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+                                    factory.setServiceClass(ConnectorService.class);
+
+                                    log.info("Service endpoint : " + connector.getServiceUrl() );
+
+                                    factory.setAddress(connector.getServiceUrl());
+                                    javax.xml.namespace.QName qname = javax.xml.namespace.QName.valueOf(connector.getServiceNameSpace());
+                                    factory.setEndpointName(qname);
+                                    final ConnectorService client = (ConnectorService) factory.create();
+
+                                    log.info("connector service client " + client);
+
+                                    ResponseType responsetype = null;
+                                    final PSOIdentifierType psoIdentifierType = new PSOIdentifierType(lg.getId().getLogin(),null, lg.getId().getManagedSysId());
+
+                                    if(AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
+                                        final SuspendRequestType suspendCommand = new SuspendRequestType();
+                                        suspendCommand.setPsoID(psoIdentifierType);
+                                        suspendCommand.setRequestID("R" + System.currentTimeMillis());
+                                        connectorAdapter.suspendRequest(managedSys, suspendCommand, muleContext);
+                                    } else {
+                                        final ResumeRequestType resumeRequest = new ResumeRequestType();
+                                        resumeRequest.setPsoID(psoIdentifierType);
+                                        resumeRequest.setRequestID("R" + System.currentTimeMillis());
+                                        //responsetype = client.resume(resumeRequest);
+                                        connectorAdapter.resumeRequest(managedSys, resumeRequest, muleContext);
+                                    }
+
+                                    if (responsetype == null) {
+                                        log.info("Response object from set password is null");
+                                        response.setStatus(ResponseStatus.FAILURE);
+                                        return response;
+                                    }
+
+                                    if (responsetype.getStatus() == null) {
+                                        log.info("Response status is null");
+                                        response.setStatus(ResponseStatus.FAILURE);
+                                        return response;
+                                    }
+                                    log.info(String.format("Response status=%s", response.getStatus()));
+
+                                    //TODO:  process the result of the WS call to resume/suspend of teh connector
+                                }
+                            }
+                            */
+                        }
+                    }
+                }
+            }
+        }
+        response.setStatus(ResponseStatus.SUCCESS);
+        return response;
     }
 
 
@@ -1328,8 +1467,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         modifyUser.addMissingUserComponents(pUser);
 
         List<Role> curRoleList = roleDataService.getUserRolesAsFlatList(pUser.getUserId());
-        List<Group> curGroupList = this.groupManager.getUserInGroupsAsFlatList(pUser.getUserId());
-        List<Login> curPrincipalList = this.loginManager.getLoginByUser(pUser.getUserId());
+        List<Group> curGroupList = groupManager.getUserInGroupsAsFlatList(pUser.getUserId());
+        List<Login> curPrincipalList = loginManager.getLoginByUser(pUser.getUserId());
 
 
         // make the role and group list before these updates available to the attribute policies
