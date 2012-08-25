@@ -16,14 +16,6 @@
   </properties>
 
   <modules>
-        <module>openiam-idm-intf</module>
-		<module>openiam-idm-services</module>
-
-        <module>openiam-idm-ee-intf</module>
-		<module>openiam-idm-ee-services</module>
-
-		<module>idm-connector-intf</module>
-		<module>idm-connector-core</module>
 		<module>openiam-idm-esb</module>
 
 		<module>openiam-webconsole</module>
