@@ -16,7 +16,7 @@
   </properties>
 
   <modules>
-        <module>openiam-idm-intf</module>
+		<module>openiam-idm-intf</module>
 		<module>openiam-idm-services</module>
 
         <module>openiam-idm-ee-intf</module>
