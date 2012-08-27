@@ -2,6 +2,8 @@ package org.openiam.spml2.spi.ldap.dirtype;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.AttributeOperationEnum;
+import org.openiam.base.BaseAttribute;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
 import org.openiam.provision.type.ExtensibleAttribute;
@@ -94,8 +96,6 @@ public class ActiveDirectoryImpl implements Directory {
 
         List<String> currentMembershipList =  userMembershipList(ldapName, matchObj,   ldapctx);
 
-        log.debug("Current ldap role membership:" + currentMembershipList);
-
 
         // remove membership
         if (currentMembershipList != null) {
@@ -113,7 +113,7 @@ public class ActiveDirectoryImpl implements Directory {
 
     }
 
-    public void updateAccountMembership(List<String> targetMembershipList, String ldapName,
+    public void updateAccountMembership(List<BaseAttribute> targetMembershipList, String ldapName,
                                         ManagedSystemObjectMatch matchObj,  LdapContext ldapctx,
                                         List<ExtensibleObject> requestAttribute) {
 
@@ -122,7 +122,6 @@ public class ActiveDirectoryImpl implements Directory {
 
         List<String> currentMembershipList = userMembershipList(samAccountName, matchObj,   ldapctx);
 
-        log.debug("- samAccountName = " + samAccountName);
         log.debug("- Current Active Dir group membership:" + currentMembershipList);
         log.debug("- Target Active Dir group membership:"  + targetMembershipList);
 
@@ -130,7 +129,6 @@ public class ActiveDirectoryImpl implements Directory {
             // remove all associations
             for (String s : currentMembershipList) {
                 try {
-                    log.debug("Removing membership from: " + s + " - " + ldapName);
                     ModificationItem mods[] = new ModificationItem[1];
                     mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("uniqueMember", ldapName));
                     ldapctx.modifyAttributes(s, mods);
@@ -141,59 +139,48 @@ public class ActiveDirectoryImpl implements Directory {
             }
         }
 
-
-        // see if we need to add additional membership entries
-
         if (targetMembershipList != null) {
-            for (String s : targetMembershipList) {
-                boolean found = false;
-                if (currentMembershipList != null) {
-                    for (String cur : currentMembershipList) {
-                        if (s.equalsIgnoreCase(cur))  {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found ) {
-                    if ( !isMemberOf(currentMembershipList, s) ) {
+            for (BaseAttribute ba : targetMembershipList) {
+
+                String groupName =  ba.getName();
+                boolean exists = isMemberOf(currentMembershipList, groupName);
+
+                if ( ba.getOperationEnum() == AttributeOperationEnum.DELETE) {
+                    if (exists) {
+                        // remove the group membership
                         try {
+
                             ModificationItem mods[] = new ModificationItem[1];
-                            mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute("member", ldapName));
-                            ldapctx.modifyAttributes(s, mods);
+                            mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("member", ldapName));
+                            ldapctx.modifyAttributes(groupName, mods);
                         }catch (NamingException ne ) {
                             log.error(ne);
                         }
                     }
                 }
-            }
-        }
-
-        // remove membership
-        if (currentMembershipList != null) {
-            for (String s : currentMembershipList) {
-                boolean found = false;
-                if (targetMembershipList != null) {
-                    for (String cur : targetMembershipList) {
-                        if (s.equalsIgnoreCase(cur))  {
-                            found = true;
-                            break;
+                if (    ba.getOperationEnum() == null
+                        || ba.getOperationEnum() == AttributeOperationEnum.ADD
+                        || ba.getOperationEnum() == AttributeOperationEnum.NO_CHANGE) {
+                    if (!exists) {
+                        // add the user to the group
+                        try {
+                            ModificationItem mods[] = new ModificationItem[1];
+                            mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute("member", ldapName));
+                            ldapctx.modifyAttributes(groupName, mods);
+                        }catch (NamingException ne ) {
+                            log.error(ne);
                         }
                     }
-                }
-                if (!found ) {
-                    try {
-                        log.debug("Removing current membership from: " + s + " - " + ldapName);
 
-                        ModificationItem mods[] = new ModificationItem[1];
-                        mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("member", ldapName));
-                        ldapctx.modifyAttributes(s, mods);
-                    }catch (NamingException ne ) {
-                        log.error(ne);
-                    }
                 }
+
+
+
             }
         }
+
+
+
 
 
     }
@@ -238,13 +225,9 @@ public class ActiveDirectoryImpl implements Directory {
 
         List<String> currentMembershipList = new ArrayList<String>();
 
-        log.debug("AD - userMembershipList() for ..." + samAccountName);
-        log.debug(" - MembershipObjectDN= " + matchObj.getSearchBaseDn());
 
         String userSearchFilter = "(&(objectclass=*)(sAMAccountName=" + samAccountName + "))";
         String searchBase = matchObj.getSearchBaseDn();
-
-        log.debug("Search -->" + userSearchFilter + " in " + searchBase);
 
 
         try {

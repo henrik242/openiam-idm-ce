@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="en" xml:lang="en">
 
 <head>
-<title>OpenIAM Identity Manager 2.1.0 - Administration Console</title>
+<title>OpenIAM Identity Manager 2.2.2 - Administration Console</title>
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="expires" CONTENT="0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

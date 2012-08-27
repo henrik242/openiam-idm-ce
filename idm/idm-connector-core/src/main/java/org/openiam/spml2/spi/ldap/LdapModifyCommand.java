@@ -1,5 +1,6 @@
 package org.openiam.spml2.spi.ldap;
 
+import org.openiam.base.BaseAttribute;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
@@ -31,8 +32,8 @@ import java.util.Set;
  */
 public class LdapModifyCommand extends LdapAbstractCommand {
 
-     public ModifyResponseType modify(ModifyRequestType reqType) {
-  /* FOR LDAP, need to be able to move object's OU - incase of re-org, person changes roles, etc */
+    public ModifyResponseType modify(ModifyRequestType reqType) {
+        /* FOR LDAP, need to be able to move object's OU - incase of re-org, person changes roles, etc */
         /* Need to be able add and remove users from groups */
 
         log.debug("LDAP Modify request called..");
@@ -42,8 +43,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         boolean groupMembershipEnabled = true;
 
 
-
-        List<String> targetMembershipList = new ArrayList<String>();
+        List<BaseAttribute> targetMembershipList = new ArrayList<BaseAttribute>();
 
         ModifyResponseType respType = new ModifyResponseType();
         respType.setStatus(StatusCodeType.SUCCESS);
@@ -64,8 +64,8 @@ public class LdapModifyCommand extends LdapAbstractCommand {
         // modificationType contains a collection of objects for each type of operation
         List<ModificationType> modificationList = reqType.getModification();
 
-         log.debug("ModificationList = " + modificationList);
-         log.debug("Modificationlist size= " + modificationList.size());
+        log.debug("ModificationList = " + modificationList);
+        log.debug("Modificationlist size= " + modificationList.size());
 
 
         /* A) Use the targetID to look up the connection information under managed systems */
@@ -77,59 +77,59 @@ public class LdapModifyCommand extends LdapAbstractCommand {
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             conMgr.setApplicationContext(ac);
             ldapctx = conMgr.connect(managedSys);
-        }catch (NamingException ne) {
-           respType.setStatus(StatusCodeType.FAILURE);
-           respType.setError(ErrorCode.DIRECTORY_ERROR);
-           respType.addErrorMessage(ne.toString());
-           return respType;
+        } catch (NamingException ne) {
+            respType.setStatus(StatusCodeType.FAILURE);
+            respType.setError(ErrorCode.DIRECTORY_ERROR);
+            respType.addErrorMessage(ne.toString());
+            return respType;
         }
 
         log.debug("Ldapcontext = " + ldapctx);
 
-         if (ldapctx == null) {
-             respType.setStatus(StatusCodeType.FAILURE);
-             respType.setError(ErrorCode.DIRECTORY_ERROR);
-             respType.addErrorMessage("Unable to connect to directory.");
-             return respType;
-         }
+        if (ldapctx == null) {
+            respType.setStatus(StatusCodeType.FAILURE);
+            respType.setError(ErrorCode.DIRECTORY_ERROR);
+            respType.addErrorMessage("Unable to connect to directory.");
+            return respType;
+        }
 
         String ldapName = psoID.getID();
 
         ExtensibleAttribute origIdentity = isRename(modificationList);
-	 	if (origIdentity != null) {
-	 		log.debug("Renaming identity: " + origIdentity.getValue());
+        if (origIdentity != null) {
+            log.debug("Renaming identity: " + origIdentity.getValue());
 
             try {
                 ldapctx.rename(origIdentity.getValue(), ldapName);
                 log.debug("Renaming : " + origIdentity.getValue());
 
-            }catch(NamingException ne) {
-               respType.setStatus(StatusCodeType.FAILURE);
-               respType.setError(ErrorCode.DIRECTORY_ERROR);
-               respType.addErrorMessage(ne.toString());
-               return respType;
+            } catch (NamingException ne) {
+                respType.setStatus(StatusCodeType.FAILURE);
+                respType.setError(ErrorCode.DIRECTORY_ERROR);
+                respType.addErrorMessage(ne.toString());
+                return respType;
             }
-	 	}
+        }
 
 
         // determine if this record already exists in ldap
         // move to separate method
         ManagedSystemObjectMatch[] matchObj = managedSysService.managedSysObjectParam(targetID, "USER");
 
-         Set<ResourceProp> rpSet = getResourceAttributes(managedSys.getResourceId());
-         ResourceProp rpGroupMembership = getResourceAttr(rpSet,"GROUP_MEMBERSHIP_ENABLED");
+        Set<ResourceProp> rpSet = getResourceAttributes(managedSys.getResourceId());
+        ResourceProp rpGroupMembership = getResourceAttr(rpSet, "GROUP_MEMBERSHIP_ENABLED");
 
-         // BY DEFAULT - we want to enable group membership
-         if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "Y".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
-             groupMembershipEnabled = true;
-         }else if (rpGroupMembership.getPropValue() != null) {
+        // BY DEFAULT - we want to enable group membership
+        if (rpGroupMembership == null || rpGroupMembership.getPropValue() == null || "Y".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+            groupMembershipEnabled = true;
+        } else if (rpGroupMembership.getPropValue() != null) {
 
-             if ("N".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
-                 groupMembershipEnabled = false;
-             }
-         }
+            if ("N".equalsIgnoreCase(rpGroupMembership.getPropValue())) {
+                groupMembershipEnabled = false;
+            }
+        }
 
-        Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+        Directory dirSpecificImp = DirectorySpecificImplFactory.create(managedSys.getHandler1());
 
 
         if (isInDirectory(ldapName, matchObj[0], ldapctx)) {
@@ -148,15 +148,15 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                         List<ModificationItem> modItemList = new ArrayList<ModificationItem>();
                         for (ExtensibleAttribute att : attrList) {
 
-                            log.debug("Extensible Attribute: " + att.getName() + " " + att.getDataType() );
+                            log.debug("Extensible Attribute: " + att.getName() + " " + att.getDataType());
 
-                            if ( att.getDataType() == null) {
+                            if (att.getDataType() == null) {
                                 continue;
                             }
 
-                            if ( att.getDataType().equalsIgnoreCase("memberOf")) {
-                                if (groupMembershipEnabled)  {
-                                    buildMembershipList(att,targetMembershipList);
+                            if (att.getDataType().equalsIgnoreCase("memberOf")) {
+                                if (groupMembershipEnabled) {
+                                    buildMembershipList(att, targetMembershipList);
                                 }
                             }
 
@@ -164,22 +164,18 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
                                 // set an attribute to null
                                 if ((att.getValue() == null || att.getValue().contains("null")) && (att.getValueList() == null || att.getValueList().size() == 0)) {
-                                    //modItemList.add( new ModificationItem(3, new BasicAttribute(att.getName(), att.getValue())));
-                                    log.debug("** set to null - name=" + att.getName() + "-" + att.getValue() + " - operation=" + att.getOperation());
+
 
                                     modItemList.add(new ModificationItem(att.getOperation(), new BasicAttribute(att.getName(), null)));
                                 } else {
-                                   // valid value
+                                    // valid value
 
-                                  //  if (!att.getDataType().equalsIgnoreCase("memberOf")) {
+                                    //  if (!att.getDataType().equalsIgnoreCase("memberOf")) {
                                     if ("unicodePwd".equalsIgnoreCase(att.getName())) {
                                         Attribute a = generateActiveDirectoryPassword(att.getValue());
                                         modItemList.add(new ModificationItem(DirContext.REPLACE_ATTRIBUTE, a));
-                                    } else if (!"userPassword".equalsIgnoreCase(att.getName())){
-                                   /*     !att.getName().equalsIgnoreCase("userRole") &&
-                                        !att.getName().equalsIgnoreCase("userOrg") ) {
-                                   */
-                                        log.debug("** name=" + att.getName() + "-" + att.getValue() + " - operation=" + att.getOperation());
+                                    } else if (!"userPassword".equalsIgnoreCase(att.getName())) {
+
 
                                         Attribute a = null;
                                         if (att.isMultivalued()) {
@@ -215,7 +211,6 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                         ldapctx.modifyAttributes(ldapName, mods);
 
 
-
                     }
                 }
             } catch (NamingException ne) {
@@ -229,14 +224,14 @@ public class LdapModifyCommand extends LdapAbstractCommand {
 
             } finally {
                 /* close the connection to the directory */
-                   try {
+                try {
                     if (conMgr != null) {
                         conMgr.close();
                     }
 
-                  } catch (NamingException n) {
-                      log.error(n);
-                  }
+                } catch (NamingException n) {
+                    log.error(n);
+                }
 
             }
         } else {
@@ -249,7 +244,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                 ExtensibleType extType = mod.getData();
                 extobjectList = extType.getAny();
 
-                log.debug("Modify: Extensible Object List =" + extobjectList );
+                log.debug("Modify: Extensible Object List =" + extobjectList);
 
                 BasicAttributes basicAttr = getBasicAttributes(extobjectList, matchObj[0].getKeyField(),
                         targetMembershipList, groupMembershipEnabled);
@@ -269,47 +264,44 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                             conMgr.close();
                         }
 
-                      } catch (NamingException n) {
-                          log.error(n);
-                      }
+                    } catch (NamingException n) {
+                        log.error(n);
+                    }
 
                 }
             }
 
         }
 
-         if (groupMembershipEnabled) {
-            dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj[0], ldapctx, extobjectList);
-         }
+        if (groupMembershipEnabled) {
+            dirSpecificImp.updateAccountMembership(targetMembershipList, ldapName, matchObj[0], ldapctx, extobjectList);
+        }
 
         return respType;
     }
 
 
+    private ExtensibleAttribute isRename(List<ModificationType> modTypeList) {
+        for (ModificationType mod : modTypeList) {
+            ExtensibleType extType = mod.getData();
+            List<ExtensibleObject> extobjectList = extType.getAny();
+            for (ExtensibleObject obj : extobjectList) {
 
-    private ExtensibleAttribute isRename(List<ModificationType> modTypeList ) {
-	 	for (ModificationType mod: modTypeList) {
-	 		ExtensibleType extType =  mod.getData();
-	 		List<ExtensibleObject> extobjectList = extType.getAny();
-	 		for (ExtensibleObject obj: extobjectList) {
+                log.debug("ReName Object:" + obj.getName() + " - operation=" + obj.getOperation());
 
-	 			log.debug("ReName Object:" + obj.getName() + " - operation=" + obj.getOperation());
-
-	 			List<ExtensibleAttribute> attrList =  obj.getAttributes();
-	 			List<ModificationItem> modItemList = new ArrayList<ModificationItem>();
-	 			for (ExtensibleAttribute att: attrList) {
-	 				if (att.getOperation() != 0 && att.getName() != null) {
-	 					if (att.getName().equalsIgnoreCase("ORIG_IDENTITY")) {
-	 						return att;
-	 					}
-	 				}
-	 			}
-	 		}
-	 	}
-	 	return null;
-	}
-
-
+                List<ExtensibleAttribute> attrList = obj.getAttributes();
+                List<ModificationItem> modItemList = new ArrayList<ModificationItem>();
+                for (ExtensibleAttribute att : attrList) {
+                    if (att.getOperation() != 0 && att.getName() != null) {
+                        if (att.getName().equalsIgnoreCase("ORIG_IDENTITY")) {
+                            return att;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
 
 }

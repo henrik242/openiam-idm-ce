@@ -20,6 +20,7 @@ package org.openiam.provision.type;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.BaseAttributeContainer;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -48,7 +49,8 @@ import static org.apache.commons.codec.binary.Base64.encodeBase64String;
     "multivalued",
     "valueList",
     "dataType",
-    "objectType"
+    "objectType",
+    "attributeContainer"
 
 })
 public class ExtensibleAttribute  implements Serializable {
@@ -60,6 +62,7 @@ public class ExtensibleAttribute  implements Serializable {
     protected int operation;
     protected boolean multivalued = false;
     protected List<String> valueList;
+    protected BaseAttributeContainer attributeContainer;
     protected String dataType;
     protected String objectType;
 
@@ -95,6 +98,16 @@ public class ExtensibleAttribute  implements Serializable {
         this.operation = operation;
         setValueList(val);
         multivalued = true;
+        this.dataType = dataType;
+
+    }
+
+    public ExtensibleAttribute(String name, BaseAttributeContainer val, int operation, String dataType) {
+        super();
+        this.name = name;
+        this.operation = operation;
+
+        this.attributeContainer = val;
         this.dataType = dataType;
 
         log.debug("Extensible attribute created: multivalue");
@@ -203,5 +216,13 @@ public class ExtensibleAttribute  implements Serializable {
                 ", valueList=" + getValueList() +
                 ", dataType='" + dataType + '\'' +
                 '}';
+    }
+
+    public BaseAttributeContainer getAttributeContainer() {
+        return attributeContainer;
+    }
+
+    public void setAttributeContainer(BaseAttributeContainer attributeContainer) {
+        this.attributeContainer = attributeContainer;
     }
 }

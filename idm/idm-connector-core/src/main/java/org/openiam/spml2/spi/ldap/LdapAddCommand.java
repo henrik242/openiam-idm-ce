@@ -1,5 +1,6 @@
 package org.openiam.spml2.spi.ldap;
 
+import org.openiam.base.BaseAttribute;
 import org.openiam.exception.ConfigurationException;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
@@ -33,7 +34,8 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
         AddResponseType response = new AddResponseType();
         response.setStatus(StatusCodeType.SUCCESS);
-        List<String> targetMembershipList = new ArrayList<String>();
+        List<BaseAttribute> targetMembershipList = new ArrayList<BaseAttribute>();
+
         boolean groupMembershipEnabled = true;
 
 
@@ -145,7 +147,6 @@ public class LdapAddCommand extends LdapAbstractCommand {
 
             if (groupMembershipEnabled) {
 
-                log.debug("Updating account membership...");
 
                 dirSpecificImp.updateAccountMembership(targetMembershipList,ldapName,  matchObj, ldapctx, reqType.getData().getAny());
             }

@@ -1,5 +1,6 @@
 package org.openiam.spml2.spi.ldap.dirtype;
 
+import org.openiam.base.BaseAttribute;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.DeleteRequestType;
@@ -14,7 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
+ * Directories may have differences in how they implement certain details. Objects implementing this interface are used
+ * to support these variations.
  * User: suneetshah
  * Date: 1/26/12
  * Time: 11:52 PM
@@ -45,7 +47,8 @@ public interface Directory {
 
     void removeAccountMemberships( String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx );
 
-    void updateAccountMembership(List<String> targetMembershipList, String ldapName, ManagedSystemObjectMatch matchObj,  LdapContext ldapctx, List<ExtensibleObject> requestAttribute );
+    void updateAccountMembership(List<BaseAttribute> targetMembershipList, String ldapName,
+                                 ManagedSystemObjectMatch matchObj,  LdapContext ldapctx, List<ExtensibleObject> requestAttribute );
 
     
 }

@@ -41,9 +41,7 @@ public class NewUserNoAppValidator implements Validator {
 		if (user.getCompanyId() == null || user.getCompanyId().equalsIgnoreCase("-") ) {
 			err.rejectValue("user.companyId", "required");
 		}
-		if (user.getDeptCd() == null || user.getDeptCd().equalsIgnoreCase("-") ) {
-			err.rejectValue("user.deptCd", "required");
-		}
+
 		if (user.getEmployeeType() == null || user.getEmployeeType().equalsIgnoreCase("-") ) {
 			err.rejectValue("user.employeeType", "required");
 		}
@@ -51,9 +49,7 @@ public class NewUserNoAppValidator implements Validator {
 		if (newHireCmd.getStatus() == null || newHireCmd.getStatus().equalsIgnoreCase("-") ) {
 			err.rejectValue("status", "required");
 		}		
-		if (user.getSex() == null || user.getSex().equalsIgnoreCase("-") ) {
-			err.rejectValue("user.sex", "required");
-		}
+
 		if (newHireCmd.getRole() == null || newHireCmd.getRole().equalsIgnoreCase("-") ) {
 			err.rejectValue("role", "required");
 		}

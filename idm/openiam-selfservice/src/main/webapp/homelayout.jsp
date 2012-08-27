@@ -18,7 +18,7 @@
     <script src="<%= request.getContextPath() %>/js/myriad-pro.js" type="text/javascript"></script>
     <script src="<%= request.getContextPath() %>/js/calibri.js" type="text/javascript"></script>
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.main.js"></script>
-    <title>OpenIAM Identity Manager v2.2</title>
+    <title>OpenIAM Identity Manager Selfservice v2.2.2</title>
 
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">

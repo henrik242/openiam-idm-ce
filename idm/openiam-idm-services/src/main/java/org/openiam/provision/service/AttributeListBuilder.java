@@ -26,13 +26,14 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.util.StringUtils;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.type.ExtensibleAttribute;
 import org.openiam.provision.type.ExtensibleUser;
 import org.openiam.script.ScriptIntegration;
+import org.openiam.base.BaseAttributeContainer;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,8 +51,8 @@ import java.util.Map;
 public class AttributeListBuilder {
 
     protected static final Log log = LogFactory.getLog(AttributeListBuilder.class);
-    
-    
+
+
     public ExtensibleUser buildFromRules(ProvisionUser pUser,
                                          List<AttributeMap> attrMap, ScriptIntegration se,
                                          String managedSysId, String domainId,
@@ -63,7 +64,7 @@ public class AttributeListBuilder {
 
         if (attrMap != null) {
 
-            if(log.isDebugEnabled()) {
+            if (log.isDebugEnabled()) {
                 log.debug("buildFromRules: attrMap IS NOT null");
             }
 
@@ -76,7 +77,7 @@ public class AttributeListBuilder {
 
             for (final AttributeMap attr : attrMap) {
 
-                if(StringUtils.equalsIgnoreCase(attr.getStatus(), "IN-ACTIVE")) {
+                if (StringUtils.equalsIgnoreCase(attr.getStatus(), "IN-ACTIVE")) {
                     continue;
                 }
 
@@ -87,8 +88,8 @@ public class AttributeListBuilder {
                     if (output != null) {
                         final String objectType = attr.getMapForObjectType();
                         if (objectType != null) {
-                            if(StringUtils.equalsIgnoreCase("PRINCIPAL", objectType)) {
-                                if(log.isDebugEnabled()) {
+                            if (StringUtils.equalsIgnoreCase("PRINCIPAL", objectType)) {
+                                if (log.isDebugEnabled()) {
                                     log.debug(String.format("buildFromRules: ManagedSysId=%s, login=%s", managedSysId, output));
                                 }
 
@@ -99,20 +100,31 @@ public class AttributeListBuilder {
                             }
 
 
-                            if(StringUtils.equalsIgnoreCase(objectType, "USER") || StringUtils.equalsIgnoreCase(objectType, "PASSWORD")) {
+                            if (StringUtils.equalsIgnoreCase(objectType, "USER") || StringUtils.equalsIgnoreCase(objectType, "PASSWORD")) {
 
-                                if(log.isDebugEnabled()) {
+                                if (log.isDebugEnabled()) {
                                     log.debug(String.format("buildFromRules: attribute: %s->%s", attr.getAttributeName(), output));
                                 }
 
                                 if (output instanceof String) {
-                                    output = (StringUtils.isBlank((String)output)) ? attr.getDefaultValue() : output;
+
+                                    output = (StringUtils.isBlank((String) output)) ? attr.getDefaultValue() : output;
                                     extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (String) output, 1, attr.getDataType()));
+
                                 } else if (output instanceof Date) {
                                     final Date d = (Date) output;
                                     final String DATE_FORMAT = "MM/dd/yyyy";
                                     final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                                     extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), sdf.format(d), 1, attr.getDataType()));
+
+                                } else if (output instanceof BaseAttributeContainer) {
+
+                                    // process a complex object which can be passed to the connector
+
+                                    ExtensibleAttribute newAttr = new ExtensibleAttribute(attr.getAttributeName(), (BaseAttributeContainer) output, 1, attr.getDataType());
+                                    newAttr.setObjectType(objectType);
+                                    extUser.getAttributes().add(newAttr);
+
                                 } else {
                                     extUser.getAttributes().add(new ExtensibleAttribute(attr.getAttributeName(), (List) output, 1, attr.getDataType()));
                                 }
@@ -151,6 +163,7 @@ public class AttributeListBuilder {
 
     /**
      * Generate the principalName for a targetSystem
+     *
      * @return
      */
     public String buildPrincipalName(List<AttributeMap> attrMap, ScriptIntegration se,
@@ -254,12 +267,17 @@ public class AttributeListBuilder {
 
                                 ExtensibleAttribute newAttr;
                                 if (output instanceof String) {
+
+                                    // if its memberOf object than dont add it to the list
+                                    // the connectors can detect a delete if an attribute is not in the list
+
                                     newAttr = new ExtensibleAttribute(attr.getAttributeName(), (String) output, 1, attr.getDataType());
                                     newAttr.setObjectType(objectType);
-
                                     extUser.getAttributes().add(newAttr);
 
+
                                 } else if (output instanceof Date) {
+                                    // date
                                     Date d = (Date) output;
                                     String DATE_FORMAT = "MM/dd/yyyy";
                                     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -268,7 +286,14 @@ public class AttributeListBuilder {
                                     newAttr.setObjectType(objectType);
 
                                     extUser.getAttributes().add(newAttr);
+                                } else if (output instanceof BaseAttributeContainer) {
+                                   // process a complex object which can be passed to the connector
+                                    newAttr = new ExtensibleAttribute(attr.getAttributeName(), (BaseAttributeContainer) output, 1, attr.getDataType());
+                                    newAttr.setObjectType(objectType);
+                                    extUser.getAttributes().add(newAttr);
+
                                 } else {
+                                    // process a list - multi-valued object
                                     newAttr = new ExtensibleAttribute(attr.getAttributeName(), (List) output, 1, attr.getDataType());
                                     newAttr.setObjectType(objectType);
 
@@ -296,8 +321,6 @@ public class AttributeListBuilder {
                 pUser.getPrincipalList().add(currentIdentity);
             }
 
-        } else {
-            log.debug("- attMap IS null");
         }
 
 

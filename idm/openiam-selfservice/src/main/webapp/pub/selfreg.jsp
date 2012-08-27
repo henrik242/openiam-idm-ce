@@ -136,7 +136,7 @@
 
                             <div class="col-1">
 								<div class="row">
-									<label for="t-19">Home Phone</label>
+									<label for="t-19">Work Phone</label>
 									<form:input path="workAreaCode" size="3"  maxlength="3" cssClass="code"  /> 
        						        <form:input path="workPhone" size="10" maxlength="10" onblur="return  validateInt(workPhone)" cssClass="phone" />
 								</div>

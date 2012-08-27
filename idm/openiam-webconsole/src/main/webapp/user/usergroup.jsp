@@ -37,8 +37,7 @@
 
                             <tr>
                                 <td class="tableEntry">
-                                    <form:checkbox path="groupList[${group.index}].selected" />
-                                        ${groupList.grpName}
+                                    <form:checkbox path="groupList[${group.index}].selected"  /> ${groupList.grpName}
                                     <form:hidden path="groupList[${group.index}].grpId" />
                                 </td>
                                 <td class="tableEntry">${groupList.inheritFromParent}</td>

@@ -105,6 +105,7 @@ public class UserGroupController extends CancellableFormController {
 						fullGroupList.add(g);
 						found = true;
 					}
+
 				}
 				if (!found) {
 					fullGroupList.add(g);
@@ -160,8 +161,9 @@ public class UserGroupController extends CancellableFormController {
 		List<Group> provGroupList = new ArrayList<Group>();
 		if (newGroupList != null) {
 			for (Group g : newGroupList) {
-				if (g.getSelected()) {
-					log.info("add following group to provGroupList="  + g.getGrpId());
+
+                if (g.getSelected() != null && g.getSelected()) {
+
 					provGroupList.add(g);
 	
 				}

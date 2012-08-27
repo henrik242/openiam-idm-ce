@@ -51,9 +51,6 @@ public class SelfRegistrationValidator implements Validator {
             err.rejectValue("email1", "required");
         }
 
-        if (newHireCmd.getWorkPhone() == null || newHireCmd.getWorkPhone().length() == 0) {
-            err.rejectValue("workPhone", "required");
-        }
 
 
 	}

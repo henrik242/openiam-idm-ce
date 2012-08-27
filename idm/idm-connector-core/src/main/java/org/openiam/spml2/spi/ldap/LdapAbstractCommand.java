@@ -2,6 +2,7 @@ package org.openiam.spml2.spi.ldap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.BaseAttribute;
 import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
@@ -155,7 +156,7 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
 
 
     protected BasicAttributes getBasicAttributes(List<ExtensibleObject> requestAttribute, String idField,
-                                                 List<String> targetMembershipList, boolean groupMembershipEnabled) {
+                                                 List<BaseAttribute> targetMembershipList, boolean groupMembershipEnabled) {
         BasicAttributes attrs = new BasicAttributes();
 
         // add the object class
@@ -207,10 +208,7 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
                         a = generateActiveDirectoryPassword(att.getValue());
                     } else {
                         // add a password to a user separately. If OpenLDAP is not using PPolicy the password is not hashed
-                        //if (!"userPassword".equalsIgnoreCase(att.getName())) {
                         a = new BasicAttribute(att.getName(), att.getValue());
-                        //}
-
                     }
                     if (a != null) {
                         attrs.put(a);
@@ -229,20 +227,15 @@ public abstract class LdapAbstractCommand  implements ApplicationContextAware{
         return attrs;
     }
 
-    protected void buildMembershipList( ExtensibleAttribute att ,List<String>targetMembershipList) {
+    protected void buildMembershipList( ExtensibleAttribute att ,List<BaseAttribute>targetMembershipList) {
 
-        log.debug("buildMembershipList:" + att);
 
         if (att == null)
             return;
 
-        if (att.getValueList() == null || att.getValueList().isEmpty())  {
-            return;
-        }
+        if (att.getAttributeContainer() != null) {
 
-        List<String> valList = att.getValueList();
-        for (String s : valList) {
-            targetMembershipList.add(s);
+            targetMembershipList.addAll( att.getAttributeContainer().getAttributeList() );
 
         }
 
