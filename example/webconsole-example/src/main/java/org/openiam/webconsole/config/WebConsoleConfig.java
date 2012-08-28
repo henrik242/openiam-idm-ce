@@ -1,5 +1,12 @@
 package org.openiam.webconsole.config;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Validator;
+
 import org.codehaus.jackson.JsonGenerator.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.MessageSource;
@@ -21,26 +28,21 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import javax.validation.Validator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 /**
- * User: Alexander Duckardt
- * Date: 8/25/12
+ * User: Alexander Duckardt Date: 8/25/12
  */
 @Configuration
 @EnableWebMvc
 @EnableAsync
 @ComponentScan(basePackages = { "org.openiam.webconsole.web" })
-public class WebConsoleConfig extends WebMvcConfigurerAdapter{
+public class WebConsoleConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations(
-                "/resources/");
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
     }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/");
@@ -82,7 +84,7 @@ public class WebConsoleConfig extends WebMvcConfigurerAdapter{
         ms.setCacheSeconds(600);
         ms.setFallbackToSystemLocale(false);
         ms.setBasenames(new String[] { "/WEB-INF/i18n/labels",
-                                       "/WEB-INF/i18n/validation" });
+                "/WEB-INF/i18n/validation" });
         return ms;
     }
 
@@ -92,9 +94,10 @@ public class WebConsoleConfig extends WebMvcConfigurerAdapter{
         factory.setValidationMessageSource(messageSource());
         return factory;
     }
+
     @Override
     public void configureMessageConverters(
-            List<HttpMessageConverter<?>> converters) {
+                List<HttpMessageConverter<?>> converters) {
         converters.add(new MappingJacksonHttpMessageConverter());
     }
 }
