@@ -11,10 +11,14 @@
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 </head>
-
 <body>
-    TEST PAGE
-         
-	<%@include file="../include/footer.jsp"%>
+	<%@include file="../include/header-body.jsp"%>
+	<div class="container">
+		<div class="container-inner">
+			<%@include file="../include/page-header.jsp"%>
+		
+		</div>
+		<%@include file="../include/footer.jsp"%>
+	</div>
 </body>
 </html>

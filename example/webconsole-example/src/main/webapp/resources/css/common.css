@@ -1,0 +1,15 @@
+.clear-both {clear:both;}
+body {overflow-y:scroll;}
+a,.ui-state-hover a {color: #5D5B5D;}
+a:hover {color:  #4BB848 !important;}
+#ajaxLoadingContainer{left:0;top:0;bottom: 0;right:0;background-color:transparent;z-index: 9999;position: fixed;}
+#ajaxLoading {width: 100px;height: 32px;padding: 5px 0 5px 45px;background: url(../img/ajax-loader.gif) #f6f6f6 5px 5px no-repeat;position: fixed;
+  			  left: 45%;top: 0;opacity: 0.8;-moz-opacity: .8;filter: progid:   DXImageTransform.Microsoft.Alpha(   opacity=   80 );
+  			  -ms-filter: "alpha(opacity=80)";filter: alpha(opacity =   80);z-index: 10000;}
+#ajaxLoadingText {color: #525252;display: block;font-weight: bold;margin-right: 10px;padding: 7px 0;text-align: left;}
+
+.header{background: none repeat scroll 0 0 white;height: 120px;margin-bottom: 10px;position: relative;}
+	.header .header-container{border-bottom: 1.5px solid #E3E4E3;margin-left: auto;padding-bottom: 1px;padding-top: 70px;width: 100%;}
+		.header .header-container #logoContainer {left: 35px;position: absolute;top: 15px;z-index: 1003;height: 68px;
+    																					position: absolute;width: 252px;
+    																					background: url("../img/openiamlogo.jpg") no-repeat transparent;}

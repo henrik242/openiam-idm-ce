@@ -52,7 +52,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.slf4j.version>1.6.2</org.slf4j.version>
-        <spring.version>3.1.2.RELEASE</spring.version>
+        <spring.version>3.1.1.RELEASE</spring.version>
         <javax.jstl.version>1.2</javax.jstl.version>
         <javax.servlet.version>3.0.1</javax.servlet.version>
         <junit.version>4.9</junit.version>
