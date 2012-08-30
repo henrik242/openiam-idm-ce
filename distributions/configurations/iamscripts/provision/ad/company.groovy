@@ -10,6 +10,5 @@ def orgManager = context.getBean("orgManager")
 				if (orgObject != null) {
 					output = orgObject.organizationName
 				}
-			}else{
-				output=null;
 			}
+output = null;

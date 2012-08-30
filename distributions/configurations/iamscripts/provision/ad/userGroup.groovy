@@ -5,13 +5,18 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.groovy.helper.ServiceHelper;
 
+import org.openiam.base.BaseAttribute;
+import org.openiam.base.BaseAttributeContainer;
+
 def GroupDataWebService groupService = ServiceHelper.groupService();
 def Group grp;
 
-String groupBaseDN = ",OU=dev,DC=iamdev,DC=local";
+String groupBaseDN = ",OU=idm-test,DC=ad,DC=openiamdemo,DC=info";
 
-List<String> roleStrList = new ArrayList<String>();
+//List<String> roleStrList = new ArrayList<String>();
 def List<Group> groupList = user.getMemberOfGroups();
+
+BaseAttributeContainer attributeContainer = new BaseAttributeContainer();
 
 if (groupList != null) {
 	if (groupList.size() > 0)  {
@@ -25,12 +30,18 @@ if (groupList != null) {
         
 			}
 			
-			println("Adding group id  " + r.grpId + " --> " + groupName);
+			println("Adding group id  " + r.grpId + " --> " + (groupName + groupBaseDN));
 			
-			roleStrList.add("cn=" + groupName +  groupBaseDN);
+			//roleStrList.add("cn=" + groupName +  groupBaseDN);
+			
+			String qualifiedGroupName = "cn=" + groupName +  groupBaseDN
+			
+			attributeContainer.getAttributeList().add(new BaseAttribute(qualifiedGroupName, qualifiedGroupName, r.operation));
+			
 			
 		}
-		output = roleStrList;
+		//output = roleStrList;
+		output = attributeContainer;
 	}else {
 		output = null;
 	}

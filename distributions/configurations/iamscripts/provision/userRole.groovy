@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.base.BaseAttribute;
 
 List<String> roleStrList = new ArrayList<String>();
 def List<Role> roleList = user.getMemberOfRoles();

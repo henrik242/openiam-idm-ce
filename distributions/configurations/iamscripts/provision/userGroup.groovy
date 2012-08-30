@@ -6,13 +6,17 @@ import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.groovy.helper.ServiceHelper;
 import org.openiam.base.AttributeOperationEnum;
 
+import org.openiam.base.BaseAttribute;
+import org.openiam.base.BaseAttributeContainer;
+
 def GroupDataWebService groupService = ServiceHelper.groupService();
 def Group grp;
 
-String groupBaseDN = ",ou=group," + matchParam.baseDn;
+String groupBaseDN = ",ou=group,ou=people," + matchParam.baseDn;
 
-List<String> roleStrList = new ArrayList<String>();
 def List<Group> groupList = user.getMemberOfGroups();
+
+BaseAttributeContainer attributeContainer = new BaseAttributeContainer();
 
 if (groupList != null) {
 	if (groupList.size() > 0)  {
@@ -25,26 +29,20 @@ if (groupList != null) {
         		groupName = grp.grpName;
         
 			}
-			println("group id  " + r.grpId + " --> " + groupName + " - " + r.operation);
 			
-			if (r.operation == null) {
-				
-					roleStrList.add("cn=" + groupName +  groupBaseDN);
-				
-			}else {
-				if (r.operation != AttributeOperationEnum.DELETE ) {
-					roleStrList.add("cn=" + groupName +  groupBaseDN);
-				}
-		  }
+			println("Adding group id  " + r.grpId + " --> " + (groupName + groupBaseDN));
 			
+			String qualifiedGroupName = "cn=" + groupName +  groupBaseDN
+			
+			attributeContainer.getAttributeList().add(new BaseAttribute(qualifiedGroupName, qualifiedGroupName, r.operation));
 			
 			
 		}
-		output = roleStrList;
+		//output = roleStrList;
+		output = attributeContainer;
 	}else {
 		output = null;
 	}
 }else {
 	output = null;
 }
-

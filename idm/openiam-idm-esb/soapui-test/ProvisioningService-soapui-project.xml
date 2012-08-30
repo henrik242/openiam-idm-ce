@@ -1352,6 +1352,13 @@
                <dto2:grpId>402881063955071f0139551e2fa30016</dto2:grpId>
                <dto2:operation>delete</dto2:operation>
             </memberOfGroups>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>END_USER</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+            </memberOfRoles>
             <notifyTargetSystems/>
             <emailCredentialsToNewUsers/>
             <emailCredentialsToSupervisor/>

@@ -11,38 +11,38 @@ import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.base.AttributeOperationEnum;
 import org.springframework.context.ApplicationContext;
 
-import org.openiam.idm.srvc.user.dto.UserStatusEnum
-import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.RoleId;
+import org.openiam.idm.srvc.role.service.RoleDataService;
+import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
-import org.openiam.idm.srvc.continfo.dto.Phone;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.dto.ResourceProp;
+import org.openiam.idm.srvc.res.service.ResourceDataService;
 
 
-
-
+/**
+* Pre-processor script that is used with the Provisioning service.
+*/
 public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 
 
 	public int addUser(ProvisionUser user, Map<String, Object> bindingMap) {
-		// context to look up spring beans
-		ApplicationContext context = (ApplicationContext)bindingMap.get("context");
+
+		// context to look up spring beans - commonly used beans. Included to help development
+
+	 ApplicationContext context = (ApplicationContext)bindingMap.get("context");
+   OrganizationDataService orgManager = (OrganizationDataService)context.getBean("orgManager");
+   RoleDataService roleDataService = (RoleDataService)context.getBean("roleDataService");	
+	 LoginDataService loginService = (LoginDataService)context.getBean("loginManager");
+	 ResourceDataService resourceDataService = (ResourceDataService)context.getBean("resourceDataService");
+	 
 		
 		println("ProvisionServicePreProcessor: AddUser called.");
 		println("ProvisionServicePreProcessor: User=" + user.toString());
-		println("Show binding map");
 		
-		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-				println("- Key=" + key + "  value=" + value.toString() );
-		}
-
-
-	
-	
+		showBindingMap(bindingMap);
+		
 	
 		return ProvisioningConstants.SUCCESS;
 	}
@@ -53,13 +53,10 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 		
     	println("ProvisionServicePreProcessor: ModifyUser called.");
 		println("ProvisionServicePreProcessor: User=" + user.toString());
-		println("Show binding map");
 		
-		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-				println("- Key=" + key + "  value=" + value.toString() );
-		}
+		showBindingMap(bindingMap);
+		
+		
 		
     
     
@@ -76,13 +73,9 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 		
         println("ProvisionServicePreProcessor: DeleteUser called.");
 		println("ProvisionServicePreProcessor: User=" + user.toString());
-		println("Show binding map");
 		
-		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-				println("- Key=" + key + "  value=" + value.toString() );
-		}
+		showBindingMap(bindingMap);
+		
 		
     
     	return ProvisioningConstants.SUCCESS;
@@ -90,7 +83,23 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
 	
     public int setPassword( PasswordSync passwordSync, Map<String, Object> bindingMap){
     
+    	ApplicationContext context = (ApplicationContext)bindingMap.get("context");
+    	
+    
      	println("ProvisionServicePreProcessor: SetPassword called.");
+		
+		showBindingMap(bindingMap);
+		
+		
+    	return ProvisioningConstants.SUCCESS;
+    
+	}
+	
+	private void showBindingMap( Map<String, Object> bindingMap){
+    
+    	// context to look up spring beans
+		
+    	
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -98,11 +107,11 @@ public class ProvisionServicePreProcessor extends AbstractPreProcessor {
     			Object value = entry.getValue();
 				println("- Key=" + key + "  value=" + value.toString() );
 		}
-		
-    
-    	return ProvisioningConstants.SUCCESS;
+	
     
 	}
+	
+	
 	
 
     

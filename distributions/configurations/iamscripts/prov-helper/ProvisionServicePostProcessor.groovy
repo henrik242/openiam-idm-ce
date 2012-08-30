@@ -22,7 +22,9 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.msg.dto.NotificationParam;
 import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 
-
+/**
+* Post-processor script that is used with the Provisioning service.
+*/
 public class ProvisionServicePostProcessor extends AbstractPostProcessor {
 
 
@@ -32,16 +34,9 @@ public class ProvisionServicePostProcessor extends AbstractPostProcessor {
 		
 		println("ProvisionServicePostProcessor: AddUser called.");
 		println("ProvisionServicePostProcessor: User=" + user.toString());
-		println("Show binding map");
 		
-		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-				println("- Key=" + key + "  value=" + value.toString() );
-		}
-
+		showBindingMap(bindingMap);
 		
-
 		return ProvisioningConstants.SUCCESS;
 	}
 	
@@ -52,19 +47,15 @@ public class ProvisionServicePostProcessor extends AbstractPostProcessor {
     	
     	
     	println("ProvisionServicePostProcessor: ModifyUser called.");
-		println("ProvisionServicePostProcessor: User=" + user.toString());
-		println("Show binding map");
+			println("ProvisionServicePostProcessor: User=" + user.toString());
 		
-		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-				println("- Key=" + key + "  value=" + value.toString() );
-		}
 	
-
-    
-    
-    	return ProvisioningConstants.SUCCESS;
+		// if the status is active, then set the flag for sending emails
+		User origUser = (User)bindingMap.get("userBeforeModify");
+		
+		showBindingMap(bindingMap);
+		
+     	return ProvisioningConstants.SUCCESS;
     
 	}
 	
@@ -75,23 +66,33 @@ public class ProvisionServicePostProcessor extends AbstractPostProcessor {
     	// context to look up spring beans
 		ApplicationContext context = (ApplicationContext)bindingMap.get("context");
     
-        println("ProvisionServicePostProcessor: DeleteUser called.");
-		println("ProvisionServicePostProcessor: User=" + user.toString());
-		println("Show binding map");
-		
-		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-				println("- Key=" + key + "  value=" + value.toString() );
-		}
-		
+      println("ProvisionServicePostProcessor: DeleteUser called.");
+			println("ProvisionServicePostProcessor: User=" + user.toString());
+			
+			showBindingMap(bindingMap);
+
     
     	return ProvisioningConstants.SUCCESS;
 	}
 	
     public int setPassword( PasswordSync passwordSync, Map<String, Object> bindingMap){
     
+    	ApplicationContext context = (ApplicationContext)bindingMap.get("context");
+    
      	println("ProvisionServicePostProcessor: SetPassword called.");
+     	
+     	showBindingMap(bindingMap);
+     	
+    
+    	return ProvisioningConstants.SUCCESS;
+    
+	}
+	
+	 private void showBindingMap( Map<String, Object> bindingMap){
+    
+    	// context to look up spring beans
+		
+    	
 		println("Show binding map");
 		
 		for (Map.Entry<String, Object> entry : bindingMap.entrySet()) {
@@ -99,11 +100,10 @@ public class ProvisionServicePostProcessor extends AbstractPostProcessor {
     			Object value = entry.getValue();
 				println("- Key=" + key + "  value=" + value.toString() );
 		}
-		
-    
-    	return ProvisioningConstants.SUCCESS;
+	
     
 	}
+	
 	
 
     

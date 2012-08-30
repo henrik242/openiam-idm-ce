@@ -1,9 +1,9 @@
 
 
 
-if (user.firstName != null && user.lastName != null) {
-  output =user.firstName.substring(0,1) + user.lastName.substring(0,1) 
+if (user.middleInit != null && user.middleInit.length() > 0 ) {
+  output =user.middleInit 
 }else {
-	output=""
+	output=null
 }
 

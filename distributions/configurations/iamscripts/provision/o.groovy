@@ -7,11 +7,11 @@ def Organization org;
 
 if (user.companyId != null && user.companyId.length() > 0) {
 
-    org = orgService.getOrganization(user.companyId);
-    if (org != null) {
-        output = org.getOrganizationName();
-    }
+	org = orgService.getOrganization(user.companyId);
+	if (org != null) {
+		output = org.getOrganizationName();
+	}
 }else{
 
-    output=null
+	output=null
 }

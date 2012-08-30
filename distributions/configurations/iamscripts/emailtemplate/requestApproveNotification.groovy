@@ -17,8 +17,8 @@ emailStr = "Dear " + user.firstName + " " + user.lastName + ": \n\n" +
  	"Approver: " + requestor + " \n" +
  	"For: " + targetUser + " \n\n" +
  
-  "A new user account has been created for." + targetUser + " \n" + 
- 	"The login Id is: " + identity + " \n" +
+  "A new user account has been created for." + targetUser + "\n" + 
+ 	"The login Id is: " + identity + "\n" +
  	"The initial password is: " + password
  		 	
  	
