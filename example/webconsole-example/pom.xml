@@ -8,7 +8,15 @@
     <version>0.0.1</version>
     <packaging>war</packaging>
     <name>webconsole-example</name>
-
+	
+	<repositories>
+		<repository>
+	      <id>openiam01.managed.contegix.com</id>
+	      <name>openiam01.managed.contegix.com-releases</name>
+	      <url>http://artifactory.openiam.org/artifactory/libs-release-local</url>
+		</repository>
+	</repositories>
+    
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
@@ -65,6 +73,7 @@
         <commons.fileupload.version>1.2.2</commons.fileupload.version>
         <apache.velocity.version>1.7</apache.velocity.version>
         <javax.mail.version>1.4.1</javax.mail.version>
+        <openiam.version>2.1.0</openiam.version>
         <maven.build.timestamp.format>yyyy/MM/dd HH:mm Z</maven.build.timestamp.format>
     </properties>
     <!-- Dependencies -->
@@ -245,6 +254,32 @@
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
         </dependency>
+        
+         <dependency>
+	      <groupId>org.openiam</groupId>
+	      <artifactId>openiam-pojo-intf</artifactId>
+	      <version>${openiam.version}</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.openiam</groupId>
+	      <artifactId>idm-connector-intf</artifactId>
+	      <version>${openiam.version}</version>
+	    </dependency>
+	    <dependency>
+			<groupId>org.openiam</groupId>
+			<artifactId>openiam-idm-intf</artifactId>
+			<version>${openiam.version}</version>
+     		<exclusions>
+		        <exclusion>
+			    	<groupId>org.slf4j</groupId>
+			    	<artifactId>slf4j-api</artifactId>
+		        </exclusion>
+		        <exclusion>
+			    	<groupId>org.slf4j</groupId>
+			    	<artifactId>slf4j-jdk14</artifactId>
+		        </exclusion>
+   			</exclusions>
+		</dependency>
 
     </dependencies>
 </project>
