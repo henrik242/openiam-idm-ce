@@ -50,12 +50,14 @@
                         + alertId
                         + "' class='alert"
                         + (options.type ? ' alert-' + options.type : '')
-                        + " fade in alert-default hide"
+                       // + " fade in alert-default hide"
+                        + " fade in alert-default"
                         + (options.style ? options.style : '')
                         + "'>"
                         + (options.title ? '<h4 class="alert-heading">'
                             + options.title + '</h4>' : '') + message
                         + " </div>"));
+               /*         
               if(options.elementSelector != null) {
                 $(options.elementSelector).next().removeClass('hide');
                 $(options.elementSelector).next().children(":first").off("mouseenter").off("mouseleave").on({
@@ -65,11 +67,10 @@
                     mouseleave : function() {
                       $('#'+alertId).toggleClass('hide');
                     }
-
                 });
 
               }
-
+*/
           }
           if (options.delay && !options.global)
             $('#' + alertId).delay(options.delay).fadeOut("slow", function() {

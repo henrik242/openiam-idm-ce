@@ -73,7 +73,7 @@
         <commons.fileupload.version>1.2.2</commons.fileupload.version>
         <apache.velocity.version>1.7</apache.velocity.version>
         <javax.mail.version>1.4.1</javax.mail.version>
-        <openiam.version>2.1.0</openiam.version>
+        <openiam.version>3.0.0</openiam.version>
         <maven.build.timestamp.format>yyyy/MM/dd HH:mm Z</maven.build.timestamp.format>
     </properties>
     <!-- Dependencies -->
@@ -257,17 +257,17 @@
         
          <dependency>
 	      <groupId>org.openiam</groupId>
-	      <artifactId>openiam-pojo-intf</artifactId>
+	      <artifactId>openiam-pojo-services</artifactId>
 	      <version>${openiam.version}</version>
 	    </dependency>
 	    <dependency>
 	      <groupId>org.openiam</groupId>
-	      <artifactId>idm-connector-intf</artifactId>
+	      <artifactId>idm-connector-core</artifactId>
 	      <version>${openiam.version}</version>
 	    </dependency>
 	    <dependency>
 			<groupId>org.openiam</groupId>
-			<artifactId>openiam-idm-intf</artifactId>
+			<artifactId>openiam-idm-services</artifactId>
 			<version>${openiam.version}</version>
      		<exclusions>
 		        <exclusion>

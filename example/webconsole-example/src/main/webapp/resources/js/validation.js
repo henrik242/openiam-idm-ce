@@ -1,4 +1,4 @@
-function validate(formSelector, requiredFields) {
+function validate(formSelector) {
   var alertOption = {
     message : "",
     type : 'error',
@@ -6,11 +6,9 @@ function validate(formSelector, requiredFields) {
   };
   // alert(4);
   var result = true;
-  $(
-      formSelector + " input, " + formSelector + " select, " + formSelector
+  $(formSelector + " input, " + formSelector + " select, " + formSelector
           + " textarea")
-      .each(
-          function(index) {
+      .each(function(index) {
             alertOption.message="Required fields should not be empty.";
             if ($(this).attr("type")
                 && ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio")) {
@@ -22,13 +20,12 @@ function validate(formSelector, requiredFields) {
               if (!$(this).attr("id"))
                 return;
               if (!$(this).val()) {
-                if ($.inArray("#" + $(this).attr("id"), requiredFields) != -1) {
+                if ($(this).hasClass("required")) {
                   if ($(this).attr("validator"))
                     result = callFunction($(this).attr("validator")) && result;
                   else {
                     if ($(this).attr("errorMsg")) {
                       alertOption.message = $(this).attr("errorMsg");
-
                     }
                     alertOption.elementSelector = "#" + $(this).attr("id");
                     showNotification(alertOption);

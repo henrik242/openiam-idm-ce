@@ -12,6 +12,17 @@ $(document).ready(function() {
   } else {
     $('#alertArea').appendAlert(notification);
   }
+  
+  $("span.formError").each(function(index) {
+    var ctrlSelector = $(this).attr("id").split(".")[0];
+    var msg = $(this).text();
+    $(this).empty();
+    if(ctrlSelector){
+    	showNotification({type : "error",
+    										message : msg,
+          							elementSelector : getElementSelector(ctrlSelector)});
+    }
+  });
 });
 function hideSystemMessage() {
   if ($('.message p').length > 0) {
@@ -48,7 +59,6 @@ function showNotification(alertOptions) {
     var elementSelector = alertOptions.elementSelector;
     $(elementSelector).blur(function() {
       clearMessage(elementSelector);
-
     });
   } else {
     $('#alertArea').appendAlert(alertOptions);
@@ -56,18 +66,16 @@ function showNotification(alertOptions) {
 }
 
 function showGlobalError(message,delay,callback) {
-  if(!delay)
-    delay=5000;
   showGlobalNotification('error',message,delay,callback);
 }
 
 function showGlobalSuccess(message,delay,callback) {
-  if(!delay)
-    delay=5000;
   showGlobalNotification('success',message,delay,callback);
 }
 
 function showGlobalNotification(type,message,delay,callback) {
+	if(!delay)
+    delay=5000;
   showNotification({
       type: type,
       message: message,
@@ -76,7 +84,11 @@ function showGlobalNotification(type,message,delay,callback) {
       global: true
     });
 }
-
+function getElementSelector(elementSelector){
+	if (!elementSelector.startsWith("#") && !elementSelector.startsWith("."))
+          elementSelector = "#" + elementSelector;
+  return elementSelector;      
+}
 function clearMessage(elementSelector) {
   if (!elementSelector)
     hideSystemMessage();
@@ -146,7 +158,12 @@ function callFunction(fn) {
   return true;
 
 }
-
+function getParent(elementSelector,parentSelector) {
+  var parent = $(elementSelector).parentsUntil(".control-group").parent();
+  if(!parent || parent.length == 0)
+    parent = $(elementSelector).parent();
+  return parent;
+}
 
 function stopEventPropagation(event){
   if (event.stopPropagation) {

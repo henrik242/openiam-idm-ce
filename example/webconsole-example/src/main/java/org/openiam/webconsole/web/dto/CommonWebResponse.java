@@ -18,7 +18,7 @@ import org.openiam.webconsole.web.model.NotificationModel;
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class CommonWebResponse<T> implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String errorCode = ErrorCode.OK.getLabelCode();
+    private String errorCode = ErrorCode.OK;
     private T value;
     private LinkedHashSet<NotificationModel> notifications;
     private String url;
@@ -50,9 +50,7 @@ public class CommonWebResponse<T> implements Serializable {
      * @param notifications
      *            the notifications to set
      */
-    public
-                void
-                setNotifications(LinkedHashSet<NotificationModel> notifications) {
+    public void setNotifications(LinkedHashSet<NotificationModel> notifications) {
         this.notifications = notifications;
     }
 
@@ -80,34 +78,34 @@ public class CommonWebResponse<T> implements Serializable {
     }
 
     public void addNotification(NotificationType error, String message,
-                String elementId) {
+            String elementId) {
         if (notifications == null)
             notifications = new LinkedHashSet<NotificationModel>();
         notifications.add(new NotificationModel(error, message, elementId));
     }
 
     public void addNotification(NotificationType error, String message,
-                String elementId, boolean isStick) {
+            String elementId, boolean isStick) {
         if (notifications == null)
             notifications = new LinkedHashSet<NotificationModel>();
         notifications.add(new NotificationModel(error, message, elementId,
-                                                isStick));
+                isStick));
     }
 
     public void addNotification(NotificationType error, String message,
-                String elementId, int delay) {
+            String elementId, int delay) {
         if (notifications == null)
             notifications = new LinkedHashSet<NotificationModel>();
         notifications.add(new NotificationModel(error, message, elementId,
-                                                delay));
+                delay));
     }
 
     public void addNotification(NotificationType error, String message,
-                String elementId, int delay, boolean isClosable) {
+            String elementId, int delay, boolean isClosable) {
         if (notifications == null)
             notifications = new LinkedHashSet<NotificationModel>();
         notifications.add(new NotificationModel(error, message, elementId,
-                                                delay, isClosable));
+                delay, isClosable));
     }
 
     /*
@@ -120,16 +118,15 @@ public class CommonWebResponse<T> implements Serializable {
         final int maxLen = 10;
         StringBuilder builder = new StringBuilder();
         builder.append("CommonWebResponse [notifications=")
-               .append(notifications != null ? toString(notifications, maxLen)
-                                   : null)
-               .append(", url=")
-               .append(url)
-               .append(", errorCode=")
-               .append(this.getErrorCode())
-               .append(", value=")
-               .append(this.getValue() == null ? "null" : this.getValue()
-                                                              .toString())
-               .append("]");
+                .append(notifications != null ? toString(notifications, maxLen)
+                        : null)
+                .append(", url=")
+                .append(url)
+                .append(", errorCode=")
+                .append(this.getErrorCode())
+                .append(", value=")
+                .append(this.getValue() == null ? "null" : this.getValue()
+                        .toString()).append("]");
         return builder.toString();
     }
 
@@ -138,7 +135,7 @@ public class CommonWebResponse<T> implements Serializable {
         builder.append("[");
         int i = 0;
         for (Iterator<?> iterator = collection.iterator(); iterator.hasNext()
-                    && i < maxLen; i++) {
+                && i < maxLen; i++) {
             if (i > 0)
                 builder.append(", ");
             builder.append(iterator.next());

@@ -13,6 +13,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
@@ -34,13 +35,16 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 @Configuration
 @EnableWebMvc
 @EnableAsync
+@ImportResource({ "classpath:applicationContext.xml",
+        "classpath:idmservice-Context.xml",
+        "classpath:connector-coreContext.xml" })
 @ComponentScan(basePackages = { "org.openiam.webconsole.web" })
 public class WebConsoleConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+        registry.addResourceHandler("/resources/**").addResourceLocations(
+                "/resources/");
     }
 
     @Override
@@ -84,7 +88,8 @@ public class WebConsoleConfig extends WebMvcConfigurerAdapter {
         ms.setCacheSeconds(600);
         ms.setFallbackToSystemLocale(false);
         ms.setBasenames(new String[] { "/WEB-INF/i18n/labels",
-                "/WEB-INF/i18n/validation" });
+                "/WEB-INF/i18n/buttons", "/WEB-INF/i18n/messages",
+                "/WEB-INF/i18n/titles" });
         return ms;
     }
 
@@ -97,7 +102,7 @@ public class WebConsoleConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(
-                List<HttpMessageConverter<?>> converters) {
+            List<HttpMessageConverter<?>> converters) {
         converters.add(new MappingJacksonHttpMessageConverter());
     }
 }

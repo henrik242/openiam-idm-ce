@@ -2,6 +2,17 @@
  * COMMON BACKEND RELATED JAVASCRIPT
  *
  */
+var processingEvent=false;
+
+function isBusy() {
+  if (!processingEvent) {
+    processingEvent = true;
+    return false;
+  } else
+    return true;
+}
+
+
 function initCheckingProcess(checkUrl, callbackName) {
   counter = 0;
   timerInterval = setInterval(function() {
@@ -22,14 +33,6 @@ function waitPostResponse(postUrl, callback) {
       finalization(true);
     });
   }
-}
-
-function isBusy() {
-  if (!processingEvent) {
-    processingEvent = true;
-    return false;
-  } else
-    return true;
 }
 
 function finalization(stop) {
@@ -55,15 +58,12 @@ function resetProcessingEvent() {
 
 function hasError(notifications, withoutNotifySuccess) {
   var error = notifications ? true : false;
-
   if (error)
     $.each(notifications, function() {
       error = this.type == 'error';
       var elementSelector = null;
       if (this.elementId != null) {
-        elementSelector = this.elementId;
-        if (!elementSelector.startsWith("#") && !elementSelector.startsWith("."))
-          elementSelector = "#" + elementSelector;
+        elementSelector = getElementSelector(this.elementId);
       }
       if (!withoutNotifySuccess || error)
         showNotification({

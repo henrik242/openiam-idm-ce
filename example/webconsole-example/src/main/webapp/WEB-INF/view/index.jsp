@@ -13,28 +13,23 @@
 </head>
 <body>
 	<%@include file="../include/header-body.jsp"%>
-	<div class="container">
+	<div id="openiam-container" class="container-fluid">
 		<div class="container-inner">
 			<%@include file="../include/page-header.jsp"%>
 		
-			<div class="row">
-				<div id="loginForm" class="form-inline">
+			<div class="row-fluid">
+				<form:form id="loginForm" modelAttribute="loginModel" class="form-inline span7" action="login">
 					<fieldset>
-						<div class="control-group">
-	                       <label for="inpLogin" class="control-label">Login</label>
-	                       <div class="controls">
-	                         <input type="text" errormsg="Please input login" class="input-xlarge" id="inpLogin">
-	                       </div>
-	                     </div>
-	                     <div class="control-group">
-	                       <label for="inpLogin" class="control-label">Password</label>
-	                       <div class="controls">
-	                         <input type="text" errormsg="Please input login" class="input-xlarge" id="inpPassword">
-	                       </div>
-	                     </div>
+						<form:hidden path="clientIP"/>
+						
+						<html:inputField name="principal" label="label.user.principal" errorMsg="error.principal.required" requiredField="true" cssClass="span4"/>
+						<html:inputField name="password" label="label.password" errorMsg="error.password.required" requiredField="true" cssClass="span4"/>
                      </fieldset>
-                     <button class="btn btn-success flt-rght" id="btnLogin">Login</button>
-				</div>
+                     <div class="form-actions">
+						<button type="submit" class="btn btn-success pull-right">Login</button>
+					 </div>
+				</form:form>
+			 	<ajax:ajaxFormValidate processedValidateUrl="validateLogin" formName="loginForm"/>
 			</div>
 		</div>
 		<%@include file="../include/footer.jsp"%>
