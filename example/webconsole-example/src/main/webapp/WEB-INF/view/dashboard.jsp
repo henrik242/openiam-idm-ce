@@ -18,7 +18,7 @@
 			<%@include file="../include/page-header.jsp"%>
 		
 			<div class="row-fluid">
-				LOGIN SUCCESS 
+				Welcome ${sessionScope.login} 
 			</div>
 		</div>
 		<%@include file="../include/footer.jsp"%>

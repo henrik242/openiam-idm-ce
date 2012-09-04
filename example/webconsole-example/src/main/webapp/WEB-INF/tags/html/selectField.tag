@@ -7,9 +7,11 @@
 <%@ attribute name="requiredField" required="false"  rtexprvalue="true" %>
 <%@ attribute name="errorMsg" required="false"  rtexprvalue="true" %>
 <%@ attribute name="validator" required="false"  rtexprvalue="true" %>
-<%@ attribute name="size" required="false"  rtexprvalue="true" %>
-<%@ attribute name="maxlength" required="false"  rtexprvalue="true" %>
-<%@ attribute name="readonly" required="false"  rtexprvalue="true" %>
+<%@ attribute name="firstOptionValue" required="false"  rtexprvalue="true" %>
+<%@ attribute name="firstOptionText" required="false"  rtexprvalue="true" %>
+<%@ attribute name="options" required="true"  rtexprvalue="true" type="java.lang.Object" %>
+<%@ attribute name="itemValue" required="true"  rtexprvalue="true" %>
+<%@ attribute name="itemLabel" required="true"  rtexprvalue="true" %>
 
 <c:set var="inputClass" value="${cssClass} " />
 <c:if test='${requiredField==true}'>
@@ -21,12 +23,16 @@
 </c:if>
 
 <div class="control-group" id="${name}ControlWrapper">
-<c:if test='${label!=null && label!=""}'>
 	<label class="span4 control-label <c:if test='${requiredField==true}'>required</c:if>" ><fmt:message key='${label}' />:</label>
-</c:if>	
 	<div class="controls">
-		<form:input path="${name}" class="${inputClass}" errorMsg="${msg}" validator="${validator}"
-		            size="${size}" maxlength="${maxlength}" readonly="${readonly}" />
+		<form:select path="${name}">
+  			<form:option value="${firstOptionValue}"  label="${firstOptionText}" />
+<%--   			<c:forEach items="${options}" var="opt"> --%>
+<%--   				<form:option value="${opt[itemValue]}"  label="${opt[itemLabel]}" /> --%>
+<%--   			</c:forEach> --%>
+  			<form:options items="${options}" itemValue="${itemValue}" itemLabel="${itemLabel}"  />
+        </form:select>
+
 		<span class="help-inline"><form:errors path="${name}" cssClass="formError"/></span>
 	</div>
 </div>

@@ -1,12 +1,13 @@
 .clear-both {clear:both;}
 a,.ui-state-hover a {color: #5D5B5D;}
 a:hover {color:  #4BB848 !important;}
+h2 {font-size: 175%;line-height: 100%;margin: 0;}
 #ajaxLoadingContainer{left:0;top:0;bottom: 0;right:0;background-color:transparent;z-index: 9999;position: fixed;}
 #ajaxLoading {width: 100px;height: 32px;padding: 5px 0 5px 45px;background: url(../img/ajax-loader.gif) #f6f6f6 5px 5px no-repeat;position: fixed;
   			  left: 45%;top: 0;opacity: 0.8;-moz-opacity: .8;filter: progid:   DXImageTransform.Microsoft.Alpha(   opacity=   80 );
   			  -ms-filter: "alpha(opacity=80)";filter: alpha(opacity =   80);z-index: 10000;}
 #ajaxLoadingText {color: #525252;display: block;font-weight: bold;margin-right: 10px;padding: 7px 0;text-align: left;}
-
+.hLine{border-bottom: 2px solid #8397B4;margin:0 0 10px 0 !important;min-height: 0 !important;}
 /**
  * 	FORMS
  */
@@ -23,20 +24,80 @@ form label.required:after{
 #openiam-container{min-width: 980px;}
 	.container-inner{min-height: 650px;width: 100%;}
 		.header{background: none repeat scroll 0 0 white;height: 120px;margin-bottom: 10px;position: relative;}
-			.header .header-container{border-bottom: 1.5px solid #74A824;margin-left: auto;padding-bottom: 1px;padding-top: 85px;width: 100%;}
-				.header .header-container #logoContainer {left: 35px;position: absolute;top: 15px;z-index: 1003;height: 68px;
+			.header .header-container{border-bottom: 1.5px solid #74A824;margin-left: auto;padding-bottom: 1px;padding-top: 35px;width: 100%;}
+				.header .header-container #logoContainer {position: absolute;top: 15px;z-index: 1003;height: 68px;
     																					position: absolute;width: 252px;
     																					background: url("../img/openiamlogo.jpg") no-repeat transparent;}
     .row{width: 100%;margin-bottom:20px;background: none repeat scroll 0 0 transparent;}																					
 			.row:after{clear: both;content: "";display: table;}
 
 
-#loginForm{margin: 0 auto;float: none;}
-	#loginForm fieldset{border: 1px solid #74A824;padding: 10px;}
+#loginForm, #groupFilterForm{margin: 0 auto;float: none;}
+#groupFilterForm{margin: 20px auto; }
+	#loginForm fieldset, #groupList fieldset, #groupDetail fieldset fieldset{border: 1px solid #74A824;padding: 10px;}
+	#groupFilterForm fieldset, #groupDetail fieldset{border: 1px solid #D12E2E;padding: 10px;}	
+	#groupFilterForm legend, #groupList legend, 
+	#groupDetail legend{font-size: 1 em;font-weight: bold;color: black;width: auto;border: 1px none;font-size: 14px;margin: 0;}
+legend + .control-group{
+	margin-top: 0px;
+}
+.header .header-container .navbar {
+    background: none repeat scroll 0 0 #FAF7FB;
+    height: 40px;margin: 0 0 0 0.1%;padding-top: 10px;
+}	
 	
 	
-	
-	
+.header .header-container .navbar .navbar-inner {
+    background-color: #F6F5F6;
+    background-image: none;
+    border-radius: 0 0 0 0;
+    box-shadow: none;
+    filter: none;
+    border: 1px  none;
+    padding-left: 260px;
+}
+.nav-collapse {
+    background: none repeat scroll 0 0 #F6F5F6;
+}
+.navbar .nav > li > a:hover, .navbar .nav .active > a, .navbar .nav .active > a:hover, a.rightcol-contactlink:hover {
+    background-color: transparent;
+    color: #4BB848 !important;
+    box-shadow:none;
+}
+.navbar .nav > li > a {
+    color: #5D5B5D;
+    font-size: 13px;
+    text-shadow: none;
+}
+a, .ui-state-hover a {
+    color: #5D5B5D;
+}
+.pageTitle{
+	border-bottom: .1em solid #C5C5C5;
+font-size: .83em;
+padding-top: 1.5em;
+padding-bottom: .75em;
+font-style: normal;
+color: #D12E2E;
+background: url(../img/sidemod-h3.png) bottom left no-repeat;
+}
 
+#openiam-container fieldset th {
+font-size: 1em;
+background-color: #9FB1BC;
+color: white;
+padding-right: 2em;
+padding-left: 2em;
+padding-top: 1em;
+padding-bottom: 1em;
+text-align: center;
+}
 
+ #customAttributeTable td{line-height: 0;border-top: 1px none;}
+#customAttributeTable .controls, 
+#customAttributeTable .control-group{margin-bottom: 0;}
+
+#groupDetail fieldset th {
+border:2px solid white;
+}
 

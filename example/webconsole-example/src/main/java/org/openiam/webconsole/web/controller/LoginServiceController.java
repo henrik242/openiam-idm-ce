@@ -68,13 +68,6 @@ public class LoginServiceController extends BaseServiceController {
                 loginModel.getSubject().getUserId(), "en").getMenuList();
         session.setAttribute("permissions", menuList);
 
-        // load the objects that are needed in the primary application
-
-        /*
-         * ModelAndView mav = new ModelAndView(getSuccessView());
-         * mav.addObject("loginCmd", command); mav.addObject("subject",
-         * loginCmd.getSubject());
-         */
         return "redirect:dashboard";
     }
 

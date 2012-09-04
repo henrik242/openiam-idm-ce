@@ -128,13 +128,13 @@
                                                     <c:if test="${groupDetailCmd.attributeList != null}" >
                                                         <c:forEach items="${groupDetailCmd.attributeList}" var="attributeList" varStatus="attr">
                                                             <tr>
-                                                                <td><form:input path="attributeList[${attr.index}].name" size="20"  />
+                                                                <td><form:input path="attributeList[${attr.index}].name" size="20"/>
 
                                                                     <form:hidden path="attributeList[${attr.index}].id" />
                                                                     <form:hidden path="attributeList[${attr.index}].groupId" />
                                                                 </td>
                                                                 <td>
-                                                                    <form:input path="attributeList[${attr.index}].value" size="40" maxlength="200" /> </td>
+                                                                    <form:input path="attributeList[${attr.index}].value"  size="40" maxlength="200" /> </td>
                                                             </tr>
 
                                                         </c:forEach>

@@ -146,14 +146,19 @@ function getContent(linkUrl, sourceElementId, targetElementSelector) {
   return false;
 }
 
-function callFunction(fn) {
+function callFunction(fn, data) {
   if (fn) {
     if (fn.substring) {
       if(fn.indexOf("()") != -1)
         fn = fn.substring(0, fn.indexOf("()"));
+      if(data)
+      	return window[fn](data);
       return window[fn]();
-    } else
+    } else{
+     if(data)
+      	return fn(data);
       return fn();
+    }  
   }
   return true;
 
