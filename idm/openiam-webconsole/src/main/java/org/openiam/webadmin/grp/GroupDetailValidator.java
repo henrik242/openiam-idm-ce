@@ -1,4 +1,5 @@
 package org.openiam.webadmin.grp;
+
 /*
  * Copyright 2009, OpenIAM LLC 
  * This file is part of the OpenIAM Identity and Access Management Suite
@@ -17,37 +18,28 @@ package org.openiam.webadmin.grp;
  *  along with OpenIAM.  If not, see <http://www.gnu.org/licenses/>. *
  */
 
-
-import java.util.List;
-
-
-import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  * Validation class for the ClientDetailController.
+ * 
  * @author suneet
- *
+ * 
  */
 public class GroupDetailValidator implements Validator {
 
-	
+    public boolean supports(Class cls) {
+        return GroupDetailCommand.class.equals(cls);
+    }
 
-	public boolean supports(Class cls) {
-		 return GroupDetailCommand.class.equals(cls);
-	}
+    public void validate(Object cmd, Errors err) {
+        GroupDetailCommand command = (GroupDetailCommand) cmd;
 
-	public void validate(Object cmd, Errors err) {
-		GroupDetailCommand command =  (GroupDetailCommand) cmd;
-
-		if (command.getGroup().getGrpName() == null || command.getGroup().getGrpName().length() ==0 ) {
-			err.rejectValue("group.grpName", "required");
-		}
-		
-
-		
-		
-	}
-
+        if (command.getGroup().getGrpName() == null
+                || command.getGroup().getGrpName().length() == 0) {
+            err.rejectValue("group.grpName", "required");
+        }
+    }
 
 }

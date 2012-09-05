@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Validator;
 
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.dto.GroupSearch;
@@ -20,26 +19,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 09/04/12
+ */
 @Controller
 public class GroupServiceController extends BaseServiceController {
     @Autowired
     private GroupDataWebService groupManager;
 
-    @Autowired
-    protected GroupServiceController(Validator validator) {
-        super(validator);
-    }
-
-    @RequestMapping(value = "group/list", method = RequestMethod.GET)
+    @RequestMapping(value = "secure/group/list", method = RequestMethod.GET)
     public String getDashboard(HttpSession session, HttpServletRequest request,
             HttpServletResponse response, Model model) throws Exception {
 
         model.addAttribute("searchResult", groupManager.getAllGroups()
                 .getGroupList());
-        return "group-list";
+        return "secure/group-list";
     }
 
-    @RequestMapping(value = "group/apply-filter", method = RequestMethod.POST)
+    @RequestMapping(value = "secure/group/apply-filter", method = RequestMethod.POST)
     public @ResponseBody
     CommonWebResponse<List<Group>> validateLogin(HttpServletRequest request,
             HttpSession session, @RequestBody GroupSearch search) {

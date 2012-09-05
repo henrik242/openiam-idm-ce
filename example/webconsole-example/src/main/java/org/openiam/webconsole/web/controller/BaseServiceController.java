@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Validator;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -19,33 +18,30 @@ import org.openiam.webconsole.config.IWebConsoleProperties;
 import org.openiam.webconsole.web.constant.CommonWebConstant;
 import org.openiam.webconsole.web.constant.NotificationType;
 import org.openiam.webconsole.web.dto.CommonWebResponse;
+import org.openiam.webconsole.web.model.LoginModel;
 import org.openiam.webconsole.web.model.NotificationModel;
 import org.openiam.webconsole.web.util.CommonWebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 8/25/12
+ */
 public abstract class BaseServiceController {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private ObjectMapper mapper;
-    protected Validator validator;
 
     @Autowired
     protected IWebConsoleProperties webConsoleProperties;
-
-    /**
-     * @param validator
-     */
-    @Autowired
-    protected BaseServiceController(Validator validator) {
-        this.validator = validator;
-    }
 
     @ModelAttribute("resourceServerUrl")
     public String getResourceUrl() {
@@ -214,4 +210,12 @@ public abstract class BaseServiceController {
                 + File.separator;
     }
 
+    protected String getLoginPage(HttpSession session,
+            HttpServletRequest request, HttpServletResponse response,
+            Model model) {
+        LoginModel loginModel = new LoginModel();
+        loginModel.setClientIP(CommonWebUtil.getClientIpAddr(request));
+        model.addAttribute("loginModel", new LoginModel());
+        return "login";
+    }
 }

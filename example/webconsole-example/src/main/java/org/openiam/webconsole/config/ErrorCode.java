@@ -1,8 +1,8 @@
 package org.openiam.webconsole.config;
 
 /**
- * @author Sergei Barinov
- * 
+ * User: Alexander Duckardt<br/>
+ * Date: 8/25/12
  */
 public class ErrorCode {
     public static final String OK = "success";

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.Validator;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
@@ -31,6 +30,7 @@ import org.openiam.webconsole.web.dto.CommonWebResponse;
 import org.openiam.webconsole.web.model.ChoiceModel;
 import org.openiam.webconsole.web.model.GroupDetailCommand;
 import org.openiam.webconsole.web.model.GroupStatusModel;
+import org.openiam.webconsole.web.model.UserSessionModel;
 import org.openiam.webconsole.web.validator.GroupDetailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +44,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 09/05/12
+ */
 @Controller
 public class GroupDetailServiceController extends BaseServiceController {
     @Autowired
@@ -64,38 +68,35 @@ public class GroupDetailServiceController extends BaseServiceController {
         binder.setValidator(groupDetailValidator);
     }
 
-    @Autowired
-    protected GroupDetailServiceController(Validator validator) {
-        super(validator);
-    }
-
-    @RequestMapping(value = "group/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "secure/group/edit", method = RequestMethod.GET)
     public String editGroupHandler(HttpSession session,
-            HttpServletRequest request, HttpServletResponse response,
-            Model model, @RequestParam("groupId") String groupId)
-            throws Exception {
-        processingGroupEditForm(session, request, response, model, groupId,
-                null);
-        return "group-detail";
+            UserSessionModel userSession, HttpServletRequest request,
+            HttpServletResponse response, Model model,
+            @RequestParam("groupId") String groupId) throws Exception {
+        processingGroupEditForm(session, userSession, request, response, model,
+                groupId, null);
+        return "secure/group-detail";
     }
 
-    @RequestMapping(value = "group/new", method = RequestMethod.GET)
+    @RequestMapping(value = "secure/group/new", method = RequestMethod.GET)
     public String createNewGroup(
             HttpSession session,
+            UserSessionModel userSession,
             HttpServletRequest request,
             HttpServletResponse response,
             Model model,
             @RequestParam(value = "parentGroupId", required = false) String parentGroupId)
             throws Exception {
-        processingGroupEditForm(session, request, response, model, null,
-                parentGroupId);
-        return "group-detail";
+        processingGroupEditForm(session, userSession, request, response, model,
+                null, parentGroupId);
+        return "secure/group-detail";
     }
 
-    @RequestMapping(value = "group/delete/{groupId}", method = RequestMethod.POST)
+    @RequestMapping(value = "secure/group/delete/{groupId}", method = RequestMethod.POST)
     public @ResponseBody
     CommonWebResponse<String> deleteGroup(HttpServletRequest request,
-            HttpSession session, @PathVariable String groupId) {
+            HttpSession session, UserSessionModel userSession,
+            @PathVariable String groupId) {
         CommonWebResponse<String> responseModel = new CommonWebResponse<String>();
         Response resp = groupManager.removeGroup(groupId);
 
@@ -104,31 +105,23 @@ public class GroupDetailServiceController extends BaseServiceController {
                     getMessage(request, ErrorCode.GENERIC_ERROR));
             return responseModel;
         }
-        String userId = (String) request.getSession().getAttribute("userId");
-        String domainId = (String) request.getSession()
-                .getAttribute("domainId");
-        String login = (String) request.getSession().getAttribute("login");
 
-        auditHelper.addLog("DELETE", domainId, login, "WEBCONSOLE", userId,
+        auditHelper.addLog("DELETE", userSession.getDomainId(),
+                userSession.getLogin(), "WEBCONSOLE", userSession.getUserId(),
                 "0", "GROUP", groupId, null, "SUCCESS", null, null, null, null,
                 null, groupId, request.getRemoteHost());
 
         return responseModel;
     }
 
-    @RequestMapping(value = "group/save", method = RequestMethod.POST)
+    @RequestMapping(value = "secure/group/save", method = RequestMethod.POST)
     public @ResponseBody
     CommonWebResponse<String> saveGroup(HttpServletRequest request,
-            HttpSession session,
+            HttpSession session, UserSessionModel userSession,
             @RequestBody @Valid GroupDetailCommand groupCommand) {
         CommonWebResponse<String> responseModel = new CommonWebResponse<String>();
 
         String grpId = null;
-
-        String userId = (String) request.getSession().getAttribute("userId");
-        String domainId = (String) request.getSession()
-                .getAttribute("domainId");
-        String login = (String) request.getSession().getAttribute("login");
 
         Group group = groupCommand.getGroup();
         prepareObject(group);
@@ -139,7 +132,7 @@ public class GroupDetailServiceController extends BaseServiceController {
 
         if (group.getGrpId() != null && group.getGrpId().length() > 0) {
             group.setLastUpdate(new Date(System.currentTimeMillis()));
-            group.setLastUpdatedBy(userId);
+            group.setLastUpdatedBy(userSession.getUserId());
 
             grpId = group.getGrpId();
             group.setAttributes(attributeMap);
@@ -150,13 +143,14 @@ public class GroupDetailServiceController extends BaseServiceController {
                 return responseModel;
             }
 
-            auditHelper.addLog("UPDATE", domainId, login, "WEBCONSOLE", userId,
-                    "0", "GROUP", group.getGrpId(), null, "SUCCESS", null,
-                    null, null, null, null, group.getGrpName(),
-                    request.getRemoteHost());
+            auditHelper.addLog("UPDATE", userSession.getDomainId(),
+                    userSession.getLogin(), "WEBCONSOLE",
+                    userSession.getUserId(), "0", "GROUP", group.getGrpId(),
+                    null, "SUCCESS", null, null, null, null, null,
+                    group.getGrpName(), request.getRemoteHost());
         } else {
             group.setGrpId(null);
-            group.setCreatedBy(userId);
+            group.setCreatedBy(userSession.getUserId());
             group.setCreateDate(new Date(System.currentTimeMillis()));
             group.setAttributes(attributeMap);
             GroupResponse resp = groupManager.addGroup(group);
@@ -167,9 +161,11 @@ public class GroupDetailServiceController extends BaseServiceController {
                 return responseModel;
             }
             grpId = resp.getGroup().getGrpId();
-            auditHelper.addLog("CREATE", domainId, login, "WEBCONSOLE", userId,
-                    "0", "GROUP", grpId, null, "SUCCESS", null, null, null,
-                    null, null, group.getGrpName(), request.getRemoteHost());
+            auditHelper.addLog("CREATE", userSession.getDomainId(),
+                    userSession.getLogin(), "WEBCONSOLE",
+                    userSession.getUserId(), "0", "GROUP", grpId, null,
+                    "SUCCESS", null, null, null, null, null,
+                    group.getGrpName(), request.getRemoteHost());
         }
 
         return responseModel;
@@ -188,8 +184,9 @@ public class GroupDetailServiceController extends BaseServiceController {
     }
 
     private void processingGroupEditForm(HttpSession session,
-            HttpServletRequest request, HttpServletResponse response,
-            Model model, String groupId, String parentGroupId) {
+            UserSessionModel userSession, HttpServletRequest request,
+            HttpServletResponse response, Model model, String groupId,
+            String parentGroupId) {
         Group group = null;
         GroupDetailCommand groupCommand = new GroupDetailCommand();
         List<GroupAttribute> attrList = new ArrayList<GroupAttribute>();
@@ -197,8 +194,6 @@ public class GroupDetailServiceController extends BaseServiceController {
         groupCommand.setOrgList(orgDataService.getTopLevelOrganizations());
         groupCommand.setTypeList(metadataService.getTypesInCategory(
                 groupTypeCategory).getMetadataTypeAry());
-
-        // String mode = request.getParameter("mode");
 
         if (groupId != null) {
             group = groupManager.getGroup(groupId).getGroup();
@@ -215,7 +210,6 @@ public class GroupDetailServiceController extends BaseServiceController {
         }
 
         groupCommand.setGroup(group);
-        // addNewRowToAttributeSet(attrList);
         groupCommand.setAttributeList(attrList);
 
         // get the list of child groups if any
@@ -223,9 +217,6 @@ public class GroupDetailServiceController extends BaseServiceController {
                 group.getGrpId(), false).getGroupList();
         groupCommand.setChildGroup(childGroupList);
 
-        // if (mode != null && "1".equals(mode)) {
-        // request.setAttribute("mode", "1");
-        // }
         List<GroupStatusModel> groupStatusList = Arrays.asList(
                 new GroupStatusModel("ACTIVE"),
                 new GroupStatusModel("DELETED"), new GroupStatusModel(
@@ -237,20 +228,7 @@ public class GroupDetailServiceController extends BaseServiceController {
         model.addAttribute("groupStatusList", groupStatusList);
         model.addAttribute("inheritFromParentList", inheritFromParentList);
         model.addAttribute("groupModel", groupCommand);
-        // return groupCommand;
     }
-
-    // private void addNewRowToAttributeSet(List<GroupAttribute> attrList) {
-    // if (attrList == null) {
-    // attrList = new ArrayList<GroupAttribute>();
-    // }
-    // GroupAttribute oa = new GroupAttribute();
-    // oa.setName("**ENTER NAME**");
-    // oa.setValue("");
-    // oa.setId("NEW");
-    // attrList.add(oa);
-    //
-    // }
 
     private void attrMapToList(Map<String, GroupAttribute> attrMap,
             List<GroupAttribute> attrList) {

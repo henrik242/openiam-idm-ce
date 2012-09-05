@@ -11,7 +11,7 @@ function renderGroupList(data){
 	}
 }
 function gotoGroupList(){
-	window.location.href="group/list";
+	window.location.href="secure/group/list";
 }
 
 function serializeGroupForm(){
@@ -61,7 +61,7 @@ function validateAttribute(control){
 }
 function deleteGroup(){
 	var grpId=$("#group\\.grpId").val();
-	$.postJSON("group/delete/"+grpId,null, function(response){
+	$.postJSON("secure/group/delete/"+grpId,null, function(response){
 		if(response && !hasError(response.notifications)){
 			gotoGroupList();
 		}

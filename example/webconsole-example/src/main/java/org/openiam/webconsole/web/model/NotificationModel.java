@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 import org.openiam.webconsole.web.constant.NotificationType;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
+ */
 public class NotificationModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String type;
@@ -21,22 +25,22 @@ public class NotificationModel implements Serializable {
     }
 
     public NotificationModel(NotificationType type, String text,
-        String elementId) {
+            String elementId) {
         this(type, text, elementId, 0);
     }
 
     public NotificationModel(NotificationType type, String text,
-        String elementId, int delay) {
+            String elementId, int delay) {
         this(type, text, elementId, delay, false);
     }
 
     public NotificationModel(NotificationType type, String text,
-        String elementId, boolean isClosable) {
+            String elementId, boolean isClosable) {
         this(type, text, elementId, 0, isClosable);
     }
 
     public NotificationModel(NotificationType type, String text,
-        String elementId, int delay, boolean isClosable) {
+            String elementId, int delay, boolean isClosable) {
         this.type = type.name();
         this.text = text;
         this.elementId = elementId;
@@ -128,9 +132,9 @@ public class NotificationModel implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("NotificationModel [type=").append(type)
-               .append(", text=").append(text).append(", elementId=")
-               .append(elementId).append(", delay=").append(delay)
-               .append(", isClosable=").append(isClosable).append("]");
+                .append(", text=").append(text).append(", elementId=")
+                .append(elementId).append(", delay=").append(delay)
+                .append(", isClosable=").append(isClosable).append("]");
         return builder.toString();
     }
 

@@ -24,10 +24,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * Validation class for the GroupDetailServiceController.
- * 
- * @author Alexander Duckardt
- * 
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
  */
 @Component
 public class GroupDetailValidator implements Validator {

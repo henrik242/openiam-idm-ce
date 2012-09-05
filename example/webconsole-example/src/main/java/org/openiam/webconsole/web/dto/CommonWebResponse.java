@@ -12,8 +12,8 @@ import org.openiam.webconsole.web.constant.NotificationType;
 import org.openiam.webconsole.web.model.NotificationModel;
 
 /**
- * @author Alexander Duckardt
- * 
+ * User: Alexander Duckardt<br/>
+ * Date: 08/25/12
  */
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class CommonWebResponse<T> implements Serializable {

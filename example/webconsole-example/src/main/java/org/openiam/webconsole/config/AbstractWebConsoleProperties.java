@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 /**
- * @author Alexander Dukkardt
- * 
+ * User: Alexander Duckardt<br/>
+ * Date: 8/25/12
  */
 public abstract class AbstractWebConsoleProperties implements
-            IWebConsoleProperties {
+        IWebConsoleProperties {
     @Autowired
     private Environment env;
 

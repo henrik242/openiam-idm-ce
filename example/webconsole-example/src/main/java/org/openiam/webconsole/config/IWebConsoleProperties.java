@@ -4,8 +4,8 @@
 package org.openiam.webconsole.config;
 
 /**
- * @author Alexander Duckardt
- * 
+ * User: Alexander Duckardt<br/>
+ * Date: 8/25/12
  */
 public interface IWebConsoleProperties {
 

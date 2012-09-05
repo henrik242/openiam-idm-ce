@@ -23,7 +23,7 @@
 						<form:hidden path="clientIP"/>
 						
 						<html:inputField name="principal" label="label.user.principal" errorMsg="error.principal.required" requiredField="true" cssClass="span4"/>
-						<html:inputField name="password" label="label.password" errorMsg="error.password.required" requiredField="true" cssClass="span4"/>
+						<html:passwordField name="password" label="label.password" errorMsg="error.password.required" requiredField="true" cssClass="span4"/>
                      </fieldset>
                      <div class="form-actions">
 						<button type="submit" class="btn btn-success pull-right">Login</button>

@@ -6,15 +6,15 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.servlet.support.RequestContext;
 
 /**
- * @author Sergei Barinov
- * 
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
  */
 public class CommonWebUtil {
 
     public static boolean isSessionValid(HttpServletRequest request) {
         if (request.getRequestURI() != null) {
             return request.getRequestedSessionId() != null
-                        && request.isRequestedSessionIdValid();
+                    && request.isRequestedSessionIdValid();
         }
         return false;
     }
@@ -22,7 +22,7 @@ public class CommonWebUtil {
     public static String getServerUrl(HttpServletRequest request) {
         StringBuilder sb = new StringBuilder();
         sb.append(request.getScheme()).append("://")
-          .append(request.getServerName());
+                .append(request.getServerName());
         if (request.getServerPort() != 0 && request.getServerPort() != 80) {
             sb.append(":").append(request.getServerPort());
         }
@@ -38,7 +38,7 @@ public class CommonWebUtil {
      * @return
      */
     public static String getMessage(HttpServletRequest request, String key,
-                String defaultMsg) {
+            String defaultMsg) {
         return getMessage(request, key, defaultMsg, null);
     }
 
@@ -50,7 +50,7 @@ public class CommonWebUtil {
      * @return
      */
     public static String getMessage(HttpServletRequest request, String key,
-                String defaultMsg, Object[] arguments) {
+            String defaultMsg, Object[] arguments) {
         RequestContext ctx = new RequestContext(request);
         return ctx.getMessage(key, arguments, defaultMsg);
     }

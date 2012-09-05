@@ -1,16 +1,19 @@
 <script type="text/javascript">
     var notification;
 </script>
-<c:if test="${!empty notification}">
+<c:if test="${notifications!=null}">
+  <c:forEach var="item" items="${notifications}">
     <script type="text/javascript">
-        notification = {
-            type:"<c:out value='${notification.type}'/>",
-            message:"<c:out value='${notification.text}' escapeXml='false'/>",
-            closable:false,
-            global:true
-        };
+      notification = {
+        type : "<c:out value='${item.type}'/>",
+        message : "<c:out value='${item.text}' escapeXml='false'/>",
+        closable : false,
+        delay: 5000,
+        global : true
+      };
     </script>
-</c:if>
+  </c:forEach>
+</c:if>  
 
 <div class="message" id="alertArea"></div>
 <div id="ajaxLoading" style="display: none;">

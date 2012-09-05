@@ -9,6 +9,10 @@ import javax.validation.Validator;
 
 import org.codehaus.jackson.JsonGenerator.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.openiam.webconsole.web.interceptor.BaseCleanNotificationInterceptor;
+import org.openiam.webconsole.web.interceptor.BaseSecurityInterceptor;
+import org.openiam.webconsole.web.resolver.UserSessionArgumentResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,9 +23,12 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -30,7 +37,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 /**
- * User: Alexander Duckardt Date: 8/25/12
+ * User: Alexander Duckardt<br/>
+ * Date: 8/25/12
  */
 @Configuration
 @EnableWebMvc
@@ -40,6 +48,8 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
         "classpath:connector-coreContext.xml" })
 @ComponentScan(basePackages = { "org.openiam.webconsole.web" })
 public class WebConsoleConfig extends WebMvcConfigurerAdapter {
+    @Autowired
+    private IWebConsoleProperties webConsoleProperties;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -98,6 +108,30 @@ public class WebConsoleConfig extends WebMvcConfigurerAdapter {
         LocalValidatorFactoryBean factory = new LocalValidatorFactoryBean();
         factory.setValidationMessageSource(messageSource());
         return factory;
+    }
+
+    @Override
+    public void addArgumentResolvers(
+            List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new UserSessionArgumentResolver());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * 
+     * org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+     * #addInterceptors(org.springframework.web.servlet.config.annotation.
+     * InterceptorRegistry)
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        InterceptorRegistration securityInterceptor = registry
+                .addInterceptor(new BaseSecurityInterceptor(
+                        webConsoleProperties));
+        securityInterceptor.addPathPatterns("/secure/**");
+        registry.addInterceptor(new BaseCleanNotificationInterceptor());
     }
 
     @Override

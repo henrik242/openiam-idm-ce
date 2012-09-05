@@ -2,6 +2,10 @@ package org.openiam.webconsole.web.model;
 
 import java.io.Serializable;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
+ */
 public class ChoiceModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String value;

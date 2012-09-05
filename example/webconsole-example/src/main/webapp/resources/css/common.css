@@ -105,3 +105,26 @@ border:2px solid white;
 .groupToolBar a{text-align: right;line-height: 28px;}
 
 .viewBtn:after{clear:both;content: "";display:block;}
+
+.alert-default {
+  width: 100%;
+  text-align:center;
+}
+.message {
+  width: 100%;
+  border-radius: 0;
+  padding: 12px;
+  position: fixed;
+  _position: absolute;
+  z-index: 1000000;
+}
+
+
+
+.message h3 {
+  margin: 0 0 5px 0;
+}
+
+.message p {
+  margin: 0;
+}

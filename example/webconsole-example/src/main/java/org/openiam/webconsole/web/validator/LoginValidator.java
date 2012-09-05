@@ -16,6 +16,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
+ */
 @Component
 public class LoginValidator implements Validator {
     private static final String securityDomain = "IDM";

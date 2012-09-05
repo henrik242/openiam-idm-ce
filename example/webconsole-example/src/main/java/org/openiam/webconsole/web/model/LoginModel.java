@@ -5,9 +5,8 @@ import java.io.Serializable;
 import org.openiam.idm.srvc.auth.dto.Subject;
 
 /**
- * 
- * @author Alexander Duckardt <br/>
- *         Sep 5, 2012
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
  */
 public class LoginModel implements Serializable {
     private static final long serialVersionUID = 1L;

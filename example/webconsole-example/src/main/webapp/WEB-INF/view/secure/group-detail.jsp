@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>WebConsole Example</title>
-<%@include file="../include/header.jsp"%>
+<%@include file="../../include/header.jsp"%>
 <script type="text/javascript" src="${resourceServerUrl}/js/group/group.js"></script>
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -12,10 +12,10 @@
 <![endif]-->
 </head>
 <body>
-	<%@include file="../include/header-body.jsp"%>
+	<%@include file="../../include/header-body.jsp"%>
 	<div id="openiam-container" class="container-fluid">
 		<div class="container-inner">
-			<%@include file="../include/page-header.jsp"%>
+			<%@include file="../../include/page-header.jsp"%>
 			<div class="row-fluid">
 				<div class="span2"></div>
 				<div class="span8 pageTitle" ><h2>Group Manager</h2></div>
@@ -50,7 +50,7 @@
 						<html:inputField name="group.parentGrpId" label="label.grp.parentGrp" cssClass="span4" 
 						                 size="32"  readonly="true" rowClass="parentGrpup"/>
 						<c:if test="${groupModel.group.parentGrpId != null}" >
-							  <a class="viewBtn" href="group/edit?groupId=${groupModel.group.parentGrpId}">View</a>
+							  <a class="viewBtn" href="secure/group/edit?groupId=${groupModel.group.parentGrpId}">View</a>
 						</c:if>  
 
 						<html:selectField name="group.companyId" label="label.grp.company" cssClass="span4" 
@@ -94,19 +94,19 @@
                                      </c:if>
 								</tbody>
     						</table>
-    						<div class="span6 pull-left"><i>To remove a custom attribute, leave the name blank</i></div>
-    						<div class="span2 pull-right"><button id="addAttrBtn" class="btn btn-success pull-right">Add Attribute</button></div>
+    						<div class="span7 pull-left"><i>To remove a custom attribute, leave the name blank</i></div>
+    						<div class="span3 pull-right"><button id="addAttrBtn" class="btn btn-success pull-right">Add Attribute</button></div>
                          </fieldset>                                        
                     </fieldset>
                     <div class="row-fluid">
-                    	<div class="groupToolBar span6 pull-right">
+                    	<div class="groupToolBar span7 pull-right">
                     		<button id="cancelBtn" class="btn pull-right">Cancel</button>
                     		<button type="submit" class="btn btn-success pull-right">Save</button>
                     		<button id="deleteGroup" class="btn pull-right">Delete</button>
-                    		<a href="group/new?parentGroupId=${groupModel.group.grpId}" id="addChildGroup" class="span4 pull-right"><i class="icon-plus"></i>New group</a>
+                    		<a href="secure/group/new?parentGroupId=${groupModel.group.grpId}" id="addChildGroup" class="span4 pull-right"><i class="icon-plus"></i>New group</a>
                     	</div>
                     </div>
-                    <ajax:ajaxPostForm formName="groupDetail" processedPostUrl="group/save" serializator="serializeGroupForm" callback="gotoGroupList"/>
+                    <ajax:ajaxPostForm formName="groupDetail" processedPostUrl="secure/group/save" serializator="serializeGroupForm" callback="gotoGroupList"/>
 				</form:form>
 				<div class="span2"></div>
 			</div>
@@ -128,7 +128,7 @@
 								<tbody>
 									<c:forEach items="${groupModel.childGroup}" var="group">
 										<tr>
-											<td><a href="group/edit?groupId=${group.grpId}">${group.grpName}</a></td>
+											<td><a href="secure/group/edit?groupId=${group.grpId}">${group.grpName}</a></td>
 											<td>${group.description}</td>
 											<td>${group.status}</td>
 										</tr>
@@ -141,8 +141,8 @@
 				</div>
 			</c:if>
 		</div>
-		<%@include file="../include/footer.jsp"%>
-		<%@include file="../include/confirmDialog.jsp"%>
+		<%@include file="../../include/footer.jsp"%>
+		<%@include file="../../include/confirmDialog.jsp"%>
 	</div>
 </body>
 </html>

@@ -8,6 +8,10 @@ import org.openiam.idm.srvc.grp.dto.GroupAttribute;
 import org.openiam.idm.srvc.meta.dto.MetadataType;
 import org.openiam.idm.srvc.org.dto.Organization;
 
+/**
+ * User: Alexander Duckardt<br/>
+ * Date: 09/06/12
+ */
 public class GroupDetailCommand implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Group> childGroup = null;
