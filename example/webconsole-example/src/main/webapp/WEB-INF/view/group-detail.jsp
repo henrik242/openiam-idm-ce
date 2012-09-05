@@ -30,8 +30,8 @@
 						<html:inputField name="group.grpId" label="label.grp.id" cssClass="span4" 
 						                 size="32" maxlength="32" readonly="true"/>
 						
-						<html:inputField name="group.grpName" label="label.grp.name" cssClass="span4" 
-						                 size="40" maxlength="40"/>  
+						<html:inputField name="group.grpName" label="label.grp.name" cssClass="span4" requiredField="true"
+						                 errorMsg="error.groupName.required" size="40" maxlength="40"/>  
 						                 
 						<html:inputField name="group.description" label="label.grp.description" cssClass="span4" 
 						                 size="40" maxlength="80"/>  
@@ -47,10 +47,10 @@
 						                 firstOptionValue="" firstOptionText="-Select a value" 
 						                 options="${groupStatusList}" itemValue="status" itemLabel="status"/>
 						
-						<html:inputField name="group.parentGrpId" label="label.grp.groupClass" cssClass="span4" 
-						                 size="32"  readonly="true"/>
+						<html:inputField name="group.parentGrpId" label="label.grp.parentGrp" cssClass="span4" 
+						                 size="32"  readonly="true" rowClass="parentGrpup"/>
 						<c:if test="${groupModel.group.parentGrpId != null}" >
-							  <a href="group/edit?groupId=${groupModel.group.parentGrpId}">View</a>
+							  <a class="viewBtn" href="group/edit?groupId=${groupModel.group.parentGrpId}">View</a>
 						</c:if>  
 
 						<html:selectField name="group.companyId" label="label.grp.company" cssClass="span4" 
@@ -86,6 +86,7 @@
                                                  </td>
                                                  <td>
                                                  	<html:inputField name="attributeList[${attr.index}].value" cssClass="span12" 
+						                 							errorMsg="error.attribute.value.required" validator="validateAttribute" 
 						                 							size="40" maxlength="200"  label=""/>
 												 </td>
                                              </tr>
@@ -93,18 +94,55 @@
                                      </c:if>
 								</tbody>
     						</table>
+    						<div class="span6 pull-left"><i>To remove a custom attribute, leave the name blank</i></div>
     						<div class="span2 pull-right"><button id="addAttrBtn" class="btn btn-success pull-right">Add Attribute</button></div>
                          </fieldset>                                        
                     </fieldset>
                     <div class="row-fluid">
-                    	<div class="span2 pull-right"><button type="submit" class="btn btn-success pull-right">Save</button></div>
+                    	<div class="groupToolBar span6 pull-right">
+                    		<button id="cancelBtn" class="btn pull-right">Cancel</button>
+                    		<button type="submit" class="btn btn-success pull-right">Save</button>
+                    		<button id="deleteGroup" class="btn pull-right">Delete</button>
+                    		<a href="group/new?parentGroupId=${groupModel.group.grpId}" id="addChildGroup" class="span4 pull-right"><i class="icon-plus"></i>New group</a>
+                    	</div>
                     </div>
-                    <ajax:ajaxPostForm formName="groupDetail" processedPostUrl="group/save" callback="gotoGroupList"/>
+                    <ajax:ajaxPostForm formName="groupDetail" processedPostUrl="group/save" serializator="serializeGroupForm" callback="gotoGroupList"/>
 				</form:form>
 				<div class="span2"></div>
 			</div>
+			
+			<c:if test="${groupModel.childGroup != null}" >
+				<div class="row-fluid">
+					<div  class="span2"></div>
+					<div id="groupList"class="span8">
+						<fieldset >
+							<legend>CHILD GROUPS </legend>
+							<table class="table table-bordered table-hover">
+						    	<thead>
+									<tr>
+										<th>Name</th>
+										<th>Description</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${groupModel.childGroup}" var="group">
+										<tr>
+											<td><a href="group/edit?groupId=${group.grpId}">${group.grpName}</a></td>
+											<td>${group.description}</td>
+											<td>${group.status}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+    						</table>
+						</fieldset>								
+					</div>
+					<div class="span2"></div>
+				</div>
+			</c:if>
 		</div>
 		<%@include file="../include/footer.jsp"%>
+		<%@include file="../include/confirmDialog.jsp"%>
 	</div>
 </body>
 </html>

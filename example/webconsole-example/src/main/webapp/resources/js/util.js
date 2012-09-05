@@ -43,22 +43,24 @@ function hideSystemMessage() {
 */
 function showNotification(alertOptions) {
   alertOptions.global = !alertOptions.elementSelector;
+  var selector = escapeSelector(alertOptions.elementSelector.substring(1));
+  selector = alertOptions.elementSelector.charAt(0) +selector;
   if (!alertOptions.global) {
     var validAlertId = "validAlert" + alertOptions.elementSelector.substring(1);
     $("body").append("<div id='" + validAlertId + "'></div>");
-    $("#" + validAlertId).css(
+    $("#" + escapeSelector(validAlertId)).css(
         {
-          'top' : $(alertOptions.elementSelector).offset().top - 5,
-          'left' : $(alertOptions.elementSelector).offset().left
-              + $(alertOptions.elementSelector).width() + 35,
-          'position' : 'fixed',
+          'top' : $(selector).offset().top - 5,
+          'left' : $(selector).offset().left
+              + $(selector).width() + 35,
+          'position' : 'absolute',
           'z-index' : 10000000
         });
-    $("#" + validAlertId).appendAlert(alertOptions);
-    getParent(alertOptions.elementSelector,'.control-group').addClass(alertOptions.type);
-    var elementSelector = alertOptions.elementSelector;
-    $(elementSelector).blur(function() {
-      clearMessage(elementSelector);
+    $("#" + escapeSelector(validAlertId)).appendAlert(alertOptions);
+    getParent(selector,'.control-group').addClass(alertOptions.type);
+    //var elementSelector = alertOptions.elementSelector;
+    $(selector).blur(function() {
+      clearMessage(selector);
     });
   } else {
     $('#alertArea').appendAlert(alertOptions);
@@ -177,4 +179,11 @@ function stopEventPropagation(event){
       event.cancelBubble = true; // IE model
   }
   return false;
+}
+
+function escapeSelector(str) {
+ if(str)
+     return str.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1')
+ else
+     return str;
 }

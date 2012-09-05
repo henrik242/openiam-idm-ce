@@ -24,7 +24,7 @@ form label.required:after{
 #openiam-container{min-width: 980px;}
 	.container-inner{min-height: 650px;width: 100%;}
 		.header{background: none repeat scroll 0 0 white;height: 120px;margin-bottom: 10px;position: relative;}
-			.header .header-container{border-bottom: 1.5px solid #74A824;margin-left: auto;padding-bottom: 1px;padding-top: 35px;width: 100%;}
+			.header .header-container{height: 47px;border-bottom: 1.5px solid #74A824;margin-left: auto;padding-bottom: 1px;padding-top: 35px;width: 100%;}
 				.header .header-container #logoContainer {position: absolute;top: 15px;z-index: 1003;height: 68px;
     																					position: absolute;width: 252px;
     																					background: url("../img/openiamlogo.jpg") no-repeat transparent;}
@@ -100,4 +100,8 @@ text-align: center;
 #groupDetail fieldset th {
 border:2px solid white;
 }
+.groupToolBar{margin-top: 10px;}
+.groupToolBar button{margin-left: 10px;}
+.groupToolBar a{text-align: right;line-height: 28px;}
 
+.viewBtn:after{clear:both;content: "";display:block;}

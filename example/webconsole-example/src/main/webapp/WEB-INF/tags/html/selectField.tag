@@ -12,6 +12,7 @@
 <%@ attribute name="options" required="true"  rtexprvalue="true" type="java.lang.Object" %>
 <%@ attribute name="itemValue" required="true"  rtexprvalue="true" %>
 <%@ attribute name="itemLabel" required="true"  rtexprvalue="true" %>
+<%@ attribute name="rowClass" required="false"  rtexprvalue="true" %>
 
 <c:set var="inputClass" value="${cssClass} " />
 <c:if test='${requiredField==true}'>
@@ -22,7 +23,7 @@
   <c:set var="msg"> <fmt:message key="${errorMsg}"/> </c:set>    
 </c:if>
 
-<div class="control-group" id="${name}ControlWrapper">
+<div class="control-group ${rowClass}" id="${name}ControlWrapper">
 	<label class="span4 control-label <c:if test='${requiredField==true}'>required</c:if>" ><fmt:message key='${label}' />:</label>
 	<div class="controls">
 		<form:select path="${name}">

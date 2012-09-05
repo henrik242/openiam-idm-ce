@@ -35,7 +35,7 @@
 								</div>
 							</div>
 							<div class="span12 hLine"></div>
-							<div class="span2 "><a href="javascript:void(0);"><i class="icon-plus"></i>New group</a></div>
+							<div class="span2 "><a href="group/new"><i class="icon-plus"></i>New group</a></div>
 							<div class="span2 pull-right"><button type="submit" class="btn btn-success pull-right">Filter</button></div>
 	                    </fieldset>
 	                   <ajax:ajaxPostForm formName="groupFilterForm" processedPostUrl="group/apply-filter" callback="renderGroupList"/>

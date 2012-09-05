@@ -14,7 +14,7 @@ function validate(formSelector) {
                 && ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio")) {
               $(formSelector + " input:" + $(this).attr("type") + "[name=\""
                       + $(this).attr("name") + "\"]").each(function(index1) {
-                result = callFunction($(this).attr("validator")) && result;
+                result = callFunction($(this).attr("validator"),this) && result;
               });
             } else {
               if (!$(this).attr("id"))
@@ -22,7 +22,7 @@ function validate(formSelector) {
               if (!$(this).val()) {
                 if ($(this).hasClass("required")) {
                   if ($(this).attr("validator"))
-                    result = callFunction($(this).attr("validator")) && result;
+                    result = callFunction($(this).attr("validator"),this) && result;
                   else {
                     if ($(this).attr("errorMsg")) {
                       alertOption.message = $(this).attr("errorMsg");
@@ -32,10 +32,10 @@ function validate(formSelector) {
                     result = false;
                   }
                 } else {
-                  result = callFunction($(this).attr("validator")) && result;
+                  result = callFunction($(this).attr("validator"),this) && result;
                 }
               } else {
-                result = callFunction($(this).attr("validator")) && result;
+                result = callFunction($(this).attr("validator"),this) && result;
               }
             }
           });

@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 import org.openiam.idm.srvc.auth.dto.Subject;
 
+/**
+ * 
+ * @author Alexander Duckardt <br/>
+ *         Sep 5, 2012
+ */
 public class LoginModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @NotEmpty(message = ErrorCode.PASSWORD_IS_REQUIRED)
     private String password;
-    // @NotEmpty(message = ErrorCode.PRINCIPAL_IS_REQUIRED)
     private String principal;
     private String domainId;
     private String pin;
