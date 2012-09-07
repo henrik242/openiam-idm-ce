@@ -43,9 +43,11 @@ function hideSystemMessage() {
 */
 function showNotification(alertOptions) {
   alertOptions.global = !alertOptions.elementSelector;
-  var selector = escapeSelector(alertOptions.elementSelector.substring(1));
-  selector = alertOptions.elementSelector.charAt(0) +selector;
+  
   if (!alertOptions.global) {
+  	var selector = escapeSelector(alertOptions.elementSelector.substring(1));
+    selector = alertOptions.elementSelector.charAt(0) +selector;
+  
     var validAlertId = "validAlert" + alertOptions.elementSelector.substring(1);
     $("body").append("<div id='" + validAlertId + "'></div>");
     $("#" + escapeSelector(validAlertId)).css(
