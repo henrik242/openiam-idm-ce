@@ -28,20 +28,17 @@
      <spring:beans>
 
         <spring:import resource="classpath:openiam-embedded-mule-config.xml"/>
-
-        <spring:import resource="classpath:am-service-Context.xml" />
         <spring:import resource="classpath:idmservice-Context.xml" />
         <!--spring:import resource="classpath:applicationContext.xml" / -->
 
         <!--spring:import resource="classpath:connector-coreContext.xml" / -->
 
         <spring:import resource="classpath:openiam-mule-config.xml"/>
-        <spring:import resource="classpath:openiam-am-service-mule-config.xml"/>
         <spring:import resource="classpath:openiam-idmservice-mule-config.xml"/>
         <spring:import resource="classpath:openiam-connector-mule-config.xml"/>
         <spring:import resource="classpath:mule-service-client-config.xml"/>
         <spring:import resource="classpath:idm-batch-config.xml"/>
-        <spring:import resource="classpath:openiam-idmservice-ee-mule-config.xml"/>
+
     </spring:beans>
 
 

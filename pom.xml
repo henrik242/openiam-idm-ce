@@ -73,7 +73,6 @@
 		<module>openiam-pojo-intf</module>
 		<module>openiam-pojo-services</module>
 		<module>idm</module>
-		<module>am</module>
     </modules>
 	<properties>
 		<mule.version>3.3.0</mule.version>
