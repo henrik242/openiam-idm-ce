@@ -2999,9 +2999,9 @@
          <!--Optional:-->
          <user>
             <!--Optional:-->
-            <dto:firstName>Austin</dto:firstName>
+            <dto:firstName>GTA-LDAP</dto:firstName>
             <dto:jobCode>100</dto:jobCode>
-            <dto:lastName>Powers</dto:lastName>
+            <dto:lastName>TEST-NEW1</dto:lastName>
             <dto:managerId>3006</dto:managerId>
             <dto:sex>M</dto:sex>
             <dto:status>active</dto:status>
@@ -3010,7 +3010,7 @@
             <dto:email>suneet_shah@openiam.com</dto:email>
             <memberOfRoles>
                <dto3:id>
-                  <dto3:roleId>TEST-ROLE-UPDATE</dto3:roleId>
+                  <dto3:roleId>nurse</dto3:roleId>
                   <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
                </dto3:id>
                <dto3:userAssociationMethod/>
@@ -6514,17 +6514,17 @@
          <user>
             <dto:firstName>AUSTIN</dto:firstName>
             <dto:jobCode>100</dto:jobCode>
-            <dto:lastName>POWERS</dto:lastName>
+            <dto:lastName>TEST-NEW1</dto:lastName>
             <dto:managerId>3006</dto:managerId>
             <dto:status>active</dto:status>
-            <dto:userId>8a8080c0383a0fa201383a2219120001</dto:userId>
+            <dto:userId>4028810639a924cc0139a953a6bd0002</dto:userId>
             <memberOfRoles>
                <dto3:id>
-                  <dto3:roleId>MIGRATION-TEST</dto3:roleId>
+                  <dto3:roleId>uar-admin</dto3:roleId>
                   <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
                </dto3:id>
                <dto3:userAssociationMethod/>
-               <dto3:operation>delete</dto3:operation>
+               <dto3:operation>add</dto3:operation>
             </memberOfRoles>
             <notifyTargetSystems/>
             <emailCredentialsToNewUsers/>
@@ -6586,6 +6586,113 @@
             <addInitialPasswordToHistory/>
             <skipPreprocessor/>
             <skipPostProcessor>true</skipPostProcessor>
+            <dto:employeeId>ABC-123</dto:employeeId>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUser-AddRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUser-AddRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>AUSTIN</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>TEST-NEW1</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:status>active</dto:status>
+            <dto:userId>4028810639a924cc0139a953a6bd0002</dto:userId>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>uar-admin</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+               <dto3:operation>add</dto3:operation>
+            </memberOfRoles>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <dto:employeeId>ABC-123</dto:employeeId>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUser-RemoveRole"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUser-RemoveRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>AUSTIN</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>TEST-NEW1</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:status>active</dto:status>
+            <dto:userId>4028810639a924cc0139a953a6bd0002</dto:userId>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>uar-admin</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+               <dto3:operation>delete</dto3:operation>
+            </memberOfRoles>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <dto:employeeId>ABC-123</dto:employeeId>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUser-AddAffiliation"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUser-AddAffiliation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>AUSTIN</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>TEST-NEW1</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:status>active</dto:status>
+            <dto:userId>4028810639a924cc0139a953a6bd0002</dto:userId>
+            <userAffiliations>
+               <dto4:orgId>40288106394701c00139470d22090017</dto4:orgId>
+            </userAffiliations>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <dto:employeeId>ABC-123</dto:employeeId>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/ProvisionControllerService/modifyUser" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="modifyUser-RemoveAffiliation"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy37ServiceSoapBinding</con:interface><con:operation>modifyUser</con:operation><con:request name="modifyUser-RemoveAffiliation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>AUSTIN</dto:firstName>
+            <dto:jobCode>100</dto:jobCode>
+            <dto:lastName>TEST-NEW1</dto:lastName>
+            <dto:managerId>3006</dto:managerId>
+            <dto:status>active</dto:status>
+            <dto:userId>4028810639a924cc0139a953a6bd0002</dto:userId>
+            <userAffiliations>
+               <dto4:orgId>40288106394701c00139470d22090017</dto4:orgId>
+               <dto4:operation>delete</dto4:operation>
+            </userAffiliations>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
             <dto:employeeId>ABC-123</dto:employeeId>
          </user>
       </prov:modifyUser>

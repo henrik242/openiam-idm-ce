@@ -798,47 +798,43 @@ public class ModifyUser {
          List<Organization>  currentOrgList = orgManager.getOrganizationsForUser(userId);
 
 
-        if ( newOrgList != null) {
-            for (Organization o : newOrgList) {
-
-                    if (isCurrentOrgInNewList(o,currentOrgList)) {
-                        // do nothing
-                    }else {
-                        orgManager.addUserToOrg(o.getOrgId(),userId);
-                    }
-            }
-
-        }else {
-            // newOrgList is null - remove the associations
-
-            if (currentOrgList != null) {
-                for (Organization o : currentOrgList) {
-                    orgManager.removeUserFromOrg(o.getOrgId(),userId);
-
-                }
-            }
+        if (newOrgList == null) {
+            return;
         }
-        // if the current list has orgs that are not in the new list, then delete them
-        if (currentOrgList != null)  {
-            for (Organization o : currentOrgList) {
-                if (!isCurrentOrgInNewList(o, newOrgList)) {
-                    orgManager.removeUserFromOrg(o.getOrgId(),userId);
+
+        for ( Organization o : newOrgList ) {
+
+            boolean inCurList = isCurrentOrgInNewList(o,currentOrgList);
+
+            if (o.getOperation() == null ||
+                    o.getOperation() == AttributeOperationEnum.ADD ||
+                    o.getOperation() == AttributeOperationEnum.NO_CHANGE) {
+
+                if (!inCurList) {
+                    orgManager.addUserToOrg(o.getOrgId(),userId);
                 }
 
+            }else if ( o.getOperation() == AttributeOperationEnum.DELETE ) {
+                if (inCurList) {
+                    orgManager.removeUserFromOrg(o.getOrgId(),userId);
+                }
             }
+
         }
+
     }
+
 
     private boolean isCurrentOrgInNewList(Organization newOrg, List<Organization> curOrgList) {
 		if (curOrgList != null) {
 			for ( Organization o : curOrgList) {
 				if (o.getOrgId().equals(newOrg.getOrgId())) {
-					System.out.println("-Affiliation found in currentList=" + newOrg.getOrgId());
+
 					return true;
 				}
 			}
 		}
-		log.info("-Organization not found in currentList=" + newOrg.getOrgId());
+
 		return false;
 	}
 
@@ -930,7 +926,11 @@ public class ModifyUser {
 				}
 				log.debug("Adding role to deleteRoleList =" + rl);
 				this.deleteRoleList.add(rl);
-				//roleList.add(r);
+
+                // need to pass on to connector that a role has been removed so that
+                // the connector can also take action on this event.
+
+                roleList.add(r);
 			}else {
 				// check if this address is in the current list
 				// if it is - see if it has changed
