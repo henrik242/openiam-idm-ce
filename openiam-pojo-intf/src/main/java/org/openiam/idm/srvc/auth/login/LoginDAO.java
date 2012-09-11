@@ -38,7 +38,7 @@ public interface LoginDAO {
 
     public List<Login> findLockedUsers(Date startTime);
 
-    List<Login> findInactiveUsers(int startDays, int endDays);
+    List<Login> findInactiveUsers(int startDays, int endDays, String managedSysId);
 
     List<Login> findUserNearPswdExp(int daysToExpiration);
 

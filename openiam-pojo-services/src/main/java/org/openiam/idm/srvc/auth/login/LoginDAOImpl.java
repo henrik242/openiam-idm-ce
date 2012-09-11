@@ -392,7 +392,7 @@ public class LoginDAOImpl implements LoginDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.auth.login.LoginDAO#findInactiveUsers(int, int)
 	 */
-	public List<Login> findInactiveUsers(int startDays, int endDays) {
+	public List<Login> findInactiveUsers(int startDays, int endDays, String managedSysId) {
 		log.debug("findInactiveUsers called.");
 		log.debug("Start days=" + startDays);
 		log.debug("End days=" + endDays);
@@ -401,7 +401,8 @@ public class LoginDAOImpl implements LoginDAO {
     	Date startDate = new Date(System.currentTimeMillis());
 		Date endDate = new Date(System.currentTimeMillis());
 		
-		StringBuilder sql = new StringBuilder(" from org.openiam.idm.srvc.auth.dto.Login l where ");
+		StringBuilder sql = new StringBuilder(" from org.openiam.idm.srvc.auth.dto.Login l where " +
+                " l.id.managedSysId = :managedSys and ");
     	
     	
 		if (startDays != 0 ) {
@@ -412,7 +413,8 @@ public class LoginDAOImpl implements LoginDAO {
 	        c.setTime(startDate);
 	        c.add(Calendar.DAY_OF_YEAR, (-1 * startDays));
 	        startDate.setTime( c.getTimeInMillis() );
-	        log.debug("starDate = " + startDate.toString());
+
+            log.debug("starDate = " + startDate.toString());
 			
 		}
 		if ( endDays != 0) {
@@ -425,6 +427,7 @@ public class LoginDAOImpl implements LoginDAO {
 	        c.setTime(endDate);
 	        c.add(Calendar.DAY_OF_YEAR, (-1 * endDays));
 	        endDate.setTime( c.getTimeInMillis() );
+
 	        log.debug("endDate = " + endDate.toString());
 	        
 		}
@@ -432,6 +435,9 @@ public class LoginDAOImpl implements LoginDAO {
 
     	Session session = sessionFactory.getCurrentSession();
     	Query qry = session.createQuery(sql.toString());
+
+        qry.setString("managedSys", managedSysId);
+
     	if (startDays != 0 ) {
     		qry.setDate("startDate", startDate);
     	}

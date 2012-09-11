@@ -508,7 +508,11 @@ public class LoginDataServiceImpl implements LoginDataService {
 	}
 
 	public List<Login> getInactiveUsers(int startDays, int endDays) {
-		List<Login> loginList = loginDao.findInactiveUsers(startDays, endDays);
+
+        String primaryManagedSys =  sysConfiguration.getDefaultManagedSysId();
+
+
+		List<Login> loginList = loginDao.findInactiveUsers(startDays, endDays, primaryManagedSys);
 
 		return loginList;
 	}
