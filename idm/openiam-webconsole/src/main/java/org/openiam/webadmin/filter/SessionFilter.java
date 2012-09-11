@@ -57,32 +57,40 @@ public class SessionFilter implements javax.servlet.Filter {
 
         String redirectURL = request.getContextPath() + expirePage;
 
-        log.info("Redirect URL :" + redirectURL);
 
         HttpSession session = request.getSession(false);
-        boolean loginPage = false;
+       // boolean loginPage = false;
 
 
         String url = request.getRequestURI();
 
         log.info("Requested URL: " + url);
 
+        if (url.equalsIgnoreCase( request.getContextPath() + "/"  )) {
+            chain.doFilter(servletRequest, servletResponse);
+            return;
+
+        }
+
 
         if (url == null || url.equals("/") || url.endsWith("index.do")
                 || url.endsWith("login.cnt") || url.endsWith("index.jsp")) {
-           loginPage = true;
+
+
+            chain.doFilter(servletRequest, servletResponse);
+            return;
+
 
         }
 
 
         String userId;
 
-        if (!loginPage && isCode(url) ) {
+        if ( isCode(url) ) {
 
             log.info("Session object = " + session);
 
             if (session == null) {
-                log.info("Session object is null. Redirecting to the login page");
                 response.sendRedirect(redirectURL);
                 return;
             }
@@ -119,7 +127,7 @@ public class SessionFilter implements javax.servlet.Filter {
 
         chain.doFilter(servletRequest, servletResponse);
 
-        log.info("SessionFilter()...end");
+        log.info("End of SessionFilter()");
 
 
     }
@@ -140,10 +148,18 @@ public class SessionFilter implements javax.servlet.Filter {
 
     public boolean isCode(String url) {
 
-        if (url.contains(".jsp") || url.contains(".do") || url.contains(".report") || url.contains(".cnt")) {
+
+
+        if (url.contains("images/") || url.contains(".css")   ) {
+            return false;
+        }
+        return true;
+
+       /* if (url.contains(".jsp") || url.contains(".do") || url.contains(".report") || url.contains(".cnt")) {
             return true;
         }
         return false;
+        */
     }
 
 
