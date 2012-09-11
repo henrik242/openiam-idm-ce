@@ -35,8 +35,7 @@ println("uid.groovy called.")
 			loginId=  matchParam.keyField + "=" +  origLoginID + ctr + "," + matchParam.baseDn;
 			ctr++
 	}
-	
-	println("Unique identity=" + loginId);
+
 		
 	output = loginId
 	
