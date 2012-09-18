@@ -315,6 +315,63 @@ public class Login implements java.io.Serializable, Cloneable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Login)) return false;
+
+        Login login = (Login) o;
+
+        if (firstTimeLogin != login.firstTimeLogin) return false;
+        if (isLocked != login.isLocked) return false;
+        if (resetPassword != login.resetPassword) return false;
+        if (selected != login.selected) return false;
+        if (authFailCount != null ? !authFailCount.equals(login.authFailCount) : login.authFailCount != null)
+            return false;
+        if (canonicalName != null ? !canonicalName.equals(login.canonicalName) : login.canonicalName != null)
+            return false;
+        if (createDate != null ? !createDate.equals(login.createDate) : login.createDate != null) return false;
+        if (createdBy != null ? !createdBy.equals(login.createdBy) : login.createdBy != null) return false;
+        if (currentLoginHost != null ? !currentLoginHost.equals(login.currentLoginHost) : login.currentLoginHost != null)
+            return false;
+        if (gracePeriod != null ? !gracePeriod.equals(login.gracePeriod) : login.gracePeriod != null) return false;
+        if (id != null ? !id.equals(login.id) : login.id != null) return false;
+        if (isDefault != null ? !isDefault.equals(login.isDefault) : login.isDefault != null) return false;
+        if (lastAuthAttempt != null ? !lastAuthAttempt.equals(login.lastAuthAttempt) : login.lastAuthAttempt != null)
+            return false;
+        if (lastLogin != null ? !lastLogin.equals(login.lastLogin) : login.lastLogin != null) return false;
+        if (lastLoginIP != null ? !lastLoginIP.equals(login.lastLoginIP) : login.lastLoginIP != null) return false;
+        if (loginAttributes != null ? !loginAttributes.equals(login.loginAttributes) : login.loginAttributes != null)
+            return false;
+        if (managedSysName != null ? !managedSysName.equals(login.managedSysName) : login.managedSysName != null)
+            return false;
+        if (operation != login.operation) return false;
+        if (origPrincipalName != null ? !origPrincipalName.equals(login.origPrincipalName) : login.origPrincipalName != null)
+            return false;
+        if (password != null ? !password.equals(login.password) : login.password != null) return false;
+        if (passwordChangeCount != null ? !passwordChangeCount.equals(login.passwordChangeCount) : login.passwordChangeCount != null)
+            return false;
+        if (prevLogin != null ? !prevLogin.equals(login.prevLogin) : login.prevLogin != null) return false;
+        if (prevLoginIP != null ? !prevLoginIP.equals(login.prevLoginIP) : login.prevLoginIP != null) return false;
+        if (pswdResetToken != null ? !pswdResetToken.equals(login.pswdResetToken) : login.pswdResetToken != null)
+            return false;
+        if (pswdResetTokenExp != null ? !pswdResetTokenExp.equals(login.pswdResetTokenExp) : login.pswdResetTokenExp != null)
+            return false;
+        if (pwdChanged != null ? !pwdChanged.equals(login.pwdChanged) : login.pwdChanged != null) return false;
+        if (pwdEquivalentToken != null ? !pwdEquivalentToken.equals(login.pwdEquivalentToken) : login.pwdEquivalentToken != null)
+            return false;
+        if (pwdExp != null ? !pwdExp.equals(login.pwdExp) : login.pwdExp != null) return false;
+        if (status != null ? !status.equals(login.status) : login.status != null) return false;
+        if (userId != null ? !userId.equals(login.userId) : login.userId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "Login{" +
                 "operation=" + operation +

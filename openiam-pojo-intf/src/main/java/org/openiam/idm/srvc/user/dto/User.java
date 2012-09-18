@@ -1380,6 +1380,104 @@ public class User extends org.openiam.base.BaseObject {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (address1 != null ? !address1.equals(user.address1) : user.address1 != null) return false;
+        if (address2 != null ? !address2.equals(user.address2) : user.address2 != null) return false;
+        if (address3 != null ? !address3.equals(user.address3) : user.address3 != null) return false;
+        if (address4 != null ? !address4.equals(user.address4) : user.address4 != null) return false;
+        if (address5 != null ? !address5.equals(user.address5) : user.address5 != null) return false;
+        if (address6 != null ? !address6.equals(user.address6) : user.address6 != null) return false;
+        if (address7 != null ? !address7.equals(user.address7) : user.address7 != null) return false;
+        if (addresses != null ? !addresses.equals(user.addresses) : user.addresses != null) return false;
+        if (alternateContactId != null ? !alternateContactId.equals(user.alternateContactId) : user.alternateContactId != null)
+            return false;
+        if (areaCd != null ? !areaCd.equals(user.areaCd) : user.areaCd != null) return false;
+        if (birthdate != null ? !birthdate.equals(user.birthdate) : user.birthdate != null) return false;
+        if (bldgNum != null ? !bldgNum.equals(user.bldgNum) : user.bldgNum != null) return false;
+        if (city != null ? !city.equals(user.city) : user.city != null) return false;
+        if (classification != null ? !classification.equals(user.classification) : user.classification != null)
+            return false;
+        if (companyId != null ? !companyId.equals(user.companyId) : user.companyId != null) return false;
+        if (companyOwnerId != null ? !companyOwnerId.equals(user.companyOwnerId) : user.companyOwnerId != null)
+            return false;
+        if (costCenter != null ? !costCenter.equals(user.costCenter) : user.costCenter != null) return false;
+        if (country != null ? !country.equals(user.country) : user.country != null) return false;
+        if (countryCd != null ? !countryCd.equals(user.countryCd) : user.countryCd != null) return false;
+        if (createDate != null ? !createDate.equals(user.createDate) : user.createDate != null) return false;
+        if (createdBy != null ? !createdBy.equals(user.createdBy) : user.createdBy != null) return false;
+        if (dateChallengeRespChanged != null ? !dateChallengeRespChanged.equals(user.dateChallengeRespChanged) : user.dateChallengeRespChanged != null)
+            return false;
+        if (datePasswordChanged != null ? !datePasswordChanged.equals(user.datePasswordChanged) : user.datePasswordChanged != null)
+            return false;
+        if (delAdmin != null ? !delAdmin.equals(user.delAdmin) : user.delAdmin != null) return false;
+        if (deptCd != null ? !deptCd.equals(user.deptCd) : user.deptCd != null) return false;
+        if (deptName != null ? !deptName.equals(user.deptName) : user.deptName != null) return false;
+        if (division != null ? !division.equals(user.division) : user.division != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (emailAddresses != null ? !emailAddresses.equals(user.emailAddresses) : user.emailAddresses != null)
+            return false;
+        if (employeeId != null ? !employeeId.equals(user.employeeId) : user.employeeId != null) return false;
+        if (employeeType != null ? !employeeType.equals(user.employeeType) : user.employeeType != null) return false;
+        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
+        if (jobCode != null ? !jobCode.equals(user.jobCode) : user.jobCode != null) return false;
+        if (lastDate != null ? !lastDate.equals(user.lastDate) : user.lastDate != null) return false;
+        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
+        if (lastUpdate != null ? !lastUpdate.equals(user.lastUpdate) : user.lastUpdate != null) return false;
+        if (lastUpdatedBy != null ? !lastUpdatedBy.equals(user.lastUpdatedBy) : user.lastUpdatedBy != null)
+            return false;
+        if (locationCd != null ? !locationCd.equals(user.locationCd) : user.locationCd != null) return false;
+        if (locationName != null ? !locationName.equals(user.locationName) : user.locationName != null) return false;
+        if (maidenName != null ? !maidenName.equals(user.maidenName) : user.maidenName != null) return false;
+        if (mailCode != null ? !mailCode.equals(user.mailCode) : user.mailCode != null) return false;
+        if (managerId != null ? !managerId.equals(user.managerId) : user.managerId != null) return false;
+        if (metadataTypeId != null ? !metadataTypeId.equals(user.metadataTypeId) : user.metadataTypeId != null)
+            return false;
+        if (middleInit != null ? !middleInit.equals(user.middleInit) : user.middleInit != null) return false;
+        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
+        if (passwordTheme != null ? !passwordTheme.equals(user.passwordTheme) : user.passwordTheme != null)
+            return false;
+        if (phoneExt != null ? !phoneExt.equals(user.phoneExt) : user.phoneExt != null) return false;
+        if (phoneNbr != null ? !phoneNbr.equals(user.phoneNbr) : user.phoneNbr != null) return false;
+        if (phones != null ? !phones.equals(user.phones) : user.phones != null) return false;
+        if (postalCd != null ? !postalCd.equals(user.postalCd) : user.postalCd != null) return false;
+        if (prefix != null ? !prefix.equals(user.prefix) : user.prefix != null) return false;
+        if (principalList != null ? !principalList.equals(user.principalList) : user.principalList != null)
+            return false;
+        if (secondaryStatus != user.secondaryStatus) return false;
+        if (securityDomain != null ? !securityDomain.equals(user.securityDomain) : user.securityDomain != null)
+            return false;
+        if (sex != null ? !sex.equals(user.sex) : user.sex != null) return false;
+        if (showInSearch != null ? !showInSearch.equals(user.showInSearch) : user.showInSearch != null) return false;
+        if (startDate != null ? !startDate.equals(user.startDate) : user.startDate != null) return false;
+        if (state != null ? !state.equals(user.state) : user.state != null) return false;
+        if (status != user.status) return false;
+        if (streetDirection != null ? !streetDirection.equals(user.streetDirection) : user.streetDirection != null)
+            return false;
+        if (suffix != null ? !suffix.equals(user.suffix) : user.suffix != null) return false;
+        if (suite != null ? !suite.equals(user.suite) : user.suite != null) return false;
+        if (supervisor != null ? !supervisor.equals(user.supervisor) : user.supervisor != null) return false;
+        if (title != null ? !title.equals(user.title) : user.title != null) return false;
+        if (userAttributes != null ? !userAttributes.equals(user.userAttributes) : user.userAttributes != null)
+            return false;
+        if (userId != null ? !userId.equals(user.userId) : user.userId != null) return false;
+        if (userNotes != null ? !userNotes.equals(user.userNotes) : user.userNotes != null) return false;
+        if (userOwnerId != null ? !userOwnerId.equals(user.userOwnerId) : user.userOwnerId != null) return false;
+        if (userTypeInd != null ? !userTypeInd.equals(user.userTypeInd) : user.userTypeInd != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return userId != null ? userId.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "birthdate=" + birthdate +

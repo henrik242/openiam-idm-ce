@@ -365,27 +365,47 @@ public class Group implements java.io.Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Group)) return false;
+
+        Group group = (Group) o;
+
+        if (attributes != null ? !attributes.equals(group.attributes) : group.attributes != null) return false;
+        if (companyId != null ? !companyId.equals(group.companyId) : group.companyId != null) return false;
+        if (createDate != null ? !createDate.equals(group.createDate) : group.createDate != null) return false;
+        if (createdBy != null ? !createdBy.equals(group.createdBy) : group.createdBy != null) return false;
+        if (description != null ? !description.equals(group.description) : group.description != null) return false;
+        if (groupClass != null ? !groupClass.equals(group.groupClass) : group.groupClass != null) return false;
+        if (grpId != null ? !grpId.equals(group.grpId) : group.grpId != null) return false;
+        if (grpName != null ? !grpName.equals(group.grpName) : group.grpName != null) return false;
+        if (inheritFromParent != null ? !inheritFromParent.equals(group.inheritFromParent) : group.inheritFromParent != null)
             return false;
-        }
-        if (!(obj instanceof Group)) {
+        if (internalGroupId != null ? !internalGroupId.equals(group.internalGroupId) : group.internalGroupId != null)
             return false;
-        }
+        if (lastUpdate != null ? !lastUpdate.equals(group.lastUpdate) : group.lastUpdate != null) return false;
+        if (lastUpdatedBy != null ? !lastUpdatedBy.equals(group.lastUpdatedBy) : group.lastUpdatedBy != null)
+            return false;
+        if (metadataTypeId != null ? !metadataTypeId.equals(group.metadataTypeId) : group.metadataTypeId != null)
+            return false;
+        if (operation != group.operation) return false;
+        if (ownerId != null ? !ownerId.equals(group.ownerId) : group.ownerId != null) return false;
+        if (parentGrpId != null ? !parentGrpId.equals(group.parentGrpId) : group.parentGrpId != null) return false;
+        if (provisionMethod != null ? !provisionMethod.equals(group.provisionMethod) : group.provisionMethod != null)
+            return false;
+        if (provisionObjName != null ? !provisionObjName.equals(group.provisionObjName) : group.provisionObjName != null)
+            return false;
+        if (roles != null ? !roles.equals(group.roles) : group.roles != null) return false;
+        if (selected != null ? !selected.equals(group.selected) : group.selected != null) return false;
+        if (status != null ? !status.equals(group.status) : group.status != null) return false;
+        if (subGroup != null ? !subGroup.equals(group.subGroup) : group.subGroup != null) return false;
 
-        Group compareGroup = (Group) obj;
+        return true;
+    }
 
-        return this.companyId.equals(compareGroup.companyId) &&
-                this.description.equals(compareGroup.description) &&
-                this.groupClass.equals(compareGroup.groupClass) &&
-                this.grpId.equals(compareGroup.grpId) &&
-                this.grpName.equals(compareGroup.grpName) &&
-                this.internalGroupId.equals(compareGroup.internalGroupId) &&
-                this.metadataTypeId.equals(compareGroup.metadataTypeId);
-
+    @Override
+    public int hashCode() {
+        return grpId != null ? grpId.hashCode() : 0;
     }
 }
 

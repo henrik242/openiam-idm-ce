@@ -361,4 +361,42 @@ public class Address implements java.io.Serializable {
         this.suite = suite;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address)) return false;
+
+        Address address = (Address) o;
+
+        if (address1 != null ? !address1.equals(address.address1) : address.address1 != null) return false;
+        if (address2 != null ? !address2.equals(address.address2) : address.address2 != null) return false;
+        if (address3 != null ? !address3.equals(address.address3) : address.address3 != null) return false;
+        if (address4 != null ? !address4.equals(address.address4) : address.address4 != null) return false;
+        if (address5 != null ? !address5.equals(address.address5) : address.address5 != null) return false;
+        if (address6 != null ? !address6.equals(address.address6) : address.address6 != null) return false;
+        if (address7 != null ? !address7.equals(address.address7) : address.address7 != null) return false;
+        if (addressId != null ? !addressId.equals(address.addressId) : address.addressId != null) return false;
+        if (bldgNumber != null ? !bldgNumber.equals(address.bldgNumber) : address.bldgNumber != null) return false;
+        if (city != null ? !city.equals(address.city) : address.city != null) return false;
+        if (country != null ? !country.equals(address.country) : address.country != null) return false;
+        if (description != null ? !description.equals(address.description) : address.description != null) return false;
+        if (isActive != null ? !isActive.equals(address.isActive) : address.isActive != null) return false;
+        if (isDefault != null ? !isDefault.equals(address.isDefault) : address.isDefault != null) return false;
+        if (name != null ? !name.equals(address.name) : address.name != null) return false;
+        if (operation != address.operation) return false;
+        if (parentId != null ? !parentId.equals(address.parentId) : address.parentId != null) return false;
+        if (parentType != null ? !parentType.equals(address.parentType) : address.parentType != null) return false;
+        if (postalCd != null ? !postalCd.equals(address.postalCd) : address.postalCd != null) return false;
+        if (state != null ? !state.equals(address.state) : address.state != null) return false;
+        if (streetDirection != null ? !streetDirection.equals(address.streetDirection) : address.streetDirection != null)
+            return false;
+        if (suite != null ? !suite.equals(address.suite) : address.suite != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return addressId != null ? addressId.hashCode() : 0;
+    }
 }

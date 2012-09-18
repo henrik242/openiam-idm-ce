@@ -73,27 +73,6 @@ public class UserAttribute extends BaseObject {
         this.value = value;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Group)) {
-            return false;
-        }
-
-        UserAttribute compareAttr = (UserAttribute) obj;
-
-        return this.attrGroup.equals(compareAttr.attrGroup) &&
-                this.id.equals(compareAttr.id) &&
-                this.name.equals(compareAttr.name) &&
-                this.userId.equals(compareAttr.userId) &&
-                this.value.equals(compareAttr.value);
-
-    }
 
     public void updateUserAttribute(UserAttribute attr) {
         this.attrGroup = attr.getAttrGroup();
@@ -180,5 +159,30 @@ public class UserAttribute extends BaseObject {
                 ", attrGroup='" + attrGroup + '\'' +
                 ", operation=" + operation +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserAttribute)) return false;
+
+        UserAttribute that = (UserAttribute) o;
+
+        if (attrGroup != null ? !attrGroup.equals(that.attrGroup) : that.attrGroup != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (metadataElementId != null ? !metadataElementId.equals(that.metadataElementId) : that.metadataElementId != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (operation != that.operation) return false;
+        if (required != null ? !required.equals(that.required) : that.required != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

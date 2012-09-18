@@ -415,70 +415,46 @@ public class Role extends BaseObject implements Comparable<Role> {
 
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Role)) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
 
-        Role compareRole = (Role) obj;
-        // check for nulls
+        Role role = (Role) o;
 
-        if ((this.createDate == null && compareRole.createDate != null) ||
-                this.createDate != null && compareRole.createDate == null) {
+        if (userAssociationMethod != role.userAssociationMethod) return false;
+        if (childRoles != null ? !childRoles.equals(role.childRoles) : role.childRoles != null) return false;
+        if (createDate != null ? !createDate.equals(role.createDate) : role.createDate != null) return false;
+        if (createdBy != null ? !createdBy.equals(role.createdBy) : role.createdBy != null) return false;
+        if (description != null ? !description.equals(role.description) : role.description != null) return false;
+        if (endDate != null ? !endDate.equals(role.endDate) : role.endDate != null) return false;
+        if (groups != null ? !groups.equals(role.groups) : role.groups != null) return false;
+        if (id != null ? !id.equals(role.id) : role.id != null) return false;
+        if (inheritFromParent != null ? !inheritFromParent.equals(role.inheritFromParent) : role.inheritFromParent != null)
             return false;
-        }
+        if (internalRoleId != null ? !internalRoleId.equals(role.internalRoleId) : role.internalRoleId != null)
+            return false;
+        if (metadataTypeId != null ? !metadataTypeId.equals(role.metadataTypeId) : role.metadataTypeId != null)
+            return false;
+        if (operation != role.operation) return false;
+        if (ownerId != null ? !ownerId.equals(role.ownerId) : role.ownerId != null) return false;
+        if (parentRoleId != null ? !parentRoleId.equals(role.parentRoleId) : role.parentRoleId != null) return false;
+        if (provisionObjName != null ? !provisionObjName.equals(role.provisionObjName) : role.provisionObjName != null)
+            return false;
+        if (roleAttributes != null ? !roleAttributes.equals(role.roleAttributes) : role.roleAttributes != null)
+            return false;
+        if (roleName != null ? !roleName.equals(role.roleName) : role.roleName != null) return false;
+        if (rolePolicy != null ? !rolePolicy.equals(role.rolePolicy) : role.rolePolicy != null) return false;
+        if (selected != null ? !selected.equals(role.selected) : role.selected != null) return false;
+        if (startDate != null ? !startDate.equals(role.startDate) : role.startDate != null) return false;
+        if (status != null ? !status.equals(role.status) : role.status != null) return false;
 
-        if ((this.endDate == null && compareRole.endDate != null) ||
-                this.endDate != null && compareRole.endDate == null) {
-            return false;
-        }
-
-        if ((this.description == null && compareRole.description != null) ||
-                this.description != null && compareRole.description == null) {
-            return false;
-        }
-
-        if ((this.internalRoleId == null && compareRole.internalRoleId != null) ||
-                this.internalRoleId != null && compareRole.internalRoleId == null) {
-            return false;
-        }
-
-        if ((this.inheritFromParent == null && compareRole.inheritFromParent != null) ||
-                this.inheritFromParent != null && compareRole.inheritFromParent == null) {
-            return false;
-        }
-
-        if ((this.metadataTypeId == null && compareRole.metadataTypeId != null) ||
-                this.metadataTypeId != null && compareRole.metadataTypeId == null) {
-            return false;
-        }
-
-        if ((this.ownerId == null && compareRole.ownerId != null) ||
-                this.ownerId != null && compareRole.ownerId == null) {
-            return false;
-        }
-        if ((this.status == null && compareRole.status != null) ||
-                this.status != null && compareRole.status == null) {
-            return false;
-        }
-
-        return (this.description == compareRole.description || this.description.equals(compareRole.description)) &&
-                (this.id.equals(compareRole.id)) &&
-                (this.inheritFromParent == compareRole.inheritFromParent || this.inheritFromParent.equals(compareRole.inheritFromParent)) &&
-                (this.internalRoleId == compareRole.internalRoleId || this.internalRoleId.equals(compareRole.internalRoleId)) &&
-                (this.metadataTypeId == compareRole.metadataTypeId || this.metadataTypeId.equals(compareRole.metadataTypeId)) &&
-                (this.ownerId == compareRole.ownerId || this.ownerId.equals(compareRole.ownerId)) &&
-                (this.status == compareRole.status || this.status.equals(compareRole.status)) &&
-                (this.startDate == compareRole.startDate || this.startDate.equals(compareRole.startDate)) &&
-                (this.endDate == compareRole.endDate || this.endDate.equals(compareRole.endDate));
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 
     public Set<RolePolicy> getRolePolicy() {
         return rolePolicy;

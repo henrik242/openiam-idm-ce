@@ -63,25 +63,28 @@ public class LoginId implements java.io.Serializable {
         this.managedSysId = managedSysId;
     }
 
-    public boolean equals(Object other) {
-        if ((this == other)) return true;
-        if ((other == null)) return false;
-        if (!(other instanceof LoginId)) return false;
-        LoginId castOther = (LoginId) other;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LoginId)) return false;
 
-        return ((this.getDomainId() == castOther.getDomainId()) || (this.getDomainId() != null && castOther.getDomainId() != null && this.getDomainId().equals(castOther.getDomainId())))
-                && ((this.getLogin() == castOther.getLogin()) || (this.getLogin() != null && castOther.getLogin() != null && this.getLogin().equals(castOther.getLogin())));
+        LoginId loginId = (LoginId) o;
+
+        if (domainId != null ? !domainId.equals(loginId.domainId) : loginId.domainId != null) return false;
+        if (login != null ? !login.equals(loginId.login) : loginId.login != null) return false;
+        if (managedSysId != null ? !managedSysId.equals(loginId.managedSysId) : loginId.managedSysId != null)
+            return false;
+
+        return true;
     }
 
+    @Override
     public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + (getDomainId() == null ? 0 : this.getDomainId().hashCode());
-        result = 37 * result + (getLogin() == null ? 0 : this.getLogin().hashCode());
+        int result = domainId != null ? domainId.hashCode() : 0;
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (managedSysId != null ? managedSysId.hashCode() : 0);
         return result;
     }
-
-
 }
 
 

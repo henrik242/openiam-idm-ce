@@ -318,4 +318,52 @@ public class Resource extends BaseObject {
     public void setEntitlements(Set<ResourcePrivilege> entitlements) {
         this.entitlements = entitlements;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Resource)) return false;
+
+        Resource resource = (Resource) o;
+
+        if (URL != null ? !URL.equals(resource.URL) : resource.URL != null) return false;
+        if (branchId != null ? !branchId.equals(resource.branchId) : resource.branchId != null) return false;
+        if (categoryId != null ? !categoryId.equals(resource.categoryId) : resource.categoryId != null) return false;
+        if (childResources != null ? !childResources.equals(resource.childResources) : resource.childResources != null)
+            return false;
+        if (description != null ? !description.equals(resource.description) : resource.description != null)
+            return false;
+        if (displayOrder != null ? !displayOrder.equals(resource.displayOrder) : resource.displayOrder != null)
+            return false;
+        if (entitlements != null ? !entitlements.equals(resource.entitlements) : resource.entitlements != null)
+            return false;
+        if (managedSysId != null ? !managedSysId.equals(resource.managedSysId) : resource.managedSysId != null)
+            return false;
+        if (name != null ? !name.equals(resource.name) : resource.name != null) return false;
+        if (nodeLevel != null ? !nodeLevel.equals(resource.nodeLevel) : resource.nodeLevel != null) return false;
+        if (resOwnerGroupId != null ? !resOwnerGroupId.equals(resource.resOwnerGroupId) : resource.resOwnerGroupId != null)
+            return false;
+        if (resOwnerUserId != null ? !resOwnerUserId.equals(resource.resOwnerUserId) : resource.resOwnerUserId != null)
+            return false;
+        if (resourceGroups != null ? !resourceGroups.equals(resource.resourceGroups) : resource.resourceGroups != null)
+            return false;
+        if (resourceId != null ? !resourceId.equals(resource.resourceId) : resource.resourceId != null) return false;
+        if (resourceParent != null ? !resourceParent.equals(resource.resourceParent) : resource.resourceParent != null)
+            return false;
+        if (resourceProps != null ? !resourceProps.equals(resource.resourceProps) : resource.resourceProps != null)
+            return false;
+        if (resourceRoles != null ? !resourceRoles.equals(resource.resourceRoles) : resource.resourceRoles != null)
+            return false;
+        if (resourceType != null ? !resourceType.equals(resource.resourceType) : resource.resourceType != null)
+            return false;
+        if (sensitiveApp != null ? !sensitiveApp.equals(resource.sensitiveApp) : resource.sensitiveApp != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return resourceId != null ? resourceId.hashCode() : 0;
+    }
 }

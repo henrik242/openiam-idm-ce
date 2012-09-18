@@ -199,72 +199,7 @@ public class Phone implements java.io.Serializable {
         this.isActive = isActive;
     }
 
-    /*	public boolean equals(Object adr) {
 
-            Phone newAdr = (Phone)adr;
-
-            if (this == newAdr)
-                return true;
-            if (newAdr == null || newAdr.getClass() != this.getClass())
-                return false;
-
-            return ( (phoneId == newAdr.getPhoneId() ||
-                     ( phoneId != null && phoneId.equals(newAdr.getPhoneId()))) &&
-
-                     (this.areaCd == newAdr.getAreaCd() ||
-                     ( areaCd != null && areaCd.equals(newAdr.getAreaCd()))) &&
-
-                     (this.countryCd == newAdr.getCountryCd() ||
-                     ( countryCd != null && countryCd.equals(newAdr.getCountryCd()))) &&
-
-                     (this.description == newAdr.getDescription() ||
-                     ( description != null && description.equals(newAdr.getDescription()))) &&
-
-                     (this.isDefault.intValue() == newAdr.isDefault.intValue() )  &&
-
-                     (this.parentId == newAdr.getParentId() ||
-                       ( parentId != null && parentId.equals(newAdr.getParentId()))) &&
-
-                     (this.parentType == newAdr.getParentType() ||
-                    ( parentType != null && parentType.equals(newAdr.getParentType()))) &&
-
-                    (this.phoneNbr == newAdr.getPhoneNbr() ||
-                    ( phoneNbr != null && phoneNbr.equals(newAdr.getPhoneNbr()))) &&
-
-                    (this.phoneExt == newAdr.getPhoneExt() ||
-                    ( phoneExt != null && phoneExt.equals(newAdr.getPhoneExt()))) 		) ;
-
-        }
-
-
-
-        public int hashCode() {
-            int result = 17;
-
-            result = 37
-                    * result
-                    + (this.getPhoneId() == null ? 0 : this.getPhoneId().hashCode());
-            result = 37 * result
-                    + (getAreaCd() == null ? 0 : this.getAreaCd().hashCode());
-            result = 37 * result
-                    + (getCountryCd() == null ? 0 : this.getCountryCd().hashCode());
-            result = 37 * result
-                    + (getPhoneExt() == null ? 0 : this.getPhoneExt().hashCode());
-            result = 37 * result
-                    + (getPhoneNbr() == null ? 0 : this.getPhoneNbr().hashCode());
-            result = 37 * result
-                    + (getDescription() == null ? 0 : this.getDescription().hashCode());
-            result = 37 * result
-                    + (getIsDefault() == null ? 0 : this.getIsDefault().hashCode());
-            result = 37 * result
-                    + (getParentId() == null ? 0 : this.getParentId().hashCode());
-            result = 37 * result
-                    + (getParentType() == null ? 0 : getParentType().hashCode());
-
-            return result;
-
-        }
-    */
     public String getName() {
         return name;
     }
@@ -287,6 +222,35 @@ public class Phone implements java.io.Serializable {
 
     public void setOperation(AttributeOperationEnum operation) {
         this.operation = operation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Phone)) return false;
+
+        Phone phone = (Phone) o;
+
+        if (areaCd != null ? !areaCd.equals(phone.areaCd) : phone.areaCd != null) return false;
+        if (countryCd != null ? !countryCd.equals(phone.countryCd) : phone.countryCd != null) return false;
+        if (description != null ? !description.equals(phone.description) : phone.description != null) return false;
+        if (isActive != null ? !isActive.equals(phone.isActive) : phone.isActive != null) return false;
+        if (isDefault != null ? !isDefault.equals(phone.isDefault) : phone.isDefault != null) return false;
+        if (name != null ? !name.equals(phone.name) : phone.name != null) return false;
+        if (operation != phone.operation) return false;
+        if (parentId != null ? !parentId.equals(phone.parentId) : phone.parentId != null) return false;
+        if (parentType != null ? !parentType.equals(phone.parentType) : phone.parentType != null) return false;
+        if (phoneExt != null ? !phoneExt.equals(phone.phoneExt) : phone.phoneExt != null) return false;
+        if (phoneId != null ? !phoneId.equals(phone.phoneId) : phone.phoneId != null) return false;
+        if (phoneNbr != null ? !phoneNbr.equals(phone.phoneNbr) : phone.phoneNbr != null) return false;
+        if (phoneType != null ? !phoneType.equals(phone.phoneType) : phone.phoneType != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return parentId != null ? parentId.hashCode() : 0;
     }
 
     @Override

@@ -414,5 +414,42 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
         return getOrganizationName().compareTo(o.getOrganizationName());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organization)) return false;
 
+        Organization that = (Organization) o;
+
+        if (abbreviation != null ? !abbreviation.equals(that.abbreviation) : that.abbreviation != null) return false;
+        if (alias != null ? !alias.equals(that.alias) : that.alias != null) return false;
+        if (attributes != null ? !attributes.equals(that.attributes) : that.attributes != null) return false;
+        if (classification != that.classification) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (domainName != null ? !domainName.equals(that.domainName) : that.domainName != null) return false;
+        if (internalOrgId != null ? !internalOrgId.equals(that.internalOrgId) : that.internalOrgId != null)
+            return false;
+        if (ldapStr != null ? !ldapStr.equals(that.ldapStr) : that.ldapStr != null) return false;
+        if (lstUpdate != null ? !lstUpdate.equals(that.lstUpdate) : that.lstUpdate != null) return false;
+        if (lstUpdatedBy != null ? !lstUpdatedBy.equals(that.lstUpdatedBy) : that.lstUpdatedBy != null) return false;
+        if (metadataTypeId != null ? !metadataTypeId.equals(that.metadataTypeId) : that.metadataTypeId != null)
+            return false;
+        if (operation != that.operation) return false;
+        if (orgId != null ? !orgId.equals(that.orgId) : that.orgId != null) return false;
+        if (organizationName != null ? !organizationName.equals(that.organizationName) : that.organizationName != null)
+            return false;
+        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
+        if (selected != null ? !selected.equals(that.selected) : that.selected != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (symbol != null ? !symbol.equals(that.symbol) : that.symbol != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return orgId != null ? orgId.hashCode() : 0;
+    }
 }

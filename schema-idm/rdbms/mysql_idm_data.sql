@@ -24,9 +24,7 @@ insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('depart
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('MANAGED_SYS','Managed System', 0);
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('SYS_ACTION','System Actions', 0);
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('AUTH_REPO','Authentication Repository', 0);
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('WEBSERVICE','Web Service', 0);
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('WEBSERVICE_OP','Web Service Operation', 0);
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('NO-PROVISION-APP','Un-Provisionable Apps', 0);
+
 
 
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('401','MANAGED_SYS','SUBMIT_USER_TO_CONNECTOR');
@@ -48,10 +46,6 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('418'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('419','AUTH_REPO','MANAGED_SYS_ID');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('420','AUTH_REPO','DN_ATTRIBUTE');
 
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('430','WEBSERVICE','END_POINT');
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('440','WEBSERVICE_OP','OPERATION_NAME');
-
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('450','NO-PROVISION-APP','URL');
 
 
 insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('ORG_TYPE', 'ROOT', 'ORGANIZATION Types',0);
@@ -91,65 +85,6 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('150'
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('URL','URL');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('160','URL', 'Display Name');
 
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION,SYNC_MANAGED_SYS) values('LdapOrgPerson','LdapOrgPerson User type',1);
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION,SYNC_MANAGED_SYS) values('ADUser','AD User type',1);
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION,SYNC_MANAGED_SYS) values('ADGroup','AD User type',1);
-
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('300','LdapOrgPerson', 'name','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('301','LdapOrgPerson', 'distinguishedName','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('302','LdapOrgPerson', 'objectclass','',1,1);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('303','LdapOrgPerson', 'aliasedObjectName','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('304','LdapOrgPerson', 'cn','',0,1);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('305','LdapOrgPerson', 'sn','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('306','LdapOrgPerson', 'serialNumber','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('307','LdapOrgPerson', 'c','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('308','LdapOrgPerson', 'l','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('309','LdapOrgPerson', 'st','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('310','LdapOrgPerson', 'street','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('311','LdapOrgPerson', 'o','',0,1);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('312','LdapOrgPerson', 'ou','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('313','LdapOrgPerson', 'title','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('314','LdapOrgPerson', 'description','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('341','LdapOrgPerson', 'givenName','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('342','LdapOrgPerson', 'initials','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('348','LdapOrgPerson', 'uid','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('349','LdapOrgPerson', 'mail','',0,0);
-
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('315','LdapOrgPerson', 'businessCategory','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('316','LdapOrgPerson', 'postalAddress','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('317','LdapOrgPerson', 'postalCode','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('318','LdapOrgPerson', 'postOfficeBox','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('319','LdapOrgPerson', 'physicalDeliveryOfficeName','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('320','LdapOrgPerson', 'telephoneNumber','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('321','LdapOrgPerson', 'telexNumber','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('322','LdapOrgPerson', 'teletexTerminalIdentifier','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('323','LdapOrgPerson', 'facsimileTelephoneNumber','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('324','LdapOrgPerson', 'x121Address','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('325','LdapOrgPerson', 'internationaliSDNNumber','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('326','LdapOrgPerson', 'registeredAddress','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('327','LdapOrgPerson', 'destinationIndicator','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('328','LdapOrgPerson', 'preferredDeliveryMethod','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('329','LdapOrgPerson', 'presentationAddress','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('330','LdapOrgPerson', 'supportedApplicationContext','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('331','LdapOrgPerson', 'member','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('332','LdapOrgPerson', 'owner','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('333','LdapOrgPerson', 'roleOccupant','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('334','LdapOrgPerson', 'seeAlso','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('335','LdapOrgPerson', 'userPassword','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('336','LdapOrgPerson', 'userCertificate','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('337','LdapOrgPerson', 'cACertificate','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('338','LdapOrgPerson', 'authorityRevocationList','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('339','LdapOrgPerson', 'certificateRevocationList','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('340','LdapOrgPerson', 'crossCertificatePair','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('343','LdapOrgPerson', 'generationQualifier','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('344','LdapOrgPerson', 'x500UniqueIdentifier','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('346','LdapOrgPerson', 'uniqueMember','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('347','LdapOrgPerson', 'houseIdentifier','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('350','LdapOrgPerson', 'ref','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('351','LdapOrgPerson', 'referral','',0,0);
-insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name,DESCRIPTION,MULTI_VALUE,REQUIRED) values ('352','LdapOrgPerson', 'krbName','',0,0);
-
-
 
 
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('AD_Connector','Active Directory Connector');
@@ -177,7 +112,8 @@ insert into CATEGORY(CATEGORY_ID, PARENT_ID, CATEGORY_NAME, SHOW_LIST) VALUES('A
 insert into CATEGORY(CATEGORY_ID, PARENT_ID, CATEGORY_NAME, SHOW_LIST) VALUES('WebSite','', 'ACL',0);
 insert into CATEGORY(CATEGORY_ID, PARENT_ID, CATEGORY_NAME, SHOW_LIST) VALUES('Application','', 'ACL',0);
 insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('USER_TYPE', 'ROOT', 'User Types',0);
-insert into CATEGORY (category_id, parent_id, category_name, show_list,  DISPLAY_ORDER) values ('MANAGED_SYS_TYPE', 'ROOT', 'Managed System Types',0,0);
+insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('RESOURCE_TYPE', 'ROOT', 'Resource Types',0);
+
 
 insert into CATEGORY (category_id, parent_id, category_name, show_list, DISPLAY_ORDER) values ('CONNECTOR_TYPE', 'ROOT', 'Provisioning Connectors',0,0);
 
@@ -197,9 +133,10 @@ insert into CATEGORY_TYPE (category_id, type_ID) values('ACL','DIRECTORY');
 insert into CATEGORY_TYPE (category_id, type_id) values('ACL','FILE');
 insert into CATEGORY_TYPE (category_id, type_id) values('ACL','URL');
 
-insert into CATEGORY_TYPE (category_id, type_ID) values('MANAGED_SYS_TYPE','LdapOrgPerson');
-insert into CATEGORY_TYPE (category_id, type_ID) values('MANAGED_SYS_TYPE','ADUser');
-insert into CATEGORY_TYPE (category_id, type_ID) values('MANAGED_SYS_TYPE','ADGroup');
+insert into CATEGORY_TYPE (category_id, type_ID) values('RESOURCE_TYPE','AUTH_REPO');
+insert into CATEGORY_TYPE (category_id, type_ID) values('RESOURCE_TYPE','MANAGED_SYS');
+insert into CATEGORY_TYPE (category_id, type_ID) values('RESOURCE_TYPE','SYS_ACTION');
+
 
 
 update CATEGORY
@@ -776,6 +713,7 @@ insert into PROVISION_CONNECTOR(CONNECTOR_ID, NAME, METADATA_TYPE_ID, SERVICE_UR
 
 
 INSERT INTO MANAGED_SYS (MANAGED_SYS_ID, NAME, DESCRIPTION, STATUS, CONNECTOR_ID, DOMAIN_ID, HOST_URL, PORT, COMM_PROTOCOL, RESOURCE_ID) VALUES('0','OPENIAM', 'Primary IDENTITY', 'ACTIVE', null, 'USR_SEC_DOMAIN', null, null, null, '0'   );
+INSERT INTO MANAGED_SYS (MANAGED_SYS_ID, NAME, DESCRIPTION, STATUS, CONNECTOR_ID, DOMAIN_ID, HOST_URL, PORT, COMM_PROTOCOL, RESOURCE_ID) VALUES('-1','OPENIAM', 'UN-MANAGED SYSTEM', 'ACTIVE', null, 'USR_SEC_DOMAIN', null, null, null, '0'   );
 INSERT INTO MANAGED_SYS (MANAGED_SYS_ID, NAME, DESCRIPTION, STATUS, CONNECTOR_ID, DOMAIN_ID, HOST_URL, PORT, COMM_PROTOCOL, RESOURCE_ID) VALUES('101','LDAP', 'Primary Directory', 'ACTIVE', '51', 'USR_SEC_DOMAIN', 'ldap://','389', 'CLEAR', '101'   );
 INSERT INTO MANAGED_SYS (MANAGED_SYS_ID, NAME, DESCRIPTION, STATUS, CONNECTOR_ID, DOMAIN_ID, HOST_URL, PORT, COMM_PROTOCOL, RESOURCE_ID) VALUES('103','Google Apps Connector', 'Google Apps Connector', 'ACTIVE', '54', 'USR_SEC_DOMAIN', '', null,'CLEAR', '103'   );
 INSERT INTO MANAGED_SYS (MANAGED_SYS_ID, NAME, DESCRIPTION, STATUS, CONNECTOR_ID, DOMAIN_ID, HOST_URL, PORT, COMM_PROTOCOL, RESOURCE_ID) VALUES('104','Test_Script_CONNECTOR', 'Test Script CONNECTOR', 'ACTIVE', '62', 'USR_SEC_DOMAIN', '', null,'CLEAR', '104'   );

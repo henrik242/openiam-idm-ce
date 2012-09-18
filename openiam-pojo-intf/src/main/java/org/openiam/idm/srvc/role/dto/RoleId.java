@@ -92,7 +92,7 @@ public class RoleId implements java.io.Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof RoleId)) return false;
 
         RoleId roleId1 = (RoleId) o;
 

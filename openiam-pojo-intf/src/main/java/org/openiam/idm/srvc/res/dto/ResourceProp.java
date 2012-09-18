@@ -103,4 +103,26 @@ public class ResourceProp implements java.io.Serializable, Comparable<ResourcePr
         }
         return getName().compareTo(o.getName());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResourceProp)) return false;
+
+        ResourceProp that = (ResourceProp) o;
+
+        if (metadataId != null ? !metadataId.equals(that.metadataId) : that.metadataId != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (propValue != null ? !propValue.equals(that.propValue) : that.propValue != null) return false;
+        if (resourceId != null ? !resourceId.equals(that.resourceId) : that.resourceId != null) return false;
+        if (resourcePropId != null ? !resourcePropId.equals(that.resourcePropId) : that.resourcePropId != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return resourcePropId != null ? resourcePropId.hashCode() : 0;
+    }
 }

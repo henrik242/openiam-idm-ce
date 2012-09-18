@@ -160,58 +160,7 @@ public class EmailAddress implements java.io.Serializable {
     }
 
 
-    public boolean equals(Object adr) {
 
-        EmailAddress newAdr = (EmailAddress) adr;
-
-        if (this == newAdr)
-            return true;
-        if (newAdr == null || newAdr.getClass() != this.getClass())
-            return false;
-
-        return ((emailId == newAdr.getEmailId() ||
-                (emailId != null && emailId.equals(newAdr.getEmailId()))) &&
-
-                (this.description == newAdr.getDescription() ||
-                        (description != null && description.equals(newAdr.getDescription()))) &&
-
-                (this.isDefault.intValue() == newAdr.isDefault.intValue()) &&
-
-                (this.parentId == newAdr.getParentId() ||
-                        (parentId != null && parentId.equals(newAdr.getParentId()))) &&
-
-                (this.parentType == newAdr.getParentType() ||
-                        (parentType != null && parentType.equals(newAdr.getParentType()))) &&
-
-
-                (this.emailAddress == newAdr.getEmailAddress() ||
-                        (emailAddress != null && emailAddress.equals(newAdr.getEmailAddress()))));
-
-
-    }
-
-
-    /*	public int hashCode() {
-            int result = 17;
-
-            result = 37
-                    * result
-                    + (this.getDescription() == null ? 0 : this.getDescription().hashCode());
-            result = 37 * result
-                    + (getEmailAddress() == null ? 0 : this.getEmailAddress().hashCode());
-            result = 37 * result
-                    + (getEmailId() == null ? 0 : this.getEmailId().hashCode());
-            result = 37 * result
-                    + (getIsDefault() == null ? 0 : this.getIsDefault().hashCode());
-            result = 37 * result
-                    + (getParentId() == null ? 0 : this.getParentId().hashCode());
-            result = 37 * result
-                    + (getParentType() == null ? 0 : getParentType().hashCode());
-
-            return result;
-
-        }
-    */
     public String getName() {
         return name;
     }
@@ -241,5 +190,30 @@ public class EmailAddress implements java.io.Serializable {
                 ", parentType='" + parentType + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EmailAddress)) return false;
+
+        EmailAddress that = (EmailAddress) o;
+
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (emailAddress != null ? !emailAddress.equals(that.emailAddress) : that.emailAddress != null) return false;
+        if (emailId != null ? !emailId.equals(that.emailId) : that.emailId != null) return false;
+        if (isActive != null ? !isActive.equals(that.isActive) : that.isActive != null) return false;
+        if (isDefault != null ? !isDefault.equals(that.isDefault) : that.isDefault != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (operation != that.operation) return false;
+        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
+        if (parentType != null ? !parentType.equals(that.parentType) : that.parentType != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return emailId != null ? emailId.hashCode() : 0;
     }
 }
