@@ -1553,7 +1553,8 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         log.debug("- role list -> " + activeRoleList);
         log.debug("- Primary Identity : " + primaryIdentity);
 
-        pUser.setMemberOfRoles(activeRoleList);
+        // SAS - Do not change the list of roles
+        //pUser.setMemberOfRoles(activeRoleList);
         //  bindingMap.put("user", origUser);
 
         bindingMap.put("user", pUser);

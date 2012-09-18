@@ -197,17 +197,31 @@ public class UserOrgController extends CancellableFormController {
         if ( newOrgList != null) {
             for (Organization o : newOrgList) {
                 if (o.getSelected()) {
+                    o.setOperation(AttributeOperationEnum.ADD);
                     if (primaryAffiliation != null && o.getOrgId().equalsIgnoreCase(primaryAffiliation))  {
                         // dont save the primary affiliation in this list. We have already have org associated with the user
                         continue;
                         
                     }else {
+                        o.setOperation(AttributeOperationEnum.ADD);
                         provOrgList.add(o);
                     }
 
                 }
             }
 
+        }
+        // figure out which affiliations should be removed from the list
+        if (currentOrgList != null) {
+
+            log.info("currentOrgList is not null");
+            for (Organization currentOrg : currentOrgList) {
+                 if (!isCurrentOrgInList(currentOrg,provOrgList)) {
+                     currentOrg.setOperation(AttributeOperationEnum.DELETE);
+                     provOrgList.add(currentOrg);
+
+                 }
+            }
         }
 
 

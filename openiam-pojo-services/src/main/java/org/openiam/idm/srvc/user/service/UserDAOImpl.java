@@ -207,6 +207,17 @@ public class UserDAOImpl implements UserDAO {
         boolean startDate = false;
         boolean lastDate = false;
 
+        boolean zipCode = false;
+        boolean dateOfBirth = false;
+
+        boolean bOrgIdList = false;
+        boolean bDeptIdList = false;
+        boolean bDivIdList = false;
+        boolean bAttrIdList = false;
+
+
+        List<String> nameList = new ArrayList<String>() ;
+        List<String> valueList = new ArrayList<String>() ;
 
         String select = " select /*+ INDEX(IDX_USER_FIRSTNAME_UPPER) INDEX(IDX_USER_LASTNAME_UPPER) INDEX(IDX_LOGIN_PRINCIPAL_UPPER) INDEX(IDX_UA_NAME_UPPER)  */ " +
                 " DISTINCT u.USER_ID, u.TYPE_ID, " +
@@ -314,13 +325,6 @@ public class UserDAOImpl implements UserDAO {
         }
 
 
-        if (search.getCreateDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.CREATE_DATE <= :createDate ");
-            createDate = true;
-        }
 
         if (search.getStartDate() != null) {
             if (where.length() > 0) {
@@ -337,6 +341,22 @@ public class UserDAOImpl implements UserDAO {
             lastDate = true;
         }
 
+        if (search.getDateOfBirth() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" u.BIRTHDATE = :dateOfBirth ");
+            dateOfBirth = true;
+        }
+
+
+        if (search.getZipCode() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" u.POSTAL_CD = :zipCode ");
+            zipCode = true;
+        }
 
         if (search.getDeptCd() != null) {
             if (where.length() > 0) {
@@ -413,6 +433,34 @@ public class UserDAOImpl implements UserDAO {
             where.append(" urv.ROLE_ID in (:roleList) ");
             where.append(" and urv.SERVICE_ID = :domainId ");
             roleId = true;
+        }
+
+        /* org list */
+        if (!search.getOrgIdList().isEmpty()) {
+            if (where.length() > 0 ) {
+                where.append(" and ");
+            }
+            where.append(" u.COMPANY_ID in (:orgList)  ");
+            bOrgIdList = true;
+        }
+
+        if (!search.getDeptIdList().isEmpty()) {
+            if (where.length() > 0 ) {
+                where.append(" and ");
+            }
+            where.append(" u.DEPT_CD in (:deptList)  ");
+            bDeptIdList = true;
+        }
+
+        /* division list  */
+
+
+        if (!search.getDivisionIdList().isEmpty()) {
+            if (where.length() > 0 ) {
+                where.append(" and ");
+            }
+            where.append(" u.DIVISION in (:divisionList)  ");
+            bDivIdList = true;
         }
 
         /* Login  */
@@ -509,6 +557,13 @@ public class UserDAOImpl implements UserDAO {
         if (lastDate) {
             qry.setDate("lastDate", search.getLastDate());
         }
+        if (dateOfBirth) {
+            qry.setDate("dateOfBirth", search.getDateOfBirth());
+        }
+
+        if (zipCode) {
+            qry.setString("zipCode", search.getZipCode());
+        }
 
 
         if (deptCd) {
@@ -571,6 +626,27 @@ public class UserDAOImpl implements UserDAO {
         if (userTypeInd) {
             qry.setString("userTypeInd", search.getUserTypeInd());
         }
+
+        if (bOrgIdList) {
+            qry.setParameterList("orgList", search.getOrgIdList());
+
+        }
+        if (bDeptIdList) {
+            qry.setParameterList("deptList", search.getDeptIdList() );
+
+        }
+
+        if (bDivIdList) {
+            qry.setParameterList("divisionList", search.getDivisionIdList());
+
+        }
+
+        if (bAttrIdList)  {
+            qry.setParameterList("nameList", nameList);
+            qry.setParameterList("valueList", valueList);
+
+        }
+
 
         if (search.getMaxResultSize() != null && search.getMaxResultSize().intValue() > 0) {
             qry.setFetchSize(search.getMaxResultSize().intValue());
