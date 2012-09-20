@@ -5,6 +5,8 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
+import org.openiam.base.ws.ResponseCode;
+import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.role.service.RoleDataService;
@@ -28,14 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractSrcAdapter implements SourceAdapter {
 
-    /*
-     * The flags for the running tasks are handled by this Thread-Safe Set.
-     * It stores the taskIds of the currently executing tasks.
-     * This is faster and as reliable as storing the flags in the database,
-     * if the tasks are only launched from ONE host in a clustered environment.
-     * It is unique for each class-loader, which means unique per war-deployment.
-     */
-    protected static Set<String> runningTask = Collections.newSetFromMap(new ConcurrentHashMap());
+
 
     public static ApplicationContext ac;
     private static final Log log = LogFactory.getLog(AbstractSrcAdapter.class);
@@ -55,6 +50,8 @@ public abstract class AbstractSrcAdapter implements SourceAdapter {
 
 
     public abstract SyncResponse startSynch(SynchConfig config) ;
+
+
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ac = applicationContext;

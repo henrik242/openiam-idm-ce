@@ -24,16 +24,11 @@ package org.openiam.provision.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.context.MuleContextAware;
 import org.mule.module.client.MuleClient;
-import org.mule.util.StringUtils;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
-import org.openiam.base.SysConfiguration;
 import org.openiam.base.id.UUIDGen;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
@@ -42,42 +37,29 @@ import org.openiam.connector.type.*;
 import org.openiam.exception.EncryptionException;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
-import org.openiam.idm.srvc.audit.service.AuditHelper;
-import org.openiam.idm.srvc.audit.service.IdmAuditLogDataService;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
-import org.openiam.idm.srvc.auth.login.LoginDAO;
-import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.grp.service.GroupDataService;
 import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
-import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
-import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.dto.NotificationParam;
 import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.pswd.service.PasswordGenerator;
-import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
-import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
-import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.dto.RoleId;
-import org.openiam.idm.srvc.role.service.RoleDataService;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
-import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.provision.dto.AccountLockEnum;
 import org.openiam.provision.dto.PasswordSync;
 import org.openiam.provision.dto.ProvisionUser;
@@ -90,18 +72,14 @@ import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.provision.type.ExtensibleUser;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
-import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.ResponseType;
 import org.openiam.spml2.msg.password.SetPasswordRequestType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.*;
 
@@ -115,59 +93,9 @@ import java.util.*;
         targetNamespace = "http://www.openiam.org/service/provision",
         portName = "DefaultProvisionControllerServicePort",
         serviceName = "ProvisioningService")
-public class DefaultProvisioningService implements MuleContextAware, ProvisionService, ApplicationContextAware {
+public class DefaultProvisioningService extends AbstractProvisioningService implements MuleContextAware, ProvisionService, ApplicationContextAware {
 
     private static final Log log = LogFactory.getLog(DefaultProvisioningService.class);
-
-    // used to inject the application context into the groovy scripts
-    public static ApplicationContext ac;
-
-    private UserDataService userMgr;
-    private LoginDataService loginManager;
-    private LoginDAO loginDao;
-
-    private IdmAuditLogDataService auditDataService;
-    private ManagedSystemDataService managedSysService;
-    private RoleDataService roleDataService;
-    private GroupDataService groupManager;
-    private String connectorWsdl;
-    private String defaultProvisioningModel;
-    private SysConfiguration sysConfiguration;
-    private ResourceDataService resourceDataService;
-    private String scriptEngine;
-    private OrganizationDataService orgManager;
-    private PasswordService passwordDS;
-    //private AddUser addUser;
-    //private ModifyUser modifyUser;
-    private AuditHelper auditHelper;
-    //private AttributeListBuilder attrListBuilder;
-    private ConnectorAdapter connectorAdapter;
-    private RemoteConnectorAdapter remoteConnectorAdapter;
-    //private DisableUserDelegate disableUser;
-    private ConnectorDataService connectorService;
-    private ValidateConnectionConfig validateConnection;
-    protected PasswordHistoryDAO passwordHistoryDao;
-    private String preProcessor;
-    private String postProcessor;
-    private DeprovisionSelectedResourceHelper deprovisionSelectedResource;
-
-    MuleContext muleContext;
-
-    private static final String MATCH_PARAM = "matchParam";
-    private static final String TARGET_SYSTEM_IDENTITY_STATUS = "targetSystemIdentityStatus";
-    private static final String TARGET_SYSTEM_IDENTITY = "targetSystemIdentity";
-    private static final String TARGET_SYSTEM_ATTRIBUTES = "targetSystemAttributes";
-
-    private static final String TARGET_SYS_RES_ID = "resourceId";
-    private static final String TARGET_SYS_MANAGED_SYS_ID = "managedSysId";
-    private static final String TARGET_SYS_SECURITY_DOMAIN = "securityDomain";
-
-    private static final String IDENTITY_NEW = "NEW";
-    private static final String IDENTITY_EXIST = "EXIST";
-
-    final static private ResourceBundle res = ResourceBundle.getBundle("datasource");
-    final static private String serviceHost = res.getString("openiam.service_base");
-    final static private String serviceContext = res.getString("openiam.idm.ws.path");
 
 
     public Response testConnectionConfig(String managedSysId) {
@@ -232,7 +160,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
         // define rules that need to be executed before a addUser processor is invoked.
         ProvisionServicePreProcessor addPreProcessScript = createProvPreProcessScript(preProcessor);
-        if (addPreProcessScript != null && !user.isSkipPreprocessor() ) {
+        if (addPreProcessScript != null && !user.isSkipPreprocessor()) {
             addPreProcessScript.setMuleContext(muleContext);
             if (executeProvisionPreProcess(addPreProcessScript, bindingMap, user, null, "ADD") != ProvisioningConstants.SUCCESS) {
                 resp.setStatus(ResponseStatus.FAILURE);
@@ -878,7 +806,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         }
 
         ProvisionServicePostProcessor deletePostProcessScript = createProvPostProcessScript(postProcessor);
-        if (deletePostProcessScript != null && !user.isSkipPostProcessor() ) {
+        if (deletePostProcessScript != null && !user.isSkipPostProcessor()) {
             deletePostProcessScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(deletePostProcessScript, bindingMap, pUser, null, "DELETE") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
@@ -1139,7 +1067,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         }
 
         ProvisionServicePostProcessor deletePostProcessScript = createProvPostProcessScript(postProcessor);
-        if (deletePostProcessScript != null && !pUser.isSkipPostProcessor() ) {
+        if (deletePostProcessScript != null && !pUser.isSkipPostProcessor()) {
             deletePostProcessScript.setMuleContext(muleContext);
             if (executeProvisionPostProcess(deletePostProcessScript, bindingMap, pUser, null, "DELETE") != ProvisioningConstants.SUCCESS) {
                 response.setStatus(ResponseStatus.FAILURE);
@@ -1155,9 +1083,9 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
     @Override
-    public ProvisionUserResponse deprovisionSelectedResources( String userId, String requestorUserId, List<String> resourceList) {
+    public ProvisionUserResponse deprovisionSelectedResources(String userId, String requestorUserId, List<String> resourceList) {
         deprovisionSelectedResource.setMuleContext(muleContext);
-        return deprovisionSelectedResource.deprovisionSelectedResources(userId,requestorUserId, resourceList);
+        return deprovisionSelectedResource.deprovisionSelectedResources(userId, requestorUserId, resourceList);
     }
 
     /* (non-Javadoc)
@@ -1203,7 +1131,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
         if (operation.equals(AccountLockEnum.LOCKED)) {
             user.setSecondaryStatus(UserStatusEnum.LOCKED);
             if (lg != null) {
-                if(log.isDebugEnabled()) {
+                if (log.isDebugEnabled()) {
                     log.debug("Identity flag set to locked.");
                 }
                 lg.setIsLocked(1);
@@ -1252,17 +1180,16 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 null, login, domain);
 
 
-
         final List<Login> loginList = loginManager.getLoginByUser(userId);
-        for(final Login userLogin : loginList) {
-            if(userLogin != null) {
+        for (final Login userLogin : loginList) {
+            if (userLogin != null) {
                 final LoginId id = userLogin.getId();
-                if(id != null && id.getManagedSysId() != null && !id.getManagedSysId().equals("0")) {
+                if (id != null && id.getManagedSysId() != null && !id.getManagedSysId().equals("0")) {
                     ResponseType responsetype = null;
                     final String managedSysId = id.getManagedSysId();
                     final ManagedSys managedSys = managedSysService.getManagedSys(managedSysId);
                     final PSOIdentifierType psoIdentifierType = new PSOIdentifierType(id.getLogin(), null, managedSysId);
-                    if(AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
+                    if (AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
                         final SuspendRequestType suspendCommand = new SuspendRequestType();
                         suspendCommand.setPsoID(psoIdentifierType);
                         suspendCommand.setRequestID("R" + System.currentTimeMillis());
@@ -1293,17 +1220,17 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
             }
         }
         final List<Role> roleList = roleDataService.getUserRoles(user.getUserId());
-        if(CollectionUtils.isNotEmpty(roleList)) {
-            for(final Role role : roleList) {
+        if (CollectionUtils.isNotEmpty(roleList)) {
+            for (final Role role : roleList) {
                 final RoleId roleId = role.getId();
                 final List<Resource> resourceList = resourceDataService.getResourcesForRole(roleId.getServiceId(), roleId.getRoleId());
-                if(CollectionUtils.isNotEmpty(resourceList)) {
-                    for(final Resource resource : resourceList) {
+                if (CollectionUtils.isNotEmpty(resourceList)) {
+                    for (final Resource resource : resourceList) {
                         final ManagedSys managedSys = managedSysService.getManagedSys(resource.getManagedSysId());
-                        if(managedSys != null) {
+                        if (managedSys != null) {
                             ResponseType responsetype = null;
-                            final PSOIdentifierType psoIdentifierType = new PSOIdentifierType(lg.getId().getLogin(),null, managedSys.getManagedSysId());
-                            if(AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
+                            final PSOIdentifierType psoIdentifierType = new PSOIdentifierType(lg.getId().getLogin(), null, managedSys.getManagedSysId());
+                            if (AccountLockEnum.LOCKED.equals(operation) || AccountLockEnum.LOCKED_ADMIN.equals(operation)) {
                                 final SuspendRequestType suspendCommand = new SuspendRequestType();
                                 suspendCommand.setPsoID(psoIdentifierType);
                                 suspendCommand.setRequestID("R" + System.currentTimeMillis());
@@ -1450,7 +1377,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
 
         // get the current user object - update it with the new values and then save it
-
 
 
         // check that a primary identity exists some where
@@ -1602,7 +1528,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                 bindingMap.put(TARGET_SYS_MANAGED_SYS_ID, res.getManagedSysId());
 
 
-
                 if (managedSysId != null) {
 
                     // object that will be sent to the connectors
@@ -1673,8 +1598,7 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                                 bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
                                 bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
 
-                                bindingMap.put(TARGET_SYS_SECURITY_DOMAIN,  sysConfiguration.getDefaultSecurityDomain());
-
+                                bindingMap.put(TARGET_SYS_SECURITY_DOMAIN, sysConfiguration.getDefaultSecurityDomain());
 
 
                                 // pre-processing
@@ -3055,7 +2979,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
                     }
 
 
-
                 }
 
             }
@@ -3081,171 +3004,6 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
 
     }
 
-
-    /**
-     * ***** Spring methods ************
-     */
-
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        ac = applicationContext;
-    }
-
-    public UserDataService getUserMgr() {
-        return userMgr;
-    }
-
-    public void setUserMgr(UserDataService userMgr) {
-        this.userMgr = userMgr;
-    }
-
-    public LoginDataService getLoginManager() {
-        return loginManager;
-    }
-
-    public void setLoginManager(LoginDataService loginManager) {
-        this.loginManager = loginManager;
-    }
-
-    public LoginDAO getLoginDao() {
-        return loginDao;
-    }
-
-    public void setLoginDao(LoginDAO loginDao) {
-        this.loginDao = loginDao;
-    }
-
-    public IdmAuditLogDataService getAuditDataService() {
-        return auditDataService;
-    }
-
-    public void setAuditDataService(IdmAuditLogDataService auditDataService) {
-        this.auditDataService = auditDataService;
-    }
-
-
-    public ManagedSystemDataService getManagedSysService() {
-        return managedSysService;
-    }
-
-    public void setManagedSysService(ManagedSystemDataService managedSysService) {
-        this.managedSysService = managedSysService;
-    }
-
-    public RoleDataService getRoleDataService() {
-        return roleDataService;
-    }
-
-    public void setRoleDataService(RoleDataService roleDataService) {
-        this.roleDataService = roleDataService;
-    }
-
-    public GroupDataService getGroupManager() {
-        return groupManager;
-    }
-
-    public void setGroupManager(GroupDataService groupManager) {
-        this.groupManager = groupManager;
-    }
-
-    public String getConnectorWsdl() {
-        return connectorWsdl;
-    }
-
-    public void setConnectorWsdl(String connectorWsdl) {
-        this.connectorWsdl = connectorWsdl;
-    }
-
-    public String getDefaultProvisioningModel() {
-        return defaultProvisioningModel;
-    }
-
-    public void setDefaultProvisioningModel(String defaultProvisioningModel) {
-        this.defaultProvisioningModel = defaultProvisioningModel;
-    }
-
-    public SysConfiguration getSysConfiguration() {
-        return sysConfiguration;
-    }
-
-    public void setSysConfiguration(SysConfiguration sysConfiguration) {
-        this.sysConfiguration = sysConfiguration;
-    }
-
-    public ResourceDataService getResourceDataService() {
-        return resourceDataService;
-    }
-
-    public void setResourceDataService(ResourceDataService resourceDataService) {
-        this.resourceDataService = resourceDataService;
-    }
-
-    public String getScriptEngine() {
-        return scriptEngine;
-    }
-
-    public void setScriptEngine(String scriptEngine) {
-        this.scriptEngine = scriptEngine;
-    }
-
-    public OrganizationDataService getOrgManager() {
-        return orgManager;
-    }
-
-    public void setOrgManager(OrganizationDataService orgManager) {
-        this.orgManager = orgManager;
-    }
-
-    public PasswordService getPasswordDS() {
-        return passwordDS;
-    }
-
-    public void setPasswordDS(PasswordService passwordDS) {
-        this.passwordDS = passwordDS;
-    }
-
-
-    public AuditHelper getAuditHelper() {
-        return auditHelper;
-    }
-
-    public void setAuditHelper(AuditHelper auditHelper) {
-        this.auditHelper = auditHelper;
-    }
-
-
-    public ConnectorAdapter getConnectorAdapter() {
-        return connectorAdapter;
-    }
-
-    public void setConnectorAdapter(ConnectorAdapter connectorAdapter) {
-        this.connectorAdapter = connectorAdapter;
-    }
-
-
-    public RemoteConnectorAdapter getRemoteConnectorAdapter() {
-        return remoteConnectorAdapter;
-    }
-
-    public void setRemoteConnectorAdapter(
-            RemoteConnectorAdapter remoteConnectorAdapter) {
-        this.remoteConnectorAdapter = remoteConnectorAdapter;
-    }
-
-    public ConnectorDataService getConnectorService() {
-        return connectorService;
-    }
-
-    public void setConnectorService(ConnectorDataService connectorService) {
-        this.connectorService = connectorService;
-    }
-
-    public ValidateConnectionConfig getValidateConnection() {
-        return validateConnection;
-    }
-
-    public void setValidateConnection(ValidateConnectionConfig validateConnection) {
-        this.validateConnection = validateConnection;
-    }
 
     /* REMOTE VS LOCAL CONNECTORS */
 
@@ -3645,41 +3403,4 @@ public class DefaultProvisioningService implements MuleContextAware, ProvisionSe
     }
 
 
-    public void setMuleContext(MuleContext ctx) {
-        log.debug("Provisioning - setMuleContext called.");
-        muleContext = ctx;
-
-    }
-
-    public PasswordHistoryDAO getPasswordHistoryDao() {
-        return passwordHistoryDao;
-    }
-
-    public void setPasswordHistoryDao(PasswordHistoryDAO passwordHistoryDao) {
-        this.passwordHistoryDao = passwordHistoryDao;
-    }
-
-    public String getPreProcessor() {
-        return preProcessor;
-    }
-
-    public void setPreProcessor(String preProcessor) {
-        this.preProcessor = preProcessor;
-    }
-
-    public String getPostProcessor() {
-        return postProcessor;
-    }
-
-    public void setPostProcessor(String postProcessor) {
-        this.postProcessor = postProcessor;
-    }
-
-    public DeprovisionSelectedResourceHelper getDeprovisionSelectedResource() {
-        return deprovisionSelectedResource;
-    }
-
-    public void setDeprovisionSelectedResource(DeprovisionSelectedResourceHelper deprovisionSelectedResource) {
-        this.deprovisionSelectedResource = deprovisionSelectedResource;
-    }
 }

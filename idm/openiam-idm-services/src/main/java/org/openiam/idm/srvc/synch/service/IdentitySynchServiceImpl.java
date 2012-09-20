@@ -24,6 +24,7 @@ package org.openiam.idm.srvc.synch.service;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,7 +67,16 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 
 	
 	private static final Log log = LogFactory.getLog(IdentitySynchServiceImpl.class);
-	
+
+
+    /*
+    * The flags for the running tasks are handled by this Thread-Safe Set.
+    * It stores the taskIds of the currently executing tasks.
+    * This is faster and as reliable as storing the flags in the database,
+    * if the tasks are only launched from ONE host in a clustered environment.
+    * It is unique for each class-loader, which means unique per war-deployment.
+    */
+    private static Set<String> runningTask = Collections.newSetFromMap(new ConcurrentHashMap());
 	
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.synch.service.IdentitySynchService#getAllConfig()
@@ -114,53 +124,94 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 	}
 
 	public SyncResponse startSynchronization(SynchConfig config) {
-		log.debug("-startSynchronization CALLED.^^^^^^^^");
-		try {
+
+        SyncResponse syncResponse = new SyncResponse(ResponseStatus.SUCCESS);
+
+        log.debug("-startSynchronization CALLED.^^^^^^^^");
+
+        SyncResponse processCheckResponse = addTask(config.getSynchConfigId());
+        if ( processCheckResponse.getStatus() == ResponseStatus.FAILURE ) {
+            return processCheckResponse;
+
+        }
+        try {
+
 			SourceAdapter adapt = adaptorFactory.create(config);
             adapt.setMuleContext(muleContext);
 
 			long newLastExecTime = System.currentTimeMillis();
 
-			SyncResponse resp = adapt.startSynch(config);
+            syncResponse = adapt.startSynch(config);
 			
-			log.debug("SyncReponse updateTime value=" + resp.getLastRecordTime());
+			log.debug("SyncReponse updateTime value=" + syncResponse.getLastRecordTime());
 			
-			if (resp.getLastRecordTime() == null) {
+			if (syncResponse.getLastRecordTime() == null) {
 			
 				synchConfigDao.updateExecTime(config.getSynchConfigId(), new Timestamp( newLastExecTime ));
 			}else {
-				synchConfigDao.updateExecTime(config.getSynchConfigId(), new Timestamp( resp.getLastRecordTime().getTime() ));
+				synchConfigDao.updateExecTime(config.getSynchConfigId(), new Timestamp( syncResponse.getLastRecordTime().getTime() ));
 			}
 
-            if (resp.getLastRecProcessed() != null) {
+            if (syncResponse.getLastRecProcessed() != null) {
 
-				synchConfigDao.updateLastRecProcessed(config.getSynchConfigId(),resp.getLastRecProcessed() );
+				synchConfigDao.updateLastRecProcessed(config.getSynchConfigId(),syncResponse.getLastRecProcessed() );
 			}
 
 
-		log.debug("-startSynchronization COMPLETE.^^^^^^^^");
-			
-			return resp;
+		    log.debug("-startSynchronization COMPLETE.^^^^^^^^");
+
 		}catch( ClassNotFoundException cnfe) {
 
             cnfe.printStackTrace();
 
 			log.error(cnfe);
-			SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-			resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-			resp.setErrorText(cnfe.getMessage());
-			return resp;
+            syncResponse = new SyncResponse(ResponseStatus.FAILURE);
+            syncResponse.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            syncResponse.setErrorText(cnfe.getMessage());
+
 		}catch(Exception e) {
 
-            e.printStackTrace();
 
 			log.error(e);
-			SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-			resp.setErrorText(e.getMessage());
-			return resp;			
-		}
+            syncResponse = new SyncResponse(ResponseStatus.FAILURE);
+            syncResponse.setErrorText(e.getMessage());
+
+		}finally {
+            endTask(config.getSynchConfigId());
+
+            return syncResponse;
+
+        }
 
 	}
+
+    // manage if the task is running
+
+    /**
+     * Updates the RunningTask list to show that a process is running
+     * @param configId
+     * @return
+     */
+    public SyncResponse addTask(String configId) {
+
+        SyncResponse resp = new SyncResponse(ResponseStatus.SUCCESS);
+        synchronized (runningTask) {
+            if(runningTask.contains(configId)) {
+
+                resp = new SyncResponse(ResponseStatus.FAILURE);
+                resp.setErrorCode(ResponseCode.FAIL_PROCESS_ALREADY_RUNNING);
+                return resp;
+            }
+            runningTask.add(configId);
+            return resp;
+        }
+
+    }
+
+    public void endTask(String configID) {
+        runningTask.remove(configID);
+
+    }
 
     public Response testConnection(SynchConfig config) {
         try {
