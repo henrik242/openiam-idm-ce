@@ -21,17 +21,15 @@ package org.openiam.provision.type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.BaseAttributeContainer;
+import org.openiam.util.StringUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.codec.binary.Base64.decodeBase64;
-import static org.apache.commons.codec.binary.Base64.encodeBase64String;
 
 /**
  * The content carried by the most SPML requests includes an Extensible type to all
@@ -121,17 +119,13 @@ public class ExtensibleAttribute  implements Serializable {
         this.name = name;
     }
     public String getValue() {
-        if (value == null) {
-            return null;
-        }
-        return fromBase64(value);
+        return StringUtil.fromBase64(value);
     }
+
     public void setValue(String value) {
-        if (value == null) {
-            this.value = null;
-        } else {
-            this.value = toBase64(value);
-        }
+        // Values are base64 encoded internally to keep Mule happy.  Mule would otherwise throw exceptions when
+        // values that are not really strings (e.g. binary values from Active Directory) are set here.
+        this.value = StringUtil.toBase64(value);
     }
     public int getOperation() {
         return operation;
@@ -155,7 +149,7 @@ public class ExtensibleAttribute  implements Serializable {
         }
         List<String> list = new ArrayList<String>();
         for (String val : valueList) {
-            list.add(fromBase64(val));
+            list.add(StringUtil.fromBase64(val));
         }
         return list;
     }
@@ -166,7 +160,7 @@ public class ExtensibleAttribute  implements Serializable {
         } else {
             valueList = new ArrayList<String>();
             for (String val : list) {
-                valueList.add(toBase64(val));
+                valueList.add(StringUtil.toBase64(val));
             }
         }
     }
@@ -187,24 +181,6 @@ public class ExtensibleAttribute  implements Serializable {
         this.objectType = objectType;
     }
 
-    // Values are base64 encoded internally to keep Mule happy.  Mule would otherwise throw exceptions when
-    // values that are not really strings (e.g. binary values from Active Directory) are set here.
-    private String toBase64(String plain) {
-        try {
-            return encodeBase64String(plain.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
-    }
-
-    private String fromBase64(String encoded) {
-        try {
-            return new String(decodeBase64(encoded), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
-    }
-
     @Override
     public String toString() {
         return "ExtensibleAttribute{" +
@@ -222,7 +198,45 @@ public class ExtensibleAttribute  implements Serializable {
         return attributeContainer;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExtensibleAttribute)) return false;
+
+        ExtensibleAttribute that = (ExtensibleAttribute) o;
+
+        if (multivalued != that.multivalued) return false;
+        if (operation != that.operation) return false;
+        if (attributeContainer != null ? !attributeContainer.equals(that.attributeContainer) : that.attributeContainer != null)
+            return false;
+        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null) return false;
+        if (metadataElementId != null ? !metadataElementId.equals(that.metadataElementId) : that.metadataElementId != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (objectType != null ? !objectType.equals(that.objectType) : that.objectType != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        if (valueList != null ? !valueList.equals(that.valueList) : that.valueList != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (metadataElementId != null ? metadataElementId.hashCode() : 0);
+        result = 31 * result + operation;
+        result = 31 * result + (multivalued ? 1 : 0);
+        result = 31 * result + (valueList != null ? valueList.hashCode() : 0);
+        result = 31 * result + (attributeContainer != null ? attributeContainer.hashCode() : 0);
+        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
+        result = 31 * result + (objectType != null ? objectType.hashCode() : 0);
+        return result;
+    }
+
     public void setAttributeContainer(BaseAttributeContainer attributeContainer) {
         this.attributeContainer = attributeContainer;
     }
+
+
 }

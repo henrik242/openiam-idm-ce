@@ -26,4 +26,22 @@ public class BaseAttributeContainer {
     public void setAttributeList(List<BaseAttribute> attributeList) {
         this.attributeList = attributeList;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseAttributeContainer)) return false;
+
+        BaseAttributeContainer that = (BaseAttributeContainer) o;
+
+        if (attributeList != null ? !attributeList.equals(that.attributeList) : that.attributeList != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return attributeList != null ? attributeList.hashCode() : 0;
+    }
 }
