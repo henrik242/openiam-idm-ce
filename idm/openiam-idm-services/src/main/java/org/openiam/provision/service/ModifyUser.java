@@ -25,7 +25,6 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.service.GroupDataService;
 import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.org.dto.UserAffiliation;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.role.dto.Role;
@@ -56,10 +55,7 @@ public class ModifyUser {
     private static final Log log = LogFactory.getLog(ModifyUser.class);
 
 	// these instance variables will be used later in the provisioning process when we need to show the difference at the field level
-	Map<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>();
-	Set<EmailAddress> emailSet = new HashSet<EmailAddress>();
-	Set<Phone> phoneSet = new HashSet<Phone>();
-	Set<Address> addressSet = new HashSet<Address>();
+
 	List<Group> groupList = new ArrayList<Group>();
 	List<Role> roleList = new ArrayList<Role>();
 	List<Role> deleteRoleList = new ArrayList<Role>();
@@ -73,11 +69,8 @@ public class ModifyUser {
 	
 	public void init() {
         log.debug("Modify User initialized");
-		userAttributes = new HashMap<String, UserAttribute>();
-		emailSet = new HashSet<EmailAddress>();
-		phoneSet = new HashSet<Phone>();
-		addressSet = new HashSet<Address>();
-		groupList = new ArrayList<Group>();
+
+        groupList = new ArrayList<Group>();
 		roleList = new ArrayList<Role>();
 		deleteRoleList = new ArrayList<Role>();
 		principalList = new ArrayList<Login>();		
@@ -195,7 +188,7 @@ public class ModifyUser {
 
 
 	public void updateUserObject(User origUser, User newUser) {
-		
+
 		origUser.updateUser(newUser);
 		
 		updateUserEmail(origUser, newUser);
@@ -204,9 +197,7 @@ public class ModifyUser {
 	}
 	
 
-	public Map<String, UserAttribute> getUserAttributes() {
-		return userAttributes;
-	}
+
 	
   
 	private void updateUserEmail(User origUser, User newUser) {
@@ -220,7 +211,6 @@ public class ModifyUser {
 			// update the instance variable so that it can passed to the connector with the right operation code
 			for (EmailAddress em  : newEmailSet) {
 				em.setOperation(AttributeOperationEnum.ADD);
-				this.emailSet.add(em);
 			}
 			return;
 		}
@@ -229,7 +219,6 @@ public class ModifyUser {
 			log.debug("orig email list is not null and nothing was passed in for the newEmailSet - ie no change");
 			for (EmailAddress em  : origEmailSet) {
 				em.setOperation(AttributeOperationEnum.NO_CHANGE);
-				this.emailSet.add(em);
 			}
 			return;
 		}
@@ -244,7 +233,7 @@ public class ModifyUser {
                     if (e != null) {
                         origEmailSet.remove(e);
                     }
-                    emailSet.add(em);
+
                 }else {
                     // check if this address is in the current list
                     // if it is - see if it has changed
@@ -253,7 +242,6 @@ public class ModifyUser {
                     if (origEmail == null) {
                         em.setOperation(AttributeOperationEnum.ADD);
                         origEmailSet.add(em);
-                        emailSet.add(em);
 
                         log.debug("EMAIL ADDRESS -> ADD NEW ADDRESS = " + em.getEmailAddress() );
 
@@ -261,14 +249,12 @@ public class ModifyUser {
                         if (em.equals(origEmail)) {
                             // not changed
                             em.setOperation(AttributeOperationEnum.NO_CHANGE);
-                            emailSet.add(em);
                             log.debug("EMAIL ADDRESS -> NO CHANGE = " + em.getEmailAddress() );
                         }else {
                             // object changed
                             origEmail.updateEmailAddress(em);
                             origEmailSet.add(origEmail);
                             origEmail.setOperation(AttributeOperationEnum.REPLACE);
-                            emailSet.add(origEmail);
                             log.debug("EMAIL ADDRESS -> REPLACE = " + em.getEmailAddress() );
                         }
                     }
@@ -280,12 +266,11 @@ public class ModifyUser {
 			EmailAddress newEmail =  getEmailAddress(e.getEmailId(), newEmailSet);
 			if (newEmail == null) {
 				e.setOperation(AttributeOperationEnum.NO_CHANGE);
-				emailSet.add(e);
 			}
 		}
 		
 	}
-	
+
 
 	private EmailAddress getEmailAddress(String id, Set<EmailAddress> emailSet) {
 		Iterator<EmailAddress> emailIt = emailSet.iterator();
@@ -300,6 +285,7 @@ public class ModifyUser {
 		return null;
 		
 	}
+
 	private Phone getPhone(String id, Set<Phone> phoneSet) {
 		Iterator<Phone> phoneIt = phoneSet.iterator();
 		while (phoneIt.hasNext()) {
@@ -389,7 +375,6 @@ public class ModifyUser {
 			// update the instance variable so that it can passed to the connector with the right operation code
 			for (Phone ph : newPhoneSet) {
 				ph.setOperation(AttributeOperationEnum.ADD);
-				phoneSet.add(ph);
 			}
 			return;
 		}
@@ -398,7 +383,6 @@ public class ModifyUser {
 			log.debug("orig phone list is not null and nothing was passed in for the newPhoneSet - ie no change");
 			for (Phone ph  : origPhoneSet) {
 				ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-				this.phoneSet.add(ph);
 			}
 			return;
 		}
@@ -414,7 +398,6 @@ public class ModifyUser {
                     if (e != null) {
                         origPhoneSet.remove(e);
                     }
-                    phoneSet.add(ph);
                 }else {
                     // check if this address is in the current list
                     // if it is - see if it has changed
@@ -424,18 +407,17 @@ public class ModifyUser {
                     if (origPhone == null) {
                         ph.setOperation(AttributeOperationEnum.ADD);
                         origPhoneSet.add(ph);
-                        phoneSet.add(ph);
                     }else {
                         if (ph.equals(origPhone)) {
                             // not changed
                             ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-                            phoneSet.add(ph);
+
                         }else {
                             // object changed
                             origPhone.updatePhone(ph);
                             origPhoneSet.add(origPhone);
                             origPhone.setOperation(AttributeOperationEnum.REPLACE);
-                            phoneSet.add(origPhone);
+
                         }
                     }
                 }
@@ -446,7 +428,7 @@ public class ModifyUser {
 			Phone newPhone =  getPhone(ph.getPhoneId(), newPhoneSet);
 			if (newPhone == null) {
 				ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-				phoneSet.add(ph);
+
 			}
 		}
 		
@@ -463,7 +445,7 @@ public class ModifyUser {
 			// update the instance variable so that it can passed to the connector with the right operation code
 			for (Address ph : newAddressSet) {
 				ph.setOperation(AttributeOperationEnum.ADD);
-				addressSet.add(ph);
+
 			}
 			return;
 		}
@@ -472,7 +454,7 @@ public class ModifyUser {
 			log.debug("orig Address list is not null and nothing was passed in for the newAddressSet - ie no change");
 			for (Address ph  : origAddressSet) {
 				ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-				addressSet.add(ph);
+
 			}
 			return;
 		}
@@ -487,7 +469,7 @@ public class ModifyUser {
 				if (e != null) {
 					origAddressSet.remove(e);
 				}
-				addressSet.add(ph);
+
 			}else {
 				// check if this address is in the current list
 				// if it is - see if it has changed
@@ -497,18 +479,18 @@ public class ModifyUser {
 				if (origAddress == null) {
 					ph.setOperation(AttributeOperationEnum.ADD);
 					origAddressSet.add(ph);
-					addressSet.add(ph);
+
 				}else {
 					if (ph.equals(origAddress)) {
 						// not changed
 						ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-						addressSet.add(ph);
+
 					}else {
 						// object changed
 						origAddress.updateAddress(ph);
 						origAddressSet.add(origAddress);
 						origAddress.setOperation(AttributeOperationEnum.REPLACE);
-						addressSet.add(origAddress);
+
 					}
 				}
 			}
@@ -518,7 +500,7 @@ public class ModifyUser {
 			Address newAddress =  getAddress(ph.getAddressId(), newAddressSet);
 			if (newAddress == null) {
 				ph.setOperation(AttributeOperationEnum.NO_CHANGE);
-				addressSet.add(ph);
+
 			}
 		}
 		
@@ -1200,7 +1182,7 @@ public class ModifyUser {
 
 
 
-	public Set<EmailAddress> getEmailSet() {
+/*	public Set<EmailAddress> getEmailSet() {
 		return emailSet;
 	}
 
@@ -1209,10 +1191,10 @@ public class ModifyUser {
 	public void setEmailSet(Set<EmailAddress> emailSet) {
 		this.emailSet = emailSet;
 	}
+ */
 
 
-
-	public Set<Phone> getPhoneSet() {
+/*	public Set<Phone> getPhoneSet() {
 		return phoneSet;
 	}
 
@@ -1234,7 +1216,7 @@ public class ModifyUser {
 		this.addressSet = addressSet;
 	}
 
-
+  */
 
 	public List<Group> getGroupList() {
 		return groupList;
@@ -1405,10 +1387,6 @@ public class ModifyUser {
 	}
 
 
-
-	public void setUserAttributes(Map<String, UserAttribute> userAttributes) {
-		this.userAttributes = userAttributes;
-	}
 
 
 

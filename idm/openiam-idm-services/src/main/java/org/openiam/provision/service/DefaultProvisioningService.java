@@ -2130,6 +2130,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                                     encPassword);
 
                             ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
+                            // check for null..
                             ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
 
                             ManagedSystemObjectMatch matchObj = null;
