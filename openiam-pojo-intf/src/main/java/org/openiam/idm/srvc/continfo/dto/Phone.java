@@ -61,6 +61,15 @@ public class Phone implements java.io.Serializable {
         this.phoneId = phoneId;
     }
 
+    public Phone(String name, String phoneNbr, String phoneExt, String areaCd, String parentType, String parentId, String countryCd) {
+        this.name = name;
+        this.phoneNbr = phoneNbr;
+        this.phoneExt = phoneExt;
+        this.areaCd = areaCd;
+        this.parentType = parentType;
+        this.parentId = parentId;
+        this.countryCd = countryCd;
+    }
 
     /**
      * full constructor

@@ -68,7 +68,7 @@ public class ConnectorAdapter {
             if (managedSys == null) {
                 return respType;
             }
-            log.info("ConnectorAdapter:addRequest called. Managed sys =" + managedSys.getManagedSysId());
+            log.debug("ConnectorAdapter:addRequest called. Managed sys =" + managedSys.getManagedSysId());
 
             ProvisionConnector connector = connectorService.getConnector(managedSys.getConnectorId());
             log.info("Connector found for " + connector.getConnectorId());
@@ -110,7 +110,9 @@ public class ConnectorAdapter {
             log.debug("ConnectorAdapter:modifyRequest called. Managed sys =" + managedSys.getManagedSysId());
 
             ProvisionConnector connector = connectorService.getConnector(managedSys.getConnectorId());
-            log.info("Connector found for " + connector.getConnectorId());
+
+            log.debug("Connector found for " + connector.getConnectorId());
+
             if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
 
                 //ConnectorService port = getService(connector);
@@ -539,7 +541,6 @@ public class ConnectorAdapter {
             msg = client.send("vm://dispatchConnectorMsgTestConnection", (ManagedSys) reqType, msgPropMap);
         }
 
-        log.debug("Service:: Mule Message object: " + msg.toString());
 
         return msg;
 

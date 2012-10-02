@@ -1218,7 +1218,7 @@ public class ModifyUser {
 
   */
 
-	public List<Group> getGroupList() {
+/*	public List<Group> getGroupList() {
 		return groupList;
 	}
 
@@ -1227,7 +1227,7 @@ public class ModifyUser {
 	public void setGroupList(List<Group> groupList) {
 		this.groupList = groupList;
 	}
-
+  */
 	public List<Role> getActiveRoleList() {
 		
         log.debug("Determining activeRole List. RoleList =" + roleList);

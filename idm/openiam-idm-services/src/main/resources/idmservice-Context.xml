@@ -80,7 +80,7 @@
 			<property name="roleDataService" ref="roleDataService" />
 			<property name="groupManager" ref="groupManager" />
 			<property name="sysConfiguration" ref="sysConfiguration" />
-			<property name="connectorWsdl" value="WEB-INF/wsdl/ConnectorService.wsdl" />
+			<!--property name="connectorWsdl" value="WEB-INF/wsdl/ConnectorService.wsdl" / -->
 			<property name="defaultProvisioningModel" value="ROLE" />
 			<property name="resourceDataService" ref="resourceDataService" />
 			<property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />

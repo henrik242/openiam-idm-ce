@@ -54,6 +54,14 @@ public class EmailAddress implements java.io.Serializable {
         this.emailId = emailId;
     }
 
+    public EmailAddress(String emailAddress, String name, String parentId, String parentType, Integer aDefault) {
+        this.emailAddress = emailAddress;
+        this.name = name;
+        this.parentId = parentId;
+        this.parentType = parentType;
+        isDefault = aDefault;
+    }
+
     /**
      * full constructor
      */
