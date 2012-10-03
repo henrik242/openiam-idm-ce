@@ -4803,7 +4803,7 @@
          <requestorId>?</requestorId>
       </prov:lockUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/lockUser"/></con:call></con:operation><con:operation isOneWay="false" action="" name="modifyUser" bindingOperationName="modifyUser" type="Request-Response" outputName="modifyUserResponse" inputName="modifyUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/lockUser"/></con:call></con:operation><con:operation isOneWay="false" action="" name="modifyUser" bindingOperationName="modifyUser" type="Request-Response" outputName="modifyUserResponse" inputName="modifyUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:modifyUser>
@@ -5532,7 +5532,7 @@
                      <pswdResetTokenExp>?</pswdResetTokenExp>
                   </dto:principalList>
                   <!--Optional:-->
-                  <dto:supervisor/>
+                  
                   <!--Optional:-->
                   <dto:alternateContactId>?</dto:alternateContactId>
                   <!--Optional:-->
@@ -5915,7 +5915,7 @@
                      <pswdResetTokenExp>?</pswdResetTokenExp>
                   </dto:principalList>
                   <!--Optional:-->
-                  <dto:supervisor/>
+                  
                   <!--Optional:-->
                   <dto:alternateContactId>?</dto:alternateContactId>
                   <!--Optional:-->
@@ -5969,7 +5969,7 @@
                            <!--Zero or more repetitions:-->
                            <dto2:groupObj>
                               <!--Optional:-->
-                              <dto2:group/>
+                              
                            </dto2:groupObj>
                         </dto3:groups>
                         <!--Optional:-->
@@ -6018,7 +6018,7 @@
                         <!--Optional:-->
                         <dto3:status>?</dto3:status>
                         <!--Zero or more repetitions:-->
-                        <dto3:childRoles/>
+                        <dto3:childRoles><dto3:userAssociationMethod/></dto3:childRoles>
                         <!--Optional:-->
                         <dto3:selected>?</dto3:selected>
                         <!--Optional:-->
@@ -6113,7 +6113,7 @@
                <!--Optional:-->
                <dto2:status>?</dto2:status>
                <!--Zero or more repetitions:-->
-               <dto2:subGroup/>
+               <dto2:subGroup xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                <!--Optional:-->
                <dto2:metadataTypeId>?</dto2:metadataTypeId>
                <!--Optional:-->
@@ -6158,8 +6158,8 @@
                            <!--Zero or more repetitions:-->
                            <dto3:roleObj>
                               <!--Optional:-->
-                              <dto3:role/>
-                           </dto3:roleObj>
+                              
+                           <dto3:role><dto3:userAssociationMethod/></dto3:role></dto3:roleObj>
                         </dto2:roles>
                         <!--Optional:-->
                         <dto2:attributes>
@@ -6209,7 +6209,7 @@
                         <!--Optional:-->
                         <dto2:status>?</dto2:status>
                         <!--Zero or more repetitions:-->
-                        <dto2:subGroup/>
+                        <dto2:subGroup xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <!--Optional:-->
                         <dto2:metadataTypeId>?</dto2:metadataTypeId>
                         <!--Optional:-->
@@ -6269,7 +6269,7 @@
                <!--Optional:-->
                <dto3:status>?</dto3:status>
                <!--Zero or more repetitions:-->
-               <dto3:childRoles/>
+               <dto3:childRoles><dto3:userAssociationMethod/></dto3:childRoles>
                <!--Optional:-->
                <dto3:selected>?</dto3:selected>
                <!--Optional:-->
@@ -6460,7 +6460,138 @@
          </user>
       </prov:modifyUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/></con:call></con:operation><con:operation isOneWay="false" action="" name="resetPassword" bindingOperationName="resetPassword" type="Request-Response" outputName="resetPasswordResponse" inputName="resetPassword" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/><con:wsrmConfig version="1.2"/></con:call><con:call name="simpleModify"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+
+            <dto:firstName>X-FIRST NAME</dto:firstName>
+            <dto:jobCode>JB-101</dto:jobCode>
+            <dto:lastName>X-LAST NAME</dto:lastName>
+            <dto:title>NEW TITLE-1</dto:title>
+            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <securityDomain>USR_SEC_DOMAIN</securityDomain>
+            <skipPreprocessor>true</skipPreprocessor>
+            <skipPostProcessor>true</skipPostProcessor>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Modify-RemoveRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>X-FIRST NAME</dto:firstName>
+            <dto:jobCode>JB-102</dto:jobCode>
+            <dto:lastName>X-LAST NAME</dto:lastName>
+            <dto:title>NEW TITLE-2</dto:title>
+            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>MANAGER</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+               <dto3:operation>delete</dto3:operation>
+            </memberOfRoles>
+            <securityDomain>USR_SEC_DOMAIN</securityDomain>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <skipPreprocessor>true</skipPreprocessor>
+            <skipPostProcessor>true</skipPostProcessor>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Modify-AddRole"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>X-FIRST NAME2</dto:firstName>
+            <dto:jobCode>JB-102</dto:jobCode>
+            <dto:lastName>X-LAST NAME2</dto:lastName>
+            <dto:title>NEW TITLE-UPDATE</dto:title>
+            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <memberOfRoles>
+               <dto3:id>
+                  <dto3:roleId>MANAGER</dto3:roleId>
+                  <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
+               </dto3:id>
+               <dto3:userAssociationMethod/>
+               <dto3:operation>add</dto3:operation>
+            </memberOfRoles>
+            <securityDomain>USR_SEC_DOMAIN</securityDomain>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <skipPreprocessor>true</skipPreprocessor>
+            <skipPostProcessor>true</skipPostProcessor>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Modify-AddResource"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>X-FIRST NAME2</dto:firstName>
+            <dto:jobCode>JB-102</dto:jobCode>
+            <dto:lastName>X-LAST NAME2</dto:lastName>
+            <dto:title>NEW TITLE-UPDATE</dto:title>
+            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <userResourceList>
+               <resourceId>402881063a1f5531013a1f7888ae0004</resourceId>
+               <operation>add</operation>
+            </userResourceList>
+            
+            <securityDomain>USR_SEC_DOMAIN</securityDomain>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <skipPreprocessor>true</skipPreprocessor>
+            <skipPostProcessor>true</skipPostProcessor>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Modify-RemoveResource"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:dto="urn:idm.openiam.org/srvc/user/dto" xmlns:dto1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:dto2="urn:idm.openiam.org/srvc/grp/dto" xmlns:dto3="urn:idm.openiam.org/srvc/role/dto" xmlns:dto4="urn:idm.openiam.org/srvc/org/dto">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prov:modifyUser>
+         <!--Optional:-->
+         <user>
+            <dto:firstName>X-FIRST NAME2</dto:firstName>
+            <dto:jobCode>JB-102</dto:jobCode>
+            <dto:lastName>X-LAST NAME2</dto:lastName>
+            <dto:title>NEW TITLE-UPDATE</dto:title>
+            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <userResourceList>
+               <resourceId>402881063a1f5531013a1f7888ae0004</resourceId>
+               <operation>delete</operation>
+            </userResourceList>
+            <securityDomain>USR_SEC_DOMAIN</securityDomain>
+            <notifyTargetSystems/>
+            <emailCredentialsToNewUsers/>
+            <emailCredentialsToSupervisor/>
+            <provisionOnStartDate/>
+            <addInitialPasswordToHistory/>
+            <skipPreprocessor>true</skipPreprocessor>
+            <skipPostProcessor>true</skipPostProcessor>
+         </user>
+      </prov:modifyUser>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/ProvisionControllerService/modifyUser"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="resetPassword" bindingOperationName="resetPassword" type="Request-Response" outputName="resetPasswordResponse" inputName="resetPassword" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/ProvisioningService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prov="http://www.openiam.org/service/provision" xmlns:typ="http://www.openiam.org/service/types">
    <soapenv:Header/>
    <soapenv:Body>
       <prov:resetPassword>

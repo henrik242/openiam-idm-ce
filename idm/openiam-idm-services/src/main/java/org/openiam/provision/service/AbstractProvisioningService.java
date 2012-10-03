@@ -2005,41 +2005,45 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
         log.debug("Identitylist =" + identityList);
 
-        for (Role r : roleList) {
-            String secDomain = r.getId().getServiceId();
-            if (!identityInDomain(secDomain, managedSysId ,identityList)) {
+        if (roleList != null) {
+            for (Role r : roleList) {
+                String secDomain = r.getId().getServiceId();
+                if (!identityInDomain(secDomain, managedSysId ,identityList)) {
 
-                log.debug("Adding identity to :" + secDomain);
+                    log.debug("Adding identity to :" + secDomain);
 
-                addIdentity(secDomain, primaryIdentity);
+                    addIdentity(secDomain, primaryIdentity);
+                }
             }
-        }
+            }
 
         // determine if we should remove an identity
-        for (Login l : identityList) {
-            if (l.getId().getManagedSysId().equalsIgnoreCase(managedSysId)) {
-                boolean found = false;
-                for ( Role r : roleList) {
-                    if (r.getId().getServiceId().equalsIgnoreCase(l.getId().getDomainId())) {
-                        found = true ;
+        if (identityList != null) {
+            for (Login l : identityList) {
+                if (l.getId().getManagedSysId().equalsIgnoreCase(managedSysId)) {
+                    boolean found = false;
+                    for ( Role r : roleList) {
+                        if (r.getId().getServiceId().equalsIgnoreCase(l.getId().getDomainId())) {
+                            found = true ;
+                        }
+
                     }
+                    if (!found) {
+                        if ( l.getId().getManagedSysId().equalsIgnoreCase( "0" )) {
+                            // primary identity - do not delete. Just disable its status
+                            log.debug("Primary identity - chagne its status");
+                            l.setStatus("INACTIVE");
+                            loginManager.updateLogin(l);
 
-                }
-                if (!found) {
-                    if ( l.getId().getManagedSysId().equalsIgnoreCase( "0" )) {
-                        // primary identity - do not delete. Just disable its status
-                        log.debug("Primary identity - chagne its status");
-                        l.setStatus("INACTIVE");
-                        loginManager.updateLogin(l);
+                        }else {
 
-                    }else {
-
-                        log.debug("Removing identity for  :" + l.getId() );
-                        loginManager.removeLogin(l.getId().getDomainId(), l.getId().getLogin(), l.getId().getManagedSysId());
+                            log.debug("Removing identity for  :" + l.getId() );
+                            loginManager.removeLogin(l.getId().getDomainId(), l.getId().getLogin(), l.getId().getManagedSysId());
+                        }
                     }
                 }
+
             }
-
         }
 
     }

@@ -1325,25 +1325,35 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
         }
 
 
+        // make sure that our object as the attribute set that will be used for audit logging
+        checkAuditingAttributes(pUser);
+
+
+        // get the current values
+        List<Role> curRoleList = roleDataService.getUserRolesAsFlatList(pUser.getUserId());
+        List<Group> curGroupList = groupManager.getUserInGroupsAsFlatList(pUser.getUserId());
+        List<Login> curPrincipalList = loginManager.getLoginByUser(pUser.getUserId());
+
         // get the current user object - update it with the new values and then save it
 
 
         // check that a primary identity exists some where
-        Login curPrimaryIdentity = loginManager.getPrimaryIdentity(pUser.getUserId());
-        if (curPrimaryIdentity == null &&
-                pUser.getPrincipalList() == null) {
+        Login curPrimaryIdentity = getPrimaryIdentity("0",curPrincipalList);
+
+        //Login curPrimaryIdentity = loginManager.getPrimaryIdentity(pUser.getUserId());
+        if (curPrimaryIdentity == null &&  pUser.getPrincipalList() == null) {
             log.debug("Identity not found...");
             resp.setStatus(ResponseStatus.FAILURE);
             resp.setErrorCode(ResponseCode.PRINCIPAL_NOT_FOUND);
             return resp;
         }
 
+        pUser.setObjectState(BaseObject.UPDATE);
+
         // check if the user is missing components
         addMissingUserComponents(pUser);
 
-        List<Role> curRoleList = roleDataService.getUserRolesAsFlatList(pUser.getUserId());
-        List<Group> curGroupList = groupManager.getUserInGroupsAsFlatList(pUser.getUserId());
-        List<Login> curPrincipalList = loginManager.getLoginByUser(pUser.getUserId());
+
 
 
         // make the role and group list before these updates available to the attribute policies
@@ -1386,7 +1396,8 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
         applyResourceExceptions(pUser, resourceList, deleteResourceList);
 
         // if there were changes in the role definition, the update the resource list
-        updateResourceListByRoleChanges(resourceList, deleteResourceList, curPrincipalList);
+        // SAS - Oct 2  - may be unnecessary
+        // updateResourceListByRoleChanges(resourceList, deleteResourceList, curPrincipalList);
 
         log.debug("Resources to be added ->> " + resourceList);
         log.debug("Delete the following resources ->> " + deleteResourceList);
@@ -1439,18 +1450,11 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
         log.debug("**Updated orig user=" + origUser);
         log.debug("-- " + origUser.getUserId() + " " + origUser.getFirstName() + " " + origUser.getLastName());
 
-
-        // deprovision the identities which are no longer needed.
-        if (deleteResourceList != null && !deleteResourceList.isEmpty()) {
-            // delete these resources which are not needed in the new role assignment
-            log.debug("Deprovisioning resources..");
-
-            deProvisionResources(deleteResourceList, origUser.getUserId(), pUser.getLastUpdatedBy(), requestId);
-        }
         String userStatus = null;
         if (pUser.getUser().getStatus() != null) {
             userStatus = pUser.getUser().getStatus().toString();
         }
+
         IdmAuditLog auditLog = auditHelper.addLog("MODIFY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
                 "IDM SERVICE", origUser.getCreatedBy(), "0", "USER", origUser.getUserId(),
                 null, "SUCCESS", null, "USER_STATUS", userStatus,
@@ -1458,6 +1462,16 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                 pUser.getRequestClientIP(), primaryIdentity.getId().getLogin(), primaryIdentity.getId().getDomainId());
 
         auditHelper.persistLogList(pendingLogItems, requestId, pUser.getSessionId());
+
+
+        // deprovision the identities which are no longer needed.
+        if (deleteResourceList != null && !deleteResourceList.isEmpty()) {
+            // delete these resources which are not needed in the new role assignment
+
+            deProvisionResources(deleteResourceList, origUser.getUserId(), pUser.getLastUpdatedBy(), requestId,
+                    pUser,auditLog.getLogId(), userStatus, origUser );
+        }
+
 
 
         if (resourceList != null) {
@@ -1527,7 +1541,10 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
                         log.debug("DEPROVISIONING IDENTITY FOR RES =" + res.getName());
 
-                        deProvisionResources(delRes, origUser.getUserId(), pUser.getLastUpdatedBy(), requestId);
+                        deProvisionResources(delRes, origUser.getUserId(), pUser.getLastUpdatedBy(), requestId,
+                                pUser,auditLog.getLogId(), userStatus, origUser );
+
+
 
                         //deProvisionResources(List<Resource> deleteResourceList, String userId, String requestorId, String requestId)
 
@@ -1718,15 +1735,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                                     connectorSuccess = true;
                                 }
 
-                                auditHelper.addLog("MODIFY IDENTITY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
-                                        "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
-                                        null, "SUCCESS", auditLog.getLogId(), "USER_STATUS",
-                                        userStatus,
-                                        requestId, respType.getErrorCodeAsStr(), pUser.getSessionId(),
-                                        respType.getErrorMsgAsStr(),
-                                        pUser.getRequestClientIP(), mLg.getId().getLogin(), mLg.getId().getDomainId());
-
-
                             } else {
                                 PSOIdentifierType idType = new PSOIdentifierType(mLg.getId().getLogin(), null, "target");
                                 idType.setTargetID(mLg.getId().getManagedSysId());
@@ -1757,13 +1765,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                                 if (respType.getStatus() == StatusCodeType.SUCCESS) {
                                     connectorSuccess = true;
                                 }
-
-                                auditHelper.addLog("MODIFY IDENTITY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
-                                        "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
-                                        null, "SUCCESS", auditLog.getLogId(), "USER_STATUS",
-                                        userStatus,
-                                        requestId, respType.getErrorCodeAsStr(), pUser.getSessionId(), respType.getErrorMessage(),
-                                        pUser.getRequestClientIP(), mLg.getId().getLogin(), mLg.getId().getDomainId());
 
 
                             }
@@ -1825,7 +1826,9 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
         }
     }
 
-    private void deProvisionResources(List<Resource> deleteResourceList, String userId, String requestorId, String requestId) {
+    private void deProvisionResources(List<Resource> deleteResourceList,
+                                      String userId, String requestorId, String requestId,
+                                      ProvisionUser pUser, String auditLogId, String status, User origUser) {
         if (deleteResourceList != null) {
 
             List<Login> identityList = loginManager.getLoginByUser(userId);
@@ -1851,18 +1854,27 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                     mLg.setAuthFailCount(0);
                     mLg.setPasswordChangeCount(0);
                     mLg.setIsLocked(0);
-                    // change the password to a random scrambled passwor
+                    // change the password to a random scrambled password
                     String scrambledPassword = PasswordGenerator.generatePassword(10);
                     try {
                         mLg.setPassword(loginManager.encryptPassword(scrambledPassword));
                     } catch (EncryptionException ee) {
                         log.error(ee);
-                        // put the password in a clean state so that he operation continues
+                        // put the password in a clean state so that the operation continues
                         mLg.setPassword(null);
                     }
 
                     loginManager.updateLogin(mLg);
 
+                    // LOG THIS EVENT
+
+                    auditHelper.addLog("REMOVE IDENTITY", pUser.getRequestorDomain(), pUser.getRequestorLogin(),
+                            "IDM SERVICE", origUser.getCreatedBy(), mLg.getId().getManagedSysId(), "USER", origUser.getUserId(),
+                            null, "SUCCESS", auditLogId, "USER_STATUS",
+                            status,
+                            requestId, null, pUser.getSessionId(),
+                            null,
+                            pUser.getRequestClientIP(), mLg.getId().getLogin(), mLg.getId().getDomainId());
 
                     PSOIdentifierType idType = new PSOIdentifierType(mLg.getId().getLogin(), null, managedSysId);
 
@@ -1893,13 +1905,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                         ResponseType delRes = connectorAdapter.deleteRequest(mSys, reqType, muleContext);
 
                     }
-
-
-                    IdmAuditLog auditLog = auditHelper.addLog("DELETE", mLg.getId().getDomainId(), null,
-                            "IDM SERVICE", requestorId, "0", "IDENTITY", mLg.getUserId(),
-                            null, "SUCCESS", null, "IDENTITY_STATUS",
-                            mLg.getStatus(),
-                            requestId, null, null, null);
 
                 }
             }

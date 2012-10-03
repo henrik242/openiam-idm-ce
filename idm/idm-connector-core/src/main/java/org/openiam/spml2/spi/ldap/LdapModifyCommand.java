@@ -174,7 +174,8 @@ public class LdapModifyCommand extends LdapAbstractCommand {
                                     if ("unicodePwd".equalsIgnoreCase(att.getName())) {
                                         Attribute a = generateActiveDirectoryPassword(att.getValue());
                                         modItemList.add(new ModificationItem(DirContext.REPLACE_ATTRIBUTE, a));
-                                    } else if (!"userPassword".equalsIgnoreCase(att.getName())) {
+                                    } else if (!"userPassword".equalsIgnoreCase(att.getName()) &&
+                                            !"ORIG_IDENTITY".equalsIgnoreCase(att.getName())) {
 
 
                                         Attribute a = null;
