@@ -80,18 +80,13 @@
 			<property name="roleDataService" ref="roleDataService" />
 			<property name="groupManager" ref="groupManager" />
 			<property name="sysConfiguration" ref="sysConfiguration" />
-			<!--property name="connectorWsdl" value="WEB-INF/wsdl/ConnectorService.wsdl" / -->
 			<property name="defaultProvisioningModel" value="ROLE" />
 			<property name="resourceDataService" ref="resourceDataService" />
 			<property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
 			<property name="orgManager" ref="orgManager" />
 			<property name="passwordDS" ref="passwordManager" />
-			<!--property name="addUser" ref="addUser" / -->
-			<!-- property name="modifyUser" ref="modifyUser" / -->
 			<property name="auditHelper" ref="auditHelper" />
-			<!--property name="attrListBuilder" ref="attributeListBuilder" / -->
 			<property name="connectorAdapter" ref="connectorAdapter" />
-			<!--property name="disableUser" ref="disableUser" / -->
 			<property name="remoteConnectorAdapter" ref="remoteConnectorAdapter" />
 			<property name="connectorService" ref="connectorService" />
             <property name="validateConnection" ref="validateConnectionConfig" />
@@ -110,28 +105,6 @@
     </bean>
 
 
-	<bean id="addUser" class="org.openiam.provision.service.AddUser" >
-			<property name="loginManager" ref="loginManager" />
-			<property name="userMgr" ref="userManager" />	
-			<property name="roleDataService" ref="roleDataService" />
-			<property name="groupManager" ref="groupManager" />
-			<property name="sysConfiguration" ref="sysConfiguration" />
-			<property name="resourceDataService" ref="resourceDataService" />
-			<property name="managedSysService" ref="managedSysService" />
-            <property name="auditHelper" ref="auditHelper" />
-            <property name="orgManager" ref="orgManager" />
-            <!--property name="orgManager" ref="orgManager" / -->
-	</bean>
-
-	<bean id="modifyUser" class="org.openiam.provision.service.ModifyUser" >
-			<property name="loginManager" ref="loginManager" />
-			<property name="userMgr" ref="userManager" />	
-			<property name="roleDataService" ref="roleDataService" />
-			<property name="groupManager" ref="groupManager" />
-			<property name="auditHelper" ref="auditHelper" />
-            <property name="orgManager" ref="orgManager" />
-            <!-- property name="orgManager" ref="orgManager" / -->
-	</bean>
 
 	<bean id="disableUser" class="org.openiam.provision.service.DisableUserDelegate" >
 			<property name="userMgr" ref="userManager" />	
@@ -143,7 +116,6 @@
 			<property name="remoteConnectorAdapter" ref="remoteConnectorAdapter" />
 	</bean>
 	
-	<bean id="attributeListBuilder" class="org.openiam.provision.service.AttributeListBuilder" />
 	<bean id="connectorAdapter" class="org.openiam.provision.service.ConnectorAdapter">
 		<property name="connectorService" ref="connectorService" />	
 	</bean>
