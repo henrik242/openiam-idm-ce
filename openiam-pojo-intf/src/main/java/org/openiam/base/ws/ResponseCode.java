@@ -128,6 +128,8 @@ public enum ResponseCode {
     @XmlEnumValue("FAIL_CONNECTOR")
     FAIL_CONNECTOR("FAIL_CONNECTOR"),
 
+    @XmlEnumValue("INVALID_ARGUMENTS")
+    INVALID_ARGUMENTS("INVALID_ARGUMENTS"),
 
     @XmlEnumValue("IO_EXCEPTION")
     IO_EXCEPTION("IO_EXCEPTION"),

@@ -38,6 +38,7 @@
         <spring:import resource="classpath:openiam-connector-mule-config.xml"/>
         <spring:import resource="classpath:mule-service-client-config.xml"/>
         <spring:import resource="classpath:idm-batch-config.xml"/>
+        <spring:import resource="classpath:openiam-reports-service-mule-config.xml"/>
 
     </spring:beans>
 
