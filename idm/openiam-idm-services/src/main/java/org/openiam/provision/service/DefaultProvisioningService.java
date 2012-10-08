@@ -1284,6 +1284,8 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
         log.debug("---DEFAULT PROVISIONING SERVICE: modifyUser called --");
 
+        log.debug("User passed in with the following Roles: " + pUser.getMemberOfRoles());
+
         List<Login> newPrincipalList = pUser.getPrincipalList();
 
 
@@ -1369,6 +1371,8 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
         // update the group
         updateGroupAssociation(origUser.getUserId(), curGroupList, pUser.getMemberOfGroups());
+
+        log.debug("Pending call to Update Role Association.  Roles passed in equal: " + pUser.getMemberOfRoles());
 
         // update the role association
         updateRoleAssociation(origUser.getUserId(), curRoleList, pUser.getMemberOfRoles(), pendingLogItems, pUser,

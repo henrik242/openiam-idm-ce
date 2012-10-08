@@ -83,10 +83,12 @@ public class RoleId implements java.io.Serializable {
         this.serviceId = value;
     }
 
+    @Override
     public String toString() {
-        String str = "roleId=" + roleId +
-                "serviceId=" + serviceId;
-        return str;
+        return "RoleId{" +
+                "roleId='" + roleId + '\'' +
+                ", serviceId='" + serviceId + '\'' +
+                '}';
     }
 
     @Override

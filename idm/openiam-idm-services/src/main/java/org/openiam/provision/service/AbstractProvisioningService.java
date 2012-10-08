@@ -1341,8 +1341,13 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
         }
 
+        // add roles if not part of the request
+        List<Role> userRoleList = user.getMemberOfRoles();
+        if ( userRoleList == null || !userRoleList.isEmpty()) {
+             List<Role> curRoles = roleDataService.getUserRoles(user.getUserId());
+            user.setMemberOfRoles(curRoles);
 
-
+        }
 
 
     }
@@ -1506,7 +1511,9 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         // else add with operation 2
         for (Role r : newRoleList) {
             if (r.getOperation() == AttributeOperationEnum.DELETE) {
+
                 log.debug("removing Role :" + r.getId() );
+
                 // get the email object from the original set of emails so that we can remove it
                 Role rl = getRole(r.getId(), origRoleList);
                 if (rl != null) {
@@ -1531,7 +1538,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
                 // check if this address is in the current list
                 // if it is - see if it has changed
                 // if it is not - add it.
-                log.debug("evaluate Role" + r.getId());
+                log.debug("Evaluate Role: " + r.getId());
 
                 Role origRole =  getRole(r.getId(), origRoleList);
 
@@ -1624,11 +1631,13 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
             if (deleteRoleList != null && !deleteRoleList.isEmpty()) {
                 for ( Role delRl : deleteRoleList) {
 
-                    log.debug("- Evaluating delRl = " + delRl);
+                    log.debug("- Evaluating deleted Role = " + delRl);
                     if ( delRl != null) {
 
                         if (!found && r.getId().getRoleId().equalsIgnoreCase(delRl.getId().getRoleId())) {
                             found = true;
+
+                            log.debug("- - Deleted Role found = " + delRl);
                         }
 
                     }

@@ -77,7 +77,7 @@ public class Role extends BaseObject implements Comparable<Role> {
      */
     private static final long serialVersionUID = -3903402630611423082L;
 
-    protected AttributeOperationEnum operation;
+    protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
     @XmlSchemaType(name = "dateTime")
     protected Date createDate;
@@ -345,20 +345,32 @@ public class Role extends BaseObject implements Comparable<Role> {
         this.inheritFromParent = inheritFromParent;
     }
 
+    @Override
     public String toString() {
-        String str = "id=" + id +
-                " name=" + roleName +
-                " metadataTypeId=" + metadataTypeId +
-                " ownerId=" + ownerId +
-                " inheritFromParent=" + this.inheritFromParent +
-                " parentRoleId=" + parentRoleId +
-                " childRole=" + childRoles +
-                " startDate=" + startDate +
-                " endDate=" + endDate;
-        return str;
-
+        return "Role{" +
+                "operation=" + operation +
+                ", createDate=" + createDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", description='" + description + '\'' +
+                ", groups=" + groups +
+                ", id=" + id +
+                ", provisionObjName='" + provisionObjName + '\'' +
+                ", parentRoleId='" + parentRoleId + '\'' +
+                ", roleAttributes=" + roleAttributes +
+                ", rolePolicy=" + rolePolicy +
+                ", roleName='" + roleName + '\'' +
+                ", userAssociationMethod=" + userAssociationMethod +
+                ", status='" + status + '\'' +
+                ", selected=" + selected +
+                ", metadataTypeId='" + metadataTypeId + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", inheritFromParent=" + inheritFromParent +
+                ", internalRoleId='" + internalRoleId + '\'' +
+                ", childRoles=" + childRoles +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
-
 
     public String getStatus() {
         return status;
