@@ -264,6 +264,8 @@ public class LdapAdapter implements SourceAdapter {
                         TransformScript transformScript = SynchScriptFactory.createTransformationScript(config.getTransformationRule());
 
                         // initialize the transform script
+                        transformScript.init();
+
                         if (usr != null) {
                             transformScript.setNewUser(false);
                             transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));

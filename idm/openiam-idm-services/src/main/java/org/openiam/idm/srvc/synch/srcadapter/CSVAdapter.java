@@ -184,6 +184,8 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
                         if (config.getTransformationRule() != null && config.getTransformationRule().length() > 0) {
                             TransformScript transformScript = SynchScriptFactory.createTransformationScript(config.getTransformationRule());
 
+                            transformScript.init();
+
                             // initialize the transform script
                             if (usr != null) {
                                 transformScript.setNewUser(false);

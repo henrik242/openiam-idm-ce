@@ -42,7 +42,9 @@ public interface TransformScript {
 	
 	int execute(LineObject rowObj, ProvisionUser pUser);
 
-	User getUser();
+    public void init();
+
+    User getUser();
 	void setUser(User user) ;
 	List<Login> getPrincipalList() ;
 	void setPrincipalList(List<Login> principalList);

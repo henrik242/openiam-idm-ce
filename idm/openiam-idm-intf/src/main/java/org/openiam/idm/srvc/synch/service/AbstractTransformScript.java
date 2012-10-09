@@ -14,6 +14,14 @@ public abstract class AbstractTransformScript implements TransformScript {
 	protected List<Role> userRoleList;
 	protected boolean isNewUser = false;
 
+
+    public void init() {
+        user = null;
+        principalList = null;
+        userRoleList = null;
+        isNewUser = false;
+    }
+
 	public User getUser() {
 		return user;
 	}
