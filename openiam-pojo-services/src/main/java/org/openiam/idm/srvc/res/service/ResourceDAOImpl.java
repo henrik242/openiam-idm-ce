@@ -436,9 +436,38 @@ public List<Resource> getResourcesByType(String resourceTypeId) {
 		
 		return resources;
 	}
-	
 
-	
+
+    public List<Resource> getUserResourcesByType(String userId, String resourceTypeId) {
+        Session session = sessionFactory.getCurrentSession();
+
+
+        String sql = "SELECT res.* " +
+                     " FROM RES res JOIN RESOURCE_ROLE rl ON (res.RESOURCE_ID = rl.RESOURCE_ID) " +
+                     " JOIN USER_ROLE ur ON (rl.ROLE_ID = ur.ROLE_ID AND rl.SERVICE_ID = ur.SERVICE_ID) " +
+                     " WHERE res.RESOURCE_TYPE_ID = :typeId AND ur.USER_ID = :userId " +
+                "    ORDER BY res.NAME asc";
+
+        SQLQuery qry = session.createSQLQuery(sql);
+        qry.addEntity(Resource.class);
+        qry.setString("typeId", resourceTypeId);
+        qry.setString("userId", userId);
+
+        List<Resource> resources = (List<Resource>) qry.list();
+
+        for (Resource r:resources) {
+            Hibernate.initialize(r.getResourceType());
+            Hibernate.initialize(r.getResourceProps());
+            Hibernate.initialize(r.getResourceRoles());
+            Hibernate.initialize(r.getChildResources());
+            Hibernate.initialize(r.getEntitlements());
+            Hibernate.initialize(r.getResourceGroups());
+        }
+
+        return resources;
+
+    }
+
 	public List<Resource> getResourcesByCategory(String categoryId) {
 		Session session = sessionFactory.getCurrentSession();
 

@@ -138,6 +138,9 @@ public class ResourceDetailController  extends CancellableFormController {
 
             }
 
+            cmd.setChildResources( resourceDataService.getChildResources(res.getResourceId()));
+
+
         } else {
             // new
             res = new Resource();

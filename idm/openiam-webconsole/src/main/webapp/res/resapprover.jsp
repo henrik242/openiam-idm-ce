@@ -132,6 +132,7 @@
                                         <form:option value="USER" label="USER"/>
                                         <form:option value="SUPERVISOR" label="SUPERVISOR"/>
                                         <form:option value="TARGET_USER" label="TARGET_USER"/>
+                                         <form:option value="REQUESTOR" label="REQUESTOR"/>
                                     </form:select>
 
                                     <form:hidden
@@ -146,6 +147,7 @@
                                         <form:option value="USER" label="USER"/>
                                         <form:option value="SUPERVISOR" label="SUPERVISOR"/>
                                         <form:option value="TARGET_USER" label="TARGET_USER"/>
+                                        <form:option value="REQUESTOR" label="REQUESTOR"/>
                                     </form:select>
 
 

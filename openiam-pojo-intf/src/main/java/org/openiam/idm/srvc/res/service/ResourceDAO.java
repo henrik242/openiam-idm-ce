@@ -298,5 +298,8 @@ public interface ResourceDAO {
 
     List<Resource> findResourcesForUserRole(String userId);
 
+    List<Resource> getUserResourcesByType(String userId, String resourceTypeId);
+
+
 
 }

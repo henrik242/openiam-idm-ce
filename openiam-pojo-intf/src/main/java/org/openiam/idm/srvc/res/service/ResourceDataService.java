@@ -607,5 +607,11 @@ public interface ResourceDataService {
             @WebParam(name = "type", targetNamespace = "")
             String type);
 
+    List<Resource> getUserResourcesByType(
+            @WebParam(name = "userId", targetNamespace = "")
+            String userId,
+            @WebParam(name = "resourceTypeId", targetNamespace = "")
+            String resourceTypeId);
+
 
 }

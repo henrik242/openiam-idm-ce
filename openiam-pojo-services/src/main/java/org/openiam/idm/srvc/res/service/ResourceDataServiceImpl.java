@@ -1516,6 +1516,20 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public void setResourcePrivilegeDao(ResourcePrivilegeDAO resourcePrivilegeDao) {
         this.resourcePrivilegeDao = resourcePrivilegeDao;
     }
+
+    public List<Resource> getUserResourcesByType(String userId, String resourceTypeId)  {
+
+        if (userId == null) {
+            throw new IllegalArgumentException("userId  is null");
+        }
+        if (resourceTypeId == null) {
+            throw new IllegalArgumentException("resourceTypeId object is null");
+        }
+
+        return resourceDao.getUserResourcesByType(userId,resourceTypeId);
+
+    }
+
 }
 
 

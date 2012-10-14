@@ -68,7 +68,7 @@ function showSupervisorDialog(idfield, namefield) {
 						</td>
 						</tr>
 					</table>
-			</td>
+			    </td>
 
 <% 	String msg = (String)request.getAttribute("msg");
 	if (msg != null) { %>
@@ -182,6 +182,13 @@ function showSupervisorDialog(idfield, namefield) {
 								</td>
 								<td>
 								<c:choose>
+                                    <c:when test="${resourceProp.name == 'COMMUNICATION_PROTOCOL'}">
+                                        <form:select path="resourceProp[${prop.index}].propValue" multiple="false">
+                                            <form:option value="" label="CLEAR"/>
+                                            <form:option value="SSL" label="SSL"/>
+                                        </form:select>
+                                    </c:when>
+
   										<c:when test="${resourceProp.name == 'INCLUDE_IN_PASSWORD_SYNC'}">
   											<form:select path="resourceProp[${prop.index}].propValue" multiple="false">
               									<form:option value="Y" label="YES"/>
@@ -212,26 +219,8 @@ function showSupervisorDialog(idfield, namefield) {
  </c:if>	
 
 
-  <c:if test="${resourceDetailCmd.resource.resourceType.resourceTypeId == 'SSO_APP'}" >
-  		<tr>
-			  <td><label for="username" class="attribute">Proxy Path</label></td>
-              <td  class="userformInput" for="username" class="labelValue" ><input type="text" size="60" value="salesforce">
-
-             </td>
-       </tr>
-   		<tr>
-			  <td><label for="username" class="attribute">Target System URL</label></td>
-              <td  class="userformInput" for="username" class="labelValue" ><input type="text" size="60" value="http://wwww.salesforce.com/login">
-
-             </td>
-       </tr>
-
- </c:if>
-
-
 		          
 </table>
-
 
 	</td>
  </tr>
@@ -242,7 +231,37 @@ function showSupervisorDialog(idfield, namefield) {
               </c:if>
               	<input type="submit" name="btn" value="Save"> <input type="submit" name="_cancel" value="Cancel" /> 
             </td>
-          </tr>  
+          </tr>
+    <tr>
+       <td>
+    <c:if test="${resourceDetailCmd.childResources != null}" >
+        <table width="600pt" >
+            <tr>
+                <td align="center" height="100%">
+                    <fieldset class="userform" >
+                        <legend>CHILD RESOURCES </legend>
+                        <table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">
+                            <tr class="header">
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                            </tr>
+                            <c:forEach items="${resourceDetailCmd.childResources}" var="r">
+                                <tr>
+
+                                    <td class="tableEntry"><a href="resourceDetail.cnt?resId=${r.resourceId}&menugrp=SECURITY_RES">${r.name}</a></td>
+                                    <td class="tableEntry">${r.description}</td>
+                                    <td class="tableEntry">${r.resourceType.resourceTypeId}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                </td>
+            </tr>
+        </table>
+    </c:if>
+        </td>
+    </tr>
 </table>
 
     </form:form>
+

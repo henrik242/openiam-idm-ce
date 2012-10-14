@@ -53,6 +53,8 @@ public class ResourceDetailCommand implements Serializable {
     String resourceType;
     String resOwnerName;
 
+    List<Resource> childResources;
+
     public ResourceDetailCommand() {
 
     }
@@ -120,5 +122,13 @@ public class ResourceDetailCommand implements Serializable {
 
     public void setResOwnerName(String resOwnerName) {
         this.resOwnerName = resOwnerName;
+    }
+
+    public List<Resource> getChildResources() {
+        return childResources;
+    }
+
+    public void setChildResources(List<Resource> childResources) {
+        this.childResources = childResources;
     }
 }
