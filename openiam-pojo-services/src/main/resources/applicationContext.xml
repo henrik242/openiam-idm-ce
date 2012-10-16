@@ -22,6 +22,7 @@
   			<list>
 				<value>classpath:datasource.properties</value>
 				<value>classpath:iam-plugin.properties</value>
+                <value>classpath:securityconf.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -608,7 +609,7 @@
 -->	
 	
 	<!-- Hibernate SessionFactory -->
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mappingResources">
 			<list>
@@ -709,6 +710,9 @@
                 <!-- REPORT maps -->
                 <value>org/openiam/core/domain/ReportInfo.hbm.xml</value>
 
+                <!-- REPORT maps -->
+                <!--<value>org/openiam/am/srvc/webres/WebResourceAttribute.hbm.xml</value>-->
+
                 <!-- End idm maps -->
 
 				<value>org/openiam/idm/srvc/msg/service/NotificationConfig.hbm.xml</value>
@@ -720,7 +724,6 @@
 
 			</list>
 		</property>
-
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${openiam.hibernate.dialect}</prop>	
@@ -733,7 +736,11 @@
    				<prop key="hibernate.validationQuery">${openiam.hibernate.validationQuery}</prop>
 			</props>
 		</property>
-	
+	    <property name="packagesToScan" value="org.openiam.core.domain*,
+											   org.openiam.idm.srvc.grp.dto*,
+											   org.openiam.idm.srvc.res.dto*,
+											   org.openiam.idm.srvc.role.dto*,
+											   org.openiam.am.srvc.resattr.domain*"/>
 	</bean>
 
   

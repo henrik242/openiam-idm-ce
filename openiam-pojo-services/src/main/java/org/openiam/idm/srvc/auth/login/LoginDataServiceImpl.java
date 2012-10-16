@@ -547,22 +547,34 @@ public class LoginDataServiceImpl implements LoginDataService {
     }
 
     /* (non-Javadoc)
-      * @see org.openiam.idm.srvc.auth.login.LoginDataService#getPrimaryIdentity(java.lang.String)
-      */
-	public Login getPrimaryIdentity(String userId) {
-		List<Login> loginList = getLoginByUser(userId);
-		if (loginList == null) {
-			return null;
-		}
-		
-		for ( Login lg : loginList) {
-			if (lg.getId().getManagedSysId().equalsIgnoreCase(sysConfiguration.getDefaultManagedSysId())) {
-				return lg;
-			}
-		}
-		
-		return null;
-	}
+    * @see org.openiam.idm.srvc.auth.login.LoginDataService#getPrimaryIdentity(java.lang.String)
+    */
+    public Login getPrimaryIdentity(String userId) {
+//		List<Login> loginList = getLoginByUser(userId);
+//		if (loginList == null) {
+//			return null;
+//		}
+//
+//		for ( Login lg : loginList) {
+//			if (lg.getId().getManagedSysId().equalsIgnoreCase(sysConfiguration.getDefaultManagedSysId())) {
+//				return lg;
+//			}
+//		}
+
+        return getByUserIdManagedSys(userId,sysConfiguration.getDefaultManagedSysId());
+    }
+    @Override
+    public Login getByUserIdManagedSys(String userId, String managedSysId) {
+        List<Login> loginList = getLoginByUser(userId);
+        if (loginList != null) {
+            for (Login lg : loginList) {
+                if (lg.getId().getManagedSysId().equalsIgnoreCase(managedSysId)) {
+                    return lg;
+                }
+            }
+        }
+        return null;
+    }
 
 	public SysConfiguration getSysConfiguration() {
 		return sysConfiguration;

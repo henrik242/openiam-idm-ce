@@ -20,20 +20,26 @@
 			<spring:list>
 				<spring:value>classpath:datasource.properties</spring:value>
 				<spring:value>classpath:securityconf.properties</spring:value>
+				<spring:value>file:/data/openiam/conf/datasource.properties</spring:value>
+		        <spring:value>file:/data/openiam/conf/securityconf.properties</spring:value>
 			</spring:list>
 		</spring:property>
+		<spring:property name="ignoreResourceNotFound" value="true" />
 	</spring:bean>
 
 
      <spring:beans>
 
         <spring:import resource="classpath:openiam-embedded-mule-config.xml"/>
-        <spring:import resource="classpath:idmservice-Context.xml" />
-        <!--spring:import resource="classpath:applicationContext.xml" / -->
 
+
+        <spring:import resource="classpath:applicationContext.xml" />
+         <spring:import resource="classpath:am-service-Context.xml" />
+         <spring:import resource="classpath:idmservice-Context.xml" />
         <!--spring:import resource="classpath:connector-coreContext.xml" / -->
 
         <spring:import resource="classpath:openiam-mule-config.xml"/>
+        <spring:import resource="classpath:openiam-am-service-mule-config.xml"/>
         <spring:import resource="classpath:openiam-idmservice-mule-config.xml"/>
         <spring:import resource="classpath:openiam-connector-mule-config.xml"/>
         <spring:import resource="classpath:mule-service-client-config.xml"/>

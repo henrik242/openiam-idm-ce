@@ -64,6 +64,15 @@ public interface LoginDataService {
     public Login getPrimaryIdentity(String userId);
 
     /**
+     * Returns the identity for this user  and managedSysId
+     *
+     * @param userId
+     * @param managedSysId
+     * @return
+     */
+    public Login getByUserIdManagedSys(String userId, String managedSysId);
+
+    /**
      * Returns a decrypted password.
      *
      * @param domainId

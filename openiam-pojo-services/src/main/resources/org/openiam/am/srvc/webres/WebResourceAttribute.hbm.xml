@@ -7,7 +7,7 @@
 
 <!-- Generated Nov 30, 2007 3:01:46 AM by Hibernate Tools 3.2.0.b11 -->
 <hibernate-mapping>
-    <class name="org.openiam.am.srvc.webres.dto.WebResourceAttribute" table="WEB_RESOURCE_ATTRIBUTE" >
+    <class name="org.openiam.am.srvc.resattr.domain.WebResourceAttribute" table="WEB_RESOURCE_ATTRIBUTE" >
 
         <comment></comment>
         <id name="attributeMapId" type="string">
