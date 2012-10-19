@@ -156,15 +156,18 @@ public class LoginDAOImpl implements LoginDAO {
      */
     private Login findByIdOracleInsensitive(org.openiam.idm.srvc.auth.dto.LoginId id) {
 
+        log.debug("findByIdOracleInsensitive..");
 
         String select = " select /*+ INDEX(IDX_LOGIN_UPPER)  */ " +
                 " SERVICE_ID, LOGIN, MANAGED_SYS_ID, IDENTITY_TYPE, CANONICAL_NAME, USER_ID, PASSWORD, " +
                 " PWD_EQUIVALENT_TOKEN, PWD_CHANGED, PWD_EXP, RESET_PWD, FIRST_TIME_LOGIN, IS_LOCKED, STATUS, " +
                 " GRACE_PERIOD, CREATE_DATE, CREATED_BY, CURRENT_LOGIN_HOST, AUTH_FAIL_COUNT, LAST_AUTH_ATTEMPT, " +
-                " LAST_LOGIN, IS_DEFAULT, PWD_CHANGE_COUNT, LAST_LOGIN_IP, PREV_LOGIN, PREV_LOGIN_IP " +
+                " LAST_LOGIN, IS_DEFAULT, PWD_CHANGE_COUNT, LAST_LOGIN_IP, PREV_LOGIN, PREV_LOGIN_IP, " +
+                " PSWD_RESET_TOKEN, PSWD_RESET_TOKEN_EXP " +
                 " FROM 	LOGIN  " +
                 " WHERE SERVICE_ID = :serviceId AND UPPER(LOGIN) = :login AND MANAGED_SYS_ID = :managedSysId  ";
 
+        log.debug("SQL to get Identity: " + select);
 
         Session session = sessionFactory.getCurrentSession();
 
