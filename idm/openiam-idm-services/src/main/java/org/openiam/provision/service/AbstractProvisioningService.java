@@ -1343,7 +1343,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
         // add roles if not part of the request
         List<Role> userRoleList = user.getMemberOfRoles();
-        if ( userRoleList == null || !userRoleList.isEmpty()) {
+        if ( userRoleList == null || userRoleList.isEmpty()) {
              List<Role> curRoles = roleDataService.getUserRoles(user.getUserId());
             user.setMemberOfRoles(curRoles);
 
