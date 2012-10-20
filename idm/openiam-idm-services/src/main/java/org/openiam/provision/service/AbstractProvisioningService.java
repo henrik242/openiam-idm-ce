@@ -2031,12 +2031,17 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
             for (Login l : identityList) {
                 if (l.getId().getManagedSysId().equalsIgnoreCase(managedSysId)) {
                     boolean found = false;
-                    for ( Role r : roleList) {
-                        if (r.getId().getServiceId().equalsIgnoreCase(l.getId().getDomainId())) {
-                            found = true ;
-                        }
 
+                    // possible to have a user with no roles.
+                    if (roleList != null) {
+                        for ( Role r : roleList) {
+                            if (r.getId().getServiceId().equalsIgnoreCase(l.getId().getDomainId())) {
+                                found = true ;
+                            }
+
+                        }
                     }
+
                     if (!found) {
                         if ( l.getId().getManagedSysId().equalsIgnoreCase( "0" )) {
                             // primary identity - do not delete. Just disable its status

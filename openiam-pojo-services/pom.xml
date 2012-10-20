@@ -112,30 +112,6 @@
     	<version>2.2.3</version>
     </dependency>
 
-   <!--
-    <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-         <version>${hibernate.version}</version>
-        <exclusions>
-        <exclusion>
-           <artifactId>cglib</artifactId>
-           <groupId>cglib</groupId>
-         </exclusion>
-         <exclusion>
-             <groupId>asm</groupId>
-             <artifactId>asm</artifactId>
-         </exclusion>
-        </exclusions>
-    </dependency>
-
-     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-ehcache</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-    -->
-
 
 
     <dependency>
@@ -160,46 +136,7 @@
         <version>${hibernate.version}</version>
     </dependency>
 
-        <!--
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-core</artifactId>
-         <version>${hibernate.version}</version>
-         <exclusions>
-         <exclusion>
-           <artifactId>cglib</artifactId>
-           <groupId>cglib</groupId>
-         </exclusion>
 
-         <exclusion>
-             <groupId>asm</groupId>
-             <artifactId>asm</artifactId>
-         </exclusion>
-         <exclusion>
-             <groupId>org.hibernate</groupId>
-             <artifactId>hibernate-commons-annotations</artifactId>
-         </exclusion>
-
-         </exclusions>
-     </dependency>
-
-     <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-commons-annotations</artifactId>
-         <version>3.3.0.ga</version>
-         <exclusions>
-             <exclusion>
-                 <groupId>asm</groupId>
-                 <artifactId>asm</artifactId>
-             </exclusion>
-           <exclusion>
-                <artifactId>cglib</artifactId>
-                <groupId>cglib</groupId>
-         </exclusion>
-
-         </exclusions>
-    </dependency>
-        -->
 
      <dependency>
         <groupId>c3p0</groupId>
@@ -358,17 +295,7 @@
  
     </dependency>
 
-    <!--dependency>
-    	<groupId>org.slf4j</groupId>
-    	<artifactId>slf4j-api</artifactId>
-    	<version>1.6.1</version>
-    </dependency>    
-    <dependency>
-    	<groupId>org.slf4j</groupId>
-    	<artifactId>slf4j-jdk14</artifactId>
-    	<version>1.6.1</version>
-    </dependency -->
-    
+
     
     
     <dependency>
