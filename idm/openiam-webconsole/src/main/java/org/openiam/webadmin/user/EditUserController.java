@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.openiam.base.ExtendController;
 import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.webadmin.util.AuditHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -235,7 +236,7 @@ public class EditUserController extends CancellableFormController {
 		email3 =  userMgr.getEmailAddressByName(personId, "EMAIL3").getEmailAddress();
 
 
-        Map<String,Phone> phoneMap = userMgr.getPhoneMap(personId).getPhoneMap();
+        Map<String,Phone> phoneMap =  userMgr.getPhoneMap(personId).getPhoneMap();
         if (phoneMap != null) {
             Set<String> phoneKeySet = phoneMap.keySet();
             for ( String k : phoneKeySet ) {
@@ -246,6 +247,7 @@ public class EditUserController extends CancellableFormController {
             Phone p = new Phone();
             p.setName("DESK PHONE");
             p.setParentId(personId);
+            p.setParentType(ContactConstants.PARENT_TYPE_USER);
             p.setPhoneNbr("");
             p.setAreaCd("");
             editUserCmd.getPhoneList().add(p);
@@ -373,7 +375,11 @@ public class EditUserController extends CancellableFormController {
 
 
        if (extCmd.pre("MODIFY", controllerObj, null) == ExtendController.SUCCESS_CONTINUE) {
-            asynchProvService.modifyUser(pUser);
+           // asynch operation does not complete fast enough to support a refresh
+           // asynchProvService.modifyUser(pUser);
+
+           ProvisionUserResponse provisionUserResponse =  provRequestService.modifyUser(pUser);
+
        }
 		
 
@@ -485,6 +491,11 @@ public class EditUserController extends CancellableFormController {
         List<Phone> phoneList =  cmd.getPhoneList();
         Set<Phone> phoneSet = new HashSet<Phone>();
         for (Phone p : phoneList) {
+
+            if (p.getParentType() == null || p.getParentType().isEmpty()) {
+                p.setParentType(ContactConstants.PARENT_TYPE_USER);
+
+            }
             phoneSet.add( p);
 
             if ( p.getIsDefault() == 1) {

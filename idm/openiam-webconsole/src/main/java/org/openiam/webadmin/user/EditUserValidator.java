@@ -21,8 +21,7 @@ public class EditUserValidator implements Validator {
 	}
 
 	public void validate(Object cmd, Errors err) {
-		// TODO Auto-generated method stub
-		System.out.println("EditUserValidator:validate");
+
 		
 		EditUserCommand editUserCmd =  (EditUserCommand) cmd;
 			
