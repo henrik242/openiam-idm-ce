@@ -47,7 +47,7 @@ public class SessionFilter implements javax.servlet.Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
-        log.info("SessionFilter()...start");
+        log.info("Webconsole SessionFilter...doFilter() called");
 
 
 

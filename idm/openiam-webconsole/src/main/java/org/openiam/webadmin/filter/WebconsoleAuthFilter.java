@@ -88,6 +88,15 @@ public class WebconsoleAuthFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
+        ServletContext context = getFilterConfig().getServletContext();
+        // get the application context
+        WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(context);
+        authService = (AuthenticationService) webContext.getBean("authServiceClient");
+        loginDataWebService = (LoginDataWebService) webContext.getBean("loginServiceClient");
+        navigationDataService = (NavigatorDataWebService) webContext.getBean("navServiceClient");
+        userMgr = (UserDataWebService) webContext.getBean("userServiceClient");
+
+
         boolean loginPage = false;
         String userId = null;
         String principal = null;
@@ -98,8 +107,6 @@ public class WebconsoleAuthFilter implements Filter {
         log.info("WebconsoleAuthFilter()...doFilter start");
 
 
-        ServletContext context = getFilterConfig().getServletContext();
-
         
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             chain.doFilter(servletRequest, servletResponse);
@@ -107,17 +114,19 @@ public class WebconsoleAuthFilter implements Filter {
         }
 
         String url = request.getRequestURI();
-        
+
+        if ( isExcludeObject(url) ) {
+
+            log.info("WebconsoleAuthFilter()...Exclude object found. Pass through");
+
+            chain.doFilter(servletRequest, servletResponse);
+            return;
+        }
 
         // validate the token. If the token is not valid then redirect to the login page
         // invalidate the session
 
-        // get the application context
-        WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(context);
-        authService = (AuthenticationService) webContext.getBean("authServiceClient");
-        loginDataWebService = (LoginDataWebService) webContext.getBean("loginServiceClient");
-        navigationDataService = (NavigatorDataWebService) webContext.getBean("navServiceClient");
-        userMgr = (UserDataWebService) webContext.getBean("userServiceClient");
+
 
 
 

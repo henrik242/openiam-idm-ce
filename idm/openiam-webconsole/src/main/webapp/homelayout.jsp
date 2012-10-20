@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="en" xml:lang="en">
 
 <head>
-<title>OpenIAM Identity Manager 2.2.2 - Administration Console</title>
+<title>OpenIAM Identity Manager 2.2.3 - Administration Console</title>
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="expires" CONTENT="0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -51,7 +51,7 @@
 <table width="980" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
-    <img src="<%=request.getContextPath()%>/images/openiamlogo.jpg"  width="150" height="50">
+    <img src="<%=request.getContextPath()%>/images/openiamlogo.jpg"  width="175" height="75">
     </td>
   </tr>
   <% if (login != null && !login.isEmpty()) { %>
@@ -84,7 +84,7 @@
        </table>
 	   <table border="0" width="140"  cellspacing="0" cellpadding="0">
 	      <tr>
-	      		<td width="10"></td
+	      		<td width="10"></td>
 	          <td valign="top"><tiles:insert attribute='sidemenu'/></td>
           </tr>
        </table>
@@ -126,14 +126,7 @@
 	              </td>
 	   		</tr>
    		
-   			<tr>
-     			<td align="center" valign="top">
-     				<!--
-     				OpenIAM LLC - Copyright 2008
-     				-->
-     			</td>
-   			 </tr>
-			</table>  		
+			</table>
 	     </td>
 	   </tr>
       </table>
