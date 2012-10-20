@@ -83,8 +83,7 @@
 		<xbean.version>3.6</xbean.version>
 		<groovy.version>1.8.6</groovy.version>
 		<googleapps.version>1.41.5</googleapps.version>
-		<bonita.version>5.4.2</bonita.version>
-        <hibernate.version>3.6.6.Final</hibernate.version>
+		<hibernate.version>3.6.6.Final</hibernate.version>
         <hibernatesearch.version>3.4.0.Final</hibernatesearch.version>
         <servletapi.version>2.5</servletapi.version>
         <ehcache.version>2.5</ehcache.version>
