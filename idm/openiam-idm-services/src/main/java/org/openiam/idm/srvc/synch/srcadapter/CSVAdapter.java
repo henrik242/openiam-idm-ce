@@ -178,6 +178,9 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
                         matchRule = matchRuleFactory.create(config);
                         User usr = matchRule.lookup(config, rowAttr);
 
+                        //@todo - Update lookup so that an exception is thrown
+                        // when lookup fails due to bad matching.
+
                         log.debug(" - Preparing transform script");
 
                         // transform

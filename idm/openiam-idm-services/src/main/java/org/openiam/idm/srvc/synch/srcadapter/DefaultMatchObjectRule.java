@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.synch.dto.Attribute;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.MatchObjectRule;
 import org.openiam.idm.srvc.user.dto.User;
-import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.springframework.beans.BeansException;
@@ -21,6 +22,8 @@ public class DefaultMatchObjectRule implements MatchObjectRule {
 	
 	private String matchAttrName = null;
 	private String matchAttrValue = null;
+
+    private static final Log log = LogFactory.getLog(DefaultMatchObjectRule.class);
 	
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		ac = applicationContext;
@@ -28,8 +31,16 @@ public class DefaultMatchObjectRule implements MatchObjectRule {
 	
 	public User lookup(SynchConfig config, Map<String, Attribute> rowAttr) {
 		UserSearch search = new UserSearch();
-		//Map<String, UserAttribute> atMap = user.getUserAttributes();
-		String srcFieldValue = rowAttr.get(config.getCustomMatchAttr()).getValue();
+
+
+        Attribute atr =  rowAttr.get(config.getCustomMatchAttr());
+        if ( atr == null ) {
+             log.debug("Match attribute not found. Check synchronization configuration");
+            return null;
+
+        }
+
+		String srcFieldValue = atr.getValue();
 		matchAttrValue = srcFieldValue;
 		matchAttrName = config.getMatchFieldName();
 	
