@@ -309,11 +309,13 @@
         </div>
     </div>
     <div class="button">
-        <input type="submit" name="_cancel" value="Cancel"/>
-    </div>
-    <div class="button">
         <input type="submit" name="_finish" value="Submit"/>
     </div>
+
+    <div class="button">
+        <input type="submit" name="_cancel" value="Cancel"/>
+    </div>
+
 </fieldset>
 
 </form:form>

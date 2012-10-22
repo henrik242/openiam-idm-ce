@@ -24,11 +24,13 @@
                 <form:password path="confPassword" size="30"  maxlength="30"   />
                 <p><form:errors path="confPassword" cssClass="error" /></p>
 
-                <div class="button">
-                    <input type="reset" value="Cancel" />
-                </div>
+
                 <div class="button">
                     <input type="submit" value="Save" />
+                </div>
+
+                <div class="button">
+                    <input type="reset" value="Cancel" />
                 </div>
             </fieldset>
 

@@ -27,12 +27,15 @@
 							<label for="t-3">Confirm New Password:<span>*</span></label>
 							<form:password path="confPassword" size="30"  maxlength="30"   />
 								<p><form:errors path="confPassword" cssClass="error" /></p>
-							<div class="button">
+
+                            <div class="button">
+                                <input type="submit" value="Save" name="btnSave">
+                            </div>
+
+                            <div class="button">
 								<input type="submit" name="_cancel" value="Cancel" />
 							</div>
-							<div class="button">
-								<input type="submit" value="Save" name="btnSave"> 
-							</div>
+
 						</fieldset>
 					</form:form> 
 				</div>

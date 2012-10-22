@@ -31,7 +31,7 @@
             <div class="block">
                 <div class="wrap alt">
                     <div class="col-1">
-											<div class="row alt">
+						<div class="row alt">
                             <label for="t-1">Last Name</label>
                             <input name="lastName" type="text" size="30" maxlength="30" />
                       </div>
@@ -39,8 +39,8 @@
                      	<div class="row alt">
                             <label for="t-1">Department</label>
                             <html:select property="dept" >
-	        										<html:options collection="orgList" property="value" labelProperty="label"/>
-	     											</html:select> 
+	        					<html:options collection="orgList" property="value" labelProperty="label"/>
+	     					</html:select>
                       </div>                      
 								</div>
                 
@@ -56,12 +56,14 @@
                       </div>
                 </div>             	
                 <div class="button">
-                	  <input type="submit" name="Submit" value="Lookup">
+                    <input type="submit" name="Submit" value="Lookup">
 
                 </div>
                 <div class="button">
                     <input type="reset" name="Reset" value="Reset">
                 </div>
+
+
                 </div>
             </div>
         </fieldset>

@@ -283,16 +283,18 @@ function selectChange(ctrl) {
 					</div>
 						
 
-				<div class="button alt">
-						<input type="submit" name="_cancel" value="Cancel" />  
-				</div>
+
 
 				<div class="button">
 						<input type="submit" name="_finish" value="Submit"/>
 				</div>
 				<div class="button">
 						 <input type="submit" name="_target0" value="Prev"/>
-				</div>					
+				</div>
+                <div class="button alt">
+                    <input type="submit" name="_cancel" value="Cancel" />
+                </div>
+
 					
 	</fieldset>
 

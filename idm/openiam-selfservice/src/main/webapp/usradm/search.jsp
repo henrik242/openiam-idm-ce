@@ -93,11 +93,12 @@
                         </div>
                         <p class="info">'%' for wildcard searches</p>
                     </div>
-                    <div class="button">
-                        <input type="submit" value="Reset" />
-                    </div>
+
                     <div class="button">
                         <input type="submit" value="Submit" />
+                    </div>
+                    <div class="button">
+                        <input type="submit" value="Reset" />
                     </div>
                 </div>
             </div>

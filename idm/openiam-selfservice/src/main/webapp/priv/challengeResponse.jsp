@@ -22,14 +22,17 @@
 	 				<form:input path="answerList[${answer.index}].questionAnswer" size="60"/>
 				<form:hidden path="answerList[${answer.index}].objectState"/>
 
-					</c:forEach>   
-					
+					</c:forEach>
+
+
+                    <div class="button">
+                        <input type="submit" name="save" value="Submit"/>
+                    </div>
+
 					<div class="button">
 						 <input type="submit" name="_cancel" value="Cancel" />
 					</div>
-					<div class="button">
-						<input type="submit" name="save" value="Submit"/> 
-					</div>
+
 
 				</fieldset>
 			</form:form>

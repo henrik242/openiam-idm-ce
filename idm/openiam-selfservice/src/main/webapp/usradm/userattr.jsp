@@ -81,7 +81,7 @@
 	</tr>    
    		<tr>
 				<td class="buttonRow" align="right">
-   					<input type="submit" name="saveBtn" value="Delete"/ <input type="submit" name="saveBtn" value="Save"/>   <input type="submit" name="saveBtn" value="Cancel"/>
+   					<input type="submit" name="saveBtn" value="Delete"/> <input type="submit" name="saveBtn" value="Save"/>   <input type="submit" name="saveBtn" value="Cancel"/>
    				</td>
    		</tr>
    

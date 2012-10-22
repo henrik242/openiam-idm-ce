@@ -79,12 +79,14 @@
 						</div>
 					</div>
 	</c:forEach>
-					<div class="button">
-						<input type="submit" value="Cancel">
-					</div>
-					<div class="button">
-						<input type="submit" value="Save">
-					</div>
+
+    <div class="button">
+        <input type="submit" value="Save">
+    </div>
+    <div class="button">
+        <input type="submit" value="Cancel">
+    </div>
+
 </fieldset>
 								
 
