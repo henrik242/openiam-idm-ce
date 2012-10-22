@@ -21,15 +21,17 @@
 							  <form:password path="confPassword" size="30"  maxlength="30"   />
 							  <p><form:errors path="confPassword" /></p>
         	
-							<div class="button">
-								<input type="submit" name="_cancel" value="Cancel" /> 
-							</div>
+
 							<div class="button">
 								<input type="submit" name="_finish" value="Finish" tabindex="1" />    
 							</div>
 							<div class="button">
 								<input type="submit" name="_target2" value="Previous"/>    
 							</div>
+                            <div class="button">
+                                <input type="submit" name="_cancel" value="Cancel" />
+                            </div>
+
 						</fieldset>
 					</form:form>
 				</div>

@@ -36,7 +36,9 @@
 
 
 <% if (msg != null ) { %>
-<font color="red"><%=msg %></font>
+<p>
+    <font color="red"><%=msg %></font>
+</p>
 <% }  %>
 
 <% if (recordCount > 0 ) { %>
