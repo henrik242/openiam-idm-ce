@@ -1,10 +1,19 @@
 package org.openiam.idm.srvc.continfo.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.user.dto.User;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -19,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
         "countryCd",
         "description",
         "isDefault",
-        "parentId",
+        "parent",
         "parentType",
         "phoneExt",
         "phoneId",
@@ -28,22 +37,51 @@ import javax.xml.bind.annotation.XmlType;
         "name",
         "operation"
 })
+@Entity
+@Table(name = "PHONE")
 public class Phone implements java.io.Serializable {
 
     // Fields
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    protected Boolean isActive = new Boolean("True");
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "PHONE_ID", length = 32, nullable = false)
+    private String phoneId;
+
+    @Column(name="ACTIVE")
+    protected Boolean isActive = Boolean.TRUE;
+
+    @Column(name="AREA_CD", length=10)
     protected String areaCd;
+
+    @Column(name="COUNTRY_CD", length=3)
     protected String countryCd;
+
+    @Column(name="DESCRIPTION", length=100)
     protected String description;
+
+    @Column(name="IS_DEFAULT")
     protected Integer isDefault = new Integer(0);
-    protected String parentId;
+
+    @ManyToOne
+    @JoinColumn(name="PARENT_ID", nullable=false)
+    private User parent;
+
+    @Column(name="PARENT_TYPE", length=30)
     protected String parentType;
+
+    @Column(name="PHONE_EXT", length=20)
     protected String phoneExt;
-    protected String phoneId;
+
+    @Column(name="PHONE_NBR", length=50)
     protected String phoneNbr;
+
+    @Column(name="NAME", length=40)
     protected String name;
+
+    @Column(name="PHONE_TYPE", length=20)
     protected String phoneType;
 
     // Constructors
@@ -61,20 +99,20 @@ public class Phone implements java.io.Serializable {
         this.phoneId = phoneId;
     }
 
-    public Phone(String name, String phoneNbr, String phoneExt, String areaCd, String parentType, String parentId, String countryCd) {
+    public Phone(String name, String phoneNbr, String phoneExt, String areaCd, String parentType, User parent, String countryCd) {
         this.name = name;
         this.phoneNbr = phoneNbr;
         this.phoneExt = phoneExt;
         this.areaCd = areaCd;
         this.parentType = parentType;
-        this.parentId = parentId;
+        this.parent = parent;
         this.countryCd = countryCd;
     }
 
     /**
      * full constructor
      */
-    public Phone(String phoneId, String areaCd, String countryCd,
+/*    public Phone(String phoneId, String areaCd, String countryCd,
                  String description, String phoneNbr, String phoneExt,
                  Integer isDefault, String addressId) {
         this.phoneId = phoneId;
@@ -84,7 +122,7 @@ public class Phone implements java.io.Serializable {
         this.phoneNbr = phoneNbr;
         this.phoneExt = phoneExt;
         this.isDefault = isDefault;
-    }
+    }*/
 
     public void updatePhone(Phone ph) {
         this.areaCd = ph.getAreaCd();
@@ -163,16 +201,7 @@ public class Phone implements java.io.Serializable {
      * @return
      */
     public String getParentId() {
-        return parentId;
-    }
-
-    /**
-     * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
-     *
-     * @param parentId
-     */
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+        return parent.getUserId();
     }
 
     /**
@@ -233,6 +262,19 @@ public class Phone implements java.io.Serializable {
         this.operation = operation;
     }
 
+    /**
+     * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
+     *
+     * @return
+     */
+    public User getParent() {
+        return parent;
+    }
+
+    public void setParent(User parent) {
+        this.parent = parent;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -247,7 +289,7 @@ public class Phone implements java.io.Serializable {
         if (isDefault != null ? !isDefault.equals(phone.isDefault) : phone.isDefault != null) return false;
         if (name != null ? !name.equals(phone.name) : phone.name != null) return false;
         if (operation != phone.operation) return false;
-        if (parentId != null ? !parentId.equals(phone.parentId) : phone.parentId != null) return false;
+        if (parent != null ? !parent.equals(phone.parent) : phone.parent != null) return false;
         if (parentType != null ? !parentType.equals(phone.parentType) : phone.parentType != null) return false;
         if (phoneExt != null ? !phoneExt.equals(phone.phoneExt) : phone.phoneExt != null) return false;
         if (phoneId != null ? !phoneId.equals(phone.phoneId) : phone.phoneId != null) return false;
@@ -259,7 +301,7 @@ public class Phone implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        return parentId != null ? parentId.hashCode() : 0;
+        return parent != null ? parent.hashCode() : 0;
     }
 
     @Override
@@ -271,7 +313,7 @@ public class Phone implements java.io.Serializable {
                 ", countryCd='" + countryCd + '\'' +
                 ", description='" + description + '\'' +
                 ", isDefault=" + isDefault +
-                ", parentId='" + parentId + '\'' +
+                ", parentId='" + (parent != null ? parent.getUserId() : "") + '\'' +
                 ", parentType='" + parentType + '\'' +
                 ", phoneExt='" + phoneExt + '\'' +
                 ", phoneId='" + phoneId + '\'' +

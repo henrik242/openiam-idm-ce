@@ -278,7 +278,7 @@ public class EditUserController extends CancellableFormController {
        }else {
            Phone p = new Phone();
            p.setName("DESK PHONE");
-           p.setParentId(personId);
+           p.setParent(resp.getUser());
            p.setPhoneNbr("");
            p.setAreaCd("");
            editUserCmd.getPhoneList().add(p);
@@ -404,7 +404,7 @@ public class EditUserController extends CancellableFormController {
             for ( UserAttribute ua : attrList) {
                 if ( ua.getId() != null && ua.getId().length() > 0) {
                     // UPDATE
-                    updateUserAttr(pUser, ua, 2, usr.getUserId(), currentUserObj);
+                    updateUserAttr(pUser, ua, 2, usr, currentUserObj);
                 }
             }
         }
@@ -527,7 +527,7 @@ public class EditUserController extends CancellableFormController {
 		adr.setState(profileCommand.getUser().getState());
 		adr.setStreetDirection(profileCommand.getUser().getStreetDirection());
 		adr.setName("DEFAULT ADR");
-		adr.setParentId(pUser.getUser().getUserId());
+		adr.setParent(pUser.getUser());
 		adr.setParentType(ContactConstants.PARENT_TYPE_USER);
 		adr.setPostalCd(profileCommand.getUser().getPostalCd());
 		pUser.getAddresses().add(adr);
@@ -555,13 +555,13 @@ public class EditUserController extends CancellableFormController {
 	
 
 	
-    private void updateUserAttr(ProvisionUser user, UserAttribute ua, int operation, String personId, User currentUserObj) {
+    private void updateUserAttr(ProvisionUser user, UserAttribute ua, int operation, User person, User currentUserObj) {
 
         if (currentUserObj == null) {
             // should not occur unless if data is screwed up
             ua.setOperation(AttributeOperationEnum.ADD);
             ua.setId(null);
-            ua.setUserId(personId);
+            ua.setUser(person);
             user.getUserAttributes().put(ua.getName(), ua);
             return;
 

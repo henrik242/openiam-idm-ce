@@ -246,7 +246,7 @@ public class EditUserController extends CancellableFormController {
         }else {
             Phone p = new Phone();
             p.setName("DESK PHONE");
-            p.setParentId(personId);
+            p.setParent(resp.getUser());
             p.setParentType(ContactConstants.PARENT_TYPE_USER);
             p.setPhoneNbr("");
             p.setAreaCd("");
@@ -524,18 +524,12 @@ public class EditUserController extends CancellableFormController {
 		adr.setState(profileCommand.getUser().getState());
 		adr.setStreetDirection(profileCommand.getUser().getStreetDirection());
 		adr.setName("DEFAULT ADR");
-		adr.setParentId(pUser.getUser().getUserId());
+		adr.setParent(pUser.getUser());
 		adr.setParentType(ContactConstants.PARENT_TYPE_USER);
 		adr.setPostalCd(profileCommand.getUser().getPostalCd());
 		pUser.getAddresses().add(adr);
-
-	
-			
 	}
-	
-	
 
-	
 
 	public ManagedSystemDataService getManagedSysService() {
 		return managedSysService;

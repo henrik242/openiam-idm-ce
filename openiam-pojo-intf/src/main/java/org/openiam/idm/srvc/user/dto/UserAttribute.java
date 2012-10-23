@@ -3,9 +3,16 @@ package org.openiam.idm.srvc.user.dto;
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
-import org.openiam.idm.srvc.grp.dto.Group;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,24 +30,40 @@ import javax.xml.bind.annotation.XmlType;
         "id",
         "metadataElementId",
         "name",
-        "userId",
+        "user",
         "value",
         "attrGroup",
         "operation",
         "required"
 })
+@Entity
+@Table(name = "USER_ATTRIBUTES")
 public class UserAttribute extends BaseObject {
 
-
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "ID", length = 32, nullable = false)
     protected String id;
+
+    @Column(name="METADATA_ID", length=20)
     protected String metadataElementId;
+
+    @Column(name="NAME", length=50)
     protected String name;
-    protected String userId;
+
+    @ManyToOne
+    @JoinColumn(name="USER_ID", nullable=false)
+    protected User user;
+
+    @Column(name="VALUE", length=50)
     protected String value;
+
     protected String attrGroup;
+
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    protected Boolean required = new Boolean(false);
+    protected Boolean required = Boolean.TRUE;
 
 
     // Constructors
@@ -64,11 +87,11 @@ public class UserAttribute extends BaseObject {
         this.id = null;
     }
 
-    public UserAttribute(String id, String users,
+    public UserAttribute(String id, User user,
                          String metadataElement, String name, String value) {
         this.id = id;
-        userId = users;
-        metadataElementId = metadataElement;
+        this.user = user;
+        this.metadataElementId = metadataElement;
         this.name = name;
         this.value = value;
     }
@@ -116,14 +139,6 @@ public class UserAttribute extends BaseObject {
         this.metadataElementId = metadataElementId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getAttrGroup() {
         return attrGroup;
     }
@@ -148,13 +163,21 @@ public class UserAttribute extends BaseObject {
         this.required = required;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "UserAttribute{" +
                 "id='" + id + '\'' +
                 ", metadataElementId='" + metadataElementId + '\'' +
                 ", name='" + name + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userId='" + (user != null ? user.getUserId() : "") + '\'' +
                 ", value='" + value + '\'' +
                 ", attrGroup='" + attrGroup + '\'' +
                 ", operation=" + operation +
@@ -175,7 +198,7 @@ public class UserAttribute extends BaseObject {
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (operation != that.operation) return false;
         if (required != null ? !required.equals(that.required) : that.required != null) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;

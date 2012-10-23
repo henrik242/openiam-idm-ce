@@ -335,7 +335,7 @@ public class ProfileController extends CancellableFormController {
 			email1 = new EmailAddress();
 			email1.setEmailAddress(profileCommand.getEmail1());
 			email1.setName("EMAIL1");
-			email1.setParentId(usr.getUserId());
+			email1.setParent(usr);
 			email1.setParentType(ContactConstants.PARENT_TYPE_USER);
             usr.getEmailAddress().add(email1);
 
@@ -347,7 +347,7 @@ public class ProfileController extends CancellableFormController {
 			email2 = new EmailAddress();
 			email2.setEmailAddress(profileCommand.getEmail2());
 			email2.setName("EMAIL2");
-			email2.setParentId(usr.getUserId());
+			email2.setParent(usr);
 			email2.setParentType(ContactConstants.PARENT_TYPE_USER);
             usr.getEmailAddress().add(email2);
 		}		
@@ -357,7 +357,7 @@ public class ProfileController extends CancellableFormController {
 			email3 = new EmailAddress();
 			email3.setEmailAddress(profileCommand.getEmail3());
 			email3.setName("EMAIL3");
-			email3.setParentId(usr.getUserId());
+			email3.setParent(usr);
 			email3.setParentType(ContactConstants.PARENT_TYPE_USER);
             usr.getEmailAddress().add(email3);
 			
@@ -452,7 +452,7 @@ public class ProfileController extends CancellableFormController {
 			deskPhone.setDescription("WORK");
 			deskPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			deskPhone.setName("DESK PHONE");
-			deskPhone.setParentId(usr.getUserId());
+			deskPhone.setParent(usr);
 			phSet.add(deskPhone);
 		}		
 		if (!phoneExists(phSet, "CELL PHONE") ) {
@@ -463,7 +463,7 @@ public class ProfileController extends CancellableFormController {
 			cellPhone.setDescription("CELL");
 			cellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			cellPhone.setName("CELL PHONE");
-			cellPhone.setParentId(usr.getUserId());
+			cellPhone.setParent(usr);
 			phSet.add(cellPhone);
 		}
 
@@ -475,7 +475,7 @@ public class ProfileController extends CancellableFormController {
 			faxPhone.setDescription("FAX");
 			faxPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			faxPhone.setName("FAX");
-			faxPhone.setParentId(usr.getUserId());
+			faxPhone.setParent(usr);
 			phSet.add(faxPhone);
 		}
 		if (!phoneExists(phSet, "HOME PHONE")) {
@@ -487,7 +487,7 @@ public class ProfileController extends CancellableFormController {
 			homePhone.setDescription("HOME");
 			homePhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			homePhone.setName("HOME PHONE");
-			homePhone.setParentId(usr.getUserId());
+			homePhone.setParent(usr);
 			phSet.add(homePhone);
 		}
 		if (!phoneExists(phSet, "ALT CELL PHONE") ) {
@@ -498,7 +498,7 @@ public class ProfileController extends CancellableFormController {
 			altCellPhone.setDescription("ALT CELL");
 			altCellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			altCellPhone.setName("ALT CELL PHONE");
-			altCellPhone.setParentId(usr.getUserId());
+			altCellPhone.setParent(usr);
 			altCellPhone.setPhoneId(profileCmd.getAltCellNbrId());
 			phSet.add(altCellPhone);
 		}
@@ -510,7 +510,7 @@ public class ProfileController extends CancellableFormController {
 			personalPhone.setDescription("PERSONAL PHONE");
 			personalPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			personalPhone.setName("PERSONAL PHONE");
-			personalPhone.setParentId(usr.getUserId());
+			personalPhone.setParent(usr);
 			phSet.add(personalPhone);
 		}
 	

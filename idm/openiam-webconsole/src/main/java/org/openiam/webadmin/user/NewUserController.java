@@ -144,7 +144,7 @@ public class NewUserController extends AbstractWizardFormController {
         if (attrList != null) {
             for ( UserAttribute ua : attrList) {
                 ua.setOperation(AttributeOperationEnum.ADD);
-                ua.setUserId(null);
+                ua.setUser(null);
                 ua.setId(null);
                 user.getUserAttributes().put(ua.getName(), ua);
             }
@@ -261,14 +261,14 @@ public class NewUserController extends AbstractWizardFormController {
 		deskPhone.setPhoneNbr(newHireCmd.getUser().getPhoneNbr());
 		deskPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 		deskPhone.setName("DESK PHONE");
-		deskPhone.setParentId(usr.getUserId());
+		deskPhone.setParent(usr);
 
 		Phone cellPhone = new Phone();
 		cellPhone.setAreaCd(newHireCmd.getCellAreaCode());
 		cellPhone.setPhoneNbr(newHireCmd.getCellPhone());
 		cellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 		cellPhone.setName("CELL PHONE");
-		cellPhone.setParentId(usr.getUserId());
+		cellPhone.setParent(usr);
 
 		Phone faxPhone = new Phone();
 		faxPhone.setAreaCd(newHireCmd.getFaxAreaCode());
@@ -276,21 +276,21 @@ public class NewUserController extends AbstractWizardFormController {
 		faxPhone.setDescription("FAX");
 		faxPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 		faxPhone.setName("FAX");
-		faxPhone.setParentId(usr.getUserId());
+		faxPhone.setParent(usr);
 
 		Phone homePhone = new Phone();
 		homePhone.setAreaCd(newHireCmd.getHomePhoneAreaCode());
 		homePhone.setPhoneNbr(newHireCmd.getHomePhoneNbr());
 		homePhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 		homePhone.setName("HOME PHONE");
-		homePhone.setParentId(usr.getUserId());
+		homePhone.setParent(usr);
 		
 		Phone altCellPhone = new Phone();
 		altCellPhone.setAreaCd(newHireCmd.getAltCellAreaCode());
 		altCellPhone.setPhoneNbr(newHireCmd.getAltCellNbr());
 		altCellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 		altCellPhone.setName("ALT CELL PHONE");
-		altCellPhone.setParentId(usr.getUserId());
+		altCellPhone.setParent(usr);
 		
 		Phone personalPhone = new Phone();
 		personalPhone.setAreaCd(newHireCmd.getPersonalAreaCode());
@@ -298,7 +298,7 @@ public class NewUserController extends AbstractWizardFormController {
 		personalPhone.setDescription("PERSONAL PHONE");
 		personalPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 		personalPhone.setName("PERSONAL PHONE");
-		personalPhone.setParentId(usr.getUserId());
+		personalPhone.setParent(usr);
 		
 		phSet.add(deskPhone);
 		phSet.add(cellPhone);
@@ -316,14 +316,14 @@ public class NewUserController extends AbstractWizardFormController {
 		
 		EmailAddress email1 = new EmailAddress();
 		email1.setEmailAddress(newHireCmd.getUser().getEmail());
-		email1.setParentId(usr.getUserId());
+		email1.setParent(usr);
 		email1.setName("EMAIL1");
 		email1.setParentType(ContactConstants.PARENT_TYPE_USER);
         usr.setEmail(newHireCmd.getUser().getEmail());
 
 		EmailAddress email2 = new EmailAddress();
 		email2.setEmailAddress(newHireCmd.getEmail2());
-		email2.setParentId(usr.getUserId());
+		email2.setParent(usr);
 		email2.setName("EMAIL2");
 		email2.setParentType(ContactConstants.PARENT_TYPE_USER);
 

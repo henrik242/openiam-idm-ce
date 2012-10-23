@@ -146,9 +146,13 @@ public class ApproveUserAction extends DispatchActionSupport  {
     		noteValue.setCreateDate(new Timestamp(System.currentTimeMillis()));
     		noteValue.setDescription((String)userNotesForm.get("description"));
     		noteValue.setNoteType(noteType);
-    		noteValue.setUserId(selectedPersonId);
-    		userMgr.addNote(noteValue);           
-            
+    		noteValue.setUser(ud);
+
+    		userMgr.addNote(noteValue);
+
+            ud.getUserNotes().add(noteValue);
+  		    userMgr.updateUser(ud);
+
  			logMsg = "User id=" + selectedPersonId + " has been rejected";
   		
     		//System.out.println("Sending email message...");

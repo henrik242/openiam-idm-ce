@@ -1,10 +1,19 @@
 package org.openiam.idm.srvc.continfo.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.user.dto.User;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -30,39 +39,85 @@ import javax.xml.bind.annotation.XmlType;
         "country",
         "description",
         "isDefault",
-        "parentId",
+        "parent",
         "parentType",
         "postalCd",
         "state",
         "name",
         "operation"
 })
+@Entity
+@Table(name = "ADDRESS")
 public class Address implements java.io.Serializable {
 
 
     // Fields
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "ADDRESS_ID", length = 32, nullable = false)
+    private String addressId;
+
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    protected Boolean isActive = new Boolean("True");
+    @Column(name="ACTIVE")
+    protected Boolean isActive = Boolean.TRUE;
+
+    @Column(name="BLDG_NUM", length=45)
     protected String bldgNumber;
+
+    @Column(name="STREET_DIRECTION", length=20)
     protected String streetDirection;
+
+    @Column(name="SUITE", length=20)
     protected String suite;
+
+    @Column(name="ADDRESS1", length=45)
     protected String address1;
+
+    @Column(name="ADDRESS2", length=45)
     protected String address2;
+
+    @Column(name="ADDRESS3", length=45)
     protected String address3;
+
+    @Column(name="ADDRESS4", length=45)
     protected String address4;
+
+    @Column(name="ADDRESS5", length=45)
     protected String address5;
+
+    @Column(name="ADDRESS6", length=45)
     protected String address6;
+
+    @Column(name="ADDRESS7", length=45)
     protected String address7;
-    protected String addressId;
+
+    @Column(name="CITY", length=45)
     protected String city;
+
+    @Column(name="COUNTRY", length=30)
     protected String country;
+
+    @Column(name="DESCRIPTION", length=100)
     protected String description;
+
     protected Integer isDefault = new Integer(0);
-    protected String parentId;
+
+    @ManyToOne
+    @JoinColumn(name="PARENT_ID", nullable=false)
+    private User parent;
+
+    @Column(name="PARENT_TYPE", length=30)
     protected String parentType;
+
+    @Column(name="POSTAL_CD", length=10)
     protected String postalCd;
+
+    @Column(name="STATE", length=15)
     protected String state;
+
+    @Column(name="NAME", length=40)
     protected String name;
 
 
@@ -127,7 +182,7 @@ public class Address implements java.io.Serializable {
                 ", country='" + country + '\'' +
                 ", description='" + description + '\'' +
                 ", isDefault=" + isDefault +
-                ", parentId='" + parentId + '\'' +
+                ", parentId='" + (parent != null ? parent.getUserId() : "") + '\'' +
                 ", parentType='" + parentType + '\'' +
                 ", postalCd='" + postalCd + '\'' +
                 ", state='" + state + '\'' +
@@ -236,16 +291,7 @@ public class Address implements java.io.Serializable {
      * @return
      */
     public String getParentId() {
-        return parentId;
-    }
-
-    /**
-     * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
-     *
-     * @param userId
-     */
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+        return parent.getUserId();
     }
 
     /**
@@ -361,6 +407,19 @@ public class Address implements java.io.Serializable {
         this.suite = suite;
     }
 
+    /**
+     * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
+     *
+     * @return
+     */
+    public User getParent() {
+        return parent;
+    }
+
+    public void setParent(User parent) {
+        this.parent = parent;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -384,7 +443,7 @@ public class Address implements java.io.Serializable {
         if (isDefault != null ? !isDefault.equals(address.isDefault) : address.isDefault != null) return false;
         if (name != null ? !name.equals(address.name) : address.name != null) return false;
         if (operation != address.operation) return false;
-        if (parentId != null ? !parentId.equals(address.parentId) : address.parentId != null) return false;
+        if (parent != null ? !parent.equals(address.parent) : address.parent != null) return false;
         if (parentType != null ? !parentType.equals(address.parentType) : address.parentType != null) return false;
         if (postalCd != null ? !postalCd.equals(address.postalCd) : address.postalCd != null) return false;
         if (state != null ? !state.equals(address.state) : address.state != null) return false;

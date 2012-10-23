@@ -569,7 +569,7 @@ public class SelfRegistrationController extends CancellableFormController {
         adr.setState(cmd.getUser().getState());
         adr.setStreetDirection(cmd.getUser().getStreetDirection());
         adr.setName("DEFAULT ADR");
-        adr.setParentId(pUser.getUser().getUserId());
+        adr.setParent(pUser.getUser());
         adr.setParentType(ContactConstants.PARENT_TYPE_USER);
         adr.setPostalCd(cmd.getUser().getPostalCd());
         pUser.getAddresses().add(adr);
@@ -597,7 +597,7 @@ public class SelfRegistrationController extends CancellableFormController {
         ph.setDescription(name);
         ph.setParentType(ContactConstants.PARENT_TYPE_USER);
         ph.setName(name);
-        ph.setParentId(usr.getUserId());
+        ph.setParent(usr);
 
         return ph;
     }

@@ -618,14 +618,14 @@
 				<value>org/openiam/idm/srvc/service/service/RequestForm.hbm.xml</value>
 				<value>org/openiam/idm/srvc/service/service/RequestApprover.hbm.xml</value>
 				<!-- User Maps -->
-				<value>org/openiam/idm/srvc/user/service/User.hbm.xml</value>
-				<value>org/openiam/idm/srvc/user/service/UserNote.hbm.xml</value>
-				<value>org/openiam/idm/srvc/user/service/UserAttribute.hbm.xml</value>
+				<!--value>org/openiam/idm/srvc/user/service/User.hbm.xml</value-->
+				<!--value>org/openiam/idm/srvc/user/service/UserNote.hbm.xml</value-->
+				<!--value>org/openiam/idm/srvc/user/service/UserAttribute.hbm.xml</value-->
 				<value>org/openiam/idm/srvc/user/service/Supervisor.hbm.xml</value>
 				<!--contact information maps -->
-				<value>org/openiam/idm/srvc/continfo/service/Address.hbm.xml</value>
-				<value>org/openiam/idm/srvc/continfo/service/EmailAddress.hbm.xml</value>
-				<value>org/openiam/idm/srvc/continfo/service/Phone.hbm.xml</value>
+				<!--value>org/openiam/idm/srvc/continfo/service/Address.hbm.xml</value-->
+				<!--value>org/openiam/idm/srvc/continfo/service/EmailAddress.hbm.xml</value-->
+				<!--value>org/openiam/idm/srvc/continfo/service/Phone.hbm.xml</value-->
 				<!-- Organization Maps -->
 				<value>org/openiam/idm/srvc/org/service/Organization.hbm.xml</value>
 				<value>org/openiam/idm/srvc/org/service/OrganizationAttribute.hbm.xml</value>
@@ -740,6 +740,8 @@
 											   org.openiam.idm.srvc.grp.dto*,
 											   org.openiam.idm.srvc.res.dto*,
 											   org.openiam.idm.srvc.role.dto*,
+											   org.openiam.idm.srvc.user.dto*,
+											   org.openiam.idm.srvc.continfo.dto*,
 											   org.openiam.am.srvc.resattr.domain*"/>
 	</bean>
 

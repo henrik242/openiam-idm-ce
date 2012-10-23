@@ -214,12 +214,12 @@ public class DelegationFilterController extends CancellableFormController {
        String roleFilter =  cmd.getRoleFilterAsString();
        String orgFilter =  cmd.getOrgFilterAsString();
 
-        updateUserAttr(attrMap,"DLG_FLT_APP", appFilter, personId);
-        updateUserAttr(attrMap,"DLG_FLT_DEPT", deptFilter, personId);
-        updateUserAttr(attrMap,"DLG_FLT_DIV", divFilter, personId);
-        updateUserAttr(attrMap,"DLG_FLT_GRP", groupFilter, personId);
-        updateUserAttr(attrMap,"DLG_FLT_ROLE", roleFilter, personId);
-        updateUserAttr(attrMap,"DLG_FLT_ORG", orgFilter, personId);
+        updateUserAttr(attrMap,"DLG_FLT_APP", appFilter, resp.getUser());
+        updateUserAttr(attrMap,"DLG_FLT_DEPT", deptFilter, resp.getUser());
+        updateUserAttr(attrMap,"DLG_FLT_DIV", divFilter, resp.getUser());
+        updateUserAttr(attrMap,"DLG_FLT_GRP", groupFilter, resp.getUser());
+        updateUserAttr(attrMap,"DLG_FLT_ROLE", roleFilter, resp.getUser());
+        updateUserAttr(attrMap,"DLG_FLT_ORG", orgFilter, resp.getUser());
 
 		ProvisionUser pUser = new ProvisionUser(usr);
 
@@ -240,14 +240,14 @@ public class DelegationFilterController extends CancellableFormController {
 	}
 
 
-    private void updateUserAttr(Map<String, UserAttribute> attrMap, String attrName, String value,  String personId) {
+    private void updateUserAttr(Map<String, UserAttribute> attrMap, String attrName, String value,  User person) {
         UserAttribute attr =  attrMap.get(attrName);
         if (attr == null) {
             // new attr
             attr = new UserAttribute(attrName, value);
             attr.setOperation(AttributeOperationEnum.ADD);
             attr.setId(null);
-            attr.setUserId(personId);
+            attr.setUser(person);
             attrMap.put(attrName,attr );
         }else {
             // update existing attr
