@@ -1,6 +1,11 @@
 package org.openiam.idm.srvc.user.dto;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -23,19 +28,39 @@ import java.util.Date;
         "supervisor",
         "supervisorType"
 })
+@Entity
+@Table(name = "ORG_STRUCTURE")
 public class Supervisor implements java.io.Serializable {
 
-
+    @Column(name="COMMENTS")
     protected String comments;
+
+    @ManyToOne
+    @JoinColumn(name="STAFF_ID", nullable=false)
     protected User employee;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="END_DATE", length=19)
     protected Date endDate;
+
+    @Column(name="IS_PRIMARY_SUPER")
     protected Integer isPrimarySuper;
+
+    @Column(name="ORG_STRUCTURE_ID")
     protected String orgStructureId;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="START_DATE", length=19)
     protected Date startDate;
+
+    @Column(name="STATUS", length=20)
     protected String status;
+
+    @ManyToOne
+    @JoinColumn(name="SUPERVISOR_ID", nullable=false)
     protected User supervisor;
+
+    @Column(name="SUPERVISOR_TYPE", length=20)
     protected String supervisorType;
 
 
