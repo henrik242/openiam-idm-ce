@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
@@ -58,6 +59,7 @@ public class Address implements java.io.Serializable {
     @Column(name = "ADDRESS_ID", length = 32, nullable = false)
     private String addressId;
 
+    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
     @Column(name="ACTIVE")
@@ -102,6 +104,7 @@ public class Address implements java.io.Serializable {
     @Column(name="DESCRIPTION", length=100)
     protected String description;
 
+    @Transient
     protected Integer isDefault = new Integer(0);
 
     @ManyToOne

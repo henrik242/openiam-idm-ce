@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
@@ -38,6 +39,7 @@ import org.openiam.idm.srvc.user.dto.User;
 public class EmailAddress implements java.io.Serializable {
 
     // Fields
+    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
     @Id
     @GeneratedValue(generator = "system-uuid")

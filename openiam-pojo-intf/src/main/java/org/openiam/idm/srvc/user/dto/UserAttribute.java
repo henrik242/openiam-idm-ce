@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
@@ -59,10 +60,13 @@ public class UserAttribute extends BaseObject {
     @Column(name="VALUE", length=50)
     protected String value;
 
+    @Transient
     protected String attrGroup;
 
+    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
+    @Transient
     protected Boolean required = Boolean.TRUE;
 
 

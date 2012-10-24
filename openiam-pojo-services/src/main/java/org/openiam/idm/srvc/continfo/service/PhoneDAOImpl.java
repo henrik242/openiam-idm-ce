@@ -99,7 +99,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 	/**
 	 * Updates an existing instance
-	 * @param instace
+	 * @param instance
 	 */
 	public void update(Phone instance) {
 
@@ -121,7 +121,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType and a.name = :name");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -156,7 +156,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -170,7 +170,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType and a.isDefault = 1");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -180,7 +180,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	public void removeByParent(String parentId, String parentType) {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.dto.Phone a " + 
-				" where a.parentId = :parentId and   " +
+				" where a.parent.userId = :parentId and   " +
 				" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
