@@ -1,0 +1,98 @@
+2012-10-25 19:36:11,671 WARN  [org.hibernate.id.UUIDHexGenerator] Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+2012-10-25 21:17:50,328 WARN  [org.hibernate.id.UUIDHexGenerator] Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on table GRP is ''
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.TYPE_ID is ''
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.GRP_NAME is ''
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.CREATE_DATE is ''
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,046 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.CREATED_BY is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.COMPANY_ID is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.OWNER_ID is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.PARENT_GRP_ID is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.INHERIT_FROM_PARENT is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.PROVISION_METHOD is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.PROVISION_OBJ_NAME is ''
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,062 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.GROUP_CLASS is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.GROUP_DESC is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.STATUS is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.LAST_UPDATE is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.LAST_UPDATED_BY is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP.INTERNAL_GROUP_ID is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on table GRP_ATTRIBUTES is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP_ATTRIBUTES.METADATA_ID is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP_ATTRIBUTES.NAME is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP_ATTRIBUTES.VALUE is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP_ATTRIBUTES.GRP_ID is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column GRP_ROLE.GRP_ID is ''
+2012-10-25 21:17:51,078 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on table ROLE is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.ROLE_NAME is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.CREATE_DATE is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.CREATED_BY is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.DESCRIPTION is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.PROVISION_OBJ_NAME is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.TYPE_ID is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.PARENT_ROLE_ID is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.OWNER_ID is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.STATUS is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.INHERIT_FROM_PARENT is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE.INTERNAL_ROLE_ID is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on table ROLE_ATTRIBUTE is ''
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,093 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_ATTRIBUTE.SERVICE_ID is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_ATTRIBUTE.ROLE_ID is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_ATTRIBUTE.NAME is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_ATTRIBUTE.VALUE is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_ATTRIBUTE.METADATA_ID is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on table ROLE_POLICY is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_POLICY.SERVICE_ID is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_POLICY.ROLE_ID is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_POLICY.NAME is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_POLICY.ACTION is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_POLICY.VALUE1 is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unsuccessful: comment on column ROLE_POLICY.VALUE2 is ''
+2012-10-25 21:17:51,109 ERROR [org.hibernate.tool.hbm2ddl.SchemaExport] Unexpected token: COMMENT in statement [comment]

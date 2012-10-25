@@ -3,12 +3,9 @@ package org.openiam.idm.srvc.audit.ws;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
-import org.mule.api.MuleException;
 import org.mule.api.context.MuleContextAware;
 import org.mule.module.client.MuleClient;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
-import org.openiam.idm.srvc.audit.export.AuditEventHandlerFactory;
-import org.openiam.idm.srvc.audit.export.ExportAuditEvent;
 
 
 import javax.jws.WebService;

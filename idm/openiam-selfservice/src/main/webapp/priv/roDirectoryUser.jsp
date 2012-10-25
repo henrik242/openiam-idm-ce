@@ -229,7 +229,7 @@ function confirmMsg(msg) {
 		<tr>
 		 <td colspan="4"> 
          <a href="priv/profile.do?method=directory&personId=<%=emp.getEmployee().getUserId() %>"%>
-		<%= emp.getEmployee().getFirstName() %> <%= emp.getEmployee().getLastName() %></a>   
+		<%= emp.getEmployee().getFirstName() %> <%= emp.getEmployee().getLastName() %></a>
 		</td>
 		</tr>
 	<%	}

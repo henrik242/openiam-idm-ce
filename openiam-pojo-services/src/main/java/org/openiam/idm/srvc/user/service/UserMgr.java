@@ -3,10 +3,7 @@ package org.openiam.idm.srvc.user.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.SysConfiguration;
-import org.openiam.idm.srvc.meta.dto.MetadataType;
 import org.openiam.idm.srvc.user.dto.*;
-import org.openiam.idm.srvc.user.ws.AttributeListResponse;
-import org.openiam.util.db.Search;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.auth.login.LoginDAO;
@@ -19,8 +16,6 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 
 import java.util.*;
-
-import javax.jws.WebService;
 
 /**
  * Service interface that clients will access to gain information about users
@@ -1210,7 +1205,7 @@ public class UserMgr implements UserDataService {
 			org.hibernate.Hibernate.initialize(sup.getEmployee().getPhone());
 			org.hibernate.Hibernate.initialize(sup.getEmployee().getEmailAddress());
 			org.hibernate.Hibernate.initialize(sup.getEmployee().getAddresses());
-			org.hibernate.Hibernate.initialize(sup.getEmployee().getUserAttributes());	
+			org.hibernate.Hibernate.initialize(sup.getEmployee().getUserAttributes());
 		}
 		
 		return superVisList;

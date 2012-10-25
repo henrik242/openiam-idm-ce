@@ -6,18 +6,16 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openiam.idm.srvc.user.dto.Supervisor;
-import org.openiam.idm.srvc.user.dto.UserAttribute;
 
 import static org.hibernate.criterion.Example.create;
 
 /**
  * Data Access Object implementation for domain model class Supervisor.
- * @see org.openidm.srvc.dto.Supervisor
+ * @see org.openiam.idm.srvc.user.dto.Supervisor
  */
 public class SupervisorDAOImpl implements SupervisorDAO  {
 

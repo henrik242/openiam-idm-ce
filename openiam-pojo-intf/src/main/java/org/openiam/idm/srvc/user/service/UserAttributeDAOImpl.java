@@ -17,7 +17,7 @@ import java.util.List;
  * Home object for domain model class UserAttribute.
  *
  * @author Hibernate Tools
- * @see org.openiam.idm.srvc.user.GroupAttribute
+ * @see org.openiam.idm.srvc.user.dto.UserAttribute
  */
 public class UserAttributeDAOImpl implements UserAttributeDAO {
 
@@ -118,7 +118,7 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 
     public List<UserAttribute> findUserAttributes(String userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.UserAttribute ua where ua.userId = :userId order by ua.name asc");
+        Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.UserAttribute ua where ua.user.userId = :userId order by ua.name asc");
         qry.setString("userId", userId);
         List<UserAttribute> results = (List<UserAttribute>) qry.list();
         return results;
@@ -127,7 +127,7 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
     public void deleteUserAttributes(String userId) {
         Session session = sessionFactory.getCurrentSession();
         Query qry = session.createQuery("delete org.openiam.idm.srvc.user.dto.UserAttribute ua " +
-                " where ua.userId = :userId ");
+                " where ua.user.userId = :userId ");
         qry.setString("userId", userId);
         qry.executeUpdate();
 

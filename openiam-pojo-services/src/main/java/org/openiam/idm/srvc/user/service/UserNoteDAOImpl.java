@@ -139,8 +139,7 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 	public List findByExample(UserNote instance) {
 		log.debug("finding UserNote instance by example");
 		try {
-			List results = sessionFactory.getCurrentSession().createCriteria(
-					"org.openiam.idm.srvc.user.UserNote").add(
+			List results = sessionFactory.getCurrentSession().createCriteria(UserNote.class).add(
 					Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

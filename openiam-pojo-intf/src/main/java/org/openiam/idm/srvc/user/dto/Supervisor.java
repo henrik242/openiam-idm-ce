@@ -62,7 +62,7 @@ public class Supervisor implements java.io.Serializable {
     protected String status;
 
     @ManyToOne
-    @JoinColumn(name="SUPERVISOR_ID", nullable=false)
+    @JoinColumn(name="SUPERVISOR_ID")
     protected User supervisor;
 
     @Column(name="SUPERVISOR_TYPE", length=20)

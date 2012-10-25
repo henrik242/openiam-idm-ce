@@ -24,7 +24,7 @@ import org.openiam.util.ws.collection.MapItem;
 
 /**
  * DAO Implementation for domain model class Address.
- * @see org.openiam.idm.srvc.user.dto.Address
+ * @see org.openiam.idm.srvc.continfo.dto.Address
  */
 public class AddressDAOImpl implements AddressDAO {
 
