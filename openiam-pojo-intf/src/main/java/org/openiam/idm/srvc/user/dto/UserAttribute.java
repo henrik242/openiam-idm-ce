@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
@@ -31,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
         "id",
         "metadataElementId",
         "name",
-        "user",
+        "userId",
         "value",
         "attrGroup",
         "operation",
@@ -53,8 +54,9 @@ public class UserAttribute extends BaseObject {
     @Column(name="NAME", length=50)
     protected String name;
 
+    @XmlTransient
     @ManyToOne
-    @JoinColumn(name="USER_ID", nullable=false)
+    @JoinColumn(name="USER_ID")
     protected User user;
 
     @Column(name="VALUE", length=50)
@@ -69,7 +71,8 @@ public class UserAttribute extends BaseObject {
     @Transient
     protected Boolean required = Boolean.TRUE;
 
-
+    @Transient
+    protected String userId;
     // Constructors
 
     /**
@@ -173,6 +176,11 @@ public class UserAttribute extends BaseObject {
 
     public void setUser(User user) {
         this.user = user;
+        this.userId = user != null ? user.getUserId() : "";
+    }
+
+    public String getUserId() {
+        return this.user != null ? this.user.getUserId() : "";
     }
 
     @Override

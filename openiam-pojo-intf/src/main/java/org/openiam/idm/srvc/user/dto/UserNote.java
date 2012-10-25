@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
         "createdBy",
         "description",
         "noteType",
-        "user",
+        "userId",
         "userNoteId"
 })
 @Entity
@@ -54,10 +56,13 @@ public class UserNote implements java.io.Serializable {
     @Column(name="NOTE_TYPE", length=20)
     protected String noteType;
 
+    @XmlTransient
     @ManyToOne
-    @JoinColumn(name="USER_ID", nullable=false)
+    @JoinColumn(name="USER_ID")
     protected User user;
 
+    @Transient
+    protected String userId;
     // Constructors
 
     /**
@@ -103,7 +108,7 @@ public class UserNote implements java.io.Serializable {
     }
 
     public String getUserId() {
-        return user.getUserId();
+        return user != null ? user.getUserId() : "";
     }
 
     public String getNoteType() {
@@ -144,5 +149,6 @@ public class UserNote implements java.io.Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        this.userId = user != null ? user.getUserId() : "";
     }
 }

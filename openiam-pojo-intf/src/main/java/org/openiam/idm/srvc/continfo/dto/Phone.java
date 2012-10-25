@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
@@ -29,7 +30,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "countryCd",
         "description",
         "isDefault",
-        "parent",
+        "parentId",
         "parentType",
         "phoneExt",
         "phoneId",
@@ -67,8 +68,9 @@ public class Phone implements java.io.Serializable {
     @Column(name="IS_DEFAULT")
     protected Integer isDefault = new Integer(0);
 
+    @XmlTransient
     @ManyToOne
-    @JoinColumn(name="PARENT_ID", nullable=false)
+    @JoinColumn(name="PARENT_ID")
     private User parent;
 
     @Column(name="PARENT_TYPE", length=30)
@@ -86,6 +88,8 @@ public class Phone implements java.io.Serializable {
     @Column(name="PHONE_TYPE", length=20)
     protected String phoneType;
 
+    @Transient
+    protected String parentId;
     // Constructors
 
     /**
@@ -203,7 +207,7 @@ public class Phone implements java.io.Serializable {
      * @return
      */
     public String getParentId() {
-        return parent.getUserId();
+        return parent != null ? parent.getUserId() : "";
     }
 
     /**
@@ -275,6 +279,7 @@ public class Phone implements java.io.Serializable {
 
     public void setParent(User parent) {
         this.parent = parent;
+        this.parentId = parent != null ? parent.getUserId() : "";
     }
 
     @Override

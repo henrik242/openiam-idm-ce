@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
@@ -40,7 +41,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "country",
         "description",
         "isDefault",
-        "parent",
+        "parentId",
         "parentType",
         "postalCd",
         "state",
@@ -107,8 +108,9 @@ public class Address implements java.io.Serializable {
     @Transient
     protected Integer isDefault = new Integer(0);
 
+    @XmlTransient
     @ManyToOne
-    @JoinColumn(name="PARENT_ID", nullable=false)
+    @JoinColumn(name="PARENT_ID")
     private User parent;
 
     @Column(name="PARENT_TYPE", length=30)
@@ -123,7 +125,8 @@ public class Address implements java.io.Serializable {
     @Column(name="NAME", length=40)
     protected String name;
 
-
+    @Transient
+    protected String parentId;
     // Constructors
 
 
@@ -294,7 +297,7 @@ public class Address implements java.io.Serializable {
      * @return
      */
     public String getParentId() {
-        return parent.getUserId();
+        return parent != null ? parent.getUserId() : "";
     }
 
     /**
@@ -421,6 +424,7 @@ public class Address implements java.io.Serializable {
 
     public void setParent(User parent) {
         this.parent = parent;
+        this.parentId = parent != null ? parent.getUserId() : "";
     }
 
     @Override

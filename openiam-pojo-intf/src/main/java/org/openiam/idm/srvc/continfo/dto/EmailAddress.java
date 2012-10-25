@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
@@ -29,7 +30,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "emailAddress",
         "emailId",
         "isDefault",
-        "parent",
+        "parentId",
         "parentType",
         "name",
         "operation"
@@ -59,8 +60,9 @@ public class EmailAddress implements java.io.Serializable {
     @Column(name="IS_DEFAULT")
     protected Integer isDefault = new Integer(0);
 
+    @XmlTransient
     @ManyToOne
-    @JoinColumn(name="PARENT_ID", nullable=false)
+    @JoinColumn(name="PARENT_ID")
     private User parent;
 
     @Column(name="PARENT_TYPE", length=30)
@@ -69,7 +71,8 @@ public class EmailAddress implements java.io.Serializable {
     @Column(name="NAME", length=40)
     protected String name;
 
-
+    @Transient
+    protected String parentId;
     // Constructors
 
     /**
@@ -110,6 +113,10 @@ public class EmailAddress implements java.io.Serializable {
         this.isActive = emailAdr.isActive();
         this.isDefault = emailAdr.getIsDefault();
         this.name = emailAdr.getName();
+    }
+
+    public String getParentId() {
+        return parent != null ? parent.getUserId() : "";
     }
 
     // Property accessors
@@ -157,6 +164,7 @@ public class EmailAddress implements java.io.Serializable {
 
     public void setParent(User parent) {
         this.parent = parent;
+        this.parentId = parent != null ? parent.getUserId() : "";
     }
 
     /**

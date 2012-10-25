@@ -302,10 +302,10 @@ public class User extends org.openiam.base.BaseObject {
     protected String phoneExt;
 
     @Column(name="SHOW_IN_SEARCH", nullable = false)
-    protected Integer showInSearch;
+    protected Integer showInSearch = new Integer(0);
 
     @Column(name="DEL_ADMIN", nullable = false)
-    protected Integer delAdmin;
+    protected Integer delAdmin = new Integer(0);
     @Transient
     protected List<Login> principalList;
     @Transient
