@@ -41,7 +41,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "country",
         "description",
         "isDefault",
-        "parentId",
+        "parent",
         "parentType",
         "postalCd",
         "state",
@@ -423,7 +423,6 @@ public class Address implements java.io.Serializable {
     }
 
     public void setParent(User parent) {
-        this.parent = parent;
         this.parentId = parent != null ? parent.getUserId() : "";
     }
 

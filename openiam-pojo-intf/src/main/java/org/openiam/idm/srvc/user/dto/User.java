@@ -306,6 +306,7 @@ public class User extends org.openiam.base.BaseObject {
 
     @Column(name="DEL_ADMIN", nullable = false)
     protected Integer delAdmin = new Integer(0);
+
     @Transient
     protected List<Login> principalList;
     @Transient

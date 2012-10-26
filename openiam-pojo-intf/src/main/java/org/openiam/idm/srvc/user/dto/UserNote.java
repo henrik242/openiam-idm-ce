@@ -29,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
         "createdBy",
         "description",
         "noteType",
-        "userId",
+        "user",
         "userNoteId"
 })
 @Entity
@@ -148,7 +148,6 @@ public class UserNote implements java.io.Serializable {
     }
 
     public void setUser(User user) {
-        this.user = user;
         this.userId = user != null ? user.getUserId() : "";
     }
 }

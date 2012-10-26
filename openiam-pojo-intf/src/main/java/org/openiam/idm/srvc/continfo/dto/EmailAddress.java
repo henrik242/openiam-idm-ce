@@ -30,7 +30,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "emailAddress",
         "emailId",
         "isDefault",
-        "parentId",
+        "parent",
         "parentType",
         "name",
         "operation"
@@ -163,7 +163,6 @@ public class EmailAddress implements java.io.Serializable {
     }
 
     public void setParent(User parent) {
-        this.parent = parent;
         this.parentId = parent != null ? parent.getUserId() : "";
     }
 
