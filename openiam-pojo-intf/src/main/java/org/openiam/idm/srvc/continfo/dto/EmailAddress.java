@@ -1,10 +1,21 @@
 package org.openiam.idm.srvc.continfo.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.user.dto.User;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -19,26 +30,49 @@ import javax.xml.bind.annotation.XmlType;
         "emailAddress",
         "emailId",
         "isDefault",
-        "parentId",
+        "parent",
         "parentType",
         "name",
         "operation"
 })
+@Entity
+@Table(name = "EMAIL_ADDRESS")
 public class EmailAddress implements java.io.Serializable {
 
     // Fields
+    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "EMAIL_ID", length = 32, nullable = false)
+    private String emailId;
 
-    protected Boolean isActive = new Boolean("True");
+    @Column(name="ACTIVE")
+    protected Boolean isActive = Boolean.TRUE;
+
+    @Column(name="DESCRIPTION", length=100)
     protected String description;
+
+    @Column(name="EMAIL_ADDRESS", length=320)
     protected String emailAddress;
-    protected String emailId;
+
+    @Column(name="IS_DEFAULT")
     protected Integer isDefault = new Integer(0);
-    protected String parentId;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name="PARENT_ID")
+    private User parent;
+
+    @Column(name="PARENT_TYPE", length=30)
     protected String parentType;
+
+    @Column(name="NAME", length=40)
     protected String name;
 
-
+    @Transient
+    protected String parentId;
     // Constructors
 
     /**
@@ -54,10 +88,10 @@ public class EmailAddress implements java.io.Serializable {
         this.emailId = emailId;
     }
 
-    public EmailAddress(String emailAddress, String name, String parentId, String parentType, Integer aDefault) {
+    public EmailAddress(String emailAddress, String name, User parent, String parentType, Integer aDefault) {
         this.emailAddress = emailAddress;
         this.name = name;
-        this.parentId = parentId;
+        this.parent = parent;
         this.parentType = parentType;
         isDefault = aDefault;
     }
@@ -79,6 +113,10 @@ public class EmailAddress implements java.io.Serializable {
         this.isActive = emailAdr.isActive();
         this.isDefault = emailAdr.getIsDefault();
         this.name = emailAdr.getName();
+    }
+
+    public String getParentId() {
+        return parent != null ? parent.getUserId() : "";
     }
 
     // Property accessors
@@ -114,24 +152,18 @@ public class EmailAddress implements java.io.Serializable {
         this.isDefault = isDefault;
     }
 
-
     /**
      * Returns the Id of the parent that owns this address. The parent may be another entity like a
      * USER, ORGANIZATION, etc
      *
      * @return
      */
-    public String getParentId() {
-        return parentId;
+    public User getParent() {
+        return parent;
     }
 
-    /**
-     * Associates the address with a parent entity, such as USER or ORGANIZATION that owns this address.
-     *
-     * @param parentId
-     */
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+    public void setParent(User parent) {
+        this.parentId = parent != null ? parent.getUserId() : "";
     }
 
     /**
@@ -194,7 +226,7 @@ public class EmailAddress implements java.io.Serializable {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", emailId='" + emailId + '\'' +
                 ", isDefault=" + isDefault +
-                ", parentId='" + parentId + '\'' +
+                ", parent='" + (parent != null ? parent.getUserId() : "") + '\'' +
                 ", parentType='" + parentType + '\'' +
                 ", name='" + name + '\'' +
                 '}';
@@ -214,7 +246,7 @@ public class EmailAddress implements java.io.Serializable {
         if (isDefault != null ? !isDefault.equals(that.isDefault) : that.isDefault != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (operation != that.operation) return false;
-        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
+        if (parent != null ? !parent.equals(that.parent) : that.parent != null) return false;
         if (parentType != null ? !parentType.equals(that.parentType) : that.parentType != null) return false;
 
         return true;

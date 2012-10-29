@@ -6,7 +6,6 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
 import org.openiam.idm.srvc.msg.dto.NotificationRequest;
-import org.openiam.provision.dto.ProvisionUser;
 
 import java.util.HashMap;
 import java.util.Map;

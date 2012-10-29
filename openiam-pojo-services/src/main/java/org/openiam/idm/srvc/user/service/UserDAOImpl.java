@@ -1246,20 +1246,16 @@ public class UserDAOImpl implements UserDAO {
 
     public List<User> findStaff(String supervisorId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.Supervisor s " +
-                " inner join org.openiam.idm.srvc.user.dto.User u " +
-                " where s.supervisor = :supervisorId and  s.staff = u.userId order by u.userId asc");
-        qry.setString("supervisor", supervisorId);
+        Query qry = session.createQuery("from Supervisor as s inner join s.employee as staff left outer join s.supervisor as supervisor where supervisor.userId = :supervisorId order by supervisor.userId asc");
+        qry.setString("supervisorId", supervisorId);
         List<User> results = (List<User>) qry.list();
         return results;
     }
 
     public List<User> findSupervisors(String staffId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.Supervisor s " +
-                " inner join org.openiam.idm.srvc.user.dto.User u " +
-                " where s.staff = :staffId and  s.supervisor = u.userId order by u.userId asc");
-        qry.setString("supervisor", staffId);
+        Query qry = session.createQuery("from Supervisor as s inner join s.supervisor as supervisor left join s.employee as staff where staff.userId = :staffId order by staff.userId asc");
+        qry.setString("staffId", staffId);
         List<User> results = (List<User>) qry.list();
         return results;
     }

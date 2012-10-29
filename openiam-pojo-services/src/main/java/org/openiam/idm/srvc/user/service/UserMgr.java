@@ -3,10 +3,7 @@ package org.openiam.idm.srvc.user.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.SysConfiguration;
-import org.openiam.idm.srvc.meta.dto.MetadataType;
 import org.openiam.idm.srvc.user.dto.*;
-import org.openiam.idm.srvc.user.ws.AttributeListResponse;
-import org.openiam.util.db.Search;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.auth.login.LoginDAO;
@@ -19,8 +16,6 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 
 import java.util.*;
-
-import javax.jws.WebService;
 
 /**
  * Service interface that clients will access to gain information about users
@@ -122,7 +117,7 @@ public class UserMgr implements UserDataService {
 			user.setLastUpdate(new Date(System.currentTimeMillis()));
 		}
 
-		validateEmailAddress(user.getUserId(), user.getEmailAddress());
+		validateEmailAddress(user, user.getEmailAddress());
 		
 		userDao.add(user);
 
@@ -148,7 +143,7 @@ public class UserMgr implements UserDataService {
 		
 		// if there are dependants, then make user that the parentId has been set
 		
-		validateEmailAddress(user.getUserId(), user.getEmailAddress());
+		validateEmailAddress(user, user.getEmailAddress());
 
         log.debug("User Object before addUser: " + user);
 
@@ -187,7 +182,7 @@ public class UserMgr implements UserDataService {
 
 	}
 	
-	private void validateEmailAddress(String userId, Set<EmailAddress> emailSet) {
+	private void validateEmailAddress(User user, Set<EmailAddress> emailSet) {
 		
 		if (emailSet == null || emailSet.isEmpty())
 			return;
@@ -196,8 +191,8 @@ public class UserMgr implements UserDataService {
 		
 		while (it.hasNext()) {
 			EmailAddress emailAdr = it.next();
-			if (emailAdr.getParentId() == null) {
-				emailAdr.setParentId(userId);
+			if (emailAdr.getParent() == null) {
+				emailAdr.setParent(user);
 				emailAdr.setParentType(ContactConstants.PARENT_TYPE_USER);
 			}
 		}
@@ -236,7 +231,7 @@ public class UserMgr implements UserDataService {
 
 		user.setLastUpdate(new Date(System.currentTimeMillis()));
 		
-		validateEmailAddress(user.getUserId(), user.getEmailAddress());
+		validateEmailAddress(user, user.getEmailAddress());
 
 		userDao.update(user);
 
@@ -354,7 +349,7 @@ public class UserMgr implements UserDataService {
 		if (attribute == null)
 			throw new NullPointerException("Attribute can not be null");
 
-		if (attribute.getUserId() == null) {
+		if (attribute.getUser() == null) {
 			throw new NullPointerException(
 					"User has not been associated with this attribute.");
 		}
@@ -375,7 +370,7 @@ public class UserMgr implements UserDataService {
 		if (attribute == null)
 			throw new NullPointerException("Attribute can not be null");
 
-		if (attribute.getUserId() == null) {
+		if (attribute.getUser() == null) {
 			throw new NullPointerException(
 					"User has not been associated with this attribute.");
 		}
@@ -485,70 +480,70 @@ public class UserMgr implements UserDataService {
 		}
 		// assign the predefined properties
 
-		attrMap.put("USER_ID", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("USER_ID", new UserAttribute(null, usr, null,
 				"USER_ID", userId));
-		attrMap.put("FIRST_NAME", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("FIRST_NAME", new UserAttribute(null, usr,
 				null, "FIRST_NAME", usr.getFirstName()));
-		attrMap.put("LAST_NAME", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("LAST_NAME", new UserAttribute(null, usr, null,
 				"LAST_NAME", usr.getLastName()));
-		attrMap.put("MIDDLE_INIT", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("MIDDLE_INIT", new UserAttribute(null, usr,
 				null, "MIDDLE_INIT", String.valueOf(usr.getMiddleInit())));
-		attrMap.put("TITLE", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("TITLE", new UserAttribute(null, usr, null,
 				"TITLE", usr.getTitle()));
-		attrMap.put("DEPT", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("DEPT", new UserAttribute(null, usr, null,
 				"DEPT", usr.getDeptCd()));
-		attrMap.put("STATUS", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("STATUS", new UserAttribute(null, usr, null,
 				"STATUS", usr.getStatus().toString()));
 		if (usr.getBirthdate() != null) {
-			attrMap.put("BIRTHDATE", new UserAttribute(null, usr.getUserId(),
+			attrMap.put("BIRTHDATE", new UserAttribute(null, usr,
 					null, "BIRTHDATE", usr.getBirthdate().toString()));
 		} else {
-			attrMap.put("BIRTHDATE", new UserAttribute(null, usr.getUserId(),
+			attrMap.put("BIRTHDATE", new UserAttribute(null, usr,
 					null, "BIRTHDATE", null));
 		}
-		attrMap.put("SEX", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("SEX", new UserAttribute(null, usr, null,
 				"SEX", String.valueOf(usr.getSex())));
 		if (usr.getCreateDate() != null) {
-			attrMap.put("CREATE_DATE", new UserAttribute(null, usr.getUserId(),
+			attrMap.put("CREATE_DATE", new UserAttribute(null, usr,
 					null, "CREATE_DATE", usr.getCreateDate().toString()));
 		} else {
-			attrMap.put("CREATE_DATE", new UserAttribute(null, usr.getUserId(),
+			attrMap.put("CREATE_DATE", new UserAttribute(null, usr,
 					null, "CREATE_DATE", null));
 
 		}
-		attrMap.put("CREATED_BY", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("CREATED_BY", new UserAttribute(null, usr,
 				null, "CREATED_BY", usr.getCreatedBy()));
 		if (usr.getLastUpdate() != null) {
-			attrMap.put("LAST_UPDATE", new UserAttribute(null, usr.getUserId(),
+			attrMap.put("LAST_UPDATE", new UserAttribute(null, usr,
 					null, "LAST_UPDATE", usr.getLastUpdate().toString()));
 		} else {
-			attrMap.put("LAST_UPDATE", new UserAttribute(null, usr.getUserId(),
+			attrMap.put("LAST_UPDATE", new UserAttribute(null, usr,
 					null, "LAST_UPDATE", null));
 
 		}
-		attrMap.put("LAST_UPDATEDBY", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("LAST_UPDATEDBY", new UserAttribute(null, usr,
 				null, "LAST_UPDATEDBY", usr.getLastUpdatedBy()));
-		attrMap.put("PREFIX", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("PREFIX", new UserAttribute(null, usr, null,
 				"PREFIX", usr.getPrefix()));
-		attrMap.put("SUFFIX", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("SUFFIX", new UserAttribute(null, usr, null,
 				"SUFFIX", usr.getSuffix()));
-		attrMap.put("USER_TYPE_IND", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("USER_TYPE_IND", new UserAttribute(null, usr,
 				null, "USER_TYPE_IND", usr.getUserTypeInd()));
-		attrMap.put("EMPLOYEE_ID", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("EMPLOYEE_ID", new UserAttribute(null, usr,
 				null, "EMPLOYEE_ID", usr.getEmployeeId()));
-		attrMap.put("EMPLOYEE_TYPE", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("EMPLOYEE_TYPE", new UserAttribute(null, usr,
 				null, "EMPLOYEE_TYPE", usr.getEmployeeType()));
-		attrMap.put("LOCATION_ID", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("LOCATION_ID", new UserAttribute(null, usr,
 				null, "LOCATION_ID", usr.getLocationCd()));
-		attrMap.put("ORGANIZATION_ID", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("ORGANIZATION_ID", new UserAttribute(null, usr,
 				null, "ORGANIZATION_ID", usr.getCompanyId()));
 		attrMap.put("COMPANY_OWNER_ID", new UserAttribute(null,
-				usr.getUserId(), null, "COMPANY_OWNER_ID", usr
+				usr, null, "COMPANY_OWNER_ID", usr
 						.getCompanyOwnerId()));
 
-		attrMap.put("MANAGER_ID", new UserAttribute(null, usr.getUserId(),
+		attrMap.put("MANAGER_ID", new UserAttribute(null, usr,
 				null, "MANAGER_ID", usr.getManagerId()));
-		attrMap.put("JOB_CODE", new UserAttribute(null, usr.getUserId(), null,
+		attrMap.put("JOB_CODE", new UserAttribute(null, usr, null,
 				"JOB_CODE", usr.getJobCode()));
 
 		return attrMap;
@@ -594,7 +589,7 @@ public class UserMgr implements UserDataService {
 		if (note == null)
 			throw new NullPointerException("Note cannot be null");
 
-		if (note.getUserId() == null) {
+		if (note.getUser() == null) {
 			throw new NullPointerException(
 					"User is not associated with this note.");
 		}
@@ -613,7 +608,7 @@ public class UserMgr implements UserDataService {
 		if (note.getUserNoteId() == null) {
 			throw new NullPointerException("noteId is null");
 		}
-		if (note.getUserId() == null) {
+		if (note.getUser() == null) {
 			throw new NullPointerException(
 					"User is not associated with this note.");
 		}
@@ -693,7 +688,7 @@ public class UserMgr implements UserDataService {
 		if (val == null)
 			throw new NullPointerException("val is null");
 
-		if (val.getParentId() == null)
+		if (val.getParent() == null)
 			throw new NullPointerException(
 					"userId for the address is not defined.");
 
@@ -724,7 +719,7 @@ public class UserMgr implements UserDataService {
 			throw new NullPointerException("val is null");
 		if (val.getAddressId() == null)
 			throw new NullPointerException("AddressId is null");
-		if (val.getParentId() == null)
+		if (val.getParent() == null)
 			throw new NullPointerException(
 					"userId for the address is not defined.");
 		if (val.getParentType() == null) {
@@ -842,7 +837,7 @@ public class UserMgr implements UserDataService {
 		if (val == null)
 			throw new NullPointerException("val is null");
 
-		if (val.getParentId() == null)
+		if (val.getParent() == null)
 			throw new NullPointerException(
 					"parentId for the address is not defined.");
 
@@ -874,7 +869,7 @@ public class UserMgr implements UserDataService {
 			throw new NullPointerException("val is null");
 		if (val.getPhoneId() == null)
 			throw new NullPointerException("PhoneId is null");
-		if (val.getParentId() == null)
+		if (val.getParent() == null)
 			throw new NullPointerException(
 					"parentId for the address is not defined.");
 		if (val.getParentType() == null) {
@@ -988,7 +983,7 @@ public class UserMgr implements UserDataService {
 	public EmailAddress addEmailAddress(EmailAddress val) {
 		if (val == null)
 			throw new NullPointerException("val is null");
-		if (val.getParentId() == null)
+		if (val.getParent() == null)
 			throw new NullPointerException(
 					"parentId for the address is not defined.");
 
@@ -1021,7 +1016,7 @@ public class UserMgr implements UserDataService {
 			throw new NullPointerException("val is null");
 		if (val.getEmailId() == null)
 			throw new NullPointerException("EmailAddressId is null");
-		if (val.getParentId() == null)
+		if (val.getParent() == null)
 			throw new NullPointerException(
 					"parentId for the address is not defined.");
 		if (val.getParentType() == null) {
@@ -1210,7 +1205,7 @@ public class UserMgr implements UserDataService {
 			org.hibernate.Hibernate.initialize(sup.getEmployee().getPhone());
 			org.hibernate.Hibernate.initialize(sup.getEmployee().getEmailAddress());
 			org.hibernate.Hibernate.initialize(sup.getEmployee().getAddresses());
-			org.hibernate.Hibernate.initialize(sup.getEmployee().getUserAttributes());	
+			org.hibernate.Hibernate.initialize(sup.getEmployee().getUserAttributes());
 		}
 		
 		return superVisList;

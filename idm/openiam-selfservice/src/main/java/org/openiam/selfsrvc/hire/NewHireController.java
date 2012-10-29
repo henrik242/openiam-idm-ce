@@ -182,7 +182,7 @@ public class NewHireController extends AbstractWizardFormController {
         if (attrList != null) {
             for (UserAttribute ua : attrList) {
                 ua.setOperation(AttributeOperationEnum.ADD);
-                ua.setUserId(null);
+                ua.setUser(null);
                 ua.setId(null);
                 log.info("Name=" + ua.getName() + "-" + ua.getValue());
                 user.getUserAttributes().put(ua.getName(), ua);
@@ -660,7 +660,7 @@ public class NewHireController extends AbstractWizardFormController {
         adr.setState(cmd.getUser().getState());
         adr.setStreetDirection(cmd.getUser().getStreetDirection());
         adr.setName("DEFAULT ADR");
-        adr.setParentId(pUser.getUser().getUserId());
+        adr.setParent(pUser.getUser());
         adr.setParentType(ContactConstants.PARENT_TYPE_USER);
         adr.setPostalCd(cmd.getUser().getPostalCd());
         pUser.getAddresses().add(adr);
@@ -689,7 +689,7 @@ public class NewHireController extends AbstractWizardFormController {
         ph.setDescription(name);
         ph.setParentType(ContactConstants.PARENT_TYPE_USER);
         ph.setName(name);
-        ph.setParentId(usr.getUserId());
+        ph.setParent(usr.getUser());
 
         return ph;
     }

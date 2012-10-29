@@ -2,11 +2,21 @@ package org.openiam.idm.srvc.user.dto;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.hibernate.annotations.GenericGenerator;
 
 
 /**
@@ -19,23 +29,40 @@ import java.util.Date;
         "createdBy",
         "description",
         "noteType",
-        "userId",
+        "user",
         "userNoteId"
 })
-
+@Entity
+@Table(name = "USER_NOTE")
 public class UserNote implements java.io.Serializable {
 
     // Fields
-
-    @XmlSchemaType(name = "dateTime")
-    protected Date createDate;
-    protected String createdBy;
-    protected String description;
-    protected String noteType;
-    protected String userId;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "USER_NOTE_ID", length = 32, nullable = false)
     protected String userNoteId;
 
+    @XmlSchemaType(name = "dateTime")
+    @Column(name="CREATE_DATE", length=19)
+    protected Date createDate;
 
+    @Column(name="CREATED_BY", length=20)
+    protected String createdBy;
+
+    @Column(name="DESCRIPTION", length=1000)
+    protected String description;
+
+    @Column(name="NOTE_TYPE", length=20)
+    protected String noteType;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name="USER_ID")
+    protected User user;
+
+    @Transient
+    protected String userId;
     // Constructors
 
     /**
@@ -47,17 +74,17 @@ public class UserNote implements java.io.Serializable {
     /**
      * minimal constructor
      */
-    public UserNote(String userNoteId) {
+/*    public UserNote(String userNoteId) {
         this.userNoteId = userNoteId;
 
         createDate = new Date(System.currentTimeMillis());
 
-    }
+    }*/
 
     /**
      * full constructor
      */
-    public UserNote(String userNoteId, String users, String noteType,
+/*    public UserNote(String userNoteId, String users, String noteType,
                     String description, Date createDate, String createdBy) {
         this.userNoteId = userNoteId;
         this.userId = users;
@@ -69,7 +96,7 @@ public class UserNote implements java.io.Serializable {
             this.createDate = createDate;
         }
         this.createdBy = createdBy;
-    }
+    }*/
 
     // Property accessors
     public String getUserNoteId() {
@@ -80,13 +107,8 @@ public class UserNote implements java.io.Serializable {
         this.userNoteId = userNoteId;
     }
 
-
     public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+        return user != null ? user.getUserId() : "";
     }
 
     public String getNoteType() {
@@ -121,4 +143,11 @@ public class UserNote implements java.io.Serializable {
         this.createdBy = createdBy;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.userId = user != null ? user.getUserId() : "";
+    }
 }

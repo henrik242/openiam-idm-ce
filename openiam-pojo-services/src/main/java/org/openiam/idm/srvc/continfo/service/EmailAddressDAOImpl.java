@@ -102,7 +102,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	}
 	/**
 	 * Updates an existing instance
-	 * @param instace
+	 * @param instance
 	 */
 	public void update(EmailAddress instance) {
 		log.debug("merging instance");
@@ -123,7 +123,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType and a.name = :name");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -159,7 +159,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -174,7 +174,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType and a.isDefault = 1");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -184,7 +184,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	public void removeByParent(String parentId, String parentType) {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.dto.EmailAddress a " + 
-				" where a.parentId = :parentId and   " +
+				" where a.parent.userId = :parentId and   " +
 				" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);

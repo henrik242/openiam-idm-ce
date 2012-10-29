@@ -16,7 +16,7 @@ import org.openiam.idm.srvc.user.dto.UserNote;
 
 /**
  * Home object for domain model class UserNote.
- * @see org.openiam.idm.srvc.user.UserNote
+ * @see org.openiam.idm.srvc.user.dto.UserNote
  * @author Hibernate Tools
  */
 public class UserNoteDAOImpl implements UserNoteDAO {
@@ -121,7 +121,7 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 	public void deleteUserNotes(String userId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("delete org.openiam.idm.srvc.user.dto.UserNote un " + 
-					" where un.userId = :userId ");
+					" where un.user.userId = :userId ");
 		qry.setString("userId", userId);
 		qry.executeUpdate();
 
@@ -130,7 +130,7 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 
 	public List<UserNote> findUserNotes(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.UserNote un where un.userId = :userId order by un.userNoteId asc");
+		Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.UserNote un where un.user.userId = :userId order by un.userNoteId asc");
 		qry.setString("userId", userId);
 		List<UserNote> results = (List<UserNote>)qry.list();
 		return results;
@@ -139,8 +139,7 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 	public List findByExample(UserNote instance) {
 		log.debug("finding UserNote instance by example");
 		try {
-			List results = sessionFactory.getCurrentSession().createCriteria(
-					"org.openiam.idm.srvc.user.UserNote").add(
+			List results = sessionFactory.getCurrentSession().createCriteria(UserNote.class).add(
 					Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

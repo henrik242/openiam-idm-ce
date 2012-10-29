@@ -24,7 +24,7 @@ import org.openiam.util.ws.collection.MapItem;
 
 /**
  * DAO Implementation for domain model class Address.
- * @see org.openiam.idm.srvc.user.Address
+ * @see org.openiam.idm.srvc.continfo.dto.Address
  */
 public class AddressDAOImpl implements AddressDAO {
 
@@ -199,7 +199,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -218,7 +218,7 @@ public class AddressDAOImpl implements AddressDAO {
 	public void removeByParent(String parentId,String parentType) {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.dto.Address a " + 
-				" where a.parentId = :parentId and   " +
+				" where a.parent.userId = :parentId and   " +
 				" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -233,7 +233,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType and a.isDefault = 1");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);
@@ -243,7 +243,7 @@ public class AddressDAOImpl implements AddressDAO {
 	/**
 	 * Return an address object that matches the description. Returns null if a match
 	 * is not found.
-	 * @param description
+	 * @param name
 	 * @param parentId
 	 * @param parentType
 	 * @return
@@ -252,7 +252,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
-						" where a.parentId = :parentId and   " +
+						" where a.parent.userId = :parentId and   " +
 						" 		a.parentType = :parentType and a.name = :name");
 		qry.setString("parentId", parentId);
 		qry.setString("parentType", parentType);

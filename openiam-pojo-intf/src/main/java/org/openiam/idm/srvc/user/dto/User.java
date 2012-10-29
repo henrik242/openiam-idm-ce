@@ -1,8 +1,24 @@
 package org.openiam.idm.srvc.user.dto;
 
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ParamDef;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseConstants;
 import org.openiam.idm.srvc.auth.dto.Login;
@@ -101,105 +117,249 @@ import java.util.*;
         EmailAddress.class,
         UserAttribute.class
 })
+@Entity
+@FilterDef(name="parentTypeFilter", parameters=@ParamDef(name="parentFilter", type="string" ))
+@Table(name = "USERS")
 public class User extends org.openiam.base.BaseObject {
 
 
     protected static final Log log = LogFactory.getLog(User.class);
     // Fields
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name="USER_ID", length=32, nullable = false)
+    protected String userId;
 
     //protected AddressMap addresses; see below
     @XmlSchemaType(name = "dateTime")
+    @Column(name="BIRTHDATE", length=19)
     protected Date birthdate;
+
+    @Column(name="COMPANY_ID", length=32)
     protected String companyId;
+
+    @Column(name="COMPANY_OWNER_ID", length=32)
     protected String companyOwnerId;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="CREATE_DATE", length=19)
     protected Date createDate;
+
+    @Column(name="CREATED_BY", length=32)
     protected String createdBy;
+
+    @Column(name="DEPT_CD", length=50)
     protected String deptCd;
+
+    @Column(name="DEPT_NAME", length=100)
     protected String deptName;
+
+    @Column(name="EMPLOYEE_ID", length=32)
     protected String employeeId;
+
+    @Column(name="EMPLOYEE_TYPE", length=20)
     protected String employeeType;
 
+    @Column(name="FIRST_NAME", length=50)
     protected String firstName;
+
+    @Column(name="JOB_CODE", length=50)
     protected String jobCode;
+
+    @Column(name="LAST_NAME", length=50)
     protected String lastName;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="LAST_UPDATE", length=19)
     protected Date lastUpdate;
+
+    @Column(name="LAST_UPDATED_BY", length=32)
     protected String lastUpdatedBy;
+
+    @Column(name="LOCATION_CD", length=50)
     protected String locationCd;
+
+    @Column(name="LOCATION_NAME", length=100)
     protected String locationName;
+
+    @Column(name="MANAGER_ID", length=32)
     protected String managerId;
+
+    @Column(name="TYPE_ID", length=20)
     protected String metadataTypeId;
+
+    @Column(name="CLASSIFICATION", length=20)
     protected String classification;
+
+    @Column(name="MIDDLE_INIT", length=50)
     protected String middleInit;
+
+    @Column(name="PREFIX", length=4)
     protected String prefix;
+
+    @Column(name="SEX", length=1)
     protected String sex;
+
+    @Column(name="STATUS", length=40)
+    @Enumerated(EnumType.STRING)
     protected UserStatusEnum status;
+
+    @Column(name="SECONDARY_STATUS", length=40)
+    @Enumerated(EnumType.STRING)
     protected UserStatusEnum secondaryStatus;
+
+    @Column(name="SUFFIX", length=20)
     protected String suffix;
+
+    @Column(name="TITLE", length=30)
     protected String title;
-    protected String userId;
+
+    @Column(name="USER_TYPE_IND", length=20)
     protected String userTypeInd;
+
+    @Column(name="DIVISION", length=50)
     protected String division;
+
+    @Column(name="MAIL_CODE", length=10)
     protected String mailCode;
 
+    @Column(name="COST_CENTER", length=20)
     protected String costCenter;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="START_DATE", length=10)
     protected Date startDate;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="LAST_DATE", length=10)
     protected Date lastDate;
 
+    @Column(name="NICKNAME", length=40)
     protected String nickname;
+
+    @Column(name="MAIDEN_NAME", length=40)
     protected String maidenName;
+
+    @Column(name="PASSWORD_THEME", length=20)
     protected String passwordTheme;
 
+    @Column(name="COUNTRY", length=30)
     protected String country;
-    protected String bldgNum;
-    protected String streetDirection;
-    protected String suite;
-    protected String address1;
-    protected String address2;
-    protected String address3;
-    protected String address4;
-    protected String address5;
-    protected String address6;
-    protected String address7;
-    protected String city;
-    protected String state;
-    protected String postalCd;
-    protected String email;
-    protected String areaCd;
-    protected String countryCd;
-    protected String phoneNbr;
-    protected String phoneExt;
-    protected Integer showInSearch;
-    protected Integer delAdmin;
 
+    @Column(name="BLDG_NUM", length=10)
+    protected String bldgNum;
+
+    @Column(name="STREET_DIRECTION", length=20)
+    protected String streetDirection;
+
+    @Column(name="SUITE", length=20)
+    protected String suite;
+
+    @Column(name="ADDRESS1", length=45)
+    protected String address1;
+
+    @Column(name="ADDRESS2", length=45)
+    protected String address2;
+
+    @Column(name="ADDRESS3", length=45)
+    protected String address3;
+
+    @Column(name="ADDRESS4", length=45)
+    protected String address4;
+
+    @Column(name="ADDRESS5", length=45)
+    protected String address5;
+
+    @Column(name="ADDRESS6", length=45)
+    protected String address6;
+
+    @Column(name="ADDRESS7", length=45)
+    protected String address7;
+
+    @Column(name="CITY", length=30)
+    protected String city;
+
+    @Column(name="STATE", length=15)
+    protected String state;
+
+    @Column(name="POSTAL_CD", length=10)
+    protected String postalCd;
+
+    @Column(name="EMAIL_ADDRESS", length=320)
+    protected String email;
+
+    @Column(name="AREA_CD", length=10)
+    protected String areaCd;
+
+    @Column(name="COUNTRY_CD", length=10)
+    protected String countryCd;
+
+    @Column(name="PHONE_NBR", length=50)
+    protected String phoneNbr;
+
+    @Column(name="PHONE_EXT", length=20)
+    protected String phoneExt;
+
+    @Column(name="SHOW_IN_SEARCH", nullable = false)
+    protected Integer showInSearch = new Integer(0);
+
+    @Column(name="DEL_ADMIN", nullable = false)
+    protected Integer delAdmin = new Integer(0);
+
+    @Transient
     protected List<Login> principalList;
+    @Transient
     protected Supervisor supervisor;
+
+    @Column(name="ALTERNATE_ID", length=32)
     protected String alternateContactId;
     //@XmlElement(name="securityDomain",	namespace = "urn:idm.openiam.org/srvc/user/dto")
+    @Transient
     protected String securityDomain;
 
+    @Column(name="USER_OWNER_ID")
     protected String userOwnerId;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="DATE_PASSWORD_CHANGED", length=10)
     protected Date datePasswordChanged;
+
     @XmlSchemaType(name = "dateTime")
+    @Column(name="DATE_CHALLENGE_RESP_CHANGED", length=10)
     protected Date dateChallengeRespChanged;
 
 
     @XmlJavaTypeAdapter(UserNoteSetAdapter.class)
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "user")
     protected Set<UserNote> userNotes = new HashSet(0);
     //protected Set<Group> groups = new HashSet<Group>(0);
 
 
     @XmlJavaTypeAdapter(UserAttributeMapAdapter.class)
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "user")
+    @MapKey(name = "name")
     protected Map<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>(0);
 
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "parent")
+    @Filter(
+		name = "parentTypeFilter",
+		condition=":parentFilter = PARENT_TYPE"
+	)
     protected Set<Address> addresses = new HashSet<Address>(0);
 
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "parent")
+    @Filter(
+		name = "parentTypeFilter",
+		condition=":parentFilter = PARENT_TYPE"
+	)
     protected Set<Phone> phones = new HashSet<Phone>(0);
 
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "parent")
+    @Filter(
+		name = "parentTypeFilter",
+		condition=":parentFilter = PARENT_TYPE"
+	)
     protected Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>(0);
 
 

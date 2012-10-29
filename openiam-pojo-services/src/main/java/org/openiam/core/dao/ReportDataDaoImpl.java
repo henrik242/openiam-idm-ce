@@ -12,14 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ReportDataDaoImpl extends BaseDaoImpl<ReportInfo> implements ReportDataDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
     private static final Logger LOG = LoggerFactory.getLogger(ReportDataDaoImpl.class);
 
     @Override
     public ReportInfo findByName(String name) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ReportInfo.class).add(Restrictions.eq("reportName", name));
+        Criteria criteria = getSession().createCriteria(ReportInfo.class).add(Restrictions.eq("reportName", name));
         return (ReportInfo) criteria.uniqueResult();
     }
 }

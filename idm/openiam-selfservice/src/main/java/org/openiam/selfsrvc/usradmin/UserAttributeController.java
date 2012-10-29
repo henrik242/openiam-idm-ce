@@ -239,7 +239,7 @@ public class UserAttributeController extends SimpleFormController {
 					if (ua.getSelected()) {
 						if ( ua.getId() != null && ua.getId().length() > 0) {
 							// set the delete flag
-							updateUserAttr(usr, ua, 3, personId);
+							updateUserAttr(usr, ua, 3, resp.getUser());
 						}
 					}
 				}			
@@ -251,12 +251,12 @@ public class UserAttributeController extends SimpleFormController {
 					if ( ua.getId() != null && ua.getId().length() > 0) {
 						// UPDATE
 						if (!ua.getName().equalsIgnoreCase("<Enter name>")) {
-							updateUserAttr(usr, ua, 2, personId);
+							updateUserAttr(usr, ua, 2, resp.getUser());
 						}
 					}else {
 						// NEW
 						if (!ua.getName().equalsIgnoreCase("<Enter name>")) {
-							updateUserAttr(usr, ua, 1, personId);
+							updateUserAttr(usr, ua, 1, resp.getUser());
 						}
 					}
 				}			
@@ -273,7 +273,7 @@ public class UserAttributeController extends SimpleFormController {
 
 	}
 	
-	private void updateUserAttr(User user, UserAttribute ua, int operation, String personId) {
+	private void updateUserAttr(User user, UserAttribute ua, int operation, User person) {
 		if (ua.getMetadataElementId() != null && 
 			ua.getMetadataElementId().length() < 1) {
 			ua.setMetadataElementId( null);
@@ -282,7 +282,7 @@ public class UserAttributeController extends SimpleFormController {
 		if (operation == 1) {
 			// new 
 			ua.setOperation(AttributeOperationEnum.ADD);
-			ua.setUserId(personId);
+			ua.setUser(person);
 			ua.setId(null);
 
 		}
@@ -298,11 +298,11 @@ public class UserAttributeController extends SimpleFormController {
 				user.getUserAttributes().put(atr.getName(), atr);
 				return;
 			}
-			ua.setUserId(personId);
+			ua.setUser(person);
 		}else if (operation == 3) {
 			// delete
 			ua.setOperation(AttributeOperationEnum.DELETE);
-			ua.setUserId(personId);
+			ua.setUser(person);
 		}
 		user.getUserAttributes().put(ua.getName(), ua);
 		return;

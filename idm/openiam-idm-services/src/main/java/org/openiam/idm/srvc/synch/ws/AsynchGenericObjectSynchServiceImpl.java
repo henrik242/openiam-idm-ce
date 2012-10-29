@@ -26,9 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
 import org.mule.module.client.MuleClient;
-import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
-import org.openiam.idm.srvc.synch.service.generic.GenericObjectSynchService;
 
 import javax.jws.WebService;
 import java.util.HashMap;

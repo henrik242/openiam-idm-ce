@@ -32,7 +32,6 @@
 package org.openiam.webadmin.user;
 
 
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.struts.DispatchActionSupport;
 
 
