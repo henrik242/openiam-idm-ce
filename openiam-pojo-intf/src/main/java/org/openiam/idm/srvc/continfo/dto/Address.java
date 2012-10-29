@@ -41,7 +41,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "country",
         "description",
         "isDefault",
-        "parent",
+        "parentId",
         "parentType",
         "postalCd",
         "state",

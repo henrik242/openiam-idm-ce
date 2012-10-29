@@ -1,23 +1,24 @@
 package org.openiam.core.dao;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-public interface BaseDao<T> {
+public interface BaseDao<T, PrimaryKey extends Serializable> {
 
-  T findById(Long id);
+  T findById(PrimaryKey id);
 
-  T findById(Long id, String ... fetchFields);
+  T findById(PrimaryKey id, String ... fetchFields);
 
-  Collection<T> findByIds(Collection<Long> ids, String ... fetchFields);
+  List<T> findAll();
 
-  public List<T> findAll();
+  Long countAll();
 
-  public Long countAll();
+  void save(T t);
 
-  public void save(T t);
+  void delete(T t);
 
-  public void delete(T t);
+  void save(Collection<T> entities);
 
-  public void save(Collection<T> entities);
+  void deleteAll()  throws Exception;
 }

@@ -4,14 +4,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
+<!-- Listener that flushes the JavaBeans Introspector cache on web app shutdown. Register this listener in your web.xml to guarantee proper release of the web app class loader and the classes that it holds.-->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
     <filter>
 		<filter-name>OpenSessionInViewFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
 	</filter>
-       <!-- Listener that flushes the JavaBeans Introspector cache on web app shutdown. Register this listener in your web.xml to guarantee proper release of the web app class loader and the classes that it holds.-->
-    <listener>
-        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
-    </listener>
+
 	<filter-mapping>
 		<filter-name>OpenSessionInViewFilter</filter-name>
 		<url-pattern>/idmsrvc/*</url-pattern>

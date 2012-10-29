@@ -1,7 +1,7 @@
 package org.openiam.idm.srvc.report.service;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.openiam.core.dao.ReportDataDao;
@@ -24,47 +24,16 @@ public class ReportDataServiceImpl implements ReportDataService {
 
     @Override
     @Transactional(readOnly = true)
-    public ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams)
-            throws IOException, ClassNotFoundException, ScriptEngineException {
-
-
-        /*  ---- Enable after this is integrated with BIRT Report writer
+    public ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams) throws ClassNotFoundException, ScriptEngineException, IOException {
         ReportInfo reportInfo = reportDao.findByName(reportName);
         if (reportInfo == null) {
-            throw new IllegalArgumentException("Invalid parameter list: report with name="+reportName + " was not found in DataBase");
+            throw new IllegalArgumentException("Invalid parameter list: report with name="+reportName + " was not found in Database");
         }
-
-        if(!validateParams(reportInfo, reportParams)) {
-           throw new IllegalArgumentException("Invalid parameter list: required="+reportInfo.getRequiredParams());
-        }
-        Map<String, Object> objectMap = new HashMap<String, Object>();
-        if (reportParams != null) {
-            objectMap.putAll(reportParams);
-        }
-
-        ScriptIntegration se = ScriptFactory.createModule(this.scriptEngine);
-        ReportDataDto reportData = (ReportDataDto) se.execute(objectMap, reportInfo.getGroovyScriptPath());
-
-        */
 
         ScriptIntegration se = ScriptFactory.createModule(scriptEngine);
-        ReportQueryScript rptScript =  (ReportQueryScript)se.instantiateClass(null, reportName);
+        ReportDataSetBuilder dataSourceBuilder = (ReportDataSetBuilder) se.instantiateClass(Collections.EMPTY_MAP, "/reports/"+reportInfo.getDatasourceFilePath());
 
-        ReportDataDto data = rptScript.getReportData(reportParams);
-
-
-        return data;
-
-
-    }
-
-    private static boolean validateParams(ReportInfo reportQuery, Map<String, String> queryParams) {
-        for(String requiredParam : reportQuery.getRequiredParamsList()) {
-            if(!queryParams.containsKey(requiredParam)) {
-               return false;
-            }
-        }
-        return true;
+        return dataSourceBuilder.getReportData(reportParams);
     }
 
     @Override
@@ -77,5 +46,11 @@ public class ReportDataServiceImpl implements ReportDataService {
     @Transactional(readOnly = true)
     public ReportInfo getReportByName(String name) {
         return reportDao.findByName(name);
+    }
+
+    @Override
+    @Transactional
+    public void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl) {
+       reportDao.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
     }
 }
