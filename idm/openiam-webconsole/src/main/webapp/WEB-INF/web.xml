@@ -4,7 +4,10 @@
     <session-config>
       <session-timeout>30</session-timeout>
     </session-config>
-
+       <!-- Listener that flushes the JavaBeans Introspector cache on web app shutdown. Register this listener in your web.xml to guarantee proper release of the web app class loader and the classes that it holds.-->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
     <filter>
         <filter-name>SetCharacterEncoding</filter-name>
         <filter-class>org.openiam.webadmin.filter.SetCharacterEncodingFilter</filter-class>
