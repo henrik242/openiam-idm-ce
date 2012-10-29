@@ -1,6 +1,7 @@
 <%@ page language="java" %>
 <%@ page session="true" %>
 <%@page import="java.util.*, org.openiam.idm.srvc.menu.dto.Menu, org.openiam.idm.srvc.user.dto.User,org.openiam.idm.srvc.user.dto.UserStatusEnum"%>
+<%@ page import="org.openiam.idm.srvc.res.dto.Resource" %>
 
 
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
@@ -21,11 +22,10 @@ System.out.println("menubar.jsp");
   String token = (String)session.getAttribute("token");
   String login = (String)session.getAttribute("login");
   
-  List<Menu> privLeftMenuList = (List<Menu>)session.getAttribute("privateLeftMenuGroup");
+
   List<Menu> privRightMenuList1 = (List<Menu>)session.getAttribute("privateRightMenuGroup1");
   List<Menu> privRightMenuList2 = (List<Menu>)session.getAttribute("privateRightMenuGroup2");
-  List<Menu> privRightMenuList3 = (List<Menu>)session.getAttribute("privateRightMenuGroup3");	
-
+    List<Resource> resourceList = (List<Resource>)session.getAttribute("appResources");
   
   String queryString = null;
 
@@ -108,10 +108,43 @@ System.out.println("menubar.jsp");
             </ul>
     <%
 		}
-        }
-	%>	
 
-	<div class="head">
+	%>
+
+            <%
+                if (userId != null && resourceList != null ) {
+            %>
+            <div class="head">
+                Enterprise Applications
+            </div>
+            <ul class="menu">
+
+                <%
+                    for (Resource r: resourceList) {
+                            String url = r.getResourceProperty("URL").getPropValue();
+
+                            if (url != null) {
+                                if (url.indexOf("?") == -1) {
+                                    url = url + "?" + queryString ;
+                                } else {
+                                    url = url + "&"  + queryString ;
+                                }
+                            }
+
+                %>
+
+                <li><a href="<%= request.getContextPath() %>/<%=url %>"><%=r.getName() %></a></li>
+
+                <%
+                }
+                }
+                %>
+            </ul>
+            <%
+                }
+            %>
+
+            <div class="head">
 		<a href="<%= request.getContextPath() %>/logout.do">Logout</a>
 	</div>
 	

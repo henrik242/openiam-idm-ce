@@ -843,8 +843,9 @@ CREATE TABLE LOGIN(
 	   PREV_LOGIN           DATETIME NULL,
 	   PREV_LOGIN_IP        VARCHAR(60) NULL,
 	   IS_DEFAULT			INTEGER NULL DEFAULT 0,
-	   PWD_CHANGE_COUNT	    INTEGER DEFAULT 0 NULL,  /* Indicates the number of times that a password has changed in a day */
+	   PWD_CHANGE_COUNT	    INTEGER DEFAULT 0 NULL,     /* Indicates the number of times that a password has changed in a day */
 	   PSWD_RESET_TOKEN     VARCHAR(80) NULL,
+	   LOGIN_ATTR_IN_TARGET_SYS     VARCHAR(40) NULL,   /* Indicates which attribute in the target system holds the login    */
        PSWD_RESET_TOKEN_EXP DATETIME NULL,
        PRIMARY KEY (SERVICE_ID, LOGIN,MANAGED_SYS_ID),
 	CONSTRAINT FK_LOGIN_USERS

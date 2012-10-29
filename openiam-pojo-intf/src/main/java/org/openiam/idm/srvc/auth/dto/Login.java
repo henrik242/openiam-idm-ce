@@ -43,7 +43,8 @@ import java.util.Set;
         "prevLoginIP",
         "prevLogin",
         "pswdResetToken",
-        "pswdResetTokenExp"
+        "pswdResetTokenExp",
+        "loginAttrInTargetSystem"
 })
 @XmlSeeAlso({
         Subject.class,
@@ -97,6 +98,11 @@ public class Login implements java.io.Serializable, Cloneable {
     protected String pswdResetToken;
     @XmlSchemaType(name = "dateTime")
     protected Date pswdResetTokenExp;
+
+    // Attribute in the target system that holds the login value
+    protected String loginAttrInTargetSystem;
+
+
 
 
     public Login() {
@@ -340,6 +346,8 @@ public class Login implements java.io.Serializable, Cloneable {
             return false;
         if (lastLogin != null ? !lastLogin.equals(login.lastLogin) : login.lastLogin != null) return false;
         if (lastLoginIP != null ? !lastLoginIP.equals(login.lastLoginIP) : login.lastLoginIP != null) return false;
+        if (loginAttrInTargetSystem != null ? !loginAttrInTargetSystem.equals(login.loginAttrInTargetSystem) : login.loginAttrInTargetSystem != null)
+            return false;
         if (loginAttributes != null ? !loginAttributes.equals(login.loginAttributes) : login.loginAttributes != null)
             return false;
         if (managedSysName != null ? !managedSysName.equals(login.managedSysName) : login.managedSysName != null)
@@ -523,6 +531,14 @@ public class Login implements java.io.Serializable, Cloneable {
 
     public void setPswdResetToken(String pswdResetToken) {
         this.pswdResetToken = pswdResetToken;
+    }
+
+    public String getLoginAttrInTargetSystem() {
+        return loginAttrInTargetSystem;
+    }
+
+    public void setLoginAttrInTargetSystem(String loginAttrInTargetSystem) {
+        this.loginAttrInTargetSystem = loginAttrInTargetSystem;
     }
 }
 
