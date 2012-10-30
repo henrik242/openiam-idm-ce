@@ -17,7 +17,7 @@ import org.openiam.idm.srvc.user.dto.UserAttribute;
 
 /**
  *  Data access object implementation for OrganizationAttribute. 
- * @see org.openiam.idm.srvc.user.CompanyAttribute
+ * @see org.openiam.idm.srvc.org.dto.OrganizationAttribute
  * @author Hibernate Tools
  */
 public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
@@ -107,8 +107,8 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 	public List<OrganizationAttribute> findAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.org.dto.OrganizationAttribute oa " + 
-						" where oa.company.companyId = :parentId order by oa.name asc");
-		qry.setString("companyId", parentId);
+						" where oa.organization.orgId = :parentId order by oa.name asc");
+		qry.setString("parentId", parentId);
 		List<OrganizationAttribute> results = (List<OrganizationAttribute>)qry.list();
 		return results;		
 	}
@@ -120,7 +120,7 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 	public int removeAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.dto.OrganizationAttribute oa " + 
-					" where oa.org.orgId = :parentId ");
+					" where oa.organization.orgId = :parentId ");
 		qry.setString("parentId", parentId);
 		return qry.executeUpdate();		
 	}

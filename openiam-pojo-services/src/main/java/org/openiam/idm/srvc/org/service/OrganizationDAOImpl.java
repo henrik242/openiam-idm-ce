@@ -6,15 +6,12 @@ import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 
-import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Order;
 
 
 import org.openiam.idm.srvc.org.dto.*;
@@ -68,7 +65,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 		log.debug("finding Company instance by example");
 		try {
 			List results = sessionFactory.getCurrentSession().createCriteria(
-					"org.openiam.idm.srvc.user.Company").add(
+					"org.openiam.idm.srvc.org.dto.Organization").add(
 					Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
