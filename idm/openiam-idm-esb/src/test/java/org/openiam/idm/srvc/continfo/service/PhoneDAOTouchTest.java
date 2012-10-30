@@ -1,6 +1,7 @@
 package org.openiam.idm.srvc.continfo.service;
 
 import java.util.Collections;
+import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
 import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,7 +18,7 @@ public class PhoneDAOTouchTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void touchAdd() {
-        phoneDAO.add(new Phone());
+        phoneDAO.add(new PhoneEntity());
     }
 
     @Test
@@ -47,7 +48,7 @@ public class PhoneDAOTouchTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void touchRemove() {
-        phoneDAO.remove(new Phone());
+        phoneDAO.remove(new PhoneEntity());
     }
 
     @Test
@@ -62,7 +63,7 @@ public class PhoneDAOTouchTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void touch() {
-        phoneDAO.update(new Phone());
+        phoneDAO.update(new PhoneEntity());
     }
 
 }

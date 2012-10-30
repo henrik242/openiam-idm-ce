@@ -1,5 +1,6 @@
-package org.openiam.idm.srvc.org.servic;
+package org.openiam.idm.srvc.org.service;
 
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,65 +17,65 @@ public class OrganizationDAOTouchTest extends AbstractTransactionalTestNGSpringC
     private OrganizationDAO orgDAO;
 
     @Test
-    private void touchAdd() {
-        orgDAO.add(new Organization());
+    public void touchAdd() {
+        orgDAO.add(new OrganizationEntity());
     }
 
     @Test
-    private void touchFindAllOrganization() {
+    public void touchFindAllOrganization() {
         orgDAO.findAllOrganization();
     }
 
     @Test
-    private void touchFindById() {
+    public void touchFindById() {
         orgDAO.findById("");
     }
 
     @Test
-    private void touchFindChildOrganization() {
+    public void touchFindChildOrganization() {
         orgDAO.findChildOrganization("");
     }
 
     @Test
-    private void touchFindOrganizationByClassification() {
-        orgDAO.findOrganizationByClassification("", "");
+    public void touchFindOrganizationByClassification() {
+        orgDAO.findOrganizationByClassification("", null);
     }
 
     @Test
-    private void touchFindOrganizationByStatus() {
+    public void touchFindOrganizationByStatus() {
         orgDAO.findOrganizationByStatus("", "");
     }
 
     @Test
-    private void touchFindOrganizationByType() {
+    public void touchFindOrganizationByType() {
         orgDAO.findOrganizationByType("", "");
     }
 
     @Test
-    private void touchFindParent() {
+    public void touchFindParent() {
         orgDAO.findParent("");
     }
 
     @Test
-    private void touchFindRootOrganizations() {
+    public void touchFindRootOrganizations() {
         orgDAO.findRootOrganizations();
     }
 
     @Test
-    private void touchRemove() {
-        Organization organization = new Organization();
+    public void touchRemove() {
+        OrganizationEntity organization = new OrganizationEntity();
         orgDAO.add(organization);
         orgDAO.remove(organization);
     }
 
     @Test
-    private void touchSearch() {
-        orgDAO.search("", "", "", "");
+    public void touchSearch() {
+        orgDAO.search("", "", null, "");
     }
 
     @Test
-    private void touchUpdate() {
-        Organization organization = new Organization();
+    public void touchUpdate() {
+        OrganizationEntity organization = new OrganizationEntity();
         orgDAO.add(organization);
         orgDAO.update(organization);
     }

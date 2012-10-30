@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.continfo.service;
 
+import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
 import org.openiam.idm.srvc.continfo.dto.Phone;
 
 import java.util.List;
@@ -21,28 +22,28 @@ public interface PhoneDAO {
      *
      * @param id
      */
-    Phone findById(String id);
+    PhoneEntity findById(String id);
 
     /**
      * Adds a new instance
      *
      * @param instance
      */
-    Phone add(Phone instance);
+    PhoneEntity add(PhoneEntity instance);
 
     /**
      * Updates an existing instance
      *
      * @param instace
      */
-    void update(Phone instace);
+    void update(PhoneEntity instace);
 
     /**
      * Removes an existing instance
      *
      * @param instance
      */
-    void remove(Phone instance);
+    void remove(PhoneEntity instance);
 
     /**
      * Persist a map of Phone objects at one time. Handles add, update, delete.
@@ -51,7 +52,7 @@ public interface PhoneDAO {
      * @param parentType
      * @param adrMap
      */
-    void savePhoneMap(String parentId, String parentType, Map<String, Phone> adrMap);
+    void savePhoneMap(String parentId, String parentType, Map<String, PhoneEntity> adrMap);
 
     /**
      * Returns a Map of EmailAddress objects for the parentId and parentType combination.
@@ -62,7 +63,7 @@ public interface PhoneDAO {
      * @param parentType
      * @return
      */
-    Map<String, Phone> findByParent(String parentId, String parentType);
+    Map<String, PhoneEntity> findByParent(String parentId, String parentType);
 
     /**
      * Returns a List of EmailAddress objects for the parentId and parentType combination.
@@ -71,7 +72,7 @@ public interface PhoneDAO {
      * @param parentType
      * @return
      */
-    public List<Phone> findByParentAsList(String parentId, String parentType);
+    public List<PhoneEntity> findByParentAsList(String parentId, String parentType);
 
 
     /**
@@ -88,7 +89,7 @@ public interface PhoneDAO {
      *
      * @return
      */
-    Phone findDefault(String parentId, String parentType);
+    PhoneEntity findDefault(String parentId, String parentType);
 
     /**
      * Return an address object that matches the Name. Returns null if a match
@@ -99,7 +100,7 @@ public interface PhoneDAO {
      * @param parentType
      * @return
      */
-    Phone findByName(String name, String parentId, String parentType);
+    PhoneEntity findByName(String name, String parentId, String parentType);
 
 
 }

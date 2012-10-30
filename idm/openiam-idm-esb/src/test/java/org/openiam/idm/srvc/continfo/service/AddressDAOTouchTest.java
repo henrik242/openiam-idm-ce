@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.continfo.service;
 
-import org.openiam.idm.srvc.continfo.dto.Address;
+import org.openiam.idm.srvc.continfo.domain.AddressEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
@@ -15,7 +15,7 @@ public class AddressDAOTouchTest extends AbstractTransactionalTestNGSpringContex
 
     @Test
     private void touchAdd() {
-        addressDAO.add(new Address());
+        addressDAO.add(new AddressEntity());
     }
 
     @Test

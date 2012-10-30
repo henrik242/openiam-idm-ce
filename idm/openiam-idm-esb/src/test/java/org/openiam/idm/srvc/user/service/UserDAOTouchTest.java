@@ -1,6 +1,7 @@
 package org.openiam.idm.srvc.user.service;
 
 import java.util.Date;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserSearch;
@@ -25,7 +26,7 @@ public class UserDAOTouchTest extends AbstractTransactionalTestNGSpringContextTe
 
   @Test
   public void touchAdd() {
-      userDAO.add(new User());
+      userDAO.add(new UserEntity());
   }
 
   @Test
@@ -55,7 +56,7 @@ public class UserDAOTouchTest extends AbstractTransactionalTestNGSpringContextTe
 
   @Test
   public void touchFindByStatus() {
-      userDAO.findByStatus("");
+      userDAO.findByStatus(null);
   }
 
   @Test
@@ -70,7 +71,7 @@ public class UserDAOTouchTest extends AbstractTransactionalTestNGSpringContextTe
 
   @Test
   public void touchRemove() {
-      userDAO.remove(new User());
+      userDAO.remove(new UserEntity());
   }
 
   @Test
@@ -80,7 +81,7 @@ public class UserDAOTouchTest extends AbstractTransactionalTestNGSpringContextTe
 
   @Test
   public void touchUpdate() {
-      User user = new User();
+      UserEntity user = new UserEntity();
       userDAO.add(user);
       userDAO.update(user);
   }

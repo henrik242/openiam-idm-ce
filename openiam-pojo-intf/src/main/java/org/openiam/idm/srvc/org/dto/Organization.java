@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.org.dto;
 
+import java.util.HashMap;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 import java.util.Map;
+import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
 import org.openiam.idm.srvc.user.dto.UserAttributeMapAdapter;
 
 /**
@@ -56,8 +59,7 @@ import org.openiam.idm.srvc.user.dto.UserAttributeMapAdapter;
         "selected",
         "operation"}
 )
-@Entity
-@Table(name = "COMPANY")
+
 public class Organization implements java.io.Serializable, Comparable<Organization> {
 
     /**
@@ -65,72 +67,47 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
      */
     private static final long serialVersionUID = -6297113958697455428L;
 
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name="COMPANY_ID", length=32, nullable = false)
     protected String orgId;
 
-    @Column(name="ALIAS", length=100)
     protected String alias;
 
     @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class)
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "organization")
-    @MapKey(name = "name")
-    protected Map<String, OrganizationAttribute> attributes;
+    protected Map<String, OrganizationAttribute> attributes = new HashMap<String, OrganizationAttribute>(0);
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="CREATE_DATE", length=19)
     protected Date createDate;
 
-    @Column(name="CREATED_BY", length=20)
     protected String createdBy;
 
-    @Column(name="DESCRIPTION", length=100)
     protected String description;
 
-    @Column(name="DOMAIN_NAME", length=40)
     protected String domainName;
 
-    @Column(name="LDAP_STR")
     protected String ldapStr;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="LST_UPDATE", length=19)
     protected Date lstUpdate;
 
-    @Column(name="LST_UPDATED_BY", length=20)
     protected String lstUpdatedBy;
 
-    @Column(name="TYPE_ID", length=20)
     protected String metadataTypeId;
 
-    @Column(name="COMPANY_NAME", length=200)
     protected String organizationName;
 
-    @Column(name="INTERNAL_COMPANY_ID")
     protected String internalOrgId;
 
-    @Column(name="PARENT_ID", length=32)
     protected String parentId;
 
-    @Column(name="STATUS", length=20)
     protected String status;
 
-    @Column(name="CLASSIFICATION", length=40)
-    @Enumerated(EnumType.STRING)
     protected OrgClassificationEnum classification;
 
-    @Column(name="ABBREVIATION", length=20)
     protected String abbreviation;
 
-    @Column(name="SYMBOL", length=10)
     protected String symbol;
 
-    @Transient
     protected Boolean selected = Boolean.FALSE;
 
-    @Transient
     protected AttributeOperationEnum operation;
 
     // Constructors
@@ -148,6 +125,30 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
         this.orgId = companyId;
     }
 
+    public Organization(OrganizationEntity organizationEntity) {
+       this.orgId = organizationEntity.getOrgId();
+        this.alias = organizationEntity.getAlias();
+        this.createDate = organizationEntity.getCreateDate();
+        this.createdBy = organizationEntity.getCreatedBy();
+        this.description = organizationEntity.getDescription();
+        this.domainName = organizationEntity.getDomainName();
+        this.ldapStr = organizationEntity.getLdapStr();
+        this.lstUpdate = organizationEntity.getLstUpdate();
+        this.lstUpdatedBy = organizationEntity.getLstUpdatedBy();
+        this.metadataTypeId = organizationEntity.getMetadataTypeId();
+        this.organizationName = organizationEntity.getOrganizationName();
+        this.internalOrgId = organizationEntity.getInternalOrgId();
+        this.parentId = organizationEntity.getParentId();
+        this.status = organizationEntity.getStatus();
+        this.classification = organizationEntity.getClassification();
+        this.abbreviation = organizationEntity.getAbbreviation();
+        this.symbol = organizationEntity.getSymbol();
+        for(Map.Entry<String, OrganizationAttributeEntity> attributeEntity :  organizationEntity.getAttributes().entrySet()) {
+            this.attributes.put(attributeEntity.getKey(), new OrganizationAttribute(attributeEntity.getValue()));
+        }
+
+    }
+
     /**
      * full constructor
      */
@@ -155,7 +156,7 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
                         String companyName, Date lstUpdate, String lstUpdatedBy,
                         String parentId, String status, Date createDate, String createdBy,
                         String alias, String description, String domainName,
-                        String ldapStr, Map<String, OrganizationAttribute> companyAttributes) {
+                        String ldapStr, HashMap<String, OrganizationAttribute> companyAttributes) {
         this.orgId = companyId;
         this.metadataTypeId = metadataTypeId;
         this.organizationName = companyName;

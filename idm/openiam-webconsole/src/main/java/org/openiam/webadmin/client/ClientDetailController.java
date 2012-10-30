@@ -95,7 +95,7 @@ public class ClientDetailController extends SimpleFormController {
 							OrganizationAttribute attr = new OrganizationAttribute();
 							attr.setMetadataElementId(el.getMetadataElementId());
 							attr.setName(el.getAttributeName());
-							attr.setOrganization(org);
+							attr.setOrganizationId(orgId);
 							log.info("Adding attribute: " + attr.getName());
 							attrSet.add(attr);
 						}
@@ -157,7 +157,7 @@ public class ClientDetailController extends SimpleFormController {
 					if (oAttr.getAttrId() == null || oAttr.getAttrId().length() ==0) {
 						oAttr.setAttrId(null);
 					}
-					oAttr.setOrganization(org);
+					oAttr.setOrganizationId(org.getOrgId());
 					attrMap.put(oAttr.getName(), oAttr);
 				}
 				org.setAttributes(attrMap);
@@ -169,7 +169,7 @@ public class ClientDetailController extends SimpleFormController {
 				Map<String, OrganizationAttribute> attrMap = new HashMap<String, OrganizationAttribute>();
 				for (OrganizationAttribute oAttr  : orgSet) {
 					oAttr.setAttrId(null);
-					oAttr.setOrganization(null);
+					oAttr.setOrganizationId(null);
 					attrMap.put(oAttr.getName(), oAttr);
 				}
 				org.setAttributes(attrMap);

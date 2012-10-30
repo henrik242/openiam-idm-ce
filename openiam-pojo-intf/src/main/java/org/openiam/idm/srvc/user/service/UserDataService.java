@@ -87,7 +87,7 @@ public interface UserDataService {
 
     public List<User> findUserByOrganization(String orgId);
 
-    public List<User> findUsersByStatus(String status);
+    public List<User> findUsersByStatus(UserStatusEnum status);
 
     public List<User> search(UserSearch search);
 

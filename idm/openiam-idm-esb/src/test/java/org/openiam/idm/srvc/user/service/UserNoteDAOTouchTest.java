@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.user.service;
 
+import org.openiam.idm.srvc.user.domain.UserNoteEntity;
 import org.openiam.idm.srvc.user.dto.UserNote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,21 +17,21 @@ public class UserNoteDAOTouchTest extends AbstractTransactionalTestNGSpringConte
 
     @Test
     public void touchAttachClean() {
-      UserNote usernote = new UserNote();
+      UserNoteEntity usernote = new UserNoteEntity();
       userNoteDAO.persist(usernote);
       userNoteDAO.attachClean(usernote);
     }
 
     @Test
     public void touchAttachDirty() {
-      UserNote usernote = new UserNote();
+      UserNoteEntity usernote = new UserNoteEntity();
       userNoteDAO.persist(usernote);
       userNoteDAO.attachDirty(usernote);
     }
 
     @Test
     public void touchDelete() {
-      userNoteDAO.delete(new UserNote());
+      userNoteDAO.delete(new UserNoteEntity());
     }
 
     @Test
@@ -40,7 +41,7 @@ public class UserNoteDAOTouchTest extends AbstractTransactionalTestNGSpringConte
 
     @Test
     public void touchFindByExample() {
-      userNoteDAO.findByExample(new UserNote());
+      userNoteDAO.findByExample(new UserNoteEntity());
     }
 
     @Test
@@ -55,11 +56,11 @@ public class UserNoteDAOTouchTest extends AbstractTransactionalTestNGSpringConte
 
     @Test
     public void touchMerge() {
-      userNoteDAO.merge(new UserNote());
+      userNoteDAO.merge(new UserNoteEntity());
     }
 
     @Test
     public void touchPersist() {
-      userNoteDAO.persist(new UserNote());
+      userNoteDAO.persist(new UserNoteEntity());
     }
 }

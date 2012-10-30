@@ -3,11 +3,14 @@ package org.openiam.idm.srvc.org.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.org.dto.UserAffiliation;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
+import org.openiam.idm.srvc.org.domain.UserAffiliationEntity;
 
 
 import javax.naming.InitialContext;
@@ -42,7 +45,7 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#add(org.openiam.idm.srvc.role.dto.UserRole)
 	 */
-	public void add(UserAffiliation transientInstance) {
+	public void add(UserAffiliationEntity transientInstance) {
 		log.debug("persisting UserRole instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -56,7 +59,7 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#remove(org.openiam.idm.srvc.role.dto.UserRole)
 	 */
-	public void remove(UserAffiliation persistentInstance) {
+	public void remove(UserAffiliationEntity persistentInstance) {
 		log.debug("deleting UserRole instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -70,10 +73,10 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#update(org.openiam.idm.srvc.role.dto.UserRole)
 	 */
-	public UserAffiliation update(UserAffiliation detachedInstance) {
+	public UserAffiliationEntity update(UserAffiliationEntity detachedInstance) {
 		log.debug("merging UserRole instance");
 		try {
-			UserAffiliation result = (UserAffiliation) sessionFactory.getCurrentSession()
+			UserAffiliationEntity result = (UserAffiliationEntity) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -86,11 +89,11 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#findById(java.lang.String)
 	 */
-	public UserAffiliation findById(String id) {
+	public UserAffiliationEntity findById(String id) {
 		log.debug("getting UserRole instance with id: " + id);
 		try {
-			UserAffiliation instance = (UserAffiliation) sessionFactory.getCurrentSession()
-					.get("org.openiam.idm.srvc.org.dto.UserAffiliation", id);
+			UserAffiliationEntity instance = (UserAffiliationEntity) sessionFactory.getCurrentSession()
+					.get(UserAffiliationEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -102,34 +105,30 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 			throw re;
 		}
 	}
+	public List<UserAffiliationEntity> findUserOrgByUser(String userId) {
 
-	public List<UserAffiliation> findUserOrgByUser(String userId) {
-		
-		
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select ur from org.openiam.idm.srvc.org.dto.UserAffiliation ur " +
-						" where ur.userId = :userId " +
-						" order by ur.userId ");
-		
-		qry.setString("userId", userId);
-		List<UserAffiliation> result = (List<UserAffiliation>)qry.list();
+        Criteria criteria = session.createCriteria(UserAffiliationEntity.class)
+                .createAlias("user","user")
+                .add(Restrictions.eq("user.userId", userId))
+                .addOrder(Order.asc("user.userId"));
+
+		List<UserAffiliationEntity> result = (List<UserAffiliationEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
-		return result;			
+		return result;
 	}
-	
-	public List<Organization> findOrgAffiliationsByUser(String userId) {
-		
 
-		
+	public List<OrganizationEntity> findOrgAffiliationsByUser(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select org from org.openiam.idm.srvc.org.dto.Organization as org, org.openiam.idm.srvc.org.dto.UserAffiliation ua " +
-						" where ua.userId = :userId and ua.organizationId = org.orgId " +
+
+		Query qry = session.createQuery("select org from org.openiam.idm.srvc.org.domain.OrganizationEntity as org, org.openiam.idm.srvc.org.domain.UserAffiliationEntity ua " +
+						" where ua.user.userId = :userId and ua.organization.orgId = org.orgId " +
 						" order by org.organizationName ");
 		
 		qry.setString("userId",userId);
 
-		List<Organization> result = (List<Organization>)qry.list();
+		List<OrganizationEntity> result = (List<OrganizationEntity>)qry.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;			
@@ -138,18 +137,18 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 	public void removeUserFromOrg(String orgId, String userId) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.dto.UserAffiliation ur " +
-					" where  ur.organizationId = :orgId and ur.userId = :userId ");
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.domain.UserAffiliationEntity ur " +
+					" where  ur.organization.orgId = :orgId and ur.user.userId = :userId ");
 		qry.setString("orgId", orgId);
 		qry.setString("userId", userId);
-		qry.executeUpdate();	
+		qry.executeUpdate();
 	}
 
 	public void removeAllUsersInOrg(String orgId) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.dto.UserAffiliation ur " +
-					" where ur.organizationId = :orgId  ");
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.domain.UserAffiliationEntity ur " +
+					" where ur.organization.orgId = :orgId  ");
 		qry.setString("orgId", orgId);
 		qry.executeUpdate();			
 	}

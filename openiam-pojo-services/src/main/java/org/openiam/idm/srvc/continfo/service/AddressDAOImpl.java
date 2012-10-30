@@ -11,15 +11,16 @@ import java.util.Collection;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.hibernate.HibernateException;
 
+import org.hibernate.criterion.Restrictions;
 import org.openiam.exception.data.DataException;
-import org.openiam.idm.srvc.continfo.dto.*;
-import org.openiam.util.ws.collection.MapItem;
+import org.openiam.idm.srvc.continfo.domain.AddressEntity;
 
 
 /**
@@ -53,11 +54,11 @@ public class AddressDAOImpl implements AddressDAO {
 	 * Return an address object for the id.
 	 * @param id
 	 */
-	public Address findById(java.lang.String id) {
+	public AddressEntity findById(java.lang.String id) {
 		log.debug("getting Address instance with id: " + id);
 		try {
-			Address instance = (Address) sessionFactory.getCurrentSession()
-					.get("org.openiam.idm.srvc.continfo.dto.Address", id);
+			AddressEntity instance = (AddressEntity) sessionFactory.getCurrentSession()
+					.get(AddressEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -72,11 +73,10 @@ public class AddressDAOImpl implements AddressDAO {
 	
 	
 	
-	public List findByExample(Address instance) {
+	public List findByExample(AddressEntity instance) {
 		log.debug("finding Address instance by example");
 		try {
-			List results = sessionFactory.getCurrentSession().createCriteria(
-					"org.openiam.idm.srvc.user.Address").add(
+			List results = sessionFactory.getCurrentSession().createCriteria(AddressEntity.class).add(
 					Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -88,7 +88,7 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 	
 
-	public Address add(Address instance) {
+	public AddressEntity add(AddressEntity instance) {
 		log.debug("persisting Address instance");
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -100,7 +100,7 @@ public class AddressDAOImpl implements AddressDAO {
 		}
 		
 	}
-	public void update(Address instance) {
+	public void update(AddressEntity instance) {
 		log.debug("merging Address instance");
 		try {
 			//sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -111,7 +111,7 @@ public class AddressDAOImpl implements AddressDAO {
 			throw re;
 		}		
 	}
-	public void remove(Address instance){
+	public void remove(AddressEntity instance){
 		log.debug("deleting Address instance");
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
@@ -126,14 +126,14 @@ public class AddressDAOImpl implements AddressDAO {
 	 * Persist a map of address objects at one time. Handles add, update, delete.
 	 * @param adrMap
 	 */
-	public void saveAddressMap(String parentId, String parentType, Map<String,Address> adrMap) {
+	public void saveAddressMap(String parentId, String parentType, Map<String,AddressEntity> adrMap) {
 		// get the current map and then compare each record with the map that has been passed in.
-		Map<String,Address> currentMap =  this.findByParent(parentId, parentType);
+		Map<String,AddressEntity> currentMap =  this.findByParent(parentId, parentType);
 		if (currentMap != null) {
-			Iterator<Address> it = currentMap.values().iterator();
+			Iterator<AddressEntity> it = currentMap.values().iterator();
 			while (it.hasNext()) {
-				Address curAdr =  it.next();
-				Address newAdr = adrMap.get(curAdr.getAddressId());
+				AddressEntity curAdr =  it.next();
+				AddressEntity newAdr = adrMap.get(curAdr.getAddressId());
 				if (newAdr == null) {
 					this.remove(curAdr);
 				}else {
@@ -145,11 +145,11 @@ public class AddressDAOImpl implements AddressDAO {
 		
 		
 	
-		Collection<Address> adrCol = adrMap.values();
-		Iterator<Address> itr = adrCol.iterator();
+		Collection<AddressEntity> adrCol = adrMap.values();
+		Iterator<AddressEntity> itr = adrCol.iterator();
 		while (itr.hasNext()) {
-			Address newAdr = itr.next();
-			Address curAdr = null;
+			AddressEntity newAdr = itr.next();
+			AddressEntity curAdr = null;
 			if (currentMap != null ) {
 				curAdr = currentMap.get(newAdr.getAddressId());
 			}
@@ -170,16 +170,16 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @param parentType
 	 * @return
 	 */
-	public Map<String, Address> findByParent(String parentId,String parentType) {
+	public Map<String, AddressEntity> findByParent(String parentId,String parentType) {
 
-		Map<String, Address> adrMap = new HashMap<String,Address>();
+		Map<String, AddressEntity> adrMap = new HashMap<String,AddressEntity>();
 
-		List<Address> addrList = findByParentAsList(parentId, parentType);
+		List<AddressEntity> addrList = findByParentAsList(parentId, parentType);
 		if (addrList == null)
 			return null;
 		int size = addrList.size();
 		for (int i=0; i<size; i++) {
-			Address adr = addrList.get(i);
+			AddressEntity adr = addrList.get(i);
 			//adrMap.put(adr.getDescription(), adr);
 			adrMap.put(adr.getAddressId(), adr);
 		}
@@ -195,15 +195,15 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @param parentType
 	 * @return
 	 */	
-	public List<Address> findByParentAsList(String parentId,String parentType) {
+	public List<AddressEntity> findByParentAsList(String parentId,String parentType) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		List<Address> result = (List<Address>)qry.list();
+        Criteria criteria = session.createCriteria(AddressEntity.class)
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
+                .add(Restrictions.eq("parentType",parentType));
+
+		List<AddressEntity> result = (List<AddressEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;		
@@ -217,7 +217,8 @@ public class AddressDAOImpl implements AddressDAO {
 	 */
 	public void removeByParent(String parentId,String parentType) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.dto.Address a " + 
+
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.domain.AddressEntity a " +
 				" where a.parent.userId = :parentId and   " +
 				" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
@@ -229,15 +230,16 @@ public class AddressDAOImpl implements AddressDAO {
 	 * Returns null if a match is not found.
 	 * @return
 	 */
-	public Address findDefault(String parentId,String parentType) {
+	public AddressEntity findDefault(String parentId,String parentType) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType and a.isDefault = 1");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		return (Address)qry.uniqueResult();
+        Criteria criteria = session.createCriteria(AddressEntity.class)
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
+                .add(Restrictions.eq("parentType",parentType))
+                .add(Restrictions.eq("isDefault",1));
+
+		return (AddressEntity)criteria.uniqueResult();
 		
 	}
 	/**
@@ -248,43 +250,43 @@ public class AddressDAOImpl implements AddressDAO {
 	 * @param parentType
 	 * @return
 	 */
-	public Address findByName(String name, String parentId,String parentType) {
+	public AddressEntity findByName(String name, String parentId,String parentType) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Address a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType and a.name = :name");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		qry.setString("name", name);
-		List<Address> result = (List<Address>)qry.list();
+        Criteria criteria = session.createCriteria(AddressEntity.class)
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
+                .add(Restrictions.eq("parentType",parentType))
+                .add(Restrictions.eq("name",name));
+
+		List<AddressEntity> result = (List<AddressEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result.get(0);		
 	}
 
-	public Address[] findByParentAsArray(String parentId, String parentType) {
+	public AddressEntity[] findByParentAsArray(String parentId, String parentType) {
 
-		List<Address> result = this.findByParentAsList(parentId, parentType);
+		List<AddressEntity> result = this.findByParentAsList(parentId, parentType);
 		if (result == null || result.size() == 0)
 			return null;
-		return (Address[])result.toArray();		
+		return (AddressEntity[])result.toArray();
 	}
 
 
-	public void saveAddressArray(String parentId, String parentType,	Address[] adrAry) {
+	public void saveAddressArray(String parentId, String parentType,	AddressEntity[] adrAry) {
 		
 		int len = adrAry.length;
 
-		Map<String,Address> currentMap =  this.findByParent(parentId, parentType);
+		Map<String,AddressEntity> currentMap =  this.findByParent(parentId, parentType);
 		if (currentMap != null) {
 			Set<String> keys = currentMap.keySet();
 			Iterator<String> it = keys.iterator();
 			int ctr = 0;
 			while (it.hasNext()) {
 				String key = it.next();
-				Address newAdr = getAddrFromArray(adrAry, key);
-				Address curAdr = currentMap.get(key);
+				AddressEntity newAdr = getAddrFromArray(adrAry, key);
+				AddressEntity curAdr = currentMap.get(key);
 				if (newAdr == null) {
 					// address was removed - deleted
 					remove(curAdr);
@@ -296,8 +298,8 @@ public class AddressDAOImpl implements AddressDAO {
 		}
 		// add the new records in currentMap that are not in the existing records
 		for (int i=0; i<len; i++) {
-			Address curAdr = null;
-			Address  adr = adrAry[i];
+			AddressEntity curAdr = null;
+			AddressEntity  adr = adrAry[i];
 			String key =  adr.getAddressId();
 			if (currentMap != null )  {
 				curAdr = currentMap.get(key);
@@ -310,11 +312,11 @@ public class AddressDAOImpl implements AddressDAO {
 	
 	}
 	
-	private Address getAddrFromArray(Address[] adrAry, String id) {
-		Address adr = null;
+	private AddressEntity getAddrFromArray(AddressEntity[] adrAry, String id) {
+		AddressEntity adr = null;
 		int len = adrAry.length;
 		for (int i=0;i<len;i++) {
-			Address tempAdr = adrAry[i];
+			AddressEntity tempAdr = adrAry[i];
 			if (tempAdr.getAddressId().equals(id)) {
 				return tempAdr;
 			}

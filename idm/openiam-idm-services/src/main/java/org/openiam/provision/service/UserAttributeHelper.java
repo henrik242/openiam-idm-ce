@@ -185,7 +185,7 @@ public class UserAttributeHelper {
 		}
 		
 		// email
-		Set<EmailAddress> emailAddressList = pUser.getEmailAddress();
+		Set<EmailAddress> emailAddressList = pUser.getEmailAddresses();
 		if (emailAddressList != null) {
 			Iterator<EmailAddress> emailIt = emailAddressList.iterator();
 			while (emailIt.hasNext()) {
@@ -196,7 +196,7 @@ public class UserAttributeHelper {
 		}
 		
 		// phone
-		Set<Phone> phoneList = pUser.getPhone();
+		Set<Phone> phoneList = pUser.getPhones();
 		if (phoneList != null) {
 			Iterator<Phone> phoneIt = phoneList.iterator();
 			while (phoneIt.hasNext()) {
@@ -455,8 +455,8 @@ public class UserAttributeHelper {
 	
 	// email
 	log.info("Processing emailAddress list");
-	Set<EmailAddress> emailAddressList = getFullEmailList(pUser.getEmailAddress(),
-			origUser2.getEmailAddress() );
+	Set<EmailAddress> emailAddressList = getFullEmailList(pUser.getEmailAddresses(),
+			origUser2.getEmailAddresses() );
 	//Set<EmailAddress> emailAddressList = pUser.getEmailAddress();
 	if (emailAddressList != null) {
 		Iterator<EmailAddress> emailIt = emailAddressList.iterator();
@@ -469,8 +469,8 @@ public class UserAttributeHelper {
 	
 	// phone
 	log.info("Processing phoneList");
-	Set<Phone> phoneList = getFullPhoneList(pUser.getPhone(),
-			origUser2.getPhone() );
+	Set<Phone> phoneList = getFullPhoneList(pUser.getPhones(),
+			origUser2.getPhones() );
 	//Set<Phone> phoneList = pUser.getPhone();
 	if (phoneList != null) {
 		Iterator<Phone> phoneIt = phoneList.iterator();
@@ -706,15 +706,15 @@ public class UserAttributeHelper {
 
 		
 		// 
-		Map<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>(0);
+		HashMap<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>(0);
 		userAttributes.putAll(user.getUserAttributes());
-		newUser.setUserAttributes( userAttributes);
+		newUser.setUserAttributes(userAttributes);
 		
-		newUser.setPhone(user.getPhone() );
+		newUser.setPhones(user.getPhones() );
 		
 		newUser.setAddresses( user.getAddresses() );
 		
-		newUser.setEmailAddress(user.getEmailAddress());
+		newUser.setEmailAddresses(user.getEmailAddresses());
 		
 		return newUser;
 	

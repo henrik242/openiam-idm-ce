@@ -112,7 +112,7 @@ public class OrganizationDetailController  extends CancellableFormController {
                             OrganizationAttribute attr = new OrganizationAttribute();
 							attr.setMetadataElementId(el.getMetadataElementId());
 							attr.setName(el.getAttributeName());
-							attr.setOrganization(org);
+							attr.setOrganizationId(orgId);
 
                             attrList.add(attr);
 						}
@@ -195,7 +195,7 @@ public class OrganizationDetailController  extends CancellableFormController {
                                 !oAttr.getValue().isEmpty() &&
                                 !"**ENTER NAME**".equalsIgnoreCase(oAttr.getName()) ) {
                             oAttr.setAttrId(null);
-                            oAttr.setOrganization(org);
+                            oAttr.setOrganizationId(orgId);
                             attrMap.put(oAttr.getName(), oAttr);
                         }
                     }else if (!"NEW".equalsIgnoreCase(oAttr.getAttrId() )) {
@@ -219,7 +219,7 @@ public class OrganizationDetailController  extends CancellableFormController {
 				Map<String, OrganizationAttribute> attrMap = new HashMap<String, OrganizationAttribute>();
 				for (OrganizationAttribute oAttr  : orgSet) {
 					oAttr.setAttrId(null);
-					oAttr.setOrganization(null);
+					oAttr.setOrganizationId(null);
 					attrMap.put(oAttr.getName(), oAttr);
 				}
 				org.setAttributes(attrMap);

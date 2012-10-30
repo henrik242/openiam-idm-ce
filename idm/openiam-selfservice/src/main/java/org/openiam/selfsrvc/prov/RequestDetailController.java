@@ -301,7 +301,7 @@ public class RequestDetailController extends SimpleFormController {
 
                 } else {
                     // target user
-                    if (pUser.getEmailAddress() != null) {
+                    if (pUser.getEmailAddresses() != null) {
                         // user does not exist. We cant use their userId.
                         notifyUserId = null;
                         notifyEmail = pUser.getEmail();
@@ -350,7 +350,7 @@ public class RequestDetailController extends SimpleFormController {
 
                 } else {
                     // target user
-                    if (pUser.getEmailAddress() != null) {
+                    if (pUser.getEmailAddresses() != null) {
                         notifyUserId = newUser.getUserId();
                     } else {
                         notifyUserId = null;

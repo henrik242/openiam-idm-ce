@@ -1,7 +1,5 @@
 package org.openiam.webadmin.user;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
-import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
@@ -23,7 +20,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -34,8 +30,6 @@ import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.grp.ws.GroupListResponse;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.user.dto.User;
@@ -214,12 +208,12 @@ public class DelegationFilterController extends CancellableFormController {
        String roleFilter =  cmd.getRoleFilterAsString();
        String orgFilter =  cmd.getOrgFilterAsString();
 
-        updateUserAttr(attrMap,"DLG_FLT_APP", appFilter, resp.getUser());
-        updateUserAttr(attrMap,"DLG_FLT_DEPT", deptFilter, resp.getUser());
-        updateUserAttr(attrMap,"DLG_FLT_DIV", divFilter, resp.getUser());
-        updateUserAttr(attrMap,"DLG_FLT_GRP", groupFilter, resp.getUser());
-        updateUserAttr(attrMap,"DLG_FLT_ROLE", roleFilter, resp.getUser());
-        updateUserAttr(attrMap,"DLG_FLT_ORG", orgFilter, resp.getUser());
+        updateUserAttr(attrMap,"DLG_FLT_APP", appFilter, personId);
+        updateUserAttr(attrMap,"DLG_FLT_DEPT", deptFilter, personId);
+        updateUserAttr(attrMap,"DLG_FLT_DIV", divFilter, personId);
+        updateUserAttr(attrMap,"DLG_FLT_GRP", groupFilter, personId);
+        updateUserAttr(attrMap,"DLG_FLT_ROLE", roleFilter, personId);
+        updateUserAttr(attrMap,"DLG_FLT_ORG", orgFilter, personId);
 
 		ProvisionUser pUser = new ProvisionUser(usr);
 
@@ -240,14 +234,14 @@ public class DelegationFilterController extends CancellableFormController {
 	}
 
 
-    private void updateUserAttr(Map<String, UserAttribute> attrMap, String attrName, String value,  User person) {
+    private void updateUserAttr(Map<String, UserAttribute> attrMap, String attrName, String value,  String personId) {
         UserAttribute attr =  attrMap.get(attrName);
         if (attr == null) {
             // new attr
             attr = new UserAttribute(attrName, value);
             attr.setOperation(AttributeOperationEnum.ADD);
             attr.setId(null);
-            attr.setUser(person);
+            attr.setUserId(personId);
             attrMap.put(attrName,attr );
         }else {
             // update existing attr
