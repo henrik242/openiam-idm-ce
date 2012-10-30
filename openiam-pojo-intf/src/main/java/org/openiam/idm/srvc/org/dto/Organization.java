@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.org.dto;
 
+import java.util.HashMap;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,7 +78,7 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
     @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class)
     @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "organization")
     @MapKey(name = "name")
-    protected Map<String, OrganizationAttribute> attributes;
+    protected Map<String, OrganizationAttribute> attributes = new HashMap<String, OrganizationAttribute>(0);;
 
     @XmlSchemaType(name = "dateTime")
     @Column(name="CREATE_DATE", length=19)

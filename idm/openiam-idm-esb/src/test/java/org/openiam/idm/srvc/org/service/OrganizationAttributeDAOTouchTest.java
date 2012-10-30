@@ -1,4 +1,4 @@
-package org.openiam.idm.srvc.org.servic;
+package org.openiam.idm.srvc.org.service;
 
 import org.openiam.idm.srvc.org.dto.OrganizationAttribute;
 import org.openiam.idm.srvc.org.service.OrganizationAttributeDAO;

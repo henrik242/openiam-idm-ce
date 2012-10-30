@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -308,7 +309,7 @@ public class User extends org.openiam.base.BaseObject {
     protected Integer delAdmin = new Integer(0);
 
     @Transient
-    protected List<Login> principalList;
+    protected List<Login> principalList = new LinkedList<Login>();
     @Transient
     protected Supervisor supervisor;
 
@@ -337,7 +338,7 @@ public class User extends org.openiam.base.BaseObject {
 
 
     @XmlJavaTypeAdapter(UserAttributeMapAdapter.class)
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     @MapKey(name = "name")
     protected Map<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>(0);
 
