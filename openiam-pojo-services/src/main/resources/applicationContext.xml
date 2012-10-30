@@ -70,11 +70,11 @@
 			
 	<!-- Service Beans -->
 	<bean id="serviceManager" class="org.openiam.idm.srvc.service.service.ServiceMgr">
-		<constructor-arg ref="serviceDAO"></constructor-arg>
+		<constructor-arg ref="serviceDAO"/>
 	</bean>
 	
 	<bean id="serviceDAO" class="org.openiam.idm.srvc.service.service.ServiceDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
 	
@@ -92,14 +92,14 @@
 
 	<bean id="groupDAO" class="org.openiam.idm.srvc.grp.service.GroupDAOImpl" >
 		<property name="userDao" ref="userDAO" />
-		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sessionFactory" ref="sessionFactory"/>
 		<property name="maxResultSetSize" value="100" />			
 	</bean>	
 	<bean id="groupAttrDAO" class="org.openiam.idm.srvc.grp.service.GroupAttributeDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 	<bean id="userGroupDAO" class="org.openiam.idm.srvc.grp.service.UserGroupDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>		
 
  <!-- QueryDataService  -->
@@ -108,7 +108,7 @@
 	</bean>
 	
 	<bean id="queryDataService" class="org.openiam.idm.srvc.qry.service.QueryDataServiceImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>	
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 	
 	<!-- User Beans -->
@@ -132,8 +132,8 @@
 
 
 	<bean id="userDAO" class="org.openiam.idm.srvc.user.service.UserDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>	
-		<property name="seqGenDao" ref="seqGenDAO"></property>
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="seqGenDao" ref="seqGenDAO"/>
 		<property name="emailSearchVal" value="EMAIL1" />
 		<property name="phoneSearchVal" value="Desk Phone" />	
 		<property name="maxResultSetSize" value="${fetch.size}" />	
@@ -141,27 +141,27 @@
 	</bean>	
 
 	<bean id="userAttributeDAO" class="org.openiam.idm.srvc.user.service.UserAttributeDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
 	<bean id="userNoteDAO" class="org.openiam.idm.srvc.user.service.UserNoteDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
 	<bean id="addressDAO" class="org.openiam.idm.srvc.continfo.service.AddressDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
 	<bean id="emailAddressDAO" class="org.openiam.idm.srvc.continfo.service.EmailAddressDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
 	<bean id="phoneDAO" class="org.openiam.idm.srvc.continfo.service.PhoneDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
 	<bean id="supervisorDAO" class="org.openiam.idm.srvc.user.service.SupervisorDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 	
 	<!-- Org Beans -->
@@ -172,15 +172,15 @@
 	</bean>
 
 	<bean id="orgDAO" class="org.openiam.idm.srvc.org.service.OrganizationDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
 	<bean id="orgAttrDAO" class="org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
 
     <bean id="orgAffiliationDAO" class="org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
 	
@@ -618,9 +618,7 @@
 				<value>org/openiam/idm/srvc/service/service/RequestForm.hbm.xml</value>
 				<value>org/openiam/idm/srvc/service/service/RequestApprover.hbm.xml</value>
 				<!-- Organization Maps -->
-				<value>org/openiam/idm/srvc/org/service/Organization.hbm.xml</value>
-				<value>org/openiam/idm/srvc/org/service/OrganizationAttribute.hbm.xml</value>
-                <value>org/openiam/idm/srvc/org/service/UserAffiliation.hbm.xml</value>
+				<value>org/openiam/idm/srvc/org/service/UserAffiliation.hbm.xml</value>
 				<!-- Metadata Maps -->
 				<value>org/openiam/idm/srvc/meta/service/MetadataElement.hbm.xml</value>
 				<value>org/openiam/idm/srvc/meta/service/MetadataType.hbm.xml</value>
@@ -733,7 +731,8 @@
 											   org.openiam.idm.srvc.role.dto*,
 											   org.openiam.idm.srvc.user.dto*,
 											   org.openiam.idm.srvc.continfo.dto*,
-											   org.openiam.am.srvc.resattr.domain*"/>
+											   org.openiam.am.srvc.resattr.domain*,
+											   org.openiam.idm.srvc.org.dto*"/>
 	</bean>
 
   

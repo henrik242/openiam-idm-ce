@@ -288,7 +288,7 @@ public class NewUserNoAppController extends AbstractWizardFormController {
         ph.setDescription(name);
         ph.setParentType(ContactConstants.PARENT_TYPE_USER);
         ph.setName(name);
-        ph.setParent(usr.getUser());
+        ph.setParent(usr);
 
         return ph;
     }

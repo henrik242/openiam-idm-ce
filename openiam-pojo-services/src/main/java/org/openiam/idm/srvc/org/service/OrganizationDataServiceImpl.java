@@ -42,7 +42,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 	/**
 	 * Returns a list of companies that match the search criteria.
 	 * 
-	 * @param search
+	 * @param orgId
 	 * @return
 	 * @throws RemoteException
 	 */
@@ -208,7 +208,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (attribute.getAttrId() == null) {
 			throw new NullPointerException("Attribute id is null");
 		}
-		if (attribute.getOrganizationId() == null) {
+		if (attribute.getOrganization() == null) {
 			throw new NullPointerException(
 					"OrganizationId has not been associated with this attribute.");
 		}
@@ -225,7 +225,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (attribute.getAttrId() == null) {
 			throw new NullPointerException("Attribute id is null");
 		}
-		if (attribute.getOrganizationId() == null) {
+		if (attribute.getOrganization() == null) {
 			throw new NullPointerException(
 					"Org has not been associated with this attribute.");
 		}

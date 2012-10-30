@@ -278,6 +278,7 @@ public class Phone implements java.io.Serializable {
     }
 
     public void setParent(User parent) {
+        this.parent = parent;
         this.parentId = parent != null ? parent.getUserId() : "";
     }
 

@@ -241,7 +241,7 @@ public class UserAttributeController extends CancellableFormController {
 					if (ua.getSelected()) {
 						if ( ua.getId() != null && ua.getId().length() > 0) {
 							// set the delete flag
-							updateUserAttr(usr, ua, 3, resp.getUser());
+							updateUserAttr(usr, ua, 3, usr);
 						}
 					}
 				}			
@@ -253,12 +253,12 @@ public class UserAttributeController extends CancellableFormController {
 					if ( ua.getId() != null && ua.getId().length() > 0) {
 						// UPDATE
 						if (!ua.getName().equalsIgnoreCase("<Enter name>")) {
-							updateUserAttr(usr, ua, 2, resp.getUser());
+							updateUserAttr(usr, ua, 2, usr);
 						}
 					}else {
 						// NEW
 						if (!ua.getName().equalsIgnoreCase("<Enter name>")) {
-							updateUserAttr(usr, ua, 1, resp.getUser());
+							updateUserAttr(usr, ua, 1, usr);
 						}
 					}
 				}			

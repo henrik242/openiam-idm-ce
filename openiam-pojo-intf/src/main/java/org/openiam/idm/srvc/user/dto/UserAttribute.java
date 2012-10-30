@@ -175,6 +175,7 @@ public class UserAttribute extends BaseObject {
     }
 
     public void setUser(User user) {
+        this.user = user;
         this.userId = user != null ? user.getUserId() : "";
     }
 

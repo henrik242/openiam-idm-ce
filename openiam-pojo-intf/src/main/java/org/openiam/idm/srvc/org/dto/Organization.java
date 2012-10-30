@@ -1,5 +1,18 @@
 package org.openiam.idm.srvc.org.dto;
 
+import java.util.HashMap;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 import java.util.Map;
+import org.openiam.idm.srvc.user.dto.UserAttributeMapAdapter;
 
 /**
  * <p/>
@@ -21,13 +35,21 @@ import java.util.Map;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "organization", propOrder = {"alias", "attributes",
-        "createDate", "createdBy", "description", "domainName", "ldapStr",
-        "lstUpdate", "lstUpdatedBy",
+@XmlType(name = "organization", propOrder = {
+        "alias",
+        "attributes",
+        "createDate",
+        "createdBy",
+        "description",
+        "domainName",
+        "ldapStr",
+        "lstUpdate",
+        "lstUpdatedBy",
         "metadataTypeId",
         "orgId",
         "organizationName",
-        "parentId", "classification",
+        "parentId",
+        "classification",
         "internalOrgId",
         "status",
         "abbreviation",
@@ -35,6 +57,8 @@ import java.util.Map;
         "selected",
         "operation"}
 )
+@Entity
+@Table(name = "COMPANY")
 public class Organization implements java.io.Serializable, Comparable<Organization> {
 
     /**
@@ -42,28 +66,72 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
      */
     private static final long serialVersionUID = -6297113958697455428L;
 
-    protected String alias;
-    @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class)
-    protected Map<String, OrganizationAttribute> attributes;
-    @XmlSchemaType(name = "dateTime")
-    protected Date createDate;
-    protected String createdBy;
-    protected String description;
-    protected String domainName;
-    protected String ldapStr;
-    @XmlSchemaType(name = "dateTime")
-    protected Date lstUpdate;
-    protected String lstUpdatedBy;
-    protected String metadataTypeId;
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name="COMPANY_ID", length=32, nullable = false)
     protected String orgId;
+
+    @Column(name="ALIAS", length=100)
+    protected String alias;
+
+    @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class)
+    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "organization")
+    @MapKey(name = "name")
+    protected Map<String, OrganizationAttribute> attributes = new HashMap<String, OrganizationAttribute>(0);;
+
+    @XmlSchemaType(name = "dateTime")
+    @Column(name="CREATE_DATE", length=19)
+    protected Date createDate;
+
+    @Column(name="CREATED_BY", length=20)
+    protected String createdBy;
+
+    @Column(name="DESCRIPTION", length=100)
+    protected String description;
+
+    @Column(name="DOMAIN_NAME", length=40)
+    protected String domainName;
+
+    @Column(name="LDAP_STR")
+    protected String ldapStr;
+
+    @XmlSchemaType(name = "dateTime")
+    @Column(name="LST_UPDATE", length=19)
+    protected Date lstUpdate;
+
+    @Column(name="LST_UPDATED_BY", length=20)
+    protected String lstUpdatedBy;
+
+    @Column(name="TYPE_ID", length=20)
+    protected String metadataTypeId;
+
+    @Column(name="COMPANY_NAME", length=200)
     protected String organizationName;
+
+    @Column(name="INTERNAL_COMPANY_ID")
     protected String internalOrgId;
+
+    @Column(name="PARENT_ID", length=32)
     protected String parentId;
+
+    @Column(name="STATUS", length=20)
     protected String status;
+
+    @Column(name="CLASSIFICATION", length=40)
+    @Enumerated(EnumType.STRING)
     protected OrgClassificationEnum classification;
+
+    @Column(name="ABBREVIATION", length=20)
     protected String abbreviation;
+
+    @Column(name="SYMBOL", length=10)
     protected String symbol;
-    protected Boolean selected = new Boolean(false);
+
+    @Transient
+    protected Boolean selected = Boolean.FALSE;
+
+    @Transient
     protected AttributeOperationEnum operation;
 
     // Constructors
@@ -128,7 +196,7 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
     /**
      * Gets the value of the attributes property.
      *
-     * @return possible object is {@link OrganizationAttributes }
+     * @return possible object is {@link org.openiam.idm.srvc.org.dto.OrganizationAttribute }
      */
     public Map<String, org.openiam.idm.srvc.org.dto.OrganizationAttribute> getAttributes() {
         return attributes;
@@ -137,7 +205,7 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
     /**
      * Sets the value of the attributes property.
      *
-     * @param value allowed object is {@link OrganizationAttributes }
+     * @param attributes allowed object is {@link org.openiam.idm.srvc.org.dto.OrganizationAttribute }
      */
     public void setAttributes(Map<String, org.openiam.idm.srvc.org.dto.OrganizationAttribute> attributes) {
         this.attributes = attributes;

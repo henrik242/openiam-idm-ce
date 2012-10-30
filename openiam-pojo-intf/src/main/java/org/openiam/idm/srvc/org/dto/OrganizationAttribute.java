@@ -1,8 +1,18 @@
 package org.openiam.idm.srvc.org.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.hibernate.annotations.GenericGenerator;
 
 
 /**
@@ -34,17 +44,37 @@ import javax.xml.bind.annotation.XmlType;
         "organizationId",
         "value"
 })
+@Entity
+@Table(name = "COMPANY_ATTRIBUTE")
 public class OrganizationAttribute implements java.io.Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = -231974705360001659L;
+
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name="COMPANY_ATTR_ID", length=32, nullable = false)
     protected String attrId;
+
     // protected MetadataElement metadataElement;
+    @Column(name="METADATA_ID", length=20)
     protected String metadataElementId;
+
+    @Column(name="NAME", length=20)
     protected String name;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name="COMPANY_ID")
+    private Organization organization;
+
+    @Transient
     protected String organizationId;
+
+    @Column(name="VALUE")
     protected String value;
 
     // Constructors
@@ -120,11 +150,7 @@ public class OrganizationAttribute implements java.io.Serializable {
 
 
     public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
+        return organization != null ? organization.getOrgId() : "";
     }
 
     /**
@@ -155,5 +181,12 @@ public class OrganizationAttribute implements java.io.Serializable {
         this.metadataElementId = metadataElementId;
     }
 
+    public Organization getOrganization() {
+        return organization;
+    }
 
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+        this.organizationId = organization != null ? organization.getOrgId() : "";
+    }
 }
