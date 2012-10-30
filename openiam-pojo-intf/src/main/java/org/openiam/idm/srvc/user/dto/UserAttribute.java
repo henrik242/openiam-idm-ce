@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
         "id",
         "metadataElementId",
         "name",
-        "user",
+        "userId",
         "value",
         "attrGroup",
         "operation",

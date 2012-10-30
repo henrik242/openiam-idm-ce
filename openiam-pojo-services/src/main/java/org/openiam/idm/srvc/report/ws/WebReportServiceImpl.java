@@ -1,23 +1,20 @@
 package org.openiam.idm.srvc.report.ws;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.core.domain.ReportInfo;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
 import org.openiam.idm.srvc.report.dto.ReportDto;
-import org.openiam.idm.srvc.report.dto.ReportParameterDto;
 import org.openiam.idm.srvc.report.service.ReportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import java.util.Map;
-import java.util.LinkedList;
-import java.util.List;
 
 @Service("reportWS")
 @WebService(endpointInterface = "org.openiam.idm.srvc.report.ws.WebReportService",
@@ -25,13 +22,12 @@ import java.util.List;
         portName = "ReportServicePort",
         serviceName = "ReportService")
 public class WebReportServiceImpl implements WebReportService {
-    protected final Log LOG = LogFactory.getLog(WebReportServiceImpl.class);
 
     @Autowired
     private ReportDataService reportDataService;
 
     @Override
-    public GetReportDataResponse executeQuery(final String reportName, Map<String, String> queryParams) {
+    public GetReportDataResponse executeQuery(final String reportName, final HashMap<String, String> queryParams) {
         GetReportDataResponse response = new GetReportDataResponse();
         if (!StringUtils.isEmpty(reportName)) {
             try {
@@ -57,12 +53,12 @@ public class WebReportServiceImpl implements WebReportService {
         List<ReportInfo> reports = reportDataService.getAllReports();
         GetAllReportsResponse reportsResponse = new GetAllReportsResponse();
         List<ReportDto> reportDtos = new LinkedList<ReportDto>();
-        for (ReportInfo reportQuery : reports) {
+        for (ReportInfo reportInfo : reports) {
             ReportDto reportDto = new ReportDto();
-            reportDto.setReportName(reportQuery.getReportName());
-            reportDto.setReportUrl(reportQuery.getReportFilePath());
-            reportDto.setParams(reportQuery.getParamsList());
-            reportDto.setRequiredParams(reportQuery.getRequiredParamsList());
+            reportDto.setReportId(reportInfo.getId());
+            reportDto.setReportName(reportInfo.getReportName());
+            reportDto.setReportDataSource(reportInfo.getDatasourceFilePath());
+            reportDto.setReportUrl(reportInfo.getReportFilePath());
             reportDtos.add(reportDto);
         }
         reportsResponse.setReports(reportDtos);
@@ -70,20 +66,23 @@ public class WebReportServiceImpl implements WebReportService {
     }
 
     @Override
-    public GetReportParametersResponse getParametersByReport(@WebParam(name = "reportName", targetNamespace = "") String reportName) {
-        ReportInfo reportQuery = reportDataService.getReportByName(reportName);
-        GetReportParametersResponse getReportParametersResponse = new GetReportParametersResponse();
-        List<String> params = reportQuery.getParamsList();
-        List<String> requiredParams = reportQuery.getRequiredParamsList();
-        List<ReportParameterDto> parameterDtoList = new LinkedList<ReportParameterDto>();
-        for (String param : params) {
-            ReportParameterDto parameterDto = new ReportParameterDto();
-            parameterDto.setName(param);
-            parameterDto.setLabel(param);
-            parameterDto.setRequired(requiredParams.contains(param));
-            parameterDtoList.add(parameterDto);
+    public Response createOrUpdateReportInfo(@WebParam(name = "reportName", targetNamespace = "") String reportName, @WebParam(name = "reportDataSource", targetNamespace = "") String reportDataSource, @WebParam(name = "reportUrl", targetNamespace = "") String reportUrl) {
+        Response response = new Response();
+        if (!StringUtils.isEmpty(reportName)) {
+            try {
+                reportDataService.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
+            } catch (Throwable t) {
+                response.setStatus(ResponseStatus.FAILURE);
+                response.setErrorCode(ResponseCode.SQL_EXCEPTION);
+                response.setErrorText(t.getMessage());
+                return response;
         }
-        getReportParametersResponse.setParameters(parameterDtoList);
-        return getReportParametersResponse;
+            response.setStatus(ResponseStatus.SUCCESS);
+        } else {
+            response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
+            response.setErrorText("Invalid parameter list: reportName=" + reportName);
+            response.setStatus(ResponseStatus.FAILURE);
+        }
+        return response;
     }
 }

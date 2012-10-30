@@ -1,26 +1,21 @@
 package org.openiam.core.dao;
 
-import java.lang.reflect.Method;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import static java.util.Collections.emptyList;
-import static org.hibernate.criterion.Projections.projectionList;
 import static org.hibernate.criterion.Projections.rowCount;
 import static org.hibernate.criterion.Restrictions.eq;
 
-public abstract class BaseDaoImpl<T> implements BaseDao<T> {
+public abstract class BaseDaoImpl<T, PrimaryKey extends Serializable> implements BaseDao<T, PrimaryKey> {
     protected final Class<T> domainClass;
 
     @Autowired
@@ -52,12 +47,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         return sessionFactory.getCurrentSession();
     }
 
-    protected BaseDaoImpl(Class<T> domainClass) {
-        this.domainClass = domainClass;
-    }
-
     @SuppressWarnings({"unchecked"})
-    public T findById(Long id) {
+    public T findById(PrimaryKey id) {
         if (id == null) {
             return null;
         }
@@ -65,14 +56,14 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @SuppressWarnings({"unchecked"})
-    public T findById(Long id, String... fetchFields) {
+    public T findById(PrimaryKey id, String... fetchFields) {
         if (id == null) {
             return null;
         }
         Criteria criteria = sessionFactory
                 .getCurrentSession()
                 .createCriteria(domainClass)
-                .add(eq("id", id))
+                .add(eq(getPKfieldName(), id))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         if (fetchFields != null) {
             for (String field : fetchFields) {
@@ -82,43 +73,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         return (T) criteria.uniqueResult();
     }
 
-    @SuppressWarnings("unchecked")
-    public Collection<T> findByIds(Collection<Long> ids, String... fetchFields) {
-        if (ids == null || ids.isEmpty()) {
-            return emptyList();
-        }
-        Criteria criteria = sessionFactory
-                .getCurrentSession()
-                .createCriteria(domainClass)
-                .add(Restrictions.in("id", ids))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        if (fetchFields != null) {
-            for (String field : fetchFields) {
-                criteria.setFetchMode(field, FetchMode.JOIN);
-            }
-        }
-        Method method = null;
-        List<T> entities = criteria.list();
-        Map<Long, T> mapById = new HashMap<Long, T>(entities.size());
-        for (T entity : entities) {
-            try {
-                if (method == null) {
-                    method = entity.getClass().getMethod("getId");
-                }
-                mapById.put((Long) method.invoke(entity), entity);
-            } catch (Throwable t) {
-                return entities;
-            }
-        }
-        List<T> sortedResult = new ArrayList<T>(entities.size());
-        for (Long id : ids) {
-            T entity = mapById.get(id);
-            if (entity != null) {
-                sortedResult.add(mapById.get(id));
-            }
-        }
-        return sortedResult;
-    }
+    protected abstract String getPKfieldName();
 
     @SuppressWarnings({"unchecked"})
     public List<T> findAll() {
@@ -155,11 +110,9 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         }
     }
 
-    public int count(Criteria criteria) {
-        return ((Number) criteria.setProjection(
-                projectionList()
-                        .add(rowCount())
-        ).uniqueResult()).intValue();
+    @Transactional
+    public void deleteAll() throws Exception{
+        sessionFactory.getCurrentSession().createQuery("delete from "+this.domainClass.getName()).executeUpdate();
     }
 }
 

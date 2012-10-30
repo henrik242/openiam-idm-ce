@@ -29,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
         "createdBy",
         "description",
         "noteType",
-        "user",
+        "userId",
         "userNoteId"
 })
 @Entity

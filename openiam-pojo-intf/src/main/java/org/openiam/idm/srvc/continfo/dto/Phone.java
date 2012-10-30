@@ -30,7 +30,7 @@ import org.openiam.idm.srvc.user.dto.User;
         "countryCd",
         "description",
         "isDefault",
-        "parent",
+        "parentId",
         "parentType",
         "phoneExt",
         "phoneId",
