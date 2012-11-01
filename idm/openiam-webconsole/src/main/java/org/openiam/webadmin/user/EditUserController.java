@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
-import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
 
@@ -246,7 +245,7 @@ public class EditUserController extends CancellableFormController {
         }else {
             Phone p = new Phone();
             p.setName("DESK PHONE");
-            p.setParent(resp.getUser());
+            p.setParentId(personId);
             p.setParentType(ContactConstants.PARENT_TYPE_USER);
             p.setPhoneNbr("");
             p.setAreaCd("");
@@ -470,18 +469,18 @@ public class EditUserController extends CancellableFormController {
 		String email = profileCommand.getEmail1();
 		String emailId = profileCommand.getEmail1Id();
         EmailAddress em = buildEmail(emailId, email,"EMAIL1");
-        pUser.getEmailAddress().add(em);
+        pUser.getEmailAddresses().add(em);
         pUser.setEmail(email);
 		//}
 		email = profileCommand.getEmail2();
 		emailId = profileCommand.getEmail2Id();
         em = buildEmail(emailId, email, "EMAIL2");
-        pUser.getEmailAddress().add(em);
+        pUser.getEmailAddresses().add(em);
 		//}
 		email = profileCommand.getEmail3();
 		emailId = profileCommand.getEmail3Id();
         em = buildEmail(emailId, email, "EMAIL3");
-        pUser.getEmailAddress().add(em);
+        pUser.getEmailAddresses().add(em);
 	//	}
 		
 			
@@ -505,7 +504,7 @@ public class EditUserController extends CancellableFormController {
             }
 
         }
-        pUser.setPhone(phoneSet);
+        pUser.setPhones(phoneSet);
     }
 
 	private void getAddress(EditUserCommand profileCommand, ProvisionUser pUser) {
@@ -524,7 +523,7 @@ public class EditUserController extends CancellableFormController {
 		adr.setState(profileCommand.getUser().getState());
 		adr.setStreetDirection(profileCommand.getUser().getStreetDirection());
 		adr.setName("DEFAULT ADR");
-		adr.setParent(pUser.getUser());
+		adr.setParentId(pUser.getUser().getUserId());
 		adr.setParentType(ContactConstants.PARENT_TYPE_USER);
 		adr.setPostalCd(profileCommand.getUser().getPostalCd());
 		pUser.getAddresses().add(adr);

@@ -12,13 +12,12 @@ import java.util.Set;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.openiam.idm.srvc.continfo.dto.Address;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
-import org.openiam.idm.srvc.continfo.dto.Phone;
-import org.openiam.util.ws.collection.MapItem;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 
 
 /**
@@ -50,12 +49,11 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	
 	
 
-	public EmailAddress findById(java.lang.String id) {
+	public EmailAddressEntity findById(java.lang.String id) {
 
 		try {
-			EmailAddress instance = (EmailAddress) sessionFactory
-					.getCurrentSession().get(
-							"org.openiam.idm.srvc.continfo.dto.EmailAddress", id);
+			EmailAddressEntity instance = (EmailAddressEntity) sessionFactory
+					.getCurrentSession().get(EmailAddressEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -72,7 +70,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	 * Adds a new instance
 	 * @param instance
 	 */
-	public EmailAddress add(EmailAddress instance) {
+	public EmailAddressEntity add(EmailAddressEntity instance) {
 
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -89,7 +87,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	 * Removes an existing instance
 	 * @param instance
 	 */
-	public void remove(EmailAddress instance) {
+	public void remove(EmailAddressEntity instance) {
 
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
@@ -104,7 +102,7 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	 * Updates an existing instance
 	 * @param instance
 	 */
-	public void update(EmailAddress instance) {
+	public void update(EmailAddressEntity instance) {
 		log.debug("merging instance");
 		try {
 			sessionFactory.getCurrentSession().merge(instance);
@@ -118,34 +116,33 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 	
 
-	public EmailAddress findByName(String name, String parentId, String parentType) {
+	public EmailAddressEntity findByName(String name, String parentId, String parentType) {
 
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType and a.name = :name");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		qry.setString("name", name);
-		List<EmailAddress> result = (List<EmailAddress>)qry.list();
+        Criteria criteria = session.createCriteria(EmailAddressEntity.class)
+                .add(Restrictions.eq("parent.userId",parentId))
+                .add(Restrictions.eq("parentType",parentType))
+                .add(Restrictions.eq("name",name));
+
+		List<EmailAddressEntity> result = (List<EmailAddressEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result.get(0);	
 
 	}
 
-	public Map<String, EmailAddress> findByParent(String parentId, String parentType) {
+	public Map<String, EmailAddressEntity> findByParent(String parentId, String parentType) {
 
 		
-		Map<String, EmailAddress> adrMap = new HashMap<String,EmailAddress>();
+		Map<String, EmailAddressEntity> adrMap = new HashMap<String,EmailAddressEntity>();
 
-		List<EmailAddress> addrList = findByParentAsList(parentId, parentType);
+		List<EmailAddressEntity> addrList = findByParentAsList(parentId, parentType);
 		if (addrList == null)
 			return null;
 		int size = addrList.size();
 		for (int i=0; i<size; i++) {
-			EmailAddress adr = addrList.get(i);
+			EmailAddressEntity adr = addrList.get(i);
 			//adrMap.put(adr.getDescription(), adr);
 			adrMap.put(adr.getEmailId(), adr);
 		}
@@ -154,36 +151,35 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 		return adrMap;
 	}
 
-	public List<EmailAddress> findByParentAsList(String parentId, String parentType) {
+	public List<EmailAddressEntity> findByParentAsList(String parentId, String parentType) {
 
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		List<EmailAddress> result = (List<EmailAddress>)qry.list();
+        Criteria criteria = session.createCriteria(EmailAddressEntity.class)
+                .add(Restrictions.eq("parent.userId",parentId))
+                .add(Restrictions.eq("parentType",parentType));
+
+		List<EmailAddressEntity> result = (List<EmailAddressEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;		
 	}
 
-	public EmailAddress findDefault(String parentId, String parentType) {
+	public EmailAddressEntity findDefault(String parentId, String parentType) {
 
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.EmailAddress a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType and a.isDefault = 1");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		return (EmailAddress)qry.uniqueResult();
+		Criteria criteria = session.createCriteria(EmailAddressEntity.class)
+                .add(Restrictions.eq("parent.userId",parentId))
+                .add(Restrictions.eq("parentType",parentType))
+                .add(Restrictions.eq("isDefault",1));
+
+		return (EmailAddressEntity)criteria.uniqueResult();
 	}
 
 	public void removeByParent(String parentId, String parentType) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.dto.EmailAddress a " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.domain.EmailAddressEntity a " +
 				" where a.parent.userId = :parentId and   " +
 				" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
@@ -193,14 +189,14 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 	}
 
 	
-	public void saveEmailAddressMap(String parentId, String parentType, Map<String, EmailAddress> adrMap) {
+	public void saveEmailAddressMap(String parentId, String parentType, Map<String, EmailAddressEntity> adrMap) {
 		// get the current map and then compare each record with the map that has been passed in.
-		Map<String,EmailAddress> currentMap =  this.findByParent(parentId, parentType);
+		Map<String, EmailAddressEntity> currentMap =  this.findByParent(parentId, parentType);
 		if (currentMap != null) {
-			Iterator<EmailAddress> it = currentMap.values().iterator();
+			Iterator<EmailAddressEntity> it = currentMap.values().iterator();
 			while (it.hasNext()) {
-				EmailAddress curEmail =  it.next();
-				EmailAddress newEmail = adrMap.get(curEmail.getEmailId());
+				EmailAddressEntity curEmail =  it.next();
+				EmailAddressEntity newEmail = adrMap.get(curEmail.getEmailId());
 				if (newEmail == null) {
 					this.remove(curEmail);
 				}else {
@@ -210,11 +206,11 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 			}
 		}
 		// add the new records in currentMap that are not in the existing records
-		Collection<EmailAddress> adrCol = adrMap.values();
-		Iterator<EmailAddress> itr = adrCol.iterator();
+		Collection<EmailAddressEntity> adrCol = adrMap.values();
+		Iterator<EmailAddressEntity> itr = adrCol.iterator();
 		while (itr.hasNext()) {
-			EmailAddress newEmail = itr.next();
-			EmailAddress curEmail = null;
+			EmailAddressEntity newEmail = itr.next();
+			EmailAddressEntity curEmail = null;
 			if (currentMap != null ) {
 				curEmail = currentMap.get(newEmail.getEmailId());
 			}
@@ -224,28 +220,28 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 		}		
 	}
 
-	public EmailAddress[] findByParentAsArray(String parentId, String parentType) {
+	public EmailAddressEntity[] findByParentAsArray(String parentId, String parentType) {
 
-		List<EmailAddress> result = this.findByParentAsList(parentId, parentType);
+		List<EmailAddressEntity> result = this.findByParentAsList(parentId, parentType);
 		if (result == null || result.size() == 0)
 			return null;
-		return (EmailAddress[])result.toArray();		
+		return (EmailAddressEntity[])result.toArray();
 	}
 
 
 
-	public void saveEmailAddressArray(String parentId, String parentType,	EmailAddress[] emailAry) {
+	public void saveEmailAddressArray(String parentId, String parentType,	EmailAddressEntity[] emailAry) {
 		int len = emailAry.length;
 
-		Map<String,EmailAddress> currentMap =  this.findByParent(parentId, parentType);
+		Map<String, EmailAddressEntity> currentMap =  this.findByParent(parentId, parentType);
 		if (currentMap != null) {
 			Set<String> keys = currentMap.keySet();
 			Iterator<String> it = keys.iterator();
 			int ctr = 0;
 			while (it.hasNext()) {
 				String key = it.next();
-				EmailAddress newEmail = getEmailFromArray(emailAry, key);
-				EmailAddress curEmail = currentMap.get(key);
+				EmailAddressEntity newEmail = getEmailFromArray(emailAry, key);
+				EmailAddressEntity curEmail = currentMap.get(key);
 				if (newEmail == null) {
 					// address was removed - deleted
 					remove(curEmail);
@@ -257,8 +253,8 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 		}
 		// add the new records in currentMap that are not in the existing records
 		for (int i=0; i<len; i++) {
-			EmailAddress curAdr = null;
-			EmailAddress  email = emailAry[i];
+			EmailAddressEntity curAdr = null;
+			EmailAddressEntity  email = emailAry[i];
 			String key =  email.getEmailId();
 			if (currentMap != null )  {
 				curAdr = currentMap.get(key);
@@ -271,11 +267,11 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 		
 	}
 
-	private EmailAddress getEmailFromArray(EmailAddress[] adrAry, String id) {
-		EmailAddress adr = null;
+	private EmailAddressEntity getEmailFromArray(EmailAddressEntity[] adrAry, String id) {
+		EmailAddressEntity adr = null;
 		int len = adrAry.length;
 		for (int i=0;i<len;i++) {
-			EmailAddress tempAdr = adrAry[i];
+			EmailAddressEntity tempAdr = adrAry[i];
 			if (tempAdr.getEmailId().equals(id)) {
 				return tempAdr;
 			}

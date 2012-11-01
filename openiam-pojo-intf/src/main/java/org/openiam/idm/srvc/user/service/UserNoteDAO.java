@@ -1,26 +1,27 @@
 package org.openiam.idm.srvc.user.service;
 
+import org.openiam.idm.srvc.user.domain.UserNoteEntity;
 import org.openiam.idm.srvc.user.dto.UserNote;
 
 import java.util.List;
 
 public interface UserNoteDAO {
 
-    public void persist(UserNote transientInstance);
+    public void persist(UserNoteEntity transientInstance);
 
-    public void attachDirty(UserNote instance);
+    public void attachDirty(UserNoteEntity instance);
 
-    public void attachClean(UserNote instance);
+    public void attachClean(UserNoteEntity instance);
 
-    public void delete(UserNote persistentInstance);
+    public void delete(UserNoteEntity persistentInstance);
 
-    public UserNote merge(UserNote detachedInstance);
+    public UserNoteEntity merge(UserNoteEntity detachedInstance);
 
-    public UserNote findById(java.lang.String id);
+    public UserNoteEntity findById(java.lang.String id);
 
-    public List findByExample(UserNote instance);
+    public List findByExample(UserNoteEntity instance);
 
-    List<UserNote> findUserNotes(String userId);
+    List<UserNoteEntity> findUserNotes(String userId);
 
     /**
      * Delete all the notes associated with a user.

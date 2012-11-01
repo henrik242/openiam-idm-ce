@@ -1,7 +1,7 @@
 package org.openiam.idm.srvc.continfo.service;
 
 import java.util.Collections;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
+import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
@@ -17,7 +17,7 @@ public class EmailAddressDAOTouchTest extends AbstractTransactionalTestNGSpringC
 
     @Test
     public void touchAdd() {
-        emailAddressDAO.add(new EmailAddress());
+        emailAddressDAO.add(new EmailAddressEntity());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class EmailAddressDAOTouchTest extends AbstractTransactionalTestNGSpringC
 
     @Test
     public void touchRemove() {
-        emailAddressDAO.remove(new EmailAddress());
+        emailAddressDAO.remove(new EmailAddressEntity());
     }
 
     @Test
@@ -57,11 +57,11 @@ public class EmailAddressDAOTouchTest extends AbstractTransactionalTestNGSpringC
 
     @Test
     public void touch() {
-        emailAddressDAO.saveEmailAddressMap("", "", Collections.<String, EmailAddress>emptyMap());
+        emailAddressDAO.saveEmailAddressMap("", "", Collections.<String, EmailAddressEntity>emptyMap());
     }
 
     @Test
     public void touchUpdate() {
-        emailAddressDAO.update(new EmailAddress());
+        emailAddressDAO.update(new EmailAddressEntity());
     }
 }

@@ -178,7 +178,7 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
         userNotes = user.getUserNotes();
         userAttributes = user.getUserAttributes();
-        phones = user.getPhone();
+        phones = user.getPhones();
         addresses = user.getAddresses();
         // set the email address in a hibernate friendly manner
 
@@ -246,9 +246,9 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
         user.setUserNotes(userNotes);
         user.setUserAttributes(userAttributes);
-        user.setPhone(phones);
+        user.setPhones(phones);
         user.setAddresses(addresses);
-        user.setEmailAddress(emailAddresses);
+        user.setEmailAddresses(emailAddresses);
         user.setAlternateContactId(alternateContactId);
         user.setShowInSearch(showInSearch);
         user.setDelAdmin(delAdmin);

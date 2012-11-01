@@ -15,6 +15,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
 import org.openiam.idm.srvc.org.dto.*;
 
 /**
@@ -43,11 +44,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     }
 
 
-    public Organization findById(java.lang.String id) {
+    public OrganizationEntity findById(java.lang.String id) {
         log.debug("getting Organization instance with id: " + id);
         try {
-            Organization instance = (Organization) sessionFactory.getCurrentSession()
-                    .createCriteria(Organization.class)
+            OrganizationEntity instance = (OrganizationEntity) sessionFactory.getCurrentSession()
+                    .createCriteria(OrganizationEntity.class)
                     .setFetchMode("attributes", FetchMode.JOIN)
                     .add(Restrictions.eq("orgId",id)).uniqueResult();
 
@@ -63,11 +64,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         }
     }
 
-    public List findByExample(Organization instance) {
+    public List<OrganizationEntity> findByExample(OrganizationEntity instance) {
         log.debug("finding Company instance by example");
         try {
             List results = sessionFactory.getCurrentSession()
-                    .createCriteria(Organization.class)
+                    .createCriteria(OrganizationEntity.class)
                     .add(Example.create(instance))
                     .setFetchMode("attributes", FetchMode.JOIN)
                     .list();
@@ -80,7 +81,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         }
     }
 
-    public Organization add(Organization instance) {
+    public OrganizationEntity add(OrganizationEntity instance) {
         log.debug("persisting Organization instance");
         try {
             sessionFactory.getCurrentSession().persist(instance);
@@ -93,24 +94,24 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
     }
 
-    public List<Organization> findChildOrganization(String orgId) {
+    public List<OrganizationEntity> findChildOrganization(String orgId) {
         log.debug("getting Organization instances for childobjects of  " + orgId);
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Organization.class)
+        Criteria criteria = session.createCriteria(OrganizationEntity.class)
                 .add(Restrictions.eq("parentId", orgId))
                 .addOrder(Order.asc("organizationName"))
                 .setFetchMode("attributes", FetchMode.JOIN);
         criteria.setCacheable(true);
         criteria.setCacheRegion("query.organization.findChildOrganization");
-        List<Organization> result = criteria.list();
+        List<OrganizationEntity> result = criteria.list();
         if (result == null || result.size() == 0)
             return null;
         return result;
     }
 
-    public Organization findParent(String orgId) {
-        Organization curOrg = findById(orgId);
+    public OrganizationEntity findParent(String orgId) {
+        OrganizationEntity curOrg = findById(orgId);
         if (curOrg != null && curOrg.getParentId() != null) {
             return findById(curOrg.getParentId());
         }
@@ -118,7 +119,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         return null;
     }
 
-    public void remove(Organization instance) {
+    public void remove(OrganizationEntity instance) {
         log.debug("deleting Address instance");
         try {
             sessionFactory.getCurrentSession().delete(instance);
@@ -129,10 +130,10 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         }
     }
 
-    public Organization update(Organization instance) {
+    public OrganizationEntity update(OrganizationEntity instance) {
         log.debug("merging Organization instance");
         try {
-            return (Organization) sessionFactory.getCurrentSession().merge(instance);
+            return (OrganizationEntity) sessionFactory.getCurrentSession().merge(instance);
         } catch (RuntimeException re) {
             log.error("merge failed", re);
             throw re;
@@ -145,17 +146,17 @@ public class OrganizationDAOImpl implements OrganizationDAO {
      *
      * @return
      */
-    public List<Organization> findRootOrganizations() {
+    public List<OrganizationEntity> findRootOrganizations() {
         log.debug("getting Organization instances at parent level  ");
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Organization.class)
+        Criteria criteria = session.createCriteria(OrganizationEntity.class)
                 .add(Restrictions.isNull("parentId"))
                 .addOrder(Order.asc("organizationName"))
                 .setFetchMode("attributes", FetchMode.JOIN);
 
         criteria.setCacheable(true);
-        List<Organization> result = (List<Organization>) criteria.list();
+        List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
 
         if (result == null || result.size() == 0)
             return null;
@@ -163,37 +164,37 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
     }
 
-    public List<Organization> findOrganizationByType(String type, String parentId) {
+    public List<OrganizationEntity> findOrganizationByType(String type, String parentId) {
         log.debug("getting Organization for a type  ");
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Organization.class).add(Restrictions.eq("metadataTypeId",type));
+        Criteria criteria = session.createCriteria(OrganizationEntity.class).add(Restrictions.eq("metadataTypeId",type));
         if (parentId != null) {
             criteria.add(Restrictions.eq("parentId",parentId));
         }
         criteria.addOrder(Order.asc("organizationName"))
                 .setFetchMode("attributes", FetchMode.JOIN);
-        List<Organization> result = (List<Organization>) criteria.list();
+        List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
         if (result == null || result.size() == 0)
             return null;
         return result;
     }
 
-    public List<Organization> findAllOrganization() {
+    public List<OrganizationEntity> findAllOrganization() {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Organization.class)
+        Criteria criteria = session.createCriteria(OrganizationEntity.class)
                 .addOrder(Order.asc("organizationName"))
                 .setFetchMode("attributes", FetchMode.JOIN);
         criteria.setCacheable(true);
         criteria.setCacheRegion("query.organization.findAllOrganization");
-        List<Organization> result = (List<Organization>) criteria.list();
+        List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
         if (result == null || result.size() == 0)
             return null;
         return result;
     }
 
-    public List<Organization> search(String name, String type, String classification, String internalOrgId) {
+    public List<OrganizationEntity> search(String name, String type, OrgClassificationEnum classification, String internalOrgId) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(org.openiam.idm.srvc.org.dto.Organization.class);
+        Criteria criteria = session.createCriteria(OrganizationEntity.class);
         if (name == null && type == null) {
             // show all the orgs
             criteria.add(Restrictions.like("organizationName", "%"));
@@ -205,7 +206,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             criteria.add(Restrictions.eq("metadataTypeId", type));
         }
         if (classification != null) {
-            criteria.add(Restrictions.eq("classification", OrgClassificationEnum.valueOf(classification)));
+            criteria.add(Restrictions.eq("classification", classification));
         }
         if (internalOrgId != null) {
             criteria.add(Restrictions.eq("internalOrgId", internalOrgId));
@@ -215,11 +216,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
     }
 
-    public List<Organization> findOrganizationByClassification(String parentId, String classification) {
+    public List<OrganizationEntity> findOrganizationByClassification(String parentId, OrgClassificationEnum classification) {
         log.debug("getting Organization for a classification  ");
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Organization.class);
+        Criteria criteria = session.createCriteria(OrganizationEntity.class);
         if (parentId == null) {
             criteria.add(Restrictions.eq("classification",classification));
         } else {
@@ -231,7 +232,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         criteria.setCacheRegion("query.organization.findOrganizationByClassification");
         criteria.setFetchMode("attributes", FetchMode.JOIN);
 
-        List<Organization> result = (List<Organization>) criteria.list();
+        List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
         if (result == null || result.size() == 0)
             return null;
         return result;
@@ -240,10 +241,10 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.org.service.OrganizationDAO#findOrganizationByStatus(java.lang.String, java.lang.String)
       */
-    public List<Organization> findOrganizationByStatus(String parentId,
+    public List<OrganizationEntity> findOrganizationByStatus(String parentId,
                                                        String status) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(org.openiam.idm.srvc.org.dto.Organization.class);
+        Criteria criteria = session.createCriteria(OrganizationEntity.class);
 
         if (parentId != null) {
             criteria.add(Restrictions.eq("parentId", parentId));

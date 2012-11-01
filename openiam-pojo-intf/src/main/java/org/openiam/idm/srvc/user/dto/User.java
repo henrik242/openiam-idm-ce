@@ -9,7 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,6 +22,9 @@ import org.hibernate.annotations.ParamDef;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseConstants;
 import org.openiam.idm.srvc.auth.dto.Login;
+import org.openiam.idm.srvc.continfo.domain.AddressEntity;
+import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
+import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
 import org.openiam.idm.srvc.continfo.dto.Address;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 import org.openiam.idm.srvc.continfo.dto.Phone;
@@ -30,6 +32,9 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.*;
+import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
+import org.openiam.idm.srvc.user.domain.UserEntity;
+import org.openiam.idm.srvc.user.domain.UserNoteEntity;
 
 /**
  * User domain object.  This object is used to transfer data between the service layer
@@ -118,249 +123,164 @@ import java.util.*;
         EmailAddress.class,
         UserAttribute.class
 })
-@Entity
-@FilterDef(name="parentTypeFilter", parameters=@ParamDef(name="parentFilter", type="string" ))
-@Table(name = "USERS")
+
 public class User extends org.openiam.base.BaseObject {
 
 
     protected static final Log log = LogFactory.getLog(User.class);
     // Fields
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name="USER_ID", length=32, nullable = false)
     protected String userId;
 
     //protected AddressMap addresses; see below
     @XmlSchemaType(name = "dateTime")
-    @Column(name="BIRTHDATE", length=19)
     protected Date birthdate;
 
-    @Column(name="COMPANY_ID", length=32)
     protected String companyId;
 
-    @Column(name="COMPANY_OWNER_ID", length=32)
     protected String companyOwnerId;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="CREATE_DATE", length=19)
     protected Date createDate;
 
-    @Column(name="CREATED_BY", length=32)
     protected String createdBy;
 
-    @Column(name="DEPT_CD", length=50)
     protected String deptCd;
 
-    @Column(name="DEPT_NAME", length=100)
     protected String deptName;
 
-    @Column(name="EMPLOYEE_ID", length=32)
     protected String employeeId;
 
-    @Column(name="EMPLOYEE_TYPE", length=20)
     protected String employeeType;
 
-    @Column(name="FIRST_NAME", length=50)
     protected String firstName;
 
-    @Column(name="JOB_CODE", length=50)
     protected String jobCode;
 
-    @Column(name="LAST_NAME", length=50)
     protected String lastName;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="LAST_UPDATE", length=19)
     protected Date lastUpdate;
 
-    @Column(name="LAST_UPDATED_BY", length=32)
     protected String lastUpdatedBy;
 
-    @Column(name="LOCATION_CD", length=50)
     protected String locationCd;
 
-    @Column(name="LOCATION_NAME", length=100)
     protected String locationName;
 
-    @Column(name="MANAGER_ID", length=32)
     protected String managerId;
 
-    @Column(name="TYPE_ID", length=20)
     protected String metadataTypeId;
 
-    @Column(name="CLASSIFICATION", length=20)
     protected String classification;
 
-    @Column(name="MIDDLE_INIT", length=50)
     protected String middleInit;
 
-    @Column(name="PREFIX", length=4)
     protected String prefix;
 
-    @Column(name="SEX", length=1)
     protected String sex;
 
-    @Column(name="STATUS", length=40)
     @Enumerated(EnumType.STRING)
     protected UserStatusEnum status;
 
-    @Column(name="SECONDARY_STATUS", length=40)
     @Enumerated(EnumType.STRING)
     protected UserStatusEnum secondaryStatus;
 
-    @Column(name="SUFFIX", length=20)
     protected String suffix;
 
-    @Column(name="TITLE", length=30)
     protected String title;
 
-    @Column(name="USER_TYPE_IND", length=20)
     protected String userTypeInd;
 
-    @Column(name="DIVISION", length=50)
     protected String division;
 
-    @Column(name="MAIL_CODE", length=10)
     protected String mailCode;
 
-    @Column(name="COST_CENTER", length=20)
     protected String costCenter;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="START_DATE", length=10)
     protected Date startDate;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="LAST_DATE", length=10)
     protected Date lastDate;
 
-    @Column(name="NICKNAME", length=40)
     protected String nickname;
 
-    @Column(name="MAIDEN_NAME", length=40)
     protected String maidenName;
 
-    @Column(name="PASSWORD_THEME", length=20)
     protected String passwordTheme;
 
-    @Column(name="COUNTRY", length=30)
     protected String country;
 
-    @Column(name="BLDG_NUM", length=10)
     protected String bldgNum;
 
-    @Column(name="STREET_DIRECTION", length=20)
     protected String streetDirection;
 
-    @Column(name="SUITE", length=20)
     protected String suite;
 
-    @Column(name="ADDRESS1", length=45)
     protected String address1;
 
-    @Column(name="ADDRESS2", length=45)
     protected String address2;
 
-    @Column(name="ADDRESS3", length=45)
     protected String address3;
 
-    @Column(name="ADDRESS4", length=45)
     protected String address4;
 
-    @Column(name="ADDRESS5", length=45)
     protected String address5;
 
-    @Column(name="ADDRESS6", length=45)
     protected String address6;
 
-    @Column(name="ADDRESS7", length=45)
     protected String address7;
 
-    @Column(name="CITY", length=30)
     protected String city;
 
-    @Column(name="STATE", length=15)
     protected String state;
 
-    @Column(name="POSTAL_CD", length=10)
     protected String postalCd;
 
-    @Column(name="EMAIL_ADDRESS", length=320)
     protected String email;
 
-    @Column(name="AREA_CD", length=10)
     protected String areaCd;
 
-    @Column(name="COUNTRY_CD", length=10)
     protected String countryCd;
 
-    @Column(name="PHONE_NBR", length=50)
     protected String phoneNbr;
 
-    @Column(name="PHONE_EXT", length=20)
     protected String phoneExt;
 
-    @Column(name="SHOW_IN_SEARCH", nullable = false)
     protected Integer showInSearch = new Integer(0);
 
-    @Column(name="DEL_ADMIN", nullable = false)
     protected Integer delAdmin = new Integer(0);
 
-    @Transient
     protected List<Login> principalList = new LinkedList<Login>();
-    @Transient
+
     protected Supervisor supervisor;
 
-    @Column(name="ALTERNATE_ID", length=32)
     protected String alternateContactId;
     //@XmlElement(name="securityDomain",	namespace = "urn:idm.openiam.org/srvc/user/dto")
-    @Transient
+
     protected String securityDomain;
 
-    @Column(name="USER_OWNER_ID")
     protected String userOwnerId;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="DATE_PASSWORD_CHANGED", length=10)
     protected Date datePasswordChanged;
 
     @XmlSchemaType(name = "dateTime")
-    @Column(name="DATE_CHALLENGE_RESP_CHANGED", length=10)
     protected Date dateChallengeRespChanged;
 
 
     @XmlJavaTypeAdapter(UserNoteSetAdapter.class)
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "user")
-    protected Set<UserNote> userNotes = new HashSet(0);
+    protected Set<UserNote> userNotes = new HashSet<UserNote>(0);
     //protected Set<Group> groups = new HashSet<Group>(0);
 
 
     @XmlJavaTypeAdapter(UserAttributeMapAdapter.class)
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    @MapKey(name = "name")
-    protected Map<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>(0);
+    protected HashMap<String, UserAttribute> userAttributes = new HashMap<String, UserAttribute>(0);
 
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "parent")
-    @Filter(
-		name = "parentTypeFilter",
-		condition=":parentFilter = PARENT_TYPE"
-	)
     protected Set<Address> addresses = new HashSet<Address>(0);
 
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "parent")
-    @Filter(
-		name = "parentTypeFilter",
-		condition=":parentFilter = PARENT_TYPE"
-	)
     protected Set<Phone> phones = new HashSet<Phone>(0);
 
-    @OneToMany(orphanRemoval=true, cascade = CascadeType.ALL, mappedBy = "parent")
-    @Filter(
-		name = "parentTypeFilter",
-		condition=":parentFilter = PARENT_TYPE"
-	)
     protected Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>(0);
 
 
@@ -374,11 +294,89 @@ public class User extends org.openiam.base.BaseObject {
     public User() {
     }
 
+    public User(UserEntity userEntity) {
+        this.userId = userEntity.getUserId();
+        this.birthdate = userEntity.getBirthdate();
+        this.companyId = userEntity.getCompanyId();
+        this.companyOwnerId = userEntity.getCompanyOwnerId();
+        this.createDate = userEntity.getCreateDate();
+        this.createdBy = userEntity.getCreatedBy();
+        this.deptCd = userEntity.getDeptCd();
+        this.deptName = userEntity.getDeptName();
+        this.employeeId = userEntity.getEmployeeId();
+        this.employeeType = userEntity.getEmployeeType();
+        this.firstName = userEntity.getFirstName();
+        this.lastName = userEntity.getLastName();
+        this.jobCode = userEntity.getJobCode();
+        this.lastUpdate = userEntity.getLastUpdate();
+        this.lastUpdatedBy = userEntity.getLastUpdatedBy();
+        this.locationCd = userEntity.getLocationCd();
+        this.locationName = userEntity.getLocationName();
+        this.managerId = userEntity.getManagerId();
+        this.metadataTypeId = userEntity.getMetadataTypeId();
+        this.classification = userEntity.getClassification();
+        this.middleInit = userEntity.getMiddleInit();
+        this.prefix = userEntity.getPrefix();
+        this.sex = userEntity.getSex();
+        this.status = userEntity.getStatus();
+        this.secondaryStatus = userEntity.getSecondaryStatus();
+        this.suffix = userEntity.getSuffix();
+        this.title = userEntity.getTitle();
+        this.userTypeInd = userEntity.getUserTypeInd();
+        this.division = userEntity.getDivision();
+        this.mailCode = userEntity.getMailCode();
+        this.costCenter = userEntity.getCostCenter();
+        this.startDate = userEntity.getStartDate();
+        this.lastDate = userEntity.getLastDate();
+        this.nickname = userEntity.getNickname();
+        this.maidenName = userEntity.getMaidenName();
+        this.passwordTheme = userEntity.getPasswordTheme();
+        this.country = userEntity.getCountry();
+        this.bldgNum = userEntity.getBldgNum();
+        this.streetDirection = userEntity.getStreetDirection();
+        this.suite = userEntity.getSuite();
+        this.address1 = userEntity.getAddress1();
+        this.address2 = userEntity.getAddress2();
+        this.address3 = userEntity.getAddress3();
+        this.address4 = userEntity.getAddress4();
+        this.address5 = userEntity.getAddress5();
+        this.address6 = userEntity.getAddress6();
+        this.address7 = userEntity.getAddress7();
+        this.city = userEntity.getCity();
+        this.state = userEntity.getState();
+        this.postalCd = userEntity.getPostalCd();
+        this.email = userEntity.getEmail();
+        this.areaCd = userEntity.getAreaCd();
+        this.countryCd = userEntity.getCountryCd();
+        this.phoneNbr = userEntity.getPhoneNbr();
+        this.phoneExt = userEntity.getPhoneExt();
+        this.showInSearch = userEntity.getShowInSearch();
+        this.delAdmin = userEntity.getDelAdmin();
+        this.alternateContactId = userEntity.getAlternateContactId();
+        this.userOwnerId = userEntity.getUserOwnerId();
+        this.datePasswordChanged = userEntity.getDatePasswordChanged();
+        this.dateChallengeRespChanged = userEntity.getDateChallengeRespChanged();
+        for (UserNoteEntity une : userEntity.getUserNotes()) {
+            this.userNotes.add(new UserNote(une));
+        }
+        for (EmailAddressEntity ea : userEntity.getEmailAddresses()) {
+            this.emailAddresses.add(new EmailAddress(ea));
+        }
+        for (Map.Entry<String, UserAttributeEntity> entry : userEntity.getUserAttributes().entrySet()) {
+            this.userAttributes.put(entry.getKey(), new UserAttribute(entry.getValue()));
+        }
+        for (PhoneEntity phone : userEntity.getPhones()) {
+            this.phones.add(new Phone(phone));
+        }
+        for (AddressEntity phone : userEntity.getAddresses()) {
+            this.addresses.add(new Address(phone));
+        }
+    }
+
     /**
      * minimal constructor
      */
     public User(String userId) {
-
         this.userId = userId;
     }
 
@@ -596,8 +594,8 @@ public class User extends org.openiam.base.BaseObject {
     }
 
 
-    public Set getUserNotes() {
-        return this.userNotes;
+    public Set<UserNote> getUserNotes() {
+        return userNotes;
     }
 
     public void setUserNotes(Set<UserNote> userNotes) {
@@ -643,14 +641,12 @@ public class User extends org.openiam.base.BaseObject {
     }
 
 
-    public Map<String, UserAttribute> getUserAttributes() {
+    public HashMap<String, UserAttribute> getUserAttributes() {
         return this.userAttributes;
     }
 
-    public void setUserAttributes(Map<String, UserAttribute> userAttributes) {
+    public void setUserAttributes(HashMap<String, UserAttribute> userAttributes) {
         this.userAttributes = userAttributes;
-
-
     }
 
 
@@ -715,11 +711,11 @@ public class User extends org.openiam.base.BaseObject {
         return null;
     }
 
-    public Set<EmailAddress> getEmailAddress() {
+    public Set<EmailAddress> getEmailAddresses() {
         return emailAddresses;
     }
 
-    public void setEmailAddress(Set<EmailAddress> emailAddresses) {
+    public void setEmailAddresses(Set<EmailAddress> emailAddresses) {
         this.emailAddresses = emailAddresses;
     }
 
@@ -734,11 +730,11 @@ public class User extends org.openiam.base.BaseObject {
         return null;
     }
 
-    public Set<Phone> getPhone() {
+    public Set<Phone> getPhones() {
         return phones;
     }
 
-    public void setPhone(Set<Phone> phones) {
+    public void setPhones(Set<Phone> phones) {
         this.phones = phones;
     }
 
@@ -1465,7 +1461,7 @@ public class User extends org.openiam.base.BaseObject {
 
     protected void updateAttributes(Map<String, UserAttribute> attrMap) {
         if (attrMap == null || attrMap.isEmpty()) {
-           return;
+            return;
         }
 
         Set<String> keySet = attrMap.keySet();

@@ -231,7 +231,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	 */
 	public UserListResponse findUsersByStatus(String status) {
 		UserListResponse resp = new UserListResponse(ResponseStatus.SUCCESS);
-		List<User> userList = userManager.findUsersByStatus(status);
+		List<User> userList = userManager.findUsersByStatus(UserStatusEnum.valueOf(status));
 		if (userList == null ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {

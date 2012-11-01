@@ -123,7 +123,7 @@ public class UserAffiliationDAOImpl implements UserAffiliationDAO {
 
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select org from org.openiam.idm.srvc.org.dto.Organization as org, org.openiam.idm.srvc.org.dto.UserAffiliation ua " +
+		Query qry = session.createQuery("select org from org.openiam.idm.srvc.org.domain.OrganizationEntity as org, org.openiam.idm.srvc.org.dto.UserAffiliation ua " +
 						" where ua.userId = :userId and ua.organizationId = org.orgId " +
 						" order by org.organizationName ");
 		

@@ -8,10 +8,11 @@ import javax.jws.*;
 import java.util.*;
 import java.rmi.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
 import org.openiam.idm.srvc.org.dto.*;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.UserRole;
 
 /**
  * <code>OrganizationManager</code> provides a service level interface to the
@@ -55,22 +56,29 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (orgId == null) {
 			throw new NullPointerException("orgId is null");
 		}
-		return orgDao.findChildOrganization(orgId);
+		List<OrganizationEntity> organizationEntityList = orgDao.findChildOrganization(orgId);
+        List<Organization> organizationList = new LinkedList<Organization>();
+        for(OrganizationEntity entity : organizationEntityList) {
+           organizationList.add(new Organization(entity));
+        }
 		//return testOrgList(orgId);
-
+        return organizationList;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.org.service.OrganizationDataService#getTopLevelOrganizations()
 	 */
 	public List<Organization> getTopLevelOrganizations() {
-		List<Organization> orgList = orgDao.findRootOrganizations();
-		
+		List<OrganizationEntity> orgEntityList = orgDao.findRootOrganizations();
+		List<Organization> orgList = null;
+        if(orgEntityList != null) {
+            orgList = new LinkedList<Organization>();
 		// initialize the collections
-		for ( Organization org :orgList) {
-			Hibernate.initialize( org.getAttributes() ); 
-		}
-		
+		    for ( OrganizationEntity org :orgEntityList) {
+			    Hibernate.initialize(org.getAttributes());
+                orgList.add(new Organization(org));
+		    }
+        }
 		return orgList;
 		//return testOrgList("myTopLevelOrg");
 	}
@@ -87,29 +95,39 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (typeId == null)
 			throw new NullPointerException("typeId is null");
 		
-	   List<Organization> orgList = orgDao.findOrganizationByType(typeId, parentId);
-	   if (orgList == null) {
+	   List<OrganizationEntity> orgEntityList = orgDao.findOrganizationByType(typeId, parentId);
+	   if (orgEntityList == null) {
 		   return null;
 	   }
+	   List<Organization> orgList = new LinkedList<Organization>();
+       for ( OrganizationEntity org :orgEntityList) {
+			Hibernate.initialize(org.getAttributes());
+            orgList.add(new Organization(org));
+		}
 	   return orgList;
    }
 
-   public List<Organization> getOrganizationByClassification(String parentId, String classification) {
+   public List<Organization> getOrganizationByClassification(String parentId, OrgClassificationEnum classification) {
 		if (classification == null)
 			throw new NullPointerException("classification is null");
 		
-	   List<Organization> orgList = orgDao.findOrganizationByClassification(parentId, classification);
-	   if (orgList == null) {
+	   List<OrganizationEntity> orgEntityList = orgDao.findOrganizationByClassification(parentId, classification);
+	   if (orgEntityList == null) {
 		   return null;
+	   }
+	   List<Organization> orgList = new LinkedList<Organization>();
+       for ( OrganizationEntity org :orgEntityList) {
+			Hibernate.initialize(org.getAttributes());
+            orgList.add(new Organization(org));
 	   }
 	   return orgList;
   }
    
    public List<Organization> allDepartments(String parentId) {
-	   return getOrganizationByClassification(parentId, OrgClassificationEnum.DEPARTMENT.toString());
+	   return getOrganizationByClassification(parentId, OrgClassificationEnum.DEPARTMENT);
    }
    public List<Organization> allDivisions(String parentId) {
-	   return getOrganizationByClassification(parentId, OrgClassificationEnum.DIVISION.toString());  
+	   return getOrganizationByClassification(parentId, OrgClassificationEnum.DIVISION);
    }
    
 
@@ -119,8 +137,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 	public Organization addOrganization(Organization org) {
 		if (org == null)
 			throw new NullPointerException("org object is null");
-
-		return orgDao.add(org); //null pointer here, orgDao seems to be null
+        OrganizationEntity entity = orgDao.add(new OrganizationEntity(org));
+		return entity != null ? new Organization(entity) : null;
 	}
 
 	/* (non-Javadoc)
@@ -129,9 +147,10 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 	public void updateOrganization(Organization org) {
 		if (org == null)
 			throw new NullPointerException("org object is null");
-		if (org.getOrgId() == null)
+		if (StringUtils.isEmpty(org.getOrgId()))
 			throw new NullPointerException("org id is null");
-		orgDao.update(org);
+
+        orgDao.update(new OrganizationEntity(org));
 	}
 
 	/* (non-Javadoc)
@@ -143,7 +162,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 
 		Organization instance = new Organization();
 		instance.setOrgId(orgId);  // dont need if new Organization(orgId) constructor available
-		orgDao.remove(instance);
+		orgDao.remove(new OrganizationEntity(instance));
 
 	}
 
@@ -154,7 +173,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (orgId == null)
 			throw new NullPointerException("orgId object is null");
 
-		Organization org = orgDao.findById(orgId);
+		OrganizationEntity org = orgDao.findById(orgId);
 		if (org == null) {
 			return false;
 		}
@@ -171,7 +190,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (orgId == null)
 			throw new NullPointerException("orgId object is null");
 
-		List<Organization> orgList = orgDao.findChildOrganization(orgId);
+		List<OrganizationEntity> orgList = orgDao.findChildOrganization(orgId);
 		if (orgList != null && !orgList.isEmpty()) {
 			return true;
 		}
@@ -187,13 +206,13 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		
 		System.out.println("In Organization: orgDao=" + orgDao );
 		
-		Organization org = orgDao.findById(orgId);
+		OrganizationEntity org = orgDao.findById(orgId);
 		if (org != null) {
 			Hibernate.initialize( org.getAttributes() ); 
 		}else {
 			return null;
 		}
-		return org;
+		return new Organization(org);
 		
 	}
 
@@ -208,12 +227,12 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (attribute.getAttrId() == null) {
 			throw new NullPointerException("Attribute id is null");
 		}
-		if (attribute.getOrganization() == null) {
+		if (StringUtils.isEmpty(attribute.getOrganizationId())) {
 			throw new NullPointerException(
 					"OrganizationId has not been associated with this attribute.");
 		}
-
-		orgAttrDao.add(attribute);
+        OrganizationEntity organization = orgDao.findById(attribute.getOrganizationId());
+		orgAttrDao.add(new OrganizationAttributeEntity(attribute,organization));
 	}
 
 	/* (non-Javadoc)
@@ -225,32 +244,35 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (attribute.getAttrId() == null) {
 			throw new NullPointerException("Attribute id is null");
 		}
-		if (attribute.getOrganization() == null) {
+		if (StringUtils.isEmpty(attribute.getOrganizationId())) {
 			throw new NullPointerException(
 					"Org has not been associated with this attribute.");
 		}
-
-		orgAttrDao.update(attribute);
+        OrganizationEntity organization = orgDao.findById(attribute.getOrganizationId());
+		orgAttrDao.update(new OrganizationAttributeEntity(attribute,organization));
 
 	}
 
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.org.service.OrganizationDataService#getAllAttributes(java.lang.String)
 	 */
-	public Map<String, OrganizationAttribute> getAllAttributes(String orgId) {
-
-		Map<String, OrganizationAttribute> attrMap = null;
+	public HashMap<String, OrganizationAttribute> getAllAttributes(String orgId) {
 
 		if (orgId == null) {
 			throw new NullPointerException("orgId is null");
 		}
 		
-		Organization org = this.orgDao.findById(orgId);
+		OrganizationEntity org = this.orgDao.findById(orgId);
 		
-		attrMap = org.getAttributes();
-		if (attrMap != null && attrMap.isEmpty())
+		HashMap<String, OrganizationAttributeEntity> attrEntityMap = (HashMap<String, OrganizationAttributeEntity>)org.getAttributes();
+		if (attrEntityMap != null && attrEntityMap.isEmpty())
 			return null;
-		return attrMap;
+
+        HashMap<String, OrganizationAttribute> attrMap = new HashMap<String, OrganizationAttribute>();
+        for(Map.Entry<String, OrganizationAttributeEntity> entityEntry : attrEntityMap.entrySet()) {
+           attrMap.put(entityEntry.getKey(), new OrganizationAttribute(entityEntry.getValue()));
+        }
+        return attrMap;
 		
 		//return this.attribMap(orgId);
 
@@ -263,9 +285,9 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (attrId == null) {
 			throw new NullPointerException("attrId is null");
 		}
-		return orgAttrDao.findById(attrId);
+		OrganizationAttributeEntity attributeEntity = orgAttrDao.findById(attrId);
 		//return this.orgAttrib(attrId);
-
+        return attributeEntity != null ? new OrganizationAttribute(attributeEntity) : null;
 	}
 
 	/* (non-Javadoc)
@@ -278,8 +300,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 		if (attr.getAttrId() == null) {
 			throw new NullPointerException("attrId is null");
 		}
-
-		orgAttrDao.remove(attr);
+        OrganizationEntity organization = orgDao.findById(attr.getOrganizationId());
+		orgAttrDao.remove(new OrganizationAttributeEntity(attr,organization));
 	}
 
 	/* (non-Javadoc)
@@ -411,11 +433,21 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 	 * @see org.openiam.idm.srvc.org.service.OrganizationDataService#search(java.lang.String, java.lang.String)
 	 */
 	public List<Organization> search(String name, String type, String classification, String internalOrgId) {
-		return orgDao.search(name, type, classification, internalOrgId);
+		List<OrganizationEntity> organizationEntities = orgDao.search(name, type, OrgClassificationEnum.valueOf(classification), internalOrgId);
+        List<Organization> organizationList = new LinkedList<Organization>();
+        for(OrganizationEntity entity : organizationEntities) {
+           organizationList.add(new Organization(entity));
+        }
+        return organizationList;
 	}
 	
 	public List<Organization> getAllOrganizations() {
-		return orgDao.findAllOrganization();
+		List<OrganizationEntity> organizationEntities = orgDao.findAllOrganization();
+        List<Organization> organizationList = new LinkedList<Organization>();
+        for(OrganizationEntity entity : organizationEntities) {
+           organizationList.add(new Organization(entity));
+        }
+        return organizationList;
 	}
 
 	/* (non-Javadoc)
@@ -423,7 +455,12 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 	 */
 	public List<Organization> getOrganizationList(String parentOrgId,
 			String status) {
-		return orgDao.findOrganizationByStatus(parentOrgId, status);
+		List<OrganizationEntity> organizationEntities = orgDao.findOrganizationByStatus(parentOrgId, status);
+        List<Organization> organizationList = new LinkedList<Organization>();
+        for(OrganizationEntity entity : organizationEntities) {
+           organizationList.add(new Organization(entity));
+        }
+        return organizationList;
 	}
 
 

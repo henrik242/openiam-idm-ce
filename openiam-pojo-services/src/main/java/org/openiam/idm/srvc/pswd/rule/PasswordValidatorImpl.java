@@ -39,8 +39,8 @@ import org.openiam.idm.srvc.policy.service.PolicyDataService;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
-import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDAO;
 import org.openiam.script.ScriptFactory;
@@ -76,9 +76,9 @@ public class PasswordValidatorImpl implements PasswordValidator {
 	public PasswordValidationCode validate(Policy pswdPolicy, Password password) throws ObjectNotFoundException, IOException {
 		// get the user object for the principal
 		Login lg = loginDao.findById(new LoginId(password.getDomainId(), password.getPrincipal(), password.getManagedSysId()));
-		User usr = userDao.findById(lg.getUserId());
+        UserEntity usr = userDao.findById(lg.getUserId());
 
-        return validateForUser(pswdPolicy, password, usr, lg);
+        return validateForUser(pswdPolicy, password, new User(usr), lg);
 	}
 
     @Override
@@ -100,7 +100,8 @@ public class PasswordValidatorImpl implements PasswordValidator {
         }
         User usr = user;
         if(usr == null) {
-            usr = userDao.findById(lg.getUserId());
+            UserEntity userEntity = userDao.findById(lg.getUserId());
+            usr = userEntity != null ? new User(userEntity) : null;
         }
 
         // for each rule
@@ -245,19 +246,14 @@ public class PasswordValidatorImpl implements PasswordValidator {
 		this.cryptor = cryptor;
 	}
 
-
-
 	public String getScriptEngine() {
 		return scriptEngine;
 	}
 
 
-
 	public void setScriptEngine(String scriptEngine) {
 		this.scriptEngine = scriptEngine;
 	}
-
-
 
 
 }

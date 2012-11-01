@@ -3,22 +3,13 @@ package org.openiam.idm.srvc.user.dto;
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
 
 /**
  * UserAttribute represents an individual attribute that is associated with a user. A user may
@@ -38,40 +29,23 @@ import javax.xml.bind.annotation.XmlType;
         "operation",
         "required"
 })
-@Entity
-@Table(name = "USER_ATTRIBUTES")
+
 public class UserAttribute extends BaseObject {
 
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "ID", length = 32, nullable = false)
     protected String id;
 
-    @Column(name="METADATA_ID", length=20)
     protected String metadataElementId;
 
-    @Column(name="NAME", length=50)
     protected String name;
 
-    @XmlTransient
-    @ManyToOne
-    @JoinColumn(name="USER_ID")
-    protected User user;
-
-    @Column(name="VALUE", length=50)
     protected String value;
 
-    @Transient
     protected String attrGroup;
 
-    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    @Transient
     protected Boolean required = Boolean.TRUE;
 
-    @Transient
     protected String userId;
     // Constructors
 
@@ -88,16 +62,24 @@ public class UserAttribute extends BaseObject {
         this.id = id;
     }
 
+    public UserAttribute(UserAttributeEntity userAtributeEntity) {
+        this.id = userAtributeEntity.getId();
+        this.metadataElementId = userAtributeEntity.getMetadataElementId();
+        this.name = userAtributeEntity.getName();
+        this.value = userAtributeEntity.getValue();
+        this.userId = userAtributeEntity.getUser() != null ? userAtributeEntity.getUser().getUserId() : "";
+    }
+
     public UserAttribute(String name, String value) {
         this.name = name;
         this.value = value;
         this.id = null;
     }
 
-    public UserAttribute(String id, User user,
+    public UserAttribute(String id, String userId,
                          String metadataElement, String name, String value) {
         this.id = id;
-        this.user = user;
+        this.userId = userId;
         this.metadataElementId = metadataElement;
         this.name = name;
         this.value = value;
@@ -170,17 +152,14 @@ public class UserAttribute extends BaseObject {
         this.required = required;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.userId = user != null ? user.getUserId() : "";
-    }
 
     public String getUserId() {
-        return this.user != null ? this.user.getUserId() : "";
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -189,7 +168,7 @@ public class UserAttribute extends BaseObject {
                 "id='" + id + '\'' +
                 ", metadataElementId='" + metadataElementId + '\'' +
                 ", name='" + name + '\'' +
-                ", userId='" + (user != null ? user.getUserId() : "") + '\'' +
+                ", userId='" + userId +
                 ", value='" + value + '\'' +
                 ", attrGroup='" + attrGroup + '\'' +
                 ", operation=" + operation +
@@ -199,7 +178,7 @@ public class UserAttribute extends BaseObject {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserAttribute)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         UserAttribute that = (UserAttribute) o;
 
@@ -210,7 +189,7 @@ public class UserAttribute extends BaseObject {
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (operation != that.operation) return false;
         if (required != null ? !required.equals(that.required) : that.required != null) return false;
-        if (user != null ? !user.equals(that.user) : that.user != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;
@@ -218,6 +197,14 @@ public class UserAttribute extends BaseObject {
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (metadataElementId != null ? metadataElementId.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (attrGroup != null ? attrGroup.hashCode() : 0);
+        result = 31 * result + (operation != null ? operation.hashCode() : 0);
+        result = 31 * result + (required != null ? required.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        return result;
     }
 }

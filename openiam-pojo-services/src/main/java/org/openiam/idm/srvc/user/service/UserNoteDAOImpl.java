@@ -6,13 +6,15 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
-import org.openiam.idm.srvc.user.dto.UserAttribute;
-import org.openiam.idm.srvc.user.dto.UserNote;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.user.domain.UserNoteEntity;
 
 /**
  * Home object for domain model class UserNote.
@@ -41,8 +43,8 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 		}
 	}
 
-	public void persist(UserNote transientInstance) {
-		log.debug("persisting UserNote instance");
+	public void persist(UserNoteEntity transientInstance) {
+		log.debug("persisting UserNoteEntity instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
@@ -52,8 +54,8 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 		}
 	}
 
-	public void attachDirty(UserNote instance) {
-		log.debug("attaching dirty UserNote instance");
+	public void attachDirty(UserNoteEntity instance) {
+		log.debug("attaching dirty UserNoteEntity instance");
 		try {
 			sessionFactory.getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -63,8 +65,8 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 		}
 	}
 
-	public void attachClean(UserNote instance) {
-		log.debug("attaching clean UserNote instance");
+	public void attachClean(UserNoteEntity instance) {
+		log.debug("attaching clean UserNoteEntity instance");
 		try {
 			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
@@ -74,8 +76,8 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 		}
 	}
 
-	public void delete(UserNote persistentInstance) {
-		log.debug("deleting UserNote instance");
+	public void delete(UserNoteEntity persistentInstance) {
+		log.debug("deleting UserNoteEntity instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -85,10 +87,10 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 		}
 	}
 
-	public UserNote merge(UserNote detachedInstance) {
+	public UserNoteEntity merge(UserNoteEntity detachedInstance) {
 		log.debug("merging UserNote instance");
 		try {
-			UserNote result = (UserNote) sessionFactory.getCurrentSession()
+			UserNoteEntity result = (UserNoteEntity) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -98,11 +100,11 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 		}
 	}
 
-	public UserNote findById(java.lang.String id) {
+	public UserNoteEntity findById(java.lang.String id) {
 		log.debug("getting UserNote instance with id: " + id);
 		try {
-			UserNote instance = (UserNote) sessionFactory.getCurrentSession()
-					.get("org.openiam.idm.srvc.user.dto.UserNote", id);
+			UserNoteEntity instance = (UserNoteEntity) sessionFactory.getCurrentSession()
+					.get(UserNoteEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -120,27 +122,27 @@ public class UserNoteDAOImpl implements UserNoteDAO {
 	 */
 	public void deleteUserNotes(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.user.dto.UserNote un " + 
-					" where un.user.userId = :userId ");
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.user.domain.UserNoteEntity un " +
+                " where un.user.userId = :userId ");
 		qry.setString("userId", userId);
 		qry.executeUpdate();
 
 		
 	}
 
-	public List<UserNote> findUserNotes(String userId) {
-		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.UserNote un where un.user.userId = :userId order by un.userNoteId asc");
-		qry.setString("userId", userId);
-		List<UserNote> results = (List<UserNote>)qry.list();
+	public List<UserNoteEntity> findUserNotes(String userId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserNoteEntity.class)
+                .add(Restrictions.eq("user.userId",userId))
+                .addOrder(Order.asc("userNoteId"));
+		List<UserNoteEntity> results = (List<UserNoteEntity>)criteria.list();
 		return results;
 	}	
 	
-	public List findByExample(UserNote instance) {
-		log.debug("finding UserNote instance by example");
+	public List findByExample(UserNoteEntity instance) {
+		log.debug("finding UserNoteEntity instance by example");
 		try {
-			List results = sessionFactory.getCurrentSession().createCriteria(UserNote.class).add(
-					Example.create(instance)).list();
+			List results = sessionFactory.getCurrentSession().createCriteria(UserNoteEntity.class)
+                    .add(Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;

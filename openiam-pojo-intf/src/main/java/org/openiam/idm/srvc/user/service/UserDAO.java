@@ -1,11 +1,12 @@
 package org.openiam.idm.srvc.user.service;
 
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
-import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 
 import java.util.Date;
 import java.util.List;
+import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
 /**
  * Data access interface for domain model class User.
@@ -15,30 +16,30 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    public void add(User transientInstance);
+    public void add(UserEntity transientInstance);
 
-    public void remove(User persistentInstance);
+    public void remove(UserEntity persistentInstance);
 
-    public User update(User detachedInstance);
+    public UserEntity update(UserEntity detachedInstance);
 
-    public User findById(String id);
+    public UserEntity findById(String id);
 
-    public User findByName(String firstName, String lastName);
+    public UserEntity findByName(String firstName, String lastName);
 
-    public List<User> findByLastUpdateRange(Date startDate, Date endDate);
+    public List<UserEntity> findByLastUpdateRange(Date startDate, Date endDate);
 
-    public List<User> search(UserSearch search);
+    public List<UserEntity> search(UserSearch search);
 
-    public List<User> findByStatus(String status);
+    public List<UserEntity> findByStatus(UserStatusEnum status);
 
     /* Methods to get staff and supervisors lists */
-    public List<User> findStaff(String supervisorId);
+    public List<UserEntity> findStaff(String supervisorId);
 
-    public List<User> findSupervisors(String staffId);
+    public List<UserEntity> findSupervisors(String staffId);
 
-    public List<User> findByOrganization(String orgId);
+    public List<UserEntity> findByOrganization(String orgId);
 
-    public List<User> findByDelegationProperties(DelegationFilterSearch search);
+    public List<UserEntity> findByDelegationProperties(DelegationFilterSearch search);
 
 
 }

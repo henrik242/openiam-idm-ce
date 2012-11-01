@@ -180,8 +180,8 @@ public class ProfileController extends CancellableFormController {
 
         User currentUser =  userMgr.getUserWithDependent(userId, true).getUser();
         
-        Set<EmailAddress> emailSet =  currentUser.getEmailAddress();
-        Set<Phone> phoneSet = currentUser.getPhone();
+        Set<EmailAddress> emailSet =  currentUser.getEmailAddresses();
+        Set<Phone> phoneSet = currentUser.getPhones();
         
 
 		User usr = profileCmd.getUser();
@@ -189,8 +189,8 @@ public class ProfileController extends CancellableFormController {
         currentUser.updateUser(usr);
 
         ProvisionUser pUser = new ProvisionUser(currentUser);
-        pUser.setEmailAddress(emailSet);
-        pUser.setPhone(phoneSet);
+        pUser.setEmailAddresses(emailSet);
+        pUser.setPhones(phoneSet);
         
         getPhone(profileCmd, pUser);
         getEmail(profileCmd, pUser);
@@ -298,7 +298,7 @@ public class ProfileController extends CancellableFormController {
 
 	
 	private void getEmail(ProfileCommand profileCommand, User usr) {
-		Set<EmailAddress> emailAdrSet =  usr.getEmailAddress();
+		Set<EmailAddress> emailAdrSet =  usr.getEmailAddresses();
 
 		
 		EmailAddress email1 = null, email2 = null, email3 = null;
@@ -329,9 +329,9 @@ public class ProfileController extends CancellableFormController {
 			email1 = new EmailAddress();
 			email1.setEmailAddress(profileCommand.getEmail1());
 			email1.setName("EMAIL1");
-			email1.setParent(usr);
+			email1.setParentId(usr.getUserId());
 			email1.setParentType(ContactConstants.PARENT_TYPE_USER);
-            usr.getEmailAddress().add(email1);
+            usr.getEmailAddresses().add(email1);
 
 			
 		}
@@ -341,9 +341,9 @@ public class ProfileController extends CancellableFormController {
 			email2 = new EmailAddress();
 			email2.setEmailAddress(profileCommand.getEmail2());
 			email2.setName("EMAIL2");
-			email2.setParent(usr);
+			email2.setParentId(usr.getUserId());
 			email2.setParentType(ContactConstants.PARENT_TYPE_USER);
-            usr.getEmailAddress().add(email2);
+            usr.getEmailAddresses().add(email2);
 		}		
 		if (!emailExists(emailAdrSet, "EMAIL3")) {
 
@@ -351,9 +351,9 @@ public class ProfileController extends CancellableFormController {
 			email3 = new EmailAddress();
 			email3.setEmailAddress(profileCommand.getEmail3());
 			email3.setName("EMAIL3");
-			email3.setParent(usr);
+			email3.setParentId(usr.getUserId());
 			email3.setParentType(ContactConstants.PARENT_TYPE_USER);
-            usr.getEmailAddress().add(email3);
+            usr.getEmailAddresses().add(email3);
 			
 		}	
 		
@@ -397,7 +397,7 @@ public class ProfileController extends CancellableFormController {
 	
 	
 	private void getPhone(ProfileCommand profileCmd, User usr) {
-		Set<Phone> phSet = usr.getPhone();
+		Set<Phone> phSet = usr.getPhones();
 		
 		Phone deskPhone = null, cellPhone = null, faxPhone=null, homePhone = null, altCellPhone = null, personalPhone = null;
 
@@ -446,7 +446,7 @@ public class ProfileController extends CancellableFormController {
 			deskPhone.setDescription("WORK");
 			deskPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			deskPhone.setName("DESK PHONE");
-			deskPhone.setParent(usr);
+			deskPhone.setParentId(usr.getUserId());
 			phSet.add(deskPhone);
 		}		
 		if (!phoneExists(phSet, "CELL PHONE") ) {
@@ -457,7 +457,7 @@ public class ProfileController extends CancellableFormController {
 			cellPhone.setDescription("CELL");
 			cellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			cellPhone.setName("CELL PHONE");
-			cellPhone.setParent(usr);
+			cellPhone.setParentId(usr.getUserId());
 			phSet.add(cellPhone);
 		}
 
@@ -469,7 +469,7 @@ public class ProfileController extends CancellableFormController {
 			faxPhone.setDescription("FAX");
 			faxPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			faxPhone.setName("FAX");
-			faxPhone.setParent(usr);
+			faxPhone.setParentId(usr.getUserId());
 			phSet.add(faxPhone);
 		}
 		if (!phoneExists(phSet, "HOME PHONE")) {
@@ -481,7 +481,7 @@ public class ProfileController extends CancellableFormController {
 			homePhone.setDescription("HOME");
 			homePhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			homePhone.setName("HOME PHONE");
-			homePhone.setParent(usr);
+			homePhone.setParentId(usr.getUserId());
 			phSet.add(homePhone);
 		}
 		if (!phoneExists(phSet, "ALT CELL PHONE") ) {
@@ -492,7 +492,7 @@ public class ProfileController extends CancellableFormController {
 			altCellPhone.setDescription("ALT CELL");
 			altCellPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			altCellPhone.setName("ALT CELL PHONE");
-			altCellPhone.setParent(usr);
+			altCellPhone.setParentId(usr.getUserId());
 			altCellPhone.setPhoneId(profileCmd.getAltCellNbrId());
 			phSet.add(altCellPhone);
 		}
@@ -504,7 +504,7 @@ public class ProfileController extends CancellableFormController {
 			personalPhone.setDescription("PERSONAL PHONE");
 			personalPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			personalPhone.setName("PERSONAL PHONE");
-			personalPhone.setParent(usr);
+			personalPhone.setParentId(usr.getUserId());
 			phSet.add(personalPhone);
 		}
 	

@@ -488,7 +488,7 @@ public class SelfRegistrationController extends CancellableFormController {
         if (email != null && email.length() > 0) {
             EmailAddress em = buildEmail(emailId, email, "EMAIL1");
             log.info("EmailId 1 = " + em.getEmailId());
-            pUser.getEmailAddress().add(em);
+            pUser.getEmailAddresses().add(em);
             pUser.setEmail(email);
         }
         email = cmd.getEmail2();
@@ -496,13 +496,13 @@ public class SelfRegistrationController extends CancellableFormController {
         if (email != null && email.length() > 0) {
             EmailAddress em = buildEmail(emailId, email, "EMAIL2");
             log.info("EmailId 2 = " + em.getEmailId());
-            pUser.getEmailAddress().add(em);
+            pUser.getEmailAddresses().add(em);
         }
         email = cmd.getEmail3();
         emailId = cmd.getEmail3Id();
         if (email != null && email.length() > 0) {
             EmailAddress em = buildEmail(emailId, email, "EMAIL3");
-            pUser.getEmailAddress().add(em);
+            pUser.getEmailAddresses().add(em);
         }
 
 
@@ -520,38 +520,38 @@ public class SelfRegistrationController extends CancellableFormController {
         }
         usr.setAreaCd(ph.getAreaCd());
         usr.setPhoneNbr(ph.getPhoneNbr());
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
         log.info("CELL PHONE: " + cmd.getCellPhoneId());
         if (cmd.getCellPhoneId() != null && cmd.getCellPhoneId().length() > 0) {
             ph.setPhoneId(cmd.getCellPhoneId());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone());
         if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0) {
             ph.setPhoneId(cmd.getFaxPhoneId());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr());
         if (cmd.getHomePhoneIdr() != null && cmd.getHomePhoneIdr().length() > 0) {
             ph.setPhoneId(cmd.getHomePhoneIdr());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr());
         if (cmd.getAltCellNbrId() != null && cmd.getAltCellNbrId().length() > 0) {
             ph.setPhoneId(cmd.getAltCellNbrId());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "PERSONAL PHONE", cmd.getPersonalAreaCode(), cmd.getPersonalNbr());
         if (cmd.getPersonalNbrId() != null && cmd.getPersonalNbrId().length() > 0) {
             ph.setPhoneId(cmd.getPersonalNbrId());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
 
     }
@@ -569,7 +569,7 @@ public class SelfRegistrationController extends CancellableFormController {
         adr.setState(cmd.getUser().getState());
         adr.setStreetDirection(cmd.getUser().getStreetDirection());
         adr.setName("DEFAULT ADR");
-        adr.setParent(pUser.getUser());
+        adr.setParentId(pUser.getUser().getUserId());
         adr.setParentType(ContactConstants.PARENT_TYPE_USER);
         adr.setPostalCd(cmd.getUser().getPostalCd());
         pUser.getAddresses().add(adr);
@@ -597,7 +597,7 @@ public class SelfRegistrationController extends CancellableFormController {
         ph.setDescription(name);
         ph.setParentType(ContactConstants.PARENT_TYPE_USER);
         ph.setName(name);
-        ph.setParent(usr);
+        ph.setParentId(usr.getUserId());
 
         return ph;
     }

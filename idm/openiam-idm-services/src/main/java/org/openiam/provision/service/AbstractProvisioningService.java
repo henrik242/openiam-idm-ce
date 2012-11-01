@@ -22,6 +22,7 @@ import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.auth.login.LoginDAO;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
+import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 import org.openiam.idm.srvc.continfo.dto.Address;
 import org.openiam.idm.srvc.continfo.dto.ContactConstants;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
@@ -463,12 +464,12 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
             return;
 
         }
-        Set<EmailAddress> emailSet = user.getEmailAddress();
+        Set<EmailAddress> emailSet = user.getEmailAddresses();
 
         if (!containsEmail("EMAIL1", emailSet)) {
 
-            EmailAddress e = new EmailAddress(user.getEmail(), "EMAIL1", null, ContactConstants.PARENT_TYPE_USER, 1);
-            user.getEmailAddress().add(e);
+            EmailAddress e = new EmailAddress(user.getEmail(), "EMAIL1", "", ContactConstants.PARENT_TYPE_USER, 1);
+            user.getEmailAddresses().add(e);
 
         }
 
@@ -498,11 +499,11 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
             return;
 
         }
-        Set<Phone> phoneSet = user.getPhone();
+        Set<Phone> phoneSet = user.getPhones();
 
         if (!containsPhone("DESK PHONE", phoneSet)) {
             Phone p = new Phone("DESK PHONE", user.getPhoneNbr(), user.getPhoneExt(), user.getAreaCd(), ContactConstants.PARENT_TYPE_USER, null, user.getCountryCd());
-            user.getPhone().add(p);
+            user.getPhones().add(p);
         }
     }
 
@@ -1007,8 +1008,8 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
     }
 
     private void updateUserEmail(User origUser, User newUser) {
-        Set<EmailAddress> origEmailSet = origUser.getEmailAddress();
-        Set<EmailAddress> newEmailSet = newUser.getEmailAddress();
+        Set<EmailAddress> origEmailSet = origUser.getEmailAddresses();
+        Set<EmailAddress> newEmailSet = newUser.getEmailAddresses();
 
         if (origEmailSet == null && newEmailSet != null) {
             log.debug("New email list is not null");
@@ -1078,8 +1079,8 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
     }
 
     private void updatePhone(User origUser, User newUser) {
-        Set<Phone> origPhoneSet = origUser.getPhone();
-        Set<Phone> newPhoneSet = newUser.getPhone();
+        Set<Phone> origPhoneSet = origUser.getPhones();
+        Set<Phone> newPhoneSet = newUser.getPhones();
 
         if (origPhoneSet == null && newPhoneSet != null) {
             log.debug("New email list is not null");
@@ -1283,7 +1284,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
         // check email addresses
 
-        Set<EmailAddress> emailAddressSet =  user.getEmailAddress();
+        Set<EmailAddress> emailAddressSet =  user.getEmailAddresses();
         if (emailAddressSet == null || emailAddressSet.isEmpty()) {
 
             log.debug("- Adding original emailSet to the user object");
@@ -1291,14 +1292,14 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
             List<EmailAddress> emailList =  userMgr.getEmailAddressList(user.getUserId());
             if ( emailList != null && !emailList.isEmpty() ) {
 
-                user.setEmailAddress( new HashSet<EmailAddress>(emailList) );
+                user.setEmailAddresses( new HashSet<EmailAddress>(emailList) );
 
             }
 
         }
 
         // check the phone objects
-        Set<Phone> phoneSet = user.getPhone();
+        Set<Phone> phoneSet = user.getPhones();
         if (phoneSet == null || phoneSet.isEmpty()) {
 
             log.debug("- Adding original phoneSet to the user object");
@@ -1306,7 +1307,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
             List<Phone> phoneList  = userMgr.getPhoneList(user.getUserId());
             if ( phoneList != null && !phoneList.isEmpty()) {
 
-                user.setPhone(new HashSet<Phone>(phoneList));
+                user.setPhones(new HashSet<Phone>(phoneList));
 
             }
 
