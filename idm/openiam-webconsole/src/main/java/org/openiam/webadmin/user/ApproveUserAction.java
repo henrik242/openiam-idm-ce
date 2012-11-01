@@ -56,7 +56,7 @@ public class ApproveUserAction extends DispatchActionSupport  {
 
 			request.getSession().removeAttribute("sideMenus");
 			
-	        List userList = userMgr.findUsersByStatus(UserStatusEnum.PENDING_APPROVAL.toString());
+	        List userList = userMgr.findUsersByStatus(UserStatusEnum.PENDING_APPROVAL);
       
 	        request.setAttribute("userList", userList);
         
@@ -121,8 +121,6 @@ public class ApproveUserAction extends DispatchActionSupport  {
 
 		UserNote noteValue = null;
 		String logMsg = null;
- 
-
 		
 		HttpSession session = request.getSession();
 		String[] personId = (String[])session.getAttribute("personId");
@@ -146,12 +144,7 @@ public class ApproveUserAction extends DispatchActionSupport  {
     		noteValue.setCreateDate(new Timestamp(System.currentTimeMillis()));
     		noteValue.setDescription((String)userNotesForm.get("description"));
     		noteValue.setNoteType(noteType);
-    		noteValue.setUser(ud);
-
-    		userMgr.addNote(noteValue);
-
-            ud.getUserNotes().add(noteValue);
-  		    userMgr.updateUser(ud);
+    		noteValue.setUserId(selectedPersonId);
 
  			logMsg = "User id=" + selectedPersonId + " has been rejected";
   		

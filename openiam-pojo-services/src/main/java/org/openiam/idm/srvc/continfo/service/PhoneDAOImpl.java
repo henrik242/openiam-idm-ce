@@ -11,14 +11,14 @@ import java.util.Set;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import org.openiam.idm.srvc.continfo.dto.Address;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
-import org.openiam.idm.srvc.continfo.dto.Phone;
-import org.openiam.util.ws.collection.MapItem;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
+
 
 /**
  * Implementation for PhoneDAO. Associated with a RDBMS.
@@ -46,12 +46,11 @@ public class PhoneDAOImpl implements PhoneDAO {
 		}
 	}
 
-	public Phone findById(java.lang.String id) {
+	public PhoneEntity findById(java.lang.String id) {
 
 		try {
-			Phone instance = (Phone) sessionFactory
-					.getCurrentSession().get(
-							"org.openiam.idm.srvc.continfo.dto.Phone", id);
+			PhoneEntity instance = (PhoneEntity) sessionFactory
+					.getCurrentSession().get(PhoneEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -68,7 +67,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	 * Adds a new instance
 	 * @param instance
 	 */
-	public Phone add(Phone instance) {
+	public PhoneEntity add(PhoneEntity instance) {
 
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -86,7 +85,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	 * Removes an existing instance
 	 * @param instance
 	 */
-	public void remove(Phone instance) {
+	public void remove(PhoneEntity instance) {
 
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
@@ -101,7 +100,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	 * Updates an existing instance
 	 * @param instance
 	 */
-	public void update(Phone instance) {
+	public void update(PhoneEntity instance) {
 
 		try {
 			sessionFactory.getCurrentSession().merge(instance);
@@ -116,33 +115,33 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 	
 
-	public Phone findByName(String name, String parentId, String parentType) {
+	public PhoneEntity findByName(String name, String parentId, String parentType) {
 
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType and a.name = :name");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		qry.setString("name", name);
-		List<Phone> result = (List<Phone>)qry.list();
+        Criteria criteria = session.createCriteria(PhoneEntity.class)
+                .add(Restrictions.eq("parent.userId",parentId))
+                .add(Restrictions.eq("name",name))
+                .add(Restrictions.eq("parentType", parentType));
+
+
+		List<PhoneEntity> result = (List<PhoneEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result.get(0);		
 
 	}
 
-	public Map<String, Phone> findByParent(String parentId, String parentType) {
+	public Map<String, PhoneEntity> findByParent(String parentId, String parentType) {
 
-		Map<String, Phone> adrMap = new HashMap<String,Phone>();
+		Map<String, PhoneEntity> adrMap = new HashMap<String,PhoneEntity>();
 
-		List<Phone> addrList = findByParentAsList(parentId, parentType);
+		List<PhoneEntity> addrList = findByParentAsList(parentId, parentType);
 		if (addrList == null)
 			return null;
 		int size = addrList.size();
 		for (int i=0; i<size; i++) {
-			Phone adr = addrList.get(i);
+			PhoneEntity adr = addrList.get(i);
 			//adrMap.put(adr.getDescription(), adr);
 			adrMap.put(adr.getPhoneId(), adr);
 		}
@@ -151,35 +150,33 @@ public class PhoneDAOImpl implements PhoneDAO {
 		return adrMap;
 	}
 
-	public List<Phone> findByParentAsList(String parentId, String parentType) {
-
+	public List<PhoneEntity> findByParentAsList(String parentId, String parentType) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		List<Phone> result = (List<Phone>)qry.list();
+        Criteria criteria = session.createCriteria(PhoneEntity.class)
+                .add(Restrictions.eq("parent.userId",parentId))
+                .add(Restrictions.eq("parentType", parentType));
+
+		List<PhoneEntity> result = (List<PhoneEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;		
 	}
 
-	public Phone findDefault(String parentId, String parentType) {
+	public PhoneEntity findDefault(String parentId, String parentType) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.continfo.dto.Phone a " +
-						" where a.parent.userId = :parentId and   " +
-						" 		a.parentType = :parentType and a.isDefault = 1");
-		qry.setString("parentId", parentId);
-		qry.setString("parentType", parentType);
-		return (Phone)qry.uniqueResult();
+        Criteria criteria = session.createCriteria(PhoneEntity.class)
+                .add(Restrictions.eq("parent.userId",parentId))
+                .add(Restrictions.eq("parentType", parentType))
+                .add(Restrictions.eq("isDefault",1));
+
+		return (PhoneEntity)criteria.uniqueResult();
 	}
 
 	public void removeByParent(String parentId, String parentType) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.dto.Phone a " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.continfo.domain.PhoneEntity a " +
 				" where a.parent.userId = :parentId and   " +
 				" 		a.parentType = :parentType");
 		qry.setString("parentId", parentId);
@@ -190,14 +187,14 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 
 	
-	public void savePhoneMap(String parentId, String parentType, Map<String, Phone> adrMap) {
+	public void savePhoneMap(String parentId, String parentType, Map<String, PhoneEntity> adrMap) {
 		// get the current map and then compare each record with the map that has been passed in.
-		Map<String,Phone> currentMap =  this.findByParent(parentId, parentType);
+		Map<String,PhoneEntity> currentMap =  this.findByParent(parentId, parentType);
 		if (currentMap != null) {
-			Iterator<Phone> it = currentMap.values().iterator();
+			Iterator<PhoneEntity> it = currentMap.values().iterator();
 			while (it.hasNext()) {
-				Phone curPhone =  it.next();
-				Phone newPhone = adrMap.get(curPhone.getPhoneId());
+				PhoneEntity curPhone =  it.next();
+				PhoneEntity newPhone = adrMap.get(curPhone.getPhoneId());
 				if (newPhone == null) {
 					this.remove(curPhone);
 				}else {
@@ -206,11 +203,11 @@ public class PhoneDAOImpl implements PhoneDAO {
 					
 			}			
 		}
-		Collection<Phone> adrCol = adrMap.values();
-		Iterator<Phone> itr = adrCol.iterator();
+		Collection<PhoneEntity> adrCol = adrMap.values();
+		Iterator<PhoneEntity> itr = adrCol.iterator();
 		while (itr.hasNext()) {
-			Phone newPhone = itr.next();
-			Phone curPhone = null;
+			PhoneEntity newPhone = itr.next();
+			PhoneEntity curPhone = null;
 			if (currentMap != null ) {
 				curPhone = currentMap.get(newPhone.getPhoneId());
 			}
@@ -221,27 +218,27 @@ public class PhoneDAOImpl implements PhoneDAO {
 		
 	}
 
-	public Phone[] findByParentAsArray(String parentId, String parentType) {
+	public PhoneEntity[] findByParentAsArray(String parentId, String parentType) {
 
-		List<Phone> result = this.findByParentAsList(parentId, parentType);
+		List<PhoneEntity> result = this.findByParentAsList(parentId, parentType);
 		if (result == null || result.size() == 0)
 			return null;
-		return (Phone[])result.toArray();		
+		return (PhoneEntity[])result.toArray();
 	}
 
 
-	public void savePhoneArray(String parentId, String parentType, Phone[] phoneAry) {
+	public void savePhoneArray(String parentId, String parentType, PhoneEntity[] phoneAry) {
 		int len = phoneAry.length;
 
-		Map<String,Phone> currentMap =  this.findByParent(parentId, parentType);
+		Map<String,PhoneEntity> currentMap =  this.findByParent(parentId, parentType);
 		if (currentMap != null) {
 			Set<String> keys = currentMap.keySet();
 			Iterator<String> it = keys.iterator();
 			int ctr = 0;
 			while (it.hasNext()) {
 				String key = it.next();
-				Phone newPhone = getPhoneFromArray(phoneAry, key);
-				Phone curPhone = currentMap.get(key);
+				PhoneEntity newPhone = getPhoneFromArray(phoneAry, key);
+				PhoneEntity curPhone = currentMap.get(key);
 				if (newPhone == null) {
 					// address was removed - deleted
 					remove(curPhone);
@@ -253,8 +250,8 @@ public class PhoneDAOImpl implements PhoneDAO {
 		}
 		// add the new records in currentMap that are not in the existing records
 		for (int i=0; i<len; i++) {
-			Phone curAdr = null;
-			Phone  phone = phoneAry[i];
+			PhoneEntity curAdr = null;
+			PhoneEntity  phone = phoneAry[i];
 			String key =  phone.getPhoneId();
 			if (currentMap != null )  {
 				curAdr = currentMap.get(key);
@@ -267,11 +264,11 @@ public class PhoneDAOImpl implements PhoneDAO {
 		
 	}
 	
-	private Phone getPhoneFromArray(Phone[] phoneAry, String id) {
-		Phone phone = null;
+	private PhoneEntity getPhoneFromArray(PhoneEntity[] phoneAry, String id) {
+		PhoneEntity phone = null;
 		int len = phoneAry.length;
 		for (int i=0;i<len;i++) {
-			Phone tempPhone = phoneAry[i];
+			PhoneEntity tempPhone = phoneAry[i];
 			if (tempPhone.getPhoneId().equals(id)) {
 				return tempPhone;
 			}

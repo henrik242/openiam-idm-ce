@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.user.service;
 
+import org.openiam.idm.srvc.user.domain.SupervisorEntity;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,12 +16,12 @@ public class SupervisorDAOTouchTest extends AbstractTransactionalTestNGSpringCon
 
     @Test
     public void touchAdd() {
-        supervisorDao.add(new Supervisor());
+        supervisorDao.add(new SupervisorEntity());
     }
 
     @Test
     public void touchFindByExample() {
-        supervisorDao.findByExample(new Supervisor());
+        supervisorDao.findByExample(new SupervisorEntity());
     }
 
     @Test
@@ -45,11 +46,11 @@ public class SupervisorDAOTouchTest extends AbstractTransactionalTestNGSpringCon
 
     @Test
     public void touchRemove() {
-        supervisorDao.remove(new Supervisor());
+        supervisorDao.remove(new SupervisorEntity());
     }
 
     @Test
     public void touchUpdate() {
-        supervisorDao.update(new Supervisor());
+        supervisorDao.update(new SupervisorEntity());
     }
 }

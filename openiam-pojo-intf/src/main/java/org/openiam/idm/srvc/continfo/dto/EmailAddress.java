@@ -1,21 +1,11 @@
 package org.openiam.idm.srvc.continfo.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -35,43 +25,26 @@ import org.openiam.idm.srvc.user.dto.User;
         "name",
         "operation"
 })
-@Entity
-@Table(name = "EMAIL_ADDRESS")
+
 public class EmailAddress implements java.io.Serializable {
 
     // Fields
-    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "EMAIL_ID", length = 32, nullable = false)
+
     private String emailId;
 
-    @Column(name="ACTIVE")
     protected Boolean isActive = Boolean.TRUE;
 
-    @Column(name="DESCRIPTION", length=100)
     protected String description;
 
-    @Column(name="EMAIL_ADDRESS", length=320)
     protected String emailAddress;
 
-    @Column(name="IS_DEFAULT")
     protected Integer isDefault = new Integer(0);
 
-    @XmlTransient
-    @ManyToOne
-    @JoinColumn(name="PARENT_ID")
-    private User parent;
-
-    @Column(name="PARENT_TYPE", length=30)
     protected String parentType;
 
-    @Column(name="NAME", length=40)
     protected String name;
 
-    @Transient
     protected String parentId;
     // Constructors
 
@@ -88,12 +61,23 @@ public class EmailAddress implements java.io.Serializable {
         this.emailId = emailId;
     }
 
-    public EmailAddress(String emailAddress, String name, User parent, String parentType, Integer aDefault) {
+    public EmailAddress(EmailAddressEntity emailAddressEntity) {
+        this.emailId = emailAddressEntity.getEmailId();
+        this.isActive = emailAddressEntity.getActive();
+        this.description = emailAddressEntity.getDescription();
+        this.emailAddress = emailAddressEntity.getEmailAddress();
+        this.isDefault = emailAddressEntity.getDefault();
+        this.parentType = emailAddressEntity.getParentType();
+        this.name = emailAddressEntity.getName();
+        this.parentId = emailAddressEntity.getParent() != null ? emailAddressEntity.getParent().getUserId() : "";
+    }
+
+    public EmailAddress(String emailAddress, String name, String parentId, String parentType, Integer aDefault) {
         this.emailAddress = emailAddress;
         this.name = name;
-        this.parent = parent;
+        this.parentId = parentId;
         this.parentType = parentType;
-        isDefault = aDefault;
+        this.isDefault = aDefault;
     }
 
     /**
@@ -116,7 +100,7 @@ public class EmailAddress implements java.io.Serializable {
     }
 
     public String getParentId() {
-        return parent != null ? parent.getUserId() : "";
+        return parentId;
     }
 
     // Property accessors
@@ -153,20 +137,6 @@ public class EmailAddress implements java.io.Serializable {
     }
 
     /**
-     * Returns the Id of the parent that owns this address. The parent may be another entity like a
-     * USER, ORGANIZATION, etc
-     *
-     * @return
-     */
-    public User getParent() {
-        return parent;
-    }
-
-    public void setParent(User parent) {
-        this.parentId = parent != null ? parent.getUserId() : "";
-    }
-
-    /**
      * Returns the type of the parent.
      *
      * @return
@@ -199,8 +169,6 @@ public class EmailAddress implements java.io.Serializable {
         this.isActive = isActive;
     }
 
-
-
     public String getName() {
         return name;
     }
@@ -217,6 +185,10 @@ public class EmailAddress implements java.io.Serializable {
         this.operation = operation;
     }
 
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
     @Override
     public String toString() {
         return "EmailAddress{" +
@@ -226,7 +198,7 @@ public class EmailAddress implements java.io.Serializable {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", emailId='" + emailId + '\'' +
                 ", isDefault=" + isDefault +
-                ", parent='" + (parent != null ? parent.getUserId() : "") + '\'' +
+                ", parentId='" + parentId +
                 ", parentType='" + parentType + '\'' +
                 ", name='" + name + '\'' +
                 '}';
@@ -235,7 +207,7 @@ public class EmailAddress implements java.io.Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EmailAddress)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         EmailAddress that = (EmailAddress) o;
 
@@ -246,7 +218,7 @@ public class EmailAddress implements java.io.Serializable {
         if (isDefault != null ? !isDefault.equals(that.isDefault) : that.isDefault != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (operation != that.operation) return false;
-        if (parent != null ? !parent.equals(that.parent) : that.parent != null) return false;
+        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
         if (parentType != null ? !parentType.equals(that.parentType) : that.parentType != null) return false;
 
         return true;
@@ -254,7 +226,15 @@ public class EmailAddress implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        return emailId != null ? emailId.hashCode() : 0;
+        int result = operation != null ? operation.hashCode() : 0;
+        result = 31 * result + (emailId != null ? emailId.hashCode() : 0);
+        result = 31 * result + (isActive != null ? isActive.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
+        result = 31 * result + (isDefault != null ? isDefault.hashCode() : 0);
+        result = 31 * result + (parentType != null ? parentType.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        return result;
     }
-
 }

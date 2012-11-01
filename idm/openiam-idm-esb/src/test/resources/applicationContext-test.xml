@@ -64,7 +64,10 @@
 											   org.openiam.idm.srvc.user.dto*,
 											   org.openiam.idm.srvc.continfo.dto*,
 											   org.openiam.am.srvc.resattr.domain*,
-											   org.openiam.idm.srvc.org.dto*"/>
+											   org.openiam.idm.srvc.org.dto*,
+											   org.openiam.idm.srvc.org.domain*,
+											   org.openiam.idm.srvc.user.domain*,
+											   org.openiam.idm.srvc.continfo.domain*"/>
     </bean>
 
     <!--tx begin-->

@@ -15,7 +15,8 @@ import org.openiam.base.AttributeOperationEnum;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -39,56 +40,34 @@ import org.openiam.idm.srvc.user.dto.User;
         "name",
         "operation"
 })
-@Entity
-@Table(name = "PHONE")
+
 public class Phone implements java.io.Serializable {
 
     // Fields
-    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "PHONE_ID", length = 32, nullable = false)
     private String phoneId;
 
-    @Column(name="ACTIVE")
     protected Boolean isActive = Boolean.TRUE;
 
-    @Column(name="AREA_CD", length=10)
     protected String areaCd;
 
-    @Column(name="COUNTRY_CD", length=3)
     protected String countryCd;
 
-    @Column(name="DESCRIPTION", length=100)
     protected String description;
 
-    @Column(name="IS_DEFAULT")
     protected Integer isDefault = new Integer(0);
 
-    @XmlTransient
-    @ManyToOne
-    @JoinColumn(name="PARENT_ID")
-    private User parent;
-
-    @Column(name="PARENT_TYPE", length=30)
     protected String parentType;
 
-    @Column(name="PHONE_EXT", length=20)
     protected String phoneExt;
 
-    @Column(name="PHONE_NBR", length=50)
     protected String phoneNbr;
 
-    @Column(name="NAME", length=40)
     protected String name;
 
-    @Column(name="PHONE_TYPE", length=20)
     protected String phoneType;
 
-    @Transient
     protected String parentId;
     // Constructors
 
@@ -105,14 +84,28 @@ public class Phone implements java.io.Serializable {
         this.phoneId = phoneId;
     }
 
-    public Phone(String name, String phoneNbr, String phoneExt, String areaCd, String parentType, User parent, String countryCd) {
+    public Phone(String name, String phoneNbr, String phoneExt, String areaCd, String parentType, String parentId, String countryCd) {
         this.name = name;
         this.phoneNbr = phoneNbr;
         this.phoneExt = phoneExt;
         this.areaCd = areaCd;
         this.parentType = parentType;
-        this.parent = parent;
+        this.parentId = parentId;
         this.countryCd = countryCd;
+    }
+
+    public Phone(PhoneEntity phoneEntity) {
+        this.phoneId = phoneEntity.getPhoneId();
+        this.isActive = phoneEntity.getActive();
+        this.areaCd = phoneEntity.getAreaCd();
+        this.countryCd = phoneEntity.getCountryCd();
+        this.description = phoneEntity.getDescription();
+        this.isDefault = phoneEntity.getDefault();
+        this.parentType = phoneEntity.getParentType();
+        this.phoneExt = phoneEntity.getPhoneExt();
+        this.name = phoneEntity.getName();
+        this.phoneType = phoneEntity.getPhoneType();
+        this.parentId = phoneEntity.getParent() != null ? phoneEntity.getParent().getUserId() : "";
     }
 
     /**
@@ -207,7 +200,7 @@ public class Phone implements java.io.Serializable {
      * @return
      */
     public String getParentId() {
-        return parent != null ? parent.getUserId() : "";
+        return this.parentId;
     }
 
     /**
@@ -273,19 +266,16 @@ public class Phone implements java.io.Serializable {
      *
      * @return
      */
-    public User getParent() {
-        return parent;
-    }
 
-    public void setParent(User parent) {
-        this.parent = parent;
-        this.parentId = parent != null ? parent.getUserId() : "";
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Phone)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Phone phone = (Phone) o;
 
@@ -296,7 +286,7 @@ public class Phone implements java.io.Serializable {
         if (isDefault != null ? !isDefault.equals(phone.isDefault) : phone.isDefault != null) return false;
         if (name != null ? !name.equals(phone.name) : phone.name != null) return false;
         if (operation != phone.operation) return false;
-        if (parent != null ? !parent.equals(phone.parent) : phone.parent != null) return false;
+        if (parentId != null ? !parentId.equals(phone.parentId) : phone.parentId != null) return false;
         if (parentType != null ? !parentType.equals(phone.parentType) : phone.parentType != null) return false;
         if (phoneExt != null ? !phoneExt.equals(phone.phoneExt) : phone.phoneExt != null) return false;
         if (phoneId != null ? !phoneId.equals(phone.phoneId) : phone.phoneId != null) return false;
@@ -308,7 +298,20 @@ public class Phone implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        return parent != null ? parent.hashCode() : 0;
+        int result = operation != null ? operation.hashCode() : 0;
+        result = 31 * result + (phoneId != null ? phoneId.hashCode() : 0);
+        result = 31 * result + (isActive != null ? isActive.hashCode() : 0);
+        result = 31 * result + (areaCd != null ? areaCd.hashCode() : 0);
+        result = 31 * result + (countryCd != null ? countryCd.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (isDefault != null ? isDefault.hashCode() : 0);
+        result = 31 * result + (parentType != null ? parentType.hashCode() : 0);
+        result = 31 * result + (phoneExt != null ? phoneExt.hashCode() : 0);
+        result = 31 * result + (phoneNbr != null ? phoneNbr.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (phoneType != null ? phoneType.hashCode() : 0);
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -319,8 +322,8 @@ public class Phone implements java.io.Serializable {
                 ", areaCd='" + areaCd + '\'' +
                 ", countryCd='" + countryCd + '\'' +
                 ", description='" + description + '\'' +
-                ", isDefault=" + isDefault +
-                ", parentId='" + (parent != null ? parent.getUserId() : "") + '\'' +
+                ", isDefault=" + isDefault + '\'' +
+                ", parentId='" + parentId + '\'' +
                 ", parentType='" + parentType + '\'' +
                 ", phoneExt='" + phoneExt + '\'' +
                 ", phoneId='" + phoneId + '\'' +

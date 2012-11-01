@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.user.service;
 
+import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,19 +17,19 @@ public class UserAttributeDAOTouchTest extends AbstractTransactionalTestNGSpring
 
     @Test
     public void touchAdd() {
-        userAttributeDAO.add(new UserAttribute());
+        userAttributeDAO.add(new UserAttributeEntity());
     }
 
     @Test
     public void touchAttachClean() {
-        UserAttribute userAttribute = new UserAttribute();
+        UserAttributeEntity userAttribute = new UserAttributeEntity();
         userAttributeDAO.add(userAttribute);
         userAttributeDAO.attachClean(userAttribute);
     }
 
     @Test
     public void touchAttachDirty() {
-        userAttributeDAO.attachDirty(new UserAttribute());
+        userAttributeDAO.attachDirty(new UserAttributeEntity());
     }
 
     @Test
@@ -48,11 +49,11 @@ public class UserAttributeDAOTouchTest extends AbstractTransactionalTestNGSpring
 
     @Test
     public void touchRemove() {
-        userAttributeDAO.remove(new UserAttribute());
+        userAttributeDAO.remove(new UserAttributeEntity());
     }
 
     @Test
     public void touchUpdate() {
-        userAttributeDAO.update(new UserAttribute());
+        userAttributeDAO.update(new UserAttributeEntity());
     }
 }

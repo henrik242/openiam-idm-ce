@@ -1,24 +1,25 @@
 package org.openiam.idm.srvc.user.service;
 
+import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 
 import java.util.List;
 
 public interface UserAttributeDAO {
 
-    void add(UserAttribute transientInstance);
+    void add(UserAttributeEntity transientInstance);
 
-    void attachDirty(UserAttribute instance);
+    void attachDirty(UserAttributeEntity instance);
 
-    void attachClean(UserAttribute instance);
+    void attachClean(UserAttributeEntity instance);
 
-    void remove(UserAttribute persistentInstance);
+    void remove(UserAttributeEntity persistentInstance);
 
-    UserAttribute update(UserAttribute detachedInstance);
+    UserAttributeEntity update(UserAttributeEntity detachedInstance);
 
-    UserAttribute findById(java.lang.String id);
+    UserAttributeEntity findById(java.lang.String id);
 
-    List<UserAttribute> findUserAttributes(String userId);
+    List<UserAttributeEntity> findUserAttributes(String userId);
 
     void deleteUserAttributes(String userId);
 }

@@ -16,6 +16,7 @@ import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
 import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDAO;
@@ -250,7 +251,7 @@ public class LoginDataServiceImpl implements LoginDataService {
 		
 		
 		Login lg = getLoginByManagedSys(domainId, login, sysId);
-		User user = userDao.findById(lg.getUserId());
+		UserEntity user = userDao.findById(lg.getUserId());
 		user.setSecondaryStatus(null);
 		userDao.update(user);
 		
@@ -332,7 +333,7 @@ public class LoginDataServiceImpl implements LoginDataService {
 	public void lockLogin(String domainId, String principal, String sysId) {
 		Login lg = getLoginByManagedSys(domainId, principal, sysId);
 		// get the user object
-		User user = userDao.findById(lg.getUserId());
+		UserEntity user = userDao.findById(lg.getUserId());
 		
 		lg.setIsLocked(1);
 		user.setSecondaryStatus(UserStatusEnum.LOCKED);
@@ -346,7 +347,7 @@ public class LoginDataServiceImpl implements LoginDataService {
 	public void unLockLogin(String domainId, String principal, String sysId) {
 		Login lg = getLoginByManagedSys(domainId, principal, sysId);
 		// get the user object
-		User user = userDao.findById(lg.getUserId());
+		UserEntity user = userDao.findById(lg.getUserId());
 		
 		lg.setIsLocked(0);
 		user.setSecondaryStatus(null);
@@ -464,15 +465,15 @@ public class LoginDataServiceImpl implements LoginDataService {
 			log.info("UserId in login object is null");
 			return null;
 		}
-		User usr = userDao.findById(lg.getUserId());
+		UserEntity usr = userDao.findById(lg.getUserId());
 		
 		//	 assemble the various dependant objects
-		org.hibernate.Hibernate.initialize(usr.getPhone());
-		org.hibernate.Hibernate.initialize(usr.getEmailAddress());
+		org.hibernate.Hibernate.initialize(usr.getPhones());
+		org.hibernate.Hibernate.initialize(usr.getEmailAddresses());
 		org.hibernate.Hibernate.initialize(usr.getAddresses());
 		org.hibernate.Hibernate.initialize(usr.getUserAttributes());
 		
-		
+
 		return null;
 	}
 

@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.org.service;
 
-import org.openiam.idm.srvc.org.dto.OrganizationAttribute;
+import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ public interface OrganizationAttributeDAO {
      *
      * @param id
      */
-    OrganizationAttribute findById(java.lang.String id);
+    OrganizationAttributeEntity findById(java.lang.String id);
 
-    void add(OrganizationAttribute instance);
+    void add(OrganizationAttributeEntity instance);
 
-    void update(OrganizationAttribute instace);
+    void update(OrganizationAttributeEntity instace);
 
-    void remove(OrganizationAttribute instance);
+    void remove(OrganizationAttributeEntity instance);
 
     /**
      * Return a list of OrganizationAttribute objects for the organization that is specified by the parentId
@@ -31,7 +31,7 @@ public interface OrganizationAttributeDAO {
      * @param parentId
      * @return
      */
-    List<OrganizationAttribute> findAttributesByParent(String parentId);
+    List<OrganizationAttributeEntity> findAttributesByParent(String parentId);
 
     /**
      * Removes all the OrganizationAttributes that are associated with the Organization specified by the parentId.

@@ -6,14 +6,14 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.LockMode;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 
-import org.openiam.idm.srvc.org.dto.*;
-import org.openiam.idm.srvc.user.dto.UserAttribute;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
 
 /**
  *  Data access object implementation for OrganizationAttribute. 
@@ -46,12 +46,11 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 	}
 
 
-	public OrganizationAttribute findById(java.lang.String id) {
+	public OrganizationAttributeEntity findById(java.lang.String id) {
 		log.debug("getting CompanyAttribute instance with id: " + id);
 		try {
-			OrganizationAttribute instance = (OrganizationAttribute) sessionFactory
-					.getCurrentSession().get(
-							"org.openiam.idm.srvc.org.dto.OrganizationAttribute", id);
+			OrganizationAttributeEntity instance = (OrganizationAttributeEntity) sessionFactory
+					.getCurrentSession().get(OrganizationAttributeEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -64,7 +63,7 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 		}
 	}
 
-	public void add(OrganizationAttribute instance) {
+	public void add(OrganizationAttributeEntity instance) {
 		log.debug("persisting OrganizationAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -76,7 +75,7 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 		
 	}
 
-	public void remove(OrganizationAttribute instance) {
+	public void remove(OrganizationAttributeEntity instance) {
 		log.debug("deleting OrganizationAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
@@ -88,7 +87,7 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 		
 	}
 
-	public void update(OrganizationAttribute instance) {
+	public void update(OrganizationAttributeEntity instance) {
 		log.debug("merging Organization instance");
 		try {
 			sessionFactory.getCurrentSession().merge(instance);
@@ -104,13 +103,13 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 	 * @param parentId
 	 * @return
 	 */
-	public List<OrganizationAttribute> findAttributesByParent(String parentId) {
+	public List<OrganizationAttributeEntity> findAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.org.dto.OrganizationAttribute oa " + 
-						" where oa.organization.orgId = :parentId order by oa.name asc");
-		qry.setString("parentId", parentId);
-		List<OrganizationAttribute> results = (List<OrganizationAttribute>)qry.list();
-		return results;		
+        Criteria criteria = session.createCriteria(OrganizationAttributeEntity.class)
+                .add(Restrictions.eq("organization.orgId",parentId))
+                .addOrder(Order.asc("name"));
+		List<OrganizationAttributeEntity> results = (List<OrganizationAttributeEntity>)criteria.list();
+		return results;
 	}
 	/**
 	 * Removes all the OrganizationAttributes that are associated with the Organization specified by the parentId.
@@ -119,7 +118,7 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 	 */
 	public int removeAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.dto.OrganizationAttribute oa " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity oa " +
 					" where oa.organization.orgId = :parentId ");
 		qry.setString("parentId", parentId);
 		return qry.executeUpdate();		

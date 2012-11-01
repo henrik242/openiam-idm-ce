@@ -6,14 +6,15 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 
-import org.openiam.idm.srvc.service.dto.Service;
-import org.openiam.idm.srvc.user.dto.*;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
 
 /**
  * Home object for domain model class UserAttribute.
@@ -42,7 +43,7 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 
-	public void add(UserAttribute transientInstance) {
+	public void add(UserAttributeEntity transientInstance) {
 		log.debug("persisting UserAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -53,7 +54,7 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 
-	public void attachDirty(UserAttribute instance) {
+	public void attachDirty(UserAttributeEntity instance) {
 		log.debug("attaching dirty UserAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -64,7 +65,7 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 
-	public void attachClean(UserAttribute instance) {
+	public void attachClean(UserAttributeEntity instance) {
 		log.debug("attaching clean UserAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -75,7 +76,7 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 
-	public void remove(UserAttribute persistentInstance) {
+	public void remove(UserAttributeEntity persistentInstance) {
 		log.debug("deleting UserAttribute instance");
 		try {
 			log.info("delete attribute=" + persistentInstance);
@@ -87,10 +88,10 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 
-	public UserAttribute update(UserAttribute detachedInstance) {
+	public UserAttributeEntity update(UserAttributeEntity detachedInstance) {
 		log.debug("merging UserAttribute instance");
 		try {
-			UserAttribute result = (UserAttribute) sessionFactory
+			UserAttributeEntity result = (UserAttributeEntity) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -100,12 +101,11 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 
-	public UserAttribute findById(java.lang.String id) {
+	public UserAttributeEntity findById(java.lang.String id) {
 		log.debug("getting UserAttribute instance with id: " + id);
 		try {
-			UserAttribute instance = (UserAttribute) sessionFactory
-					.getCurrentSession().get(
-							"org.openiam.idm.srvc.user.dto.UserAttribute", id);
+			UserAttributeEntity instance = (UserAttributeEntity) sessionFactory
+					.getCurrentSession().get(UserAttributeEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -118,17 +118,16 @@ public class UserAttributeDAOImpl implements UserAttributeDAO {
 		}
 	}
 	
-	public List<UserAttribute> findUserAttributes(String userId) {
+	public List<UserAttributeEntity> findUserAttributes(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.UserAttribute ua where ua.user.userId = :userId order by ua.name asc");
-		qry.setString("userId", userId);
-		List<UserAttribute> results = (List<UserAttribute>)qry.list();
+        Criteria criteria = session.createCriteria(UserAttributeEntity.class).add(Restrictions.eq("user.userId",userId)).addOrder(Order.asc("name"));
+		List<UserAttributeEntity> results = (List<UserAttributeEntity>)criteria.list();
 		return results;
 	}
 	
 	public void deleteUserAttributes(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.user.dto.UserAttribute ua " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.user.domain.UserAttributeEntity ua " +
 					" where ua.user.userId = :userId ");
 		qry.setString("userId", userId);
 		qry.executeUpdate();

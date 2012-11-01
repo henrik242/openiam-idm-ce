@@ -237,7 +237,7 @@ public class NewUserNoAppController extends AbstractWizardFormController {
         String emailId = cmd.getEmail1Id();
         if (email != null && email.length() > 0) {
             EmailAddress em = buildEmail(emailId, email,"EMAIL1");
-            pUser.getEmailAddress().add(em);
+            pUser.getEmailAddresses().add(em);
             pUser.setEmail(email);
         }
 
@@ -255,14 +255,14 @@ public class NewUserNoAppController extends AbstractWizardFormController {
         if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0 ) {
             ph.setPhoneId(cmd.getWorkPhoneId());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
 
         ph = buildPhone( usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone() );
         if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0 ) {
             ph.setPhoneId(cmd.getFaxPhoneId());
         }
-        usr.getPhone().add(ph);
+        usr.getPhones().add(ph);
 
 
 
@@ -288,7 +288,7 @@ public class NewUserNoAppController extends AbstractWizardFormController {
         ph.setDescription(name);
         ph.setParentType(ContactConstants.PARENT_TYPE_USER);
         ph.setName(name);
-        ph.setParent(usr);
+        ph.setParentId(usr.getUserId());
 
         return ph;
     }

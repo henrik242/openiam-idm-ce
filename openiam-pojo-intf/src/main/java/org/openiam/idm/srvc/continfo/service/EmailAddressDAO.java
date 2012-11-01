@@ -1,12 +1,12 @@
 package org.openiam.idm.srvc.continfo.service;
 
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
+import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Data access object for EmailAddress. EmailAddress usually exists with a parent entity
+ * Data access object for EmailAddressEntity. EmailAddressEntity usually exists with a parent entity
  * such as a user, organization, account, etc. Client components should use
  * the service objects such as <code>UserMgr</code> instead of using the DAO
  * directly.
@@ -21,28 +21,28 @@ public interface EmailAddressDAO {
      *
      * @param id
      */
-    EmailAddress findById(String id);
+    EmailAddressEntity findById(String id);
 
     /**
      * Adds a new instance
      *
      * @param instance
      */
-    EmailAddress add(EmailAddress instance);
+    EmailAddressEntity add(EmailAddressEntity instance);
 
     /**
      * Updates an existing instance
      *
      * @param instace
      */
-    void update(EmailAddress instace);
+    void update(EmailAddressEntity instace);
 
     /**
      * Removes an existing instance
      *
      * @param instance
      */
-    void remove(EmailAddress instance);
+    void remove(EmailAddressEntity instance);
 
     /**
      * Persist a map of EmailAddress objects at one time. Handles add, update, delete.
@@ -51,7 +51,7 @@ public interface EmailAddressDAO {
      * @param parentType
      * @param adrMap
      */
-    void saveEmailAddressMap(String parentId, String parentType, Map<String, EmailAddress> adrMap);
+    void saveEmailAddressMap(String parentId, String parentType, Map<String, EmailAddressEntity> adrMap);
 
     /**
      * Returns a Map of EmailAddress objects for the parentId and parentType combination.
@@ -62,7 +62,7 @@ public interface EmailAddressDAO {
      * @param parentType
      * @return
      */
-    Map<String, EmailAddress> findByParent(String parentId, String parentType);
+    Map<String, EmailAddressEntity> findByParent(String parentId, String parentType);
 
     /**
      * Returns a List of EmailAddress objects for the parentId and parentType combination.
@@ -71,7 +71,7 @@ public interface EmailAddressDAO {
      * @param parentType
      * @return
      */
-    public List<EmailAddress> findByParentAsList(String parentId, String parentType);
+    public List<EmailAddressEntity> findByParentAsList(String parentId, String parentType);
 
 
     /**
@@ -88,18 +88,18 @@ public interface EmailAddressDAO {
      *
      * @return
      */
-    EmailAddress findDefault(String parentId, String parentType);
+    EmailAddressEntity findDefault(String parentId, String parentType);
 
     /**
      * Return an address object that matches the Name field. Returns null if a match
      * is not found.
      *
-     * @param description
+     * @param name
      * @param parentId
      * @param parentType
      * @return
      */
-    EmailAddress findByName(String name, String parentId, String parentType);
+    EmailAddressEntity findByName(String name, String parentId, String parentType);
 
 
 }

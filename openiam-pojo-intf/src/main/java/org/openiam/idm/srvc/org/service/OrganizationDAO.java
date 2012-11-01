@@ -1,6 +1,7 @@
 package org.openiam.idm.srvc.org.service;
 
-import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
+import org.openiam.idm.srvc.org.dto.OrgClassificationEnum;
 
 import java.util.List;
 
@@ -17,13 +18,13 @@ public interface OrganizationDAO {
      *
      * @param id
      */
-    Organization findById(java.lang.String id);
+    OrganizationEntity findById(java.lang.String id);
 
-    Organization add(Organization instance);
+    OrganizationEntity add(OrganizationEntity instance);
 
-    Organization update(Organization instace);
+    OrganizationEntity update(OrganizationEntity instace);
 
-    void remove(Organization instance);
+    void remove(OrganizationEntity instance);
 
 
     /**
@@ -33,7 +34,7 @@ public interface OrganizationDAO {
      * @param orgId
      * @return
      */
-    Organization findParent(String orgId);
+    OrganizationEntity findParent(String orgId);
 
     /**
      * Returns a list of Organization objects that are root level entities; ie. they
@@ -41,7 +42,7 @@ public interface OrganizationDAO {
      *
      * @return
      */
-    List<Organization> findRootOrganizations();
+    List<OrganizationEntity> findRootOrganizations();
 
     /**
      * Returns a List of Organization objects that are sub-organizations of the specified
@@ -50,17 +51,17 @@ public interface OrganizationDAO {
      * @param orgId
      * @return
      */
-    List<Organization> findChildOrganization(String orgId);
+    List<OrganizationEntity> findChildOrganization(String orgId);
 
-    List<Organization> findAllOrganization();
+    List<OrganizationEntity> findAllOrganization();
 
-    List<Organization> findOrganizationByStatus(String parentId, String status);
+    List<OrganizationEntity> findOrganizationByStatus(String parentId, String status);
 
-    List<Organization> findOrganizationByType(String type, String parentId);
+    List<OrganizationEntity> findOrganizationByType(String type, String parentId);
 
-    List<Organization> findOrganizationByClassification(String parentId, String classification);
+    List<OrganizationEntity> findOrganizationByClassification(String parentId, OrgClassificationEnum classification);
 
-    List<Organization> search(String name, String type, String classification, String internalOrgId);
+    List<OrganizationEntity> search(String name, String type, OrgClassificationEnum classification, String internalOrgId);
 
 
 }

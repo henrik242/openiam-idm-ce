@@ -6,10 +6,12 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.openiam.idm.srvc.user.dto.Supervisor;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.user.domain.SupervisorEntity;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -43,7 +45,7 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.SupervisorDAO#add(org.openiam.idm.srvc.user.dto.Supervisor)
 	 */
-    public void add(Supervisor transientInstance) {
+    public void add(SupervisorEntity transientInstance) {
         log.debug("persisting Supervisor instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -60,7 +62,7 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.SupervisorDAO#remove(org.openiam.idm.srvc.user.dto.Supervisor)
 	 */
-    public void remove(Supervisor persistentInstance) {
+    public void remove(SupervisorEntity persistentInstance) {
         log.debug("deleting Supervisor instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -75,10 +77,10 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.SupervisorDAO#update(org.openiam.idm.srvc.user.dto.Supervisor)
 	 */
-    public Supervisor update(Supervisor detachedInstance) {
+    public SupervisorEntity update(SupervisorEntity detachedInstance) {
         log.debug("merging Supervisor instance");
         try {
-            Supervisor result = (Supervisor) sessionFactory.getCurrentSession()
+            SupervisorEntity result = (SupervisorEntity) sessionFactory.getCurrentSession()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -92,11 +94,11 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.SupervisorDAO#findById(java.lang.String)
 	 */
-    public Supervisor findById( java.lang.String id) {
+    public SupervisorEntity findById( java.lang.String id) {
         log.debug("getting Supervisor instance with id: " + id);
         try {
-            Supervisor instance = (Supervisor) sessionFactory.getCurrentSession()
-                    .get("org.openiam.idm.srvc.user.dto.Supervisor", id);
+            SupervisorEntity instance = (SupervisorEntity) sessionFactory.getCurrentSession()
+                    .get(SupervisorEntity.class, id);
             if (instance==null) {
                 log.debug("get successful, no instance found");
             }
@@ -114,12 +116,12 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.SupervisorDAO#findByExample(org.openiam.idm.srvc.user.dto.Supervisor)
 	 */
-    public List<Supervisor> findByExample(Supervisor instance) {
+    public List<SupervisorEntity> findByExample(SupervisorEntity instance) {
         log.debug("finding Supervisor instance by example");
         try {
-            List<Supervisor> results = (List<Supervisor>) sessionFactory.getCurrentSession()
-                    .createCriteria("org.openiam.idm.srvc.user.dto.Supervisor")
-                    .add( create(instance) )
+            List<SupervisorEntity> results = (List<SupervisorEntity>) sessionFactory.getCurrentSession()
+                    .createCriteria(SupervisorEntity.class)
+                    .add(create(instance))
             .list();
             log.debug("find by example successful, result size: " + results.size());
             return results;
@@ -135,19 +137,19 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
      * @param supervisorId
      * @return
      */
-    public List<Supervisor> findEmployees(String supervisorId) {
+    public List<SupervisorEntity> findEmployees(String supervisorId) {
     	Session session = sessionFactory.getCurrentSession();
-    	Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.Supervisor s " +
-    			" where s.supervisor.userId = :supervisorId " +
-    			" order by s.supervisor asc");
-    	qry.setString("supervisorId", supervisorId);
-    	List<Supervisor> results = (List<Supervisor>)qry.list();
+        Criteria criteria = session.createCriteria(SupervisorEntity.class)
+                .add(Restrictions.eq("supervisor.userId",supervisorId))
+                .addOrder(Order.asc("supervisor.userId"));
+
+    	List<SupervisorEntity> results = (List<SupervisorEntity>)criteria.list();
 
     	// initalize the objects in the collection
     	
     	int listSize = results.size();
     	for (int i=0; i<listSize; i++) {
-    		Supervisor supr = results.get(i);
+    		SupervisorEntity supr = results.get(i);
     		org.hibernate.Hibernate.initialize(supr.getSupervisor());
     		org.hibernate.Hibernate.initialize(supr.getEmployee());
     	}
@@ -156,22 +158,23 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     	
     }
 
-    public List<Supervisor> findSupervisors(String employeeId) {
+    public List<SupervisorEntity> findSupervisors(String employeeId) {
     	Session session = sessionFactory.getCurrentSession();
-    	Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.Supervisor s " +
-    			" where s.employee.userId = :employeeId ");
-    	qry.setString("employeeId", employeeId);
-    	List<Supervisor> results = (List<Supervisor>)qry.list();
+        Criteria criteria = session.createCriteria(SupervisorEntity.class)
+                .add(Restrictions.eq("supervisor.userId",employeeId));
+
+    	List<SupervisorEntity> results = (List<SupervisorEntity>)criteria.list();
     	return results;    	
     }
     
-    public Supervisor findPrimarySupervisor(String employeeId) {
+    public SupervisorEntity findPrimarySupervisor(String employeeId) {
     	Session session = sessionFactory.getCurrentSession();
-    	Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.Supervisor s " +
-    			" where s.employee.userId = :employeeId and s.isPrimarySuper = 1 " +
-    			" order by s.supervisor asc");
-    	qry.setString("employeeId", employeeId);
-    	Supervisor supr = (Supervisor)qry.uniqueResult();
+    	Criteria criteria = session.createCriteria(SupervisorEntity.class)
+                .add(Restrictions.eq("employee.userId",employeeId))
+                .add(Restrictions.eq("isPrimarySuper",1))
+                .addOrder(Order.asc("supervisor"));
+
+    	SupervisorEntity supr = (SupervisorEntity)criteria.uniqueResult();
     	if (supr == null)
     		return null;
 

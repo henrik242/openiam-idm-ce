@@ -1,5 +1,6 @@
 package org.openiam.idm.srvc.continfo.service;
 
+import org.openiam.idm.srvc.continfo.domain.AddressEntity;
 import org.openiam.idm.srvc.continfo.dto.Address;
 
 import java.util.List;
@@ -20,28 +21,28 @@ public interface AddressDAO {
      *
      * @param id
      */
-    Address findById(java.lang.String id);
+    AddressEntity findById(java.lang.String id);
 
     /**
      * Creates a new address
      *
      * @param instance
      */
-    Address add(Address instance);
+    AddressEntity add(AddressEntity instance);
 
     /**
      * Updates an existing address
      *
      * @param instace
      */
-    void update(Address instace);
+    void update(AddressEntity instace);
 
     /**
      * Removes an address
      *
      * @param instance
      */
-    void remove(Address instance);
+    void remove(AddressEntity instance);
 
     /**
      * Persist a map of address objects at one time. Handles add, update, delete.
@@ -50,7 +51,7 @@ public interface AddressDAO {
      * @param parentType
      * @param adrMap
      */
-    void saveAddressMap(String parentId, String parentType, Map<String, Address> adrMap);
+    void saveAddressMap(String parentId, String parentType, Map<String, AddressEntity> adrMap);
 
     /**
      * Returns a Map of Address objects for the parentId and parentType combination.
@@ -61,7 +62,7 @@ public interface AddressDAO {
      * @param parentType
      * @return
      */
-    Map<String, Address> findByParent(String parentId, String parentType);
+    Map<String, AddressEntity> findByParent(String parentId, String parentType);
 
     /**
      * Returns a List of Address objects for the parentId and parentType combination.
@@ -70,7 +71,7 @@ public interface AddressDAO {
      * @param parentType
      * @return
      */
-    public List<Address> findByParentAsList(String parentId, String parentType);
+    public List<AddressEntity> findByParentAsList(String parentId, String parentType);
 
 
     /**
@@ -87,18 +88,18 @@ public interface AddressDAO {
      *
      * @return
      */
-    Address findDefault(String parentId, String parentType);
+    AddressEntity findDefault(String parentId, String parentType);
 
     /**
      * Return an address object that matches the Name field. Returns null if a match
      * is not found.
      *
-     * @param description
+     * @param name
      * @param parentId
      * @param parentType
      * @return
      */
-    Address findByName(String name, String parentId, String parentType);
+    AddressEntity findByName(String name, String parentId, String parentType);
 
 
 }

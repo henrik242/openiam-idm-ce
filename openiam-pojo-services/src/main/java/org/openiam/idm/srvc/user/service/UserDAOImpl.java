@@ -4,8 +4,12 @@ package org.openiam.idm.srvc.user.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.*;
+import org.hibernate.criterion.Order;
+
 import org.hibernate.criterion.Restrictions;
 import org.openiam.base.id.SequenceGenDAO;
+
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserSearch;
@@ -15,6 +19,7 @@ import javax.naming.InitialContext;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
 /**
  * Data access implementation for domain model class User and UserWS. UserWS is similar to User,
@@ -52,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public void add(User usr) {
+    public void add(UserEntity usr) {
         log.debug("persisting User instance");
         try {
             // If the object has not been assigned an id, we should automatically assign one
@@ -73,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public void remove(User persistentInstance) {
+    public void remove(UserEntity persistentInstance) {
         log.debug("deleting User instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -84,10 +89,10 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public User update(User detachedInstance) {
+    public UserEntity update(UserEntity detachedInstance) {
         log.debug("merging User instance");
         try {
-            User result = (User) sessionFactory.getCurrentSession().merge(detachedInstance);
+            UserEntity result = (UserEntity) sessionFactory.getCurrentSession().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         } catch (HibernateException re) {
@@ -96,19 +101,18 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public User findById(java.lang.String id) {
+    public UserEntity findById(java.lang.String id) {
         log.debug("getting User instance with id: " + id);
         try {
             Session session = sessionFactory.getCurrentSession();
 
             // Since contact info objects can be shared between users and other entities, the
             // filters will help ensure that we only see the User related object.
+            Filter filter = session.enableFilter("parentTypeFilter");
+            filter.setParameter("parentFilter", "USER");
 
-            session.enableFilter("parentTypeFilter")
-                    .setParameter("parentFilter", "USER");
-
-            User instance = (User) session.get("org.openiam.idm.srvc.user.dto.User", id);
-
+            UserEntity instance = (UserEntity) session.get(UserEntity.class, id);
+            session.disableFilter("parentTypeFilter");
             if (instance == null) {
                 log.debug("get successful, no instance found");
             } else {
@@ -122,14 +126,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-    public User findByName(String firstName, String lastName) {
+    public UserEntity findByName(String firstName, String lastName) {
         try {
             Session session = sessionFactory.getCurrentSession();
-            Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.User u " +
-                    " where u.lastName = :lastName and u.firstName = :firstName");
-            qry.setString("firstName", firstName);
-            qry.setString("lastName", lastName);
-            List<User> results = (List<User>) qry.list();
+            Criteria criteria = session.createCriteria(UserEntity.class)
+                    .add(Restrictions.eq("lastName",lastName))
+                    .add(Restrictions.eq("firstName",firstName));
+
+            List<UserEntity> results = (List<UserEntity>) criteria.list();
 
             if (results != null && !results.isEmpty()) {
                 return results.get(0);
@@ -142,21 +146,22 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public List findByStatus(String status) {
+    public List<UserEntity> findByStatus(UserStatusEnum status) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.User u " +
-                " where u.status = :status order by u.lastName asc");
-        qry.setString("status", status);
-        List<User> results = (List<User>) qry.list();
+        Criteria criteria = session.createCriteria(UserEntity.class)
+                .add(Restrictions.eq("status",status))
+                .addOrder(Order.asc("lastName"));
+
+        List<UserEntity> results = (List<UserEntity>) criteria.list();
         return results;
     }
 
-    public List findByLastUpdateRange(Date startDate, Date endDate) {
+    public List<UserEntity> findByLastUpdateRange(Date startDate, Date endDate) {
         log.debug("finding User based on the lastUpdate date range that is provided");
         try {
 
             Session session = sessionFactory.getCurrentSession();
-            Criteria criteria = session.createCriteria(org.openiam.idm.srvc.user.dto.User.class);
+            Criteria criteria = session.createCriteria(UserEntity.class);
             criteria.add(Restrictions.between("lastUpdate", startDate, endDate));
             return criteria.list();
 
@@ -168,14 +173,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-    public List<User> search(UserSearch search) {
+    public List<UserEntity> search(UserSearch search) {
         if (dbType != null && dbType.equalsIgnoreCase("ORACLE_INSENSITIVE")) {
             return searchOracleInsensitive(search);
         }
         return defaultSearch(search);
     }
 
-    private List<User> searchOracleInsensitive(UserSearch search) {
+    private List<UserEntity> searchOracleInsensitive(UserSearch search) {
 
         boolean firstName = false;
         boolean lastName = false;
@@ -526,7 +531,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = sessionFactory.getCurrentSession();
 
         SQLQuery qry = session.createSQLQuery(select);
-        qry.addEntity(User.class);
+        qry.addEntity(UserEntity.class);
 
         if (userId) {
             qry.setString("userId", search.getUserId());
@@ -656,7 +661,7 @@ public class UserDAOImpl implements UserDAO {
             qry.setMaxResults(this.maxResultSetSize);
         }
         try {
-            List<User> result = (List<User>) qry.list();
+            List<UserEntity> result = (List<UserEntity>) qry.list();
             if (result == null || result.size() == 0) {
                 log.debug("search result is null");
                 return null;
@@ -671,7 +676,7 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-    private List<User> defaultSearch(UserSearch search) {
+    private List<UserEntity> defaultSearch(UserSearch search) {
 
         boolean firstName = false;
         boolean lastName = false;
@@ -1092,7 +1097,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = sessionFactory.getCurrentSession();
 
         SQLQuery qry = session.createSQLQuery(select);
-        qry.addEntity(User.class);
+        qry.addEntity(UserEntity.class);
 
         if (userId) {
             qry.setString("userId", search.getUserId());
@@ -1218,7 +1223,7 @@ public class UserDAOImpl implements UserDAO {
             qry.setMaxResults(this.maxResultSetSize);
         }
         try {
-            List<User> result = (List<User>) qry.list();
+            List<UserEntity> result = (List<UserEntity>) qry.list();
             if (result == null || result.size() == 0) {
                 log.debug("search result is null");
                 return null;
@@ -1234,33 +1239,33 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-    public List<User> findByOrganization(String orgId) {
+    public List<UserEntity> findByOrganization(String orgId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from org.openiam.idm.srvc.user.dto.User u " +
-                " where u.companyId = :orgId order by u.lastName asc");
-        qry.setString("orgId", orgId);
-        List<User> results = (List<User>) qry.list();
+        Criteria criteria = session.createCriteria(UserEntity.class)
+                .add(Restrictions.eq("companyId",orgId))
+                .addOrder(Order.asc("lastName"));
+        List<UserEntity> results = (List<UserEntity>) criteria.list();
         return results;
 
     }
 
-    public List<User> findStaff(String supervisorId) {
+    public List<UserEntity> findStaff(String supervisorId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from Supervisor as s inner join s.employee as staff left outer join s.supervisor as supervisor where supervisor.userId = :supervisorId order by supervisor.userId asc");
+        Query qry = session.createQuery("from SupervisorEntity as s inner join s.employee as staff left outer join s.supervisor as supervisor where supervisor.userId = :supervisorId order by supervisor.userId asc");
         qry.setString("supervisorId", supervisorId);
-        List<User> results = (List<User>) qry.list();
+        List<UserEntity> results = (List<UserEntity>) qry.list();
         return results;
     }
 
-    public List<User> findSupervisors(String staffId) {
+    public List<UserEntity> findSupervisors(String staffId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from Supervisor as s inner join s.supervisor as supervisor left join s.employee as staff where staff.userId = :staffId order by staff.userId asc");
+        Query qry = session.createQuery("from SupervisorEntity as s inner join s.supervisor as supervisor left join s.employee as staff where staff.userId = :staffId order by staff.userId asc");
         qry.setString("staffId", staffId);
-        List<User> results = (List<User>) qry.list();
+        List<UserEntity> results = (List<UserEntity>) qry.list();
         return results;
     }
 
-    public List<User> findByDelegationProperties(DelegationFilterSearch search) {
+    public List<UserEntity> findByDelegationProperties(DelegationFilterSearch search) {
         boolean rl = false;
         boolean orgFilter = false;
 
@@ -1322,7 +1327,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = sessionFactory.getCurrentSession();
 
         SQLQuery qry = session.createSQLQuery(sql);
-        qry.addEntity(User.class);
+        qry.addEntity(UserEntity.class);
 
         if ( rl) {
             qry.setString("role", search.getRole());
@@ -1331,7 +1336,7 @@ public class UserDAOImpl implements UserDAO {
             qry.setString("orgFilter",search.getOrgFilter()) ;
         }
 
-        List<User> results = (List<User>) qry.list();
+        List<UserEntity> results = (List<UserEntity>) qry.list();
         return results;
 
     }

@@ -1,12 +1,10 @@
 package org.openiam.idm.srvc.continfo.dto;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,7 +13,8 @@ import org.openiam.base.AttributeOperationEnum;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.continfo.domain.AddressEntity;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -48,84 +47,53 @@ import org.openiam.idm.srvc.user.dto.User;
         "name",
         "operation"
 })
-@Entity
-@Table(name = "ADDRESS")
+
 public class Address implements java.io.Serializable {
 
 
     // Fields
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "ADDRESS_ID", length = 32, nullable = false)
-    private String addressId;
+    protected String addressId;
 
-    @Transient
     protected AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    @Column(name="ACTIVE")
     protected Boolean isActive = Boolean.TRUE;
 
-    @Column(name="BLDG_NUM", length=45)
     protected String bldgNumber;
 
-    @Column(name="STREET_DIRECTION", length=20)
     protected String streetDirection;
 
-    @Column(name="SUITE", length=20)
     protected String suite;
 
-    @Column(name="ADDRESS1", length=45)
     protected String address1;
 
-    @Column(name="ADDRESS2", length=45)
     protected String address2;
 
-    @Column(name="ADDRESS3", length=45)
     protected String address3;
 
-    @Column(name="ADDRESS4", length=45)
     protected String address4;
 
-    @Column(name="ADDRESS5", length=45)
     protected String address5;
 
-    @Column(name="ADDRESS6", length=45)
     protected String address6;
 
-    @Column(name="ADDRESS7", length=45)
     protected String address7;
 
-    @Column(name="CITY", length=45)
     protected String city;
 
-    @Column(name="COUNTRY", length=30)
     protected String country;
 
-    @Column(name="DESCRIPTION", length=100)
     protected String description;
 
-    @Transient
     protected Integer isDefault = new Integer(0);
 
-    @XmlTransient
-    @ManyToOne
-    @JoinColumn(name="PARENT_ID")
-    private User parent;
-
-    @Column(name="PARENT_TYPE", length=30)
     protected String parentType;
 
-    @Column(name="POSTAL_CD", length=10)
     protected String postalCd;
 
-    @Column(name="STATE", length=15)
     protected String state;
 
-    @Column(name="NAME", length=40)
     protected String name;
 
-    @Transient
     protected String parentId;
     // Constructors
 
@@ -134,6 +102,29 @@ public class Address implements java.io.Serializable {
      * default constructor
      */
     public Address() {
+    }
+
+    public Address(AddressEntity addressEntity) {
+        this.addressId = addressEntity.getAddressId();
+        this.isActive = addressEntity.getActive();
+        this.bldgNumber = addressEntity.getBldgNumber();
+        this.streetDirection = addressEntity.getStreetDirection();
+        this.suite = addressEntity.getSuite();
+        this.address1 = addressEntity.getAddress1();
+        this.address2 = addressEntity.getAddress2();
+        this.address3 = addressEntity.getAddress3();
+        this.address4 = addressEntity.getAddress4();
+        this.address5 = addressEntity.getAddress5();
+        this.address6 = addressEntity.getAddress6();
+        this.address7 = addressEntity.getAddress7();
+        this.city = addressEntity.getCity();
+        this.country = addressEntity.getCountry();
+        this.description = addressEntity.getDescription();
+        this.parentType = addressEntity.getParentType();
+        this.postalCd = addressEntity.getPostalCd();
+        this.state = addressEntity.getState();
+        this.name = addressEntity.getName();
+        this.parentId = addressEntity.getParent() != null ? addressEntity.getParent().getUserId() : "";
     }
 
     /**
@@ -187,8 +178,8 @@ public class Address implements java.io.Serializable {
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
                 ", description='" + description + '\'' +
-                ", isDefault=" + isDefault +
-                ", parentId='" + (parent != null ? parent.getUserId() : "") + '\'' +
+                ", isDefault=" + isDefault + '\'' +
+                ", parentId='" + parentId + '\'' +
                 ", parentType='" + parentType + '\'' +
                 ", postalCd='" + postalCd + '\'' +
                 ", state='" + state + '\'' +
@@ -297,7 +288,7 @@ public class Address implements java.io.Serializable {
      * @return
      */
     public String getParentId() {
-        return parent != null ? parent.getUserId() : "";
+        return parentId;
     }
 
     /**
@@ -418,18 +409,16 @@ public class Address implements java.io.Serializable {
      *
      * @return
      */
-    public User getParent() {
-        return parent;
-    }
 
-    public void setParent(User parent) {
-        this.parentId = parent != null ? parent.getUserId() : "";
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Address)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Address address = (Address) o;
 
@@ -448,8 +437,7 @@ public class Address implements java.io.Serializable {
         if (isActive != null ? !isActive.equals(address.isActive) : address.isActive != null) return false;
         if (isDefault != null ? !isDefault.equals(address.isDefault) : address.isDefault != null) return false;
         if (name != null ? !name.equals(address.name) : address.name != null) return false;
-        if (operation != address.operation) return false;
-        if (parent != null ? !parent.equals(address.parent) : address.parent != null) return false;
+        if (parentId != null ? !parentId.equals(address.parentId) : address.parentId != null) return false;
         if (parentType != null ? !parentType.equals(address.parentType) : address.parentType != null) return false;
         if (postalCd != null ? !postalCd.equals(address.postalCd) : address.postalCd != null) return false;
         if (state != null ? !state.equals(address.state) : address.state != null) return false;
@@ -462,6 +450,27 @@ public class Address implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        return addressId != null ? addressId.hashCode() : 0;
+        int result = addressId != null ? addressId.hashCode() : 0;
+        result = 31 * result + (isActive != null ? isActive.hashCode() : 0);
+        result = 31 * result + (bldgNumber != null ? bldgNumber.hashCode() : 0);
+        result = 31 * result + (streetDirection != null ? streetDirection.hashCode() : 0);
+        result = 31 * result + (suite != null ? suite.hashCode() : 0);
+        result = 31 * result + (address1 != null ? address1.hashCode() : 0);
+        result = 31 * result + (address2 != null ? address2.hashCode() : 0);
+        result = 31 * result + (address3 != null ? address3.hashCode() : 0);
+        result = 31 * result + (address4 != null ? address4.hashCode() : 0);
+        result = 31 * result + (address5 != null ? address5.hashCode() : 0);
+        result = 31 * result + (address6 != null ? address6.hashCode() : 0);
+        result = 31 * result + (address7 != null ? address7.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (isDefault != null ? isDefault.hashCode() : 0);
+        result = 31 * result + (parentType != null ? parentType.hashCode() : 0);
+        result = 31 * result + (postalCd != null ? postalCd.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        return result;
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -51,7 +50,6 @@ import org.openiam.idm.srvc.loc.ws.LocationDataWebService;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.provision.dto.AccountLockEnum;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
 import org.openiam.selfsrvc.AppConfiguration;
@@ -278,7 +276,7 @@ public class EditUserController extends CancellableFormController {
        }else {
            Phone p = new Phone();
            p.setName("DESK PHONE");
-           p.setParent(resp.getUser());
+           p.setParentId(personId);
            p.setPhoneNbr("");
            p.setAreaCd("");
            editUserCmd.getPhoneList().add(p);
@@ -404,7 +402,7 @@ public class EditUserController extends CancellableFormController {
             for ( UserAttribute ua : attrList) {
                 if ( ua.getId() != null && ua.getId().length() > 0) {
                     // UPDATE
-                    updateUserAttr(pUser, ua, 2, usr, currentUserObj);
+                    updateUserAttr(pUser, ua, 2, usr.getUserId(), currentUserObj);
                 }
             }
         }
@@ -491,7 +489,7 @@ public class EditUserController extends CancellableFormController {
 		if (email != null && email.length() > 0) {
 			EmailAddress em = buildEmail(emailId, email,"EMAIL1");
 			log.info("EmailId 1 = " + em.getEmailId());
-			pUser.getEmailAddress().add(em);
+			pUser.getEmailAddresses().add(em);
             pUser.setEmail(email);
 		}
 		email = profileCommand.getEmail2();
@@ -499,13 +497,13 @@ public class EditUserController extends CancellableFormController {
 		if (email != null && email.length() > 0) {
 			EmailAddress em = buildEmail(emailId, email, "EMAIL2");
 			log.info("EmailId 2 = " + em.getEmailId());
-			pUser.getEmailAddress().add(em);
+			pUser.getEmailAddresses().add(em);
 		}
 		email = profileCommand.getEmail3();
 		emailId = profileCommand.getEmail3Id();
 		if (email != null && email.length() > 0) {
 			EmailAddress em = buildEmail(emailId, email, "EMAIL3");
-			pUser.getEmailAddress().add(em);
+			pUser.getEmailAddresses().add(em);
 		}		
 		
 			
@@ -527,7 +525,7 @@ public class EditUserController extends CancellableFormController {
 		adr.setState(profileCommand.getUser().getState());
 		adr.setStreetDirection(profileCommand.getUser().getStreetDirection());
 		adr.setName("DEFAULT ADR");
-		adr.setParent(pUser.getUser());
+		adr.setParentId(pUser.getUser().getUserId());
 		adr.setParentType(ContactConstants.PARENT_TYPE_USER);
 		adr.setPostalCd(profileCommand.getUser().getPostalCd());
 		pUser.getAddresses().add(adr);
@@ -549,19 +547,19 @@ public class EditUserController extends CancellableFormController {
             }
 
         }
-        pUser.setPhone(phoneSet);
+        pUser.setPhones(phoneSet);
     }
 	
 	
 
 	
-    private void updateUserAttr(ProvisionUser user, UserAttribute ua, int operation, User person, User currentUserObj) {
+    private void updateUserAttr(ProvisionUser user, UserAttribute ua, int operation, String personId, User currentUserObj) {
 
         if (currentUserObj == null) {
             // should not occur unless if data is screwed up
             ua.setOperation(AttributeOperationEnum.ADD);
             ua.setId(null);
-            ua.setUser(person);
+            ua.setUserId(personId);
             user.getUserAttributes().put(ua.getName(), ua);
             return;
 
