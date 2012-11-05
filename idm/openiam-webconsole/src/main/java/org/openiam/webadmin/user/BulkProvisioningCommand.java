@@ -19,10 +19,21 @@ public class BulkProvisioningCommand implements Serializable {
     private String attributeName;
     private String attributeValue;
     private UserStatusEnum userStatus;
+    /* role is used to select the users for this operation */
+    private String role;
+
+    /* ACTION TYPE - change access or bulk password reset*/
+    private String actionType;
+
+    /* New password */
+    private String newPassword;
+
 
     private String operation;
     private String targetRole;
     private String targetResource;
+
+
 
 
 
@@ -133,6 +144,11 @@ public class BulkProvisioningCommand implements Serializable {
             return true;
         }
 
+        if ( role != null && !role.isEmpty()) {
+            return true;
+
+        }
+
 
         if (userStatus != null) {
             return true;
@@ -141,6 +157,29 @@ public class BulkProvisioningCommand implements Serializable {
         return false;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
 }
 
 

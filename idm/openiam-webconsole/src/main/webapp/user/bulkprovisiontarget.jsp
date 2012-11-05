@@ -1,3 +1,4 @@
+<%@ page import="org.openiam.idm.srvc.synch.dto.BulkMigrationConfig" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"     pageEncoding="utf-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -11,7 +12,7 @@
             <table width="100%">
                 <tr>
                     <td class="pageTitle" width="70%">
-                        <h2 class="contentheading">Select Target System</h2>
+                        <h2 class="contentheading">Select Operation</h2>
                     </td>
                     <td class="tabnav" >
                     </td>
@@ -35,6 +36,25 @@
                         <td>    <fieldset class="userformSearch" >
                             <legend>ENTER SELECTION </legend>
                             <table class="fieldsetTable"  width="100%" >
+
+                                <tr>
+
+                                    <td><label for="username" class="attribute"> <form:radiobutton path="actionType" value="<%=BulkMigrationConfig.ACTION_RESET_PASSWORD %>" /> Reset Password</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue">
+                                        <form:errors path="actionType" cssClass="error" />
+                                        <form:password path="newPassword" />
+                                        <form:errors path="newPassword" cssClass="error" />
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <td><label for="username" class="attribute"><form:radiobutton path="actionType" value="<%=BulkMigrationConfig.ACTION_MODIFY_ACCESS %>" /> Modify User Access</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue">
+
+                                    </td>
+                                </tr>
 
                                 <tr>
 

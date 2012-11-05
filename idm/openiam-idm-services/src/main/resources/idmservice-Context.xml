@@ -203,6 +203,10 @@
 		<property name="adaptorFactory" ref="adapterFactory" />
         <property name="userMgr" ref="userManager" />
         <property name="provisionService" ref="defaultProvision" />
+        <property name="loginManager" ref="loginManager" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
+
+
     </bean>
 	<bean id="synchServiceWS" class="org.openiam.idm.srvc.synch.ws.IdentitySynchWebServiceImpl">
 		<property name="synchService" ref="synchService" />	

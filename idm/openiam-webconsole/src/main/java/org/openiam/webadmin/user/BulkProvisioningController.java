@@ -95,6 +95,9 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         BulkProvisioningCommand cmd = (BulkProvisioningCommand) command;
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
+        String login = (String) session.getAttribute("login");
+
+
 
         // populate the config object
 
@@ -105,6 +108,19 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         if (cmd.getUserStatus() != null) {
             config.setUserStatus(cmd.getUserStatus().toString());
         }
+        if (cmd.getActionType() != null && !cmd.getActionType().isEmpty()) {
+            config.setActionType(cmd.getActionType());
+        }
+        if (cmd.getNewPassword() != null && !cmd.getNewPassword().isEmpty()) {
+            config.setNewPassword(cmd.getNewPassword());
+        }
+
+        if (cmd.getRole() != null && !cmd.getRole().isEmpty()) {
+            config.setRole(cmd.getRole());
+        }
+
+        config.setRequestorLogin(login);
+
         // start the provisioning process.
         syncClient.bulkUserMigration(config);
 
@@ -155,6 +171,8 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         model.put("deptList", orgManager.allDepartments(null));
 
         model.put("elementList", getComleteMetadataElementList());
+
+        model.put("roleList", roleDataService.getAllRoles().getRoleList());
 
 
         return model;
