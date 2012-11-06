@@ -142,7 +142,7 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 			faxPhone.setParentType(ContactConstants.PARENT_TYPE_USER);
 			faxPhone.setName("FAX");
 			//phoneList.add(faxPhone);
-			pUser.getPhone().add(faxPhone);
+			pUser.getPhones().add(faxPhone);
 			}
 			
 		}	
@@ -158,7 +158,7 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 				ph.setParentType(ContactConstants.PARENT_TYPE_USER);
 				ph.setName("DESK PHONE");
 				//phoneList.add(ph);
-				pUser.getPhone().add(ph);
+				pUser.getPhones().add(ph);
 			}
 			
 		}
@@ -171,7 +171,7 @@ public class TransformCSVUserSrcRecord extends AbstractTransformScript {
 			email1.setName("EMAIL1");
 			email1.setParentType(ContactConstants.PARENT_TYPE_USER);
         	emailList.add(email1);
-        	pUser.getEmailAddress().add(email1);
+        	pUser.getEmailAddresses().add(email1);
         
 		}
 		
