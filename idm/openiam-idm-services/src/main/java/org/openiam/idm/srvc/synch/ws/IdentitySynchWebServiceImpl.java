@@ -141,8 +141,12 @@ public class IdentitySynchWebServiceImpl implements IdentitySynchWebService, Mul
 		return resp;
 	}
 
+    @Override
+    public Response testBulkMigrationImpact(BulkMigrationConfig config) {
+        return synchService.testBulkMigrationImpact(config);
+    }
 
-     public void setMuleContext(MuleContext ctx) {
+    public void setMuleContext(MuleContext ctx) {
 
 		muleContext = ctx;
 

@@ -39,10 +39,19 @@
 
                                 <tr>
 
+                                    <td><label for="username" class="attribute"> Selection Criteria will impact:</label></td>
+                                    <td class="error">
+                                        ${bulkProvisionCmd.resultSetSize}  record(s)
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+
                                     <td><label for="username" class="attribute"> <form:radiobutton path="actionType" value="<%=BulkMigrationConfig.ACTION_RESET_PASSWORD %>" /> Reset Password</label></td>
                                     <td  class="userformInput" for="username" class="labelValue">
-                                        <form:errors path="actionType" cssClass="error" />
-                                        <form:password path="newPassword" />
+                                        <form:password path="newPassword" size="30" maxlength="30"/>
+                                        <form:errors path="actionType" cssClass="error" /><br>
                                         <form:errors path="newPassword" cssClass="error" />
 
                                     </td>

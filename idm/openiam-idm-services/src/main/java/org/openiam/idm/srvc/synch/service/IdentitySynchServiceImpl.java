@@ -237,6 +237,34 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         }
     }
 
+    /**
+     * Tests the search criteria to determine how many users will be impacted by the change
+     * @param config
+     * @return
+     */
+    public Response testBulkMigrationImpact(BulkMigrationConfig config) {
+
+        Response resp = new Response(ResponseStatus.SUCCESS);
+
+        // select the user that we need to move
+        UserSearch search = buildSearch(config);
+        if (search.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        List<User> searchResult =  userMgr.search(search);
+
+        if (searchResult == null) {
+            resp.setResponseValue(new Integer(0));
+        }else {
+            resp.setResponseValue( new Integer( searchResult.size()));
+        }
+        return resp;
+
+
+    }
+
 
     public Response bulkUserMigration(BulkMigrationConfig config) {
 

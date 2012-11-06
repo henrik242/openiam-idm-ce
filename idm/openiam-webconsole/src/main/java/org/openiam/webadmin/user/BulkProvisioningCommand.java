@@ -1,5 +1,6 @@
 package org.openiam.webadmin.user;
 
+import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
 import java.io.Serializable;
@@ -33,6 +34,9 @@ public class BulkProvisioningCommand implements Serializable {
     private String targetRole;
     private String targetResource;
 
+    private int resultSetSize;
+
+    private BulkMigrationConfig config;
 
 
 
@@ -179,6 +183,41 @@ public class BulkProvisioningCommand implements Serializable {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public int getResultSetSize() {
+        return resultSetSize;
+    }
+
+    public void setResultSetSize(int resultSetSize) {
+        this.resultSetSize = resultSetSize;
+    }
+
+    public BulkMigrationConfig getConfig() {
+
+        BulkMigrationConfig config = new BulkMigrationConfig(lastName, companyId, deptId,
+                division, attributeName, attributeValue,
+                null,operation, targetRole, targetResource);
+
+        if ( userStatus != null) {
+            config.setUserStatus(userStatus.toString());
+        }
+        if (actionType != null && !actionType.isEmpty()) {
+            config.setActionType(actionType);
+        }
+        if (newPassword != null && !newPassword.isEmpty()) {
+            config.setNewPassword(newPassword);
+        }
+
+        if (role != null && !role.isEmpty()) {
+            config.setRole(role);
+        }
+
+        return config;
+    }
+
+    public void setConfig(BulkMigrationConfig config) {
+        this.config = config;
     }
 }
 

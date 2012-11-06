@@ -72,7 +72,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
     @Override
     protected void validatePage(Object command, Errors errors, int page) {
-        log.debug("Validate page:" + page);
+
         BulkProvsioningValidator validator = (BulkProvsioningValidator) getValidator();
         switch (page) {
             case 0:
@@ -100,8 +100,13 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
 
         // populate the config object
+        BulkMigrationConfig config = cmd.getConfig();
+        config.setRequestorLogin(login);
 
-        BulkMigrationConfig config = new BulkMigrationConfig(cmd.getLastName(), cmd.getCompanyId(), cmd.getDeptId(),
+        // start the provisioning process.
+        syncClient.bulkUserMigration(config);
+
+        /*BulkMigrationConfig config = new BulkMigrationConfig(cmd.getLastName(), cmd.getCompanyId(), cmd.getDeptId(),
                 cmd.getDivision(), cmd.getAttributeName(), cmd.getAttributeValue(),
                 null, cmd.getOperation(), cmd.getTargetRole(), cmd.getTargetResource());
 
@@ -118,11 +123,9 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         if (cmd.getRole() != null && !cmd.getRole().isEmpty()) {
             config.setRole(cmd.getRole());
         }
+        */
 
-        config.setRequestorLogin(login);
 
-        // start the provisioning process.
-        syncClient.bulkUserMigration(config);
 
 
         return new ModelAndView(new RedirectView(redirectView + "&mode=1", true));

@@ -5,12 +5,15 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
+import org.openiam.idm.srvc.synch.ws.IdentitySynchWebService;
+
 
 
 
 public class BulkProvsioningValidator implements Validator {
 
 	private static final Log log = LogFactory.getLog(BulkProvsioningValidator.class);
+    private IdentitySynchWebService idSyncClient;
 
 	
 	public boolean supports(Class cls) {
@@ -30,11 +33,23 @@ public class BulkProvsioningValidator implements Validator {
 
         BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
 
+
         // check if at least on search criteria has been selected.
         if (! provCmd.isSearchDefined()) {
             err.rejectValue("lastName", "required");
+            return;
         }
-	}
+
+        BulkMigrationConfig config = provCmd.getConfig();
+
+        Integer resultSize = (Integer)  idSyncClient.testBulkMigrationImpact(config).getResponseValue();
+
+        if (resultSize != null) {
+
+            provCmd.setResultSetSize(resultSize.intValue());
+        }
+
+    }
 
 
 	
@@ -73,7 +88,11 @@ public class BulkProvsioningValidator implements Validator {
 		
 	}
 
+    public IdentitySynchWebService getIdSyncClient() {
+        return idSyncClient;
+    }
 
-
-
+    public void setIdSyncClient(IdentitySynchWebService idSyncClient) {
+        this.idSyncClient = idSyncClient;
+    }
 }
