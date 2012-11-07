@@ -120,7 +120,8 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(PhoneEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("name",name))
                 .add(Restrictions.eq("parentType", parentType));
 
@@ -154,7 +155,8 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(PhoneEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType", parentType));
 
 		List<PhoneEntity> result = (List<PhoneEntity>)criteria.list();
@@ -167,7 +169,8 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(PhoneEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType", parentType))
                 .add(Restrictions.eq("isDefault",1));
 

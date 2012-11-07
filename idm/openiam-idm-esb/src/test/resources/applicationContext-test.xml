@@ -121,4 +121,8 @@
 	<bean id="orgDAO" class="org.openiam.idm.srvc.org.service.OrganizationDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+
+    <bean id="userAffiliationDAO" class="org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 </beans>

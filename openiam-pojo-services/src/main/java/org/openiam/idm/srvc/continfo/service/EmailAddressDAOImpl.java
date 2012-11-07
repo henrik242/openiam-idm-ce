@@ -121,7 +121,8 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(EmailAddressEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType",parentType))
                 .add(Restrictions.eq("name",name));
 
@@ -156,7 +157,8 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(EmailAddressEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType",parentType));
 
 		List<EmailAddressEntity> result = (List<EmailAddressEntity>)criteria.list();
@@ -170,7 +172,8 @@ public class EmailAddressDAOImpl  implements EmailAddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(EmailAddressEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType",parentType))
                 .add(Restrictions.eq("isDefault",1));
 

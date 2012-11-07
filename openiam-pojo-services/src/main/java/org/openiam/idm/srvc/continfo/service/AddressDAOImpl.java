@@ -199,7 +199,8 @@ public class AddressDAOImpl implements AddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(AddressEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType",parentType));
 
 		List<AddressEntity> result = (List<AddressEntity>)criteria.list();
@@ -233,7 +234,8 @@ public class AddressDAOImpl implements AddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(AddressEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType",parentType))
                 .add(Restrictions.eq("isDefault",1));
 
@@ -252,7 +254,8 @@ public class AddressDAOImpl implements AddressDAO {
 
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(AddressEntity.class)
-                .add(Restrictions.eq("parent.userId",parentId))
+                .createAlias("parent","p")
+                .add(Restrictions.eq("p.userId",parentId))
                 .add(Restrictions.eq("parentType",parentType))
                 .add(Restrictions.eq("name",name));
 

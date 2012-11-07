@@ -106,7 +106,8 @@ public class OrganizationAttributeDAOImpl implements OrganizationAttributeDAO {
 	public List<OrganizationAttributeEntity> findAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(OrganizationAttributeEntity.class)
-                .add(Restrictions.eq("organization.orgId",parentId))
+                .createAlias("organization","o")
+                .add(Restrictions.eq("o.orgId",parentId))
                 .addOrder(Order.asc("name"));
 		List<OrganizationAttributeEntity> results = (List<OrganizationAttributeEntity>)criteria.list();
 		return results;

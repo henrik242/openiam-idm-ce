@@ -17,6 +17,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.idm.srvc.org.dto.OrgClassificationEnum;
 import org.openiam.idm.srvc.org.dto.Organization;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.GenericGenerator;
+import org.openiam.idm.srvc.org.dto.OrgClassificationEnum;
+import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.org.dto.OrganizationAttribute;
 
 @Entity
 @Table(name = "COMPANY")
@@ -84,7 +89,26 @@ public class OrganizationEntity {
     }
 
     public OrganizationEntity(Organization organization) {
-
+        this.orgId = organization.getOrgId();
+        this.alias = organization.getAlias();
+        for(Map.Entry<String, OrganizationAttribute> attributeEntityEntry : organization.getAttributes().entrySet()) {
+            this.attributes.put(attributeEntityEntry.getKey(), new OrganizationAttributeEntity(attributeEntityEntry.getValue(),this));
+        }
+        this.createDate = organization.getCreateDate();
+        this.createdBy = organization.getCreatedBy();
+        this.description = organization.getDescription();
+        this.domainName = organization.getDomainName();
+        this.ldapStr = organization.getLdapStr();
+        this.lstUpdate = organization.getLstUpdate();
+        this.lstUpdatedBy = organization.getLstUpdatedBy();
+        this.metadataTypeId = organization.getMetadataTypeId();
+        this.organizationName = organization.getOrganizationName();
+        this.internalOrgId = organization.getInternalOrgId();
+        this.parentId = organization.getParentId();
+        this.status = organization.getStatus();
+        this.classification = organization.getClassification();
+        this.abbreviation = organization.getAbbreviation();
+        this.symbol = organization.getSymbol();
     }
 
     public String getOrgId() {

@@ -21,8 +21,8 @@
  */
 package org.openiam.idm.srvc.org.service;
 
-import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.org.dto.UserAffiliation;
+import org.openiam.idm.srvc.org.domain.OrganizationEntity;
+import org.openiam.idm.srvc.org.domain.UserAffiliationEntity;
 
 import java.util.List;
 
@@ -33,13 +33,13 @@ import java.util.List;
  */
 public interface UserAffiliationDAO {
 
-    public abstract void add(UserAffiliation transientInstance);
+    public abstract void add(UserAffiliationEntity transientInstance);
 
-    public abstract void remove(UserAffiliation persistentInstance);
+    public abstract void remove(UserAffiliationEntity persistentInstance);
 
-    public abstract UserAffiliation update(UserAffiliation detachedInstance);
+    public abstract UserAffiliationEntity update(UserAffiliationEntity detachedInstance);
 
-    public abstract UserAffiliation findById(String id);
+    public abstract UserAffiliationEntity findById(String id);
 
     public void removeUserFromOrg(String orgId, String userId);
 
@@ -51,7 +51,7 @@ public interface UserAffiliationDAO {
      * @param userId
      * @return
      */
-    public List<UserAffiliation> findUserOrgByUser(String userId);
+    public List<UserAffiliationEntity> findUserOrgByUser(String userId);
 
     /**
      * Returns a list of users in a role.
@@ -59,6 +59,6 @@ public interface UserAffiliationDAO {
      * @param userId
      * @return
      */
-    List<Organization> findOrgAffiliationsByUser(String userId);
+    List<OrganizationEntity> findOrgAffiliationsByUser(String userId);
 
 }
