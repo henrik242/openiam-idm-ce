@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.res.service;
 
-import org.openiam.idm.srvc.res.dto.ResourcePrivilege;
+import org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity;
 
 import java.util.List;
 
@@ -13,19 +13,19 @@ import java.util.List;
  */
 public interface ResourcePrivilegeDAO {
 
-    ResourcePrivilege findById(String id);
+    ResourcePrivilegeEntity findById(String id);
 
 
-    ResourcePrivilege add(ResourcePrivilege instance);
+    ResourcePrivilegeEntity add(ResourcePrivilegeEntity instance);
 
-    void remove(ResourcePrivilege instance);
+    void remove(ResourcePrivilegeEntity instance);
 
-    ResourcePrivilege update(ResourcePrivilege instance);
+    ResourcePrivilegeEntity update(ResourcePrivilegeEntity instance);
 
 
-    List<ResourcePrivilege> findPrivilegesByResourceId(String resourceId);
+    List<ResourcePrivilegeEntity> findPrivilegesByResourceId(String resourceId);
 
-    List<ResourcePrivilege> findPrivilegesByEntitlementType(String resourceId, String type);
+    List<ResourcePrivilegeEntity> findPrivilegesByEntitlementType(String resourceId, String type);
 
 
 

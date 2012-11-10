@@ -39,8 +39,7 @@ public class PolicyDefParam implements java.io.Serializable {
     private String handlerLanguage;
     private String paramGroup;
 
-    private Set<PolicyAttribute> policyAttributes = new HashSet<PolicyAttribute>(
-            0);
+    private Set<PolicyAttribute> policyAttributes = new HashSet<PolicyAttribute>(0);
 
     public PolicyDefParam() {
     }

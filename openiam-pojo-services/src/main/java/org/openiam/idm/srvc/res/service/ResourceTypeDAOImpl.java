@@ -6,17 +6,22 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
+
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.res.domain.ResourceTypeEntity;
 import org.openiam.idm.srvc.res.dto.*;
 
 /**
  * DAO Implementation for ResourceType
  */
-public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
+public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 
 	private static final Log log = LogFactory.getLog(ResourceTypeDAOImpl.class);
 
@@ -38,7 +43,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 
 
 
-	public void persist(ResourceType transientInstance) {
+	public void persist(ResourceTypeEntity transientInstance) {
 		log.debug("persisting ResourceType instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -49,7 +54,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 		}
 	}
 
-	public void remove(ResourceType persistentInstance) {
+	public void remove(ResourceTypeEntity persistentInstance) {
 		log.debug("deleting ResourceType instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -60,10 +65,10 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 		}
 	}
 
-	public ResourceType update(ResourceType detachedInstance) {
+	public ResourceTypeEntity update(ResourceTypeEntity detachedInstance) {
 		log.debug("merging ResourceType instance");
 		try {
-			ResourceType result = (ResourceType) sessionFactory
+			ResourceTypeEntity result = (ResourceTypeEntity) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -73,12 +78,12 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 		}
 	}
 
-	public ResourceType findById(java.lang.String id) {
+	public ResourceTypeEntity findById(java.lang.String id) {
 		log.debug("getting ResourceType instance with id: " + id);
 		try {
-			ResourceType instance = (ResourceType) sessionFactory
+			ResourceTypeEntity instance = (ResourceTypeEntity) sessionFactory
 					.getCurrentSession().get(
-							"org.openiam.idm.srvc.res.dto.ResourceType",
+							ResourceTypeEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -92,12 +97,11 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 		}
 	}
 
-	public List<ResourceType> findByExample(ResourceType instance) {
+	public List<ResourceTypeEntity> findByExample(ResourceTypeEntity instance) {
 		log.debug("finding ResourceType instance by example");
 		try {
-			List<ResourceType> results = (List<ResourceType>) sessionFactory
-					.getCurrentSession().createCriteria(
-							"org.openiam.idm.srvc.res.dto.ResourceType")
+			List<ResourceTypeEntity> results = (List<ResourceTypeEntity>) sessionFactory
+					.getCurrentSession().createCriteria(ResourceTypeEntity.class)
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -108,7 +112,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 		}
 	}
 	
-	public ResourceType add(ResourceType instance) {
+	public ResourceTypeEntity add(ResourceTypeEntity instance) {
 		log.debug("persisting ResourceType instance");		
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -120,18 +124,19 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO  {
 		}
 	}
 
-	public List<ResourceType> findAllResourceTypes() {
+	public List<ResourceTypeEntity> findAllResourceTypes() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.res.dto.ResourceType a " +
-				" order by a.resourceTypeId asc");
-		List<ResourceType> result = (List<ResourceType>)qry.list();
+        Criteria criteria = session.createCriteria(ResourceTypeEntity.class)
+                .addOrder(Order.asc("resourceTypeId"));
+
+		List<ResourceTypeEntity> result = (List<ResourceTypeEntity>)criteria.list();
 		
 		return result;
 	}
 	
 	public int removeAllResourceTypes() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete from org.openiam.idm.srvc.res.dto.ResourceType");
+		Query qry = session.createQuery("delete from org.openiam.idm.srvc.res.domain.ResourceTypeEntity");
 		return qry.executeUpdate();
 	}
 	

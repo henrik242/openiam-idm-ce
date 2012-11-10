@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.openiam.idm.srvc.res.domain.ResourcePropEntity;
+
 // Generated Mar 8, 2009 12:54:32 PM by Hibernate Tools 3.2.2.GA
 
 /**
@@ -17,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
         "propValue",
         "name"
 })
+
 public class ResourceProp implements java.io.Serializable, Comparable<ResourceProp> {
 
     private String resourcePropId;
@@ -28,6 +31,13 @@ public class ResourceProp implements java.io.Serializable, Comparable<ResourcePr
     public ResourceProp() {
     }
 
+    public ResourceProp(ResourcePropEntity propEntity) {
+        this.resourcePropId = propEntity.getResourcePropId();
+        this.resourceId = propEntity.getResourceId();
+        this.metadataId = propEntity.getMetadataId();
+        this.propValue = propEntity.getPropValue();
+        this.name = propEntity.getName();
+    }
 
     public ResourceProp(String metadataId, String resourceId,
                         String resourcePropId, String propValue) {
@@ -42,7 +52,6 @@ public class ResourceProp implements java.io.Serializable, Comparable<ResourcePr
     public ResourceProp(String resourcePropId) {
         this.resourcePropId = resourcePropId;
     }
-
 
     public String getResourcePropId() {
         return this.resourcePropId;
@@ -59,7 +68,6 @@ public class ResourceProp implements java.io.Serializable, Comparable<ResourcePr
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
-
 
     public String getMetadataId() {
         return this.metadataId;

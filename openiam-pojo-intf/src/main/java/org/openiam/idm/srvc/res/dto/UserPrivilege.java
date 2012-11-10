@@ -4,6 +4,7 @@ import org.openiam.base.BaseObject;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 import java.sql.Timestamp;
+import org.openiam.idm.srvc.res.domain.UserPrivilegeEntity;
 
 //import org.openiam.idm.srvc.user.dto.User;
 
@@ -24,6 +25,18 @@ public class UserPrivilege extends BaseObject {
     private Timestamp startDate;
     @XmlSchemaType(name = "dateTime")
     private Timestamp endDate;
+
+    public UserPrivilege() {
+    }
+
+    public UserPrivilege(UserPrivilegeEntity privilegeEntity) {
+        this.userPrivilegeId = privilegeEntity.getUserPrivilegeId();
+        this.userId = privilegeEntity.getUserId();
+        this.resourceId = privilegeEntity.getResourceId();
+        this.permit = privilegeEntity.isPermit();
+        this.startDate = new Timestamp(privilegeEntity.getStartDate().getTime());
+        this.endDate = new Timestamp(privilegeEntity.getEndDate().getTime());
+    }
 
     public String getUserPrivilegeId() {
         return userPrivilegeId;

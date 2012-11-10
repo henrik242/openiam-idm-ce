@@ -21,15 +21,7 @@
  */
 package org.openiam.provision.service;
 
-import org.openiam.base.ws.Response;
-import org.openiam.idm.srvc.user.dto.UserStatusEnum;
-import org.openiam.provision.dto.AccountLockEnum;
-import org.openiam.provision.dto.PasswordSync;
-import org.openiam.provision.dto.ProvisionGroup;
 import org.openiam.provision.dto.ProvisionUser;
-import org.openiam.provision.resp.LookupUserResponse;
-import org.openiam.provision.resp.PasswordResponse;
-import org.openiam.provision.resp.ProvisionUserResponse;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

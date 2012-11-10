@@ -1,7 +1,7 @@
 package org.openiam.idm.srvc.res.service;
 
-import org.openiam.idm.srvc.res.dto.ResourceRole;
-import org.openiam.idm.srvc.res.dto.ResourceRoleId;
+import org.openiam.idm.srvc.res.domain.ResourceRoleEmbeddableId;
+import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
 import org.openiam.idm.srvc.role.dto.Role;
 
 import java.util.List;
@@ -11,31 +11,31 @@ public interface ResourceRoleDAO {
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceRoleDAO#remove(org.openiam.idm.srvc.res.dto.ResourceRole)
       */
-    void remove(ResourceRole persistentInstance);
+    void remove(ResourceRoleEntity persistentInstance);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceRoleDAO#update(org.openiam.idm.srvc.res.dto.ResourceRole)
       */
-    ResourceRole update(ResourceRole detachedInstance);
+    ResourceRoleEntity update(ResourceRoleEntity detachedInstance);
 
-    ResourceRole findById(ResourceRoleId id);
+    ResourceRoleEntity findById(ResourceRoleEmbeddableId id);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceRoleDAO#findByExample(org.openiam.idm.srvc.res.dto.ResourceRole)
       */
-    List<ResourceRole> findByExample(ResourceRole instance);
+    List<ResourceRoleEntity> findByExample(ResourceRoleEntity instance);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceRoleDAO#add(org.openiam.idm.srvc.res.dto.ResourceRole)
       */
-    ResourceRole add(ResourceRole instance);
+    ResourceRoleEntity add(ResourceRoleEntity instance);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceRoleDAO#findAllResourceRoles()
       */
-    List<ResourceRole> findAllResourceRoles();
+    List<ResourceRoleEntity> findAllResourceRoles();
 
-    List<ResourceRole> findResourcesForRole(String domainId, String roleId);
+    List<ResourceRoleEntity> findResourcesForRole(String domainId, String roleId);
 
     void removeResourceRole(String domainId, String roleId);
 

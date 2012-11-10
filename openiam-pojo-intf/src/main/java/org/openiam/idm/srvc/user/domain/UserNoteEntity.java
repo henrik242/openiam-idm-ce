@@ -21,7 +21,6 @@ public class UserNoteEntity {
     @Column(name = "USER_NOTE_ID", length = 32, nullable = false)
     private String userNoteId;
 
-    @XmlSchemaType(name = "dateTime")
     @Column(name="CREATE_DATE", length=19)
     private Date createDate;
 

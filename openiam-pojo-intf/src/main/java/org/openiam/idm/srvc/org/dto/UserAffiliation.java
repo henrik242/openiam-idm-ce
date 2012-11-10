@@ -22,19 +22,28 @@ import org.openiam.idm.srvc.org.domain.UserAffiliationEntity;
         "status",
         "createdBy"
 })
+
 public class UserAffiliation implements java.io.Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = -3785768336629177182L;
+
     private String userAffiliationId;
+
     private String userId;
+
     private String organizationId;
+
     private String status;
+
     private Date createDate;
+
     private Date startDate;
+
     private Date endDate;
+
     private String createdBy;
 
     public UserAffiliation() {
@@ -48,6 +57,7 @@ public class UserAffiliation implements java.io.Serializable {
         createDate = new Date(curTime);
         startDate = new Date(curTime);
     }
+
 
     public UserAffiliation(UserAffiliationEntity affiliationEntity) {
         this.userId = affiliationEntity.getUser() != null ? affiliationEntity.getUser().getUserId() : "";

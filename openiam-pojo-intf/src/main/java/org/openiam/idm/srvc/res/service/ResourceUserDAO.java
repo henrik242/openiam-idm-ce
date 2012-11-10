@@ -1,6 +1,7 @@
 package org.openiam.idm.srvc.res.service;
 
-import org.openiam.idm.srvc.res.dto.ResourceUser;
+import org.openiam.idm.srvc.res.domain.ResourceUserEmbeddableId;
+import org.openiam.idm.srvc.res.domain.ResourceUserEntity;
 import org.openiam.idm.srvc.res.dto.ResourceUserId;
 
 import java.util.List;
@@ -10,31 +11,31 @@ public interface ResourceUserDAO {
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#remove(org.openiam.idm.srvc.res.dto.ResourceUser)
       */
-    void remove(ResourceUser persistentInstance);
+    void remove(ResourceUserEntity persistentInstance);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#update(org.openiam.idm.srvc.res.dto.ResourceUser)
       */
-    ResourceUser update(ResourceUser detachedInstance);
+    ResourceUserEntity update(ResourceUserEntity detachedInstance);
 
-    ResourceUser findById(ResourceUserId id);
+    ResourceUserEntity findById(ResourceUserEmbeddableId id);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#findByExample(org.openiam.idm.srvc.res.dto.ResourceUser)
       */
-    List<ResourceUser> findByExample(ResourceUser instance);
+    List<ResourceUserEntity> findByExample(ResourceUserEntity instance);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#add(org.openiam.idm.srvc.res.dto.ResourceUser)
       */
-    ResourceUser add(ResourceUser instance);
+    ResourceUserEntity add(ResourceUserEntity instance);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#findAllResourceUsers()
       */
-    List<ResourceUser> findAllResourceUsers();
+    List<ResourceUserEntity> findAllResourceUsers();
 
-    List<ResourceUser> findAllResourceForUsers(String userId);
+    List<ResourceUserEntity> findAllResourceForUsers(String userId);
 
     /* (non-Javadoc)
       * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#removeAllResourceUsers()

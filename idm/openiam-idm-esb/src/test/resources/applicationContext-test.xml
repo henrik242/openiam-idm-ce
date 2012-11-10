@@ -67,7 +67,8 @@
 											   org.openiam.idm.srvc.org.dto*,
 											   org.openiam.idm.srvc.org.domain*,
 											   org.openiam.idm.srvc.user.domain*,
-											   org.openiam.idm.srvc.continfo.domain*"/>
+											   org.openiam.idm.srvc.continfo.domain*,
+											   org.openiam.idm.srvc.res.domain*"/>
     </bean>
 
     <!--tx begin-->
@@ -125,4 +126,35 @@
     <bean id="userAffiliationDAO" class="org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+
+    <bean id="resourceDAO" class="org.openiam.idm.srvc.res.service.ResourceDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+        <property name="resourceTypeDao" ref="resourceTypeDAO" />
+		<property name="resourcePropDao" ref="resourcePropDAO" />
+		<property name="resourceRoleDao" ref="resourceRoleDAO" />
+	</bean>
+
+    <bean id="resourcePrivilegeDAO" class="org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="resourcePropDAO" class="org.openiam.idm.srvc.res.service.ResourcePropDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="resourceRoleDAO" class="org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="resourceTypeDAO" class="org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="resourceUserDAO" class="org.openiam.idm.srvc.res.service.ResourceUserDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="userPrivilegeDAO" class="org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

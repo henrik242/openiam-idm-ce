@@ -1,10 +1,11 @@
 package org.openiam.idm.srvc.res.service;
 
 import org.hibernate.SessionFactory;
-import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.domain.ResourceEntity;
+import org.openiam.idm.srvc.res.domain.ResourcePropEntity;
+import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
+import org.openiam.idm.srvc.res.domain.ResourceTypeEntity;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
-import org.openiam.idm.srvc.res.dto.ResourceRole;
-import org.openiam.idm.srvc.res.dto.ResourceType;
 
 import java.util.List;
 
@@ -64,14 +65,14 @@ public interface ResourceDAO {
      *
      * @param transientInstance the transient instance
      */
-    void persist(Resource transientInstance);
+    void persist(ResourceEntity transientInstance);
 
     /**
      * Removes the.
      *
      * @param persistentInstance the persistent instance
      */
-    void remove(Resource persistentInstance);
+    void remove(ResourceEntity persistentInstance);
 
     /**
      * Update.
@@ -79,7 +80,7 @@ public interface ResourceDAO {
      * @param detachedInstance the detached instance
      * @return the resource
      */
-    Resource update(Resource detachedInstance);
+    ResourceEntity update(ResourceEntity detachedInstance);
 
     /**
      * Find by id.
@@ -87,7 +88,7 @@ public interface ResourceDAO {
      * @param id the id
      * @return the resource
      */
-    Resource findById(java.lang.String id);
+    ResourceEntity findById(java.lang.String id);
 
     /**
      * Find by example.
@@ -95,7 +96,7 @@ public interface ResourceDAO {
      * @param instance the instance
      * @return the list
      */
-    List<Resource> findByExample(Resource instance);
+    List<ResourceEntity> findByExample(ResourceEntity instance);
 
     /**
      * Adds the.
@@ -103,21 +104,21 @@ public interface ResourceDAO {
      * @param instance the instance
      * @return the resource
      */
-    Resource add(Resource instance);
+    ResourceEntity add(ResourceEntity instance);
 
     /**
      * Find all resources.
      *
      * @return the list
      */
-    List<Resource> findAllResources();
+    List<ResourceEntity> findAllResources();
 
     /**
      * Find resources by Name.
      *
      * @return the list
      */
-    List<Resource> findResourcesByName(String resourceName);
+    List<ResourceEntity> findResourcesByName(String resourceName);
 
     /**
      * Find resources by name and then pick the first one
@@ -125,7 +126,7 @@ public interface ResourceDAO {
      * @param resourceName
      * @return
      */
-    Resource findResourceByName(String resourceName);
+    ResourceEntity findResourceByName(String resourceName);
 
     /**
      * Removes the all resources.
@@ -140,7 +141,7 @@ public interface ResourceDAO {
      * @param resourceId the resource id
      * @return the resource type
      */
-    ResourceType findTypeOfResource(String resourceId);
+    ResourceTypeEntity findTypeOfResource(String resourceId);
 
     /**
      * Removes the properties by resource.
@@ -156,7 +157,7 @@ public interface ResourceDAO {
      * @param resourceId the resource id
      * @return the list
      */
-    List<ResourceProp> findResourceProperties(String resourceId);
+    List<ResourcePropEntity> findResourceProperties(String resourceId);
 
     /**
      * Find resources which have a specified attribute
@@ -165,7 +166,7 @@ public interface ResourceDAO {
      * @param propValue
      * @return list of resources
      */
-    List<Resource> findResourcesByProperty(String propName, String propValue);
+    List<ResourceEntity> findResourcesByProperty(String propName, String propValue);
 
 
     /**
@@ -174,7 +175,7 @@ public interface ResourceDAO {
      * @param propList
      * @return resource
      */
-    Resource findResourceByProperties(List<ResourceProp> propList);
+    ResourceEntity findResourceByProperties(List<ResourceProp> propList);
 
 
     /**
@@ -183,7 +184,7 @@ public interface ResourceDAO {
      * @param resourceTypeId the resource type id
      * @return the resources by type
      */
-    List<Resource> getResourcesByType(String resourceTypeId);
+    List<ResourceEntity> getResourcesByType(String resourceTypeId);
 
 
     /**
@@ -192,7 +193,7 @@ public interface ResourceDAO {
      * @param categoryId the category id
      * @return the resources by category
      */
-    List<Resource> getResourcesByCategory(String categoryId);
+    List<ResourceEntity> getResourcesByCategory(String categoryId);
 
     /**
      * Gets the resources by branch.
@@ -200,7 +201,7 @@ public interface ResourceDAO {
      * @param branchId the branch id
      * @return the resources by branch
      */
-    List<Resource> getResourcesByBranch(String branchId);
+    List<ResourceEntity> getResourcesByBranch(String branchId);
 
     /**
      * Gets the child resources.
@@ -208,14 +209,14 @@ public interface ResourceDAO {
      * @param resourceId the resource id
      * @return the child resources
      */
-    List<Resource> getChildResources(String resourceId);
+    List<ResourceEntity> getChildResources(String resourceId);
 
     /**
      * Gets the root resources.
      *
      * @return the root resources
      */
-    List<Resource> getRootResources();
+    List<ResourceEntity> getRootResources();
 
     /**
      * Removes the resources by type.
@@ -247,7 +248,7 @@ public interface ResourceDAO {
      * @param resourceId the resource id
      * @return the list
      */
-    List<ResourceRole> findResourceRolesByResource(String resourceId);
+    List<ResourceRoleEntity> findResourceRolesByResource(String resourceId);
 
     /**
      * Find resources for role.
@@ -256,7 +257,7 @@ public interface ResourceDAO {
      * @param roleId   the role id
      * @return the list
      */
-    List<Resource> findResourcesForRole(String domainId, String roleId);
+    List<ResourceEntity> findResourcesForRole(String domainId, String roleId);
 
     /**
      * Find resources for roles.
@@ -265,7 +266,7 @@ public interface ResourceDAO {
      * @param roleIdList the role id list
      * @return the list
      */
-    List<Resource> findResourcesForRoles(String domainId,
+    List<ResourceEntity> findResourcesForRoles(String domainId,
                                          List<String> roleIdList);
 
     /**
@@ -296,9 +297,9 @@ public interface ResourceDAO {
      */
     int removeResourceRolePrivileges(String resourceId);
 
-    List<Resource> findResourcesForUserRole(String userId);
+    List<ResourceEntity> findResourcesForUserRole(String userId);
 
-    List<Resource> getUserResourcesByType(String userId, String resourceTypeId);
+    List<ResourceEntity> getUserResourcesByType(String userId, String resourceTypeId);
 
 
 
