@@ -15,13 +15,15 @@ System.out.println("unlockuser.jsp");
 							<label for="t-1">Enter Login ID: <span>*</span></label>
 							<form:input path="principal" size="40" maxlength="40" />
 								<p><form:errors path="principal"/></p>
-     	
+
+                            <div class="button">
+                                <input type="submit" name="_target1" value="Next"/>
+                            </div>
+
 							<div class="button">
-								<input type="submit" value="Cancel" />
-							</div>
-							<div class="button">
-								<input type="submit" name="_target1" value="Next"/> 
-							</div>
+                                <input type="submit" name="_cancel" value="Cancel" />
+                            </div>
+
 						</fieldset>
 					</form:form>
 				</div>

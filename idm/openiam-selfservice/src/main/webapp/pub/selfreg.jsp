@@ -169,12 +169,14 @@
 							</div>
 						</div>
 					</div>
+                    <div class="button">
+                        <input type="submit" value="Submit" />
+                    </div>
+
 					<div class="button alt">
                         <input type="submit" name="_cancel" value="Cancel" />
 					</div>
-					<div class="button">
-						<input type="submit" value="Submit" />
-					</div>
+
 				</fieldset>
 			</form:form>
 

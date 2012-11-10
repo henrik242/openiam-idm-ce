@@ -634,6 +634,38 @@
         <property name="groupManager" ref="groupServiceClient" />
         <property name="orgManager" ref="orgServiceClient" />
     </bean>
+
+    <bean id="myIdentityList" class="org.openiam.selfsrvc.myidentity.MyIdentityListController">
+        <property name="successView" value="/priv/myid/idlist" />
+        <property name="commandName" value="idListCmd" />
+        <property name="commandClass" value="org.openiam.selfsrvc.myidentity.MyIdentityListCommand" />
+        <property name="formView" value="/priv/myid/idlist" />
+
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="userMgr" ref="userServiceClient" />
+        <property name="provRequestService" ref="provisionServiceClient" />
+        <property name="navigationDataService" ref="navServiceClient" />
+        <property name="managedSysService" ref="managedSysServiceClient" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+
+    </bean>
+
+    <bean id="myIdentityDetailView" class="org.openiam.selfsrvc.myidentity.ManageMyIdentityController">
+        <property name="successView" value="/priv/myid/idlist" />
+        <property name="commandName" value="idListDetailCmd" />
+        <property name="commandClass" value="org.openiam.selfsrvc.myidentity.ManageMyIdentityCommand" />
+        <property name="formView" value="/priv/myid/iddetail" />
+        <property name="validator" ref="myIdentityDetailValidator" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="userMgr" ref="userServiceClient" />
+        <property name="provRequestService" ref="provisionServiceClient" />
+        <property name="managedSysService" ref="managedSysServiceClient" />
+
+    </bean>
+    <bean id="myIdentityDetailValidator" class="org.openiam.selfsrvc.myidentity.ManageMyIdentityValidator">
+    </bean>
       
        
  <!--     <bean id="createRequest" class="org.openiam.selfsrvc.prov.NewRequestController">
@@ -676,7 +708,6 @@
                 <prop key="pub/secureUnlockUser.selfserve">secureUnlockUser</prop>
                 <prop key="pub/secureIdentityVerification.selfserve">secureIdVerificationWizard</prop>
 
-
                 <prop key="/welcomePage.selfserve">welcomePage</prop>
                 <prop key="/selectUser.selfserve">selectUser</prop>
                 <prop key="pub/forgotLogin.selfserve">forgotLogin</prop>
@@ -692,6 +723,9 @@
                 <prop key="/userAttr.selfserve">userAttr</prop>
                 <prop key="/selectSupervisor.selfserve">selectSupervisor</prop>
                 <prop key="/resetPassword.selfserve">resetPassword</prop>
+
+                <prop key="/myIdentityDetail.selfserve">myIdentityDetailView</prop>
+                <prop key="/myIdentityList.selfserve">myIdentityList</prop>
   
                 
             </props>
@@ -699,8 +733,6 @@
     </bean>  
     
 </beans>
-
-
 
 
 

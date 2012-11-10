@@ -31,9 +31,12 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.module.client.MuleClient;
 import org.openiam.base.AttributeOperationEnum;
+import org.openiam.base.SysConfiguration;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.auth.dto.Login;
+import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
@@ -43,6 +46,7 @@ import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.provision.dto.PasswordSync;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.provision.service.ProvisionService;
@@ -58,6 +62,8 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
     private MuleContext muleContext;
     private UserDataService userMgr;
     private ProvisionService provisionService;
+    protected LoginDataService loginManager;
+    protected SysConfiguration sysConfiguration;
 
     static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
 
@@ -231,8 +237,12 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         }
     }
 
-
-    public Response bulkUserMigration(BulkMigrationConfig config) {
+    /**
+     * Tests the search criteria to determine how many users will be impacted by the change
+     * @param config
+     * @return
+     */
+    public Response testBulkMigrationImpact(BulkMigrationConfig config) {
 
         Response resp = new Response(ResponseStatus.SUCCESS);
 
@@ -244,6 +254,40 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         }
 
         List<User> searchResult =  userMgr.search(search);
+
+        if (searchResult == null) {
+            resp.setResponseValue(new Integer(0));
+        }else {
+            resp.setResponseValue( new Integer( searchResult.size()));
+        }
+        return resp;
+
+
+    }
+
+
+    public Response bulkUserMigration(BulkMigrationConfig config) {
+
+        // fix the error handling so that errors are reported in the response object.
+
+        Response resp = new Response(ResponseStatus.SUCCESS);
+
+        // select the user that we need to move
+        UserSearch search = buildSearch(config);
+        if (search.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
+
+        List<User> searchResult =  userMgr.search(search);
+
+        if (BulkMigrationConfig.ACTION_RESET_PASSWORD.equalsIgnoreCase( config.getActionType()) ) {
+
+            bulkResetPassword(searchResult, config);
+
+            return resp;
+
+        }
 
         // all the provisioning service
         for ( User user :  searchResult) {
@@ -354,6 +398,19 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
             search.setStatus(config.getUserStatus().toString());
         }
 
+        // allow selection by a role
+        if (config.getRole() != null && !config.getRole().isEmpty())     {
+            String r = config.getRole();
+            int indx = r.indexOf("*");
+            String roleId = r.substring(indx+1, r.length()) ;
+            String domainId = r.substring(0, indx);
+
+            List<String> roleList = new ArrayList<String>();
+            roleList.add(roleId );
+            search.setRoleIdList(roleList);
+            search.setDomainId(domainId);
+        }
+
         return search;
 
     }
@@ -387,6 +444,47 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         r.setId(id);
 
         return r;
+    }
+
+    private void bulkResetPassword(List<User> searchResult, BulkMigrationConfig config) {
+
+        String managedSysId = sysConfiguration.getDefaultManagedSysId();
+        String password = config.getNewPassword();
+
+        for ( User user :  searchResult) {
+
+            List<Login> principalList = loginManager.getLoginByUser(user.getUserId());
+            Map<String,String> domainMap = new HashMap<String,String>();
+            String primaryPrincipal = null;
+
+            for ( Login l : principalList) {
+                domainMap.put( l.getId().getDomainId(), null );
+
+                if (managedSysId.equalsIgnoreCase(l.getId().getManagedSysId())) {
+                    primaryPrincipal = l.getId().getLogin();
+                }
+
+            }
+
+            Set<String> domainKeys = domainMap.keySet();
+            for ( String domain  : domainKeys) {
+
+                PasswordSync pswdSync = new PasswordSync();
+                pswdSync.setAction("BULK RESET PASSWORD");
+                pswdSync.setManagedSystemId(managedSysId);
+                pswdSync.setPassword(password);
+                pswdSync.setPrincipal(primaryPrincipal);
+                pswdSync.setSecurityDomain(domain);
+
+
+                pswdSync.setRequestorLogin(config.getRequestorLogin());
+                pswdSync.setRequestorDomain(domain);
+
+                provisionService.resetPassword(pswdSync);
+            }
+
+        }
+
     }
 
 
@@ -491,5 +589,21 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 
     public void setProvisionService(ProvisionService provisionService) {
         this.provisionService = provisionService;
+    }
+
+    public LoginDataService getLoginManager() {
+        return loginManager;
+    }
+
+    public void setLoginManager(LoginDataService loginManager) {
+        this.loginManager = loginManager;
+    }
+
+    public SysConfiguration getSysConfiguration() {
+        return sysConfiguration;
+    }
+
+    public void setSysConfiguration(SysConfiguration sysConfiguration) {
+        this.sysConfiguration = sysConfiguration;
     }
 }

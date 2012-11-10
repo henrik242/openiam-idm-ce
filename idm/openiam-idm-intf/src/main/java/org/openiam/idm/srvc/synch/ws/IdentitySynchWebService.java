@@ -49,6 +49,14 @@ public interface IdentitySynchWebService {
             @WebParam(name = "config", targetNamespace = "")
             BulkMigrationConfig config);
 
+
+    /**
+     * Tests the search criteria to determine how many users will be impacted by the change
+     * @param config
+     * @return
+     */
+    Response testBulkMigrationImpact(BulkMigrationConfig config) ;
+
     /**
      * When resources associated with a role have been modified, the role membership needs to be resynchronized
      * @param roleId

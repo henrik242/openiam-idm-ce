@@ -140,6 +140,12 @@
         <property name="pswdResetTokenExp" type="timestamp">
             <column name="PSWD_RESET_TOKEN_EXP"  />
         </property>
+
+        <property name="loginAttrInTargetSystem" type="string">
+            <column name="LOGIN_ATTR_IN_TARGET_SYS"  />
+        </property>
+
+
    <!--      
         <set name="loginAttributes" inverse="true" cascade="all-delete-orphan" lazy="false">
             <key>

@@ -11,6 +11,9 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
  */
 public class BulkMigrationConfig {
 
+    public static final String ACTION_RESET_PASSWORD = "RESET_PASSWORD";
+    public static final String ACTION_MODIFY_ACCESS = "MODIFY_ACCESS";
+
     String lastName;
     String organizationId;
     String deptId;
@@ -22,6 +25,17 @@ public class BulkMigrationConfig {
     String operation;
     String targetRole;
     String targetResource;
+
+    /* role is used to select the users for this operation */
+    private String role;
+
+    /* ACTION TYPE - change access or bulk password reset*/
+    private String actionType;
+
+    /* New password */
+    private String newPassword;
+
+    private String requestorLogin;
 
     public BulkMigrationConfig() {
 
@@ -122,5 +136,37 @@ public class BulkMigrationConfig {
 
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getRequestorLogin() {
+        return requestorLogin;
+    }
+
+    public void setRequestorLogin(String requestorLogin) {
+        this.requestorLogin = requestorLogin;
     }
 }

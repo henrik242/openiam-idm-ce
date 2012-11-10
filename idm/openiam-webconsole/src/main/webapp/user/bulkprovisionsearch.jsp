@@ -73,6 +73,21 @@
                                 </tr>
 
                                 <tr>
+                                    <td><label for="username" class="attribute">Role</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue">
+                                        <form:select path="role" multiple="false">
+                                            <form:option value="" label="-Please Select-"/>
+                                            <c:forEach items="${roleList}" var="role">
+                                                <form:option value="${role.id.serviceId}*${role.id.roleId}" label="${role.id.serviceId}-${role.roleName}" />
+                                            </c:forEach>
+                                        </form:select>
+                                    </td>
+
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
                                     <td><label for="username" class="attribute">User Status</label></td>
                                     <td class="userformInput" for="username" class="labelValue" colspan="3">
                                         <form:select path="userStatus" multiple="false">

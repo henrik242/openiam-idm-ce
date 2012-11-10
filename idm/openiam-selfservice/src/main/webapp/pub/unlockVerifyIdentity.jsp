@@ -20,15 +20,17 @@
 								<form:input path="answerList[${answer.index}].questionAnswer" size="60"/>
 							</c:forEach>   
 							
-							<div class="button">
-								<input type="submit" name="_cancel" value="Cancel" /> 
-							</div>
+
 							<div class="button">
 								<input type="submit" name="_target2" value="Next"/>   
 							</div>
 							<div class="button">
 								<input type="submit" name="_target0" value="Previous"/>   
 							</div>
+                            <div class="button">
+                                <input type="submit" name="_cancel" value="Cancel" />
+                            </div>
+
 						</fieldset>
 					</form:form>
 				</div>

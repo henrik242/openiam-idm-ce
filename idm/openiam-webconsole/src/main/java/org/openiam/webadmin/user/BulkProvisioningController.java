@@ -72,7 +72,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
     @Override
     protected void validatePage(Object command, Errors errors, int page) {
-        log.debug("Validate page:" + page);
+
         BulkProvsioningValidator validator = (BulkProvsioningValidator) getValidator();
         switch (page) {
             case 0:
@@ -95,18 +95,37 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         BulkProvisioningCommand cmd = (BulkProvisioningCommand) command;
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
+        String login = (String) session.getAttribute("login");
+
+
 
         // populate the config object
+        BulkMigrationConfig config = cmd.getConfig();
+        config.setRequestorLogin(login);
 
-        BulkMigrationConfig config = new BulkMigrationConfig(cmd.getLastName(), cmd.getCompanyId(), cmd.getDeptId(),
+        // start the provisioning process.
+        syncClient.bulkUserMigration(config);
+
+        /*BulkMigrationConfig config = new BulkMigrationConfig(cmd.getLastName(), cmd.getCompanyId(), cmd.getDeptId(),
                 cmd.getDivision(), cmd.getAttributeName(), cmd.getAttributeValue(),
                 null, cmd.getOperation(), cmd.getTargetRole(), cmd.getTargetResource());
 
         if (cmd.getUserStatus() != null) {
             config.setUserStatus(cmd.getUserStatus().toString());
         }
-        // start the provisioning process.
-        syncClient.bulkUserMigration(config);
+        if (cmd.getActionType() != null && !cmd.getActionType().isEmpty()) {
+            config.setActionType(cmd.getActionType());
+        }
+        if (cmd.getNewPassword() != null && !cmd.getNewPassword().isEmpty()) {
+            config.setNewPassword(cmd.getNewPassword());
+        }
+
+        if (cmd.getRole() != null && !cmd.getRole().isEmpty()) {
+            config.setRole(cmd.getRole());
+        }
+        */
+
+
 
 
         return new ModelAndView(new RedirectView(redirectView + "&mode=1", true));
@@ -155,6 +174,8 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         model.put("deptList", orgManager.allDepartments(null));
 
         model.put("elementList", getComleteMetadataElementList());
+
+        model.put("roleList", roleDataService.getAllRoles().getRoleList());
 
 
         return model;
