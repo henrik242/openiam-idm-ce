@@ -1,0 +1,2051 @@
+2012-11-10 12:56:29,484 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] persist successful
+2012-11-10 12:56:29,500 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] get successful, no instance found
+2012-11-10 12:56:29,531 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] delete successful
+2012-11-10 12:56:29,843 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] merging instance
+2012-11-10 12:56:29,843 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] merge successful
+2012-11-10 12:56:29,859 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] merge successful
+2012-11-10 12:56:29,859 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] persist successful
+2012-11-10 12:56:29,875 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] get successful, no instance found
+2012-11-10 12:56:29,906 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] delete successful
+2012-11-10 12:56:29,937 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 12:56:29,937 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 12:56:29,953 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] getting UserRole instance with id: 
+2012-11-10 12:56:29,953 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] get successful, no instance found
+2012-11-10 12:56:30,000 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 12:56:30,000 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 12:56:30,000 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] deleting UserRole instance
+2012-11-10 12:56:30,000 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] delete successful
+2012-11-10 12:56:30,015 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 12:56:30,015 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 12:56:30,015 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] merging UserRole instance
+2012-11-10 12:56:30,015 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] merge successful
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] getting CompanyAttribute instance with id: 
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] get successful, no instance found
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] deleting OrganizationAttribute instance
+2012-11-10 12:56:30,046 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] delete successful
+2012-11-10 12:56:30,062 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 12:56:30,062 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 12:56:30,062 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] merging Organization instance
+2012-11-10 12:56:30,062 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] merge successful
+2012-11-10 12:56:30,078 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 12:56:30,109 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 12:56:30,109 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instance with id: 
+2012-11-10 12:56:30,109 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] get successful, no instance found
+2012-11-10 12:56:30,109 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instances for childobjects of  
+2012-11-10 12:56:30,125 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization for a classification  
+2012-11-10 12:56:30,125 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization for a type  
+2012-11-10 12:56:30,125 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instance with id: 
+2012-11-10 12:56:30,125 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] get successful, no instance found
+2012-11-10 12:56:30,140 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instances at parent level  
+2012-11-10 12:56:30,140 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 12:56:30,140 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 12:56:30,140 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] deleting Address instance
+2012-11-10 12:56:30,140 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] delete successful
+2012-11-10 12:56:30,156 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 12:56:30,156 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 12:56:30,156 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] merging Organization instance
+2012-11-10 12:56:30,171 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persisting instance
+2012-11-10 12:56:30,171 ERROR [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceDAOImpl.add(ResourceDAOImpl.java:194)
+	at org.openiam.idm.srvc.res.service.ResourceDAOTouchTest.touchAdd(ResourceDAOTouchTest.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,203 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] finding Resource instance by example
+2012-11-10 12:56:30,203 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:30,203 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] getting Resource instance with id: 
+2012-11-10 12:56:30,203 ERROR [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.openiam.idm.srvc.res.service.ResourceDAOImpl.findById(ResourceDAOImpl.java:138)
+	at org.openiam.idm.srvc.res.service.ResourceDAOTouchTest.touchFindById(ResourceDAOTouchTest.java:39)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,234 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 12:56:30,265 ERROR [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.dto.Resource
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.loader.custom.sql.SQLQueryReturnProcessor.getSQLLoadable(SQLQueryReturnProcessor.java:335)
+	at org.hibernate.loader.custom.sql.SQLQueryReturnProcessor.processRootReturn(SQLQueryReturnProcessor.java:376)
+	at org.hibernate.loader.custom.sql.SQLQueryReturnProcessor.processReturn(SQLQueryReturnProcessor.java:355)
+	at org.hibernate.loader.custom.sql.SQLQueryReturnProcessor.process(SQLQueryReturnProcessor.java:171)
+	at org.hibernate.loader.custom.sql.SQLCustomQuery.<init>(SQLCustomQuery.java:87)
+	at org.hibernate.engine.query.NativeSQLQueryPlan.<init>(NativeSQLQueryPlan.java:67)
+	at org.hibernate.engine.query.QueryPlanCache.getNativeSQLQueryPlan(QueryPlanCache.java:166)
+	at org.hibernate.impl.AbstractSessionImpl.getNativeSQLQueryPlan(AbstractSessionImpl.java:160)
+	at org.hibernate.impl.AbstractSessionImpl.list(AbstractSessionImpl.java:165)
+	at org.hibernate.impl.SQLQueryImpl.list(SQLQueryImpl.java:157)
+	at org.openiam.idm.srvc.res.service.ResourceDAOImpl.findResourcesForUserRole(ResourceDAOImpl.java:625)
+	at org.openiam.idm.srvc.res.service.ResourceDAOTouchTest.touchFindResourcesForUserRole(ResourceDAOTouchTest.java:84)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,296 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 12:56:30,296 ERROR [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl.add(ResourcePrivilegeDAOImpl.java:52)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOTouchTest.touchAdd(ResourcePrivilegeDAOTouchTest.java:19)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,312 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] getting ResourceProp instance with id: 
+2012-11-10 12:56:30,312 ERROR [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl.findById(ResourcePrivilegeDAOImpl.java:89)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOTouchTest.touchFindById(ResourcePrivilegeDAOTouchTest.java:24)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,328 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, instance found
+2012-11-10 12:56:30,328 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, instance found
+2012-11-10 12:56:30,328 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 12:56:30,328 ERROR [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl.add(ResourcePrivilegeDAOImpl.java:52)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOTouchTest.touchRemove(ResourcePrivilegeDAOTouchTest.java:40)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,328 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 12:56:30,328 ERROR [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl.add(ResourcePrivilegeDAOImpl.java:52)
+	at org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOTouchTest.touchUpdate(ResourcePrivilegeDAOTouchTest.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,359 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 12:56:30,359 ERROR [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePropEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOImpl.add(ResourcePropDAOImpl.java:121)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOTouchTest.touchAdd(ResourcePropDAOTouchTest.java:18)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,375 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] finding ResourceProp instance by example
+2012-11-10 12:56:30,375 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:30,375 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] getting ResourceProp instance with id: 
+2012-11-10 12:56:30,375 ERROR [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePropEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOImpl.findById(ResourcePropDAOImpl.java:83)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOTouchTest.touchFindById(ResourcePropDAOTouchTest.java:34)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,390 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting ResourceProp instance
+2012-11-10 12:56:30,390 ERROR [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePropEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOImpl.persist(ResourcePropDAOImpl.java:47)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOTouchTest.touchPersist(ResourcePropDAOTouchTest.java:39)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,390 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 12:56:30,390 ERROR [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePropEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOImpl.add(ResourcePropDAOImpl.java:121)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOTouchTest.touchRemove(ResourcePropDAOTouchTest.java:45)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,453 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 12:56:30,453 ERROR [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourcePropEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOImpl.add(ResourcePropDAOImpl.java:121)
+	at org.openiam.idm.srvc.res.service.ResourcePropDAOTouchTest.touchUpdate(ResourcePropDAOTouchTest.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,515 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persisting instance
+2012-11-10 12:56:30,515 ERROR [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceRoleEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl.add(ResourceRoleDAOImpl.java:148)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOTouchTest.touchAdd(ResourceRoleDAOTouchTest.java:21)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,562 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] finding ResourceRole instance by example
+2012-11-10 12:56:30,562 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:30,562 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] getting ResourceRole instance with id: --null
+2012-11-10 12:56:30,562 ERROR [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceRoleEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl.findById(ResourceRoleDAOImpl.java:101)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOTouchTest.touchFindById(ResourceRoleDAOTouchTest.java:37)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,578 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, instance found
+2012-11-10 12:56:30,593 ERROR [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist failed
+org.hibernate.hql.ast.QuerySyntaxException: ResourceRoleEntity is not mapped [  SELECT  role        FROM    ResourceRoleEntity resourceRole, org.openiam.idm.srvc.role.dto.Role role, ResourceEntity resource        WHERE   resource.resourceId = resourceRole.id.resourceId and         resourceRole.id.roleId = role.id.roleId AND         resourceRole.id.domainId = role.id.serviceId and         resource.resourceId = :resourceId  ]
+	at org.hibernate.hql.ast.util.SessionFactoryHelper.requireClassPersister(SessionFactoryHelper.java:180)
+	at org.hibernate.hql.ast.tree.FromElementFactory.addFromElement(FromElementFactory.java:111)
+	at org.hibernate.hql.ast.tree.FromClause.addFromElement(FromClause.java:93)
+	at org.hibernate.hql.ast.HqlSqlWalker.createFromElement(HqlSqlWalker.java:327)
+	at org.hibernate.hql.antlr.HqlSqlBaseWalker.fromElement(HqlSqlBaseWalker.java:3441)
+	at org.hibernate.hql.antlr.HqlSqlBaseWalker.fromElementList(HqlSqlBaseWalker.java:3325)
+	at org.hibernate.hql.antlr.HqlSqlBaseWalker.fromClause(HqlSqlBaseWalker.java:733)
+	at org.hibernate.hql.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:584)
+	at org.hibernate.hql.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:301)
+	at org.hibernate.hql.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:244)
+	at org.hibernate.hql.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:254)
+	at org.hibernate.hql.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:185)
+	at org.hibernate.hql.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:136)
+	at org.hibernate.engine.query.HQLQueryPlan.<init>(HQLQueryPlan.java:101)
+	at org.hibernate.engine.query.HQLQueryPlan.<init>(HQLQueryPlan.java:80)
+	at org.hibernate.engine.query.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:124)
+	at org.hibernate.impl.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:156)
+	at org.hibernate.impl.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:135)
+	at org.hibernate.impl.SessionImpl.createQuery(SessionImpl.java:1770)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl.findRolesForResource(ResourceRoleDAOImpl.java:218)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOTouchTest.touchFindRolesForResource(ResourceRoleDAOTouchTest.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,625 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persisting instance
+2012-11-10 12:56:30,625 ERROR [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceRoleEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl.add(ResourceRoleDAOImpl.java:148)
+	at org.openiam.idm.srvc.res.service.ResourceRoleDAOTouchTest.touchRemove(ResourceRoleDAOTouchTest.java:54)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,687 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] removeResourceRole: domainId=
+2012-11-10 12:56:30,687 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] removeResourceRole: roleId=
+2012-11-10 12:56:30,750 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persisting ResourceType instance
+2012-11-10 12:56:30,750 ERROR [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceTypeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl.add(ResourceTypeDAOImpl.java:118)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOTouchTest.touchAdd(ResourceTypeDAOTouchTest.java:18)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,765 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] finding ResourceType instance by example
+2012-11-10 12:56:30,765 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:30,765 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] getting ResourceType instance with id: 
+2012-11-10 12:56:30,765 ERROR [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceTypeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl.findById(ResourceTypeDAOImpl.java:84)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOTouchTest.touchFindById(ResourceTypeDAOTouchTest.java:33)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persisting ResourceType instance
+2012-11-10 12:56:30,812 ERROR [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceTypeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl.add(ResourceTypeDAOImpl.java:118)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOTouchTest.touchRemove(ResourceTypeDAOTouchTest.java:39)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] merging ResourceType instance
+2012-11-10 12:56:30,812 ERROR [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] merge failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceTypeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1485)
+	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:232)
+	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:84)
+	at org.hibernate.impl.SessionImpl.fireMerge(SessionImpl.java:867)
+	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:851)
+	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:855)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl.update(ResourceTypeDAOImpl.java:71)
+	at org.openiam.idm.srvc.res.service.ResourceTypeDAOTouchTest.touchUpdate(ResourceTypeDAOTouchTest.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,875 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 12:56:30,875 ERROR [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceUserEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOImpl.add(ResourceUserDAOImpl.java:144)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOTouchTest.touchAdd(ResourceUserDAOTouchTest.java:21)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] finding ResourceUser instance by example
+2012-11-10 12:56:30,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:30,937 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] getting ResourceUser instance with id: --
+2012-11-10 12:56:30,937 ERROR [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceUserEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOImpl.findById(ResourceUserDAOImpl.java:97)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOTouchTest.touchFindById(ResourceUserDAOTouchTest.java:43)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:30,984 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 12:56:30,984 ERROR [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceUserEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOImpl.add(ResourceUserDAOImpl.java:144)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOTouchTest.touchRemove(ResourceUserDAOTouchTest.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:31,046 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 12:56:31,046 ERROR [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.ResourceUserEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOImpl.add(ResourceUserDAOImpl.java:144)
+	at org.openiam.idm.srvc.res.service.ResourceUserDAOTouchTest.touchUpdate(ResourceUserDAOTouchTest.java:68)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:31,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 12:56:31,062 ERROR [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.UserPrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl.add(UserPrivilegeDAOImpl.java:151)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOTouchTest.touchAdd(UserPrivilegeDAOTouchTest.java:18)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:31,109 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] finding UserPrivilege instance by example
+2012-11-10 12:56:31,109 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:31,109 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] getting UserPrivilege instance with id: 
+2012-11-10 12:56:31,109 ERROR [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] get failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.dto.UserPrivilege
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:92)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl.findById(UserPrivilegeDAOImpl.java:106)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOTouchTest.touchFindById(UserPrivilegeDAOTouchTest.java:33)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:31,156 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 12:56:31,156 ERROR [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.UserPrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl.add(UserPrivilegeDAOImpl.java:151)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOTouchTest.touchRemove(UserPrivilegeDAOTouchTest.java:39)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:31,171 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 12:56:31,171 ERROR [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist failed
+org.hibernate.MappingException: Unknown entity: org.openiam.idm.srvc.res.domain.UserPrivilegeEntity
+	at org.hibernate.impl.SessionFactoryImpl.getEntityPersister(SessionFactoryImpl.java:693)
+	at org.hibernate.impl.SessionImpl.getEntityPersister(SessionImpl.java:1494)
+	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:202)
+	at org.hibernate.event.def.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:531)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:102)
+	at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+	at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+	at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl.add(UserPrivilegeDAOImpl.java:151)
+	at org.openiam.idm.srvc.res.service.UserPrivilegeDAOTouchTest.touchUpdate(UserPrivilegeDAOTouchTest.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.MethodInvocationHelper$1.runTestMethod(MethodInvocationHelper.java:169)
+	at org.springframework.test.context.testng.AbstractTestNGSpringContextTests.run(AbstractTestNGSpringContextTests.java:158)
+	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeHookable(MethodInvocationHelper.java:181)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:666)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:60)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:153)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+2012-11-10 12:56:31,234 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] persisting Supervisor instance
+2012-11-10 12:56:31,234 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] persist successful
+2012-11-10 12:56:31,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] finding Supervisor instance by example
+2012-11-10 12:56:31,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:31,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] getting Supervisor instance with id: 
+2012-11-10 12:56:31,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] get successful, no instance found
+2012-11-10 12:56:31,281 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] deleting Supervisor instance
+2012-11-10 12:56:31,281 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] delete successful
+2012-11-10 12:56:31,281 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] merging Supervisor instance
+2012-11-10 12:56:31,281 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] merge successful
+2012-11-10 12:56:31,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persisting UserAttribute instance
+2012-11-10 12:56:31,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persist successful
+2012-11-10 12:56:31,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persisting UserAttribute instance
+2012-11-10 12:56:31,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persist successful
+2012-11-10 12:56:31,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attaching clean UserAttribute instance
+2012-11-10 12:56:31,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attach successful
+2012-11-10 12:56:31,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attaching dirty UserAttribute instance
+2012-11-10 12:56:31,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attach successful
+2012-11-10 12:56:31,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] getting UserAttribute instance with id: 
+2012-11-10 12:56:31,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] get successful, no instance found
+2012-11-10 12:56:31,328 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] deleting UserAttribute instance
+2012-11-10 12:56:31,328 INFO  [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] delete attribute=org.openiam.idm.srvc.user.domain.UserAttributeEntity@0
+2012-11-10 12:56:31,328 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] delete successful
+2012-11-10 12:56:31,328 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] merging UserAttribute instance
+2012-11-10 12:56:31,328 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] merge successful
+2012-11-10 12:56:31,343 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persisting User instance
+2012-11-10 12:56:31,343 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persist successful
+2012-11-10 12:56:31,390 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] getting User instance with id: 
+2012-11-10 12:56:31,390 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] get successful, no instance found
+2012-11-10 12:56:31,390 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] finding User based on the lastUpdate date range that is provided
+2012-11-10 12:56:31,437 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] deleting User instance
+2012-11-10 12:56:31,437 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] delete successful
+2012-11-10 12:56:31,453 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] search select:  select DISTINCT u.USER_ID, u.TYPE_ID,  u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME, u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD,  u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX,  u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY, u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID,  u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID,  u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION, u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE,  u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,   u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7, u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED, u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN  from 	USERS u   ORDER BY u.LAST_NAME, u.FIRST_NAME
+2012-11-10 12:56:31,453 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] search result is null
+2012-11-10 12:56:31,453 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persisting User instance
+2012-11-10 12:56:31,453 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persist successful
+2012-11-10 12:56:31,453 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] merging User instance
+2012-11-10 12:56:31,453 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] merge successful
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attaching clean UserNoteEntity instance
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attach successful
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attaching dirty UserNoteEntity instance
+2012-11-10 12:56:31,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attach successful
+2012-11-10 12:56:31,484 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] deleting UserNoteEntity instance
+2012-11-10 12:56:31,484 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] delete successful
+2012-11-10 12:56:31,484 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] finding UserNoteEntity instance by example
+2012-11-10 12:56:31,484 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] find by example successful, result size: 0
+2012-11-10 12:56:31,500 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] getting UserNote instance with id: 
+2012-11-10 12:56:31,500 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] get successful, no instance found
+2012-11-10 12:56:31,500 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] merging UserNote instance
+2012-11-10 12:56:31,500 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] merge successful
+2012-11-10 12:56:31,500 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 12:56:31,500 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 17:30:36,234 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] persist successful
+2012-11-10 17:30:36,250 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,281 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] delete successful
+2012-11-10 17:30:36,484 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] merging instance
+2012-11-10 17:30:36,484 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] merge successful
+2012-11-10 17:30:36,500 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] merge successful
+2012-11-10 17:30:36,500 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] persist successful
+2012-11-10 17:30:36,515 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,546 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] delete successful
+2012-11-10 17:30:36,578 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 17:30:36,578 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 17:30:36,578 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] getting UserRole instance with id: 
+2012-11-10 17:30:36,593 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,640 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 17:30:36,640 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 17:30:36,640 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] deleting UserRole instance
+2012-11-10 17:30:36,640 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] delete successful
+2012-11-10 17:30:36,656 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 17:30:36,656 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 17:30:36,656 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] merging UserRole instance
+2012-11-10 17:30:36,656 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] merge successful
+2012-11-10 17:30:36,671 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 17:30:36,671 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 17:30:36,687 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] getting CompanyAttribute instance with id: 
+2012-11-10 17:30:36,687 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,687 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 17:30:36,687 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 17:30:36,687 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] deleting OrganizationAttribute instance
+2012-11-10 17:30:36,687 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] delete successful
+2012-11-10 17:30:36,703 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 17:30:36,703 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 17:30:36,703 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] merging Organization instance
+2012-11-10 17:30:36,703 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] merge successful
+2012-11-10 17:30:36,718 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 17:30:36,734 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 17:30:36,734 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instance with id: 
+2012-11-10 17:30:36,734 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,734 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instances for childobjects of  
+2012-11-10 17:30:36,750 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization for a classification  
+2012-11-10 17:30:36,750 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization for a type  
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instance with id: 
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instances at parent level  
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] deleting Address instance
+2012-11-10 17:30:36,765 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] delete successful
+2012-11-10 17:30:36,781 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 17:30:36,781 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 17:30:36,781 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] merging Organization instance
+2012-11-10 17:30:36,796 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persisting instance
+2012-11-10 17:30:36,796 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist successful
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persisting instance
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist successful
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] getting ResourceRole instance with id: 297e8c313aeaf19f013aeaf1a88c000e--
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] getting Resource instance with id: 297e8c313aeaf19f013aeaf1a88c000e
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, instance found
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist successful
+2012-11-10 17:30:36,812 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] finding Resource instance by example
+2012-11-10 17:30:36,828 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:36,828 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] getting Resource instance with id: 
+2012-11-10 17:30:36,828 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,859 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,875 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,953 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 17:30:36,953 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist successful
+2012-11-10 17:30:36,953 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] getting ResourceProp instance with id: 
+2012-11-10 17:30:36,953 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, no instance found
+2012-11-10 17:30:36,953 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, instance found
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, instance found
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist successful
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] deleting instance
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] delete successful
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist successful
+2012-11-10 17:30:36,968 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] merge successful
+2012-11-10 17:30:36,984 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 17:30:36,984 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:30:36,984 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] finding ResourceProp instance by example
+2012-11-10 17:30:36,984 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] getting ResourceProp instance with id: 
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting ResourceProp instance
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] deleting ResourceProp instance
+2012-11-10 17:30:37,000 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] delete successful
+2012-11-10 17:30:37,015 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 17:30:37,015 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:30:37,015 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] merging ResourceProp instance
+2012-11-10 17:30:37,015 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] merge successful
+2012-11-10 17:30:37,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persisting instance
+2012-11-10 17:30:37,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist successful
+2012-11-10 17:30:37,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] finding ResourceRole instance by example
+2012-11-10 17:30:37,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] getting ResourceRole instance with id: --null
+2012-11-10 17:30:37,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,046 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, instance found
+2012-11-10 17:30:37,062 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persisting instance
+2012-11-10 17:30:37,062 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist successful
+2012-11-10 17:30:37,062 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] deleting ResourceRole instance
+2012-11-10 17:30:37,062 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] delete successful
+2012-11-10 17:30:37,078 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] removeResourceRole: domainId=
+2012-11-10 17:30:37,078 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] removeResourceRole: roleId=
+2012-11-10 17:30:37,109 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persisting ResourceType instance
+2012-11-10 17:30:37,109 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persist successful
+2012-11-10 17:30:37,109 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] finding ResourceType instance by example
+2012-11-10 17:30:37,109 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,109 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] getting ResourceType instance with id: 
+2012-11-10 17:30:37,109 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,125 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persisting ResourceType instance
+2012-11-10 17:30:37,125 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persist successful
+2012-11-10 17:30:37,125 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] deleting ResourceType instance
+2012-11-10 17:30:37,125 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] delete successful
+2012-11-10 17:30:37,125 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] merging ResourceType instance
+2012-11-10 17:30:37,125 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] merge successful
+2012-11-10 17:30:37,140 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 17:30:37,140 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist successful
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] finding ResourceUser instance by example
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] getting ResourceUser instance with id: --
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist successful
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] deleting ResourceUser instance
+2012-11-10 17:30:37,156 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] delete successful
+2012-11-10 17:30:37,187 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 17:30:37,187 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist successful
+2012-11-10 17:30:37,187 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] merging ResourceUser instance
+2012-11-10 17:30:37,187 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] merge successful
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist successful
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] finding UserPrivilege instance by example
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] getting UserPrivilege instance with id: 
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,203 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist successful
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] deleting instance
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] delete successful
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist successful
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] merging instance. id = 297e8c313aeaf19f013aeaf1aa22001b
+2012-11-10 17:30:37,218 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] merge successful
+2012-11-10 17:30:37,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] persisting Supervisor instance
+2012-11-10 17:30:37,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] persist successful
+2012-11-10 17:30:37,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] finding Supervisor instance by example
+2012-11-10 17:30:37,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] getting Supervisor instance with id: 
+2012-11-10 17:30:37,250 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,265 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] deleting Supervisor instance
+2012-11-10 17:30:37,265 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] delete successful
+2012-11-10 17:30:37,281 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] merging Supervisor instance
+2012-11-10 17:30:37,281 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] merge successful
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persisting UserAttribute instance
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persist successful
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persisting UserAttribute instance
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persist successful
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attaching clean UserAttribute instance
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attach successful
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attaching dirty UserAttribute instance
+2012-11-10 17:30:37,296 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attach successful
+2012-11-10 17:30:37,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] getting UserAttribute instance with id: 
+2012-11-10 17:30:37,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] deleting UserAttribute instance
+2012-11-10 17:30:37,312 INFO  [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] delete attribute=org.openiam.idm.srvc.user.domain.UserAttributeEntity@0
+2012-11-10 17:30:37,312 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] delete successful
+2012-11-10 17:30:37,328 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] merging UserAttribute instance
+2012-11-10 17:30:37,328 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] merge successful
+2012-11-10 17:30:37,343 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persisting User instance
+2012-11-10 17:30:37,343 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persist successful
+2012-11-10 17:30:37,359 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] getting User instance with id: 
+2012-11-10 17:30:37,359 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,359 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] finding User based on the lastUpdate date range that is provided
+2012-11-10 17:30:37,406 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] deleting User instance
+2012-11-10 17:30:37,406 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] delete successful
+2012-11-10 17:30:37,406 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] search select:  select DISTINCT u.USER_ID, u.TYPE_ID,  u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME, u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD,  u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX,  u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY, u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID,  u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID,  u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION, u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE,  u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,   u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7, u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED, u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN  from 	USERS u   ORDER BY u.LAST_NAME, u.FIRST_NAME
+2012-11-10 17:30:37,406 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] search result is null
+2012-11-10 17:30:37,421 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persisting User instance
+2012-11-10 17:30:37,421 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persist successful
+2012-11-10 17:30:37,421 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] merging User instance
+2012-11-10 17:30:37,421 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] merge successful
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attaching clean UserNoteEntity instance
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attach successful
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attaching dirty UserNoteEntity instance
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attach successful
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] deleting UserNoteEntity instance
+2012-11-10 17:30:37,437 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] delete successful
+2012-11-10 17:30:37,453 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] finding UserNoteEntity instance by example
+2012-11-10 17:30:37,453 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] find by example successful, result size: 0
+2012-11-10 17:30:37,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] getting UserNote instance with id: 
+2012-11-10 17:30:37,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] get successful, no instance found
+2012-11-10 17:30:37,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] merging UserNote instance
+2012-11-10 17:30:37,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] merge successful
+2012-11-10 17:30:37,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 17:30:37,468 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 17:56:16,078 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] persist successful
+2012-11-10 17:56:16,109 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,125 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] delete successful
+2012-11-10 17:56:16,328 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] merging instance
+2012-11-10 17:56:16,328 DEBUG [org.openiam.idm.srvc.continfo.service.AddressDAOImpl] merge successful
+2012-11-10 17:56:16,359 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] merge successful
+2012-11-10 17:56:16,359 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] persist successful
+2012-11-10 17:56:16,359 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,390 DEBUG [org.openiam.idm.srvc.continfo.service.PhoneDAOImpl] delete successful
+2012-11-10 17:56:16,437 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 17:56:16,437 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 17:56:16,437 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] getting UserRole instance with id: 
+2012-11-10 17:56:16,437 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,484 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 17:56:16,484 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 17:56:16,484 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] deleting UserRole instance
+2012-11-10 17:56:16,500 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] delete successful
+2012-11-10 17:56:16,515 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persisting UserRole instance
+2012-11-10 17:56:16,515 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] persist successful
+2012-11-10 17:56:16,515 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] merging UserRole instance
+2012-11-10 17:56:16,515 DEBUG [org.openiam.idm.srvc.org.service.UserAffiliationDAOImpl] merge successful
+2012-11-10 17:56:16,531 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 17:56:16,531 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 17:56:16,531 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] getting CompanyAttribute instance with id: 
+2012-11-10 17:56:16,531 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] deleting OrganizationAttribute instance
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] delete successful
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persisting OrganizationAttribute instance
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] persist successful
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] merging Organization instance
+2012-11-10 17:56:16,546 DEBUG [org.openiam.idm.srvc.org.service.OrganizationAttributeDAOImpl] merge successful
+2012-11-10 17:56:16,562 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 17:56:16,578 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 17:56:16,593 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instance with id: 
+2012-11-10 17:56:16,593 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,593 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instances for childobjects of  
+2012-11-10 17:56:16,593 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization for a classification  
+2012-11-10 17:56:16,609 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization for a type  
+2012-11-10 17:56:16,609 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instance with id: 
+2012-11-10 17:56:16,609 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] getting Organization instances at parent level  
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] deleting Address instance
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] delete successful
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persisting Organization instance
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] persist successful
+2012-11-10 17:56:16,625 DEBUG [org.openiam.idm.srvc.org.service.OrganizationDAOImpl] merging Organization instance
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persisting instance
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist successful
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persisting instance
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist successful
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] getting ResourceRole instance with id: 297e8c313aeb091e013aeb092790000e--
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] getting Resource instance with id: 297e8c313aeb091e013aeb092790000e
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, instance found
+2012-11-10 17:56:16,656 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] persist successful
+2012-11-10 17:56:16,671 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] finding Resource instance by example
+2012-11-10 17:56:16,671 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:16,671 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] getting Resource instance with id: 
+2012-11-10 17:56:16,671 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,703 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,734 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,765 DEBUG [org.openiam.idm.srvc.res.service.ResourceDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,796 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 17:56:16,796 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist successful
+2012-11-10 17:56:16,796 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] getting ResourceProp instance with id: 
+2012-11-10 17:56:16,796 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, instance found
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] get successful, instance found
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist successful
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] deleting instance
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] delete successful
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persisting instance
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] persist successful
+2012-11-10 17:56:16,812 DEBUG [org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl] merge successful
+2012-11-10 17:56:16,828 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 17:56:16,828 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] finding ResourceProp instance by example
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] getting ResourceProp instance with id: 
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting ResourceProp instance
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] deleting ResourceProp instance
+2012-11-10 17:56:16,843 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] delete successful
+2012-11-10 17:56:16,859 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persisting instance
+2012-11-10 17:56:16,859 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] persist successful
+2012-11-10 17:56:16,859 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] merging ResourceProp instance
+2012-11-10 17:56:16,859 DEBUG [org.openiam.idm.srvc.res.service.ResourcePropDAOImpl] merge successful
+2012-11-10 17:56:16,875 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persisting instance
+2012-11-10 17:56:16,875 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist successful
+2012-11-10 17:56:16,890 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] finding ResourceRole instance by example
+2012-11-10 17:56:16,890 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:16,890 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] getting ResourceRole instance with id: --null
+2012-11-10 17:56:16,890 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,890 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] get successful, instance found
+2012-11-10 17:56:16,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persisting instance
+2012-11-10 17:56:16,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] persist successful
+2012-11-10 17:56:16,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] deleting ResourceRole instance
+2012-11-10 17:56:16,921 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] delete successful
+2012-11-10 17:56:16,937 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] removeResourceRole: domainId=
+2012-11-10 17:56:16,937 DEBUG [org.openiam.idm.srvc.res.service.ResourceRoleDAOImpl] removeResourceRole: roleId=
+2012-11-10 17:56:16,953 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persisting ResourceType instance
+2012-11-10 17:56:16,953 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persist successful
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] finding ResourceType instance by example
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] getting ResourceType instance with id: 
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] get successful, no instance found
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persisting ResourceType instance
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] persist successful
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] deleting ResourceType instance
+2012-11-10 17:56:16,968 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] delete successful
+2012-11-10 17:56:16,984 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] merging ResourceType instance
+2012-11-10 17:56:16,984 DEBUG [org.openiam.idm.srvc.res.service.ResourceTypeDAOImpl] merge successful
+2012-11-10 17:56:17,000 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 17:56:17,000 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist successful
+2012-11-10 17:56:17,000 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] finding ResourceUser instance by example
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] getting ResourceUser instance with id: --
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] get successful, no instance found
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist successful
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] deleting ResourceUser instance
+2012-11-10 17:56:17,015 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] delete successful
+2012-11-10 17:56:17,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persisting instance
+2012-11-10 17:56:17,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] persist successful
+2012-11-10 17:56:17,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] merging ResourceUser instance
+2012-11-10 17:56:17,031 DEBUG [org.openiam.idm.srvc.res.service.ResourceUserDAOImpl] merge successful
+2012-11-10 17:56:17,046 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 17:56:17,046 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist successful
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] finding UserPrivilege instance by example
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] getting UserPrivilege instance with id: 
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] get successful, no instance found
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist successful
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] deleting instance
+2012-11-10 17:56:17,062 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] delete successful
+2012-11-10 17:56:17,078 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persisting instance
+2012-11-10 17:56:17,078 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] persist successful
+2012-11-10 17:56:17,078 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] merging instance. id = 297e8c313aeb091e013aeb092936001b
+2012-11-10 17:56:17,078 DEBUG [org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl] merge successful
+2012-11-10 17:56:17,093 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] persisting Supervisor instance
+2012-11-10 17:56:17,093 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] persist successful
+2012-11-10 17:56:17,093 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] finding Supervisor instance by example
+2012-11-10 17:56:17,109 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:17,109 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] getting Supervisor instance with id: 
+2012-11-10 17:56:17,109 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] get successful, no instance found
+2012-11-10 17:56:17,125 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] deleting Supervisor instance
+2012-11-10 17:56:17,125 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] delete successful
+2012-11-10 17:56:17,125 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] merging Supervisor instance
+2012-11-10 17:56:17,125 DEBUG [org.openiam.idm.srvc.user.service.SupervisorDAOImpl] merge successful
+2012-11-10 17:56:17,140 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persisting UserAttribute instance
+2012-11-10 17:56:17,140 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persist successful
+2012-11-10 17:56:17,140 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persisting UserAttribute instance
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] persist successful
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attaching clean UserAttribute instance
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attach successful
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attaching dirty UserAttribute instance
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] attach successful
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] getting UserAttribute instance with id: 
+2012-11-10 17:56:17,156 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] get successful, no instance found
+2012-11-10 17:56:17,171 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] deleting UserAttribute instance
+2012-11-10 17:56:17,171 INFO  [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] delete attribute=org.openiam.idm.srvc.user.domain.UserAttributeEntity@0
+2012-11-10 17:56:17,171 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] delete successful
+2012-11-10 17:56:17,171 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] merging UserAttribute instance
+2012-11-10 17:56:17,171 DEBUG [org.openiam.idm.srvc.user.service.UserAttributeDAOImpl] merge successful
+2012-11-10 17:56:17,203 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persisting User instance
+2012-11-10 17:56:17,203 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persist successful
+2012-11-10 17:56:17,203 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] getting User instance with id: 
+2012-11-10 17:56:17,203 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] get successful, no instance found
+2012-11-10 17:56:17,203 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] finding User based on the lastUpdate date range that is provided
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] deleting User instance
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] delete successful
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] search select:  select DISTINCT u.USER_ID, u.TYPE_ID,  u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME, u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD,  u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX,  u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY, u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID,  u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID,  u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION, u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE,  u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,   u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7, u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED, u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN  from 	USERS u   ORDER BY u.LAST_NAME, u.FIRST_NAME
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] search result is null
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persisting User instance
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] persist successful
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] merging User instance
+2012-11-10 17:56:17,265 DEBUG [org.openiam.idm.srvc.user.service.UserDAOImpl] merge successful
+2012-11-10 17:56:17,281 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 17:56:17,281 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 17:56:17,281 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attaching clean UserNoteEntity instance
+2012-11-10 17:56:17,281 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attach successful
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attaching dirty UserNoteEntity instance
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] attach successful
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] deleting UserNoteEntity instance
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] delete successful
+2012-11-10 17:56:17,296 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] finding UserNoteEntity instance by example
+2012-11-10 17:56:17,312 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] find by example successful, result size: 0
+2012-11-10 17:56:17,312 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] getting UserNote instance with id: 
+2012-11-10 17:56:17,312 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] get successful, no instance found
+2012-11-10 17:56:17,328 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] merging UserNote instance
+2012-11-10 17:56:17,328 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] merge successful
+2012-11-10 17:56:17,328 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persisting UserNoteEntity instance
+2012-11-10 17:56:17,328 DEBUG [org.openiam.idm.srvc.user.service.UserNoteDAOImpl] persist successful

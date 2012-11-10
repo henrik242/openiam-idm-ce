@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.res.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.res.domain.ResourceRoleEmbeddableId;
 
 // Generated Mar 8, 2009 12:54:32 PM by Hibernate Tools 3.2.2.GA
 
@@ -31,6 +32,12 @@ public class ResourceRoleId implements java.io.Serializable {
     public ResourceRoleId() {
     }
 
+    public ResourceRoleId(ResourceRoleEmbeddableId embeddableId) {
+        this.roleId = embeddableId.getRoleId();
+        this.resourceId = embeddableId.getResourceId();
+        this.privilegeId = embeddableId.getPrivilegeId();
+        this.domainId = embeddableId.getDomainId();
+    }
 
     public ResourceRoleId(String domainId, String privilegeId,
                           String resourceId, String roleId) {

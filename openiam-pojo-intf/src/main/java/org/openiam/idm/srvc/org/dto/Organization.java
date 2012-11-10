@@ -74,9 +74,6 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
     @XmlJavaTypeAdapter(OrganizationAttributeMapAdapter.class)
     protected Map<String, OrganizationAttribute> attributes = new HashMap<String, OrganizationAttribute>(0);
 
-    @XmlSchemaType(name = "dateTime")
-    protected Date createDate;
-
     protected String createdBy;
 
     protected String description;
@@ -87,6 +84,9 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
 
     @XmlSchemaType(name = "dateTime")
     protected Date lstUpdate;
+
+    @XmlSchemaType(name = "dateTime")
+    protected Date createDate;
 
     protected String lstUpdatedBy;
 

@@ -5,12 +5,16 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
 
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.res.domain.ResourceUserEmbeddableId;
+import org.openiam.idm.srvc.res.domain.ResourceUserEntity;
 import org.openiam.idm.srvc.res.dto.*;
 
 
@@ -39,7 +43,7 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 		}
 	}
 
-	public void persist(ResourceUser transientInstance) {
+	public void persist(ResourceUserEntity transientInstance) {
 		log.debug("persisting ResourceUser instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -57,7 +61,7 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#remove(org.openiam.idm.srvc.res.dto.ResourceUser)
 	 */
-	public void remove(ResourceUser persistentInstance) {
+	public void remove(ResourceUserEntity persistentInstance) {
 		log.debug("deleting ResourceUser instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -74,10 +78,10 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#update(org.openiam.idm.srvc.res.dto.ResourceUser)
 	 */
-	public ResourceUser update(ResourceUser detachedInstance) {
+	public ResourceUserEntity update(ResourceUserEntity detachedInstance) {
 		log.debug("merging ResourceUser instance");
 		try {
-			ResourceUser result = (ResourceUser) sessionFactory.getCurrentSession()
+			ResourceUserEntity result = (ResourceUserEntity) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -87,11 +91,11 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 		}
 	}
 
-	public ResourceUser findById(ResourceUserId id) {
+	public ResourceUserEntity findById(ResourceUserEmbeddableId id) {
 		log.debug("getting ResourceUser instance with id: " + id.getResourceId() + "-" + id.getUserId() + "-" + id.getPrivilegeId());
 		try {
-			ResourceUser instance = (ResourceUser) sessionFactory.getCurrentSession()
-					.get("org.openiam.idm.srvc.res.dto.ResourceUser", id);
+			ResourceUserEntity instance = (ResourceUserEntity) sessionFactory.getCurrentSession()
+					.get(ResourceUserEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -110,12 +114,11 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#findByExample(org.openiam.idm.srvc.res.dto.ResourceUser)
 	 */
-	public List<ResourceUser> findByExample(ResourceUser instance) {
+	public List<ResourceUserEntity> findByExample(ResourceUserEntity instance) {
 		log.debug("finding ResourceUser instance by example");
 		try {
-			List<ResourceUser> results = (List<ResourceUser>) sessionFactory
-					.getCurrentSession().createCriteria(
-							"org.openiam.idm.srvc.res.dto.ResourceUser").add(
+			List<ResourceUserEntity> results = (List<ResourceUserEntity>) sessionFactory
+					.getCurrentSession().createCriteria(ResourceUserEntity.class).add(
 							create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -135,7 +138,7 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#add(org.openiam.idm.srvc.res.dto.ResourceUser)
 	 */
-	public ResourceUser add(ResourceUser instance) {
+	public ResourceUserEntity add(ResourceUserEntity instance) {
 		log.debug("persisting instance");
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -153,21 +156,17 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.res.service.ResourceUserDAO#findAllResourceUsers()
 	 */
-	public List<ResourceUser> findAllResourceUsers() {
+	public List<ResourceUserEntity> findAllResourceUsers() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.res.dto.ResourceUser") ;
-		List<ResourceUser> result = (List<ResourceUser>)qry.list();
-		
-	
-		return result;
+		List<ResourceUserEntity> result = (List<ResourceUserEntity>)session.createCriteria(ResourceUserEntity.class).list();
+	    return result;
 	}
 
-	public List<ResourceUser> findAllResourceForUsers(String userId) {
+	public List<ResourceUserEntity> findAllResourceForUsers(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.res.dto.ResourceUser ru" +
-				" where ru.id.userId = :userId ") ;
-		qry.setString("userId", userId);
-		List<ResourceUser> result = (List<ResourceUser>)qry.list();		
+        Criteria criteria = session.createCriteria(ResourceUserEntity.class)
+                .add(Restrictions.eq("id.userId",userId));
+		List<ResourceUserEntity> result = (List<ResourceUserEntity>)criteria.list();
 		return result;
 	}
 	
@@ -179,13 +178,13 @@ public class ResourceUserDAOImpl implements ResourceUserDAO {
 	 */
 	public void removeAllResourceUsers() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete from org.openiam.idm.srvc.res.dto.ResourceUser");
+		Query qry = session.createQuery("delete from org.openiam.idm.srvc.res.domain.ResourceUserEntity");
 		qry.executeUpdate();
 	}
 	
 	public void removeUserFromAllResources(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete from org.openiam.idm.srvc.res.dto.ResourceUser ru " +
+		Query qry = session.createQuery("delete from org.openiam.idm.srvc.res.domain.ResourceUserEntity ru " +
 				" where ru.id.userId = :userId "	);
 		qry.setString("userId", userId);
 		qry.executeUpdate();

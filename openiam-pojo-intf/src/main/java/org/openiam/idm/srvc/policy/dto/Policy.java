@@ -48,10 +48,8 @@ public class Policy implements java.io.Serializable {
     protected String rule;
     protected String ruleSrcUrl;
 
-    protected Set<PolicyMembership> policyMemberships = new HashSet<PolicyMembership>(
-            0);
-    protected Set<PolicyAttribute> policyAttributes = new HashSet<PolicyAttribute>(
-            0);
+    protected Set<PolicyMembership> policyMemberships = new HashSet<PolicyMembership>(0);
+    protected Set<PolicyAttribute> policyAttributes = new HashSet<PolicyAttribute>(0);
 
     public Policy() {
     }

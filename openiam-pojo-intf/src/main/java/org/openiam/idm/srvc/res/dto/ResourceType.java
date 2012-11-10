@@ -2,10 +2,11 @@ package org.openiam.idm.srvc.res.dto;
 
 // Generated Mar 8, 2009 12:54:32 PM by Hibernate Tools 3.2.2.GA
 
+import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import java.util.Set;
+import org.openiam.idm.srvc.res.domain.ResourceTypeEntity;
 
 /**
  * ResourceType allows you to classify the resource.
@@ -29,10 +30,18 @@ public class ResourceType implements java.io.Serializable {
     public ResourceType() {
     }
 
+    public ResourceType(ResourceTypeEntity typeEntity) {
+        this.resourceTypeId = typeEntity.getResourceTypeId();
+        this.description = typeEntity.getDescription();
+        this.metadataTypeId = typeEntity.getMetadataTypeId();
+        this.provisionResource = typeEntity.getProvisionResource();
+        this.processName = typeEntity.getProcessName();
+    }
+
     public ResourceType(String resourceTypeId) {
         this.resourceTypeId = resourceTypeId;
     }
-
+/*
     public ResourceType(String resourceTypeId, String description,
                         String metadataTypeId, Integer provisionResource,
                         String processName, Set<Resource> resourceses) {
@@ -42,7 +51,7 @@ public class ResourceType implements java.io.Serializable {
         this.provisionResource = provisionResource;
         this.processName = processName;
 
-    }
+    }*/
 
     public String getResourceTypeId() {
         return this.resourceTypeId;

@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.res.service;
 
-import org.openiam.idm.srvc.res.dto.UserPrivilege;
+import org.openiam.idm.srvc.res.domain.UserPrivilegeEntity;
 
 import java.util.List;
 
@@ -13,17 +13,17 @@ import java.util.List;
  */
 public interface UserPrivilegeDAO {
 
-    UserPrivilege findById(String id);
+    UserPrivilegeEntity findById(String id);
 
-    List<UserPrivilege> findByExample(UserPrivilege instance);
+    List<UserPrivilegeEntity> findByExample(UserPrivilegeEntity instance);
 
-    UserPrivilege add(UserPrivilege instance);
+    UserPrivilegeEntity add(UserPrivilegeEntity instance);
 
-    void remove(UserPrivilege instance);
+    void remove(UserPrivilegeEntity instance);
 
-    UserPrivilege update(UserPrivilege instance);
+    UserPrivilegeEntity update(UserPrivilegeEntity instance);
 
-    List<UserPrivilege> findAllUserPrivileges();
+    List<UserPrivilegeEntity> findAllUserPrivileges();
 
     int removeAllUserPrivileges();
 }

@@ -9,7 +9,8 @@ import java.util.List;
 
 import static org.hibernate.criterion.Example.create;
 
-import org.openiam.idm.srvc.res.dto.*;
+import org.hibernate.criterion.Order;
+import org.openiam.idm.srvc.res.domain.UserPrivilegeEntity;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,7 +43,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
     }
 
 	
-    public void persist(UserPrivilege transientInstance) {
+    public void persist(UserPrivilegeEntity transientInstance) {
         log.debug("persisting UserPrivilege instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -53,7 +54,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }
     }
 
-    public void attachDirty(UserPrivilege instance) {
+    public void attachDirty(UserPrivilegeEntity instance) {
         log.debug("attaching dirty UserPrivilege instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -64,7 +65,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }
     }
 
-    public void attachClean(UserPrivilege instance) {
+    public void attachClean(UserPrivilegeEntity instance) {
         log.debug("attaching clean UserPrivilege instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -75,7 +76,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }
     }
 
-    public void delete(UserPrivilege persistentInstance) {
+    public void delete(UserPrivilegeEntity persistentInstance) {
         log.debug("deleting UserPrivilege instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -86,10 +87,10 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }
     }
 
-    public UserPrivilege merge(UserPrivilege detachedInstance) {
+    public UserPrivilegeEntity merge(UserPrivilegeEntity detachedInstance) {
         log.debug("merging UserPrivilege instance");
         try {
-            UserPrivilege result = (UserPrivilege) sessionFactory.getCurrentSession().merge(
+            UserPrivilegeEntity result = (UserPrivilegeEntity) sessionFactory.getCurrentSession().merge(
                     detachedInstance);
             log.debug("merge successful");
             return result;
@@ -99,11 +100,11 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }
     }
 
-    public UserPrivilege findById(java.lang.String id) {
+    public UserPrivilegeEntity findById(java.lang.String id) {
         log.debug("getting UserPrivilege instance with id: " + id);
         try {
-            UserPrivilege instance = (UserPrivilege) sessionFactory.getCurrentSession().get(
-                    "org.openiam.idm.srvc.res.dto.UserPrivilege", id);
+            UserPrivilegeEntity instance = (UserPrivilegeEntity) sessionFactory.getCurrentSession().get(
+                    UserPrivilegeEntity.class, id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
             } else {
@@ -120,17 +121,17 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }
     }
 
-    public List<UserPrivilege> findByExample(UserPrivilege instance) {
+    public List<UserPrivilegeEntity> findByExample(UserPrivilegeEntity instance) {
         log.debug("finding UserPrivilege instance by example");
         try {
-            List<UserPrivilege> results = (List<UserPrivilege>) sessionFactory
+            List<UserPrivilegeEntity> results = (List<UserPrivilegeEntity>) sessionFactory
                     .getCurrentSession().createCriteria(
-                            "UserPrivilege").add(
+                            UserPrivilegeEntity.class).add(
                             create(instance)).list();
             log.debug("find by example successful, result size: "
                     + results.size());
 
-            for (UserPrivilege obj:results) {
+            for (UserPrivilegeEntity obj:results) {
                // Hibernate.initialize(obj.());
             }
 
@@ -144,7 +145,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
     //==================================================================
 	
 	
-    public UserPrivilege add(UserPrivilege instance) {
+    public UserPrivilegeEntity add(UserPrivilegeEntity instance) {
         log.debug("persisting instance");
         try {
             sessionFactory.getCurrentSession().persist(instance);
@@ -159,7 +160,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }		
     }
 
-    public void remove(UserPrivilege instance) {
+    public void remove(UserPrivilegeEntity instance) {
         log.debug("deleting instance");
         try {
             sessionFactory.getCurrentSession().delete(instance);
@@ -170,7 +171,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }			
     }
 
-    public UserPrivilege update(UserPrivilege instance) {
+    public UserPrivilegeEntity update(UserPrivilegeEntity instance) {
         log.debug("merging instance. id = " + instance.getUserPrivilegeId());
         try {
             sessionFactory.getCurrentSession().merge(instance);
@@ -185,15 +186,16 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
         }		
     }
 
-    public List<UserPrivilege> findAllUserPrivileges() {
+    public List<UserPrivilegeEntity> findAllUserPrivileges() {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from UserPrivilege a " +
-                " order by a.userId asc");
-        qry.setCacheable(true);
-        qry.setCacheRegion("query.resource.findAllUserPrivileges");
-        List<UserPrivilege> result = (List<UserPrivilege>)qry.list();
+        Criteria criteria = session.createCriteria(UserPrivilegeEntity.class)
+                .addOrder(Order.asc("userId"));
+
+        criteria.setCacheable(true);
+        criteria.setCacheRegion("query.resource.findAllUserPrivileges");
+        List<UserPrivilegeEntity> result = (List<UserPrivilegeEntity>)criteria.list();
 		
-        for (UserPrivilege obj:result) {
+        for (UserPrivilegeEntity obj:result) {
             //Hibernate.initialize(obj.getPrivilege());
         }
 
@@ -202,7 +204,7 @@ public class UserPrivilegeDAOImpl implements UserPrivilegeDAO {
 	
     public int removeAllUserPrivileges() {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("delete from UserPrivilege");
+        Query qry = session.createQuery("delete from UserPrivilegeEntity");
         return qry.executeUpdate();
     }
 	
