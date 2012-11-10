@@ -8,4 +8,4 @@ target
 /*.sh
 .settings
 .classpath
-*.log
+/*.log
