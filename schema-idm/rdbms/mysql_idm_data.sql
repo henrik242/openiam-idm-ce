@@ -23,6 +23,10 @@ insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('SYS_AC
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('WORKFLOW','Workflow', 0);
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('AUTH_REPO','Authentication Repository', 0);
 
+insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('AD_GROUP_TYPE','AD GROUP TYPE', 0);
+insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('LDAP_GROUP_TYPE','LDAP GROUP TYPE', 0);
+insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('DEFAULT_GROUP','DEFAULT GROUP TYPE', 0);
+
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('APP_MENU','MENU', 0);
 
 
@@ -46,12 +50,35 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('419'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('420','AUTH_REPO','DN_ATTRIBUTE');
 
 
+insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('AD_GROUP_TYPE','AD GROUP TYPE', 0);
+
+/* AD GROUP DEFINITION */
+
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('450','AD_GROUP_TYPE','DN');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('451','AD_GROUP_TYPE','CN');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('452','AD_GROUP_TYPE','sAccountName');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('453','AD_GROUP_TYPE','objectClass');
+
+/* LDAP GROUP DEFINITION */
+
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('470','LDAP_GROUP_TYPE','dn');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('471','LDAP_GROUP_TYPE','uid');
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('472','LDAP_GROUP_TYPE','objectClass');
+
+
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('430','WORKFLOW','LAUNCH_URL');
 
 
-insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('ORG_TYPE', 'ROOT', 'ORGANIZATION Types',0);
+insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('ORG_TYPE', 'ROOT', 'ORGANIZATION Type',0);
+insert into CATEGORY (category_id, parent_id, category_name, show_list) values ('GROUP_TYPE', 'ROOT', 'Group Type',0);
 insert into CATEGORY_TYPE (category_id, type_id) values('ORG_TYPE','divisionType');
 insert into CATEGORY_TYPE (category_id, type_id) values('ORG_TYPE','departmentType');
+
+insert into CATEGORY_TYPE (category_id, type_id) values('GROUP_TYPE','AD_GROUP_TYPE');
+insert into CATEGORY_TYPE (category_id, type_id) values('GROUP_TYPE','LDAP_GROUP_TYPE');
+insert into CATEGORY_TYPE (category_id, type_id) values('GROUP_TYPE','DEFAULT_GROUP');
+
+
 
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION,SYNC_MANAGED_SYS) values('SystemAccount','System Account type',1);
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION,SYNC_MANAGED_SYS) values('InetOrgPerson','InetOrgPerson user type',1);
