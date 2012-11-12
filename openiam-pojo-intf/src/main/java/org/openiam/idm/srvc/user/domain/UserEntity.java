@@ -214,10 +214,10 @@ public class UserEntity {
     @Column(name = "PHONE_EXT", length = 20)
     private String phoneExt;
 
-    @Column(name = "SHOW_IN_SEARCH", nullable = false)
+    @Column(name = "SHOW_IN_SEARCH", nullable = true)
     private Integer showInSearch = new Integer(0);
 
-    @Column(name = "DEL_ADMIN", nullable = false)
+    @Column(name = "DEL_ADMIN", nullable = true)
     private Integer delAdmin = new Integer(0);
 
     @Column(name = "ALTERNATE_ID", length = 32)

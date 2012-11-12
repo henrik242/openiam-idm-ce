@@ -66,6 +66,7 @@
 								<td class="tableEntry">
 									<form:select path="policyList[${policy.index}].action">
 				    				  <form:option value="" 		label="-PLEASE SELECT-" />
+                                      <form:option value="JOIN"  	label="JOIN"/>
 				    				  <form:option value="NOTIFY"  	label="NOTIFY"/>
 									  <form:option value="DISABLE"  label="DISABLE" />
 									  <form:option value="DELETE" 	label="DELETE" />
@@ -76,6 +77,7 @@
 								</td>	
 								<td class="tableEntry">
 									<form:select path="policyList[${policy.index}].actionQualifier">
+                                      <form:option value="" 		label="-PLEASE SELECT-" />
 				    				  <form:option value="FROM_START"  	label="FROM START DATE"/>
 									  <form:option value="FROM_END"  	label="FROM END DATE" />
 									</form:select>

@@ -171,7 +171,20 @@
 
 
 		<!-- Reconciliation Object  -->
-	
+
+    <model name="ReconciliationServiceModel">
+        <service name="ReconciliationWebService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}ReconciliationWebService" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="reconServiceWS" />
+            </component>
+        </service>
+    </model>
+
 		<!-- Web Services  -->
 	
 </mule>
