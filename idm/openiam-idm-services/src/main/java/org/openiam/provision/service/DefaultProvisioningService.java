@@ -2387,39 +2387,41 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                         // update the target system
                         ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
 
-                        ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
+                        if ( mSys.getConnectorId() == null || mSys.getConnectorId().isEmpty()) {
+                            ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
 
-                        ManagedSystemObjectMatch matchObj = null;
-                        ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(mSys.getManagedSysId(), "USER");
-                        if (matchObjAry != null && matchObjAry.length > 0) {
-                            matchObj = matchObjAry[0];
-                        }
-
-                        if (connector.getConnectorInterface() != null &&
-                                connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
-
-                            org.openiam.connector.type.ResponseType resp = remoteSetPassword(requestId, lg, passwordSync, mSys, matchObj, connector);
-                            if (resp.getStatus() == StatusCodeType.SUCCESS) {
-                                connectorSuccess = true;
+                            ManagedSystemObjectMatch matchObj = null;
+                            ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(mSys.getManagedSysId(), "USER");
+                            if (matchObjAry != null && matchObjAry.length > 0) {
+                                matchObj = matchObjAry[0];
                             }
 
+                            if (connector.getConnectorInterface() != null &&
+                                    connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
-                        } else {
+                                org.openiam.connector.type.ResponseType resp = remoteSetPassword(requestId, lg, passwordSync, mSys, matchObj, connector);
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
 
-                            ResponseType resp = localSetPassword(requestId, lg, passwordSync, mSys);
-                            if (resp.getStatus() == StatusCodeType.SUCCESS) {
-                                connectorSuccess = true;
+
+                            } else {
+
+                                ResponseType resp = localSetPassword(requestId, lg, passwordSync, mSys);
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                }
+
                             }
 
-                        }
-
-                        // post-process
-                        if (res != null) {
-                            String postProcessScript = getResProperty(res.getResourceProps(), "POST_PROCESS");
-                            if (postProcessScript != null && !postProcessScript.isEmpty()) {
-                                PostProcessor ppScript = createPostProcessScript(postProcessScript);
-                                if (ppScript != null) {
-                                    executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                            // post-process
+                            if (res != null) {
+                                String postProcessScript = getResProperty(res.getResourceProps(), "POST_PROCESS");
+                                if (postProcessScript != null && !postProcessScript.isEmpty()) {
+                                    PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                    if (ppScript != null) {
+                                        executePostProcess(ppScript, bindingMap, null, "SET_PASSWORD", connectorSuccess);
+                                    }
                                 }
                             }
                         }
