@@ -54,6 +54,7 @@ public class EmailAddressEntity {
         this.parentType = emailAddress.getParentType();
         this.name = emailAddress.getName();
         this.parent = parent;
+        this.emailAddress = emailAddress.getEmailAddress();
     }
 
     public String getEmailId() {

@@ -37,8 +37,8 @@
 				</component>
 			</service>
 	</model>
-			
-				
+
+
  	<model name="googleAppsConnectorServiceModel">
 			<service name="googleAppsConnectorService">
 				<inbound>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <parent>
     <artifactId>idm-core</artifactId>
     <groupId>org.openiam</groupId>
@@ -84,6 +85,14 @@
       <version>1.1.2</version>
     </dependency>
     
+<!-- Servlet -->
+	<dependency>
+		<groupId>javax.servlet.jsp</groupId>
+		<artifactId>jsp-api</artifactId>
+           <version>2.1</version>
+		<scope>provided</scope>
+	</dependency>
+
     <dependency>
       <groupId>org.openiam</groupId>
       <artifactId>openiam-pojo-intf</artifactId>
@@ -118,8 +127,7 @@
 		</dependency>
 
 
-   
-    <dependency>
+<dependency>
     	<groupId>asm</groupId>
     	<artifactId>asm</artifactId>
     	<version>1.5.3</version>
@@ -263,6 +271,16 @@
     </dependency>
 
      
+<dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>viewservlets</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+      <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.birt.runtime</artifactId>
+            <version>4.2.0</version>
+        </dependency>
   </dependencies>
 
   <properties>

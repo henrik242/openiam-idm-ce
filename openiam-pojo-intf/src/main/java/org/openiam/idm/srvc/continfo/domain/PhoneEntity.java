@@ -61,11 +61,17 @@ public class PhoneEntity {
 
     public PhoneEntity(Phone phone, UserEntity parent) {
       this.phoneId = phone.getPhoneId();
+      this.isActive = phone.isActive();
+      this.areaCd = phone.getAreaCd();
+      this.countryCd = phone.getCountryCd();
+      this.description = phone.getDescription();
+      this.isDefault = phone.getIsDefault();
+      this.parent = parent;
       this.parentType = phone.getParentType();
       this.phoneExt = phone.getPhoneExt();
+      this.phoneNbr = phone.getPhoneNbr();
       this.name = phone.getName();
       this.phoneType = phone.getPhoneType();
-      this.parent = parent;
     }
 
     public String getPhoneId() {

@@ -34,7 +34,7 @@
 	<bean id="attrHelper" class="org.openiam.provision.service.UserAttributeHelper">
 			<property name="loginManager" ref="loginManager" />
 	</bean>
-	
+
 	<bean id="ldapConnector" class="org.openiam.spml2.spi.ldap.LdapConnectorImpl">
 		<property name="managedSysService" ref="managedSysService" />	
 		<property name="managedSysObjectMatchDao" ref="managedSysObjectMatchDAO" />
