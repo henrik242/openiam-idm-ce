@@ -125,7 +125,7 @@ public class Role extends BaseObject implements Comparable<Role> {
      * Gets the value of the createDate property.
      *
      * @return possible object is
-     *         {@link XMLGregorianCalendar }
+     *         {@link Date }
      */
     public Date getCreateDate() {
         return createDate;
@@ -135,7 +135,7 @@ public class Role extends BaseObject implements Comparable<Role> {
      * Sets the value of the createDate property.
      *
      * @param value allowed object is
-     *              {@link XMLGregorianCalendar }
+     *              {@link Date }
      */
     public void setCreateDate(Date value) {
         this.createDate = value;

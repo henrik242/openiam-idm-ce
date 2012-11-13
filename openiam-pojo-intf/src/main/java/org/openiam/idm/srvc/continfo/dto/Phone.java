@@ -106,6 +106,8 @@ public class Phone implements java.io.Serializable {
         this.name = phoneEntity.getName();
         this.phoneType = phoneEntity.getPhoneType();
         this.parentId = phoneEntity.getParent() != null ? phoneEntity.getParent().getUserId() : "";
+        this.phoneNbr = phoneEntity.getPhoneNbr();
+
     }
 
     /**

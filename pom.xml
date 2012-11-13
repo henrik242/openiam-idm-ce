@@ -73,7 +73,7 @@
 		<module>openiam-pojo-intf</module>
 		<module>openiam-pojo-services</module>
 		<module>idm</module>
-<module>am</module>
+        <module>am</module>
     </modules>
 	<properties>
 		<mule.version>3.3.0</mule.version>
@@ -370,6 +370,20 @@
 		</repository>
 
 
+
+<repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <id>sonatype-nexus-releases</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </repository>
 
 
 

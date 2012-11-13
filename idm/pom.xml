@@ -25,6 +25,8 @@
 
 		<module>openiam-webconsole</module>
 		<module>openiam-selfservice</module>
+
+        <module>openiam-reportviewer</module>
   </modules>
   
 </project>

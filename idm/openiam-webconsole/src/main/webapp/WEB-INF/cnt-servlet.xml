@@ -32,7 +32,7 @@
     					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     					http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 <!-- organization controllers  -->
      <bean id="orgList" class="org.openiam.webadmin.org.OrganizationListController">
      	<property name="commandName" value="orgListCmd" />
@@ -220,8 +220,21 @@
 		<property name="formView" value="/report/inactivityparam" />
 		<property name="successView" value="report/templ/inactivityreport.jsp" />
      </bean> 
-     
-
+    <!-- BIRT Reporting -->
+    <bean id="reportListController" class="org.openiam.webadmin.reports.ReportListController">
+		<property name="commandName" value="reportListCommand" />
+		<property name="commandClass" value="org.openiam.webadmin.reports.ReportListCommand" />
+		<property name="formView" value="/birtreports/reportlist" />
+		<property name="successView" value="birtreports/report" />
+        <property name="reportService" ref="reportServiceClient" />
+     </bean>
+     <bean id="reportController" class="org.openiam.webadmin.reports.ReportController">
+		<property name="commandName" value="reportCommand" />
+		<property name="commandClass" value="org.openiam.webadmin.reports.ReportCommand" />
+		<property name="formView" value="/birtreports/report" />
+		<property name="successView" value="birtreports/reportlist.jsp" />
+        <property name="reportService" ref="reportServiceClient" />
+     </bean>
   	 <!-- connector list controller  -->
  
      <bean id="connectorList" class="org.openiam.webadmin.conn.def.ConnectorDefinitionListController">
@@ -997,7 +1010,8 @@
                 <prop key="/custDetail.cnt">clientDetail</prop>
 
                 <prop key="/userBulk.cnt">bulkProvisioning</prop>
-                   
+                <prop key="/birtReportList.cnt">reportListController</prop>
+                <prop key="/birtReport.cnt">reportController</prop>
             </props>
         </property>
     </bean>

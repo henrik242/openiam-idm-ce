@@ -40,6 +40,7 @@ public class UserAttributeEntity {
         this.metadataElementId = userAttribute.getMetadataElementId();
         this.name = userAttribute.getName();
         this.user = user;
+        this.value = userAttribute.getValue();
     }
 
     public String getId() {
