@@ -123,16 +123,7 @@ public class LoginController extends SimpleFormController {
 			// user has not been authenticated - show the public menus
 			List<Menu> menus = navigationDataService.menuGroupByUser(rootMenu, userId, appConfiguration.getDefaultLang()).getMenuList();
 			session.setAttribute("topLevelMenus", menus);
-			
-			session.setAttribute("publicLeftMenuGroup",
-					navigationDataService.menuGroup(publicLeftMenuGroup, appConfiguration.getDefaultLang()).getMenuList());
-			session.setAttribute("publicRightMenuGroup1",
-					navigationDataService.menuGroup(publicRightMenuGroup1, appConfiguration.getDefaultLang()).getMenuList());
-			session.setAttribute("publicRightMenuGroup2",
-					navigationDataService.menuGroup(publicRightMenuGroup2, appConfiguration.getDefaultLang()).getMenuList());
-			session.setAttribute("publicRightMenuGroup3",
-					navigationDataService.menuGroup(publicRightMenuGroup3, appConfiguration.getDefaultLang()).getMenuList());
-			
+
 		}
 		
 		return dataMap;

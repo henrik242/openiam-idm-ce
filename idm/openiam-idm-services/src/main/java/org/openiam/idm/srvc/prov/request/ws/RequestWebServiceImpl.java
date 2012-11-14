@@ -25,6 +25,8 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
@@ -41,6 +43,8 @@ import org.openiam.idm.srvc.user.dto.Supervisor;
 		targetNamespace = "urn:idm.openiam.org/srvc/prov/request/service", 
 		serviceName = "RequestWebService")
 public class RequestWebServiceImpl implements RequestWebService {
+
+    private static final Log log = LogFactory.getLog(RequestWebServiceImpl.class);
 
 	RequestDataService provRequestService;
 	/* (non-Javadoc)
@@ -109,8 +113,8 @@ public class RequestWebServiceImpl implements RequestWebService {
 	public ProvisionReqListResponse search(SearchRequest search) {
 		ProvisionReqListResponse resp = new ProvisionReqListResponse(ResponseStatus.SUCCESS);
 		List<ProvisionRequest> reqList = provRequestService.search(search);
-		System.out.println("Request search results=" + reqList);
-		System.out.println("Search parameters=" + search);
+		log.debug("Request search results=" + reqList);
+		log.debug("Search parameters=" + search);
 		
 		if ( reqList != null && !reqList.isEmpty()) {
 			resp.setReqList(reqList);

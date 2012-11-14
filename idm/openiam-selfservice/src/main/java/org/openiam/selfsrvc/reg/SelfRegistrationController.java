@@ -235,12 +235,12 @@ public class SelfRegistrationController extends CancellableFormController {
 
 
         ProvisionRequest req = new ProvisionRequest();
-        req.setRequestorId("SELFREGISTER: " + usr.getFirstName() + " " + usr.getLastName());
+        req.setRequestorId(null);
         req.setStatus("PENDING");
         req.setStatusDate(curDate);
         req.setRequestDate(curDate);
         req.setRequestType(newUserResource.getResourceId());
-        req.setRequestReason(newUserResource.getDescription() + " FOR:" + usr.getFirstName() + " " + usr.getLastName());
+        req.setRequestTitle(newUserResource.getDescription() + " FOR:" + usr.getFirstName() + " " + usr.getLastName());
 
         if (usr.getCompanyId() != null && usr.getCompanyId().length() > 0) {
             req.setRequestForOrgId(usr.getCompanyId());

@@ -3,252 +3,201 @@ package org.openiam.selfsrvc.prov;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
-import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
+import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
+import org.openiam.idm.srvc.prov.request.dto.RequestApprover;
+import org.openiam.idm.srvc.prov.request.dto.RequestUser;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
-import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
+import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
-import org.openiam.selfsrvc.pswd.PasswordConfiguration;
+import org.openiam.selfsrvc.AppConfiguration;
+import org.openiam.selfsrvc.wrkflow.WorkflowRequest;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller for the new hire form.
- * @author suneet
  *
+ * @author suneet
  */
-public class ChangeAccessWizardController extends AbstractWizardFormController {
+public class ChangeAccessWizardController extends CancellableFormController {
 
 
-	protected UserDataWebService userMgr;
-	protected ResourceDataService resourceDataService;
-	protected PasswordConfiguration configuration;
-	protected String resourceName;
-	
-	private RoleDataWebService roleDataService;
-	private GroupDataWebService groupManager;
-	protected ProvisionService provisionService;
-	protected OrganizationDataService orgManager;
-	
-	 	
-	String defaultDomainId;
-	String menuGroup;
-	
-	private static final Log log = LogFactory.getLog(ChangeAccessWizardController.class);
+    protected UserDataWebService userMgr;
+    protected ResourceDataService resourceDataService;
+    protected AppConfiguration configuration;
+    protected String resourceName;
 
-	
-	public ChangeAccessWizardController() {
-		super();
-	}
-	
-
-	@Override
-	protected void initBinder(HttpServletRequest request,
-			ServletRequestDataBinder binder) throws Exception {
-		
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"),true) );
-	}
-	
-	protected ModelAndView processFinish(HttpServletRequest request,
-			HttpServletResponse response, Object command, BindException arg3)
-			throws Exception {
-		
-	
-		
-		  Map model = new HashMap();   
-	      model.put("message", "Job done!");   
-	      return new ModelAndView("pub/confirm");   
-	        
-	}
-
-	protected ModelAndView processCancel(HttpServletRequest request,
-			HttpServletResponse response, Object command, BindException errors)
-			throws Exception {
-		
-		Map model = new HashMap();   
-        model.put("message", "Request to reset the password has been canceled");   
-        return new ModelAndView("pub/cancel");   
-        
-	}
-	
-	protected void validatePage(Object command, Errors errors, int page) {
-		log.debug("Validate page:" + page);
-		ChangeAccessValidator validator = (ChangeAccessValidator)getValidator();
-		switch (page) {
-		case 0: 
-		//	validator.validateUnlockUser(command, errors);
-			break;
-		case 1:
-		//	validator.validateUnlockVerifyIdentity(command, errors);
-			break;
-		case 2:
-		//	validator.validateUnlockSetNewPassword(command, errors);
-			break;
-		}
-		
-	}
+    private RoleDataWebService roleDataService;
+    private GroupDataWebService groupManager;
+    protected ProvisionService provisionService;
+    protected OrganizationDataService orgManager;
+    protected Map<String, String> workflowUrl;
 
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		
-		ChangeAccessCommand command = new ChangeAccessCommand();
-		// get the user information
-		HttpSession session = (HttpSession)request.getSession();
-		String userId = (String)session.getAttribute("userId");
-		User usr = userMgr.getUserWithDependent(userId, false).getUser();
-		command.setFirstName(usr.getFirstName());
-		command.setLastName( usr.getLastName() );
-		command.setPhoneAreaCd(usr.getAreaCd());
-		command.setPhoneNbr(usr.getPhoneNbr());		
-		command.setTitle(usr.getTitle());
-		command.setEmail(usr.getEmail());
-		command.setDepartment(usr.getDeptCd());
-		command.setRequestorUserId(usr.getUserId());
-		// get the list of roles
+    String defaultDomainId;
+    String menuGroup;
 
-		List<Resource> resourceList = resourceDataService.getResourcesByType(this.configuration.getManagedSystemType());
-		command.setResourceList(resourceList);
-		
-		return command;
-		
-		
-	}
+    private static final Log log = LogFactory.getLog(ChangeAccessWizardController.class);
+
+
+    public ChangeAccessWizardController() {
+        super();
+    }
+
+
+    @Override
+    protected void initBinder(HttpServletRequest request,
+                              ServletRequestDataBinder binder) throws Exception {
+
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
+    }
+
+
+    protected ModelAndView onCancel(Object command) throws Exception {
+        return new ModelAndView("priv/cancel");
+
+    }
+
+
+    @Override
+    protected Map referenceData(HttpServletRequest request) throws Exception {
+        Map model = new HashMap();
+
+        List<Resource> processResourceList = resourceDataService.getResourcesByType(configuration.getWorkFlowResourceType());
+        model.put("workflowList", processResourceList);
+
+        return model;
+    }
+
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+
+        ChangeAccessCommand changeCmd = (ChangeAccessCommand) command;
+
+        String workflowId = changeCmd.getWorkflowResourceId();
+        String personId = changeCmd.getUserId();
+
+        WorkflowRequest wrkFlowRequest = new WorkflowRequest();
+        wrkFlowRequest.setPersonId(personId);
+        wrkFlowRequest.setWorkflowResId(workflowId);
+        wrkFlowRequest.setRequestorId((String)request.getSession().getAttribute("userId"));
+
+        request.getSession().setAttribute("wrkflowRequest", wrkFlowRequest);
+
+
+        if (workflowId != null) {
+            String url =  workflowUrl.get(workflowId);
+            return new ModelAndView(new RedirectView(url, true));
+
+
+        }
+
+
+        return super.onSubmit(request, response, command, errors);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
 
 
-	protected Map referenceData(HttpServletRequest request, int page) throws Exception {
-		switch (page) {
-		case 0:
-			return null;
-		case 1:
-			return null;
-		case 2:
-			return loadAppInformation(request);
 
-		}
-		return null;
-	}
-	
-	protected Map loadAppInformation(HttpServletRequest request) {
-		
-		log.info("loadAppInformation called.");
-		
-		Map model = new HashMap();
-		
-		List<Resource> resourceList = resourceDataService.getResourcesByType(this.configuration.getManagedSystemType());
-		model.put("resourceList", resourceList);
-		
-		List<Role> roleList = roleDataService.getAllRoles().getRoleList();
-		model.put("roleList", roleList);		
-		 
-		List<Group> groupList = groupManager.getAllGroups().getGroupList();
-		model.put("groupList", groupList);
-		
-		List<Organization> deptList = orgManager.allDepartments(null);
-		model.put("deptList",deptList);
-		
-		return model;
-		
-	}
+    public ResourceDataService getResourceDataService() {
+        return resourceDataService;
+    }
 
 
-	public ResourceDataService getResourceDataService() {
-		return resourceDataService;
-	}
+    public void setResourceDataService(ResourceDataService resourceDataService) {
+        this.resourceDataService = resourceDataService;
+    }
 
 
-	public void setResourceDataService(ResourceDataService resourceDataService) {
-		this.resourceDataService = resourceDataService;
-	}
+    public UserDataWebService getUserMgr() {
+        return userMgr;
+    }
 
 
-	public PasswordConfiguration getConfiguration() {
-		return configuration;
-	}
+    public void setUserMgr(UserDataWebService userMgr) {
+        this.userMgr = userMgr;
+    }
 
 
-	public void setConfiguration(PasswordConfiguration configuration) {
-		this.configuration = configuration;
-	}
+    public String getResourceName() {
+        return resourceName;
+    }
 
 
-	public UserDataWebService getUserMgr() {
-		return userMgr;
-	}
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
 
 
-	public void setUserMgr(UserDataWebService userMgr) {
-		this.userMgr = userMgr;
-	}
+    public RoleDataWebService getRoleDataService() {
+        return roleDataService;
+    }
 
 
-	public String getResourceName() {
-		return resourceName;
-	}
+    public void setRoleDataService(RoleDataWebService roleDataService) {
+        this.roleDataService = roleDataService;
+    }
 
 
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
+    public GroupDataWebService getGroupManager() {
+        return groupManager;
+    }
 
 
-	public RoleDataWebService getRoleDataService() {
-		return roleDataService;
-	}
+    public void setGroupManager(GroupDataWebService groupManager) {
+        this.groupManager = groupManager;
+    }
 
 
-	public void setRoleDataService(RoleDataWebService roleDataService) {
-		this.roleDataService = roleDataService;
-	}
+    public ProvisionService getProvisionService() {
+        return provisionService;
+    }
 
 
-	public GroupDataWebService getGroupManager() {
-		return groupManager;
-	}
+    public void setProvisionService(ProvisionService provisionService) {
+        this.provisionService = provisionService;
+    }
 
 
-	public void setGroupManager(GroupDataWebService groupManager) {
-		this.groupManager = groupManager;
-	}
+    public OrganizationDataService getOrgManager() {
+        return orgManager;
+    }
 
 
-	public ProvisionService getProvisionService() {
-		return provisionService;
-	}
+    public void setOrgManager(OrganizationDataService orgManager) {
+        this.orgManager = orgManager;
+    }
 
+    public AppConfiguration getConfiguration() {
+        return configuration;
+    }
 
-	public void setProvisionService(ProvisionService provisionService) {
-		this.provisionService = provisionService;
-	}
+    public void setConfiguration(AppConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
+    public Map<String, String> getWorkflowUrl() {
+        return workflowUrl;
+    }
 
-	public OrganizationDataService getOrgManager() {
-		return orgManager;
-	}
-
-
-	public void setOrgManager(OrganizationDataService orgManager) {
-		this.orgManager = orgManager;
-	}
+    public void setWorkflowUrl(Map<String, String> workflowUrl) {
+        this.workflowUrl = workflowUrl;
+    }
 }

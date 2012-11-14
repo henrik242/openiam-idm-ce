@@ -8,26 +8,27 @@
 <!--
 
 function showUserDialog(idfield, namefield) {
-	var ua = window.navigator.userAgent;
+    var ua = window.navigator.userAgent;
     var msie = ua.indexOf ( "MSIE " );
 
-    if ( msie > 0 ) {	
-		dialogReturnValue = window.showModalDialog("user/dialogshell.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
-		document.getElementById (idfield).value = dialogReturnValue.id;
-		document.getElementById (nameField).value = dialogReturnValue.name;
+    if ( msie > 0 ) {
+        dialogReturnValue = window.showModalDialog("user/dialogshell.jsp",null,"dialogWidth:800px;dialogHeight:600px;");
+        document.getElementById (idfield).value = dialogReturnValue.id;
+        document.getElementById (nameField).value = dialogReturnValue.name;
     }else {
         var prevReturnValue = window.returnValue;
         window.returnValue = undefined;
-        dialogReturnValue = window.showModalDialog("user/seluser.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+        dialogReturnValue = window.showModalDialog("user/seluser.jsp",null,"dialogWidth:800px;dialogHeight:600px;");
         if(dialogReturnValue == undefined) {
             dialogReturnValue = window.returnValue;
         }
         window.returnValue = prevReturnValue;
 
-    	document.getElementById (idfield).value = dialogReturnValue.id;
-    	document.getElementById (namefield).value = dialogReturnValue.name;
+        document.getElementById (idfield).value = dialogReturnValue.id;
+        document.getElementById (namefield).value = dialogReturnValue.name;
     }
 }
+
 
 
 String.prototype.toProperCase = function() 
@@ -50,58 +51,55 @@ function validateInt(fld) {
 //-->
 </script>
 
-<form:form commandName="changeAccessCmd">
-<table width="620" border="0" cellspacing="2" cellpadding="1" align="center"> 
-	<tr>
-      <td colspan="4" class="title">         
-          <strong>Create Request - Select Users</strong>
-      </td>
-      <td colspan="2" class="text" align="right">         
-          <font size="1" color="red">*</font> Required         
-      </td>
-   </tr>
-  
-   <tr>
- 		<td colspan="6" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr> 
-   <tr>
- 		<td colspan="6" class="help">
- 		  Please select a user for this requests
- 		</td>
-  </tr>  
-   <tr>
-       <td class="tdlight" colspan="6">
-           	<form:hidden path="userId" />
-            <form:input path="userName" size="40" readonly="true" /> <a href="javascript:showUserDialog('userId', 'userName' );">Select User</a>
-       
-			<font color="red"></font>
-       </td>
-    </tr>
+<form:form commandName="changeAccessCmd"  cssClass="user-info">
 
+    <fieldset>
 
+        <div class="block">
+            <div class="wrap alt">
+                <h4>Create Request</h4>
+                <!-- col 1 -->
+                <div class="col">
+                    <div class="row">
+                        <label for="t-1"><a href="javascript:showUserDialog('userId', 'userName' );">Select User For Request</a></label>
+                        <form:hidden path="userId" /><form:input path="userName" size="40" readonly="true" />
+                        <form:errors path="userId" cssClass="error" />
+                    </div>
+                    <div class="row">
+                        <label for="t-1">Select a Workflow:</label>
+                        <form:select path="workflowResourceId" multiple="false">
+                            <form:option value="-" label="-Please Select-"/>
+                            <form:options items="${workflowList}" itemValue="resourceId" itemLabel="name"/>
+                        </form:select>
+                        <form:errors path="workflowResourceId" cssClass="error" />
+                    </div>
+                    <div class="row">
+                        <label for="t-1">Start / Effective Date (MM/dd/yyyy):</label>
+                        <form:input path="startDate" size="20"  />
+                    </div>
+                    <div class="row">
+                        <label for="t-1">Reason:</label>
+                        <form:textarea path="reason" cols="60" rows="4" />
+                    </div>
+                </div>
+                <!-- col 2 -->
+                <div class="col">
+                    <div class="row">
+                    </div>
 
-    <tr>
-    	  <td colspan="6">&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="6" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
+                </div>
 
-  <tr>
-    <td colspan="6" align="right"> 
-   	 	  <input type="submit" name="_target0" value="Previous"/> 
-    	  <input type="submit" name="_target2" value="Next"/>   
-    	  <input type="submit" name="_cancel" value="Cancel" />  
-    </td>
-  </tr>
-  
-
-</table>
+            </div>
+        </div>
+        <div class="button">
+            <input type="submit" name="_cancel" value="Cancel" />
+        </div>
+        <div class="button">
+            <input type="submit" name="_target2" value="Next"/>
+        </div>
+        <div class="button">
+            <input type="submit" name="_target0" value="Previous"/>
+        </div>
+    </fieldset>
 
 </form:form>
-

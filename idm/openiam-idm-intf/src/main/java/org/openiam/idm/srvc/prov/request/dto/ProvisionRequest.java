@@ -12,6 +12,10 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+//import org.openiam.idm.srvc.prov.request.domain.ProvisionRequestEntity;
+//import org.openiam.idm.srvc.prov.request.domain.RequestApproverEntity;
+//import org.openiam.idm.srvc.prov.request.domain.RequestUserEntity;
+import org.openiam.idm.srvc.user.dto.User;
 /**
  * Domain object for a provisioning request
  */
@@ -29,40 +33,36 @@ import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
     "changeAccessBy",
     "newRoleId",
     "newServiceId",
-    "managedSyses",
-    "requestAttributes",
     "requestApprovers",
-    "requestAttachments",
     "requestUsers",
-    "requestForOrgId"
+    "requestForOrgId",
+    "requestTitle"
 })
 public class ProvisionRequest implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5432383771223874649L;
 	protected String requestId;
-	protected String requestorId;
 	protected Date requestDate;
 	protected String status;
+
     @XmlSchemaType(name = "dateTime")
 	protected Date statusDate;
 	protected String requestReason;
 	protected String requestType;
 	protected String requestXML;
 	protected String managedResourceId;
-	
+    protected String requestorId;
+
+    protected String requestTitle;
+
+
 	protected String changeAccessBy;
 	protected String newRoleId;
 	protected String newServiceId;
 
     protected String requestForOrgId;
-	
-	protected Set<ManagedSys> managedSyses = new HashSet<ManagedSys>(0);
-	protected Set<RequestAttribute> requestAttributes = new HashSet<RequestAttribute>(0);
+
+
 	protected Set<RequestApprover> requestApprovers = new HashSet<RequestApprover>(0);
-	protected Set<RequestAttachment> requestAttachments = new HashSet<RequestAttachment>(0);
 	protected Set<RequestUser> requestUsers = new HashSet<RequestUser>(0);
 
 	public ProvisionRequest() {
@@ -72,27 +72,44 @@ public class ProvisionRequest implements java.io.Serializable {
 		this.requestId = requestId;
 	}
 
-	public ProvisionRequest(String requestId, String requestorId, Date requestDate,
-			String status, Date statusDate, String requestReason,
-			Set<ManagedSys> managedSyses,
-			Set<RequestAttribute> requestAttributes,
-			Set<RequestApprover> requestApprovers,
-			Set<RequestAttachment> requestAttachments,
-			Set<RequestUser> requestUserLists) {
-		this.requestId = requestId;
-		this.requestorId = requestorId;
-		this.requestDate = requestDate;
-		this.status = status;
-		this.statusDate = statusDate;
-		this.requestReason = requestReason;
-		this.managedSyses = managedSyses;
-		this.requestAttributes = requestAttributes;
-		this.requestApprovers = requestApprovers;
-		this.requestAttachments = requestAttachments;
-		this.requestUsers = requestUserLists;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProvisionRequest)) return false;
 
-	public String getRequestId() {
+        ProvisionRequest that = (ProvisionRequest) o;
+
+        if (changeAccessBy != null ? !changeAccessBy.equals(that.changeAccessBy) : that.changeAccessBy != null)
+            return false;
+        if (managedResourceId != null ? !managedResourceId.equals(that.managedResourceId) : that.managedResourceId != null)
+            return false;
+        if (newRoleId != null ? !newRoleId.equals(that.newRoleId) : that.newRoleId != null) return false;
+        if (newServiceId != null ? !newServiceId.equals(that.newServiceId) : that.newServiceId != null) return false;
+        if (requestApprovers != null ? !requestApprovers.equals(that.requestApprovers) : that.requestApprovers != null)
+            return false;
+        if (requestDate != null ? !requestDate.equals(that.requestDate) : that.requestDate != null) return false;
+        if (requestForOrgId != null ? !requestForOrgId.equals(that.requestForOrgId) : that.requestForOrgId != null)
+            return false;
+        if (!requestId.equals(that.requestId)) return false;
+        if (requestReason != null ? !requestReason.equals(that.requestReason) : that.requestReason != null)
+            return false;
+        if (requestTitle != null ? !requestTitle.equals(that.requestTitle) : that.requestTitle != null) return false;
+        if (requestType != null ? !requestType.equals(that.requestType) : that.requestType != null) return false;
+        if (requestUsers != null ? !requestUsers.equals(that.requestUsers) : that.requestUsers != null) return false;
+        if (requestXML != null ? !requestXML.equals(that.requestXML) : that.requestXML != null) return false;
+        if (requestorId != null ? !requestorId.equals(that.requestorId) : that.requestorId != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return requestId.hashCode();
+    }
+
+    public String getRequestId() {
 		return this.requestId;
 	}
 
@@ -100,13 +117,7 @@ public class ProvisionRequest implements java.io.Serializable {
 		this.requestId = requestId;
 	}
 
-	public String getRequestorId() {
-		return this.requestorId;
-	}
 
-	public void setRequestorId(String requestorId) {
-		this.requestorId = requestorId;
-	}
 
 	public Date getRequestDate() {
 		return this.requestDate;
@@ -140,31 +151,7 @@ public class ProvisionRequest implements java.io.Serializable {
 		this.requestReason = requestReason;
 	}
 
-	public Set<ManagedSys> getManagedSyses() {
-		return this.managedSyses;
-	}
 
-	public void setManagedSyses(Set<ManagedSys> managedSyses) {
-		this.managedSyses = managedSyses;
-	}
-
-	public Set<RequestAttribute> getRequestAttributes() {
-		return this.requestAttributes;
-	}
-
-	public void setRequestAttributes(Set<RequestAttribute> requestAttributes) {
-		this.requestAttributes = requestAttributes;
-	}
-
-
-
-	public Set<RequestAttachment> getRequestAttachments() {
-		return this.requestAttachments;
-	}
-
-	public void setRequestAttachments(Set<RequestAttachment> requestAttachments) {
-		this.requestAttachments = requestAttachments;
-	}
 
 	public Set<RequestUser> getRequestUsers() {
 		return this.requestUsers;
@@ -238,5 +225,44 @@ public class ProvisionRequest implements java.io.Serializable {
 
     public void setRequestForOrgId(String requestForOrgId) {
         this.requestForOrgId = requestForOrgId;
+    }
+
+    public String getRequestTitle() {
+        return requestTitle;
+    }
+
+    public void setRequestTitle(String requestTitle) {
+        this.requestTitle = requestTitle;
+    }
+
+
+    public String getRequestorId() {
+        return requestorId;
+    }
+
+    public void setRequestorId(String requestorId) {
+        this.requestorId = requestorId;
+    }
+
+    @Override
+    public String toString() {
+        return "ProvisionRequest{" +
+                "requestId='" + requestId + '\'' +
+                ", requestDate=" + requestDate +
+                ", status='" + status + '\'' +
+                ", statusDate=" + statusDate +
+                ", requestReason='" + requestReason + '\'' +
+                ", requestType='" + requestType + '\'' +
+                ", requestXML='" + requestXML + '\'' +
+                ", managedResourceId='" + managedResourceId + '\'' +
+                ", requestorId='" + requestorId + '\'' +
+                ", requestTitle='" + requestTitle + '\'' +
+                ", changeAccessBy='" + changeAccessBy + '\'' +
+                ", newRoleId='" + newRoleId + '\'' +
+                ", newServiceId='" + newServiceId + '\'' +
+                ", requestForOrgId='" + requestForOrgId + '\'' +
+                ", requestApprovers=" + requestApprovers +
+                ", requestUsers=" + requestUsers +
+                '}';
     }
 }

@@ -30,6 +30,7 @@ public class BulkProvsioningValidator implements Validator {
 
 	
 	public void validateUserSelectionForm(Object cmd, Errors err) {
+        log.info("validateUserSelectionForm() ...." );
 
         BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
 
@@ -40,13 +41,19 @@ public class BulkProvsioningValidator implements Validator {
             return;
         }
 
+        log.info("validated that search criteria exist. Checking the resultset next() ...." );
+
         BulkMigrationConfig config = provCmd.getConfig();
 
         Integer resultSize = (Integer)  idSyncClient.testBulkMigrationImpact(config).getResponseValue();
 
+        log.info("validateUserSelectionForm: " + resultSize);
+
         if (resultSize != null) {
 
             provCmd.setResultSetSize(resultSize.intValue());
+
+            log.info("Result set size: " + resultSize.intValue());
         }
 
     }
@@ -54,6 +61,8 @@ public class BulkProvsioningValidator implements Validator {
 
 	
 	public void validateOperation(Object cmd, Errors err) {
+        log.info("validateOperation() ...." );
+
         BulkProvisioningCommand provCmd =  (BulkProvisioningCommand) cmd;
 
         if ( provCmd.getActionType() == null || provCmd.getActionType().isEmpty()) {

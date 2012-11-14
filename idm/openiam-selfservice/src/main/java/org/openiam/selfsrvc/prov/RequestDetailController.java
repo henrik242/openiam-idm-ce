@@ -132,7 +132,7 @@ public class RequestDetailController extends SimpleFormController {
         if (userId != null) {
             // load the user object for the requestor
 
-            if (req.getRequestorId().equalsIgnoreCase("ANONYMOUS")) {
+            if (req.getRequestorId() == null || req.getRequestorId().isEmpty()) {
                 reqDetailCommand.setRequestor(pUser);
 
             }else {

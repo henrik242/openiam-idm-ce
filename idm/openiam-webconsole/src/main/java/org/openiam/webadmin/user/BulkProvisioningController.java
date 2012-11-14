@@ -148,7 +148,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
     @Override
     protected Map referenceData(HttpServletRequest request, int page) throws Exception {
 
-        log.debug("in referenceData");
+        log.info("in referenceData");
 
         switch (page) {
             case 0:
@@ -161,7 +161,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
     }
 
     protected Map loadUserSearchValues(HttpServletRequest request) {
-        log.debug("referenceData:loadUserTypes called.");
+        log.info("referenceData:loadUserTypes called.");
 
         HttpSession session = request.getSession();
 

@@ -55,7 +55,7 @@
 		<!--property name="bpmService" ref="bpmServiceClient" / -->
         <property name="provRequestService" ref="provRequestServiceClient" />
         <property name="orgManager" ref="orgServiceClient" />
-		
+
 		<property name="sessionForm"><value>true</value></property>
         <property name="extendController" value="/ui/selfservice/LoginController.groovy" />
 			
@@ -434,31 +434,32 @@
      </bean> 
 
      <!-- change access controller  -->
-
-     <bean id="changeAccess" class="org.openiam.selfsrvc.prov.ChangeAccessWizardController">
-        <property name="pages">  
-            <list>  
-                <value>prov/selectusers</value>
-                <value>prov/selectapps</value>  
-            </list>  
-        </property>  
-		<property name="commandName" value="changeAccessCmd" />
-		<property name="commandClass" value="org.openiam.selfsrvc.prov.ChangeAccessCommand" />
-		<property name="resourceName" value="SELFSERVICE_CREATEREQUEST" />
-		<property name="validator" ref="changeAccessValidator" />
-		<property name="userMgr" ref="userServiceClient" />
-		<property name="resourceDataService" ref="resourceServiceClient" />
-		<property name="configuration" ref="passwordConfiguration" />
-		
-		<property name="roleDataService" ref="roleServiceClient" />
+    <bean id="changeAccess" class="org.openiam.selfsrvc.prov.ChangeAccessWizardController">
+        <property name="commandName" value="changeAccessCmd" />
+        <property name="commandClass" value="org.openiam.selfsrvc.prov.ChangeAccessCommand" />
+        <property name="formView" value="prov/selectusers" />
+        <property name="successView" value="prov/selectusers" />
+        <property name="validator" ref="changeAccessValidator" />
+        <property name="userMgr" ref="userServiceClient" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="configuration" ref="appConfiguration" />
+    	<property name="roleDataService" ref="roleServiceClient" />
 		<property name="groupManager" ref="groupServiceClient" />
 		<property name="provisionService" ref="provisionServiceClient" />	
 		<property name="orgManager" ref="orgServiceClient" />
+        <property name="workflowUrl">
+            <map>
+                <entry key="260" value="newHire.selfserve" />
+                <entry key="261" value="terminateUser.selfserve" />
+                <entry key="262" value="changeUserAccess.selfserve" />
+            </map>
+        </property>
 		
      </bean>
      <bean id="changeAccessValidator" class="org.openiam.selfsrvc.prov.ChangeAccessValidator">
      	<property name="userMgr" ref="userServiceClient" />
      	<property name="loginManager" ref="loginServiceClient" />
+         <property name="newHireProcessId" value="260" />
      </bean>  
      
      <bean id="selectUser" class="org.openiam.selfsrvc.dlg.SelectUserController">
@@ -493,8 +494,34 @@
 		<property name="formView" value="/priv/outofoffice" />
 		<property name="successView" value="/priv/confirm" />
      </bean>
-      
-      <!-- Delegated admin - user administration  -->
+
+        <!-- CE Workflow type of controller  -->
+
+
+    <bean id="startTerminateFlow" class="org.openiam.selfsrvc.wrkflow.terminate.TerminateUserController">
+        <property name="view" value="/priv/flow/startTerminate" />
+        <property name="viewErr" value="/priv/flow/startTerminateFail" />
+        <property name="provRequestService" ref="provRequestServiceClient" />
+        <property name="userManager" ref="userServiceClient" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="managedSysService" ref="managedSysServiceClient" />
+        <property name="mailService" ref="mailServiceClient" />
+    </bean>
+
+
+    <bean id="startChangeUserAccess" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessController">
+        <property name="sessionForm"><value>true</value></property>
+        <property name="commandName" value="changeUserAccess" />
+        <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessCommand" />
+        <property name="formView" value="/priv/flow/changeUserAccess" />
+        <property name="successView" value="/priv/confirm" />
+        <property name="roleDataService" ref="roleServiceClient" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+    </bean>
+
+
+
+        <!-- Delegated admin - user administration  -->
 
 
 
@@ -666,17 +693,11 @@
     </bean>
     <bean id="myIdentityDetailValidator" class="org.openiam.selfsrvc.myidentity.ManageMyIdentityValidator">
     </bean>
-      
-       
- <!--     <bean id="createRequest" class="org.openiam.selfsrvc.prov.NewRequestController">
-     	<property name="sessionForm"><value>true</value></property>
-		<property name="commandName" value="newRequestCmd" />
-		<property name="commandClass" value="org.openiam.selfsrvc.prov.NewRequestCommand" />
-		<property name="formView" value="/priv/createrequest" />
-		<property name="successView" value="/priv/confirm" />
-     </bean>
--->
-     
+
+
+
+
+
      <bean id="viewResolver"  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
      	<property name="prefix" value="/home.jsp?bodyjsp=" />
      	<property name="suffix" value=".jsp" />
@@ -726,6 +747,8 @@
 
                 <prop key="/myIdentityDetail.selfserve">myIdentityDetailView</prop>
                 <prop key="/myIdentityList.selfserve">myIdentityList</prop>
+                <prop key="/terminateUser.selfserve">startTerminateFlow</prop>
+                <prop key="/changeUserAccess.selfserve">startChangeUserAccess</prop>
   
                 
             </props>
@@ -733,7 +756,4 @@
     </bean>  
     
 </beans>
-
-
-
 

@@ -4,143 +4,120 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
-  String userId = (String)session.getAttribute("userId");
-  String token = (String)session.getAttribute("token");
-  String login = (String)session.getAttribute("login");
-  String queryString = "userId=" + userId + "&lg="+login + "&tk=" + token;
-  
+    String userId = (String)session.getAttribute("userId");
+    String token = (String)session.getAttribute("token");
+    String login = (String)session.getAttribute("login");
+    String queryString = "userId=" + userId + "&lg="+login + "&tk=" + token;
+
 %>
 
 
 <head>
 
-<base target="_self" />
+    <base target="_self" />
 
-<link href="<%=request.getContextPath()%>/diamelleapp.css" rel="stylesheet" type="text/css">
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/all.css" type="text/css"/>
+    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.7.1.min.js"></script>
+    <script src="<%= request.getContextPath() %>/js/cufon-yui.js" type="text/javascript"></script>
+    <script src="<%= request.getContextPath() %>/js/myriad-pro.js" type="text/javascript"></script>
+    <script src="<%= request.getContextPath() %>/js/calibri.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.main.js"></script>
 </head>
 
 <% List<User> userList = (List<User>)session.getAttribute("supervisorList");
-   String msg = (String)session.getAttribute("msg"); %>
+    String msg = (String)session.getAttribute("msg"); %>
 
 <script type="text/javascript">
-function selUser(userId, name)
-{
+    function selUser(userId, name)
+    {
 
-  var o = new Object();
-  o.id = userId;
-  o.name = name;
-  if(window.opener){
-    window.opener.returnValue = o;
-  }
-  window.returnValue = o; 
-}
+        var o = new Object();
+        o.id = userId;
+        o.name = name;
+        if(window.opener){
+            window.opener.returnValue = o;
+        }
+        window.returnValue = o;
+    }
 </script>
 
+
+
 <body>
+<div id="wrapper">
+    <div id="content">
+        <form action="<%=request.getContextPath() %>/selectUser.selfserve?<%=queryString%>" method="post" target="_self">
+            <fieldset>
+                <div class="block">
+                    <div class="wrap alt">
+                        <div class="col-1">
+                            <div class="row alt">
+                                <label for="t-1">First Name</label>
+                                <input type="text" name="firstName" size="30" maxlength="30"/>
+                                <p class="info">'%' for wildcard searches</p>
+                            </div>
+                        </div>
 
-<form action="<%=request.getContextPath() %>/selectUser.selfserve?<%=queryString%>" method="post" target="_self">
-<table width="620" border="0" cellspacing="2" cellpadding="1" align="center"> 
-	<tr>
-      <td colspan="3" class="title">         
-          <strong>Select a User</strong>
-      </td>
-      <td class="text" align="right">         
-          <font size="1" color="red">*</font> Required         
-      </td>
-   </tr>
-   
-   <tr>
- 		<td colspan="4" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr> 
-   <tr>
-       <td class="plaintext" align="right">First Name</td>
-       <td class="plaintext" ><input type="text" name="firstName" size="30"></td>
+                        <div class="col-1">
+                            <div class="row alt">
+                                <label for="t-2">Last Name</label>
+                                <input type="text" name="lastName" size="30" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="button">
+                            <input type="submit" value="Search"/>
 
-     	<td class="plaintext" align="right">Last Name</td>
-       <td class="plaintext" ><input type="text" name="lastName" size="30"></td>
-    </tr>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
 
-    
-   
-	<tr>
- 		<td class="plaintext"></td>
-		<td class="plaintext"> 
+        </form>
+        <h4 class="alignment">Search Results</h4>
+
+        <%	if (session.getAttribute("result") != null) { %>
+        <table class="resource alt" width="600">
+            <tbody>
+            <tr class="caption">
+                <th>Name</th>
+                <th>Title</th>
+                <th>E-mail</th>
+                <th>Department</th>
+            </tr>
+
+            <% if (msg != null) { %>
+            <tr class="error">
+                <td colspan="2"><%=msg %></td>
+            </tr>
+            <% } %>
 
 
-		</td>
-		
-	</tr>
+            <%
+                if (userList != null) {
+                    for (User user : userList) { %>
 
-    <tr>
-    	  <td colspan="4">&nbsp;</td>
-    </tr>
- 
-    <tr>
- 		   <td colspan="4" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    </tr>
 
-  <tr>
-    <td colspan="4" align="right"> 
-          <input type="submit" value="Search"/>  <input type="submit" value="Close" onClick="window.close();"/>   
-    </td>
-  </tr>
-  
-</table>
-</form>
+            <tr>
 
-		
-<%	if (session.getAttribute("result") != null) { %>
- <table width="620" border="0" cellspacing="2" cellpadding="1" align="center"> 
-	<tr>
-      <td colspan="3" class="title">         
-          <strong>Search Results</strong>
-      </td>
-   </tr>
-   
-   <tr>
- 		<td colspan="3" align="center" bgcolor="8397B4" >
- 		  <font></font>
- 		</td>
-  </tr> 
+                <td><a href="javascript:selUser('<%=user.getUserId()%>','<%=user.getFirstName() %> <%=user.getLastName() %>' );window.close();">
+                    <%=user.getFirstName() %> <%=user.getLastName() %></a></td>
+                <td> <%=JSPUtil.display(user.getTitle())%> </td>
+                <td> <%=JSPUtil.display(user.getEmail())%> </td>
+                <td> <%=JSPUtil.display(user.getDeptCd())%> </td>
+            </tr>
+            <% 	}
+            }
+            %>
+            </tbody>
+        </table>
 
-		<tr class="tdheader">
-
-			<td>Name </td>
-			<td>Department</td>
-			<td></td>
-		</tr>
-
-        <% if (msg != null) { %>
-			<tr class="error">
-	
-				<td colspan="3"><%=msg %></td>
-			</tr>
-		
-       	<% } %>
-		
-	<%	
-	if (userList != null) {
-		for (User user : userList) { %>
-	
-
-		<tr class="plaintext">
-
-			<td> <%=user.getFirstName() %> <%=user.getLastName() %></td>
-			<td> <%=JSPUtil.display(user.getDeptCd())%> </td>
-			<td>
-			<a href="javascript:selUser('<%=user.getUserId()%>','<%=user.getFirstName() %> <%=user.getLastName() %>' );window.close();">Select</a></td>
-		</tr>
-	<% 	}
-	}
-%>
-	</table>
-<% }  %>
+        <% }  %>
+    </div>
+</div>
 </body>
+	
+

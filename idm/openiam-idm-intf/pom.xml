@@ -81,14 +81,15 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
-    </dependency> 
-    
-    
-    <dependency>
-      <groupId>org.openiam</groupId>
-      <artifactId>openiam-pojo-intf</artifactId>
-      <version>2.1.0</version>
     </dependency>
+
+      <dependency>
+          <groupId>org.openiam</groupId>
+          <artifactId>openiam-pojo-intf</artifactId>
+          <version>2.1.0</version>
+      </dependency>
+
+
 
      <dependency>
     	<groupId>org.apache.geronimo.specs</groupId>

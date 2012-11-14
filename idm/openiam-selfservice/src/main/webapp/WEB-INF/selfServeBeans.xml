@@ -40,6 +40,8 @@
 		<property name="defaultSecurityDomain" value="USR_SEC_DOMAIN" />
 		<property name="defaultManagedSysId" value="0" />
         <property name="userCategoryType" value="USER_TYPE" />
+        <property name="workFlowResourceType" value="WORKFLOW" />
+        <property name="ssoResourceType" value="WORKFLOW" />
 
 
 		<!--  name of public menu groups  -->

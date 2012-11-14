@@ -24,6 +24,9 @@ public class AppConfiguration {
 
 	protected String defaultSecurityDomain = null;
 	protected String defaultManagedSysId = null;
+    protected String workFlowResourceType;
+    protected String ssoResourceType;
+
 
 	
 	public Integer getMaxResultSetSize() {
@@ -109,7 +112,21 @@ public class AppConfiguration {
         this.userCategoryType = userCategoryType;
     }
 
+    public String getWorkFlowResourceType() {
+        return workFlowResourceType;
+    }
 
+    public void setWorkFlowResourceType(String workFlowResourceType) {
+        this.workFlowResourceType = workFlowResourceType;
+    }
+
+    public String getSsoResourceType() {
+        return ssoResourceType;
+    }
+
+    public void setSsoResourceType(String ssoResourceType) {
+        this.ssoResourceType = ssoResourceType;
+    }
 }
 
 

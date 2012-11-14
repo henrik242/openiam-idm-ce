@@ -15,6 +15,10 @@
 									<label for="t-1">Request Id</label>
 									<form:input path="request.requestId" size="32" maxlength="32" readonly="true" />
 								</div>
+                                <div class="row">
+                                    <label for="t-1">Title</label>
+                                        ${requestDetailCmd.request.requestTitle}
+                                </div>
 								<div class="row">
 									<label for="t-1">Request Status</label>
 									<form:input path="request.status" size="32" maxlength="32" readonly="true" />
@@ -23,6 +27,7 @@
 									<label for="t-1">Requestor</label>
 									${requestDetailCmd.requestor.firstName} ${requestDetailCmd.requestor.lastName}					
 								</div>
+
 								<div class="row">
 									<label for="t-1">Description</label>
 									${requestDetailCmd.request.requestReason}					

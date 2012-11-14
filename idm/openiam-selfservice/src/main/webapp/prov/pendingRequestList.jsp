@@ -32,13 +32,17 @@
         		<td><a href="requestDetail.selfserve?requestId=${provisionRequest.requestId}<%=queryString%>"> ${provisionRequest.requestDate}</a></td>
         		<td> ${provisionRequest.requestorId}</td>
         		<td> ${provisionRequest.status}</td>
-        		<td> ${provisionRequest.requestReason}</td>
+        		<td> ${provisionRequest.requestTitle}</td>
     		</tr>
 </c:forEach>
 </c:if>
-					
-					
-				</tbody>
+                    <c:if test="${reqList == null}" >
+                        <tr>
+                            <td colspan="4">0 Requests are pending review.</td>
+                        </tr
+                    </c:if>
+
+                </tbody>
 			</table>
 		</div>
 	</div>
