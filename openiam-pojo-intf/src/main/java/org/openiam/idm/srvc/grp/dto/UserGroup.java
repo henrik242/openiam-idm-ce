@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
 
 /**
  * Object used for representing the Group-User relationship
@@ -52,6 +53,15 @@ public class UserGroup implements java.io.Serializable {
         this.status = status;
         this.createDate = createDate;
         this.createdBy = createdBy;
+    }
+
+    public UserGroup(UserGroupEntity groupEntity) {
+        this.userGrpId = groupEntity.getUserGrpId();
+        this.grpId = groupEntity.getGroup() != null ? groupEntity.getGroup().getGrpId() : "";
+        this.status = groupEntity.getStatus();
+        this.createDate = groupEntity.getCreateDate();
+        this.createdBy = groupEntity.getCreatedBy();
+        this.userId = groupEntity.getUser() != null ? groupEntity.getUser().getUserId() : "";
     }
 
     public String getUserGrpId() {

@@ -357,6 +357,7 @@
 		<property name="userGroupDao" ref="userGroupDAO" />
 		<property name="rolePolicyDao" ref="rolePolicyDAO" />
         <property name="resRoleDao" ref="resourceRoleDAO" />
+        <property name="serviceDao" ref="serviceDAO" />
 	</bean>
 
 	<bean id="roleDAO" class="org.openiam.idm.srvc.role.service.RoleDAOImpl" >
@@ -624,15 +625,6 @@
 				<value>org/openiam/idm/srvc/cat/service/Category.hbm.xml</value>
 				<value>org/openiam/idm/srvc/cat/service/CategoryLanguage.hbm.xml</value>
 				<value>org/openiam/idm/srvc/cat/service/CategoryType.hbm.xml</value>
-				<!-- Group Maps -->
-				<value>org/openiam/idm/srvc/grp/service/Group.hbm.xml</value>
-				<value>org/openiam/idm/srvc/grp/service/GroupAttribute.hbm.xml</value>
-				<value>org/openiam/idm/srvc/grp/service/UserGroup.hbm.xml</value>
-				<!-- role Maps -->
-				<value>org/openiam/idm/srvc/role/service/Role.hbm.xml</value>
-				<value>org/openiam/idm/srvc/role/service/RoleAttribute.hbm.xml</value>
-		        <value>org/openiam/idm/srvc/role/service/UserRole.hbm.xml</value>
-		         <value>org/openiam/idm/srvc/role/service/RolePolicy.hbm.xml</value>
 				<!-- Audit log Maps -->
 				<value>org/openiam/idm/srvc/audit/service/IdmAuditLog.hbm.xml</value>
 				<!-- Menu Maps -->
@@ -706,10 +698,9 @@
 				<prop key="hibernate.dialect">${openiam.hibernate.dialect}</prop>	
 				<prop key="hibernate.show_sql">${logSQL}</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
-                 <!-- prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop
-                  -->
-                  <prop key="hibernate.cache.use_second_level_cache">false</prop>
-                  <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
 
                 <prop key="hibernate.use_sql_comments">true</prop>
                 <prop key="hibernate.connection.autoReconnect">true</prop>
@@ -726,8 +717,10 @@
 											   org.openiam.idm.srvc.org.dto*,
 											   org.openiam.idm.srvc.org.domain*,
 											   org.openiam.idm.srvc.user.domain*,
-											          org.openiam.idm.srvc.continfo.domain*,
-                                                                                           org.openiam.idm.srvc.res.domain*"/>
+											   org.openiam.idm.srvc.continfo.domain*,
+                                               org.openiam.idm.srvc.res.domain*,
+                                               org.openiam.idm.srvc.role.domain*,
+                                               org.openiam.idm.srvc.grp.domain*"/>
 	</bean>
 
   

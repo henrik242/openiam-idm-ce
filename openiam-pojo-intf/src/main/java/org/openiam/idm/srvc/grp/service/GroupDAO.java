@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.grp.service;
 
-import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.grp.dto.GroupSearch;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public interface GroupDAO {
      *
      * @param id
      */
-    Group findById(java.lang.String id);
+    GroupEntity findById(java.lang.String id);
 
-    Group findById(java.lang.String id, boolean dependants);
+    GroupEntity findById(java.lang.String id, boolean dependants);
 
     /**
      * Creates a new group.
@@ -28,7 +28,7 @@ public interface GroupDAO {
      * @param instance
      * @return - Number of records created. 0 if add failed to add any records
      */
-    void add(Group instance);
+    void add(GroupEntity instance);
 
     /**
      * Updates an existing group
@@ -36,7 +36,7 @@ public interface GroupDAO {
      * @param instance
      * @return - Number of records created. 0 if update failed to update any records
      */
-    void update(Group instance);
+    void update(GroupEntity instance);
 
     /**
      * Removes an existings group.
@@ -44,7 +44,7 @@ public interface GroupDAO {
      * @param instance
      * @return - Returns the number of records removed. 0 if no records were removed.
      */
-    int remove(Group instance);
+    int remove(GroupEntity instance);
 
     /**
      * Adds a user to a group.
@@ -69,7 +69,7 @@ public interface GroupDAO {
      * @param groupId
      * @return - null if no parent group is found.
      */
-    Group findParent(String groupId, boolean dependants);
+    GroupEntity findParent(String groupId, boolean dependants);
 
 
     /**
@@ -79,21 +79,21 @@ public interface GroupDAO {
      * @param parentGroupId
      * @return
      */
-    List<Group> findChildGroup(String parentGroupId);
+    List<GroupEntity> findChildGroup(String parentGroupId);
 
     /**
      * Return a list of root level group object. Root level group object do not have parent groups.
      *
      * @return
      */
-    List<Group> findRootGroups();
+    List<GroupEntity> findRootGroups();
 
     /**
      * Returns a list of Groups that a user is associated with
      *
      * @return
      */
-    List<Group> findGroupsForUser(String userId);
+    List<GroupEntity> findGroupsForUser(String userId);
 
 
     /**
@@ -105,15 +105,13 @@ public interface GroupDAO {
      */
     public int removeGroupList(String groupIdList);
 
-    public List<Group> findAllGroups();
-
-    public List<Group> findGroupsInRole(String serviceId, String roleId);
+    public List<GroupEntity> findAllGroups();
 
     //public User findUserInGroup(String groupId,String userId);
 
-    public List<Group> findGroupNotLinkedToUser(String userId, String parentGroupId);
+    public List<GroupEntity> findGroupNotLinkedToUser(String userId, String parentGroupId);
 
-    public List<Group> search(GroupSearch search);
+    public List<GroupEntity> search(GroupSearch search);
 
 
 }

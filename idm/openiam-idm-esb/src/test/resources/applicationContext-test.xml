@@ -47,14 +47,11 @@
             </props>
         </property>
         <property name="mappingResources">
-            <list>
-                <value>org/openiam/idm/srvc/grp/service/Group.hbm.xml</value>
-                <value>org/openiam/idm/srvc/grp/service/GroupAttribute.hbm.xml</value>
-                <value>org/openiam/idm/srvc/grp/service/UserGroup.hbm.xml</value>
-                <value>org/openiam/idm/srvc/role/service/Role.hbm.xml</value>
-                <value>org/openiam/idm/srvc/role/service/RoleAttribute.hbm.xml</value>
-                <value>org/openiam/idm/srvc/role/service/UserRole.hbm.xml</value>
-                <value>org/openiam/idm/srvc/role/service/RolePolicy.hbm.xml</value>
+			<list>
+				<value>org/openiam/idm/srvc/service/service/Service.hbm.xml</value>
+				<value>org/openiam/idm/srvc/service/service/ServiceConfig.hbm.xml</value>
+				<value>org/openiam/idm/srvc/service/service/RequestForm.hbm.xml</value>
+				<value>org/openiam/idm/srvc/service/service/RequestApprover.hbm.xml</value>
             </list>
         </property>
         <property name="packagesToScan" value="org.openiam.core.domain*,
@@ -68,7 +65,9 @@
 											   org.openiam.idm.srvc.org.domain*,
 											   org.openiam.idm.srvc.user.domain*,
 											   org.openiam.idm.srvc.continfo.domain*,
-											   org.openiam.idm.srvc.res.domain*"/>
+											   org.openiam.idm.srvc.res.domain*,
+											   org.openiam.idm.srvc.role.domain*,
+											   org.openiam.idm.srvc.grp.domain*"/>
     </bean>
 
     <!--tx begin-->
@@ -157,4 +156,36 @@
     <bean id="userPrivilegeDAO" class="org.openiam.idm.srvc.res.service.UserPrivilegeDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <bean id="userRoleDAO" class="org.openiam.idm.srvc.role.service.UserRoleDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="groupDAO" class="org.openiam.idm.srvc.grp.service.GroupDAOImpl" >
+		<property name="userDao" ref="userDAO" />
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="maxResultSetSize" value="100" />
+    </bean>
+
+    <bean id="roleDAO" class="org.openiam.idm.srvc.role.service.RoleDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="groupDao" ref="groupDAO" />
+		<property name="userDao" ref="userDAO" />
+    </bean>
+
+    <bean id="groupAttrDAO" class="org.openiam.idm.srvc.grp.service.GroupAttributeDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+	<bean id="userGroupDAO" class="org.openiam.idm.srvc.grp.service.UserGroupDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="roleAttributeDAO" class="org.openiam.idm.srvc.role.service.RoleAttributeDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="rolePolicyDAO" class="org.openiam.idm.srvc.role.service.RolePolicyDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.grp.service;
 
-import org.openiam.idm.srvc.grp.dto.GroupAttribute;
+import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ public interface GroupAttributeDAO {
      *
      * @param id
      */
-    GroupAttribute findById(java.lang.String id);
+    GroupAttributeEntity findById(java.lang.String id);
 
-    void add(GroupAttribute instance);
+    void add(GroupAttributeEntity instance);
 
-    void update(GroupAttribute instace);
+    void update(GroupAttributeEntity instace);
 
-    void remove(GroupAttribute instance);
+    void remove(GroupAttributeEntity instance);
 
     /**
      * Return a list of GroupAttribute objects for the organization that is specified by the parentId
@@ -31,7 +31,7 @@ public interface GroupAttributeDAO {
      * @param parentId
      * @return
      */
-    List<GroupAttribute> findAttributesByParent(String parentId);
+    List<GroupAttributeEntity> findAttributesByParent(String parentId);
 
     /**
      * Removes all the GroupAttribute that are associated with the Parent object specified by the parentId.

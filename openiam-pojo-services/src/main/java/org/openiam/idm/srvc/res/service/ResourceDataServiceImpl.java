@@ -117,8 +117,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public Resource addResource(Resource resource) {
         if (resource == null)
             throw new IllegalArgumentException("Resource object is null");
-        ResourceEntity parent = resourceDao.findById(resource.getResourceParent());
-        ResourceEntity resourceEntity = resourceDao.add(new ResourceEntity(resource, parent));
+        ResourceEntity resourceEntity = resourceDao.add(new ResourceEntity(resource));
         return new Resource(resourceEntity);
     }
 
@@ -205,8 +204,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
      * @return list of resources
      */
     public List<Resource> getResourcesByExample(Resource resource) {
-        ResourceEntity parent = resourceDao.findById(resource.getResourceParent());
-        List<ResourceEntity> entities = resourceDao.findByExample(new ResourceEntity(resource, parent));
+
+        List<ResourceEntity> entities = resourceDao.findByExample(new ResourceEntity(resource));
         List<Resource> resources = null;
         if (entities != null) {
             resources = new LinkedList<Resource>();
@@ -267,8 +266,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public Resource updateResource(Resource resource) {
         if (resource == null)
             throw new IllegalArgumentException("resource object is null");
-        ResourceEntity parent = resourceDao.findById(resource.getResourceParent());
-        resourceDao.update(new ResourceEntity(resource, parent));
+        resourceDao.update(new ResourceEntity(resource));
         return resource;
     }
 

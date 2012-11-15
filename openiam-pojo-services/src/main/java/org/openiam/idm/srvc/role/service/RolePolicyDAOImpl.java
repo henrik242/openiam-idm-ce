@@ -6,15 +6,14 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import static org.hibernate.criterion.Example.create;
 
-import org.openiam.idm.srvc.role.dto.RolePolicy;
-import org.openiam.idm.srvc.user.dto.UserAttribute;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.role.domain.RolePolicyEntity;
 
 /**
  * Data access interface for domain model class RoleAttribute.
@@ -45,7 +44,7 @@ public class RolePolicyDAOImpl implements RolePolicyDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#add(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public void add(RolePolicy transientInstance) {
+    public void add(RolePolicyEntity transientInstance) {
         log.debug("persisting RoleAttribute instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -61,7 +60,7 @@ public class RolePolicyDAOImpl implements RolePolicyDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#remove(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public void remove(RolePolicy persistentInstance) {
+    public void remove(RolePolicyEntity persistentInstance) {
         log.debug("deleting RoleAttribute instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -76,10 +75,10 @@ public class RolePolicyDAOImpl implements RolePolicyDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#update(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public RolePolicy update(RolePolicy detachedInstance) {
+    public RolePolicyEntity update(RolePolicyEntity detachedInstance) {
         log.debug("merging RoleAttribute instance");
         try {
-        	RolePolicy result = (RolePolicy) sessionFactory.getCurrentSession()
+        	RolePolicyEntity result = (RolePolicyEntity) sessionFactory.getCurrentSession()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -90,11 +89,11 @@ public class RolePolicyDAOImpl implements RolePolicyDAO {
         }
     }
     
-    public RolePolicy findById( java.lang.String id) {
+    public RolePolicyEntity findById( java.lang.String id) {
         log.debug("getting RoleAttribute instance with id: " + id);
         try {
-        	RolePolicy instance = (RolePolicy) sessionFactory.getCurrentSession()
-                    .get("org.openiam.idm.srvc.role.dto.RolePolicy", id);
+        	RolePolicyEntity instance = (RolePolicyEntity) sessionFactory.getCurrentSession()
+                    .get(RolePolicyEntity.class, id);
             if (instance==null) {
                 log.debug("get successful, no instance found");
             }
@@ -110,15 +109,15 @@ public class RolePolicyDAOImpl implements RolePolicyDAO {
     }
 
 
-	public List<RolePolicy> findRolePolicies(String serviceId, String roleId) {
+	public List<RolePolicyEntity> findRolePolicies(String serviceId, String roleId) {
 		 try {
 			Session session = sessionFactory.getCurrentSession();
-			Query qry = session.createQuery("from org.openiam.idm.srvc.role.dto.RolePolicy rp" +
-					" 	where rp.serviceId = :serviceId and rp.roleId = :roleId " +
-					"   order by rp.executionOrder ");
-			qry.setString("serviceId", serviceId);
-			qry.setString("roleId", roleId);
-			List<RolePolicy> results = (List<RolePolicy>)qry.list();
+            Criteria criteria = session.createCriteria(RolePolicyEntity.class)
+                     .add(Restrictions.eq("serviceId",serviceId))
+                     .add(Restrictions.eq("roleId",roleId))
+                     .addOrder(Order.asc("executionOrder"));
+
+			List<RolePolicyEntity> results = (List<RolePolicyEntity>)criteria.list();
 			return results;
 		 }catch(HibernateException he ) {
 	            log.error("get failed", he);

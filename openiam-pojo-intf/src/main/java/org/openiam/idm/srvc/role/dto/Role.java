@@ -2,12 +2,16 @@ package org.openiam.idm.srvc.role.dto;
 
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
+import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.dto.GroupSet;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.*;
+import org.openiam.idm.srvc.role.domain.RoleAttributeEntity;
+import org.openiam.idm.srvc.role.domain.RoleEntity;
+import org.openiam.idm.srvc.role.domain.RolePolicyEntity;
 
 
 /**
@@ -97,7 +101,7 @@ public class Role extends BaseObject implements Comparable<Role> {
     protected int userAssociationMethod = RoleConstant.UN_ASSIGNED;
 
     protected String status;
-    protected Boolean selected = new Boolean(false);
+    protected Boolean selected = Boolean.FALSE;
 
     protected String metadataTypeId;
 
@@ -115,6 +119,31 @@ public class Role extends BaseObject implements Comparable<Role> {
     public Role() {
     }
 
+    public Role(RoleEntity roleEntity) {
+        this.id = new RoleId(roleEntity.getRoleId());
+        this.createDate = roleEntity.getCreateDate() != null ? roleEntity.getCreateDate() : new Date();
+        this.roleName = roleEntity.getRoleName();
+        this.createdBy = roleEntity.getCreatedBy();
+        this.description = roleEntity.getDescription();
+        this.provisionObjName = roleEntity.getProvisionObjName();
+        this.metadataTypeId = roleEntity.getMetadataTypeId();
+        this.parentRoleId = roleEntity.getParentRoleId();
+        this.status = roleEntity.getStatus();
+        this.ownerId = roleEntity.getOwnerId();
+        this.internalRoleId = roleEntity.getInternalRoleId();
+        this.operation = roleEntity.getOperation();
+        this.userAssociationMethod = roleEntity.getUserAssociationMethod();
+        this.selected = roleEntity.getSelected();
+        for(GroupEntity group : roleEntity.getGroups()) {
+          this.groups.add(new Group(group));
+        }
+        for(RoleAttributeEntity attr : roleEntity.getRoleAttributes()) {
+          this.roleAttributes.add(new RoleAttribute(attr));
+        }
+        for(RolePolicyEntity policy : roleEntity.getRolePolicy()) {
+          this.rolePolicy.add(new RolePolicy(policy));
+        }
+    }
 
     public Role(RoleId id) {
         this.id = id;

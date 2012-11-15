@@ -6,9 +6,7 @@ import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,7 +16,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openiam.idm.srvc.res.domain.ResourceRoleEmbeddableId;
 import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
-import org.openiam.idm.srvc.res.dto.*;
 import org.openiam.idm.srvc.role.dto.Role;
 
 
@@ -209,7 +206,7 @@ public class ResourceRoleDAOImpl implements ResourceRoleDAO {
             Session session = sessionFactory.getCurrentSession();
 
             String sql = "  SELECT  role " +
-                    "       FROM    ResourceRoleEntity resourceRole, Role role, ResourceEntity resource " +
+                    "       FROM    ResourceRoleEntity resourceRole, RoleEntity role, ResourceEntity resource " +
                     "       WHERE   resource.resourceId = resourceRole.id.resourceId and " +
                     "        resourceRole.id.roleId = role.id.roleId AND " +
                     "        resourceRole.id.domainId = role.id.serviceId and " +

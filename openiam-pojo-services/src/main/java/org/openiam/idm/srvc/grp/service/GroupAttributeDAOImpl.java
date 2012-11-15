@@ -6,10 +6,14 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
 import org.openiam.idm.srvc.grp.dto.*;
 
 /**
@@ -41,12 +45,11 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 	}
 
 
-	public GroupAttribute findById(java.lang.String id) {
+	public GroupAttributeEntity findById(java.lang.String id) {
 		log.debug("getting CompanyAttribute instance with id: " + id);
 		try {
-			GroupAttribute instance = (GroupAttribute) sessionFactory
-					.getCurrentSession().get(
-							"org.openiam.idm.srvc.grp.dto.GroupAttribute", id);
+			GroupAttributeEntity instance = (GroupAttributeEntity) sessionFactory
+					.getCurrentSession().get(GroupAttributeEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -59,7 +62,7 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 		}
 	}
 
-	public void add(GroupAttribute instance) {
+	public void add(GroupAttributeEntity instance) {
 		log.debug("persisting GroupAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().persist(instance);
@@ -71,7 +74,7 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 		
 	}
 
-	public void remove(GroupAttribute instance) {
+	public void remove(GroupAttributeEntity instance) {
 		log.debug("deleting GroupAttribute instance");
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
@@ -83,7 +86,7 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 		
 	}
 
-	public void update(GroupAttribute instance) {
+	public void update(GroupAttributeEntity instance) {
 		log.debug("merging Group instance");
 		try {
 			sessionFactory.getCurrentSession().merge(instance);
@@ -99,12 +102,13 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 	 * @param parentId
 	 * @return
 	 */
-	public List<GroupAttribute> findAttributesByParent(String parentId) {
+	public List<GroupAttributeEntity> findAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.grp.dto.GroupAttribute oa " + 
-						" where oa.groupId = :parentId order by oa.grpName asc");
-		qry.setString("companyId", parentId);
-		List<GroupAttribute> results = (List<GroupAttribute>)qry.list();
+        Criteria criteria = session.createCriteria(GroupAttributeEntity.class)
+                .add(Restrictions.eq("groupId",parentId))
+                .addOrder(Order.asc("name"));
+
+		List<GroupAttributeEntity> results = (List<GroupAttributeEntity>)criteria.list();
 		return results;		
 	}
 	/**
@@ -114,7 +118,7 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 	 */
 	public int removeAttributesByParent(String parentId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.dto.GroupAttribute oa " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.domain.GroupAttributeEntity oa " +
 					" where oa.groupId = :parentId ");
 		qry.setString("parentId", parentId);
 		return qry.executeUpdate();		
@@ -128,7 +132,7 @@ public class GroupAttributeDAOImpl implements GroupAttributeDAO {
 	 */
 	public int removeAttributesForGroupList(String groupIdList) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.dto.GroupAttribute g  " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.domain.GroupAttributeEntity g  " +
 					" where g.groupId  in (" + groupIdList + ")" );
 		return qry.executeUpdate();		
 	}	

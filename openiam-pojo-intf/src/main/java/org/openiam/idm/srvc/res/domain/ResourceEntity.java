@@ -48,9 +48,8 @@ public class ResourceEntity {
     @Column(name = "DESCRIPTION", length = 100)
     private String description;
 
-    @ManyToOne(targetEntity = ResourceEntity.class, optional=true)
-    @JoinColumn(name="RESOURCE_PARENT", nullable=true)
-    private ResourceEntity parent;
+    @Column(name = "RESOURCE_PARENT", length = 32)
+    private String resourceParent;
 
     @Column(name = "BRANCH_ID", length = 20)
     private String branchId;
@@ -106,7 +105,7 @@ public class ResourceEntity {
     public ResourceEntity() {
     }
 
-    public ResourceEntity(final Resource resource, final ResourceEntity parent) {
+    public ResourceEntity(final Resource resource) {
         this.resourceId = resource.getResourceId();
         this.resourceType = new ResourceTypeEntity(resource.getResourceType());
         this.name = resource.getName();
@@ -121,9 +120,9 @@ public class ResourceEntity {
         this.resOwnerUserId = resource.getResOwnerUserId();
         this.resOwnerGroupId = resource.getResOwnerGroupId();
         for(Resource res : resource.getChildResources()) {
-          this.childResources.add(new ResourceEntity(res, this));
+          this.childResources.add(new ResourceEntity(res));
         }
-        this.parent = parent;
+        this.resourceParent = resource.getResourceParent();
         for (ResourceRole resourceRole : resource.getResourceRoles()) {
             this.resourceRoles.add(new ResourceRoleEntity(resourceRole));
         }
@@ -138,12 +137,12 @@ public class ResourceEntity {
         }
     }
 
-    public ResourceEntity getParent() {
-        return parent;
+    public String getResourceParent() {
+        return resourceParent;
     }
 
-    public void setParent(ResourceEntity parent) {
-        this.parent = parent;
+    public void setResourceParent(String resourceParent) {
+        this.resourceParent = resourceParent;
     }
 
     public Set<ResourceEntity> getChildResources() {

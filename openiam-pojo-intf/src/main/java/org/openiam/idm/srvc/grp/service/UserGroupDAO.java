@@ -21,8 +21,8 @@
  */
 package org.openiam.idm.srvc.grp.service;
 
-import org.openiam.idm.srvc.grp.dto.UserGroup;
-import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 
 import java.util.List;
 
@@ -33,17 +33,17 @@ import java.util.List;
  */
 public interface UserGroupDAO {
 
-    public abstract void add(UserGroup transientInstance);
+    public abstract void add(UserGroupEntity transientInstance);
 
-    public abstract void remove(UserGroup persistentInstance);
+    public abstract void remove(UserGroupEntity persistentInstance);
 
-    public abstract UserGroup update(UserGroup detachedInstance);
+    public abstract UserGroupEntity update(UserGroupEntity detachedInstance);
 
-    public abstract UserGroup findById(java.lang.String id);
+    public abstract UserGroupEntity findById(java.lang.String id);
 
     void removeUserFromGroup(String grpId, String userId);
 
-    List<UserGroup> findUserInGroup(String groupId, String userId);
+    List<UserGroupEntity> findUserInGroup(String groupId, String userId);
 
     /**
      * Returns a list of users that are associated with a group.
@@ -51,7 +51,7 @@ public interface UserGroupDAO {
      * @param groupId
      * @return
      */
-    List<User> findUserByGroup(String groupId);
+    List<UserEntity> findUserByGroup(String groupId);
 
 
 }

@@ -111,7 +111,7 @@ public class UserRequest   extends RequestType
 
 	public void setUser(ExtensibleUser user) {
 		this.user = user;
-	} ;
+	}
 
    
     

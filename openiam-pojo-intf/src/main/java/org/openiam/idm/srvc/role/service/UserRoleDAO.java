@@ -21,7 +21,9 @@
  */
 package org.openiam.idm.srvc.role.service;
 
+import org.openiam.idm.srvc.role.domain.UserRoleEntity;
 import org.openiam.idm.srvc.role.dto.UserRole;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 
 import java.util.List;
@@ -33,13 +35,13 @@ import java.util.List;
  */
 public interface UserRoleDAO {
 
-    public abstract void add(UserRole transientInstance);
+    public void add(UserRoleEntity transientInstance);
 
-    public abstract void remove(UserRole persistentInstance);
+    public void remove(UserRoleEntity persistentInstance);
 
-    public abstract UserRole update(UserRole detachedInstance);
+    public UserRoleEntity update(UserRoleEntity detachedInstance);
 
-    public abstract UserRole findById(java.lang.String id);
+    public UserRoleEntity findById(java.lang.String id);
 
     public void removeUserFromRole(String serviceId, String roleId, String userId);
 
@@ -51,7 +53,7 @@ public interface UserRoleDAO {
      * @param userId
      * @return
      */
-    public List<UserRole> findUserRoleByUser(String userId);
+    public List<UserRoleEntity> findUserRoleByUser(String userId);
 
     /**
      * Returns a list of users in a role.
@@ -59,6 +61,6 @@ public interface UserRoleDAO {
      * @param roleId
      * @return
      */
-    List<User> findUserByRole(String domainId, String roleId);
+    List<UserEntity> findUserByRole(String domainId, String roleId);
 
 }

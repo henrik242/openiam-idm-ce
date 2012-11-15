@@ -6,13 +6,19 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.dto.UserGroup;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 
 import static org.hibernate.criterion.Example.create;
@@ -46,7 +52,7 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#persist(org.openiam.idm.srvc.grp.dto.UserGroup)
 	 */
-	public void add(UserGroup transientInstance) {
+	public void add(UserGroupEntity transientInstance) {
 		log.debug("persisting UserGrp instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -61,7 +67,7 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#delete(org.openiam.idm.srvc.grp.dto.UserGroup)
 	 */
-	public void remove(UserGroup persistentInstance) {
+	public void remove(UserGroupEntity persistentInstance) {
 		log.debug("deleting UserGrp instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -72,25 +78,30 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 		}
 	}
 	
-	public List<UserGroup> findUserInGroup(String groupId, String userId) {
+	public List<UserGroupEntity> findUserInGroup(String groupId, String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.grp.dto.UserGroup ug " + 
-					" where ug.userId = :userId and ug.grpId = :groupId ");
+        Criteria criteria = session.createCriteria(UserGroupEntity.class)
+                .add(Restrictions.eq("user.userId", userId))
+                .add(Restrictions.eq("group.grpId", groupId));
 
-		qry.setString("groupId", groupId);
-		qry.setString("userId", userId);
-		return qry.list();		
+		return criteria.list();
 	}
 	
-	public List<User> findUserByGroup(String groupId) {
+	public List<UserEntity> findUserByGroup(String groupId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select usr from org.openiam.idm.srvc.user.dto.User as usr, UserGroup ug " +
-						" where ug.grpId = :groupId and ug.userId = usr.userId " +
-						" order by usr.lastName, usr.firstName ");
+        Criteria criteria = session.createCriteria(UserGroup.class)
+                .add(Restrictions.eq("grpId",groupId))
+                .addOrder(Order.asc("lastName"))
+                .addOrder(Order.asc("firstName"))
+                .setProjection(Projections.property("user"));
+
+		//Query qry = session.createQuery("select usr from org.openiam.idm.srvc.user.dto.User as usr, UserGroup ug " +
+		//				" where ug.grpId = :groupId and ug.userId = usr.userId " +
+		//				" order by usr.lastName, usr.firstName ");
 		
 
-		qry.setString("groupId", groupId);
-		List<User> result = (List<User>)qry.list();
+		//qry.setString("groupId", groupId);
+		List<UserEntity> result = (List<UserEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;			
@@ -99,8 +110,8 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 	
 	public void removeUserFromGroup(String grpId, String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.dto.UserGroup ug " + 
-					" where ug.grpId = :grpId and ug.userId = :userId ");
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.domain.UserGroupEntity ug " +
+					" where ug.group.grpId = :grpId and ug.user.userId = :userId ");
 		qry.setString("grpId", grpId);
 		qry.setString("userId", userId);
 		qry.executeUpdate();		
@@ -109,10 +120,10 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#update(org.openiam.idm.srvc.grp.dto.UserGroup)
 	 */
-	public UserGroup update(UserGroup detachedInstance) {
+	public UserGroupEntity update(UserGroupEntity detachedInstance) {
 		log.debug("merging UserGrp instance");
 		try {
-			UserGroup result = (UserGroup) sessionFactory.getCurrentSession()
+			UserGroupEntity result = (UserGroupEntity) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -125,11 +136,11 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#findById(java.lang.String)
 	 */
-	public UserGroup findById(java.lang.String id) {
+	public UserGroupEntity findById(java.lang.String id) {
 		log.debug("getting UserGrp instance with id: " + id);
 		try {
-			UserGroup instance = (UserGroup) sessionFactory.getCurrentSession()
-					.get("org.openiam.idm.srvc.grp.dto.UserGroup", id);
+			UserGroupEntity instance = (UserGroupEntity) sessionFactory.getCurrentSession()
+					.get(UserGroupEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {

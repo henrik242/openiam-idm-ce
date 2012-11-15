@@ -24,6 +24,7 @@ import org.openiam.idm.srvc.res.domain.ResourceRoleEmbeddableId;
 import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
 import org.openiam.idm.srvc.res.domain.ResourceTypeEntity;
 import org.openiam.idm.srvc.res.dto.*;
+import org.openiam.idm.srvc.role.domain.UserRoleEntity;
 
 
 /**
@@ -364,8 +365,7 @@ public class ResourceDAOImpl implements ResourceDAO {
 
     public List<ResourcePropEntity> findResourceProperties(String resourceId) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Resource.class)
-                .createAlias("resourceProps","rp")
+        Criteria criteria = session.createCriteria(ResourcePropEntity.class)
                 .add(Restrictions.eq("resourceId",resourceId));
 
         criteria.setCacheable(true);
@@ -390,8 +390,8 @@ public class ResourceDAOImpl implements ResourceDAO {
         //qry.addEntity(Resource.class);
 
         Criteria criteria = session.createCriteria(ResourceEntity.class)
-                .createAlias("resourceType","rt")
-                .add(Restrictions.eq("rt.resourceTypeId",resourceTypeId))
+                .add(Restrictions.eq("resourceType.resourceTypeId",resourceTypeId))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .addOrder(Order.asc("displayOrder"));
 
         criteria.setCacheable(true);
@@ -490,8 +490,7 @@ public class ResourceDAOImpl implements ResourceDAO {
     public List<ResourceEntity> getChildResources(String resourceId) {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(ResourceEntity.class)
-                .createAlias("parent","p")
-                .add(Restrictions.eq("p.resourceId",resourceId))
+                .add(Restrictions.eq("resourceParent",resourceId))
                 .addOrder(Order.asc("displayOrder"));
 
         criteria.setCacheable(true);
@@ -604,6 +603,7 @@ public class ResourceDAOImpl implements ResourceDAO {
     }
 
     public List<ResourceEntity> findResourcesForUserRole(String userId) {
+        Session session = sessionFactory.getCurrentSession();
 
         String select = " select DISTINCT r.RESOURCE_ID, r.RESOURCE_TYPE_ID, " +
                 " r.DESCRIPTION, r.NAME, r.RESOURCE_PARENT, " +
@@ -614,7 +614,6 @@ public class ResourceDAOImpl implements ResourceDAO {
                 " WHERE ur.USER_ID = :userId and ur.SERVICE_ID = rr.SERVICE_ID AND ur.ROLE_ID = rr.ROLE_ID AND " +
                 "       rr.RESOURCE_ID = r.RESOURCE_ID";
 
-        Session session = sessionFactory.getCurrentSession();
         try {
 
 

@@ -2,30 +2,25 @@ package org.openiam.idm.srvc.grp.service;
 
 // Generated Jun 12, 2007 10:46:15 PM by Hibernate Tools 3.2.0.beta8
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.stat.SessionStatistics;
 import org.hibernate.HibernateException;
 import org.openiam.exception.data.DataException;
 import org.openiam.exception.data.ObjectNotFoundException;
-import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.grp.domain.GroupEntity;
+import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
 import org.openiam.idm.srvc.grp.dto.GroupSearch;
 
-import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDAO;
 /**
  * Data access object interface for Group. 
@@ -56,7 +51,7 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		}
 	}
 
-	public void add(Group instance) {
+	public void add(GroupEntity instance) {
 		log.debug("persisting Group instance");
 		try {
 			sessionFactory.getCurrentSession().persist(instance);	
@@ -68,7 +63,7 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 	
 
 
-	public int remove(Group instance) {
+	public int remove(GroupEntity instance) {
 		log.debug("deleting Group instance");
 		try {
 			sessionFactory.getCurrentSession().delete(instance);
@@ -80,7 +75,7 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		}		
 	}
 
-	public void update(Group instance) {
+	public void update(GroupEntity instance) {
 		log.debug("merging Group instance. GrpId = " + instance.getGrpId());
 		try {
 			sessionFactory.getCurrentSession().merge(instance);
@@ -93,17 +88,17 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 	
 	
 
-	public Group findById(java.lang.String id) {
+	public GroupEntity findById(java.lang.String id) {
 	
 		return findById(id,false);
 	
 	}
 
-	public Group findById(java.lang.String id, boolean dependants) {
+	public GroupEntity findById(java.lang.String id, boolean dependants) {
 		log.debug("getting Grp instance with id: " + id);
 		try {
-			Group instance = (Group) sessionFactory.getCurrentSession().get(
-					"org.openiam.idm.srvc.grp.dto.Group", id);
+			GroupEntity instance = (GroupEntity) sessionFactory.getCurrentSession().get(
+					GroupEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -117,9 +112,9 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		}
 	}
 	
-	public List<Group> search(GroupSearch search) {
+	public List<GroupEntity> search(GroupSearch search) {
 		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(Group.class, "grp");
+		Criteria crit = session.createCriteria(GroupEntity.class, "grp");
 		crit.setMaxResults(maxResultSetSize);
 		
 		if (search.getGrpId() != null && search.getGrpId().length() > 0 ) {
@@ -140,50 +135,43 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		}
 		crit.addOrder(Order.asc("grpName"));
 		
-		List<Group> results = (List<Group>)crit.list();
+		List<GroupEntity> results = (List<GroupEntity>)crit.list();
 		return results;		
 	}
 	
-	public List<Group> findRootGroups() {
+	public List<GroupEntity> findRootGroups() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.grp.dto.Group g " +
-				" where g.parentGrpId is null order by g.grpId asc");
+        Criteria criteria = session.createCriteria(GroupEntity.class)
+                .add(Restrictions.isNull("parentGrpId"))
+                .addOrder(Order.asc("grpId"));
+
 	//	qry.setCacheable(true);
-		List<Group> results = (List<Group>)qry.list();
+		List<GroupEntity> results = (List<GroupEntity>)criteria.list();
 		return results;
 	}
-	public List<Group> findAllGroups() {
+
+	public List<GroupEntity> findAllGroups() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.grp.dto.Group g " +
-				" order by g.grpName asc");
+        Criteria criteria = session.createCriteria(GroupEntity.class)
+                .addOrder(Order.asc("grpName"));
+
 	//	qry.setCacheable(true);
-		List<Group> results = (List<Group>)qry.list();
+		List<GroupEntity> results = (List<GroupEntity>)criteria.list();
 		return results;
 	}
+
 	
-	public List<Group> findGroupsInRole(String serviceId, String roleId) {
+
+
+	
+	public List<GroupEntity> findChildGroup(String parentGroupId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery(" from  org.openiam.idm.srvc.grp.dto.Group grp " +
-										" 		inner join grp.groupRoles as groupRole " +
-										" where groupRole.role.serviceId = :serviceId and " +
-										" 		groupRole.role.roleId = :roleId ");
-		qry.setString("serviceId", serviceId);
-		qry.setString("roleId", roleId);
+        Criteria criteria = session.createCriteria(GroupEntity.class)
+                .add(Restrictions.eq("parentGrpId", parentGroupId))
+                .addOrder(Order.asc("grpId"));
 
-		List<Group> results = (List<Group>)qry.list();
-		return results;		
-	}
-	
-	
-
-
-	
-	public List<Group> findChildGroup(String parentGroupId) {
-		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from org.openiam.idm.srvc.grp.dto.Group g where g.parentGrpId = :parentId order by g.grpId asc");
-		qry.setString("parentId", parentGroupId);
 	//	qry.setCacheable(true);
-		List<Group> results = (List<Group>)qry.list();
+		List<GroupEntity> results = (List<GroupEntity>)criteria.list();
 		return results;
 	}
 
@@ -195,15 +183,15 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 	 */
 	public int removeGroupList(String groupIdList) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.dto.Group g  " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.domain.GroupEntity g  " +
 					" where g.grpId in (" + groupIdList + ")" );
 		return qry.executeUpdate();		
 	}	
 	
-	public Group findParent(String groupId, boolean dependants) {
+	public GroupEntity findParent(String groupId, boolean dependants) {
 				
 		// get the group object for the groupId
-		Group curGroup = findById(groupId);
+		GroupEntity curGroup = findById(groupId);
 		// TODO Throw exception if the curGroup is null. That means that there is no group for this groupId
 		if (curGroup == null) {
 			log.error("Group for groupId=" + groupId + "  not found.");
@@ -217,7 +205,7 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		
 		// get the parent group object
 		
-		Group parentGroup = findById(curGroup.getParentGrpId());
+		GroupEntity parentGroup = findById(curGroup.getParentGrpId());
 		if (parentGroup == null) {
 			log.error("Group for parent groupId=" + curGroup.getParentGrpId()  + "  not found.");
 			throw new ObjectNotFoundException();					
@@ -231,20 +219,25 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 	 * Returns a list of Groups that a user is associated with
 	 * @return
 	 */
-	public List<Group> findGroupsForUser(String userId) {
+	public List<GroupEntity> findGroupsForUser(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select grp  from Group as grp, UserGroup ug " +
-						" where ug.userId = :userId and grp.grpId = ug.grpId ");
+        Criteria criteria = session.createCriteria(UserGroupEntity.class)
+                .add(Restrictions.eq("user.userId",userId))
+                .setProjection(Projections.property("group"));
+
+	//	Query qry = session.createQuery("select grp  from Group as grp, UserGroup ug " +
+	//					" where ug.userId = :userId and grp.grpId = ug.grpId ");
 		
 
-		qry.setString("userId", userId);
-		List<Group> result = (List<Group>)qry.list();
+
+
+		List<GroupEntity> result = (List<GroupEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;			
 	}
 	
-	public List<Group> findGroupNotLinkedToUser(String userId, String parentGroupId) {
+	public List<GroupEntity> findGroupNotLinkedToUser(String userId, String parentGroupId) {
 		
 	   	Session session = sessionFactory.getCurrentSession();
 	    
@@ -256,11 +249,11 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 				 "  WHERE g.GRP_ID NOT IN (SELECT GRP_ID FROM USER_GRP ug WHERE ug.USER_ID = :userId ) ");
 	    	
 	    	
-	    	qry.addEntity(Group.class);
+	    	qry.addEntity(GroupEntity.class);
 			qry.setString("userId", userId);
 			
 	
-			List<Group> result = (List<Group>) qry.list();
+			List<GroupEntity> result = (List<GroupEntity>) qry.list();
 			if (result == null || result.size() == 0)
 				return null;
 			return result;		

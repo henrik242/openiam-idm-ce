@@ -1,8 +1,11 @@
 package org.openiam.idm.srvc.role.service;
 
+import org.openiam.idm.srvc.role.domain.RoleEmbeddableId;
+import org.openiam.idm.srvc.role.domain.RoleEntity;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.role.dto.RoleSearch;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 
 import java.util.List;
@@ -14,16 +17,16 @@ import java.util.List;
  */
 public interface RoleDAO {
 
-    public void add(Role transientInstance);
+    public void add(RoleEntity transientInstance);
 
-    public void remove(Role persistentInstance);
-
-
-    public void update(Role detachedInstance);
-
-    public Role findById(RoleId id);
+    public void remove(RoleEntity persistentInstance);
 
 
+    public void update(RoleEntity detachedInstance);
+
+    public RoleEntity findById(RoleEmbeddableId id);
+
+    public RoleEntity findByParentId(String id);
     /**
      * Adds a group to the Role. DAO takes care of the persistence part of this task.
      *
@@ -73,7 +76,7 @@ public interface RoleDAO {
      * @param userId
      * @return
      */
-    public List<Role> findUserRoles(String userId);
+    public List<RoleEntity> findUserRoles(String userId);
 
     /**
      * Gets the roles a user belongs based on the serviceId that is defined.
@@ -82,7 +85,7 @@ public interface RoleDAO {
      * @param userId
      * @return
      */
-    public List<Role> findUserRolesByService(String service, String userId);
+    public List<RoleEntity> findUserRolesByService(String service, String userId);
 
     /**
      * Get the roles for a user that associated to the user through a group.
@@ -90,7 +93,7 @@ public interface RoleDAO {
      * @param userId
      * @return
      */
-    public List<Role> findIndirectUserRoles(String userId);
+    public List<RoleEntity> findIndirectUserRoles(String userId);
 
     /**
      * Get the users that are in a role
@@ -98,7 +101,7 @@ public interface RoleDAO {
      * @param roleId
      * @return
      */
-    public List<User> findUsersInRole(String serviceId, String roleId);
+    public List<UserEntity> findUsersInRole(String serviceId, String roleId);
 
     /**
      * Returns a list of all Roles regardless of service
@@ -106,7 +109,7 @@ public interface RoleDAO {
      *
      * @return
      */
-    public List<Role> findAllRoles();
+    public List<RoleEntity> findAllRoles();
 
     /**
      * Find all the roles in a service
@@ -114,23 +117,16 @@ public interface RoleDAO {
      * @param serviceId
      * @return
      */
-    public List<Role> findRolesInService(String serviceId);
+    public List<RoleEntity> findRolesInService(String serviceId);
 
     /**
      * Find all the roles associated with a Group
      *
      * @return
      */
-    public List<Role> findRolesInGroup(String groupId);
+    public List<RoleEntity> findRolesInGroup(String groupId);
 
-    /**
-     * Returns a role object if a direct relationship between a user and role exists.
-     *
-     * @return
-     */
-    Role findDirectRoleForUser(String serviceId, String roleId, String userId);
-
-    List<Role> search(RoleSearch search);
+    List<RoleEntity> search(RoleSearch search);
 
 
 }

@@ -5,11 +5,16 @@ import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.openiam.idm.srvc.role.domain.UserRoleEntity;
 import org.openiam.idm.srvc.role.dto.UserRole;
+import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 
 import static org.hibernate.criterion.Example.create;
@@ -43,7 +48,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#add(org.openiam.idm.srvc.role.dto.UserRole)
 	 */
-	public void add(UserRole transientInstance) {
+	public void add(UserRoleEntity transientInstance) {
 		log.debug("persisting UserRole instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -57,7 +62,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#remove(org.openiam.idm.srvc.role.dto.UserRole)
 	 */
-	public void remove(UserRole persistentInstance) {
+	public void remove(UserRoleEntity persistentInstance) {
 		log.debug("deleting UserRole instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -71,10 +76,10 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#update(org.openiam.idm.srvc.role.dto.UserRole)
 	 */
-	public UserRole update(UserRole detachedInstance) {
+	public UserRoleEntity update(UserRoleEntity detachedInstance) {
 		log.debug("merging UserRole instance");
 		try {
-			UserRole result = (UserRole) sessionFactory.getCurrentSession()
+			UserRoleEntity result = (UserRoleEntity) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -87,11 +92,11 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.UserRoleDAO#findById(java.lang.String)
 	 */
-	public UserRole findById(java.lang.String id) {
+	public UserRoleEntity findById(java.lang.String id) {
 		log.debug("getting UserRole instance with id: " + id);
 		try {
-			UserRole instance = (UserRole) sessionFactory.getCurrentSession()
-					.get("org.openiam.idm.srvc.role.dto.UserRole", id);
+			UserRoleEntity instance = (UserRoleEntity) sessionFactory.getCurrentSession()
+					.get(UserRoleEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -104,34 +109,34 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 		}
 	}
 
-	public List<UserRole> findUserRoleByUser(String userId) {
+	public List<UserRoleEntity> findUserRoleByUser(String userId) {
 		
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select ur from UserRole ur " +
-						" where ur.userId = :userId " +
-						" order by ur.roleId ");
-		
-		qry.setString("userId", userId);
-		List<UserRole> result = (List<UserRole>)qry.list();
+        Criteria criteria = session.createCriteria(UserRoleEntity.class)
+                .add(Restrictions.eq("userId",userId))
+                .addOrder(Order.asc("roleId"));
+
+		List<UserRoleEntity> result = (List<UserRoleEntity>)criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;			
 	}
 	
-	public List<User> findUserByRole(String domainId, String roleId) {
+	public List<UserEntity> findUserByRole(String domainId, String roleId) {
 		
 		log.debug("findUserByRole: domainId=" + domainId);
 		log.debug("findUserByRole: roleId=" + roleId);
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("select usr from org.openiam.idm.srvc.user.dto.User as usr, UserRole ur " +
+
+		Query qry = session.createQuery("select usr from org.openiam.idm.srvc.user.domain.UserEntity as usr, UserRoleEntity ur " +
 						" where ur.serviceId = :domainId and ur.roleId = :roleId and ur.userId = usr.userId " +
 						" order by usr.lastName, usr.firstName ");
 		
 		qry.setString("domainId",domainId);
 		qry.setString("roleId",roleId);
-		List<User> result = (List<User>)qry.list();
+		List<UserEntity> result = (List<UserEntity>)qry.list();
 		if (result == null || result.size() == 0)
 			return null;
 		return result;			
@@ -142,7 +147,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 		log.debug("removeUserFromRole: roleId=" + roleId);
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.role.dto.UserRole ur " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.role.domain.UserRoleEntity ur " +
 					" where ur.roleId = :roleId and ur.serviceId = :domainId and ur.userId = :userId ");
 		qry.setString("roleId", roleId);
 		qry.setString("domainId", domainId);
@@ -154,7 +159,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 		log.debug("removeUserFromRole: roleId=" + roleId);
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.role.dto.UserRole ur " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.role.domain.UserRoleEntity ur " +
 					" where ur.roleId = :roleId and ur.serviceId = :domainId ");
 		qry.setString("roleId", roleId);
 		qry.setString("domainId", domainId);

@@ -57,7 +57,7 @@ public interface GroupDataService {
      * grpManager.addGroup(grpValue);<br>
      * </code>
      *
-     * @param Group
+     * @param grp
      * @return - Number of records created. 0 if add failed to add any records
      */
 

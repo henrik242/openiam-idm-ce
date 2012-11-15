@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.role.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.role.domain.RoleAttributeEntity;
 
 
 /**
@@ -54,6 +55,16 @@ public class RoleAttribute implements java.io.Serializable {
 
     public RoleAttribute(String roleAttrId) {
         this.roleAttrId = roleAttrId;
+    }
+
+    public RoleAttribute(RoleAttributeEntity roleAttributeEntity) {
+        this.roleAttrId = roleAttributeEntity.getRoleAttrId();
+        this.serviceId = roleAttributeEntity.getServiceId();
+        this.roleId = roleAttributeEntity.getRoleId();
+        this.metadataElementId = roleAttributeEntity.getMetadataElementId();
+        this.name = roleAttributeEntity.getName();
+        this.value = roleAttributeEntity.getValue();
+        this.attrGroup = roleAttributeEntity.getAttrGroup();
     }
 
     public RoleAttribute(String roleAttrId, String name, String value, String metadataTypeId) {

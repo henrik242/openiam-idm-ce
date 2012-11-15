@@ -5,6 +5,7 @@ import org.openiam.base.BaseObject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.idm.srvc.role.domain.RolePolicyEntity;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -37,6 +38,18 @@ public class RolePolicy extends BaseObject {
     public RolePolicy() {
     }
 
+    public RolePolicy(RolePolicyEntity policyEntity) {
+        this.rolePolicyId = policyEntity.getRolePolicyId();
+        this.serviceId = policyEntity.getServiceId();
+        this.roleId = policyEntity.getRoleId();
+        this.name = policyEntity.getName();
+        this.value1 = policyEntity.getValue1();
+        this.value2 = policyEntity.getValue2();
+        this.action = policyEntity.getAction();
+        this.executionOrder = policyEntity.getExecutionOrder();
+        this.actionQualifier = policyEntity.getActionQualifier();
+        this.policyScript = policyEntity.getPolicyScript();
+    }
 
     public String getRolePolicyId() {
         return rolePolicyId;

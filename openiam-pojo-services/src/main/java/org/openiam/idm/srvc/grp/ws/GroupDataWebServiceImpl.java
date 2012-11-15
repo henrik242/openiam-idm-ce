@@ -71,7 +71,7 @@ public class GroupDataWebServiceImpl implements GroupDataWebService {
 	 */
 	public GroupResponse addGroup(Group grp) {
 		GroupResponse resp = new GroupResponse(ResponseStatus.SUCCESS);
-		groupManager.addGroup(grp);
+		grp = groupManager.addGroup(grp);
 		if (grp.getGrpId() == null) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}

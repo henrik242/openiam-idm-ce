@@ -96,6 +96,7 @@ public class Resource extends BaseObject {
         this.URL = entity.getURL();
         this.resOwnerUserId = entity.getResOwnerUserId();
         this.resOwnerGroupId = entity.getResOwnerGroupId();
+        this.resourceParent = entity.getResourceParent();
         for (ResourceRoleEntity resourceRole : entity.getResourceRoles()) {
             this.resourceRoles.add(new ResourceRole(resourceRole));
         }

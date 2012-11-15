@@ -1,18 +1,16 @@
 package org.openiam.idm.srvc.role.service;
 // Generated Mar 4, 2008 1:12:08 AM by Hibernate Tools 3.2.0.b11
 
-
 import java.util.List;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
 
-import org.openiam.idm.srvc.role.dto.*;
+import org.openiam.idm.srvc.role.domain.RoleAttributeEntity;
 
 /**
  * Data access interface for domain model class RoleAttribute.
@@ -43,7 +41,7 @@ public class RoleAttributeDAOImpl implements RoleAttributeDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#add(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public void add(RoleAttribute transientInstance) {
+    public void add(RoleAttributeEntity transientInstance) {
         log.debug("persisting RoleAttribute instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -59,7 +57,7 @@ public class RoleAttributeDAOImpl implements RoleAttributeDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#remove(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public void remove(RoleAttribute persistentInstance) {
+    public void remove(RoleAttributeEntity persistentInstance) {
         log.debug("deleting RoleAttribute instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -74,10 +72,10 @@ public class RoleAttributeDAOImpl implements RoleAttributeDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#update(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public RoleAttribute update(RoleAttribute detachedInstance) {
+    public RoleAttributeEntity update(RoleAttributeEntity detachedInstance) {
         log.debug("merging RoleAttribute instance");
         try {
-            RoleAttribute result = (RoleAttribute) sessionFactory.getCurrentSession()
+            RoleAttributeEntity result = (RoleAttributeEntity) sessionFactory.getCurrentSession()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -88,12 +86,12 @@ public class RoleAttributeDAOImpl implements RoleAttributeDAO {
         }
     }
     
-    public RoleAttribute findById( java.lang.String id) {
+    public RoleAttributeEntity findById( java.lang.String id) {
         log.debug("getting RoleAttribute instance with id: " + id);
         try {
-            RoleAttribute instance = (RoleAttribute) sessionFactory.getCurrentSession()
-                    .get("org.openiam.idm.srvc.role.dto.RoleAttribute", id);
-            if (instance==null) {
+            RoleAttributeEntity instance = (RoleAttributeEntity) sessionFactory.getCurrentSession()
+                    .get(RoleAttributeEntity.class, id);
+            if (instance == null) {
                 log.debug("get successful, no instance found");
             }
             else {
@@ -110,11 +108,11 @@ public class RoleAttributeDAOImpl implements RoleAttributeDAO {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.role.service.RoleAttributeDAO#findByExample(org.openiam.idm.srvc.role.dto.RoleAttribute)
 	 */
-    public List<RoleAttribute> findByExample(RoleAttribute instance) {
+    public List<RoleAttributeEntity> findByExample(RoleAttributeEntity instance) {
         log.debug("finding RoleAttribute instance by example");
         try {
-            List<RoleAttribute> results = (List<RoleAttribute>) sessionFactory.getCurrentSession()
-                    .createCriteria("org.openiam.idm.srvc.role.dto.RoleAttribute")
+            List<RoleAttributeEntity> results = (List<RoleAttributeEntity>) sessionFactory.getCurrentSession()
+                    .createCriteria(RoleAttributeEntity.class)
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());
@@ -128,13 +126,11 @@ public class RoleAttributeDAOImpl implements RoleAttributeDAO {
     
 	public void deleteRoleAttributes(String serviceId, String roleId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.role.dto.RoleAttribute ra " + 
+		Query qry = session.createQuery("delete org.openiam.idm.srvc.role.domain.RoleAttributeEntity ra " +
 					" where ra.id.serviceId = :serviceId and ra.id.roleId = :roleId ");
 		qry.setString("serviceId", serviceId);
 		qry.setString("roleId",roleId);
 		qry.executeUpdate();
-
-		
 	}
 
 

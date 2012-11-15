@@ -121,6 +121,7 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
         try {
             List<SupervisorEntity> results = (List<SupervisorEntity>) sessionFactory.getCurrentSession()
                     .createCriteria(SupervisorEntity.class)
+                    .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                     .add(create(instance))
             .list();
             log.debug("find by example successful, result size: " + results.size());
@@ -141,7 +142,8 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     	Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(SupervisorEntity.class)
                 .add(Restrictions.eq("supervisor.userId",supervisorId))
-                .addOrder(Order.asc("supervisor.userId"));
+                .addOrder(Order.asc("supervisor.userId"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
     	List<SupervisorEntity> results = (List<SupervisorEntity>)criteria.list();
 
@@ -161,7 +163,8 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     public List<SupervisorEntity> findSupervisors(String employeeId) {
     	Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(SupervisorEntity.class)
-                .add(Restrictions.eq("supervisor.userId",employeeId));
+                .add(Restrictions.eq("supervisor.userId",employeeId))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
     	List<SupervisorEntity> results = (List<SupervisorEntity>)criteria.list();
     	return results;    	

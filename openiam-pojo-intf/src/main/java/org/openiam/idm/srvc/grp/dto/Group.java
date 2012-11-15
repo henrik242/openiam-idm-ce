@@ -2,6 +2,8 @@ package org.openiam.idm.srvc.grp.dto;
 
 
 import org.openiam.base.AttributeOperationEnum;
+import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
+import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.role.dto.Role;
 
 import javax.xml.bind.annotation.*;
@@ -121,7 +123,26 @@ public class Group implements java.io.Serializable {
         this.roles = roles;
     }
 
-
+    public Group(GroupEntity entity) {
+        this.grpId = entity.getGrpId();
+        this.grpName = entity.getGrpName();
+        this.createDate = entity.getCreateDate() != null ? entity.getCreateDate() : new Date();
+        this.createdBy = entity.getCreatedBy();
+        this.companyId = entity.getCompanyId();
+        this.ownerId = entity.getOwnerId();
+        this.inheritFromParent = entity.getInheritFromParent();
+        this.provisionMethod = entity.getProvisionMethod();
+        this.provisionObjName = entity.getProvisionObjName();
+        this.groupClass = entity.getGroupClass();
+        this.description = entity.getDescription();
+        this.status = entity.getStatus();
+        this.lastUpdate = entity.getLastUpdate();
+        this.metadataTypeId = entity.getMetadataTypeId();
+        this.internalGroupId = entity.getInternalGroupId();
+        for(Map.Entry<String, GroupAttributeEntity> attributeEntry : entity.getAttributes().entrySet()) {
+            this.attributes.put(attributeEntry.getKey(), new GroupAttribute(attributeEntry.getValue()));
+        }
+    }
     // Property accessors
     public String getGrpId() {
         return this.grpId;

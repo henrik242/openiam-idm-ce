@@ -1,6 +1,6 @@
 package org.openiam.idm.srvc.role.service;
 
-import org.openiam.idm.srvc.role.dto.RoleAttribute;
+import org.openiam.idm.srvc.role.domain.RoleAttributeEntity;
 
 import java.util.List;
 
@@ -11,15 +11,15 @@ import java.util.List;
  */
 public interface RoleAttributeDAO {
 
-    public void add(RoleAttribute transientInstance);
+    public void add(RoleAttributeEntity transientInstance);
 
-    public void remove(RoleAttribute persistentInstance);
+    public void remove(RoleAttributeEntity persistentInstance);
 
-    public RoleAttribute findById(java.lang.String id);
+    public RoleAttributeEntity findById(java.lang.String id);
 
-    public RoleAttribute update(RoleAttribute detachedInstance);
+    public RoleAttributeEntity update(RoleAttributeEntity detachedInstance);
 
-    public List<RoleAttribute> findByExample(RoleAttribute instance);
+    public List<RoleAttributeEntity> findByExample(RoleAttributeEntity instance);
 
     public void deleteRoleAttributes(String serviceId, String roleId);
 
