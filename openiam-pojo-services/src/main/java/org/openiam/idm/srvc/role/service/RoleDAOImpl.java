@@ -267,7 +267,8 @@ public class RoleDAOImpl implements RoleDAO {
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(RoleEntity.class)
                 .addOrder(Order.asc("id.serviceId"))
-                .addOrder(Order.asc("id.roleId"));
+                .addOrder(Order.asc("id.roleId"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 		// enable caching
 		criteria.setCacheable(true);
@@ -367,7 +368,8 @@ public class RoleDAOImpl implements RoleDAO {
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(RoleEntity.class)
                 .add(Restrictions.eq("id.serviceId",serviceId))
-                .addOrder(Order.asc("id.roleId"));
+                .addOrder(Order.asc("id.roleId"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 		List<RoleEntity> results = (List<RoleEntity>) criteria.list();
 		return results;

@@ -165,7 +165,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceId is null");
 
         ResourceEntity resourceEntity = resourceDao.findById(resourceId);
-        return new Resource(resourceEntity);
+        return resourceEntity != null ? new Resource(resourceEntity) : null;
     }
 
 

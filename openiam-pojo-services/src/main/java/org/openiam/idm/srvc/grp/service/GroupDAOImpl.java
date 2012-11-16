@@ -134,7 +134,7 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 			crit.add(Restrictions.eq("internalGroupId",search.getInternalGroupId()));
 		}
 		crit.addOrder(Order.asc("grpName"));
-		
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<GroupEntity> results = (List<GroupEntity>)crit.list();
 		return results;		
 	}
@@ -143,7 +143,8 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(GroupEntity.class)
                 .add(Restrictions.isNull("parentGrpId"))
-                .addOrder(Order.asc("grpId"));
+                .addOrder(Order.asc("grpId"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 	//	qry.setCacheable(true);
 		List<GroupEntity> results = (List<GroupEntity>)criteria.list();
@@ -153,7 +154,8 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 	public List<GroupEntity> findAllGroups() {
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(GroupEntity.class)
-                .addOrder(Order.asc("grpName"));
+                .addOrder(Order.asc("grpName"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);;
 
 	//	qry.setCacheable(true);
 		List<GroupEntity> results = (List<GroupEntity>)criteria.list();
@@ -168,7 +170,8 @@ public class GroupDAOImpl implements org.openiam.idm.srvc.grp.service.GroupDAO {
 		Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(GroupEntity.class)
                 .add(Restrictions.eq("parentGrpId", parentGroupId))
-                .addOrder(Order.asc("grpId"));
+                .addOrder(Order.asc("grpId"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 	//	qry.setCacheable(true);
 		List<GroupEntity> results = (List<GroupEntity>)criteria.list();
