@@ -290,6 +290,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	}
 
+    @Override
+    public BooleanResponse isUserLoggedin (String userId) {
+        BooleanResponse resp = new BooleanResponse(false);
+
+        if (userId == null) {
+            throw new NullPointerException("UserId is null");
+        }
+
+        AuthState authSt = authStateDao.findById(userId);
+
+        if (authSt == null) {
+            log.error("AuthState not found for userId=" + userId);
+
+            // if the auth state record is not found, the user is not logged in
+            resp.setValue(new Boolean(false));
+            return resp;
+        }
+
+        // get the token that is stored in the DB
+        String storedTkn = authSt.getToken();
+        if ("LOGOUT".equalsIgnoreCase(storedTkn)) {
+            resp.setValue(new Boolean(false));
+        } else {
+            resp.setValue(new Boolean(true));
+        }
+
+        return resp;
+
+    }
 
     public AuthenticationResponse login( AuthenticationRequest request) {
         log.debug("*** login called...");

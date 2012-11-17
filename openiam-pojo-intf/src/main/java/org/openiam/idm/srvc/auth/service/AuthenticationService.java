@@ -133,6 +133,16 @@ public interface AuthenticationService {
             @WebParam(name = "tokenType", targetNamespace = "")
             String tokenType);
 
+    /**
+     * Checks whether this user is logged in or not.
+     * @param userId
+     * @return
+     */
+    @WebMethod
+    BooleanResponse isUserLoggedin(
+            @WebParam(name = "userId", targetNamespace = "")
+            String userId);
+
     @WebMethod
     Response renewToken(
             @WebParam(name = "principal", targetNamespace = "")

@@ -7,6 +7,8 @@ import javax.servlet.http.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 //import org.openiam.idm.srvc.menu.service.NavigatorDataService;
+import org.openiam.base.ws.BooleanResponse;
+import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.selfsrvc.AppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
@@ -27,8 +29,11 @@ public class SessionFilter implements javax.servlet.Filter {
 	private FilterConfig filterConfig = null;
 	private String expirePage = null;
 	private String excludePath = null;
+    private boolean checkStoredToken = false;
 	private static final Log log = LogFactory.getLog(SessionFilter.class);
+
 	private NavigatorDataWebService navigationDataService;
+    protected AuthenticationService authService = null;
 	 
 	//private org.openiam.idm.srvc.menu.service.NavigatorDataService navigationDataService;
 	private AppConfiguration appConfiguration;
@@ -42,7 +47,18 @@ public class SessionFilter implements javax.servlet.Filter {
 		// the expire page is the url of the page to display if the session has expired.
 		this.expirePage = filterConfig.getInitParameter("expirePage");
 		excludePath = filterConfig.getInitParameter("excludePath");
-	
+
+        // determine if we should check if the user logged out or not.
+        // this is expensive and should only be used if its possible for a user to logout elsewhere
+        String checkDBToken =filterConfig.getInitParameter("checkDBToken");
+        if ("Y".equalsIgnoreCase(checkDBToken)) {
+            checkStoredToken = true;
+        }else {
+            checkStoredToken = false;
+        }
+
+
+
 
 	}
 
@@ -56,8 +72,6 @@ public class SessionFilter implements javax.servlet.Filter {
 		FilterChain chain)
 		throws IOException, ServletException {
 		
-		String userId = null;
-
         System.out.println("SessionFilter:doFilter");
 
 		ServletContext context = getFilterConfig().getServletContext();
@@ -70,8 +84,7 @@ public class SessionFilter implements javax.servlet.Filter {
 
 		
 		String url = request.getRequestURI();
-        String tk = request.getParameter("tk");
-		
+
 		
 		if ( url == null || url.equals("/") || url.endsWith("index.do") || url.endsWith("login.selfserve")   ) {
 			log.debug("login page=true");
@@ -80,11 +93,31 @@ public class SessionFilter implements javax.servlet.Filter {
 		
 		if (!loginPage && isCode(url) && !isExcludePath(url, context, session) ) 		{
 		/* There is no User attribute so redirect to login page */
-			if(session.getAttribute("userId") == null && tk == null)	{
+            String userId =  (String)session.getAttribute("userId");
+
+			if(userId == null )	{
 
 				response.sendRedirect(request.getContextPath() + expirePage);
 				return;
 			}
+            // userId is not null
+            if (checkStoredToken) {
+
+                WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(context);
+                authService =  (AuthenticationService)webContext.getBean("authServiceClient");
+
+                BooleanResponse resp = authService.isUserLoggedin(userId);
+                // if not logged in then show the login page
+                if (resp == null || !resp.getValue().booleanValue()) {
+                    session.invalidate();
+                    response.sendRedirect(request.getContextPath() + expirePage);
+                    return;
+                }
+
+
+            }
+
+
 		}
 		chain.doFilter(servletRequest, servletResponse);
 
