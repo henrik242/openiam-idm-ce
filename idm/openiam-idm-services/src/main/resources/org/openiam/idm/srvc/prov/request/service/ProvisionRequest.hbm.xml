@@ -49,11 +49,11 @@
             <column name="REQUEST_FOR_ORG_ID" length="32" />
         </property>
 
-     <!--
+
         <property name="requestTitle" type="string">
             <column name="REQUEST_TITLE" length="200" />
         </property>
-        -->
+
 
 
 
