@@ -169,7 +169,7 @@ public class SelfRegistrationController extends CancellableFormController {
                                     HttpServletResponse response, Object command, BindException errors)
             throws Exception {
 
-        log.info("In processFinish..");
+
 
         SelfRegistrationCommand newHireCmd = (SelfRegistrationCommand) command;
         HttpSession session = request.getSession();
@@ -194,9 +194,6 @@ public class SelfRegistrationController extends CancellableFormController {
             pUser.setMemberOfRoles(getRoleList(newHireCmd, user));
         }
 
-
-        // create the request 
-        log.info("User created. New User Id: " + user.getUserId());
 
 
         /* serialize the object into xml */
@@ -236,6 +233,7 @@ public class SelfRegistrationController extends CancellableFormController {
 
         ProvisionRequest req = new ProvisionRequest();
         req.setRequestorId(null);
+        req.setRequestorLastName("ANONYMOUS");
         req.setStatus("PENDING");
         req.setStatusDate(curDate);
         req.setRequestDate(curDate);
@@ -249,9 +247,7 @@ public class SelfRegistrationController extends CancellableFormController {
         req.setRequestXML(asXML);
 
 
-        //req.setManagedResourceId(managedResource.getManagedSysId());
-
-        // add a user to the request - this is the person in the New Hire
+        // add a user to the request - this is the person we are making the request for
         Set<RequestUser> reqUserSet = req.getRequestUsers();
         RequestUser reqUser = new RequestUser();
         reqUser.setFirstName(usr.getFirstName());
@@ -272,7 +268,7 @@ public class SelfRegistrationController extends CancellableFormController {
 
                 if (ap != null) {
                     approverType = ap.getAssociationType();
-                    System.out.println("Approver =" + ap.getApproverRoleId());
+                    log.info("Approver =" + ap.getApproverRoleId());
 
                     if (ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
                         Supervisor supVisor = pUser.getSupervisor();
@@ -352,9 +348,6 @@ public class SelfRegistrationController extends CancellableFormController {
 
 
                 List<User> roleApprovers = userMgr.searchByDelegationProperties(search).getUserList();
-
-                log.info("notifyApprover:: List of Approvers = " + roleApprovers);
-
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u : roleApprovers) {

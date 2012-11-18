@@ -12,10 +12,6 @@ import org.openiam.idm.srvc.user.dto.User;
 
 public class RequestDetailCommand implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5456150837492332419L;
 
 	private String requestId;
 	
@@ -27,7 +23,11 @@ public class RequestDetailCommand implements Serializable {
 	protected List<Group> groupList;
 	protected List<Role> roleList;
 
+    /* UserDetail is the user that this request is for */
     protected  User userDetail;
+    /* Organization name for this user.  Shown as a separate attribute because we want to show the name of the
+     * Organization and the object only has the ID
+      */
     protected  String orgName;
 	
 

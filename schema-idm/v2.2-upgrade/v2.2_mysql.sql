@@ -67,4 +67,7 @@ insert into CATEGORY_TYPE (category_id, type_id) values('GROUP_TYPE','AD_GROUP_T
 insert into CATEGORY_TYPE (category_id, type_id) values('GROUP_TYPE','LDAP_GROUP_TYPE');
 insert into CATEGORY_TYPE (category_id, type_id) values('GROUP_TYPE','DEFAULT_GROUP');
 
+ALTER TABLE PROV_REQUEST
+  ADD COLUMN REQUESTOR_FIRSTNAME VARCHAR(50) NULL,
+  ADD COLUMN REQUESTOR_LASTNAME  VARCHAR(50) NULL;
 

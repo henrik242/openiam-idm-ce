@@ -10,6 +10,15 @@
         <property name="requestorId" type="string">
             <column name="REQUESTOR_ID" length="20" />
         </property>
+
+        <property name="requestorFirstName" type="string">
+            <column name="REQUESTOR_FIRSTNAME" length="50" />
+        </property>
+        <property name="requestorLastName" type="string">
+            <column name="REQUESTOR_LASTNAME" length="50" />
+        </property>
+
+
         <property name="requestDate" type="timestamp">
             <column name="REQUEST_DATE" length="19" />
         </property>

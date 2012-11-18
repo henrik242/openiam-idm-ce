@@ -149,7 +149,56 @@ public class RequestUser implements java.io.Serializable {
 		this.requestId = requestId;
 	}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RequestUser)) return false;
 
+        RequestUser that = (RequestUser) o;
 
+        if (affiliation != null ? !affiliation.equals(that.affiliation) : that.affiliation != null) return false;
+        if (deptCd != null ? !deptCd.equals(that.deptCd) : that.deptCd != null) return false;
+        if (division != null ? !division.equals(that.division) : that.division != null) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (locationCd != null ? !locationCd.equals(that.locationCd) : that.locationCd != null) return false;
+        if (middleInit != null ? !middleInit.equals(that.middleInit) : that.middleInit != null) return false;
+        if (reqUserListId != null ? !reqUserListId.equals(that.reqUserListId) : that.reqUserListId != null)
+            return false;
+        if (requestId != null ? !requestId.equals(that.requestId) : that.requestId != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
 
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = reqUserListId != null ? reqUserListId.hashCode() : 0;
+        result = 31 * result + (requestId != null ? requestId.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (middleInit != null ? middleInit.hashCode() : 0);
+        result = 31 * result + (deptCd != null ? deptCd.hashCode() : 0);
+        result = 31 * result + (division != null ? division.hashCode() : 0);
+        result = 31 * result + (locationCd != null ? locationCd.hashCode() : 0);
+        result = 31 * result + (affiliation != null ? affiliation.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestUser{" +
+                "reqUserListId='" + reqUserListId + '\'' +
+                ", requestId='" + requestId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleInit='" + middleInit + '\'' +
+                ", deptCd='" + deptCd + '\'' +
+                ", division='" + division + '\'' +
+                ", locationCd='" + locationCd + '\'' +
+                ", affiliation='" + affiliation + '\'' +
+                '}';
+    }
 }

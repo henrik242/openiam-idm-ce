@@ -210,4 +210,68 @@ public class RequestApprover implements java.io.Serializable {
     public void setApplyDelegationFilter(int applyDelegationFilter) {
         this.applyDelegationFilter = applyDelegationFilter;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RequestApprover)) return false;
+
+        RequestApprover that = (RequestApprover) o;
+
+        if (applyDelegationFilter != that.applyDelegationFilter) return false;
+        if (action != null ? !action.equals(that.action) : that.action != null) return false;
+        if (actionDate != null ? !actionDate.equals(that.actionDate) : that.actionDate != null) return false;
+        if (approverId != null ? !approverId.equals(that.approverId) : that.approverId != null) return false;
+        if (approverLevel != null ? !approverLevel.equals(that.approverLevel) : that.approverLevel != null)
+            return false;
+        if (approverType != null ? !approverType.equals(that.approverType) : that.approverType != null) return false;
+        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
+        if (managedSysId != null ? !managedSysId.equals(that.managedSysId) : that.managedSysId != null) return false;
+        if (mngSysGroupId != null ? !mngSysGroupId.equals(that.mngSysGroupId) : that.mngSysGroupId != null)
+            return false;
+        if (reqApproverId != null ? !reqApproverId.equals(that.reqApproverId) : that.reqApproverId != null)
+            return false;
+        if (requestId != null ? !requestId.equals(that.requestId) : that.requestId != null) return false;
+        if (roleDomain != null ? !roleDomain.equals(that.roleDomain) : that.roleDomain != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = reqApproverId != null ? reqApproverId.hashCode() : 0;
+        result = 31 * result + (approverLevel != null ? approverLevel.hashCode() : 0);
+        result = 31 * result + (approverType != null ? approverType.hashCode() : 0);
+        result = 31 * result + (approverId != null ? approverId.hashCode() : 0);
+        result = 31 * result + (roleDomain != null ? roleDomain.hashCode() : 0);
+        result = 31 * result + (requestId != null ? requestId.hashCode() : 0);
+        result = 31 * result + (actionDate != null ? actionDate.hashCode() : 0);
+        result = 31 * result + (action != null ? action.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (mngSysGroupId != null ? mngSysGroupId.hashCode() : 0);
+        result = 31 * result + (managedSysId != null ? managedSysId.hashCode() : 0);
+        result = 31 * result + applyDelegationFilter;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestApprover{" +
+                "reqApproverId='" + reqApproverId + '\'' +
+                ", approverLevel=" + approverLevel +
+                ", approverType='" + approverType + '\'' +
+                ", approverId='" + approverId + '\'' +
+                ", roleDomain='" + roleDomain + '\'' +
+                ", requestId='" + requestId + '\'' +
+                ", actionDate=" + actionDate +
+                ", action='" + action + '\'' +
+                ", comment='" + comment + '\'' +
+                ", status='" + status + '\'' +
+                ", mngSysGroupId='" + mngSysGroupId + '\'' +
+                ", managedSysId='" + managedSysId + '\'' +
+                ", applyDelegationFilter=" + applyDelegationFilter +
+                '}';
+    }
 }

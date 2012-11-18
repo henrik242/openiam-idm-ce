@@ -87,7 +87,6 @@ public class RequestDetailController extends SimpleFormController {
         ProvisionRequest req = provRequestService.getRequest(requestId).getRequest();
         Set<RequestUser> reqUserSet = req.getRequestUsers();
 
-        System.out.println("RequestDetails - FormBackingObject");
 
         RequestDetailCommand reqDetailCommand = new RequestDetailCommand();
         reqDetailCommand.setRequest(req);
@@ -99,7 +98,6 @@ public class RequestDetailController extends SimpleFormController {
 
         if (userAsXML != null) {
             pUser = this.fromXML(userAsXML);
-            System.out.println("User deserialized successfully = " + pUser);
 
             reqDetailCommand.setUserDetail(pUser);
             String companyId = pUser.getCompanyId();
@@ -116,8 +114,6 @@ public class RequestDetailController extends SimpleFormController {
                 List<Group> groupList = pUser.getMemberOfGroups();
                 List<Role> roleList = pUser.getMemberOfRoles();
 
-                log.info("Role list=" + roleList);
-
                 if (groupList != null) {
                     reqDetailCommand.setGroupList(buildGroupList(groupList));
                 }
@@ -127,25 +123,15 @@ public class RequestDetailController extends SimpleFormController {
             }
         }
 
+        if (req.getRequestorId() == null || req.getRequestorId().isEmpty()) {
+            reqDetailCommand.setRequestor(null);
 
+        }else {
+            if (req.getRequestorId() != null && req.getRequestorId().length() > 0) {
 
-        if (userId != null) {
-            // load the user object for the requestor
-
-            if (req.getRequestorId() == null || req.getRequestorId().isEmpty()) {
-                reqDetailCommand.setRequestor(pUser);
-
-            }else {
-                if (req.getRequestorId() != null && req.getRequestorId().length() > 0) {
-
-                    UserResponse userResp = userManager.getUserWithDependent(req.getRequestorId(), false);
-                    User user = userResp.getUser();
-                    reqDetailCommand.setRequestor(user);
-                }
+                UserResponse userResp = userManager.getUserWithDependent(req.getRequestorId(), false);
+                reqDetailCommand.setRequestor(userResp.getUser());
             }
-
-
-
         }
 
 

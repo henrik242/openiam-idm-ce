@@ -650,7 +650,7 @@
 				<!--value>org/openiam/idm/srvc/res/service/ResourceUser.hbm.xml</value-->
 				<value>org/openiam/idm/srvc/lang/service/Language.hbm.xml</value>
 				<value>org/openiam/idm/srvc/loc/service/Location.hbm.xml</value>
-                				<value>org/openiam/idm/srvc/pswd/service/IdentityQuestGroup.hbm.xml</value>
+                <value>org/openiam/idm/srvc/pswd/service/IdentityQuestGroup.hbm.xml</value>
 				<value>org/openiam/idm/srvc/pswd/service/IdentityQuestion.hbm.xml</value>
 				<value>org/openiam/idm/srvc/pswd/service/UserIdentityAnswer.hbm.xml</value>
 				<value>org/openiam/idm/srvc/pswd/service/PwdHistory.hbm.xml</value>

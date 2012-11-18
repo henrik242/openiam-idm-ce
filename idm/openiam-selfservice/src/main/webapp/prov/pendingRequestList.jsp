@@ -30,7 +30,12 @@
 <c:forEach items="${reqList}" var="provisionRequest">
     		<tr>
         		<td><a href="requestDetail.selfserve?requestId=${provisionRequest.requestId}<%=queryString%>"> ${provisionRequest.requestDate}</a></td>
-        		<td> ${provisionRequest.requestorId}</td>
+        		<td>
+                    <c:if test="${provisionRequest.requestorFirstName != null}" >
+        		${provisionRequest.requestorFirstName}
+                    </c:if>
+        		${provisionRequest.requestorLastName}
+                </td>
         		<td> ${provisionRequest.status}</td>
         		<td> ${provisionRequest.requestTitle}</td>
     		</tr>

@@ -68,8 +68,7 @@ public class MyPendingRequestController extends AbstractController {
         SearchRequest search = buildSearch(userId, roleIdList, usr);
 		List<ProvisionRequest> reqList = provRequestService.search(search).getReqList();
 
-        System.out.println("Requests found=" + reqList);
-	    
+
 		ModelAndView mav = new ModelAndView(view);
 		mav.addObject("reqList", reqList);
 
