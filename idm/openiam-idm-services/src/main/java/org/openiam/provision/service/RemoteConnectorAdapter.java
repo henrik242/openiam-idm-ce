@@ -375,7 +375,7 @@ public class RemoteConnectorAdapter {
 
             if (connector != null && (connector.getServiceUrl() != null && connector.getServiceUrl().length() > 0)) {
 
-                MuleMessage msg = getService(connector, managedSys, connector.getServiceUrl(), "resume", muleContext);
+                MuleMessage msg = getService(connector, managedSys, connector.getServiceUrl(), "testConnection", muleContext);
                 if (msg != null) {
                     log.debug("Test connection Payload=" + msg.getPayload());
                     if (msg.getPayload() != null && msg.getPayload() instanceof ResponseType) {
