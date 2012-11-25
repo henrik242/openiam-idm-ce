@@ -32,8 +32,11 @@
             <column name="REQUEST_REASON" length="500" />
         </property>
         <property name="requestType" type="string">
-            <column name="REQUEST_TYPE" length="20" />
-        </property>        
+            <column name="REQUEST_TYPE" length="100" />
+        </property>
+        <property name="workflowName" type="string">
+            <column name="WORKFLOW_NAME" length="50" />
+        </property>
 
         <property name="requestXML" type="string">
             <column name="REQUEST_XML" length="65535" />

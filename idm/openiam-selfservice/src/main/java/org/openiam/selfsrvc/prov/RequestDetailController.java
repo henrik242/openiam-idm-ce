@@ -5,17 +5,14 @@ import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
-import org.openiam.idm.srvc.auth.ws.LoginResponse;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.grp.ws.GroupResponse;
-import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.idm.srvc.org.dto.Organization;
+import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestUser;
 import org.openiam.idm.srvc.prov.request.ws.RequestWebService;
@@ -23,34 +20,33 @@ import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.role.ws.RoleResponse;
-import org.openiam.idm.srvc.service.dto.RequestApprover;
-import org.openiam.idm.srvc.user.dto.Supervisor;
-import org.openiam.idm.srvc.user.dto.User;
-import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.idm.srvc.user.ws.UserResponse;
 import org.openiam.provision.dto.ProvisionUser;
-import org.openiam.provision.resp.ProvisionUserResponse;
+import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.provision.service.ProvisionService;
+import org.openiam.selfsrvc.wrkflow.AbstractCompleteRequest;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.openiam.idm.srvc.org.dto.Organization;
+import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
-import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 // temp
 
 
-public class RequestDetailController extends SimpleFormController {
+public class RequestDetailController extends CancellableFormController {
 
     protected RequestWebService provRequestService;
     protected UserDataWebService userManager;
@@ -62,6 +58,7 @@ public class RequestDetailController extends SimpleFormController {
     protected ResourceDataService resourceDataService;
     protected ManagedSystemDataService managedSysService;
     protected OrganizationDataService orgManager;
+    protected Map workflowApprovalMap;
 
 
     private static final Log log = LogFactory.getLog(RequestDetailController.class);
@@ -78,10 +75,15 @@ public class RequestDetailController extends SimpleFormController {
     }
 
     @Override
+    protected ModelAndView onCancel(Object command) throws Exception {
+        return new ModelAndView(new RedirectView(getCancelView(), true));
+    }
+
+    @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
         HttpSession session = request.getSession();
-        String userId = (String)session.getAttribute("userId");
+        String userId = (String) session.getAttribute("userId");
 
         String requestId = ServletRequestUtils.getStringParameter(request, "requestId");
         ProvisionRequest req = provRequestService.getRequest(requestId).getRequest();
@@ -104,29 +106,24 @@ public class RequestDetailController extends SimpleFormController {
             if (companyId != null && companyId.length() > 0) {
                 Organization org = orgManager.getOrganization(companyId);
                 if (org != null) {
-                 reqDetailCommand.setOrgName(org.getOrganizationName());
+                    reqDetailCommand.setOrgName(org.getOrganizationName());
                 }
             }
 
-
-
             if (pUser != null) {
-                List<Group> groupList = pUser.getMemberOfGroups();
-                List<Role> roleList = pUser.getMemberOfRoles();
+                // if this is an existing user, then get their details
 
-                if (groupList != null) {
-                    reqDetailCommand.setGroupList(buildGroupList(groupList));
-                }
-                if (roleList != null) {
-                    reqDetailCommand.setRoleList(buildRoleList(roleList));
-                }
+                groupMembership(pUser.getMemberOfGroups(), reqDetailCommand);
+                roleMembership(pUser.getMemberOfRoles(), reqDetailCommand);
+                resourceMembership(pUser.getUserResourceList(), reqDetailCommand);
+
             }
         }
 
         if (req.getRequestorId() == null || req.getRequestorId().isEmpty()) {
             reqDetailCommand.setRequestor(null);
 
-        }else {
+        } else {
             if (req.getRequestorId() != null && req.getRequestorId().length() > 0) {
 
                 UserResponse userResp = userManager.getUserWithDependent(req.getRequestorId(), false);
@@ -147,32 +144,82 @@ public class RequestDetailController extends SimpleFormController {
 
     }
 
-    private List<Group> buildGroupList(List<Group> groupLis) {
-        List<Group> grpList = new ArrayList<Group>();
-        for (Group g : grpList) {
-            GroupResponse resp = groupManager.getGroup(g.getGrpId());
-            if (resp.getStatus() == ResponseStatus.SUCCESS) {
-                grpList.add(resp.getGroup());
+    /**
+     * If there is a request for a group then add to the command object so that its easier to show the on the
+     * requestDetail page
+     *
+     * @param groupList
+     * @param reqDetailCommand
+     */
+
+    private void groupMembership(List<Group> groupList, RequestDetailCommand reqDetailCommand) {
+        if (groupList != null && !groupList.isEmpty()) {
+
+            Group g = groupList.get(0);
+
+            if (g.getOperation() != null) {
+                reqDetailCommand.setOperation(g.getOperation().toString());
             }
+
+            GroupResponse groupResponse = groupManager.getGroup(g.getGrpId());
+
+            if (groupResponse.getStatus() == ResponseStatus.SUCCESS) {
+
+                reqDetailCommand.setGroup(groupResponse.getGroup());
+            }
+
         }
-        return grpList;
 
     }
 
-    private List<Role> buildRoleList(List<Role> roleList) {
-        List<Role> rlList = new ArrayList<Role>();
-        for (Role r : roleList) {
+    /**
+     * If there is a request for a role then add to the command object so that its easier to show the on the
+     * requestDetail page
+     *
+     * @param roleList
+     * @param reqDetailCommand
+     */
 
-            log.info("User role membership: " + r);
+    private void roleMembership(List<Role> roleList, RequestDetailCommand reqDetailCommand) {
+        if (roleList != null && !roleList.isEmpty()) {
+
+            Role r = roleList.get(0);
+
+            if (r.getOperation() != null) {
+                reqDetailCommand.setOperation(r.getOperation().toString());
+            }
 
             RoleResponse resp = roleDataService.getRole(r.getId().getServiceId(), r.getId().getRoleId());
             if (resp.getStatus() == ResponseStatus.SUCCESS) {
-                rlList.add(resp.getRole());
+                reqDetailCommand.getRole();
             }
         }
-        return rlList;
 
     }
+
+    /**
+     * If there is a request for a resource then add to the command object so that its easier to show the on the
+     * requestDetail page
+     *
+     * @param resourceAssociation
+     * @param reqDetailCommand
+     */
+
+    private void resourceMembership(List<UserResourceAssociation> resourceAssociation, RequestDetailCommand reqDetailCommand) {
+        if (resourceAssociation != null && !resourceAssociation.isEmpty()) {
+
+            UserResourceAssociation r = resourceAssociation.get(0);
+
+            if (r.getOperation() != null) {
+                reqDetailCommand.setOperation(r.getOperation().toString());
+            }
+
+            reqDetailCommand.setResource(resourceDataService.getResource(r.getResourceId()));
+
+        }
+
+    }
+
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request,
@@ -199,8 +246,6 @@ public class RequestDetailController extends SimpleFormController {
         ProvisionRequest req = provRequestService.getRequest(reqId).getRequest();
 
 
-
-
         String btn = ServletRequestUtils.getStringParameter(request, "btn");
 
         if (btn.equalsIgnoreCase("Approve")) {
@@ -213,22 +258,17 @@ public class RequestDetailController extends SimpleFormController {
         req.setStatus(status);
         req.setStatusDate(curDate);
 
-        System.out.println("Status=" + status);
-        System.out.println("RequestId = " + req.getRequestId());
-
         // update the action of this approver.
         Set<org.openiam.idm.srvc.prov.request.dto.RequestApprover> requestApprovers = req.getRequestApprovers();
-        for (org.openiam.idm.srvc.prov.request.dto.RequestApprover ra  : requestApprovers ) {
-               if (ra.getApproverId().equalsIgnoreCase(userId)) {
-                   System.out.println(" Updating approver status component of request to " + status);
-                   ra.setAction(status);
-                   ra.setActionDate(curDate);
-                   ra.setComment(requestDetailCmd.comment);
-                }
+        for (org.openiam.idm.srvc.prov.request.dto.RequestApprover ra : requestApprovers) {
+            if (ra.getApproverId().equalsIgnoreCase(userId)) {
+
+                ra.setAction(status);
+                ra.setActionDate(curDate);
+                ra.setComment(requestDetailCmd.comment);
+            }
 
         }
-
-
 
         provRequestService.updateRequest(req);
 
@@ -236,19 +276,21 @@ public class RequestDetailController extends SimpleFormController {
         String reqAsXML = req.getRequestXML();
         ProvisionUser pUser = this.fromXML(reqAsXML);
 
-         String login = (String)request.getSession().getAttribute("login");
-        String domain = (String)request.getSession().getAttribute("domain");
+        String login = (String) request.getSession().getAttribute("login");
+        String domain = (String) request.getSession().getAttribute("domain");
         pUser.setRequestClientIP(request.getRemoteHost());
         pUser.setRequestorLogin(login);
         pUser.setRequestorDomain(domain);
 
-        if (btn.equalsIgnoreCase("Approve")) {
-            approve(req, pUser, userId);
+        AbstractCompleteRequest completeRequest = createRequestObject((String) workflowApprovalMap.get(req.getRequestType()));
+        completeRequest.init();
 
+        if (btn.equalsIgnoreCase("Approve")) {
+
+            completeRequest.approveRequest(pUser, req, userId);
         } else {
             // request was rejected
-            reject(req, pUser, userId);
-
+            completeRequest.rejectRequest(pUser, req, userId);
         }
 
 
@@ -260,184 +302,22 @@ public class RequestDetailController extends SimpleFormController {
 
     }
 
-    private void reject(ProvisionRequest req, ProvisionUser pUser, String approverId) {
-        String requestType = req.getRequestType();
-        String notifyEmail = null;
+    private AbstractCompleteRequest createRequestObject(String className) {
 
+        try {
 
-        List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
-        //String notifyUserId = ap.getNotifyUserOnReject();
+            Class cls = Class.forName(className);
+            return (AbstractCompleteRequest) cls.newInstance();
 
-        for (ApproverAssociation ap : apList) {
-            String typeOfUserToNotify = ap.getRejectNotificationUserType();
-            if (typeOfUserToNotify == null || typeOfUserToNotify.length() == 0) {
-                typeOfUserToNotify = "USER";
-            }
-            String notifyUserId = null;
-            if (typeOfUserToNotify.equalsIgnoreCase("USER")) {
-                notifyUserId = ap.getNotifyUserOnReject();
-            } else {
-                if (typeOfUserToNotify.equalsIgnoreCase("SUPERVISOR")) {
-                    Supervisor supVisor = pUser.getSupervisor();
-                    if (supVisor != null) {
-                        notifyUserId = supVisor.getSupervisor().getUserId();
-                    } else {
-                        notifyUserId = null;
-                    }
+        } catch (IllegalAccessException ia) {
+            log.error(ia.getMessage(), ia);
 
-                } else {
-                    // target user
-                    if (pUser.getEmailAddresses() != null) {
-                        // user does not exist. We cant use their userId.
-                        notifyUserId = null;
-                        notifyEmail = pUser.getEmail();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                }
-            }
-
-
-            notifyRequestorReject(req, approverId, notifyUserId, notifyEmail);
+        } catch (InstantiationException ie) {
+            log.error(ie.getMessage(), ie);
+        } catch (ClassNotFoundException ce) {
+            log.error(ce.getMessage(), ce);
         }
-    }
-
-    private void approve(ProvisionRequest req, ProvisionUser pUser, String approverId) {
-        pUser.getUser().setStatus(UserStatusEnum.ACTIVE);
-        pUser.getUser().setUserId(null);
-        pUser.setStatus(UserStatusEnum.ACTIVE);
-        ProvisionUserResponse resp = provisionService.addUser(pUser);
-
-        User newUser = resp.getUser();
-
-        log.info("New User userId = " + newUser.getUserId());
-
-        String requestType = req.getRequestType();
-
-        List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
-
-        for (ApproverAssociation ap : apList) {
-            String typeOfUserToNotify = ap.getApproveNotificationUserType();
-            if (typeOfUserToNotify == null || typeOfUserToNotify.length() == 0) {
-                typeOfUserToNotify = "USER";
-            }
-            String notifyUserId = null;
-            if (typeOfUserToNotify.equalsIgnoreCase("USER")) {
-                notifyUserId = ap.getNotifyUserOnApprove();
-            } else {
-                if (typeOfUserToNotify.equalsIgnoreCase("SUPERVISOR")) {
-                    Supervisor supVisor = pUser.getSupervisor();
-                    if (supVisor != null) {
-                        notifyUserId = supVisor.getSupervisor().getUserId();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                } else {
-                    // target user
-                    if (pUser.getEmailAddresses() != null) {
-                        notifyUserId = newUser.getUserId();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                }
-            }
-
-            if (notifyUserId != null) {
-                notifyRequestorApproval(req, approverId, newUser, notifyUserId);
-            } else {
-                log.info("Unable to determine userId to notify");
-            }
-        }
-
-    }
-
-    /* Methods for sending out notification */
-
-    private void notifyRequestorApproval(ProvisionRequest req, String approverUserId, User newUser, String notifyUserId) {
-
-        // requestor information
-        String userId = req.getRequestorId();
-        String identity = null;
-        String password = null;
-
-
-        User approver = userManager.getUserWithDependent(approverUserId, false).getUser();
-
-        // get the target user
-        String targetUserName = null;
-        Set<RequestUser> reqUserSet = req.getRequestUsers();
-        if (reqUserSet != null && !reqUserSet.isEmpty()) {
-            Iterator<RequestUser> userIt = reqUserSet.iterator();
-            if (userIt.hasNext()) {
-                RequestUser targetUser = userIt.next();
-                targetUserName = targetUser.getFirstName() + " " + targetUser.getLastName();
-            }
-        }
-
-        LoginResponse lgResponse = loginManager.getPrimaryIdentity(newUser.getUserId());
-        if (lgResponse.getStatus() == ResponseStatus.SUCCESS) {
-            Login l = lgResponse.getPrincipal();
-            identity = l.getId().getLogin();
-            password = (String) loginManager.decryptPassword(l.getPassword()).getResponseValue();
-        }
-
-
-        NotificationRequest request = new NotificationRequest();
-        // send a message to this user
-        request.setUserId(notifyUserId);
-        request.setNotificationType("REQUEST_APPROVED");
-
-        request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
-
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestReason()));
-        request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
-        request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-        request.getParamList().add(new NotificationParam("IDENTITY", identity));
-        request.getParamList().add(new NotificationParam("PSWD", password));
-
-
-        mailService.sendNotification(request);
-    }
-
-    private void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
-        
-        System.out.println("notifyRequestorReject() called");
-        
-        String userId = req.getRequestorId();
-
-        User approver = userManager.getUserWithDependent(approverUserId, false).getUser();
-
-        // get the target user
-        String targetUserName = null;
-        Set<RequestUser> reqUserSet = req.getRequestUsers();
-        if (reqUserSet != null && !reqUserSet.isEmpty()) {
-            Iterator<RequestUser> userIt = reqUserSet.iterator();
-            if (userIt.hasNext()) {
-                RequestUser targetUser = userIt.next();
-                targetUserName = targetUser.getFirstName() + " " + targetUser.getLastName();
-
-            }
-
-        }
-
-        NotificationRequest request = new NotificationRequest();
-        request.setUserId(notifyUserId);
-        request.setNotificationType("REQUEST_REJECTED");
-        request.setTo(notifyEmail);
-
-        request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
-
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestReason()));
-        request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
-        request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-
-        System.out.println("Sending notification for that request was rejected " + req.getRequestId());
-
-        mailService.sendNotification(request);
-
+        return null;
 
     }
 
@@ -530,5 +410,13 @@ public class RequestDetailController extends SimpleFormController {
 
     public void setOrgManager(OrganizationDataService orgManager) {
         this.orgManager = orgManager;
+    }
+
+    public Map getWorkflowApprovalMap() {
+        return workflowApprovalMap;
+    }
+
+    public void setWorkflowApprovalMap(Map workflowApprovalMap) {
+        this.workflowApprovalMap = workflowApprovalMap;
     }
 }

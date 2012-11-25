@@ -67,21 +67,7 @@ public class RequestApprover implements java.io.Serializable {
 
     }
 
-   /* public RequestApprover(RequestApproverEntity entity) {
-        this.reqApproverId = entity.getReqApproverId();
-        this.approverLevel = entity.getApproverLevel();
-        this.approverType = entity.getApproverType();
-        this.approverId = entity.getApproverId();
-        this.roleDomain = entity.getRoleDomain();
-        this.requestId = entity.getRequestId();
-        this.actionDate = entity.getActionDate();
-        this.action = entity.getAction();
-        this.comment = entity.getComment();
-        this.status = entity.getStatus();
-        this.mngSysGroupId = entity.getMngSysGroupId();
-        this.managedSysId = entity.getManagedSysId();
-    }
-    */
+
 
 	public String getReqApproverId() {
 		return reqApproverId;

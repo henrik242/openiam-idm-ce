@@ -1,5 +1,6 @@
 package org.openiam.selfsrvc.wrkflow;
 
+import com.thoughtworks.xstream.XStream;
 import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.dto.NotificationParam;
@@ -16,6 +17,7 @@ import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import java.util.Date;
@@ -49,10 +51,14 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
         String requestorId = wrkFlowRequest.getRequestorId();
 
         Resource wrkflowResource = resourceDataService.getResource(workflowResourceId);
+
         User userData = userManager.getUserWithDependent(personId, true).getUser();
 
-        User requestor = userManager.getUserWithDependent(requestorId,false).getUser();
+        // put the user information into a consistent object that we can serialize
+        ProvisionUser pUser = new ProvisionUser(userData);
+        String userAsXML = toXML(pUser);
 
+        User requestor = userManager.getUserWithDependent(requestorId,false).getUser();
 
         // build the request object
 
@@ -61,12 +67,17 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
         req.setStatusDate(curDate);
         req.setRequestDate(curDate);
         req.setRequestType(workflowResourceId);
+        req.setWorkflowName(wrkflowResource.getName());
         req.setRequestorId(requestorId);
+        req.setRequestorFirstName(requestor.getFirstName());
+        req.setRequestorLastName(requestor.getLastName());
 
 
         req.setRequestTitle(wrkflowResource.getDescription() + " FOR:" + userData.getFirstName() + " " + userData.getLastName());
         req.setRequestReason(wrkFlowRequest.getDescription());
 
+
+        req.setRequestXML(userAsXML);
 
         // add a user to the request - this is the person that we are terminating
         Set<RequestUser> reqUserSet = req.getRequestUsers();
@@ -221,6 +232,12 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
             }
         }
 
+
+    }
+
+    private String toXML(ProvisionUser pUser) {
+        XStream xstream = new XStream();
+        return xstream.toXML(pUser);
 
     }
 

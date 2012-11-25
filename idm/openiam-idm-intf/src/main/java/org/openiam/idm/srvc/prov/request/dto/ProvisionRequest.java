@@ -35,7 +35,8 @@ import org.openiam.idm.srvc.user.dto.User;
     "requestApprovers",
     "requestUsers",
     "requestForOrgId",
-    "requestTitle"
+    "requestTitle",
+        "workflowName"
 })
 public class ProvisionRequest implements java.io.Serializable {
 
@@ -47,6 +48,7 @@ public class ProvisionRequest implements java.io.Serializable {
 	protected Date statusDate;
 	protected String requestReason;
 	protected String requestType;
+    protected String workflowName;
 	protected String requestXML;
 	protected String managedResourceId;
     protected String requestorId;
@@ -71,9 +73,6 @@ public class ProvisionRequest implements java.io.Serializable {
 	public ProvisionRequest() {
 	}
 
-	public ProvisionRequest(String requestId) {
-		this.requestId = requestId;
-	}
 
     @Override
     public boolean equals(Object o) {
@@ -88,8 +87,6 @@ public class ProvisionRequest implements java.io.Serializable {
             return false;
         if (newRoleId != null ? !newRoleId.equals(that.newRoleId) : that.newRoleId != null) return false;
         if (newServiceId != null ? !newServiceId.equals(that.newServiceId) : that.newServiceId != null) return false;
-        if (requestApprovers != null ? !requestApprovers.equals(that.requestApprovers) : that.requestApprovers != null)
-            return false;
         if (requestDate != null ? !requestDate.equals(that.requestDate) : that.requestDate != null) return false;
         if (requestForOrgId != null ? !requestForOrgId.equals(that.requestForOrgId) : that.requestForOrgId != null)
             return false;
@@ -98,7 +95,6 @@ public class ProvisionRequest implements java.io.Serializable {
             return false;
         if (requestTitle != null ? !requestTitle.equals(that.requestTitle) : that.requestTitle != null) return false;
         if (requestType != null ? !requestType.equals(that.requestType) : that.requestType != null) return false;
-        if (requestUsers != null ? !requestUsers.equals(that.requestUsers) : that.requestUsers != null) return false;
         if (requestXML != null ? !requestXML.equals(that.requestXML) : that.requestXML != null) return false;
         if (requestorFirstName != null ? !requestorFirstName.equals(that.requestorFirstName) : that.requestorFirstName != null)
             return false;
@@ -107,6 +103,7 @@ public class ProvisionRequest implements java.io.Serializable {
             return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
+        if (workflowName != null ? !workflowName.equals(that.workflowName) : that.workflowName != null) return false;
 
         return true;
     }
@@ -119,6 +116,7 @@ public class ProvisionRequest implements java.io.Serializable {
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
         result = 31 * result + (requestReason != null ? requestReason.hashCode() : 0);
         result = 31 * result + (requestType != null ? requestType.hashCode() : 0);
+        result = 31 * result + (workflowName != null ? workflowName.hashCode() : 0);
         result = 31 * result + (requestXML != null ? requestXML.hashCode() : 0);
         result = 31 * result + (managedResourceId != null ? managedResourceId.hashCode() : 0);
         result = 31 * result + (requestorId != null ? requestorId.hashCode() : 0);
@@ -129,10 +127,39 @@ public class ProvisionRequest implements java.io.Serializable {
         result = 31 * result + (newRoleId != null ? newRoleId.hashCode() : 0);
         result = 31 * result + (newServiceId != null ? newServiceId.hashCode() : 0);
         result = 31 * result + (requestForOrgId != null ? requestForOrgId.hashCode() : 0);
-        result = 31 * result + (requestApprovers != null ? requestApprovers.hashCode() : 0);
-        result = 31 * result + (requestUsers != null ? requestUsers.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ProvisionRequest{" +
+                "requestId='" + requestId + '\'' +
+                ", requestDate=" + requestDate +
+                ", status='" + status + '\'' +
+                ", statusDate=" + statusDate +
+                ", requestReason='" + requestReason + '\'' +
+                ", requestType='" + requestType + '\'' +
+                ", workflowName='" + workflowName + '\'' +
+                ", requestXML='" + requestXML + '\'' +
+                ", managedResourceId='" + managedResourceId + '\'' +
+                ", requestorId='" + requestorId + '\'' +
+                ", requestorFirstName='" + requestorFirstName + '\'' +
+                ", requestorLastName='" + requestorLastName + '\'' +
+                ", requestTitle='" + requestTitle + '\'' +
+                ", changeAccessBy='" + changeAccessBy + '\'' +
+                ", newRoleId='" + newRoleId + '\'' +
+                ", newServiceId='" + newServiceId + '\'' +
+                ", requestForOrgId='" + requestForOrgId + '\'' +
+                ", requestApprovers=" + requestApprovers +
+                ", requestUsers=" + requestUsers +
+                '}';
+    }
+
+    public ProvisionRequest(String requestId) {
+		this.requestId = requestId;
+	}
+
+
 
     public String getRequestId() {
 		return this.requestId;
@@ -269,27 +296,6 @@ public class ProvisionRequest implements java.io.Serializable {
         this.requestorId = requestorId;
     }
 
-    @Override
-    public String toString() {
-        return "ProvisionRequest{" +
-                "requestId='" + requestId + '\'' +
-                ", requestDate=" + requestDate +
-                ", status='" + status + '\'' +
-                ", statusDate=" + statusDate +
-                ", requestReason='" + requestReason + '\'' +
-                ", requestType='" + requestType + '\'' +
-                ", requestXML='" + requestXML + '\'' +
-                ", managedResourceId='" + managedResourceId + '\'' +
-                ", requestorId='" + requestorId + '\'' +
-                ", requestTitle='" + requestTitle + '\'' +
-                ", changeAccessBy='" + changeAccessBy + '\'' +
-                ", newRoleId='" + newRoleId + '\'' +
-                ", newServiceId='" + newServiceId + '\'' +
-                ", requestForOrgId='" + requestForOrgId + '\'' +
-                ", requestApprovers=" + requestApprovers +
-                ", requestUsers=" + requestUsers +
-                '}';
-    }
 
     public String getRequestorFirstName() {
         return requestorFirstName;
@@ -305,5 +311,13 @@ public class ProvisionRequest implements java.io.Serializable {
 
     public void setRequestorLastName(String requestorLastName) {
         this.requestorLastName = requestorLastName;
+    }
+
+    public String getWorkflowName() {
+        return workflowName;
+    }
+
+    public void setWorkflowName(String workflowName) {
+        this.workflowName = workflowName;
     }
 }

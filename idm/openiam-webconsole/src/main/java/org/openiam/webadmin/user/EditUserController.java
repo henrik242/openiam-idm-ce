@@ -489,7 +489,14 @@ public class EditUserController extends CancellableFormController {
     private void  getPhoneFromUI(EditUserCommand cmd, ProvisionUser pUser) {
         List<Phone> phoneList =  cmd.getPhoneList();
         Set<Phone> phoneSet = new HashSet<Phone>();
+        boolean defaultFound = false;
+        Phone deskPhone = null;
+
         for (Phone p : phoneList) {
+
+            if ("DESK PHONE".equalsIgnoreCase(p.getName()) ) {
+                deskPhone = p;
+            }
 
             if (p.getParentType() == null || p.getParentType().isEmpty()) {
                 p.setParentType(ContactConstants.PARENT_TYPE_USER);
@@ -498,9 +505,16 @@ public class EditUserController extends CancellableFormController {
             phoneSet.add( p);
 
             if ( p.getIsDefault() == 1) {
+                defaultFound = true;
                 pUser.setAreaCd(p.getAreaCd());
                 pUser.setPhoneNbr(p.getPhoneNbr());
                 pUser.setPhoneExt(p.getPhoneExt());
+            }
+
+            if (!defaultFound) {
+                pUser.setAreaCd(deskPhone.getAreaCd());
+                pUser.setPhoneNbr(deskPhone.getPhoneNbr());
+                pUser.setPhoneExt(deskPhone.getPhoneExt());
             }
 
         }
