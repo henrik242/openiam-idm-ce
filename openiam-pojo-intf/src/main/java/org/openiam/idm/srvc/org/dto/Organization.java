@@ -1,18 +1,6 @@
 package org.openiam.idm.srvc.org.dto;
 
 import java.util.HashMap;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,9 +10,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 import java.util.Map;
-import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.org.domain.OrganizationEntity;
-import org.openiam.idm.srvc.user.dto.UserAttributeMapAdapter;
 
 /**
  * <p/>
@@ -59,7 +46,7 @@ import org.openiam.idm.srvc.user.dto.UserAttributeMapAdapter;
         "selected",
         "operation"}
 )
-
+@DozerDTOCorrespondence(OrganizationEntity.class)
 public class Organization implements java.io.Serializable, Comparable<Organization> {
 
     /**
@@ -123,30 +110,6 @@ public class Organization implements java.io.Serializable, Comparable<Organizati
      */
     public Organization(String companyId) {
         this.orgId = companyId;
-    }
-
-    public Organization(OrganizationEntity organizationEntity) {
-       this.orgId = organizationEntity.getOrgId();
-        this.alias = organizationEntity.getAlias();
-        this.createDate = organizationEntity.getCreateDate();
-        this.createdBy = organizationEntity.getCreatedBy();
-        this.description = organizationEntity.getDescription();
-        this.domainName = organizationEntity.getDomainName();
-        this.ldapStr = organizationEntity.getLdapStr();
-        this.lstUpdate = organizationEntity.getLstUpdate();
-        this.lstUpdatedBy = organizationEntity.getLstUpdatedBy();
-        this.metadataTypeId = organizationEntity.getMetadataTypeId();
-        this.organizationName = organizationEntity.getOrganizationName();
-        this.internalOrgId = organizationEntity.getInternalOrgId();
-        this.parentId = organizationEntity.getParentId();
-        this.status = organizationEntity.getStatus();
-        this.classification = organizationEntity.getClassification();
-        this.abbreviation = organizationEntity.getAbbreviation();
-        this.symbol = organizationEntity.getSymbol();
-        for(Map.Entry<String, OrganizationAttributeEntity> attributeEntity :  organizationEntity.getAttributes().entrySet()) {
-            this.attributes.put(attributeEntity.getKey(), new OrganizationAttribute(attributeEntity.getValue()));
-        }
-
     }
 
     /**

@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.dozer.converter.UserDozerConverter;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.dto.LoginId;
@@ -46,6 +47,7 @@ import org.openiam.idm.srvc.user.service.UserDAO;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
 import org.openiam.util.encrypt.Cryptor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PasswordValidator validates a password against the password policy.
@@ -63,7 +65,10 @@ public class PasswordValidatorImpl implements PasswordValidator {
 	protected String scriptEngine;
 	
 	private static final Log log = LogFactory.getLog(PasswordValidatorImpl.class);
-	
+
+    @Autowired
+    private UserDozerConverter userDozerConverter;
+
 	public PasswordValidatorImpl() {
 		
 	}
@@ -78,7 +83,7 @@ public class PasswordValidatorImpl implements PasswordValidator {
 		Login lg = loginDao.findById(new LoginId(password.getDomainId(), password.getPrincipal(), password.getManagedSysId()));
         UserEntity usr = userDao.findById(lg.getUserId());
 
-        return validateForUser(pswdPolicy, password, new User(usr), lg);
+        return validateForUser(pswdPolicy, password, userDozerConverter.convertToDTO(usr, true), lg);
 	}
 
     @Override
@@ -101,7 +106,7 @@ public class PasswordValidatorImpl implements PasswordValidator {
         User usr = user;
         if(usr == null) {
             UserEntity userEntity = userDao.findById(lg.getUserId());
-            usr = userEntity != null ? new User(userEntity) : null;
+            usr = userDozerConverter.convertToDTO(userEntity, true);
         }
 
         // for each rule

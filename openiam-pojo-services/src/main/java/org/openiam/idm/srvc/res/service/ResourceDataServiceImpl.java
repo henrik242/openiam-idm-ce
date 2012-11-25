@@ -8,6 +8,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 //import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 //import org.openiam.idm.srvc.mngsys.service.AttributeMapDAO;
+import org.openiam.dozer.converter.ResourceDozerConverter;
+
+import org.openiam.dozer.converter.ResourcePrivilegeDozerConverter;
+import org.openiam.dozer.converter.ResourcePropDozerConverter;
+import org.openiam.dozer.converter.ResourceRoleDozerConverter;
+import org.openiam.dozer.converter.ResourceTypeDozerConverter;
+
+import org.openiam.dozer.converter.ResourceUserDozerConverter;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.res.domain.ResourceEntity;
 import org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity;
@@ -25,6 +33,7 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.role.dto.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebService(endpointInterface = "org.openiam.idm.srvc.res.service.ResourceDataService", targetNamespace = "urn:idm.openiam.org/srvc/res/service", portName = "ResourceDataWebServicePort", serviceName = "ResourceDataWebService")
 public class ResourceDataServiceImpl implements ResourceDataService {
@@ -40,6 +49,24 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     protected UserDataService userManager;
     protected RoleDataService roleDataService;
     protected OrganizationDataService orgManager;
+
+	@Autowired
+	private ResourceDozerConverter resourceConverter;
+
+	@Autowired
+	private ResourceRoleDozerConverter resourceRoleConverter;
+
+	@Autowired
+	private ResourcePropDozerConverter resourcePropConverter;
+
+	@Autowired
+	private ResourceUserDozerConverter resourceUserConverter;
+
+	@Autowired
+	private ResourcePrivilegeDozerConverter resourcePrivilegeDozerConverter;
+
+    @Autowired
+	private ResourceTypeDozerConverter resourceTypeConverter;
 
     private static final Log log = LogFactory
             .getLog(ResourceDataServiceImpl.class);
@@ -117,8 +144,9 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public Resource addResource(Resource resource) {
         if (resource == null)
             throw new IllegalArgumentException("Resource object is null");
-        ResourceEntity resourceEntity = resourceDao.add(new ResourceEntity(resource));
-        return new Resource(resourceEntity);
+        ResourceEntity resourceEntity = resourceConverter.convertToEntity(resource, true);
+        resourceEntity = resourceDao.add(resourceEntity);
+        return resourceConverter.convertToDTO(resourceEntity, true);
     }
 
     /**
@@ -165,7 +193,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceId is null");
 
         ResourceEntity resourceEntity = resourceDao.findById(resourceId);
-        return resourceEntity != null ? new Resource(resourceEntity) : null;
+        return resourceEntity != null ? resourceConverter.convertToDTO(resourceEntity, true) : null;
     }
 
 
@@ -174,7 +202,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceName is null");
 
         ResourceEntity resourceEntity = resourceDao.findResourceByName(resourceName);
-        return new Resource(resourceEntity);
+        return resourceConverter.convertToDTO(resourceEntity, true);
     }
 
     /**
@@ -187,14 +215,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceName is null");
 
         List<ResourceEntity> resourceList = resourceDao.findResourcesByName(resourceName);
-        List<Resource> resources = null;
-        if (resourceList != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity resourceEntity : resourceList) {
-                resources.add(new Resource(resourceEntity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourceList, false);
     }
 
 
@@ -205,15 +227,9 @@ public class ResourceDataServiceImpl implements ResourceDataService {
      */
     public List<Resource> getResourcesByExample(Resource resource) {
 
-        List<ResourceEntity> entities = resourceDao.findByExample(new ResourceEntity(resource));
-        List<Resource> resources = null;
-        if (entities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity resourceEntity : entities) {
-                resources.add(new Resource(resourceEntity));
-            }
-        }
-        return resources;
+        List<ResourceEntity> entities = resourceDao.findByExample(resourceConverter.convertToEntity(resource,true));
+
+        return resourceConverter.convertToDTOList(entities, false);
     }
 
 
@@ -231,14 +247,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("propValue is null");
 
         List<ResourceEntity> entityList = resourceDao.findResourcesByProperty(propName, propValue);
-        List<Resource> resources = null;
-        if (entityList != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : entityList) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+        return resourceConverter.convertToDTOList(entityList, false);
     }
 
     /**
@@ -253,7 +262,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         }
 
         ResourceEntity resourceEntity = resourceDao.findResourceByProperties(propList);
-        return new Resource(resourceEntity);
+        return resourceConverter.convertToDTO(resourceEntity, true);
     }
 
 
@@ -266,8 +275,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public Resource updateResource(Resource resource) {
         if (resource == null)
             throw new IllegalArgumentException("resource object is null");
-        resourceDao.update(new ResourceEntity(resource));
-        return resource;
+        ResourceEntity entity = resourceDao.update(resourceConverter.convertToEntity(resource, true));
+        return resourceConverter.convertToDTO(entity, true);
     }
 
     /**
@@ -277,14 +286,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
      */
     public List<Resource> getAllResources() {
         List<ResourceEntity> resourceEntities = resourceDao.findAllResources();
-        List<Resource> resourceList = null;
-        if (resourceEntities != null) {
-            resourceList = new LinkedList<Resource>();
-            for (ResourceEntity entity : resourceEntities) {
-                resourceList.add(new Resource(entity));
-            }
-        }
-        return resourceList;
+
+        return resourceConverter.convertToDTOList(resourceEntities, false);
     }
 
     /**
@@ -318,8 +321,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (val == null)
             throw new IllegalArgumentException("ResourcType is null");
 
-        ResourceTypeEntity resourceType = resourceTypeDao.add(new ResourceTypeEntity(val));
-        return new ResourceType(resourceType);
+        ResourceTypeEntity resourceType = resourceTypeDao.add(resourceTypeConverter.convertToEntity(val, true));
+        return resourceTypeConverter.convertToDTO(resourceType, true);
     }
 
     /**
@@ -333,7 +336,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceTypeId is null");
 
         ResourceTypeEntity resourceTypeEntity = resourceTypeDao.findById(resourceTypeId);
-        return new ResourceType(resourceTypeEntity);
+        return resourceTypeConverter.convertToDTO(resourceTypeEntity, true);
     }
 
     /**
@@ -346,8 +349,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceType == null)
             throw new IllegalArgumentException("resourceType object is null");
 
-        ResourceTypeEntity typeEntity = resourceTypeDao.update(new ResourceTypeEntity(resourceType));
-        return new ResourceType(typeEntity);
+        ResourceTypeEntity typeEntity = resourceTypeDao.update(resourceTypeConverter.convertToEntity(resourceType, true));
+        return resourceTypeConverter.convertToDTO(typeEntity, true);
     }
 
     /**
@@ -358,14 +361,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public List<ResourceType> getAllResourceTypes() {
         List<ResourceTypeEntity> resourceTypeList = resourceTypeDao
                 .findAllResourceTypes();
-        List<ResourceType> resourceTypes = null;
-        if (resourceTypeList != null) {
-            resourceTypes = new LinkedList<ResourceType>();
-            for (ResourceTypeEntity typeEntity : resourceTypeList) {
-                resourceTypes.add(new ResourceType(typeEntity));
-            }
-        }
-        return resourceTypes;
+
+        return resourceTypeConverter.convertToDTOList(resourceTypeList, false);
     }
 
     /**
@@ -400,7 +397,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceId is null");
 
         ResourceTypeEntity entity = resourceDao.findTypeOfResource(resourceId);
-        return new ResourceType(entity);
+        return resourceTypeConverter.convertToDTO(entity, true);
     }
 
     // /**
@@ -442,8 +439,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceProp == null)
             throw new IllegalArgumentException("ResourceProp object is null");
 
-        ResourcePropEntity resourcePropEntity = resourcePropDao.add(new ResourcePropEntity(resourceProp));
-        return new ResourceProp(resourcePropEntity);
+        ResourcePropEntity resourcePropEntity = resourcePropDao.add(resourcePropConverter.convertToEntity(resourceProp, true));
+        return resourcePropConverter.convertToDTO(resourcePropEntity, true);
     }
 
     // /**
@@ -483,7 +480,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourcePropId == null)
             throw new IllegalArgumentException("resourcePropId is null");
 
-        return new ResourceProp(resourcePropDao.findById(resourcePropId));
+        return resourcePropConverter.convertToDTO(resourcePropDao.findById(resourcePropId), true);
     }
 
     /**
@@ -495,8 +492,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceProp == null)
             throw new IllegalArgumentException("resourceProp object is null");
 
-        ResourcePropEntity propEntity = resourcePropDao.update(new ResourcePropEntity(resourceProp));
-        return new ResourceProp(propEntity);
+        ResourcePropEntity propEntity = resourcePropDao.update(resourcePropConverter.convertToEntity(resourceProp, true));
+        return resourcePropConverter.convertToDTO(propEntity, true);
     }
 
     /**
@@ -507,14 +504,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public List<ResourceProp> getAllResourceProps() {
         List<ResourcePropEntity> resourcePropList = resourcePropDao
                 .findAllResourceProps();
-        List<ResourceProp> propList = null;
-        if (resourcePropList != null) {
-            propList = new LinkedList<ResourceProp>();
-            for (ResourcePropEntity propEntity : resourcePropList) {
-                propList.add(new ResourceProp(propEntity));
-            }
-        }
-        return propList;
+        return resourcePropConverter.convertToDTOList(resourcePropList, false);
     }
 
     /**
@@ -562,14 +552,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceId is null");
 
         List<ResourcePropEntity> entities = this.resourceDao.findResourceProperties(resourceId);
-        List<ResourceProp> propList = null;
-        if (entities != null) {
-            propList = new LinkedList<ResourceProp>();
-            for (ResourcePropEntity entity : entities) {
-                propList.add(new ResourceProp(entity));
-            }
-        }
-        return propList;
+
+        return resourcePropConverter.convertToDTOList(entities, false);
     }
 
     // /**
@@ -629,14 +613,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceId == null)
             throw new IllegalArgumentException("resourceId is null");
         List<ResourceEntity> resourceEntities = this.resourceDao.getChildResources(resourceId);
-        List<Resource> childResources = null;
-        if (resourceEntities != null) {
-            childResources = new LinkedList<Resource>();
-            for (ResourceEntity resourceEntity : resourceEntities) {
-                childResources.add(new Resource(resourceEntity));
-            }
-        }
-        return childResources;
+
+       return resourceConverter.convertToDTOList(resourceEntities, false);
     }
 
     // /**
@@ -691,11 +669,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
                 r.setChildResources(new HashSet<ResourceEntity>(descendents));
             }
         }
-        List<Resource> resourceList = new LinkedList<Resource>();
-        for (ResourceEntity resource : resourceTree) {
-            resourceList.add(new Resource(resource));
-        }
-        return resourceList;
+
+        return resourceConverter.convertToDTOList(resourceTree, false);
     }
 
     /**
@@ -825,11 +800,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             resourceTree.addAll(getResourceFamilyHelper(r.getResourceId(),
                     descendents));
         }
-        List<Resource> resources = new LinkedList<Resource>();
-        for (ResourceEntity resourceEntity : resourceTree) {
-            resources.add(new Resource(resourceEntity));
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourceTree, false);
     }
 
     /**
@@ -866,14 +838,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceTypeId == null)
             throw new IllegalArgumentException("resourceTypeId is null");
         List<ResourceEntity> entities = this.resourceDao.getResourcesByType(resourceTypeId);
-        List<Resource> resources = null;
-        if (entities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : entities) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(entities, false);
     }
 
     /**
@@ -883,14 +849,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
      */
     public List<Resource> getRootResources() {
         List<ResourceEntity> resourcesEntities = this.resourceDao.getRootResources();
-        List<Resource> resources = null;
-        if (resourcesEntities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity resourceEntity : resourcesEntities) {
-                resources.add(new Resource(resourceEntity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourcesEntities, false);
     }
 
     /**
@@ -903,14 +863,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (categoryId == null)
             throw new IllegalArgumentException("categoryId is null");
         List<ResourceEntity> resourceEntity = this.resourceDao.getResourcesByCategory(categoryId);
-        List<Resource> resources = null;
-        if (resourceEntity != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : resourceEntity) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourceEntity, false);
     }
 
     /**
@@ -923,14 +877,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (branchId == null)
             throw new IllegalArgumentException("branchId is null");
         List<ResourceEntity> entityList = this.resourceDao.getResourcesByBranch(branchId);
-        List<Resource> resources = null;
-        if (entityList != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity resourceEntity : entityList) {
-                resources.add(new Resource(resourceEntity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(entityList, false);
     }
 
     /**
@@ -1028,8 +976,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceRole == null)
             throw new IllegalArgumentException("ResourceRole object is null");
 
-        ResourceRoleEntity roleEntity = resourceRoleDao.add(new ResourceRoleEntity(resourceRole));
-        return new ResourceRole(roleEntity);
+        ResourceRoleEntity roleEntity = resourceRoleDao.add(resourceRoleConverter.convertToEntity(resourceRole, true));
+        return resourceRoleConverter.convertToDTO(roleEntity, true);
     }
 
     /**
@@ -1042,8 +990,9 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceRoleId == null)
             throw new IllegalArgumentException("resourceRoleId is null");
 
-        ResourceRoleEntity resourceRoleEntity = resourceRoleDao.findById(new ResourceRoleEmbeddableId(resourceRoleId));
-        return new ResourceRole(resourceRoleEntity);
+        ResourceRoleEntity resourceRoleEntity = resourceRoleDao.findById(new ResourceRoleEmbeddableId(resourceRoleId.getRoleId(), resourceRoleId.getResourceId(), resourceRoleId.getPrivilegeId(), resourceRoleId.getDomainId()));
+
+        return resourceRoleConverter.convertToDTO(resourceRoleEntity, true);
     }
 
     public List<Role> getRolesForResource(String resourceId) {
@@ -1063,8 +1012,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceRole == null)
             throw new IllegalArgumentException("resourceRole object is null");
 
-        ResourceRoleEntity roleEntity = resourceRoleDao.update(new ResourceRoleEntity(resourceRole));
-        return new ResourceRole(roleEntity);
+        ResourceRoleEntity roleEntity = resourceRoleDao.update(resourceRoleConverter.convertToEntity(resourceRole, true));
+        return resourceRoleConverter.convertToDTO(roleEntity, true);
     }
 
     /**
@@ -1074,14 +1023,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
      */
     public List<ResourceRole> getAllResourceRoles() {
         List<ResourceRoleEntity> resourceRoleList = resourceRoleDao.findAllResourceRoles();
-        List<ResourceRole> resourceRoles = null;
-        if (resourceRoleList != null) {
-            resourceRoles = new LinkedList<ResourceRole>();
-            for (ResourceRoleEntity roleEntity : resourceRoleList) {
-                resourceRoles.add(new ResourceRole(roleEntity));
-            }
-        }
-        return resourceRoles;
+        return resourceRoleConverter.convertToDTOList(resourceRoleList, false);
     }
 
     /**
@@ -1092,7 +1034,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
     public void removeResourceRole(ResourceRoleId resourceRoleId) {
         if (resourceRoleId == null)
             throw new IllegalArgumentException("resourceRoleId is null");
-        ResourceRoleEntity obj = this.resourceRoleDao.findById(new ResourceRoleEmbeddableId(resourceRoleId));
+        ResourceRoleEntity obj = this.resourceRoleDao.findById(new ResourceRoleEmbeddableId(resourceRoleId.getRoleId(), resourceRoleId.getResourceId(), resourceRoleId.getPrivilegeId(), resourceRoleId.getDomainId()));
         this.resourceRoleDao.remove(obj);
     }
 
@@ -1108,14 +1050,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceId is null");
         }
         List<ResourceRoleEntity> entities = resourceDao.findResourceRolesByResource(resourceId);
-        List<ResourceRole> roles = null;
-        if (entities != null) {
-            roles = new LinkedList<ResourceRole>();
-            for (ResourceRoleEntity entity : entities) {
-                roles.add(new ResourceRole(entity));
-            }
-        }
-        return roles;
+        return resourceRoleConverter.convertToDTOList(entities, false);
     }
 
     /**
@@ -1133,14 +1068,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("roleId is null");
         }
         List<ResourceEntity> entities = resourceDao.findResourcesForRole(domainId, roleId);
-        List<Resource> resources = null;
-        if (entities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : entities) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(entities, false);
     }
 
     /**
@@ -1159,14 +1088,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("roleIdList is null");
         }
         List<ResourceEntity> resourceEntities = resourceDao.findResourcesForRoles(domainId, roleIdList);
-        List<Resource> resources = null;
-        if (resourceEntities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : resourceEntities) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourceEntities, false);
     }
 
     /**
@@ -1232,9 +1155,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourceUser == null) {
             throw new IllegalArgumentException("ResourceUser object is null");
         }
-        ResourceEntity resourceEntity = resourceUser.getResource() != null ? resourceDao.findById(resourceUser.getResource().getResourceId()) : null;
-        ResourceUserEntity entity = resourceUserDao.add(new ResourceUserEntity(resourceUser,resourceEntity));
-        return new ResourceUser(entity);
+        ResourceUserEntity entity = resourceUserDao.add(resourceUserConverter.convertToEntity(resourceUser, true));
+        return resourceUserConverter.convertToDTO(entity, true);
     }
 
     /*
@@ -1249,14 +1171,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("UserId object is null");
         }
         List<ResourceUserEntity> entities = resourceUserDao.findAllResourceForUsers(userId);
-        List<ResourceUser> resourceUsers = null;
-        if (entities != null) {
-            resourceUsers = new LinkedList<ResourceUser>();
-            for (ResourceUserEntity entity : entities) {
-                resourceUsers.add(new ResourceUser(entity));
-            }
-        }
-        return resourceUsers;
+
+        return resourceUserConverter.convertToDTOList(entities, true);
     }
 
     public List<Resource> getResourceObjForUser(String userId) {
@@ -1265,14 +1181,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         }
 
         List<ResourceEntity> resourceEntities = resourceDao.findResourcesForUserRole(userId);
-        List<Resource> resources = null;
-        if (resourceEntities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : resourceEntities) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourceEntities, false);
     }
 
 
@@ -1583,8 +1493,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourcePrivilege == null) {
             throw new IllegalArgumentException("ResourcePrivilege object is null");
         }
-        ResourcePrivilegeEntity privilegeEntity = resourcePrivilegeDao.add(new ResourcePrivilegeEntity(resourcePrivilege));
-        return new ResourcePrivilege(privilegeEntity);
+        ResourcePrivilegeEntity privilegeEntity = resourcePrivilegeDao.add(resourcePrivilegeDozerConverter.convertToEntity(resourcePrivilege, true));
+        return resourcePrivilegeDozerConverter.convertToDTO(privilegeEntity, true);
 
     }
 
@@ -1601,9 +1511,9 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         if (resourcePrivilege == null) {
             throw new IllegalArgumentException("ResourcePrivilege object is null");
         }
-        ResourcePrivilegeEntity privilegeEntity = resourcePrivilegeDao.update(new ResourcePrivilegeEntity(resourcePrivilege));
+        ResourcePrivilegeEntity privilegeEntity = resourcePrivilegeDao.update(resourcePrivilegeDozerConverter.convertToEntity(resourcePrivilege, true));
 
-        return new ResourcePrivilege(privilegeEntity);
+        return resourcePrivilegeDozerConverter.convertToDTO(privilegeEntity, true);
     }
 
     @Override
@@ -1612,14 +1522,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("resourceId object is null");
         }
         List<ResourcePrivilegeEntity> privilegeEntities = resourcePrivilegeDao.findPrivilegesByResourceId(resourceId);
-        List<ResourcePrivilege> privileges = null;
-        if (privilegeEntities != null) {
-            privileges = new LinkedList<ResourcePrivilege>();
-            for (ResourcePrivilegeEntity privilege : privilegeEntities) {
-                privileges.add(new ResourcePrivilege(privilege));
-            }
-        }
-        return privileges;
+
+        return resourcePrivilegeDozerConverter.convertToDTOList(privilegeEntities, false);
     }
 
     @Override
@@ -1631,14 +1535,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             throw new IllegalArgumentException("type object is null");
         }
         List<ResourcePrivilegeEntity> privilegeEntities = resourcePrivilegeDao.findPrivilegesByEntitlementType(resourceId, type);
-        List<ResourcePrivilege> privileges = null;
-        if (privilegeEntities != null) {
-            privileges = new LinkedList<ResourcePrivilege>();
-            for (ResourcePrivilegeEntity privilege : privilegeEntities) {
-                privileges.add(new ResourcePrivilege(privilege));
-            }
-        }
-        return privileges;
+
+        return resourcePrivilegeDozerConverter.convertToDTOList(privilegeEntities, false);
     }
 
     public OrganizationDataService getOrgManager() {
@@ -1667,14 +1565,8 @@ public class ResourceDataServiceImpl implements ResourceDataService {
         }
 
         List<ResourceEntity> resourceEntities = resourceDao.getUserResourcesByType(userId, resourceTypeId);
-        List<Resource> resources = null;
-        if (resourceEntities != null) {
-            resources = new LinkedList<Resource>();
-            for (ResourceEntity entity : resourceEntities) {
-                resources.add(new Resource(entity));
-            }
-        }
-        return resources;
+
+        return resourceConverter.convertToDTOList(resourceEntities, false);
     }
 
 }

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceRoleEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceRole</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceRoleEmbeddableId</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceRoleId</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourcePropEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceProp</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceGroupEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceGroup</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceUserEmbeddableId</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceUserId</class-b>
+	</mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity</class-a>
+        <class-b>org.openiam.idm.srvc.res.dto.ResourcePrivilege</class-b>
+    </mapping>
+
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceTypeEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceType</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.UserPrivilegeEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.UserPrivilege</class-b>
+	</mapping>
+
+ 	<mapping>
+		<class-a>org.openiam.idm.srvc.grp.domain.GroupAttributeEntity</class-a>
+		<class-b>org.openiam.idm.srvc.grp.dto.GroupAttribute</class-b>
+	</mapping>
+
+ 	<mapping>
+		<class-a>org.openiam.idm.srvc.grp.domain.UserGroupEntity</class-a>
+		<class-b>org.openiam.idm.srvc.grp.dto.UserGroup</class-b>
+	</mapping>
+
+    <mapping>
+       <class-a>org.openiam.idm.srvc.org.domain.UserAffiliationEntity</class-a>
+       <class-b>org.openiam.idm.srvc.org.dto.UserAffiliation</class-b>
+   </mapping>
+
+    <mapping>
+       <class-a>org.openiam.idm.srvc.role.domain.RoleAttributeEntity</class-a>
+       <class-b>org.openiam.idm.srvc.role.dto.RoleAttribute</class-b>
+   </mapping>
+    <mapping>
+       <class-a>org.openiam.idm.srvc.role.domain.RolePolicyEntity</class-a>
+       <class-b>org.openiam.idm.srvc.role.dto.RolePolicy</class-b>
+   </mapping>
+    <mapping>
+       <class-a>org.openiam.idm.srvc.role.domain.UserRoleEntity</class-a>
+       <class-b>org.openiam.idm.srvc.role.dto.UserRole</class-b>
+   </mapping>
+
+    <mapping>
+       <class-a>org.openiam.idm.srvc.user.domain.UserAttributeEntity</class-a>
+       <class-b>org.openiam.idm.srvc.user.dto.UserAttribute</class-b>
+   </mapping>
+    <mapping>
+       <class-a>org.openiam.idm.srvc.user.domain.UserNoteEntity</class-a>
+       <class-b>org.openiam.idm.srvc.user.dto.UserNote</class-b>
+   </mapping>
+    <mapping>
+        <class-a>org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity</class-a>
+        <class-b>org.openiam.idm.srvc.org.dto.OrganizationAttribute</class-b>
+        <field>
+            <a>organization.orgId</a>
+            <b>organizationId</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openiam.idm.srvc.role.domain.RoleEmbeddableId</class-a>
+        <class-b>org.openiam.idm.srvc.role.dto.RoleId</class-b>
+    </mapping>
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.domain.AddressEntity</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.Address</class-b>
+        <field>
+            <a>default</a>
+            <b>isDefault</b>
+        </field>
+        <field>
+            <a>parent.userId</a>
+            <b>parentId</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.domain.EmailAddressEntity</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-b>
+        <field>
+            <a>default</a>
+            <b>isDefault</b>
+        </field>
+        <field>
+            <a>parent.userId</a>
+            <b>parentId</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.domain.PhoneEntity</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.Phone</class-b>
+        <field>
+            <a>default</a>
+            <b>isDefault</b>
+        </field>
+        <field>
+            <a>parent.userId</a>
+            <b>parentId</b>
+        </field>
+    </mapping>
+
+</mappings>

@@ -67,10 +67,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     public List<OrganizationEntity> findByExample(OrganizationEntity instance) {
         log.debug("finding Company instance by example");
         try {
-            List results = sessionFactory.getCurrentSession()
+            List<OrganizationEntity> results = sessionFactory.getCurrentSession()
                     .createCriteria(OrganizationEntity.class)
                     .add(Example.create(instance))
                     .setFetchMode("attributes", FetchMode.JOIN)
+                    .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                     .list();
             log.debug("find by example successful, result size: "
                     + results.size());
@@ -104,6 +105,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 .setFetchMode("attributes", FetchMode.JOIN);
         criteria.setCacheable(true);
         criteria.setCacheRegion("query.organization.findChildOrganization");
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<OrganizationEntity> result = criteria.list();
         if (result == null || result.size() == 0)
             return null;
@@ -156,6 +158,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 .setFetchMode("attributes", FetchMode.JOIN);
 
         criteria.setCacheable(true);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
 
         if (result == null || result.size() == 0)
@@ -173,6 +176,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         }
         criteria.addOrder(Order.asc("organizationName"))
                 .setFetchMode("attributes", FetchMode.JOIN);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
         if (result == null || result.size() == 0)
             return null;
@@ -186,6 +190,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 .setFetchMode("attributes", FetchMode.JOIN);
         criteria.setCacheable(true);
         criteria.setCacheRegion("query.organization.findAllOrganization");
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
         if (result == null || result.size() == 0)
             return null;
@@ -212,6 +217,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             criteria.add(Restrictions.eq("internalOrgId", internalOrgId));
         }
         criteria.setFetchMode("attributes", FetchMode.JOIN);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria.list();
 
     }
@@ -231,7 +237,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         criteria.setCacheable(true);
         criteria.setCacheRegion("query.organization.findOrganizationByClassification");
         criteria.setFetchMode("attributes", FetchMode.JOIN);
-
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<OrganizationEntity> result = (List<OrganizationEntity>) criteria.list();
         if (result == null || result.size() == 0)
             return null;
@@ -254,7 +260,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         }
         criteria.add(Restrictions.eq("classification", OrgClassificationEnum.ORGANIZATION));
         criteria.setFetchMode("attributes", FetchMode.JOIN);
-
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria.list();
 
     }

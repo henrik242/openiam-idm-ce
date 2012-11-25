@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.org.domain.UserAffiliationEntity;
 
 /**
@@ -22,7 +23,7 @@ import org.openiam.idm.srvc.org.domain.UserAffiliationEntity;
         "status",
         "createdBy"
 })
-
+@DozerDTOCorrespondence(UserAffiliationEntity.class)
 public class UserAffiliation implements java.io.Serializable {
 
     /**

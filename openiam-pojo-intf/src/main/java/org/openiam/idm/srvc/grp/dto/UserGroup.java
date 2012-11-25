@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
 
 /**
@@ -21,6 +22,7 @@ import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
         "status",
         "createdBy"
 })
+@DozerDTOCorrespondence(UserGroupEntity.class)
 public class UserGroup implements java.io.Serializable {
 
     /**

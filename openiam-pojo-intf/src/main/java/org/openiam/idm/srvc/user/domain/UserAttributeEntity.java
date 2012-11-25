@@ -8,10 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 
 @Entity
 @Table(name = "USER_ATTRIBUTES")
+@DozerDTOCorrespondence(UserAttribute.class)
 public class UserAttributeEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -33,14 +35,6 @@ public class UserAttributeEntity {
     private String value;
 
     public UserAttributeEntity() {
-    }
-
-    public UserAttributeEntity(UserAttribute userAttribute, UserEntity user) {
-        this.id = userAttribute.getId();
-        this.metadataElementId = userAttribute.getMetadataElementId();
-        this.name = userAttribute.getName();
-        this.user = user;
-        this.value = userAttribute.getValue();
     }
 
     public String getId() {

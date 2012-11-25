@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.Resource</class-b>
+		<field-exclude>
+			<a>childResources</a>
+			<b>childResources</b>
+		</field-exclude>
+		<field-exclude>
+			<a>resourceRoles</a>
+			<b>resourceRoles</b>
+		</field-exclude>
+		<field-exclude>
+			<a>resourceProps</a>
+			<b>resourceProps</b>
+		</field-exclude>
+		<field-exclude>
+			<a>resourceGroups</a>
+			<b>resourceGroups</b>
+		</field-exclude>
+        <field-exclude>
+            <a>entitlements</a>
+            <b>entitlements</b>
+        </field-exclude>
+	</mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.domain.AddressEntity</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.Address</class-b>
+        <field-exclude>
+            <a>parent</a>
+            <b>parentId</b>
+        </field-exclude>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.domain.EmailAddressEntity</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-b>
+        <field>
+            <a>default</a>
+            <b>isDefault</b>
+        </field>
+        <field-exclude>
+            <a>parent</a>
+            <b>parentId</b>
+        </field-exclude>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.user.domain.SupervisorEntity</class-a>
+        <class-b>org.openiam.idm.srvc.user.dto.Supervisor</class-b>
+        <field-exclude>
+            <a>employee</a>
+            <b>employee</b>
+        </field-exclude>
+        <field-exclude>
+            <a>supervisor</a>
+            <b>supervisor</b>
+        </field-exclude>
+        <field>
+            <a>primarySuper</a>
+            <b>isPrimarySuper</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.res.domain.ResourceUserEntity</class-a>
+        <class-b>org.openiam.idm.srvc.res.dto.ResourceUser</class-b>
+        <field-exclude>
+            <a>resource</a>
+            <b>resource</b>
+        </field-exclude>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.org.domain.OrganizationEntity</class-a>
+        <class-b>org.openiam.idm.srvc.org.dto.Organization</class-b>
+        <field-exclude>
+            <a>attributes</a>
+            <b>attributes</b>
+        </field-exclude>
+    </mapping>
+
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.role.domain.RoleEntity</class-a>
+        <class-b>org.openiam.idm.srvc.role.dto.Role</class-b>
+        <field>
+            <a>roleId</a>
+            <b>id</b>
+        </field>
+        <field-exclude>
+            <a>groups</a>
+            <b>groups</b>
+        </field-exclude>
+        <field-exclude>
+            <a>roleAttributes</a>
+            <b>roleAttributes</b>
+        </field-exclude>
+        <field-exclude>
+            <a>rolePolicy</a>
+            <b>rolePolicy</b>
+        </field-exclude>
+        <field-exclude>
+            <a>childRoles</a>
+            <b>childRoles</b>
+        </field-exclude>
+    </mapping>
+
+</mappings>

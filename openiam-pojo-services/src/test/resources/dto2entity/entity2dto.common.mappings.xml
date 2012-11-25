@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceRoleEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceRole</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceRoleEmbeddableId</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceRoleId</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourcePropEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceProp</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.domain.ResourceGroupEntity</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceGroup</class-b>
+	</mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity</class-a>
+        <class-b>org.openiam.idm.srvc.org.dto.OrganizationAttribute</class-b>
+        <field>
+            <a>organization.orgId</a>
+            <b>organizationId</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.role.domain.RoleEmbeddableId</class-a>
+        <class-b>org.openiam.idm.srvc.role.dto.RoleId</class-b>
+    </mapping>
+</mappings>

@@ -2,6 +2,7 @@ package org.openiam.idm.srvc.role.dto;
 
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseObject;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.dto.GroupSet;
@@ -74,6 +75,7 @@ import org.openiam.idm.srvc.role.domain.RolePolicyEntity;
         RoleAttribute.class,
         RolePolicy.class
 })
+@DozerDTOCorrespondence(RoleEntity.class)
 public class Role extends BaseObject implements Comparable<Role> {
 
     /**
@@ -117,32 +119,6 @@ public class Role extends BaseObject implements Comparable<Role> {
     protected Date endDate;
 
     public Role() {
-    }
-
-    public Role(RoleEntity roleEntity) {
-        this.id = new RoleId(roleEntity.getRoleId());
-        this.createDate = roleEntity.getCreateDate() != null ? roleEntity.getCreateDate() : new Date();
-        this.roleName = roleEntity.getRoleName();
-        this.createdBy = roleEntity.getCreatedBy();
-        this.description = roleEntity.getDescription();
-        this.provisionObjName = roleEntity.getProvisionObjName();
-        this.metadataTypeId = roleEntity.getMetadataTypeId();
-        this.parentRoleId = roleEntity.getParentRoleId();
-        this.status = roleEntity.getStatus();
-        this.ownerId = roleEntity.getOwnerId();
-        this.internalRoleId = roleEntity.getInternalRoleId();
-        this.operation = roleEntity.getOperation();
-        this.userAssociationMethod = roleEntity.getUserAssociationMethod();
-        this.selected = roleEntity.getSelected();
-        for(GroupEntity group : roleEntity.getGroups()) {
-          this.groups.add(new Group(group));
-        }
-        for(RoleAttributeEntity attr : roleEntity.getRoleAttributes()) {
-          this.roleAttributes.add(new RoleAttribute(attr));
-        }
-        for(RolePolicyEntity policy : roleEntity.getRolePolicy()) {
-          this.rolePolicy.add(new RolePolicy(policy));
-        }
     }
 
     public Role(RoleId id) {

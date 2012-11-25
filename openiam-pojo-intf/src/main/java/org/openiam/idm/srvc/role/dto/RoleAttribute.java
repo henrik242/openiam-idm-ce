@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.role.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.role.domain.RoleAttributeEntity;
 
 
@@ -39,6 +40,7 @@ import org.openiam.idm.srvc.role.domain.RoleAttributeEntity;
         "attrGroup"
 
 })
+@DozerDTOCorrespondence(RoleAttributeEntity.class)
 public class RoleAttribute implements java.io.Serializable {
 
     protected String roleAttrId;

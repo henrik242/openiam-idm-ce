@@ -5,6 +5,7 @@ import org.openiam.base.AttributeOperationEnum;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
@@ -25,7 +26,7 @@ import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
         "name",
         "operation"
 })
-
+@DozerDTOCorrespondence(EmailAddressEntity.class)
 public class EmailAddress implements java.io.Serializable {
 
     // Fields
@@ -59,17 +60,6 @@ public class EmailAddress implements java.io.Serializable {
      */
     public EmailAddress(String emailId) {
         this.emailId = emailId;
-    }
-
-    public EmailAddress(EmailAddressEntity emailAddressEntity) {
-        this.emailId = emailAddressEntity.getEmailId();
-        this.isActive = emailAddressEntity.getActive();
-        this.description = emailAddressEntity.getDescription();
-        this.emailAddress = emailAddressEntity.getEmailAddress();
-        this.isDefault = emailAddressEntity.getDefault();
-        this.parentType = emailAddressEntity.getParentType();
-        this.name = emailAddressEntity.getName();
-        this.parentId = emailAddressEntity.getParent() != null ? emailAddressEntity.getParent().getUserId() : "";
     }
 
     public EmailAddress(String emailAddress, String name, String parentId, String parentType, Integer aDefault) {

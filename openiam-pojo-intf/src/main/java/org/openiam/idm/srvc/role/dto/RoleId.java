@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.role.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.role.domain.RoleEmbeddableId;
 
 
@@ -29,6 +30,7 @@ import org.openiam.idm.srvc.role.domain.RoleEmbeddableId;
         "roleId",
         "serviceId"
 })
+@DozerDTOCorrespondence(RoleEmbeddableId.class)
 public class RoleId implements java.io.Serializable {
 
     protected String roleId;
@@ -41,11 +43,6 @@ public class RoleId implements java.io.Serializable {
     }
 
     public RoleId() {
-    }
-
-    public RoleId(RoleEmbeddableId embeddableId) {
-        this.roleId = embeddableId.getRoleId();
-        this.serviceId = embeddableId.getServiceId();
     }
 
     /**

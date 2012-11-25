@@ -6,10 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.grp.dto.GroupAttribute;
 
 @Entity
 @Table(name="GRP_ATTRIBUTES")
+@DozerDTOCorrespondence(GroupAttribute.class)
 public class GroupAttributeEntity {
 
     @Id
@@ -31,14 +33,6 @@ public class GroupAttributeEntity {
     private String groupId;
 
     public GroupAttributeEntity() {
-    }
-
-    public GroupAttributeEntity(GroupAttribute groupAttribute) {
-        this.id = groupAttribute.getId();
-        this.name = groupAttribute.getName();
-        this.value = groupAttribute.getValue();
-        this.metadataElementId = groupAttribute.getMetadataElementId();
-        this.groupId = groupAttribute.getGroupId();
     }
 
     public String getId() {

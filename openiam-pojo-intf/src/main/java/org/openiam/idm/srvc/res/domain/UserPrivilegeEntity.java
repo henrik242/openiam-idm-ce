@@ -7,10 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.dto.UserPrivilege;
 
 @Entity
 @Table(name = "USER_PRIVILEGE")
+@DozerDTOCorrespondence(UserPrivilege.class)
 public class UserPrivilegeEntity {
 
     @Id
@@ -36,15 +38,6 @@ public class UserPrivilegeEntity {
     private Date endDate;
 
     public UserPrivilegeEntity() {
-    }
-
-    public UserPrivilegeEntity(UserPrivilege userPrivilege) {
-        this.userPrivilegeId = userPrivilege.getUserPrivilegeId();
-        this.userId = userPrivilege.getUserId();
-        this.resourceId = userPrivilege.getResourceId();
-        this.permit = userPrivilege.getPermit();
-        this.startDate = userPrivilege.getStartDate();
-        this.endDate = userPrivilege.getEndDate();
     }
 
     public String getUserPrivilegeId() {

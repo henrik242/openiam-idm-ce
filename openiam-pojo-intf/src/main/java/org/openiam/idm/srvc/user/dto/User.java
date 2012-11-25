@@ -21,6 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ParamDef;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.BaseConstants;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.continfo.domain.AddressEntity;
 import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
@@ -123,7 +124,7 @@ import org.openiam.idm.srvc.user.domain.UserNoteEntity;
         EmailAddress.class,
         UserAttribute.class
 })
-
+@DozerDTOCorrespondence(UserEntity.class)
 public class User extends org.openiam.base.BaseObject {
 
 
@@ -292,85 +293,6 @@ public class User extends org.openiam.base.BaseObject {
      * default constructor
      */
     public User() {
-    }
-
-    public User(UserEntity userEntity) {
-        this.userId = userEntity.getUserId();
-        this.birthdate = userEntity.getBirthdate();
-        this.companyId = userEntity.getCompanyId();
-        this.companyOwnerId = userEntity.getCompanyOwnerId();
-        this.createDate = userEntity.getCreateDate();
-        this.createdBy = userEntity.getCreatedBy();
-        this.deptCd = userEntity.getDeptCd();
-        this.deptName = userEntity.getDeptName();
-        this.employeeId = userEntity.getEmployeeId();
-        this.employeeType = userEntity.getEmployeeType();
-        this.firstName = userEntity.getFirstName();
-        this.lastName = userEntity.getLastName();
-        this.jobCode = userEntity.getJobCode();
-        this.lastUpdate = userEntity.getLastUpdate();
-        this.lastUpdatedBy = userEntity.getLastUpdatedBy();
-        this.locationCd = userEntity.getLocationCd();
-        this.locationName = userEntity.getLocationName();
-        this.managerId = userEntity.getManagerId();
-        this.metadataTypeId = userEntity.getMetadataTypeId();
-        this.classification = userEntity.getClassification();
-        this.middleInit = userEntity.getMiddleInit();
-        this.prefix = userEntity.getPrefix();
-        this.sex = userEntity.getSex();
-        this.status = userEntity.getStatus();
-        this.secondaryStatus = userEntity.getSecondaryStatus();
-        this.suffix = userEntity.getSuffix();
-        this.title = userEntity.getTitle();
-        this.userTypeInd = userEntity.getUserTypeInd();
-        this.division = userEntity.getDivision();
-        this.mailCode = userEntity.getMailCode();
-        this.costCenter = userEntity.getCostCenter();
-        this.startDate = userEntity.getStartDate();
-        this.lastDate = userEntity.getLastDate();
-        this.nickname = userEntity.getNickname();
-        this.maidenName = userEntity.getMaidenName();
-        this.passwordTheme = userEntity.getPasswordTheme();
-        this.country = userEntity.getCountry();
-        this.bldgNum = userEntity.getBldgNum();
-        this.streetDirection = userEntity.getStreetDirection();
-        this.suite = userEntity.getSuite();
-        this.address1 = userEntity.getAddress1();
-        this.address2 = userEntity.getAddress2();
-        this.address3 = userEntity.getAddress3();
-        this.address4 = userEntity.getAddress4();
-        this.address5 = userEntity.getAddress5();
-        this.address6 = userEntity.getAddress6();
-        this.address7 = userEntity.getAddress7();
-        this.city = userEntity.getCity();
-        this.state = userEntity.getState();
-        this.postalCd = userEntity.getPostalCd();
-        this.email = userEntity.getEmail();
-        this.areaCd = userEntity.getAreaCd();
-        this.countryCd = userEntity.getCountryCd();
-        this.phoneNbr = userEntity.getPhoneNbr();
-        this.phoneExt = userEntity.getPhoneExt();
-        this.showInSearch = userEntity.getShowInSearch();
-        this.delAdmin = userEntity.getDelAdmin();
-        this.alternateContactId = userEntity.getAlternateContactId();
-        this.userOwnerId = userEntity.getUserOwnerId();
-        this.datePasswordChanged = userEntity.getDatePasswordChanged();
-        this.dateChallengeRespChanged = userEntity.getDateChallengeRespChanged();
-        for (UserNoteEntity une : userEntity.getUserNotes()) {
-            this.userNotes.add(new UserNote(une));
-        }
-        for (EmailAddressEntity ea : userEntity.getEmailAddresses()) {
-            this.emailAddresses.add(new EmailAddress(ea));
-        }
-        for (Map.Entry<String, UserAttributeEntity> entry : userEntity.getUserAttributes().entrySet()) {
-            this.userAttributes.put(entry.getKey(), new UserAttribute(entry.getValue()));
-        }
-        for (PhoneEntity phone : userEntity.getPhones()) {
-            this.phones.add(new Phone(phone));
-        }
-        for (AddressEntity phone : userEntity.getAddresses()) {
-            this.addresses.add(new Address(phone));
-        }
     }
 
     /**

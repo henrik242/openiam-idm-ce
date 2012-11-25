@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.user.domain.SupervisorEntity;
 
 /**
@@ -24,7 +25,7 @@ import org.openiam.idm.srvc.user.domain.SupervisorEntity;
         "supervisor",
         "supervisorType"
 })
-
+@DozerDTOCorrespondence(SupervisorEntity.class)
 public class Supervisor implements java.io.Serializable {
 
     protected String orgStructureId;
@@ -48,18 +49,6 @@ public class Supervisor implements java.io.Serializable {
 
 
     public Supervisor() {
-    }
-
-    public Supervisor(SupervisorEntity supervisorEntity) {
-        this.orgStructureId = supervisorEntity.getOrgStructureId();
-        this.comments = supervisorEntity.getComments();
-        this.employee = new User(supervisorEntity.getEmployee());
-        this.endDate = supervisorEntity.getEndDate();
-        this.isPrimarySuper = supervisorEntity.getPrimarySuper();
-        this.startDate = supervisorEntity.getStartDate();
-        this.status = supervisorEntity.getStatus();
-        this.supervisor = new User(supervisorEntity.getSupervisor());
-        this.supervisorType = supervisorEntity.getSupervisorType();
     }
 
     public Supervisor(String orgStructureId, User usersBySupervisorId, User employee) {

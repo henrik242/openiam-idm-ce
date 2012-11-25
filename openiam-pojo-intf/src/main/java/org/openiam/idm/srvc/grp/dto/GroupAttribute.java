@@ -4,6 +4,7 @@ package org.openiam.idm.srvc.grp.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
 
 
@@ -21,6 +22,7 @@ import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
         "metadataElementId",
         "groupId"
 })
+@DozerDTOCorrespondence(GroupAttributeEntity.class)
 public class GroupAttribute implements java.io.Serializable {
 
     // Fields
@@ -49,14 +51,6 @@ public class GroupAttribute implements java.io.Serializable {
      */
     public GroupAttribute(String id) {
         this.id = id;
-    }
-
-    public GroupAttribute(GroupAttributeEntity entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.value = entity.getValue();
-        this.groupId = entity.getGroupId();
-        this.metadataElementId = entity.getMetadataElementId();
     }
 
     /**

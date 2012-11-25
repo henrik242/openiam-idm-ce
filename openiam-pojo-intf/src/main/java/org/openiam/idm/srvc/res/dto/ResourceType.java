@@ -2,10 +2,10 @@ package org.openiam.idm.srvc.res.dto;
 
 // Generated Mar 8, 2009 12:54:32 PM by Hibernate Tools 3.2.2.GA
 
-import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.domain.ResourceTypeEntity;
 
 /**
@@ -19,6 +19,7 @@ import org.openiam.idm.srvc.res.domain.ResourceTypeEntity;
         "provisionResource",
         "processName"
 })
+@DozerDTOCorrespondence(ResourceTypeEntity.class)
 public class ResourceType implements java.io.Serializable {
 
     private String resourceTypeId;
@@ -28,14 +29,6 @@ public class ResourceType implements java.io.Serializable {
     private String processName;
 
     public ResourceType() {
-    }
-
-    public ResourceType(ResourceTypeEntity typeEntity) {
-        this.resourceTypeId = typeEntity.getResourceTypeId();
-        this.description = typeEntity.getDescription();
-        this.metadataTypeId = typeEntity.getMetadataTypeId();
-        this.provisionResource = typeEntity.getProvisionResource();
-        this.processName = typeEntity.getProcessName();
     }
 
     public ResourceType(String resourceTypeId) {

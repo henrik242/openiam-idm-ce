@@ -1,22 +1,12 @@
 package org.openiam.idm.srvc.continfo.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
-import org.openiam.idm.srvc.user.domain.UserEntity;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -40,7 +30,7 @@ import org.openiam.idm.srvc.user.domain.UserEntity;
         "name",
         "operation"
 })
-
+@DozerDTOCorrespondence(PhoneEntity.class)
 public class Phone implements java.io.Serializable {
 
     // Fields
@@ -94,23 +84,7 @@ public class Phone implements java.io.Serializable {
         this.countryCd = countryCd;
     }
 
-    public Phone(PhoneEntity phoneEntity) {
-        this.phoneId = phoneEntity.getPhoneId();
-        this.isActive = phoneEntity.getActive();
-        this.areaCd = phoneEntity.getAreaCd();
-        this.countryCd = phoneEntity.getCountryCd();
-        this.description = phoneEntity.getDescription();
-        this.isDefault = phoneEntity.getDefault();
-        this.parentType = phoneEntity.getParentType();
-        this.phoneExt = phoneEntity.getPhoneExt();
-        this.name = phoneEntity.getName();
-        this.phoneType = phoneEntity.getPhoneType();
-        this.parentId = phoneEntity.getParent() != null ? phoneEntity.getParent().getUserId() : "";
-        this.phoneNbr = phoneEntity.getPhoneNbr();
-
-    }
-
-    /**
+      /**
      * full constructor
      */
 /*    public Phone(String phoneId, String areaCd, String countryCd,

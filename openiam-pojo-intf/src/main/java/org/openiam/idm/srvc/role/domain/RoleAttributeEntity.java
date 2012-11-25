@@ -6,10 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.role.dto.RoleAttribute;
 
 @Entity
 @Table(name="ROLE_ATTRIBUTE")
+@DozerDTOCorrespondence(RoleAttribute.class)
 public class RoleAttributeEntity {
 
     @Id
@@ -37,16 +39,6 @@ public class RoleAttributeEntity {
     private String serviceId;
 
     public RoleAttributeEntity() {
-    }
-
-    public RoleAttributeEntity(RoleAttribute attribute) {
-        this.roleAttrId = attribute.getRoleAttrId();
-        this.roleId = attribute.getRoleId();
-        this.metadataElementId = attribute.getMetadataElementId();
-        this.name = attribute.getName();
-        this.value = attribute.getValue();
-        this.attrGroup = attribute.getAttrGroup();
-        this.serviceId = attribute.getServiceId();
     }
 
     public String getRoleAttrId() {

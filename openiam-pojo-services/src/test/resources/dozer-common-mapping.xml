@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>org.openiam.idm.srvc.auth.dto.LoginId</class-a>
+		<class-b>org.openiam.idm.srvc.auth.dto.LoginId</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.user.dto.UserNote</class-a>
+		<class-b>org.openiam.idm.srvc.user.dto.UserNote</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.base.BaseObject</class-a>
+		<class-b>org.openiam.base.BaseObject</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.user.dto.UserAttribute</class-a>
+		<class-b>org.openiam.idm.srvc.user.dto.UserAttribute</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.continfo.dto.Address</class-a>
+		<class-b>org.openiam.idm.srvc.continfo.dto.Address</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.continfo.dto.Phone</class-a>
+		<class-b>org.openiam.idm.srvc.continfo.dto.Phone</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-a>
+		<class-b>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.role.dto.RoleAttribute</class-a>
+		<class-b>org.openiam.idm.srvc.role.dto.RoleAttribute</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.role.dto.RolePolicy</class-a>
+		<class-b>org.openiam.idm.srvc.role.dto.RolePolicy</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.grp.dto.GroupAttribute</class-a>
+		<class-b>org.openiam.idm.srvc.grp.dto.GroupAttribute</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.policy.dto.PolicyAttribute</class-a>
+		<class-b>org.openiam.idm.srvc.policy.dto.PolicyAttribute</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.policy.dto.PolicyMembership</class-a>
+		<class-b>org.openiam.idm.srvc.policy.dto.PolicyMembership</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.dto.ResourceGroup</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceGroup</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.dto.ResourceProp</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceProp</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.dto.ResourceRoleId</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceRoleId</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.dto.ResourceRole</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceRole</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.openiam.idm.srvc.res.dto.ResourceType</class-a>
+		<class-b>org.openiam.idm.srvc.res.dto.ResourceType</class-b>
+	</mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.dto.Address</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.Address</class-b>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-a>
+        <class-b>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-b>
+    </mapping>
+
+
+</mappings>

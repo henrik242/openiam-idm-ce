@@ -1,200 +1,141 @@
+package reports
 
-import groovy.sql.*
+import org.openiam.idm.srvc.report.service.ReportDataSetBuilder
+import org.openiam.idm.srvc.report.dto.ReportDataDto
+import groovy.sql.Sql
+import java.text.SimpleDateFormat
+import org.openiam.idm.srvc.report.dto.ReportTable
 import org.openiam.idm.srvc.report.dto.ReportRow
 import org.openiam.idm.srvc.report.dto.ReportRow.ReportColumn
-import org.openiam.base.id.UUIDGen
-import java.util.ResourceBundle;
 
-import org.openiam.idm.srvc.report.dto.ReportTable;
-import org.openiam.idm.srvc.report.service.*;
-import org.openiam.idm.srvc.report.dto.ReportDataDto;
-import java.util.Map;
-import java.text.*;
+class AuditReport implements ReportDataSetBuilder {
+    public Sql connect() {
+        ResourceBundle resDS = ResourceBundle.getBundle("datasource");
 
+        def db = resDS.getString("openiam.driver_url")
+        def user = resDS.getString("openiam.username")
+        def password = resDS.getString("openiam.password")
+        def driver = resDS.getString("openiam.driver_classname")
 
+        return Sql.newInstance(db, user, password, driver);
+    }
 
-public class AuditReport implements ReportQueryScript { 
+    @Override
+    ReportDataDto getReportData(Map<String, String> reportParams) {
+        def String action;
+        def String startDate;
+        def String endDate;
 
-public Sql connect() {
-	ResourceBundle resDS = ResourceBundle.getBundle("datasource");
-	
-	def db	=	resDS.getString("openiam.driver_url")  				
-	def user		=	resDS.getString("openiam.username")   					
-	def password	=	resDS.getString("openiam.password")			
-	def driver		= resDS.getString("openiam.driver_classname")
-	
-	return Sql.newInstance(db,user, password, driver);
-	
-}
+        def paramList = [];
 
-public ReportDataDto getReportData(Map<String, String> reportParams) {
-	
-	def String action;
-	def String startDate;
-	def String endDate;
-	def String status;	
-	def String requestorId;
-	def String targetId;
-	def String orgId 
-	
-	def paramList = [];
-	
-	def sql = connect();
-	
-	def SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); 
-	java.util.Date eDate;
-	java.util.Date sDate;
-	
+        def sql = connect();
 
-	ReportTable reportTable = new ReportTable();
-	reportTable.setName("AuditReport");
-	
-	
-	// get the report parameters
-if (reportParams != null) {
-	
-	action = reportParams.get("ACTION");
-	startDate = reportParams.get("START_DATE");
-	endDate = reportParams.get("END_DATE");
-	status = reportParams.get("STATUS");	
-	requestorId = reportParams.get("REQUESTOR_ID");
-	targetId = reportParams.get("TARGET_ID");
-	orgId = reportParams.get("ORG_ID");
-				
-}
-	
+        def SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date eDate;
+        java.util.Date sDate;
 
-	def String query =  "SELECT DISTINCT ACTION_DATETIME, ACTION_ID, ACTION_STATUS, RESOURCE_NAME, REASON, LOGIN_ID AS TARGET_LOGIN, uv1.FIRST_NAME, uv1.LAST_NAME, c.COMPANY_NAME, " +
-            "           CUSTOM_ATTRVALUE3 AS REQUESTOR_LOGIN, uv2.FIRST_NAME AS REQUESTOR_FNAME, uv2.LAST_NAME AS REQUESTOR_LNAME  " +
-            "           FROM IDM_AUDIT_LOG a " +
-            "           LEFT JOIN USER_IDENTITY_VW uv1 on (a.LOGIN_ID = uv1.LOGIN) " +
-            "           LEFT JOIN USER_IDENTITY_VW uv2 on (a.CUSTOM_ATTRVALUE3 = uv2.LOGIN) " +
-            "           LEFT JOIN COMPANY c ON (uv1.COMPANY_ID = c.COMPANY_ID)";
+        ReportTable reportTable = new ReportTable();
+        reportTable.setName("AuditReportTable1");
 
-	def StringBuffer where = new StringBuffer();
-
-
-    if (orgId != null && orgId.length() > 0) {
-        if (where.length() > 1) {
-            where.append(" and ");
+        // get the report parameters
+        if (reportParams != null) {
+            action = reportParams.get("ACTION_ID");
+            startDate = reportParams.get("ACTION_DATETIME_START");
+            endDate = reportParams.get("ACTION_DATETIME_END");
         }
 
-        where.append( " c.COMPANY_ID = ? ");
-        paramList.add(orgId)
+        def String query = "SELECT IDM_AUDIT_LOG.LOG_ID, IDM_AUDIT_LOG.OBJECT_TYPE_ID, IDM_AUDIT_LOG.OBJECT_ID," +
+                "IDM_AUDIT_LOG.ACTION_ID, IDM_AUDIT_LOG.ACTION_STATUS, IDM_AUDIT_LOG.REASON," +
+                "IDM_AUDIT_LOG.REASON_DETAIL, IDM_AUDIT_LOG.ACTION_DATETIME," +
+                "IDM_AUDIT_LOG.OBJECT_NAME, IDM_AUDIT_LOG.RESOURCE_NAME, IDM_AUDIT_LOG.USER_ID," +
+                "IDM_AUDIT_LOG.SERVICE_ID, IDM_AUDIT_LOG.LOGIN_ID, IDM_AUDIT_LOG.HOST," +
+                "IDM_AUDIT_LOG.CLIENT_ID, IDM_AUDIT_LOG.REQ_URL, IDM_AUDIT_LOG.LINKED_LOG_ID," +
+                "IDM_AUDIT_LOG.LINK_SEQUENCE, IDM_AUDIT_LOG.ORIG_OBJECT_STATE," +
+                "IDM_AUDIT_LOG.NEW_OBJECT_STATE, IDM_AUDIT_LOG.SRC_SYSTEM_ID," +
+                "IDM_AUDIT_LOG.TARGET_SYSTEM_ID, IDM_AUDIT_LOG.REQUEST_ID, IDM_AUDIT_LOG.SESSION_ID," +
+                "IDM_AUDIT_LOG.CUSTOM_ATTRNAME1, IDM_AUDIT_LOG.CUSTOM_ATTRNAME2," +
+                "USERS.FIRST_NAME, USERS.MIDDLE_INIT, USERS.LAST_NAME, USERS.DEPT_CD," +
+                "USERS.DEPT_NAME FROM IDM_AUDIT_LOG, USERS";
 
-    }
-    if (status != null && status.length() > 0) {
-        if (where.length() > 1) {
-            where.append(" and ");
+        def StringBuffer where = new StringBuffer();
+        where.append(" IDM_AUDIT_LOG.USER_ID = USERS.USER_ID ");
+
+        if (action != null && action.length() > 0) {
+            if (where.length() > 1) {
+                where.append(" and ");
+            }
+
+            where.append("  IDM_AUDIT_LOG.ACTION_ID = ? ");
+            paramList.add(action)
+        }
+        if (startDate != null) {
+            if (where.length() > 1) {
+                where.append(" and ");
+            }
+            // create a date object
+
+            sDate = dateFormat.parse(startDate);
+
+            where.append(" IDM_AUDIT_LOG.ACTION_DATETIME >= ? ");
+            paramList.add(sDate)
         }
 
-        where.append( "  a.ACTION_STATUS = ? ");
-        paramList.add(status)
-    }
+        if (endDate != null) {
+            if (where.length() > 1) {
+                where.append(" and ");
+            }
 
-    if (action != null && action.length() > 0) {
+            eDate = dateFormat.parse(endDate);
+
+            where.append(" IDM_AUDIT_LOG.ACTION_DATETIME <= ? ");
+            paramList.add(eDate)
+
+        }
         if (where.length() > 1) {
-            where.append(" and ");
+            query = query + " WHERE " + where.toString();
         }
 
-        where.append( "  a.ACTION_ID = ? ");
-        paramList.add(action)
-
-    }
-
-    if (requestorId != null && requestorId.length() > 0) {
-        if (where.length() > 1) {
-            where.append(" and ");
+        sql.eachRow(query, paramList) { a ->
+            ReportRow row = new ReportRow();
+            row.getColumn().add(new ReportColumn('LOG_ID', a.LOG_ID));
+            row.getColumn().add(new ReportColumn('OBJECT_TYPE_ID', a.OBJECT_TYPE_ID));
+            row.getColumn().add(new ReportColumn('OBJECT_ID', a.OBJECT_ID));
+            row.getColumn().add(new ReportColumn('ACTION_ID', a.ACTION_ID));
+            row.getColumn().add(new ReportColumn('ACTION_STATUS', a.ACTION_STATUS));
+            row.getColumn().add(new ReportColumn('REASON', a.REASON));
+            row.getColumn().add(new ReportColumn('REASON_DETAIL', a.REASON_DETAIL));
+            row.getColumn().add(new ReportColumn('ACTION_DATETIME', a.ACTION_DATETIME.toString()));
+            row.getColumn().add(new ReportColumn('OBJECT_NAME', a.OBJECT_NAME));
+            row.getColumn().add(new ReportColumn('RESOURCE_NAME', a.RESOURCE_NAME));
+            row.getColumn().add(new ReportColumn('USER_ID', a.USER_ID));
+            row.getColumn().add(new ReportColumn('SERVICE_ID', a.SERVICE_ID));
+            row.getColumn().add(new ReportColumn('LOGIN_ID', a.LOGIN_ID));
+            row.getColumn().add(new ReportColumn('HOST', a.HOST));
+            row.getColumn().add(new ReportColumn('CLIENT_ID', a.CLIENT_ID));
+            row.getColumn().add(new ReportColumn('REQ_URL', a.REQ_URL));
+            row.getColumn().add(new ReportColumn('LINKED_LOG_ID', a.LINKED_LOG_ID));
+            row.getColumn().add(new ReportColumn('LINK_SEQUENCE', a.LINK_SEQUENCE.toString()));
+            row.getColumn().add(new ReportColumn('ORIG_OBJECT_STATE', a.ORIG_OBJECT_STATE));
+            row.getColumn().add(new ReportColumn('NEW_OBJECT_STATE', a.NEW_OBJECT_STATE));
+            row.getColumn().add(new ReportColumn('SRC_SYSTEM_ID', a.SRC_SYSTEM_ID));
+            row.getColumn().add(new ReportColumn('TARGET_SYSTEM_ID', a.TARGET_SYSTEM_ID));
+            row.getColumn().add(new ReportColumn('REQUEST_ID', a.REQUEST_ID));
+            row.getColumn().add(new ReportColumn('SESSION_ID', a.SESSION_ID));
+            row.getColumn().add(new ReportColumn('CUSTOM_ATTRNAME1', a.CUSTOM_ATTRNAME1));
+            row.getColumn().add(new ReportColumn('CUSTOM_ATTRNAME2', a.CUSTOM_ATTRNAME2));
+            row.getColumn().add(new ReportColumn('FIRST_NAME', a.FIRST_NAME));
+            row.getColumn().add(new ReportColumn('MIDDLE_INIT', a.MIDDLE_INIT));
+            row.getColumn().add(new ReportColumn('LAST_NAME', a.LAST_NAME));
+            row.getColumn().add(new ReportColumn('DEPT_CD', a.DEPT_CD));
+            row.getColumn().add(new ReportColumn('DEPT_NAME', a.DEPT_NAME));
+            reportTable.getRow().add(row);
         }
 
-        where.append( " uv2.USER_ID = ? ");
-        paramList.add(requestorId)
-
+        ReportDataDto reportDataDto = new ReportDataDto();
+        List<ReportTable> reportTables = new ArrayList<ReportTable>();
+        reportTables.add(reportTable);
+        reportDataDto.setTables(reportTables);
+        return reportDataDto;
     }
-    if (targetId != null && targetId.length() > 0) {
-        if (where.length() > 1) {
-            where.append(" and ");
-        }
-
-        where.append( " uv1.USER_ID = ? ");
-        paramList.add(targetId)
-
-    }
-
-    if (startDate != null ) {
-        if (where.length() > 1) {
-            where.append(" and ");
-        }
-        
-        // create a date object
-        
-
-        sDate = dateFormat.parse(startDate);
-        
-
-        where.append( " ACTION_DATETIME >= ? ");
-        paramList.add(sDate)
-
-    }
-
-    if (endDate != null ) {
-        if (where.length() > 1) {
-            where.append(" and ");
-            parameters.append(",");
-        }
-
-		    eDate = dateFormat.parse(endDate);
-
-        where.append( " ACTION_DATETIME <= ? ");
-        paramList.add(eDate)
-
-    }
-    if (where.length() > 1) {
-        query = query + " WHERE " + where.toString();
-
-    }
-    
-    query = query + " ORDER BY ACTION_DATETIME";
-
- 
-
-	sql.eachRow(query, paramList) { a ->
-      
-      
-      ReportRow row = new ReportRow();
-      row.getColumn().add(new ReportColumn('ACTION_DATETIME',a.ACTION_DATETIME.toString()));
-      row.getColumn().add(new ReportColumn('ACTION_ID',a.ACTION_ID));
-      row.getColumn().add(new ReportColumn('ACTION_STATUS',a.ACTION_STATUS));
-      row.getColumn().add(new ReportColumn('RESOURCE_NAME',a.RESOURCE_NAME));
-      row.getColumn().add(new ReportColumn('REASON',a.REASON));
-      row.getColumn().add(new ReportColumn('TARGET_LOGIN',a.TARGET_LOGIN));
-      row.getColumn().add(new ReportColumn('FIRST_NAME',a.FIRST_NAME));
-      row.getColumn().add(new ReportColumn('LAST_NAME',a.LAST_NAME));
-      row.getColumn().add(new ReportColumn('COMPANY_NAME',a.COMPANY_NAME));
-      row.getColumn().add(new ReportColumn('REQUESTOR_LOGIN',a.REQUESTOR_LOGIN));
-      row.getColumn().add(new ReportColumn('REQUESTOR_FNAME',a.REQUESTOR_FNAME));
-      row.getColumn().add(new ReportColumn('REQUESTOR_LNAME',a.REQUESTOR_LNAME));
-      			
-           
-      reportTable.getRow().add(row);
-}
-
-
-	ReportDataDto reportDataDto = new ReportDataDto();
-	List<ReportTable> reportTables = new ArrayList<ReportTable>();
-	reportTables.add(reportTable);
-	reportDataDto.setTables(reportTables);
-	return reportDataDto;
-
-	
-}
-
-	  
-
-
-
 
 }
-
-
-
