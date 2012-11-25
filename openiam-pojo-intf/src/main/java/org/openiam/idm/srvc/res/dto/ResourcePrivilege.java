@@ -5,6 +5,7 @@ import org.openiam.base.BaseObject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity;
 
 /**
@@ -18,6 +19,7 @@ import org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity;
         "description",
         "privilegeType"
 })
+@DozerDTOCorrespondence(ResourcePrivilegeEntity.class)
 public class ResourcePrivilege extends BaseObject {
     private String resourcePrivilegeId;
     private String resourceId;
@@ -27,14 +29,6 @@ public class ResourcePrivilege extends BaseObject {
 
     public ResourcePrivilege() {
 
-    }
-
-    public ResourcePrivilege(ResourcePrivilegeEntity privilegeEntity) {
-        this.resourcePrivilegeId = privilegeEntity.getResourcePrivilegeId();
-        this.resourceId = privilegeEntity.getResourceId();
-        this.name = privilegeEntity.getName();
-        this.description = privilegeEntity.getDescription();
-        this.privilegeType = privilegeEntity.getPrivilegeType();
     }
 
     public ResourcePrivilege(String resourcePrivilegeId) {

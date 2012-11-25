@@ -25,6 +25,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ParamDef;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.continfo.domain.AddressEntity;
 import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
@@ -43,6 +44,7 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 @Entity
 @FilterDef(name = "parentTypeFilter", parameters = @ParamDef(name = "parentFilter", type = "string"))
 @Table(name = "USERS")
+@DozerDTOCorrespondence(User.class)
 public class UserEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -215,10 +217,10 @@ public class UserEntity {
     private String phoneExt;
 
     @Column(name = "SHOW_IN_SEARCH", nullable = true)
-    private Integer showInSearch = new Integer(0);
+    private Integer showInSearch = 0;
 
     @Column(name = "DEL_ADMIN", nullable = true)
-    private Integer delAdmin = new Integer(0);
+    private Integer delAdmin = 0;
 
     @Column(name = "ALTERNATE_ID", length = 32)
     private String alternateContactId;
@@ -261,85 +263,6 @@ public class UserEntity {
     private Set<EmailAddressEntity> emailAddresses = new HashSet<EmailAddressEntity>(0);
 
     public UserEntity() {
-    }
-
-    public UserEntity(User user) {
-        this.userId = user.getUserId();
-        this.birthdate = user.getBirthdate();
-        this.companyId = user.getCompanyId();
-        this.companyOwnerId = user.getCompanyOwnerId();
-        this.createDate = user.getCreateDate();
-        this.createdBy = user.getCreatedBy();
-        this.deptCd = user.getDeptCd();
-        this.deptName = user.getDeptName();
-        this.employeeId = user.getEmployeeId();
-        this.employeeType = user.getEmployeeType();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.jobCode = user.getJobCode();
-        this.lastUpdate = user.getLastUpdate();
-        this.lastUpdatedBy = user.getLastUpdatedBy();
-        this.locationCd = user.getLocationCd();
-        this.locationName = user.getLocationName();
-        this.managerId = user.getManagerId();
-        this.metadataTypeId = user.getMetadataTypeId();
-        this.classification = user.getClassification();
-        this.middleInit = user.getMiddleInit();
-        this.prefix = user.getPrefix();
-        this.sex = user.getSex();
-        this.status = user.getStatus();
-        this.secondaryStatus = user.getSecondaryStatus();
-        this.suffix = user.getSuffix();
-        this.title = user.getTitle();
-        this.userTypeInd = user.getUserTypeInd();
-        this.division = user.getDivision();
-        this.mailCode = user.getMailCode();
-        this.costCenter = user.getCostCenter();
-        this.startDate = user.getStartDate();
-        this.lastDate = user.getLastDate();
-        this.nickname = user.getNickname();
-        this.maidenName = user.getMaidenName();
-        this.passwordTheme = user.getPasswordTheme();
-        this.country = user.getCountry();
-        this.bldgNum = user.getBldgNum();
-        this.streetDirection = user.getStreetDirection();
-        this.suite = user.getSuite();
-        this.address1 = user.getAddress1();
-        this.address2 = user.getAddress2();
-        this.address3 = user.getAddress3();
-        this.address4 = user.getAddress4();
-        this.address5 = user.getAddress5();
-        this.address6 = user.getAddress6();
-        this.address7 = user.getAddress7();
-        this.city = user.getCity();
-        this.state = user.getState();
-        this.postalCd = user.getPostalCd();
-        this.email = user.getEmail();
-        this.areaCd = user.getAreaCd();
-        this.countryCd = user.getCountryCd();
-        this.phoneNbr = user.getPhoneNbr();
-        this.phoneExt = user.getPhoneExt();
-        this.showInSearch = user.getShowInSearch();
-        this.delAdmin = user.getDelAdmin();
-        this.alternateContactId = user.getAlternateContactId();
-        this.userOwnerId = user.getUserOwnerId();
-        this.datePasswordChanged = user.getDatePasswordChanged();
-        this.dateChallengeRespChanged = user.getDateChallengeRespChanged();
-        for (UserNote une : user.getUserNotes()) {
-            this.userNotes.add(new UserNoteEntity(une, this));
-        }
-        for (EmailAddress ea : user.getEmailAddresses()) {
-            this.emailAddresses.add(new EmailAddressEntity(ea, this));
-        }
-        for (Map.Entry<String, UserAttribute> entry : user.getUserAttributes().entrySet()) {
-            this.userAttributes.put(entry.getKey(), new UserAttributeEntity(entry.getValue(), this));
-        }
-        for (Phone phone : user.getPhones()) {
-            this.phones.add(new PhoneEntity(phone, this));
-        }
-        for (Address address : user.getAddresses()) {
-            this.addresses.add(new AddressEntity(address, this));
-        }
     }
 
     public String getUserId() {

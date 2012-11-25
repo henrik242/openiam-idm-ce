@@ -13,9 +13,43 @@
     					http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.openiam.core.dao*,org.openiam.idm.srvc*" />
+    <context:component-scan base-package="org.openiam.core.dao*,org.openiam.idm.srvc*,org.openiam.dozer.converter*" />
 
     <bean id="springContextProvider" class="org.openiam.util.SpringContextProvider" />
+    <bean id="deepDozerMapper" class="org.dozer.DozerBeanMapper">
+		<property name="mappingFiles">
+			<list>
+				<value>org/openiam/dozer/dozer-common-mapping.xml</value>
+				<value>org/openiam/dozer/dozer-deep-mapping.xml</value>
+			</list>
+		</property>
+	</bean>
+    <bean id="shallowDozerMapper" class="org.dozer.DozerBeanMapper">
+		<property name="mappingFiles">
+			<list>
+				<value>org/openiam/dozer/dozer-common-mapping.xml</value>
+				<value>org/openiam/dozer/dozer-shallow-mapping.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dto2entityShallowDozerMapper" class="org.dozer.DozerBeanMapper">
+		<property name="mappingFiles">
+			<list>
+				<value>org/openiam/dozer/dto2entity/entity2dto.common.mappings.xml</value>
+				<value>org/openiam/dozer/dto2entity/entity2dto.shallow.mappings.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dto2entityDeepDozerMapper" class="org.dozer.DozerBeanMapper">
+		<property name="mappingFiles">
+			<list>
+				<value>org/openiam/dozer/dto2entity/entity2dto.common.mappings.xml</value>
+				<value>org/openiam/dozer/dto2entity/entity2dto.deep.mappings.xml</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -58,7 +92,7 @@
 		
 	</bean>
 
-		
+
 	<bean id="defaultLoginModuleManager" class="org.openiam.idm.srvc.auth.spi.DefaultLoginModule" >
 	</bean>
 

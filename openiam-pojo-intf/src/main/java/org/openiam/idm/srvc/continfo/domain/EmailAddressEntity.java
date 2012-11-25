@@ -1,19 +1,16 @@
 package org.openiam.idm.srvc.continfo.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.base.AttributeOperationEnum;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 import org.openiam.idm.srvc.user.domain.UserEntity;
-import org.openiam.idm.srvc.user.dto.User;
 
 @Entity
 @Table(name = "EMAIL_ADDRESS")
+@DozerDTOCorrespondence(EmailAddress.class)
 public class EmailAddressEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -31,7 +28,7 @@ public class EmailAddressEntity {
     private String emailAddress;
 
     @Column(name = "IS_DEFAULT")
-    private Integer isDefault = new Integer(0);
+    private Integer isDefault = 0;
 
     @ManyToOne
     @JoinColumn(name = "PARENT_ID")
@@ -43,18 +40,10 @@ public class EmailAddressEntity {
     @Column(name = "NAME", length = 40)
     private String name;
 
-    public EmailAddressEntity() {
-    }
+    @Transient
+    private AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
-    public EmailAddressEntity(final EmailAddress emailAddress, final UserEntity parent) {
-        this.emailId = emailAddress.getEmailId();
-        this.isActive = emailAddress.isActive();
-        this.description = emailAddress.getDescription();
-        this.isDefault = emailAddress.getIsDefault();
-        this.parentType = emailAddress.getParentType();
-        this.name = emailAddress.getName();
-        this.parent = parent;
-        this.emailAddress = emailAddress.getEmailAddress();
+    public EmailAddressEntity() {
     }
 
     public String getEmailId() {
@@ -119,6 +108,14 @@ public class EmailAddressEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public AttributeOperationEnum getOperation() {
+        return operation;
+    }
+
+    public void setOperation(AttributeOperationEnum operation) {
+        this.operation = operation;
     }
 
     @Override

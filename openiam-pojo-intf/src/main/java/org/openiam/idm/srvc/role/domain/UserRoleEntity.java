@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.domain.ResourceEntity;
 import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
 import org.openiam.idm.srvc.res.dto.ResourceRole;
@@ -20,6 +21,7 @@ import org.openiam.idm.srvc.role.dto.UserRole;
 
 @Entity
 @Table(name="USER_ROLE")
+@DozerDTOCorrespondence(UserRole.class)
 public class UserRoleEntity {
 
     @Id
@@ -63,18 +65,6 @@ public class UserRoleEntity {
         long curTime = System.currentTimeMillis();
         createDate = new Date(curTime);
         startDate = new Date(curTime);
-    }
-
-    public UserRoleEntity(UserRole userRole) {
-        this.userRoleId = userRole.getUserRoleId();
-        this.userId = userRole.getUserId();
-        this.roleId = userRole.getRoleId();
-        this.status = userRole.getStatus();
-        this.createDate = userRole.getCreateDate();
-        this.startDate = userRole.getStartDate();
-        this.endDate = userRole.getEndDate();
-        this.createdBy = userRole.getCreatedBy();
-        this.serviceId = userRole.getServiceId();
     }
 
     public String getUserRoleId() {

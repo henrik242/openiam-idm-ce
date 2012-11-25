@@ -3,6 +3,8 @@ package org.openiam.idm.srvc.res.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
+import org.openiam.idm.srvc.res.domain.ResourceUserEmbeddableId;
 
 // Generated Mar 8, 2009 12:54:32 PM by Hibernate Tools 3.2.2.GA
 
@@ -15,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
         "userId",
         "privilegeId"
 })
+@DozerDTOCorrespondence(ResourceUserEmbeddableId.class)
 public class ResourceUserId implements java.io.Serializable {
 
     private String resourceId;

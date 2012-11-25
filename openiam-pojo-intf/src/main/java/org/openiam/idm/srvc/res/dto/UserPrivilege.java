@@ -4,6 +4,7 @@ import org.openiam.base.BaseObject;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 import java.sql.Timestamp;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.domain.UserPrivilegeEntity;
 
 //import org.openiam.idm.srvc.user.dto.User;
@@ -15,6 +16,7 @@ import org.openiam.idm.srvc.res.domain.UserPrivilegeEntity;
  * Time: 5:40 PM
  * To change this template use File | Settings | File Templates.
  */
+@DozerDTOCorrespondence(UserPrivilegeEntity.class)
 public class UserPrivilege extends BaseObject {
     private String userPrivilegeId;
     private String userId;

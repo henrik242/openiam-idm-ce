@@ -9,6 +9,7 @@ import org.openiam.base.BaseObject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
 
 /**
@@ -29,7 +30,7 @@ import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
         "operation",
         "required"
 })
-
+@DozerDTOCorrespondence(UserAttributeEntity.class)
 public class UserAttribute extends BaseObject {
 
     protected String id;

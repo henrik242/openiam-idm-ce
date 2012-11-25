@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.dozer.converter.GroupAttributeDozerConverter;
+import org.openiam.dozer.converter.GroupDozerConverter;
+import org.openiam.dozer.converter.UserDozerConverter;
 import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
 import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
@@ -18,6 +21,7 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDAO;
 
 import org.openiam.exception.data.DataException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * <code>GroupDataServiceImpl</code> provides a service to manage groups as
@@ -36,6 +40,13 @@ public class GroupDataServiceImpl implements GroupDataService {
     protected UserDAO userDao;
 
     private static final Log log = LogFactory.getLog(GroupDataServiceImpl.class);
+
+    @Autowired
+	private GroupDozerConverter groupDozerConverter;
+    @Autowired
+	private GroupAttributeDozerConverter groupAttributeDozerConverter;
+    @Autowired
+	private UserDozerConverter userDozerConverter;
 
     public GroupDataServiceImpl() {
 
@@ -71,14 +82,8 @@ public class GroupDataServiceImpl implements GroupDataService {
      */
     public List<Group> getAllGroups() {
         List<GroupEntity> groupEntityList = groupDao.findAllGroups();
-        List<Group> groupList = null;
-        if (groupEntityList != null) {
-            groupList = new LinkedList<Group>();
-            for (GroupEntity entity : groupEntityList) {
-                groupList.add(new Group(entity));
-            }
-        }
-        return groupList;
+
+        return groupDozerConverter.convertToDTOList(groupEntityList, false);
     }
 
     /*
@@ -92,7 +97,7 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("Group is null");
         }
         try {
-            GroupEntity entity = new GroupEntity(grp);
+            GroupEntity entity = groupDozerConverter.convertToEntity(grp, true);
             groupDao.add(entity);
             grp.setGrpId(entity.getGrpId());
             log.debug("Group id=" + grp.getGrpId() + " successfully saved.");
@@ -114,7 +119,7 @@ public class GroupDataServiceImpl implements GroupDataService {
         if (grpId == null)
             throw new NullPointerException("grp id is null");
         GroupEntity entity = groupDao.findById(grpId);
-        return entity != null ? new Group(entity) : null;
+        return groupDozerConverter.convertToDTO(entity, true);
     }
 
     /**
@@ -128,7 +133,7 @@ public class GroupDataServiceImpl implements GroupDataService {
         if (grpId == null)
             throw new NullPointerException("grp id is null");
         GroupEntity grp = groupDao.findById(grpId, true);
-        return new Group(grp);
+        return groupDozerConverter.convertToDTO(grp, true);
     }
 
     /*
@@ -145,10 +150,10 @@ public class GroupDataServiceImpl implements GroupDataService {
             log.debug("grpId in null. Unable to add a new group.");
             throw new NullPointerException("grp.GroupId is null");
         }
-        GroupEntity groupEntity = new GroupEntity(grp);
+        GroupEntity groupEntity = groupDozerConverter.convertToEntity(grp,true);
         groupDao.update(groupEntity);
 
-        return new Group(groupEntity);
+        return groupDozerConverter.convertToDTO(groupEntity, true);
     }
 
     /*
@@ -189,14 +194,8 @@ public class GroupDataServiceImpl implements GroupDataService {
                 groupEntityList = getRecursiveChildGroup(parentGroupId, groupEntityList);
             }
         }
-        List<Group> groupList = null;
-        if (groupEntityList != null) {
-            groupList = new LinkedList<Group>();
-            for (GroupEntity groupEntity : groupEntityList) {
-                groupList.add(new Group(groupEntity));
-            }
-        }
-        return groupList;
+
+        return groupDozerConverter.convertToDTOList(groupEntityList, false);
 
     }
 
@@ -305,7 +304,7 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("parentGroupId id is null");
 
         GroupEntity entity = groupDao.findParent(groupId, dependants);
-        return entity != null ? new Group(entity) : null;
+        return groupDozerConverter.convertToDTO(entity, true);
     }
 
 
@@ -386,15 +385,8 @@ public class GroupDataServiceImpl implements GroupDataService {
                 newGroupList.add(getParentGroup(grp));
             }
         }
-        List<Group> userInGroupList = null;
-        if (newGroupList != null) {
-            userInGroupList = new LinkedList<Group>();
-            for (GroupEntity entity : newGroupList) {
-                userInGroupList.add(new Group(entity));
-            }
-        }
 
-        return userInGroupList;
+        return groupDozerConverter.convertToDTOList(newGroupList, false);
     }
 
     private List<GroupEntity> getParentGroupFlat(GroupEntity grp) {
@@ -431,11 +423,8 @@ public class GroupDataServiceImpl implements GroupDataService {
                 newGroupList.addAll(getParentGroupFlat(grp));
             }
         }
-        List<Group> userInGroupAsFlatList = new LinkedList<Group>();
-        for (GroupEntity entity : newGroupList) {
-            userInGroupAsFlatList.add(new Group(entity));
-        }
-        return userInGroupAsFlatList;
+
+        return groupDozerConverter.convertToDTOList(newGroupList, false);
     }
 
 
@@ -453,14 +442,8 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("userId id is null");
 
         List<GroupEntity> groupEntityList = groupDao.findGroupNotLinkedToUser(userId, parentGroupId);
-        List<Group> groupList = null;
-        if (groupEntityList != null) {
-            groupList = new LinkedList<Group>();
-            for (GroupEntity entity : groupEntityList) {
-                groupList.add(new Group(entity));
-            }
-        }
-        return groupList;
+
+        return groupDozerConverter.convertToDTOList(groupEntityList, false);
     }
 
 
@@ -500,14 +483,8 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("grpId id is null");
 
         List<UserEntity> userEntities = userGroupDao.findUserByGroup(grpId);
-        List<User> userList = null;
-        if (userEntities != null) {
-            userList = new LinkedList<User>();
-            for (UserEntity userEntity : userEntities) {
-                userList.add(new User(userEntity));
-            }
-        }
-        return userList;
+
+        return userDozerConverter.convertToDTOList(userEntities, false);
     }
 
 
@@ -539,7 +516,7 @@ public class GroupDataServiceImpl implements GroupDataService {
         if (attribute == null)
             throw new NullPointerException("Attribute can not be null");
 
-        groupAttrDao.add(new GroupAttributeEntity(attribute));
+        groupAttrDao.add(groupAttributeDozerConverter.convertToEntity(attribute,true));
 
     }
 
@@ -559,7 +536,7 @@ public class GroupDataServiceImpl implements GroupDataService {
                     "Group has not been associated with this attribute.");
         }
 
-        groupAttrDao.update(new GroupAttributeEntity(attribute));
+        groupAttrDao.update(groupAttributeDozerConverter.convertToEntity(attribute, true));
 
     }
 
@@ -602,7 +579,7 @@ public class GroupDataServiceImpl implements GroupDataService {
         if (grp != null && grp.getAttributes() != null) {
             attrMap = new HashMap<String, GroupAttribute>();
             for (Map.Entry<String, GroupAttributeEntity> attributeEntityEntry : grp.getAttributes().entrySet()) {
-                attrMap.put(attributeEntityEntry.getKey(), new GroupAttribute(attributeEntityEntry.getValue()));
+                attrMap.put(attributeEntityEntry.getKey(), groupAttributeDozerConverter.convertToDTO(attributeEntityEntry.getValue(), true));
             }
         }
         return attrMap;
@@ -619,7 +596,7 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("attrId is null");
         }
         GroupAttributeEntity attributeEntity = groupAttrDao.findById(attrId);
-        return new GroupAttribute(attributeEntity);
+        return groupAttributeDozerConverter.convertToDTO(attributeEntity, true);
     }
 
     /*
@@ -635,7 +612,7 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("attrId is null");
         }
 
-        groupAttrDao.remove(new GroupAttributeEntity(attr));
+        groupAttrDao.remove(groupAttributeDozerConverter.convertToEntity(attr, true));
     }
 
     /*
@@ -655,14 +632,8 @@ public class GroupDataServiceImpl implements GroupDataService {
             throw new NullPointerException("search object is null");
         }
         List<GroupEntity> entities = groupDao.search(search);
-        List<Group> groups = null;
-        if (entities != null) {
-            groups = new LinkedList<Group>();
-            for (GroupEntity group : entities) {
-                groups.add(new Group(group));
-            }
-        }
-        return groups;
+
+        return groupDozerConverter.convertToDTOList(entities, false);
     }
 
     /*--  Spring framework related getters and setters. ---*/

@@ -20,16 +20,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.res.dto.ResourceGroup;
-import org.openiam.idm.srvc.res.dto.ResourcePrivilege;
-import org.openiam.idm.srvc.res.dto.ResourceProp;
-import org.openiam.idm.srvc.res.dto.ResourceRole;
 
 @Entity
 @Table(name = "RES")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@DozerDTOCorrespondence(Resource.class)
 public class ResourceEntity {
 
     @Id
@@ -103,38 +101,6 @@ public class ResourceEntity {
     private Set<ResourceEntity> childResources = new HashSet<ResourceEntity>(0);
 
     public ResourceEntity() {
-    }
-
-    public ResourceEntity(final Resource resource) {
-        this.resourceId = resource.getResourceId();
-        this.resourceType = new ResourceTypeEntity(resource.getResourceType());
-        this.name = resource.getName();
-        this.description = resource.getDescription();
-        this.branchId = resource.getBranchId();
-        this.categoryId = resource.getCategoryId();
-        this.displayOrder = resource.getDisplayOrder();
-        this.nodeLevel = resource.getNodeLevel();
-        this.sensitiveApp = resource.getSensitiveApp();
-        this.managedSysId = resource.getManagedSysId();
-        this.URL = resource.getURL();
-        this.resOwnerUserId = resource.getResOwnerUserId();
-        this.resOwnerGroupId = resource.getResOwnerGroupId();
-        for(Resource res : resource.getChildResources()) {
-          this.childResources.add(new ResourceEntity(res));
-        }
-        this.resourceParent = resource.getResourceParent();
-        for (ResourceRole resourceRole : resource.getResourceRoles()) {
-            this.resourceRoles.add(new ResourceRoleEntity(resourceRole));
-        }
-        for (ResourceProp prop : resource.getResourceProps()) {
-            this.resourceProps.add(new ResourcePropEntity(prop));
-        }
-        for (ResourceGroup group : resource.getResourceGroups()) {
-            this.resourceGroups.add(new ResourceGroupEntity(group));
-        }
-        for (ResourcePrivilege privilege : resource.getEntitlements()) {
-            this.entitlements.add(new ResourcePrivilegeEntity(privilege));
-        }
     }
 
     public String getResourceParent() {

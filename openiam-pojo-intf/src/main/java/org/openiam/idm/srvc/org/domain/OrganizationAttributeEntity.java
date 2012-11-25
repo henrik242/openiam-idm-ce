@@ -8,10 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.org.dto.OrganizationAttribute;
 
 @Entity
 @Table(name = "COMPANY_ATTRIBUTE")
+@DozerDTOCorrespondence(OrganizationAttribute.class)
 public class OrganizationAttributeEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -34,14 +36,6 @@ public class OrganizationAttributeEntity {
     private String value;
 
     public OrganizationAttributeEntity() {
-    }
-
-    public OrganizationAttributeEntity(OrganizationAttribute attribute, OrganizationEntity organization) {
-        this.attrId = attribute.getAttrId();
-        this.metadataElementId = attribute.getMetadataElementId();
-        this.name = attribute.getName();
-        this.organization = organization;
-        this.value = attribute.getValue();
     }
 
     public String getAttrId() {

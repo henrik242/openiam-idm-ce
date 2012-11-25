@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -24,19 +23,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.openiam.base.AttributeOperationEnum;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.grp.domain.GroupEntity;
-import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.RoleAttribute;
 import org.openiam.idm.srvc.role.dto.RoleConstant;
-import org.openiam.idm.srvc.role.dto.RolePolicy;
-import org.openiam.idm.srvc.service.dto.Service;
 
 @Entity
 @Table(name="ROLE")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class RoleEntity {
+@DozerDTOCorrespondence(Role.class)
+public class RoleEntity implements Comparable<RoleEntity> {
 
     @EmbeddedId
     private RoleEmbeddableId roleId;
@@ -49,6 +46,9 @@ public class RoleEntity {
 
     @Column(name="CREATED_BY",length=20)
     private String createdBy;
+
+    @Column(name="ROLE_END_DATE",length=19)
+    private Date endDate;
 
     @Column(name="DESCRIPTION")
     private String description;
@@ -106,35 +106,6 @@ public class RoleEntity {
     private AttributeOperationEnum operation = AttributeOperationEnum.NO_CHANGE;
 
     public RoleEntity() {
-    }
-
-    public RoleEntity(Role role) {
-        this.roleId = new RoleEmbeddableId(role.getId());
-        this.roleName = role.getRoleName();
-        this.createDate = role.getCreateDate() != null ? role.getCreateDate() : new Date();
-        this.createdBy = role.getCreatedBy();
-        this.description = role.getDescription();
-        this.provisionObjName = role.getProvisionObjName();
-        this.metadataTypeId = role.getMetadataTypeId();
-        this.parentRoleId = role.getParentRoleId();
-        this.status = role.getStatus();
-        this.ownerId = role.getOwnerId();
-        this.internalRoleId = role.getInternalRoleId();
-        for(Group group : role.getGroups()) {
-          this.groups.add(new GroupEntity(group));
-        }
-        for(RoleAttribute attr : role.getRoleAttributes()) {
-          this.roleAttributes.add(new RoleAttributeEntity(attr));
-        }
-        for(RolePolicy policy : role.getRolePolicy()) {
-          this.rolePolicy.add(new RolePolicyEntity(policy));
-        }
-        for(Role child : role.getChildRoles()) {
-          this.childRoles.add(new RoleEntity(child));
-        }
-        this.userAssociationMethod = role.getUserAssociationMethod();
-        this.operation = role.getOperation();
-        this.selected = role.getSelected();
     }
 
     public RoleEmbeddableId getRoleId() {
@@ -289,6 +260,22 @@ public class RoleEntity {
         this.selected = selected;
     }
 
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    @Override
+    public int compareTo(RoleEntity o) {
+        if (getRoleName() == null || o == null) {
+            return Integer.MIN_VALUE;
+        }
+        return this.getRoleName().compareTo(o.getRoleName());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -327,4 +314,5 @@ public class RoleEntity {
         result = 31 * result + (internalRoleId != null ? internalRoleId.hashCode() : 0);
         return result;
     }
+
 }

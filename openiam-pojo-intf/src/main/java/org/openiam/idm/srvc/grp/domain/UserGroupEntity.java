@@ -9,11 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.grp.dto.UserGroup;
 import org.openiam.idm.srvc.user.domain.UserEntity;
 
 @Entity
 @Table(name = "USER_GRP")
+@DozerDTOCorrespondence(UserGroup.class)
 public class UserGroupEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -44,17 +46,6 @@ public class UserGroupEntity {
     public UserGroupEntity(UserEntity user, GroupEntity group) {
         this.user = user;
         this.group = group;
-        this.status = "ACTIVE";
-        this.createDate = new Date(System.currentTimeMillis());
-    }
-
-    public UserGroupEntity(UserGroup userGroup, UserEntity user, GroupEntity group) {
-        this.userGrpId = userGroup.getUserGrpId();
-        this.group = group;
-        this.status = userGroup.getStatus();
-        this.createDate = userGroup.getCreateDate();
-        this.createdBy = userGroup.getCreatedBy();
-        this.user = user;
     }
 
     public String getUserGrpId() {

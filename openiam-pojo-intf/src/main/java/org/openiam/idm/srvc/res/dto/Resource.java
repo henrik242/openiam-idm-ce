@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.HashSet;
 import java.util.Set;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.domain.ResourceEntity;
 import org.openiam.idm.srvc.res.domain.ResourceGroupEntity;
 import org.openiam.idm.srvc.res.domain.ResourcePrivilegeEntity;
@@ -40,6 +41,7 @@ import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
         "resOwnerUserId",
         "resOwnerGroupId"
 })
+@DozerDTOCorrespondence(ResourceEntity.class)
 public class Resource extends BaseObject {
 
     private String resourceId;
@@ -82,37 +84,6 @@ public class Resource extends BaseObject {
         this.managedSysId = managedSysId;
     }
 
-    public Resource(ResourceEntity entity) {
-               this.resourceId = entity.getResourceId();
-        this.resourceType = new ResourceType(entity.getResourceType());
-        this.name = entity.getName();
-        this.description = entity.getDescription();
-        this.branchId = entity.getBranchId();
-        this.categoryId = entity.getCategoryId();
-        this.displayOrder = entity.getDisplayOrder();
-        this.nodeLevel = entity.getNodeLevel();
-        this.sensitiveApp = entity.getSensitiveApp();
-        this.managedSysId = entity.getManagedSysId();
-        this.URL = entity.getURL();
-        this.resOwnerUserId = entity.getResOwnerUserId();
-        this.resOwnerGroupId = entity.getResOwnerGroupId();
-        this.resourceParent = entity.getResourceParent();
-        for (ResourceRoleEntity resourceRole : entity.getResourceRoles()) {
-            this.resourceRoles.add(new ResourceRole(resourceRole));
-        }
-        for (ResourcePropEntity prop : entity.getResourceProps()) {
-            this.resourceProps.add(new ResourceProp(prop));
-        }
-        for (ResourceGroupEntity group : entity.getResourceGroups()) {
-            this.resourceGroups.add(new ResourceGroup(group));
-        }
-        for (ResourcePrivilegeEntity privilege : entity.getEntitlements()) {
-            this.entitlements.add(new ResourcePrivilege(privilege));
-        }
- /*       for (ResourceEntity child : entity.getChildResources()) {
-            this.childResources.add(new Resource(child));
-        }*/
-    }
 
     public Resource(String resourceId, String name,
                     String resourceType) {

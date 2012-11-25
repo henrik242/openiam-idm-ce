@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.role.domain.UserRoleEntity;
 
 /**
@@ -23,6 +24,7 @@ import org.openiam.idm.srvc.role.domain.UserRoleEntity;
         "status",
         "createdBy"
 })
+@DozerDTOCorrespondence(UserRoleEntity.class)
 public class UserRole implements java.io.Serializable {
 
     /**
@@ -50,18 +52,6 @@ public class UserRole implements java.io.Serializable {
         long curTime = System.currentTimeMillis();
         createDate = new Date(curTime);
         startDate = new Date(curTime);
-    }
-
-    public UserRole(UserRoleEntity userRoleEntity) {
-        this.userRoleId = userRoleEntity.getUserRoleId();
-        this.userId = userRoleEntity.getUserId();
-        this.roleId = userRoleEntity.getRoleId();
-        this.status = userRoleEntity.getStatus();
-        this.createDate = userRoleEntity.getCreateDate();
-        this.startDate = userRoleEntity.getStartDate();
-        this.endDate = userRoleEntity.getEndDate();
-        this.createdBy = userRoleEntity.getCreatedBy();
-        this.serviceId = userRoleEntity.getServiceId();
     }
 
     public String getUserRoleId() {

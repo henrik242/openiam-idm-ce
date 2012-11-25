@@ -333,15 +333,6 @@ public class NewUserController extends AbstractWizardFormController {
 		
 	}
 	
-    
-    private EmailAddress getEmailAddress(NewUserCommand newUserCmd) {
-    	EmailAddress email = new EmailAddress();
-    	email.setName("EMAIL1");
-    	email.setEmailAddress(newUserCmd.getUser().getEmail());
-    	return email;
-    }
-    
-	
 	private List<Group> getGroupList(NewUserCommand newHireCmd, User user) {
 		List<Group> groupList = new ArrayList<Group>();
 		String groupId = newHireCmd.getGroup();

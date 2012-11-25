@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.domain.ResourceGroupEntity;
 
 // Generated Mar 8, 2009 12:54:32 PM by Hibernate Tools 3.2.2.GA
@@ -19,6 +20,7 @@ import org.openiam.idm.srvc.res.domain.ResourceGroupEntity;
         "startDate",
         "endDate"
 })
+@DozerDTOCorrespondence(ResourceGroup.class)
 public class ResourceGroup implements java.io.Serializable {
 
     String resGroupId;

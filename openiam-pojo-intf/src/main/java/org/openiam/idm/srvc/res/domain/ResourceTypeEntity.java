@@ -6,10 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.dto.ResourceType;
 
 @Entity
 @Table(name = "RESOURCE_TYPE")
+@DozerDTOCorrespondence(ResourceType.class)
 public class ResourceTypeEntity {
 
     @Id

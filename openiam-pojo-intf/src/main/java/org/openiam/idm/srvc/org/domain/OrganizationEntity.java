@@ -3,28 +3,17 @@ package org.openiam.idm.srvc.org.domain;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.base.AttributeOperationEnum;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.org.dto.OrgClassificationEnum;
 import org.openiam.idm.srvc.org.dto.Organization;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.GenericGenerator;
-import org.openiam.idm.srvc.org.dto.OrgClassificationEnum;
-import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.org.dto.OrganizationAttribute;
 
 @Entity
 @Table(name = "COMPANY")
+@DozerDTOCorrespondence(Organization.class)
 public class OrganizationEntity {
     @Id
     @GeneratedValue(generator="system-uuid")
@@ -85,30 +74,13 @@ public class OrganizationEntity {
     @Column(name="SYMBOL", length=10)
     private String symbol;
 
-    public OrganizationEntity() {
-    }
+    @Transient
+    private Boolean selected = Boolean.FALSE;
 
-    public OrganizationEntity(Organization organization) {
-        this.orgId = organization.getOrgId();
-        this.alias = organization.getAlias();
-        for(Map.Entry<String, OrganizationAttribute> attributeEntityEntry : organization.getAttributes().entrySet()) {
-            this.attributes.put(attributeEntityEntry.getKey(), new OrganizationAttributeEntity(attributeEntityEntry.getValue(),this));
-        }
-        this.createDate = organization.getCreateDate();
-        this.createdBy = organization.getCreatedBy();
-        this.description = organization.getDescription();
-        this.domainName = organization.getDomainName();
-        this.ldapStr = organization.getLdapStr();
-        this.lstUpdate = organization.getLstUpdate();
-        this.lstUpdatedBy = organization.getLstUpdatedBy();
-        this.metadataTypeId = organization.getMetadataTypeId();
-        this.organizationName = organization.getOrganizationName();
-        this.internalOrgId = organization.getInternalOrgId();
-        this.parentId = organization.getParentId();
-        this.status = organization.getStatus();
-        this.classification = organization.getClassification();
-        this.abbreviation = organization.getAbbreviation();
-        this.symbol = organization.getSymbol();
+    @Transient
+    private AttributeOperationEnum operation;
+
+    public OrganizationEntity() {
     }
 
     public String getOrgId() {
@@ -253,5 +225,74 @@ public class OrganizationEntity {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public AttributeOperationEnum getOperation() {
+        return operation;
+    }
+
+    public void setOperation(AttributeOperationEnum operation) {
+        this.operation = operation;
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrganizationEntity that = (OrganizationEntity) o;
+
+        if (abbreviation != null ? !abbreviation.equals(that.abbreviation) : that.abbreviation != null) return false;
+        if (alias != null ? !alias.equals(that.alias) : that.alias != null) return false;
+        if (classification != that.classification) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+        if (createdBy != null ? !createdBy.equals(that.createdBy) : that.createdBy != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (domainName != null ? !domainName.equals(that.domainName) : that.domainName != null) return false;
+        if (internalOrgId != null ? !internalOrgId.equals(that.internalOrgId) : that.internalOrgId != null)
+            return false;
+        if (ldapStr != null ? !ldapStr.equals(that.ldapStr) : that.ldapStr != null) return false;
+        if (lstUpdate != null ? !lstUpdate.equals(that.lstUpdate) : that.lstUpdate != null) return false;
+        if (lstUpdatedBy != null ? !lstUpdatedBy.equals(that.lstUpdatedBy) : that.lstUpdatedBy != null) return false;
+        if (metadataTypeId != null ? !metadataTypeId.equals(that.metadataTypeId) : that.metadataTypeId != null)
+            return false;
+        if (orgId != null ? !orgId.equals(that.orgId) : that.orgId != null) return false;
+        if (organizationName != null ? !organizationName.equals(that.organizationName) : that.organizationName != null)
+            return false;
+        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (symbol != null ? !symbol.equals(that.symbol) : that.symbol != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = orgId != null ? orgId.hashCode() : 0;
+        result = 31 * result + (alias != null ? alias.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (domainName != null ? domainName.hashCode() : 0);
+        result = 31 * result + (ldapStr != null ? ldapStr.hashCode() : 0);
+        result = 31 * result + (lstUpdate != null ? lstUpdate.hashCode() : 0);
+        result = 31 * result + (lstUpdatedBy != null ? lstUpdatedBy.hashCode() : 0);
+        result = 31 * result + (metadataTypeId != null ? metadataTypeId.hashCode() : 0);
+        result = 31 * result + (organizationName != null ? organizationName.hashCode() : 0);
+        result = 31 * result + (internalOrgId != null ? internalOrgId.hashCode() : 0);
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (classification != null ? classification.hashCode() : 0);
+        result = 31 * result + (abbreviation != null ? abbreviation.hashCode() : 0);
+        result = 31 * result + (symbol != null ? symbol.hashCode() : 0);
+        return result;
     }
 }

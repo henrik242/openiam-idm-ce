@@ -6,10 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.dto.ResourcePrivilege;
 
 @Entity
 @Table(name = "RESOURCE_PRIVILEGE")
+@DozerDTOCorrespondence(ResourcePrivilege.class)
 public class ResourcePrivilegeEntity {
 
     @Id
@@ -31,14 +33,6 @@ public class ResourcePrivilegeEntity {
     private String privilegeType;
 
     public ResourcePrivilegeEntity() {
-    }
-
-    public ResourcePrivilegeEntity(ResourcePrivilege privilege) {
-        this.resourcePrivilegeId = privilege.getResourcePrivilegeId();
-        this.resourceId = privilege.getResourceId();
-        this.name = privilege.getName();
-        this.description = privilege.getDescription();
-        this.privilegeType = privilege.getPrivilegeType();
     }
 
     public ResourcePrivilegeEntity(String resourcePrivilegeId) {

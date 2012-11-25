@@ -4,6 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.SysConfiguration;
+import org.openiam.dozer.converter.AddressDozerConverter;
+import org.openiam.dozer.converter.EmailAddressDozerConverter;
+import org.openiam.dozer.converter.PhoneDozerConverter;
+import org.openiam.dozer.converter.SupervisorDozerConverter;
+import org.openiam.dozer.converter.UserAttributeDozerConverter;
+import org.openiam.dozer.converter.UserDozerConverter;
+import org.openiam.dozer.converter.UserNoteDozerConverter;
 import org.openiam.idm.srvc.continfo.domain.AddressEntity;
 import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
 import org.openiam.idm.srvc.continfo.domain.PhoneEntity;
@@ -24,6 +31,7 @@ import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 
 import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Service interface that clients will access to gain information about users
@@ -49,6 +57,27 @@ public class UserMgr implements UserDataService {
 
     private static final Log log = LogFactory.getLog(UserMgr.class);
 
+    @Autowired
+    private UserDozerConverter userDozerConverter;
+
+    @Autowired
+    private UserAttributeDozerConverter userAttributeDozerConverter;
+
+    @Autowired
+    private UserNoteDozerConverter userNoteDozerConverter;
+
+    @Autowired
+    private AddressDozerConverter addressDozerConverter;
+
+    @Autowired
+    private PhoneDozerConverter phoneDozerConverter;
+
+    @Autowired
+    private EmailAddressDozerConverter emailAddressDozerConverter;
+
+    @Autowired
+    private SupervisorDozerConverter supervisorDozerConverter;
+
     // protected UserMsgProducer userMsgProducer;
 
     /*
@@ -63,7 +92,7 @@ public class UserMgr implements UserDataService {
       */
     public User getUser(String id) {
         UserEntity entity = userDao.findById(id);
-        return entity != null ? new User(entity) : null;
+        return userDozerConverter.convertToDTO(entity, true);
     }
 
     /*
@@ -80,7 +109,7 @@ public class UserMgr implements UserDataService {
         }
 
         if (!dependants) {
-            return new User(usr);
+            return userDozerConverter.convertToDTO(usr, true);
         }
 
         //	 assemble the various dependant objects
@@ -88,7 +117,7 @@ public class UserMgr implements UserDataService {
         org.hibernate.Hibernate.initialize(usr.getEmailAddresses());
         org.hibernate.Hibernate.initialize(usr.getAddresses());
         org.hibernate.Hibernate.initialize(usr.getUserAttributes());
-        User user = new User(usr);
+        User user = userDozerConverter.convertToDTO(usr, true);
         List<Login> principalList = loginDao.findUser(id);
         if (principalList != null) {
             user.setPrincipalList(principalList);
@@ -127,10 +156,10 @@ public class UserMgr implements UserDataService {
         }
 
         validateEmailAddress(user, user.getEmailAddresses());
-        UserEntity userEntity = new UserEntity(user);
+        UserEntity userEntity = userDozerConverter.convertToEntity(user, true);
         userDao.add(userEntity);
 
-        return new User(userEntity);
+        return userDozerConverter.convertToDTO(userEntity, true);
     }
 
     /*
@@ -155,7 +184,7 @@ public class UserMgr implements UserDataService {
         validateEmailAddress(user, user.getEmailAddresses());
 
         log.debug("User Object before addUser: " + user);
-        UserEntity entity = new UserEntity(user);
+        UserEntity entity = userDozerConverter.convertToEntity(user, true);
         userDao.add(entity);
 
         /*if (!dependency)
@@ -187,7 +216,7 @@ public class UserMgr implements UserDataService {
         //  this.userMsgProducer.sendMessage(user,"ADD");
 
 
-        return new User(entity);
+        return userDozerConverter.convertToDTO(entity, true);
 
     }
 
@@ -222,7 +251,7 @@ public class UserMgr implements UserDataService {
 
         user.setLastUpdate(new Date(System.currentTimeMillis()));
 
-        userDao.update(new UserEntity(user));
+        userDao.update(userDozerConverter.convertToEntity(user, false));
 
     }
 
@@ -242,7 +271,7 @@ public class UserMgr implements UserDataService {
 
         validateEmailAddress(user, user.getEmailAddresses());
 
-        userDao.update(new UserEntity(user));
+        userDao.update(userDozerConverter.convertToEntity(user, true));
 
         if (!dependency)
             return;
@@ -291,7 +320,7 @@ public class UserMgr implements UserDataService {
         removeAllNotes(id);
         removeAllEmailAddresses(id);
 
-        userDao.remove(new UserEntity(user));
+        userDao.remove(userDozerConverter.convertToEntity(user, true));
 
         // / this.userMsgProducer.sendMessage(user.getUserId(),"DELETE");
 
@@ -311,7 +340,7 @@ public class UserMgr implements UserDataService {
 
     public User getUserByName(String firstName, String lastName) {
         UserEntity userEntity = userDao.findByName(firstName, lastName);
-        return userEntity != null ? new User(userEntity) : null;
+        return userDozerConverter.convertToDTO(userEntity, true);
     }
 
 
@@ -322,11 +351,8 @@ public class UserMgr implements UserDataService {
       */
     public List<User> findUserByOrganization(String orgId) {
         List<UserEntity> entityList = userDao.findByOrganization(orgId);
-        List<User> userList = new LinkedList<User>();
-        for (UserEntity userEntity : entityList) {
-            userList.add(new User(userEntity));
-        }
-        return userList;
+
+        return userDozerConverter.convertToDTOList(entityList, false);
     }
 
     /*
@@ -346,23 +372,14 @@ public class UserMgr implements UserDataService {
 
     public List<User> search(UserSearch search) {
         List<UserEntity> entityList = userDao.search(search);
-        List<User> userList = null;
-        if(entityList != null) {
-            userList = new LinkedList<User>();
-            for (UserEntity userEntity : entityList) {
-                userList.add(new User(userEntity));
-            }
-        }
-        return userList;
+
+        return userDozerConverter.convertToDTOList(entityList, false);
     }
 
     public List<User> searchByDelegationProperties(DelegationFilterSearch search) {
         List<UserEntity> entityList = userDao.findByDelegationProperties(search);
-        List<User> userList = new LinkedList<User>();
-        for (UserEntity userEntity : entityList) {
-            userList.add(new User(userEntity));
-        }
-        return userList;
+
+        return userDozerConverter.convertToDTOList(entityList, false);
 
     }
 
@@ -382,12 +399,12 @@ public class UserMgr implements UserDataService {
                     "User has not been associated with this attribute.");
         }
 
-        UserEntity userEntity = userDao.findById(attribute.getUserId());
-        userAttributeDao.add(new UserAttributeEntity(attribute, userEntity));
+        UserAttributeEntity attributeEntity = userAttributeDozerConverter.convertToEntity(attribute, true);
+        userAttributeDao.add(attributeEntity);
 
         // this.userMsgProducer.sendMessage(attribute.getUserId(),"ADD");
 
-        return attribute;
+        return userAttributeDozerConverter.convertToDTO(attributeEntity, true);
     }
 
     /*
@@ -404,7 +421,7 @@ public class UserMgr implements UserDataService {
                     "User has not been associated with this attribute.");
         }
         UserEntity userEntity = userDao.findById(attribute.getUserId());
-        userAttributeDao.update(new UserAttributeEntity(attribute, userEntity));
+        userAttributeDao.update(userAttributeDozerConverter.convertToEntity(attribute, true));
         // this.userMsgProducer.sendMessage(attribute.getUserId(),"UPDATE");
 
     }
@@ -472,7 +489,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("attrId is null");
         }
         UserEntity userEntity = userDao.findById(attr.getUserId());
-        userAttributeDao.remove(new UserAttributeEntity(attr, userEntity));
+        userAttributeDao.remove(userAttributeDozerConverter.convertToEntity(attr, true));
 
         // this.userMsgProducer.sendMessage(attr.getUserId(),"DELETE");
 
@@ -620,11 +637,10 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException(
                     "User is not associated with this note.");
         }
-        UserEntity userEntity = StringUtils.isNotEmpty(note.getUserId()) ? userDao.findById(note.getUserId()) : null;
-        UserNoteEntity userNoteEntity = new UserNoteEntity(note, userEntity);
+        UserNoteEntity userNoteEntity = userNoteDozerConverter.convertToEntity(note, true);
         userNoteDao.persist(userNoteEntity);
 
-        return new UserNote(userNoteEntity);
+        return userNoteDozerConverter.convertToDTO(userNoteEntity, true);
     }
 
     /*
@@ -642,9 +658,8 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException(
                     "User is not associated with this note.");
         }
-        UserEntity userEntity = StringUtils.isNotEmpty(note.getUserId()) ? userDao.findById(note.getUserId()) : null;
-        UserNoteEntity userNoteEntity = new UserNoteEntity(note, userEntity);
-        userNoteDao.merge(userNoteEntity);
+
+        userNoteDao.merge(userNoteDozerConverter.convertToEntity(note, true));
 
     }
 
@@ -654,7 +669,6 @@ public class UserMgr implements UserDataService {
       * @see org.openiam.idm.srvc.user.service.UserDataService#getAllNotes(java.lang.String)
       */
     public List<UserNote> getAllNotes(String userId) {
-        List<UserNote> noteList = new ArrayList<UserNote>();
 
         if (userId == null) {
             throw new NullPointerException("userId is null");
@@ -663,10 +677,8 @@ public class UserMgr implements UserDataService {
         if (noteEntityList == null || noteEntityList.isEmpty()) {
             return null;
         }
-        for (UserNoteEntity userNoteEntity : noteEntityList) {
-            noteList.add(new UserNote(userNoteEntity));
-        }
-        return noteList;
+
+        return userNoteDozerConverter.convertToDTOList(noteEntityList, false);
     }
 
     /*
@@ -679,7 +691,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("attrId is null");
         }
         UserNoteEntity userNoteEntity = userNoteDao.findById(noteId);
-        return userNoteEntity != null ? new UserNote(userNoteEntity) : null;
+        return userNoteDozerConverter.convertToDTO(userNoteEntity, true);
 
     }
 
@@ -695,9 +707,8 @@ public class UserMgr implements UserDataService {
         if (note.getUserNoteId() == null) {
             throw new NullPointerException("noteId is null");
         }
-        UserEntity userEntity = StringUtils.isNotEmpty(note.getUserId()) ? userDao.findById(note.getUserId()) : null;
-        UserNoteEntity userNoteEntity = new UserNoteEntity(note, userEntity);
-        userNoteDao.delete(userNoteEntity);
+
+        userNoteDao.delete(userNoteDozerConverter.convertToEntity(note, true));
 
     }
 
@@ -730,9 +741,9 @@ public class UserMgr implements UserDataService {
                     "userId for the address is not defined.");
 
         val.setParentType(ContactConstants.PARENT_TYPE_USER);
-        UserEntity parent = userDao.findById(val.getParentId());
-        AddressEntity addressEntity = addressDao.add(new AddressEntity(val, parent));
-        return new Address(addressEntity);
+
+        AddressEntity addressEntity = addressDao.add(addressDozerConverter.convertToEntity(val, true));
+        return addressDozerConverter.convertToDTO(addressEntity, true);
     }
 
     public void addAddressSet(Set<Address> adrSet) {
@@ -763,9 +774,9 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException(
                     "parentType for the address is not defined.");
         }
-        UserEntity parent = userDao.findById(val.getParentId());
-        addressDao.update(new AddressEntity(val, parent));
-    }
+
+        addressDao.update(addressDozerConverter.convertToEntity(val, true));
+}
 
     /*
       * (non-Javadoc)
@@ -777,8 +788,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("val is null");
         if (val.getAddressId() == null)
             throw new NullPointerException("AddressId is null");
-        UserEntity parent = userDao.findById(val.getParentId());
-        addressDao.remove(new AddressEntity(val, parent));
+        addressDao.remove(addressDozerConverter.convertToEntity(val, true));
     }
 
     /*
@@ -802,7 +812,7 @@ public class UserMgr implements UserDataService {
         if (addressId == null)
             throw new NullPointerException("addressId is null");
         AddressEntity addressEntity = addressDao.findById(addressId);
-        return addressEntity != null ? new Address(addressEntity) : null;
+        return addressDozerConverter.convertToDTO(addressEntity,true);
     }
 
     /*
@@ -819,7 +829,7 @@ public class UserMgr implements UserDataService {
 
         AddressEntity addressEntity = addressDao.findByName(addressName, userId,
                 ContactConstants.PARENT_TYPE_USER);
-        return addressEntity != null ? new Address(addressEntity) : null;
+        return addressEntity != null ? addressDozerConverter.convertToDTO(addressEntity, true) : null;
     }
 
     /*
@@ -833,7 +843,7 @@ public class UserMgr implements UserDataService {
         AddressEntity addressEntity = addressDao
                 .findDefault(userId, ContactConstants.PARENT_TYPE_USER);
 
-        return addressEntity != null ? new Address(addressEntity) : null;
+        return addressDozerConverter.convertToDTO(addressEntity,true);
     }
 
     /*
@@ -847,13 +857,8 @@ public class UserMgr implements UserDataService {
         List<Address> addressList = null;
         List<AddressEntity> addressEntityList = addressDao.findByParentAsList(userId,
                 ContactConstants.PARENT_TYPE_USER);
-        if(addressEntityList != null) {
-            addressList = new LinkedList<Address>();
-            for (AddressEntity addressEntity : addressEntityList) {
-                addressList.add(new Address(addressEntity));
-            }
-        }
-        return addressList;
+
+        return addressDozerConverter.convertToDTOList(addressEntityList, false);
     }
 
     /*
@@ -871,7 +876,7 @@ public class UserMgr implements UserDataService {
         if(addressEntityMap != null) {
             addressMap = new HashMap<String, Address>();
             for (Map.Entry<String, AddressEntity> addressEntityEntry : addressEntityMap.entrySet()) {
-                addressMap.put(addressEntityEntry.getKey(), new Address(addressEntityEntry.getKey()));
+                addressMap.put(addressEntityEntry.getKey(), addressDozerConverter.convertToDTO(addressEntityEntry.getValue(), true));
             }
         }
         return addressMap;
@@ -893,9 +898,8 @@ public class UserMgr implements UserDataService {
                     "parentId for the address is not defined.");
 
         val.setParentType(ContactConstants.PARENT_TYPE_USER);
-        UserEntity parent = userDao.findById(val.getParentId());
-        PhoneEntity phoneEntity = phoneDao.add(new PhoneEntity(val, parent));
-        return new Phone(phoneEntity);
+        PhoneEntity phoneEntity = phoneDao.add(phoneDozerConverter.convertToEntity(val, true));
+        return phoneDozerConverter.convertToDTO(phoneEntity, true);
     }
 
     public void addPhoneSet(Set<Phone> phoneSet) {
@@ -927,8 +931,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException(
                     "parentType for the address is not defined.");
         }
-        UserEntity parent = userDao.findById(val.getParentId());
-        phoneDao.update(new PhoneEntity(val, parent));
+        phoneDao.update(phoneDozerConverter.convertToEntity(val, true));
     }
 
     /*
@@ -942,7 +945,7 @@ public class UserMgr implements UserDataService {
         if (val.getPhoneId() == null)
             throw new NullPointerException("PhoneId is null");
         UserEntity parent = userDao.findById(val.getParentId());
-        phoneDao.remove(new PhoneEntity(val, parent));
+        phoneDao.remove(phoneDozerConverter.convertToEntity(val, true));
     }
 
     /*
@@ -967,7 +970,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("addressId is null");
         PhoneEntity phoneEntity = phoneDao.findById(addressId);
 
-        return phoneEntity != null ? new Phone(phoneEntity) : null;
+        return phoneDozerConverter.convertToDTO(phoneEntity, true);
     }
 
     /*
@@ -984,7 +987,7 @@ public class UserMgr implements UserDataService {
 
         PhoneEntity phoneEntity = phoneDao.findByName(addressName, userId,
                 ContactConstants.PARENT_TYPE_USER);
-        return phoneEntity != null ? new Phone(phoneEntity) : null;
+        return phoneDozerConverter.convertToDTO(phoneEntity, true);
     }
 
     /*
@@ -997,7 +1000,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("userId is null");
 
         PhoneEntity phoneEntity = phoneDao.findDefault(userId, ContactConstants.PARENT_TYPE_USER);
-        return phoneEntity != null ? new Phone(phoneEntity) : null;
+        return phoneDozerConverter.convertToDTO(phoneEntity, true);
     }
 
     /*
@@ -1011,13 +1014,8 @@ public class UserMgr implements UserDataService {
         List<Phone> phoneList = null;
         List<PhoneEntity> phoneEntityList = phoneDao.findByParentAsList(userId,
                 ContactConstants.PARENT_TYPE_USER);
-        if (phoneEntityList != null) {
-            phoneList = new LinkedList<Phone>();
-            for (PhoneEntity phoneEntity : phoneEntityList) {
-                phoneList.add(new Phone(phoneEntity));
-            }
-        }
-        return phoneList;
+
+        return phoneDozerConverter.convertToDTOList(phoneEntityList, true);
     }
 
     /*
@@ -1033,7 +1031,7 @@ public class UserMgr implements UserDataService {
         if(phoneEntityMap != null) {
             phoneMap = new HashMap<String, Phone>();
             for (Map.Entry<String, PhoneEntity> phoneEntityEntry : phoneEntityMap.entrySet()) {
-                phoneMap.put(phoneEntityEntry.getKey(), new Phone(phoneEntityEntry.getValue()));
+                phoneMap.put(phoneEntityEntry.getKey(), phoneDozerConverter.convertToDTO(phoneEntityEntry.getValue(), true));
             }
         }
         return phoneMap;
@@ -1054,10 +1052,9 @@ public class UserMgr implements UserDataService {
                     "parentId for the address is not defined.");
 
         val.setParentType(ContactConstants.PARENT_TYPE_USER);
-        UserEntity userEntity = userDao.findById(val.getParentId());
-        EmailAddressEntity emailAddressEntity = new EmailAddressEntity(val, userEntity);
+        EmailAddressEntity emailAddressEntity =emailAddressDozerConverter.convertToEntity(val, true);
         emailAddressEntity = emailAddressDao.add(emailAddressEntity);
-        return new EmailAddress(emailAddressEntity);
+        return emailAddressDozerConverter.convertToDTO(emailAddressEntity, true);
 
     }
 
@@ -1090,9 +1087,8 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException(
                     "parentType for the address is not defined.");
         }
-        UserEntity userEntity = userDao.findById(val.getParentId());
 
-        emailAddressDao.update(new EmailAddressEntity(val, userEntity));
+        emailAddressDao.update(emailAddressDozerConverter.convertToEntity(val, true));
     }
 
     /*
@@ -1105,8 +1101,8 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("val is null");
         if (val.getEmailId() == null)
             throw new NullPointerException("EmailAddressId is null");
-        UserEntity userEntity = userDao.findById(val.getParentId());
-        emailAddressDao.remove(new EmailAddressEntity(val, userEntity));
+
+        emailAddressDao.remove(emailAddressDozerConverter.convertToEntity(val, true));
     }
 
     /*
@@ -1131,7 +1127,7 @@ public class UserMgr implements UserDataService {
         if (addressId == null)
             throw new NullPointerException("addressId is null");
         EmailAddressEntity emailAddressEntity = emailAddressDao.findById(addressId);
-        return emailAddressEntity != null ? new EmailAddress(emailAddressEntity) : null;
+        return emailAddressDozerConverter.convertToDTO(emailAddressEntity, true);
     }
 
     /*
@@ -1148,7 +1144,7 @@ public class UserMgr implements UserDataService {
 
         EmailAddressEntity emailAddressEntity = emailAddressDao.findByName(addressName, userId,
                 ContactConstants.PARENT_TYPE_USER);
-        return emailAddressEntity != null ? new EmailAddress(emailAddressEntity) : null;
+        return emailAddressDozerConverter.convertToDTO(emailAddressEntity, true);
     }
 
     /*
@@ -1162,7 +1158,7 @@ public class UserMgr implements UserDataService {
 
         EmailAddressEntity emailAddressEntity = emailAddressDao.findDefault(userId,
                 ContactConstants.PARENT_TYPE_USER);
-        return emailAddressEntity != null ? new EmailAddress(emailAddressEntity) : null;
+        return emailAddressDozerConverter.convertToDTO(emailAddressEntity, true);
     }
 
     /*
@@ -1176,11 +1172,8 @@ public class UserMgr implements UserDataService {
 
         List<EmailAddressEntity> emailAddressEntityList = emailAddressDao.findByParentAsList(userId,
                 ContactConstants.PARENT_TYPE_USER);
-        List<EmailAddress> emailAddressList = new LinkedList<EmailAddress>();
-        for (EmailAddressEntity emailAddress : emailAddressEntityList) {
-            emailAddressList.add(new EmailAddress(emailAddress));
-        }
-        return emailAddressList;
+
+        return emailAddressDozerConverter.convertToDTOList(emailAddressEntityList, false);
     }
 
     /*
@@ -1196,7 +1189,7 @@ public class UserMgr implements UserDataService {
                 ContactConstants.PARENT_TYPE_USER);
         Map<String, EmailAddress> emailAddressMap = new HashMap<String, EmailAddress>();
         for (Map.Entry<String, EmailAddressEntity> addressEntityEntry : emailAddressEntityMap.entrySet()) {
-            emailAddressMap.put(addressEntityEntry.getKey(), new EmailAddress(addressEntityEntry.getValue()));
+            emailAddressMap.put(addressEntityEntry.getKey(), emailAddressDozerConverter.convertToDTO(addressEntityEntry.getValue(), true));
         }
         return emailAddressMap;
     }
@@ -1211,8 +1204,9 @@ public class UserMgr implements UserDataService {
     public Supervisor addSupervisor(Supervisor supervisor) {
         if (supervisor == null)
             throw new NullPointerException("supervisor is null");
-        this.supervisorDao.add(new SupervisorEntity(supervisor));
-        return supervisor;
+        SupervisorEntity supervisorEntity = supervisorDozerConverter.convertToEntity(supervisor, true);
+        this.supervisorDao.add(supervisorEntity);
+        return supervisorDozerConverter.convertToDTO(supervisorEntity, true);
     }
 
     /*
@@ -1223,7 +1217,7 @@ public class UserMgr implements UserDataService {
     public void updateSupervisor(Supervisor supervisor) {
         if (supervisor == null)
             throw new NullPointerException("supervisor is null");
-        this.supervisorDao.update(new SupervisorEntity(supervisor));
+        this.supervisorDao.update(supervisorDozerConverter.convertToEntity(supervisor, true));
     }
 
     /*
@@ -1234,7 +1228,7 @@ public class UserMgr implements UserDataService {
     public void removeSupervisor(Supervisor supervisor) {
         if (supervisor == null)
             throw new NullPointerException("supervisor is null");
-        this.supervisorDao.remove(new SupervisorEntity(supervisor));
+        this.supervisorDao.remove(supervisorDozerConverter.convertToEntity(supervisor, true));
     }
 
     /*
@@ -1245,7 +1239,7 @@ public class UserMgr implements UserDataService {
     public Supervisor getSupervisor(String supervisorObjId) {
         if (supervisorObjId == null)
             throw new NullPointerException("supervisorObjId is null");
-        return new Supervisor(supervisorDao.findById(supervisorObjId));
+        return supervisorDozerConverter.convertToDTO(supervisorDao.findById(supervisorObjId), true);
     }
 
     /*
@@ -1263,7 +1257,7 @@ public class UserMgr implements UserDataService {
             org.hibernate.Hibernate.initialize(sup.getSupervisor().getEmailAddresses());
             org.hibernate.Hibernate.initialize(sup.getSupervisor().getAddresses());
             org.hibernate.Hibernate.initialize(sup.getSupervisor().getUserAttributes());
-            supervisorList.add(new Supervisor(sup));
+            supervisorList.add(supervisorDozerConverter.convertToDTO(sup, true));
         }
         return supervisorList;
     }
@@ -1284,7 +1278,7 @@ public class UserMgr implements UserDataService {
             org.hibernate.Hibernate.initialize(sup.getEmployee().getEmailAddresses());
             org.hibernate.Hibernate.initialize(sup.getEmployee().getAddresses());
             org.hibernate.Hibernate.initialize(sup.getEmployee().getUserAttributes());
-            supervisorList.add(new Supervisor(sup));
+            supervisorList.add(supervisorDozerConverter.convertToDTO(sup, true));
         }
 
         return supervisorList;
@@ -1300,7 +1294,7 @@ public class UserMgr implements UserDataService {
             throw new NullPointerException("employeeId is null");
         SupervisorEntity entity = supervisorDao.findPrimarySupervisor(employeeId);
 
-        return entity != null ? new Supervisor(entity) : null;
+        return supervisorDozerConverter.convertToDTO(entity, true);
     }
 
     /* ----------- DAO Setting methods needed by the Springframework ------- */

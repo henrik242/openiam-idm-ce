@@ -10,10 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 
 @Entity
 @Table(name = "ORG_STRUCTURE")
+@DozerDTOCorrespondence(Supervisor.class)
 public class SupervisorEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -48,17 +50,6 @@ public class SupervisorEntity {
     private String supervisorType;
 
     public SupervisorEntity() {
-    }
-
-    public SupervisorEntity(Supervisor supervisor) {
-        this.orgStructureId = supervisor.getOrgStructureId();
-        this.comments = supervisor.getComments();
-        this.employee = new UserEntity(supervisor.getEmployee());
-        this.endDate = supervisor.getEndDate();
-        this.startDate = supervisor.getStartDate();
-        this.status = supervisor.getStatus();
-        this.supervisor = new UserEntity(supervisor.getSupervisor());
-        this.supervisorType = supervisor.getSupervisorType();
     }
 
     public String getOrgStructureId() {

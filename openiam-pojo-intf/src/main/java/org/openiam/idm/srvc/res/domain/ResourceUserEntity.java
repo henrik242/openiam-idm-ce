@@ -5,10 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.res.dto.ResourceUser;
 
 @Entity
 @Table(name = "RESOURCE_USER")
+@DozerDTOCorrespondence(ResourceUser.class)
 public class ResourceUserEntity {
 
     @EmbeddedId
@@ -19,11 +21,6 @@ public class ResourceUserEntity {
     private ResourceEntity resource;
 
     public ResourceUserEntity() {
-    }
-
-    public ResourceUserEntity(ResourceUser resourceUser, ResourceEntity resource) {
-        this.id = new ResourceUserEmbeddableId(resourceUser.getId().getResourceId(), resourceUser.getId().getUserId(), resourceUser.getId().getPrivilegeId());
-        this.resource = resource;
     }
 
     public ResourceUserEmbeddableId getId() {

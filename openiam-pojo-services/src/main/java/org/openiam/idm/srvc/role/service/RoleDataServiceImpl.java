@@ -2,6 +2,12 @@ package org.openiam.idm.srvc.role.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.dozer.converter.GroupDozerConverter;
+import org.openiam.dozer.converter.RoleAttributeDozerConverter;
+import org.openiam.dozer.converter.RoleDozerConverter;
+import org.openiam.dozer.converter.RolePolicyDozerConverter;
+import org.openiam.dozer.converter.UserDozerConverter;
+import org.openiam.dozer.converter.UserRoleDozerConverter;
 import org.openiam.exception.data.ObjectNotFoundException;
 import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.grp.dto.Group;
@@ -19,7 +25,6 @@ import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.role.dto.RolePolicy;
 import org.openiam.idm.srvc.role.dto.RoleSearch;
 import org.openiam.idm.srvc.role.dto.UserRole;
-import org.openiam.idm.srvc.service.dto.Service;
 import org.openiam.idm.srvc.service.service.ServiceDAO;
 import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
@@ -28,6 +33,7 @@ import org.openiam.idm.srvc.user.dto.UserConstant;
 import org.openiam.idm.srvc.user.service.UserDataService;
 
 import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 //Note: as per spec serviceName goes in impl class and name goes in interface
 
@@ -45,6 +51,24 @@ public class RoleDataServiceImpl implements RoleDataService {
 
     private static final Log log = LogFactory.getLog(RoleDataServiceImpl.class);
 
+    @Autowired
+    private RoleDozerConverter roleDozerConverter;
+
+    @Autowired
+    private RoleAttributeDozerConverter roleAttributeDozerConverter;
+
+    @Autowired
+    private UserRoleDozerConverter userRoleDozerConverter;
+
+    @Autowired
+    private GroupDozerConverter groupDozerConverter;
+
+    @Autowired
+    private UserDozerConverter userDozerConverter;
+
+    @Autowired
+    private RolePolicyDozerConverter rolePolicyDozerConverter;
+
     public RoleDAO getRoleDao() {
         return roleDao;
     }
@@ -56,10 +80,10 @@ public class RoleDataServiceImpl implements RoleDataService {
     public Role addRole(Role role) {
         if (role == null)
             throw new IllegalArgumentException("role object is null");
-        RoleEntity entity = new RoleEntity(role);
+        RoleEntity entity = roleDozerConverter.convertToEntity(role, true);
         roleDao.add(entity);
 
-        return new Role(entity);
+        return roleDozerConverter.convertToDTO(entity, true);
     }
 
     public Role getRole(String serviceId, String roleId) {
@@ -73,7 +97,7 @@ public class RoleDataServiceImpl implements RoleDataService {
 //			org.hibernate.Hibernate.initialize(rl.getUsers());
 //			org.hibernate.Hibernate.initialize(rl.getGroups());	
 //		}
-        return rl != null ? new Role(rl) : null;
+        return roleDozerConverter.convertToDTO(rl, true);
 
     }
 
@@ -81,8 +105,8 @@ public class RoleDataServiceImpl implements RoleDataService {
     public void updateRole(Role role) {
         if (role == null)
             throw new IllegalArgumentException("role object is null");
-        RoleEntity entity = new RoleEntity(role);
-        roleDao.update(entity);
+
+        roleDao.update(roleDozerConverter.convertToEntity(role, true));
 
     }
 
@@ -95,14 +119,8 @@ public class RoleDataServiceImpl implements RoleDataService {
     public List<Role> getAllRoles() {
 
         List<RoleEntity> rolesEntities = roleDao.findAllRoles();
-        List<Role> roles = null;
-        if (rolesEntities != null) {
-            roles = new LinkedList<Role>();
-            for (RoleEntity roleEntity : rolesEntities) {
-                roles.add(new Role(roleEntity));
-            }
-        }
-        return roles;
+
+        return roleDozerConverter.convertToDTOList(rolesEntities, false);
     }
 
     public int removeRole(String domainId, String roleId) {
@@ -117,8 +135,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             this.roleAttributeDAO.deleteRoleAttributes(domainId, roleId);
             this.userRoleDao.removeAllUsersInRole(domainId, roleId);
             this.resRoleDao.removeResourceRole(domainId, roleId);
-            RoleEntity entity = new RoleEntity(rl);
-            this.roleDao.remove(entity);
+            this.roleDao.remove(roleDozerConverter.convertToEntity(rl, true));
         } catch (Exception e) {
             log.error(e.toString());
             return 0;
@@ -136,11 +153,8 @@ public class RoleDataServiceImpl implements RoleDataService {
 
         if (rlList == null || rlList.size() == 0)
             return null;
-        List<Role> roles = new LinkedList<Role>();
-        for (RoleEntity entity : rlList) {
-            roles.add(new Role(entity));
-        }
-        return roles;
+
+        return roleDozerConverter.convertToDTOList(rlList, false);
     }
 
     /* ---------------------- RoleAttribute Methods --------------- */
@@ -153,10 +167,10 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new IllegalArgumentException(
                     "Role has not been associated with this attribute.");
         }
-        RoleAttributeEntity attributeEntity = new RoleAttributeEntity(attribute);
+        RoleAttributeEntity attributeEntity = roleAttributeDozerConverter.convertToEntity(attribute, true);
         roleAttributeDAO.add(attributeEntity);
-        attribute.setRoleAttrId(attributeEntity.getRoleAttrId());
-        return attribute;
+
+        return roleAttributeDozerConverter.convertToDTO(attributeEntity, true);
     }
 
     public RoleAttribute[] getAllAttributes(String serviceId, String roleId) {
@@ -197,7 +211,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new IllegalArgumentException("attrId is null");
         }
 
-        roleAttributeDAO.remove(new RoleAttributeEntity(attr));
+        roleAttributeDAO.remove(roleAttributeDozerConverter.convertToEntity(attr, true));
 
     }
 
@@ -212,7 +226,7 @@ public class RoleDataServiceImpl implements RoleDataService {
                     "Role has not been associated with this attribute.");
         }
 
-        roleAttributeDAO.update(new RoleAttributeEntity(attribute));
+        roleAttributeDAO.update(roleAttributeDozerConverter.convertToEntity(attribute, true));
     }
 
 
@@ -244,7 +258,7 @@ public class RoleDataServiceImpl implements RoleDataService {
         }
         Set<Group> grpSet = new HashSet<Group>();
         for (GroupEntity groupEntity : grpSetEntities) {
-            grpSet.add(new Group(groupEntity));
+            grpSet.add(groupDozerConverter.convertToDTO(groupEntity, true));
         }
         return grpSet.toArray(new Group[grpSet.size()]);
 
@@ -304,11 +318,7 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (roleEntityList == null || roleEntityList.isEmpty())
             return null;
 
-        List<Role> roleList = new LinkedList<Role>();
-        for (RoleEntity roleEntity : roleEntityList) {
-            roleList.add(new Role(roleEntity));
-        }
-        return roleList;
+        return roleDozerConverter.convertToDTOList(roleEntityList, false);
 
 
     }
@@ -328,7 +338,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new IllegalArgumentException("userId object is null");
 
         ur.setUserRoleId(null);
-        userRoleDao.add(new UserRoleEntity(ur));
+        userRoleDao.add(userRoleDozerConverter.convertToEntity(ur, true));
     }
 
     /**
@@ -343,7 +353,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new IllegalArgumentException("domainId object is null");
         if (ur.getUserId() == null)
             throw new IllegalArgumentException("userId object is null");
-        userRoleDao.update(new UserRoleEntity(ur));
+        userRoleDao.update(userRoleDozerConverter.convertToEntity(ur, true));
     }
 
     public UserRole getUserRoleById(String userRoleId) {
@@ -351,7 +361,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new IllegalArgumentException("userRoleId is null");
         }
         UserRoleEntity entity = userRoleDao.findById(userRoleId);
-        return entity != null ? new UserRole(entity) : null;
+        return userRoleDozerConverter.convertToDTO(entity, true);
     }
 
     public List<UserRole> getUserRolesForUser(String userId) {
@@ -359,14 +369,8 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new IllegalArgumentException("userId is null");
         }
         List<UserRoleEntity> entityList = userRoleDao.findUserRoleByUser(userId);
-        List<UserRole> roleList = null;
-        if (entityList != null) {
-            roleList = new LinkedList<UserRole>();
-            for (UserRoleEntity entity : entityList) {
-                roleList.add(new UserRole(entity));
-            }
-        }
-        return roleList;
+
+        return userRoleDozerConverter.convertToDTOList(entityList, false);
     }
 
 
@@ -455,11 +459,8 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (roleList == null || roleList.size() == 0) {
             return null;
         }
-        List<Role> roles = new LinkedList<Role>();
-        for (RoleEntity roleEntity : roleList) {
-            roles.add(new Role(roleEntity));
-        }
-        return roles;
+
+        return roleDozerConverter.convertToDTOList(roleList, false);
 
     }
 
@@ -560,11 +561,8 @@ public class RoleDataServiceImpl implements RoleDataService {
                 newRoleList.add(getParentRole(rl));
             }
         }
-        List<Role> roles = new LinkedList<Role>();
-        for (RoleEntity roleEntity : newRoleList) {
-            roles.add(new Role(roleEntity));
-        }
-        return roles;
+
+        return roleDozerConverter.convertToDTOList(roleList, false);
 
 
         //return newRoles;
@@ -644,7 +642,7 @@ public class RoleDataServiceImpl implements RoleDataService {
 
         List<Role> newRoleList = new ArrayList<Role>();
         for (RoleEntity entity : roleSet) {
-            newRoleList.add(new Role(entity));
+            newRoleList.add(roleDozerConverter.convertToDTO(entity, true));
         }
         return newRoleList;
     }
@@ -671,11 +669,8 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (roleList == null || roleList.size() == 0) {
             return null;
         }
-        List<Role> roles = new LinkedList<Role>();
-        for (RoleEntity entity : roleList) {
-            roles.add(new Role(entity));
-        }
-        return roles;
+
+        return roleDozerConverter.convertToDTOList(roleList, false);
 
     }
 
@@ -716,7 +711,7 @@ public class RoleDataServiceImpl implements RoleDataService {
         }
         Set<User> userSet = new HashSet<User>();
         for (UserEntity userEntity : newUserSet) {
-            userSet.add(new User(userEntity));
+            userSet.add(userDozerConverter.convertToDTO(userEntity, true));
         }
         int size = userSet.size();
         // no users found, return null
@@ -807,12 +802,8 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (roleList == null || roleList.size() == 0) {
             return null;
         }
-        List<Role> roles = new LinkedList<Role>();
-        for (RoleEntity entity : roleList) {
-            roles.add(new Role(entity));
-        }
 
-        return roles;
+        return roleDozerConverter.convertToDTOList(roleList, false);
     }
 
     public UserDataService getUserManager() {
@@ -852,18 +843,17 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (rPolicy == null) {
             throw new NullPointerException("rPolicy is null");
         }
-        RolePolicyEntity rolePolicyEntity = new RolePolicyEntity(rPolicy);
+        RolePolicyEntity rolePolicyEntity = rolePolicyDozerConverter.convertToEntity(rPolicy, true);
         rolePolicyDao.add(rolePolicyEntity);
-        rPolicy.setRolePolicyId(rolePolicyEntity.getRolePolicyId());
-        return rPolicy;
+        return rolePolicyDozerConverter.convertToDTO(rolePolicyEntity, true);
     }
 
     public RolePolicy updateRolePolicy(RolePolicy rPolicy) {
         if (rPolicy == null) {
             throw new NullPointerException("rPolicy is null");
         }
-        RolePolicyEntity rolePolicyEntity = rolePolicyDao.update(new RolePolicyEntity(rPolicy));
-        return new RolePolicy(rolePolicyEntity);
+        RolePolicyEntity rolePolicyEntity = rolePolicyDao.update(rolePolicyDozerConverter.convertToEntity(rPolicy, true));
+        return rolePolicyDozerConverter.convertToDTO(rolePolicyEntity, true);
     }
 
     public List<RolePolicy> getAllRolePolicies(String domainId, String roleId) {
@@ -874,14 +864,8 @@ public class RoleDataServiceImpl implements RoleDataService {
             throw new NullPointerException("roleId is null");
         }
         List<RolePolicyEntity> entityList = rolePolicyDao.findRolePolicies(domainId, roleId);
-        List<RolePolicy> policies = null;
-        if (entityList != null) {
-            policies = new LinkedList<RolePolicy>();
-            for (RolePolicyEntity entity : entityList) {
-                policies.add(new RolePolicy(entity));
-            }
-        }
-        return policies;
+
+        return rolePolicyDozerConverter.convertToDTOList(entityList, false);
     }
 
     public RolePolicy getRolePolicy(String rolePolicyId) {
@@ -890,14 +874,14 @@ public class RoleDataServiceImpl implements RoleDataService {
         }
         RolePolicyEntity policyEntity = rolePolicyDao.findById(rolePolicyId);
 
-        return new RolePolicy(policyEntity);
+        return rolePolicyDozerConverter.convertToDTO(policyEntity, true);
     }
 
     public void removeRolePolicy(RolePolicy rPolicy) {
         if (rPolicy == null) {
             throw new NullPointerException("rPolicy is null");
         }
-        rolePolicyDao.remove(new RolePolicyEntity(rPolicy));
+        rolePolicyDao.remove(rolePolicyDozerConverter.convertToEntity(rPolicy, true));
 
     }
 

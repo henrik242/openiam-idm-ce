@@ -181,7 +181,7 @@ public class RoleDAOImpl implements RoleDAO {
 
 	
 		SQLQuery qry = session.createSQLQuery("SELECT ROLE.ROLE_ID, ROLE.SERVICE_ID, ROLE.ROLE_NAME, "
-				+ " 	ROLE.CREATE_DATE, ROLE.CREATED_BY, ROLE.DESCRIPTION, ROLE.STATUS, ROLE.INHERIT_FROM_PARENT,  " 
+				+ " 	ROLE.CREATE_DATE, ROLE.ROLE_END_DATE, ROLE.CREATED_BY, ROLE.DESCRIPTION, ROLE.STATUS, ROLE.INHERIT_FROM_PARENT,  "
 				+ " 	ROLE.PROVISION_OBJ_NAME, ROLE.PARENT_ROLE_ID, ROLE.TYPE_ID, ROLE.OWNER_ID,ROLE.INTERNAL_ROLE_ID   " 
 				+ "  FROM ROLE JOIN GRP_ROLE  "
 				+ "			ON (ROLE.ROLE_ID = GRP_ROLE.ROLE_ID) "
@@ -204,7 +204,7 @@ public class RoleDAOImpl implements RoleDAO {
 		Session session = sessionFactory.getCurrentSession();
 
 		SQLQuery qry = session.createSQLQuery("SELECT role.ROLE_ID, role.SERVICE_ID, role.ROLE_NAME, "
-							+ " 	role.CREATE_DATE, role.CREATED_BY, role.DESCRIPTION, role.STATUS, role.INHERIT_FROM_PARENT, " 
+							+ " 	role.CREATE_DATE, role.CREATED_BY, role.ROLE_END_DATE, role.DESCRIPTION, role.STATUS, role.INHERIT_FROM_PARENT, "
 							+ " 	role.PROVISION_OBJ_NAME, role.PARENT_ROLE_ID, role.TYPE_ID, role.OWNER_ID, role.INTERNAL_ROLE_ID " 
 							+ "  FROM ROLE role  "
 							+ "  	JOIN GRP_ROLE grp_role  "

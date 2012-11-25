@@ -34,14 +34,6 @@ public class ResourceGroupEntity {
     public ResourceGroupEntity() {
     }
 
-    public ResourceGroupEntity(ResourceGroup resourceGroup) {
-        this.resGroupId = resourceGroup.getGroupId();
-        this.resourceId = resourceGroup.getResourceId();
-        this.groupId = resourceGroup.getGroupId();
-        this.startDate = resourceGroup.getStartDate();
-        this.endDate = resourceGroup.getEndDate();
-    }
-
     public String getResGroupId() {
         return resGroupId;
     }

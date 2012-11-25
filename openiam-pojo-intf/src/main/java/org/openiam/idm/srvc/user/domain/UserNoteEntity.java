@@ -8,12 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlSchemaType;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.user.dto.UserNote;
 
 @Entity
 @Table(name = "USER_NOTE")
+@DozerDTOCorrespondence(UserNote.class)
 public class UserNoteEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -38,15 +39,6 @@ public class UserNoteEntity {
     private UserEntity user;
 
     public UserNoteEntity() {
-    }
-
-    public UserNoteEntity(final UserNote userNote, final UserEntity user) {
-        this.userNoteId = userNote.getUserNoteId();
-        this.createDate = userNote.getCreateDate();
-        this.createdBy = userNote.getCreatedBy();
-        this.description = userNote.getDescription();
-        this.noteType = userNote.getNoteType();
-        this.user = user;
     }
 
     public String getUserNoteId() {

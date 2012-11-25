@@ -10,6 +10,10 @@ import java.rmi.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.openiam.dozer.converter.OrganizationAttributeDozerConverter;
+import org.openiam.dozer.converter.OrganizationDozerConverter;
+import org.openiam.dozer.converter.UserAffiliationDozerConvertor;
+import org.openiam.dozer.converter.UserDozerConverter;
 import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
 import org.openiam.idm.srvc.org.domain.OrganizationEntity;
 import org.openiam.idm.srvc.org.dto.*;
@@ -43,6 +47,14 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
     @Autowired
     protected UserDAO userDAO;
 
+    @Autowired
+    private OrganizationDozerConverter organizationDozerConverter;
+
+    @Autowired
+    private OrganizationAttributeDozerConverter organizationAttributeDozerConverter;
+
+    @Autowired
+    private UserAffiliationDozerConvertor userAffiliationDozerConvertor;
     /**
      * Returns a list of companies that match the search criteria.
      *
@@ -60,15 +72,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
             throw new NullPointerException("orgId is null");
         }
         List<OrganizationEntity> organizationEntityList = orgDao.findChildOrganization(orgId);
-        List<Organization> organizationList = null;
-        if (organizationEntityList != null) {
-            organizationList = new LinkedList<Organization>();
-            for (OrganizationEntity entity : organizationEntityList) {
-                organizationList.add(new Organization(entity));
-            }
-        }
         //return testOrgList(orgId);
-        return organizationList;
+        return organizationDozerConverter.convertToDTOList(organizationEntityList, false);
     }
 
     /* (non-Javadoc)
@@ -76,16 +81,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
       */
     public List<Organization> getTopLevelOrganizations() {
         List<OrganizationEntity> orgEntityList = orgDao.findRootOrganizations();
-        List<Organization> orgList = null;
-        if (orgEntityList != null) {
-            orgList = new LinkedList<Organization>();
-            // initialize the collections
-            for (OrganizationEntity org : orgEntityList) {
-                Hibernate.initialize(org.getAttributes());
-                orgList.add(new Organization(org));
-            }
-        }
-        return orgList;
+
+        return organizationDozerConverter.convertToDTOList(orgEntityList, true);
         //return testOrgList("myTopLevelOrg");
     }
 
@@ -106,12 +103,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         if (orgEntityList == null) {
             return null;
         }
-        List<Organization> orgList = new LinkedList<Organization>();
-        for (OrganizationEntity org : orgEntityList) {
-            Hibernate.initialize(org.getAttributes());
-            orgList.add(new Organization(org));
-        }
-        return orgList;
+
+        return organizationDozerConverter.convertToDTOList(orgEntityList, true);
     }
 
     public List<Organization> getOrganizationByClassification(String parentId, OrgClassificationEnum classification) {
@@ -122,12 +115,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         if (orgEntityList == null) {
             return null;
         }
-        List<Organization> orgList = new LinkedList<Organization>();
-        for (OrganizationEntity org : orgEntityList) {
-            Hibernate.initialize(org.getAttributes());
-            orgList.add(new Organization(org));
-        }
-        return orgList;
+
+        return organizationDozerConverter.convertToDTOList(orgEntityList,true);
     }
 
     public List<Organization> allDepartments(String parentId) {
@@ -145,8 +134,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
     public Organization addOrganization(Organization org) {
         if (org == null)
             throw new NullPointerException("org object is null");
-        OrganizationEntity entity = orgDao.add(new OrganizationEntity(org));
-        return entity != null ? new Organization(entity) : null;
+        OrganizationEntity entity = orgDao.add(organizationDozerConverter.convertToEntity(org, true));
+        return organizationDozerConverter.convertToDTO(entity, true);
     }
 
     /* (non-Javadoc)
@@ -158,7 +147,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         if (StringUtils.isEmpty(org.getOrgId()))
             throw new NullPointerException("org id is null");
 
-        orgDao.update(new OrganizationEntity(org));
+        orgDao.update(organizationDozerConverter.convertToEntity(org, true));
     }
 
     /* (non-Javadoc)
@@ -219,7 +208,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         } else {
             return null;
         }
-        return new Organization(org);
+        return organizationDozerConverter.convertToDTO(org, true);
 
     }
 
@@ -238,8 +227,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
             throw new NullPointerException(
                     "OrganizationId has not been associated with this attribute.");
         }
-        OrganizationEntity organization = orgDao.findById(attribute.getOrganizationId());
-        orgAttrDao.add(new OrganizationAttributeEntity(attribute, organization));
+        orgAttrDao.add(organizationAttributeDozerConverter.convertToEntity(attribute, true));
     }
 
     /* (non-Javadoc)
@@ -255,8 +243,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
             throw new NullPointerException(
                     "Org has not been associated with this attribute.");
         }
-        OrganizationEntity organization = orgDao.findById(attribute.getOrganizationId());
-        orgAttrDao.update(new OrganizationAttributeEntity(attribute, organization));
+        orgAttrDao.update(organizationAttributeDozerConverter.convertToEntity(attribute, true));
 
     }
 
@@ -272,12 +259,12 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         OrganizationEntity org = this.orgDao.findById(orgId);
 
         HashMap<String, OrganizationAttributeEntity> attrEntityMap = (HashMap<String, OrganizationAttributeEntity>) org.getAttributes();
-        if (attrEntityMap != null && attrEntityMap.isEmpty())
+        if (attrEntityMap == null || attrEntityMap.isEmpty())
             return null;
 
         HashMap<String, OrganizationAttribute> attrMap = new HashMap<String, OrganizationAttribute>();
         for (Map.Entry<String, OrganizationAttributeEntity> entityEntry : attrEntityMap.entrySet()) {
-            attrMap.put(entityEntry.getKey(), new OrganizationAttribute(entityEntry.getValue()));
+            attrMap.put(entityEntry.getKey(), organizationAttributeDozerConverter.convertToDTO(entityEntry.getValue(), true));
         }
         return attrMap;
 
@@ -294,7 +281,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         }
         OrganizationAttributeEntity attributeEntity = orgAttrDao.findById(attrId);
         //return this.orgAttrib(attrId);
-        return attributeEntity != null ? new OrganizationAttribute(attributeEntity) : null;
+        return organizationAttributeDozerConverter.convertToDTO(attributeEntity, true);
     }
 
     /* (non-Javadoc)
@@ -307,8 +294,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         if (attr.getAttrId() == null) {
             throw new NullPointerException("attrId is null");
         }
-        OrganizationEntity organization = orgDao.findById(attr.getOrganizationId());
-        orgAttrDao.remove(new OrganizationAttributeEntity(attr, organization));
+        orgAttrDao.remove(organizationAttributeDozerConverter.convertToEntity(attr, true));
     }
 
     /* (non-Javadoc)
@@ -336,9 +322,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
             throw new IllegalArgumentException("userId object is null");
 
         userorg.setUserAffiliationId(null);
-        UserEntity user = userDAO.findById(userorg.getUserId());
-        OrganizationEntity org = orgDao.findById(userorg.getOrganizationId());
-        this.orgAffiliationDao.add(new UserAffiliationEntity(userorg, user, org));
+
+        this.orgAffiliationDao.add(userAffiliationDozerConvertor.convertToEntity(userorg, true));
 
     }
 
@@ -349,9 +334,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
 
         if (userorg.getUserId() == null)
             throw new IllegalArgumentException("userId object is null");
-        UserEntity user = userDAO.findById(userorg.getUserId());
-        OrganizationEntity org = orgDao.findById(userorg.getOrganizationId());
-        orgAffiliationDao.update(new UserAffiliationEntity(userorg, user, org));
+
+        orgAffiliationDao.update(userAffiliationDozerConvertor.convertToEntity(userorg, true));
 
     }
 
@@ -362,14 +346,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
         }
 
         List<OrganizationEntity> entities = orgAffiliationDao.findOrgAffiliationsByUser(userId);
-        List<Organization> organizations = null;
-        if (entities != null) {
-            organizations = new LinkedList<Organization>();
-            for (OrganizationEntity entity : entities) {
-                organizations.add(new Organization(entity));
-            }
-        }
-        return organizations;
+
+        return organizationDozerConverter.convertToDTOList(entities, false);
     }
 
 
@@ -451,26 +429,14 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
       */
     public List<Organization> search(String name, String type, String classification, String internalOrgId) {
         List<OrganizationEntity> organizationEntities = orgDao.search(name, type, StringUtils.isNotEmpty(classification) ? OrgClassificationEnum.valueOf(classification) : null, internalOrgId);
-        List<Organization> organizationList = null;
-        if (organizationEntities != null) {
-            organizationList = new LinkedList<Organization>();
-            for (OrganizationEntity entity : organizationEntities) {
-                organizationList.add(new Organization(entity));
-            }
-        }
-        return organizationList;
+
+        return organizationDozerConverter.convertToDTOList(organizationEntities, false);
     }
 
     public List<Organization> getAllOrganizations() {
         List<OrganizationEntity> organizationEntities = orgDao.findAllOrganization();
-        List<Organization> organizationList = null;
-        if(organizationEntities != null) {
-            organizationList = new LinkedList<Organization>();
-            for (OrganizationEntity entity : organizationEntities) {
-                organizationList.add(new Organization(entity));
-            }
-        }
-        return organizationList;
+
+        return organizationDozerConverter.convertToDTOList(organizationEntities, false);
     }
 
     /* (non-Javadoc)
@@ -479,14 +445,8 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
     public List<Organization> getOrganizationList(String parentOrgId,
                                                   String status) {
         List<OrganizationEntity> organizationEntities = orgDao.findOrganizationByStatus(parentOrgId, status);
-        List<Organization> organizationList = null;
-        if(organizationEntities != null) {
-            organizationList = new LinkedList<Organization>();
-            for (OrganizationEntity entity : organizationEntities) {
-                organizationList.add(new Organization(entity));
-            }
-        }
-        return organizationList;
+
+        return organizationDozerConverter.convertToDTOList(organizationEntities, false);
     }
 
 

@@ -17,7 +17,7 @@ public class ResourceRoleDAOTouchTest extends AbstractTransactionalTestNGSpringC
     @Test
     public void touchAdd() {
        ResourceRoleEntity entity = new ResourceRoleEntity();
-       entity.setId(new ResourceRoleEmbeddableId("",""));
+       entity.setId(new ResourceRoleEmbeddableId("","","",""));
        resourceRoleDAO.add(entity);
     }
 
@@ -34,7 +34,7 @@ public class ResourceRoleDAOTouchTest extends AbstractTransactionalTestNGSpringC
 
     @Test
     public void touchFindById() {
-       resourceRoleDAO.findById(new ResourceRoleEmbeddableId("",""));
+       resourceRoleDAO.findById(new ResourceRoleEmbeddableId("","","",""));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ResourceRoleDAOTouchTest extends AbstractTransactionalTestNGSpringC
     @Test
     public void touchRemove() {
        ResourceRoleEntity roleEntity = new ResourceRoleEntity();
-       roleEntity.setId(new ResourceRoleEmbeddableId("",""));
+       roleEntity.setId(new ResourceRoleEmbeddableId("","","",""));
        resourceRoleDAO.add(roleEntity);
        resourceRoleDAO.remove(roleEntity);
     }

@@ -1,20 +1,13 @@
 package org.openiam.idm.srvc.continfo.dto;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.GenericGenerator;
+import org.dozer.Mapping;
 import org.openiam.base.AttributeOperationEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.continfo.domain.AddressEntity;
-import org.openiam.idm.srvc.user.domain.UserEntity;
 
 // Generated Jun 12, 2007 10:46:13 PM by Hibernate Tools 3.2.0.beta8
 
@@ -47,7 +40,7 @@ import org.openiam.idm.srvc.user.domain.UserEntity;
         "name",
         "operation"
 })
-
+@DozerDTOCorrespondence(AddressEntity.class)
 public class Address implements java.io.Serializable {
 
 
@@ -102,29 +95,6 @@ public class Address implements java.io.Serializable {
      * default constructor
      */
     public Address() {
-    }
-
-    public Address(AddressEntity addressEntity) {
-        this.addressId = addressEntity.getAddressId();
-        this.isActive = addressEntity.getActive();
-        this.bldgNumber = addressEntity.getBldgNumber();
-        this.streetDirection = addressEntity.getStreetDirection();
-        this.suite = addressEntity.getSuite();
-        this.address1 = addressEntity.getAddress1();
-        this.address2 = addressEntity.getAddress2();
-        this.address3 = addressEntity.getAddress3();
-        this.address4 = addressEntity.getAddress4();
-        this.address5 = addressEntity.getAddress5();
-        this.address6 = addressEntity.getAddress6();
-        this.address7 = addressEntity.getAddress7();
-        this.city = addressEntity.getCity();
-        this.country = addressEntity.getCountry();
-        this.description = addressEntity.getDescription();
-        this.parentType = addressEntity.getParentType();
-        this.postalCd = addressEntity.getPostalCd();
-        this.state = addressEntity.getState();
-        this.name = addressEntity.getName();
-        this.parentId = addressEntity.getParent() != null ? addressEntity.getParent().getUserId() : "";
     }
 
     /**
