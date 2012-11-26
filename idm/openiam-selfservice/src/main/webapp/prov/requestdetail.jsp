@@ -13,15 +13,16 @@
 							<div class="col-1">
 								<div class="row">
 									<label for="t-1">Request Id</label>
-									<form:input path="request.requestId" size="32" maxlength="32" readonly="true" />
+                                    ${requestDetailCmd.request.requestId}
+									<form:hidden path="request.requestId" />
 								</div>
+                                <div class="row">
+                                    <label for="t-1">Workflow Name</label>
+                                        ${requestDetailCmd.request.workflowName}
+                                </div>
                                 <div class="row">
                                     <label for="t-1">Title</label>
                                         ${requestDetailCmd.request.requestTitle}
-                                </div>
-                                <div class="row">
-                                    <label for="t-1">Request Status</label>
-                                    <form:input path="request.status" size="32" maxlength="32" readonly="true" />
                                 </div>
                                 <div class="row">
                                     <label for="t-1">Reason for Request:</label>
@@ -44,7 +45,7 @@
                                     </div>
                                     <div class="row alt">
                                         <label for="t-1">Phone</label>
-                                            ${requestDetailCmd.requestor.areaCd} - ${requestDetailCmd.requestor.phoneNbr}
+                                            (${requestDetailCmd.requestor.areaCd})${requestDetailCmd.requestor.phoneNbr}
                                     </div>
                                     <div class="row alt">
                                         <label for="t-1">Email Address</label>
@@ -58,38 +59,48 @@
                                 </div>
 
                                 <div class="row alt">
-                                    <label for="t-1">Requestor Name</label>
+                                    <label for="t-1">User Name:</label>
                                         ${requestDetailCmd.userDetail.firstName}  ${requestDetailCmd.userDetail.lastName}
                                 </div>
 
-								<div class="row alt">
-									<label for="t-1">Title</label>
-									${requestDetailCmd.userDetail.title}
-								</div>																
-								<div class="row alt">
-									<label for="t-1">Organization</label>
-									${requestDetailCmd.orgName}
-								</div>	
-								<div class="row alt">
-									<label for="t-1">Phone</label>
-									${requestDetailCmd.userDetail.areaCd}-${requestDetailCmd.userDetail.phoneNbr}
-								</div>
-								<div class="row">
-									<label for="t-1">Email</label>
-									${requestDetailCmd.userDetail.email}
-								</div>
+                                <c:if test="${requestDetailCmd.userDetail.title != null}" >
+                                    <div class="row alt">
+                                        <label for="t-1">Title:</label>
+                                        ${requestDetailCmd.userDetail.title}
+                                    </div>
+                                </c:if>
+
+                                <c:if test="${requestDetailCmd.orgName != null}" >
+                                    <div class="row alt">
+                                        <label for="t-1">Organization:</label>
+                                        ${requestDetailCmd.orgName}
+                                    </div>
+                                </c:if>
+
+                                <c:if test="${requestDetailCmd.userDetail.phoneNbr != null}" >
+                                    <div class="row alt">
+                                        <label for="t-1">Phone:</label>
+                                        (${requestDetailCmd.userDetail.areaCd})${requestDetailCmd.userDetail.phoneNbr}
+                                    </div>
+                                </c:if>
+                                <c:if test="${requestDetailCmd.userDetail.email != null}" >
+                                    <div class="row">
+                                        <label for="t-1">Email:</label>
+                                        ${requestDetailCmd.userDetail.email}
+                                    </div>
+                                </c:if>
 
                                 <div class="row">
-                                    <label for="t-1">Membership to Role(s)</label>
-                                    <c:forEach items="${requestDetailCmd.roleList}" var="role" >
-                                        ${role.roleName}<br>
-                                    </c:forEach>
+                                    <label for="t-1">Operation:</label>
                                 </div>
                                 <div class="row">
-                                    <label for="t-1">Membership to Group(s)</label>
-                                    <c:forEach items="${requestDetailCmd.groupList}" var="group" >
-                                        ${group.grpName}</br>
-                                    </c:forEach>
+                                    <label for="t-1">Resource:</label>
+                                </div>
+                                <div class="row">
+                                    <label for="t-1">Role Membership:</label>
+                                </div>
+                                <div class="row">
+                                    <label for="t-1">Group Membership:</label>
                                 </div>
 
                                 <div class="row">
@@ -102,11 +113,15 @@
 							<div class="col-1">
 								<div class="row">
 									<label for="t-1">Request Date</label>
-									<form:input path="request.requestDate" size="32" maxlength="32" readonly="true" />
+                                        ${requestDetailCmd.request.requestDate}
 								</div>
-								<div class="row">
+                                <div class="row">
+                                    <label for="t-1">Request Status</label>
+                                        ${requestDetailCmd.request.status}
+                                </div>
+                                <div class="row">
 									<label for="t-1">Status Change Date</label>
-									<form:input path="request.statusDate" size="32" maxlength="32" readonly="true"/>
+                                    ${requestDetailCmd.request.statusDate}
 								</div>								
 							</div>
 						</div>

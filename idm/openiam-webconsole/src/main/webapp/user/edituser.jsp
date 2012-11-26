@@ -347,8 +347,8 @@ function showSupervisorDialog(idfield, namefield) {
                                <td class="tableEntry"> <form:input path="phoneList[${ph.index}].phoneExt" size="10" maxlength="5"  /> </td>
                               <td class="tableEntry">
                                   <form:select path="phoneList[${ph.index}].isDefault">
-                                      <form:option value="0" label="No"/>
-                                      <form:option value="1" label="Yes"/>
+                                          <form:option value="0" label="No"/>
+                                          <form:option value="1"  label="Yes"  />
                                 </form:select>
                               </td>
 

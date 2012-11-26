@@ -110,8 +110,16 @@
          <property name="managedSysService" ref="managedSysServiceClient" />
          <property name="resourceDataService" ref="resourceServiceClient" />
          <property name="orgManager" ref="orgServiceClient" />
+         <property name="cancelView" value="/welcomePage.selfserve" />
 
-		
+         <property name="workflowApprovalMap">
+             <map>
+                 <entry key="260" value="newHire.selfserve" />
+                 <entry key="261" value="org.openiam.selfsrvc.wrkflow.terminate.CompleteTerminateRequest" />
+                 <entry key="262" value="changeUserAccess.selfserve" />
+                 <entry key="255" value="org.openiam.selfsrvc.wrkflow.selfreg.CompleteSelfRegistrationRequest" />
+             </map>
+         </property>
 
      </bean>
     
