@@ -33,6 +33,7 @@ import org.openiam.idm.srvc.user.domain.UserAttributeEntity;
 @DozerDTOCorrespondence(UserAttributeEntity.class)
 public class UserAttribute extends BaseObject {
 
+    private static final long serialVersionUID = 3941028723148460926L;
     protected String id;
 
     protected String metadataElementId;

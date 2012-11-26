@@ -18,6 +18,7 @@ import org.openiam.idm.srvc.res.domain.UserPrivilegeEntity;
  */
 @DozerDTOCorrespondence(UserPrivilegeEntity.class)
 public class UserPrivilege extends BaseObject {
+    private static final long serialVersionUID = -5771276120790349575L;
     private String userPrivilegeId;
     private String userId;
     private String resourceId;

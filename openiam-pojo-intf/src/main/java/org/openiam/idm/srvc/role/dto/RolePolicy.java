@@ -25,6 +25,7 @@ import org.openiam.idm.srvc.role.domain.RolePolicyEntity;
 @DozerDTOCorrespondence(RolePolicyEntity.class)
 public class RolePolicy extends BaseObject {
 
+    private static final long serialVersionUID = -4490852268147148021L;
     protected String rolePolicyId;
     protected String serviceId;
     protected String roleId;

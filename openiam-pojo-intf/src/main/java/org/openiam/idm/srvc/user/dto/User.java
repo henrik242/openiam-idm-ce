@@ -129,6 +129,7 @@ public class User extends org.openiam.base.BaseObject {
 
 
     protected static final Log log = LogFactory.getLog(User.class);
+    private static final long serialVersionUID = -6525727206388584686L;
     // Fields
     protected String userId;
 

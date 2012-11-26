@@ -42,7 +42,9 @@ import org.openiam.idm.srvc.res.domain.ResourceRoleEntity;
         "resOwnerGroupId"
 })
 @DozerDTOCorrespondence(ResourceEntity.class)
-public class Resource extends BaseObject {
+public class Resource extends BaseObject implements java.io.Serializable {
+
+    private static final long serialVersionUID = -3061219533823999478L;
 
     private String resourceId;
     private ResourceType resourceType;
