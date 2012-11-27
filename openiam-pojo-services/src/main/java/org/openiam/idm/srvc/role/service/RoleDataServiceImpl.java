@@ -309,8 +309,6 @@ public class RoleDataServiceImpl implements RoleDataService {
     }
 
     public List<Role> getRolesInGroup(String groupId) {
-        // TODO Auto-generated method stub
-
         if (groupId == null)
             throw new IllegalArgumentException("groupid is null");
 
@@ -548,10 +546,10 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (newRoleSet == null || newRoleSet.size() == 0) {
             return null;
         }
-        List<RoleEntity> newRoles = new ArrayList<RoleEntity>(newRoleSet);
+        List<RoleEntity> newRoles = new LinkedList<RoleEntity>(newRoleSet);
         // for each of these roles, figure out if there are roles above it in the hierarchy
 
-        List<RoleEntity> newRoleList = new ArrayList<RoleEntity>();
+        List<RoleEntity> newRoleList = new LinkedList<RoleEntity>();
         for (RoleEntity rl : newRoles) {
             log.info("Role id=" + rl.getRoleId() + " parentId=" + rl.getParentRoleId());
             if (rl.getParentRoleId() == null) {
@@ -562,7 +560,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             }
         }
 
-        return roleDozerConverter.convertToDTOList(roleList, false);
+        return roleDozerConverter.convertToDTOList(roleList, true);
 
 
         //return newRoles;
@@ -658,7 +656,7 @@ public class RoleDataServiceImpl implements RoleDataService {
 
         Set<RoleEntity> newRoleSet = new HashSet<RoleEntity>();
 
-        if (roleList != null && !roleList.isEmpty()) {
+        if (!roleList.isEmpty()) {
             updateRoleAssociation(roleList, RoleConstant.DIRECT, newRoleSet);
         }
 
@@ -670,7 +668,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             return null;
         }
 
-        return roleDozerConverter.convertToDTOList(roleList, false);
+        return roleDozerConverter.convertToDTOList(roleList, true);
 
     }
 

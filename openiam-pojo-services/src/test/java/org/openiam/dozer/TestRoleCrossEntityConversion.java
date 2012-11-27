@@ -83,7 +83,18 @@ public class TestRoleCrossEntityConversion extends AbstractTestNGSpringContextTe
 
         final RoleEntity convertedEntity = roleDozerConverter.convertToEntity(role, true);
         checkConversion(role, convertedEntity);
+
+        List<RoleEntity> roleEntities = new LinkedList<RoleEntity>();
+        roleEntities.add(entity);
+        roleEntities.add(createSimpleRoleEntity());
+        List<Role> rolesDTO = roleDozerConverter.convertToDTOList(roleEntities, true);
+        for(int i = 0; i < roleEntities.size(); i++ ) {
+            checkConversion(rolesDTO.get(i), roleEntities.get(i));
+            checkCollectionsConversion(rolesDTO.get(i), roleEntities.get(i));
+        }
     }
+
+
 
     private void checkCollectionsConversion(Role role, RoleEntity entity) {
         Assert.assertEquals(role.getChildRoles().size(), entity.getChildRoles().size());

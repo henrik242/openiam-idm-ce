@@ -163,7 +163,7 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     public List<SupervisorEntity> findSupervisors(String employeeId) {
     	Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(SupervisorEntity.class)
-                .add(Restrictions.eq("supervisor.userId",employeeId))
+                .add(Restrictions.eq("employee.userId",employeeId))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
     	List<SupervisorEntity> results = (List<SupervisorEntity>)criteria.list();
@@ -175,7 +175,7 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     	Criteria criteria = session.createCriteria(SupervisorEntity.class)
                 .add(Restrictions.eq("employee.userId",employeeId))
                 .add(Restrictions.eq("isPrimarySuper",1))
-                .addOrder(Order.asc("supervisor"));
+                .addOrder(Order.asc("supervisor.userId"));
 
     	SupervisorEntity supr = (SupervisorEntity)criteria.uniqueResult();
     	if (supr == null)
