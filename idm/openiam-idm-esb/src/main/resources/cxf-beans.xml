@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+    <!--  For Testing using the Spring commons processor, uncomment one of:-->
+     <!-- CXF logging VM agrs: -Dorg.apache.cxf.Logger=org.apache.cxf.common.logging.Log4jLogger -Dorg.apache.cxf.logging.enabled=true -->
+         <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+         <context:annotation-config/>
+
+
+    <bean id="logInbound" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+    <bean id="logOutbound" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+
+    <cxf:bus>
+        <cxf:inInterceptors>
+            <ref bean="logInbound" />
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+             <ref bean="logOutbound" />
+        </cxf:outInterceptors>
+    </cxf:bus>
+</beans>
+

@@ -31,7 +31,7 @@
      <spring:beans>
 
         <spring:import resource="classpath:openiam-embedded-mule-config.xml"/>
-
+        <spring:import resource="classpath:cxf-beans.xml"/>
 
         <!--spring:import resource="classpath:applicationContext.xml" / -->
          <spring:import resource="classpath:am-service-Context.xml" />

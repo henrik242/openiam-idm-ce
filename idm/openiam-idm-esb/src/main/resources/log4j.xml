@@ -2,28 +2,29 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <!-- CXF logging VM agrs: -Dorg.apache.cxf.Logger=org.apache.cxf.common.logging.Log4jLogger -Dorg.apache.cxf.logging.enabled=true -->
 
-<!--  
-*************************************************************************************
-*  This xml document is used to define Log4J Configuration
-*************************************************************************************
-*********************************************************************************
-* This appender simply outputs log messages to the console
-*
-*  %d - DateTime
-*
-*  %t - Thread
-*
-*  %C - Class
-*
-*  %m - Message
-*
-*  %n - New Line
-*
-*********************************************************************************
--->
+    <!--
+    *************************************************************************************
+    *  This xml document is used to define Log4J Configuration
+    *************************************************************************************
+    *********************************************************************************
+    * This appender simply outputs log messages to the console
+    *
+    *  %d - DateTime
+    *
+    *  %t - Thread
+    *
+    *  %C - Class
+    *
+    *  %m - Message
+    *
+    *  %n - New Line
+    *
+    *********************************************************************************
+    -->
     <root>
-	       <priority value="warn" />  
+	       <priority value="warn" />
 	       <appender-ref ref="STDOUT" />  
 	       <appender-ref ref="A2" />
     </root>
@@ -47,12 +48,11 @@
  	<logger name="org.hibernate">
         <level value="warn"/>
         <appender-ref ref="A3"/>
-    </logger> 
+    </logger>
 
-<!--    <logger name="org.apache.cxf.endpoint.ClientImpl">
-        <level value="debug"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>-->
+   <logger name="org.apache.cxf">
+        <level value="info"/>
+    </logger>
 
 	 <appender name="openiam-esb" class="org.apache.log4j.RollingFileAppender">
 		<layout class="org.apache.log4j.PatternLayout">
