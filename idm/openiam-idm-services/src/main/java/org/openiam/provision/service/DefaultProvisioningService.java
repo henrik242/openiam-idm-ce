@@ -1731,7 +1731,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                                 userReq.setHostLoginPassword(mSys.getDecryptPassword());
                                 userReq.setHostUrl(mSys.getHostUrl());
                                 userReq.setBaseDN(matchObj.getBaseDn());
-                                userReq.setOperation("ADD");
+                                userReq.setOperation("EDIT");
                                 userReq.setUser(extUser);
 
                                 UserResponse respType = remoteConnectorAdapter.modifyRequest(mSys, userReq, connector, muleContext);

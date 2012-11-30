@@ -112,17 +112,17 @@ public interface RemoteConnectorService {
 	 * @param request
 	 * @return
 	 */
-	@WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/resume") 
+	@WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/resume")
 	ResponseType resume(
 			@WebParam(name = "request", targetNamespace = "")
 			ResumeRequest request);
 
-        @WebMethod
+    @WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/testConnection")
     public ResponseType testConnection(
             @WebParam(name = "managedSys", targetNamespace = "")
             ManagedSys managedSys);
 
-    @WebMethod
+    @WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/reconcileResource")
     public ResponseType reconcileResource(
             @WebParam(name = "config", targetNamespace = "")
             ReconciliationConfig config);
