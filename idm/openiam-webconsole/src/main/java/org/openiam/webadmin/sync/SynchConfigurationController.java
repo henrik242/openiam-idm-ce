@@ -74,7 +74,7 @@ public class SynchConfigurationController extends SimpleFormController {
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		
-		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
 		df.setLenient(false);
 		
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(df,true) );

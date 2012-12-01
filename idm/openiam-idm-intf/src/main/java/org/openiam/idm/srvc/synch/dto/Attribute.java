@@ -145,4 +145,31 @@ public class Attribute implements Cloneable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Attribute)) return false;
+
+        Attribute attribute = (Attribute) o;
+
+        if (columnNbr != attribute.columnNbr) return false;
+        if (multiValued != attribute.multiValued) return false;
+        if (name != null ? !name.equals(attribute.name) : attribute.name != null) return false;
+        if (type != null ? !type.equals(attribute.type) : attribute.type != null) return false;
+        if (value != null ? !value.equals(attribute.value) : attribute.value != null) return false;
+        if (valueList != null ? !valueList.equals(attribute.valueList) : attribute.valueList != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (valueList != null ? valueList.hashCode() : 0);
+        result = 31 * result + (multiValued ? 1 : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + columnNbr;
+        return result;
+    }
 }

@@ -203,7 +203,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public UserListResponse findUserByOrganization(String orgId) {
 		UserListResponse resp = new UserListResponse(ResponseStatus.SUCCESS);
 		List<User> userList = userManager.findUserByOrganization(orgId);
-		if (userList == null ) {
+		if (userList == null || userList.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setUserList(userList);
@@ -218,7 +218,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 			Date endDate) {
 		UserListResponse resp = new UserListResponse(ResponseStatus.SUCCESS);
 		List<User> userList = userManager.findUsersByLastUpdateRange(startDate, endDate);
-		if (userList == null ) {
+		if (userList == null  || userList.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setUserList(userList);
@@ -232,7 +232,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public UserListResponse findUsersByStatus(String status) {
 		UserListResponse resp = new UserListResponse(ResponseStatus.SUCCESS);
 		List<User> userList = userManager.findUsersByStatus(UserStatusEnum.valueOf(status));
-		if (userList == null ) {
+		if (userList == null || userList.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setUserList(userList);
@@ -260,7 +260,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public AddressResponse getAddressByName(String userId, String addressName) {
 		AddressResponse resp = new AddressResponse(ResponseStatus.SUCCESS);
 		Address adr = userManager.getAddressByName(userId, addressName);
-		if (adr == null ) {
+		if (adr == null  ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setAddress(adr);
@@ -274,7 +274,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public AddressListResponse getAddressList(String userId) {
 		AddressListResponse resp = new AddressListResponse(ResponseStatus.SUCCESS);
 		List<Address> adrList = userManager.getAddressList(userId);
-		if (adrList == null ) {
+		if (adrList == null || adrList.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setAddressList(adrList);
@@ -288,7 +288,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public AddressMapResponse getAddressMap(String userId) {
 		AddressMapResponse resp = new AddressMapResponse(ResponseStatus.SUCCESS);
 		Map<String, Address> adrMap = userManager.getAddressMap(userId);
-		if (adrMap == null ) {
+		if (adrMap == null || adrMap.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setAddressMap(adrMap);
@@ -302,7 +302,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public UserNoteListResponse getAllNotes(String userId) {
 		UserNoteListResponse resp = new UserNoteListResponse(ResponseStatus.SUCCESS);
 		List<UserNote> note = userManager.getAllNotes(userId);
-		if (note == null ) {
+		if (note == null || note.isEmpty()) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setUserNoteList(note);
@@ -401,7 +401,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public EmailAddressListResponse getEmailAddressList(String userId) {
 		EmailAddressListResponse resp = new EmailAddressListResponse(ResponseStatus.SUCCESS);
 		List<EmailAddress> adr = userManager.getEmailAddressList(userId);
-		if (adr == null ) {
+		if (adr == null  || adr.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setEmailAddressList(adr); 
@@ -415,7 +415,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public EmailAddressMapResponse getEmailAddressMap(String userId) {
 		EmailAddressMapResponse resp = new EmailAddressMapResponse(ResponseStatus.SUCCESS);
 		Map<String, EmailAddress> adrMap = userManager.getEmailAddressMap(userId);
-		if (adrMap == null ) {
+		if (adrMap == null || adrMap.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setEmailMap(adrMap);
@@ -429,7 +429,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public SupervisorListResponse getEmployees(String supervisorId) {
 		SupervisorListResponse resp = new SupervisorListResponse(ResponseStatus.SUCCESS);
 		List<Supervisor> sup = userManager.getEmployees(supervisorId);
-		if (sup == null ) {
+		if (sup == null || sup.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setSupervisorList(sup);
@@ -485,7 +485,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public PhoneListResponse getPhoneList(String userId) {
 		PhoneListResponse resp = new PhoneListResponse(ResponseStatus.SUCCESS);
 		List<Phone> ph = userManager.getPhoneList(userId);
-		if (ph == null ) {
+		if (ph == null || ph.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setPhoneList(ph);
@@ -499,7 +499,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public PhoneMapResponse getPhoneMap(String userId) {
 		PhoneMapResponse resp = new PhoneMapResponse(ResponseStatus.SUCCESS);
 		Map<String, Phone> phoneMap = userManager.getPhoneMap(userId);
-		if (phoneMap == null ) {
+		if (phoneMap == null || phoneMap.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setPhoneMap(phoneMap);
@@ -541,7 +541,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public SupervisorListResponse getSupervisors(String employeeId) {
 		SupervisorListResponse resp = new SupervisorListResponse(ResponseStatus.SUCCESS);
 		List<Supervisor> sup = userManager.getSupervisors(employeeId);
-		if (sup == null ) {
+		if (sup == null || sup.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setSupervisorList(sup);
@@ -708,7 +708,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 	public UserListResponse search(UserSearch search) {
 		UserListResponse resp = new UserListResponse(ResponseStatus.SUCCESS);
 		List<User> userList = userManager.search(search);
-		if (userList == null ) {
+		if (userList == null || userList.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setUserList(userList);
@@ -720,7 +720,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
                                                          DelegationFilterSearch search) {
         UserListResponse resp = new UserListResponse(ResponseStatus.SUCCESS);
 		List<User> userList = userManager.searchByDelegationProperties(search);
-		if (userList == null ) {
+		if (userList == null || userList.isEmpty() ) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setUserList(userList);
@@ -809,7 +809,7 @@ public class UserDataWebServiceImpl implements UserDataWebService {
 
         AttributeListResponse resp = new AttributeListResponse(ResponseStatus.SUCCESS);
         List<UserAttribute> userAttrList =  userManager.getUserAsAttributeList(principalName, attributeList);
-        if (userAttrList == null && userAttrList.isEmpty()) {
+        if (userAttrList == null || userAttrList.isEmpty()) {
             resp.setStatus(ResponseStatus.FAILURE);
         }else {
             resp.setAttributeList(userAttrList);

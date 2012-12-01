@@ -13,6 +13,13 @@ import org.springframework.context.ApplicationContextAware;
  *
  */
 public interface MatchObjectRule extends  ApplicationContextAware {
+
+    public static final String MATCH_USERID = "USERID";
+    public static final String MATCH_PRINCIPAL = "PRINCIPAL";
+    public static final String MATCH_EMAIL = "EMAIL";
+    public static final String MATCH_EMPLOYEE_ID = "EMPLOYEE_ID";
+    public static final String MATCH_CUSTOM_ATTRIBUTE = "ATTRIBUTE";
+
 	/**
 	 * Look up the user contained in the user object with in the IDM system.
 	 * The look up will be based on the match criteria defined in the config object.
