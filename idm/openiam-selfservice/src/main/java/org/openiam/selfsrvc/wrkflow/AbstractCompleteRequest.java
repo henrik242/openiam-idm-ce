@@ -19,19 +19,18 @@ import org.springframework.context.ApplicationContextAware;
  * Date: 11/25/12
  * Time: 4:17 PM
  */
-public abstract class AbstractCompleteRequest implements ApplicationContextAware {
+public abstract class AbstractCompleteRequest  {
 
     protected ProvisionService provisionService;
     protected MailService mailService;
     protected ManagedSystemDataService managedSysService;
     protected UserDataWebService userManager;
     protected LoginDataWebService loginManager;
-    protected static ApplicationContext ac;
 
 
     protected static final Log log = LogFactory.getLog(AbstractCompleteRequest.class);
 
-    public void init() {
+    public void init(ApplicationContext ac) {
 
         mailService = (MailService)ac.getBean("mailServiceClient");
         managedSysService = (ManagedSystemDataService) ac.getBean("managedSysServiceClient");
@@ -45,9 +44,5 @@ public abstract class AbstractCompleteRequest implements ApplicationContextAware
     abstract public void approveRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId );
     abstract public void rejectRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId);
 
-
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        ac = applicationContext;
-    }
 
 }

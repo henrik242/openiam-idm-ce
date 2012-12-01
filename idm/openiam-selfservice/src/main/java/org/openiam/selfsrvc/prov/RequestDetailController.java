@@ -26,7 +26,10 @@ import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.provision.service.ProvisionService;
 import org.openiam.selfsrvc.wrkflow.AbstractCompleteRequest;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -46,7 +49,7 @@ import java.util.Set;
 // temp
 
 
-public class RequestDetailController extends CancellableFormController {
+public class RequestDetailController extends CancellableFormController implements ApplicationContextAware {
 
     protected RequestWebService provRequestService;
     protected UserDataWebService userManager;
@@ -60,6 +63,7 @@ public class RequestDetailController extends CancellableFormController {
     protected OrganizationDataService orgManager;
     protected Map workflowApprovalMap;
 
+    protected static ApplicationContext ac;
 
     private static final Log log = LogFactory.getLog(RequestDetailController.class);
 
@@ -283,7 +287,7 @@ public class RequestDetailController extends CancellableFormController {
         pUser.setRequestorDomain(domain);
 
         AbstractCompleteRequest completeRequest = createRequestObject((String) workflowApprovalMap.get(req.getRequestType()));
-        completeRequest.init();
+        completeRequest.init(getApplicationContext());
 
         if (btn.equalsIgnoreCase("Approve")) {
 
@@ -320,6 +324,9 @@ public class RequestDetailController extends CancellableFormController {
         return null;
 
     }
+
+
+
 
 
     public UserDataWebService getUserManager() {

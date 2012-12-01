@@ -163,7 +163,7 @@ public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
 
         request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
 
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestReason()));
+        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestTitle()));
         request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
         request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
         request.getParamList().add(new NotificationParam("IDENTITY", identity));
@@ -201,11 +201,9 @@ public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
 
         request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
 
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestReason()));
+        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestTitle()));
         request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
         request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-
-        System.out.println("Sending notification for that request was rejected " + req.getRequestId());
 
         mailService.sendNotification(request);
 
