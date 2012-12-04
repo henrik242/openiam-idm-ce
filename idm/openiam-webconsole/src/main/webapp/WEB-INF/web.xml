@@ -45,7 +45,10 @@
       <param-name>expirePage</param-name>
       <param-value>/login.cnt?expire=1</param-value>
     </init-param>
-
+    <init-param>
+      <param-name>exceptedServlets</param-name>
+      <param-value>/index.do,/index.jsp,/login.cnt</param-value>
+    </init-param>
   </filter>
 
     <filter>
@@ -59,7 +62,7 @@
     </filter>
 
 
-  <!--  
+  <!--
   <filter>
     <filter-name>AuthFilter</filter-name>
     <filter-class>org.openiam.webadmin.filter.AuthFilter</filter-class>

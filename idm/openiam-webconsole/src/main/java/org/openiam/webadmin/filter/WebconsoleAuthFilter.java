@@ -89,6 +89,16 @@ public class WebconsoleAuthFilter implements Filter {
             throws IOException, ServletException {
 
         ServletContext context = getFilterConfig().getServletContext();
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        log.info("WebconsoleAuthFilter()...doFilter start");
+
+        if("POST".equalsIgnoreCase(request.getMethod())) {
+            chain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         // get the application context
         WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(context);
         authService = (AuthenticationService) webContext.getBean("authServiceClient");
@@ -96,22 +106,10 @@ public class WebconsoleAuthFilter implements Filter {
         navigationDataService = (NavigatorDataWebService) webContext.getBean("navServiceClient");
         userMgr = (UserDataWebService) webContext.getBean("userServiceClient");
 
-
-        boolean loginPage = false;
         String userId = null;
         String principal = null;
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
         HttpSession session = request.getSession();
-
-        log.info("WebconsoleAuthFilter()...doFilter start");
-
-
-        
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            chain.doFilter(servletRequest, servletResponse);
-            return;
-        }
 
         String url = request.getRequestURI();
 
@@ -159,37 +157,33 @@ public class WebconsoleAuthFilter implements Filter {
 
             String decString = (String) loginDataWebService.decryptPassword(token).getResponseValue();
 
-            if (principal == null || principal.isEmpty()) {
+            log.info("Extracting user information from token");
 
-                log.info("Extracting user information from token");
+            StringTokenizer tokenizer = new StringTokenizer(decString, ":");
+            if (tokenizer.hasMoreTokens()) {
+                String decUserId = tokenizer.nextToken();
 
-                StringTokenizer tokenizer = new StringTokenizer(decString, ":");
-                if (tokenizer.hasMoreTokens()) {
-                    String decUserId = tokenizer.nextToken();
+                Login l = loginDataWebService.getPrimaryIdentity(decUserId).getPrincipal();
+                principal = l.getId().getLogin();
+                userId = decUserId;
 
-                    Login l = loginDataWebService.getPrimaryIdentity(decUserId).getPrincipal();
-                    principal = l.getId().getLogin();
-                    userId = decUserId;
+                session.setAttribute("userId", userId);
+                session.setAttribute("login", principal);
 
-                    session.setAttribute("userId", userId);
-                    session.setAttribute("login", principal);
+                User usr = userMgr.getUserWithDependent(userId, true).getUser();
+                session.setAttribute("userObj", usr);
 
-                    User usr = userMgr.getUserWithDependent(userId, true).getUser();
-                    session.setAttribute("userObj", usr);
+                List<Menu> menuList = navigationDataService.menuGroupByUser(rootMenu, userId, "en").getMenuList();
+                session.setAttribute("permissions", menuList);
 
-                    List<Menu> menuList = navigationDataService.menuGroupByUser(rootMenu, userId, "en").getMenuList();
-                    session.setAttribute("permissions", menuList);
+            } else {
 
-                }else {
+                /* expired  token */
+                log.info("Invalid token - session has expired.");
 
-                    /* expired  token */
-                    log.info("Invalid token - session has expired.");
-
-                    session.invalidate();
-                    response.sendRedirect(request.getContextPath() + expirePage);
-                    return;
-
-                }
+                session.invalidate();
+                response.sendRedirect(request.getContextPath() + expirePage);
+                return;
 
             }
 
@@ -233,17 +227,11 @@ public class WebconsoleAuthFilter implements Filter {
 
 
     public boolean isExcludeObject(String url) {
-        if (url.endsWith(".jpg") || url.endsWith(".css") || url.endsWith(".gif")) {
-            return true;
-        }
-        return false;
+        return url.endsWith(".jpg") || url.endsWith(".css") || url.endsWith(".gif");
     }
 
     public boolean isPublicUrl(String url) {
-        if (url.contains(excludePath)) {
-            return true;
-        }
-        return false;
+        return url.contains(excludePath);
     }
 
     // Not in Filter interface, but weblogic is asking for these two methods
