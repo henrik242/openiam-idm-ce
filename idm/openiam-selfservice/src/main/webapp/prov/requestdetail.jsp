@@ -91,17 +91,10 @@
                                 </c:if>
 
                                 <div class="row">
-                                    <label for="t-1">Operation:</label>
+                                    <label for="t-1">Change Request:</label>
+                                        ${requestDetailCmd.changeDescription}
                                 </div>
-                                <div class="row">
-                                    <label for="t-1">Resource:</label>
-                                </div>
-                                <div class="row">
-                                    <label for="t-1">Role Membership:</label>
-                                </div>
-                                <div class="row">
-                                    <label for="t-1">Group Membership:</label>
-                                </div>
+
 
                                 <div class="row">
 									<label for="t-1">Comment</label>

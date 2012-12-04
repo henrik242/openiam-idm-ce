@@ -37,6 +37,8 @@ public class RequestDetailCommand implements Serializable {
     protected Group group;
     protected Role role;
 
+    protected String changeDescription;
+
 
     private String submit;
 
@@ -143,5 +145,13 @@ public class RequestDetailCommand implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getChangeDescription() {
+        return changeDescription;
+    }
+
+    public void setChangeDescription(String changeDescription) {
+        this.changeDescription = changeDescription;
     }
 }

@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.sql.Timestamp;
 
 /**
  * @author suneet
@@ -32,7 +33,7 @@ import java.util.Set;
  */
 public class LineObject implements Cloneable {
 	Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
-	Date lastUpdate = new Date();
+	Timestamp lastUpdate = null;
 
 	public Map<String, Attribute> getColumnMap() {
 		return columnMap;
@@ -80,13 +81,28 @@ public class LineObject implements Cloneable {
                 '}';
     }
 
-	public Date getLastUpdate() {
+	public Timestamp getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
+	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LineObject)) return false;
 
+        LineObject that = (LineObject) o;
+
+        if (lastUpdate != null ? !lastUpdate.equals(that.lastUpdate) : that.lastUpdate != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return lastUpdate != null ? lastUpdate.hashCode() : 0;
+    }
 }

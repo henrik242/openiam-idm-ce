@@ -132,7 +132,7 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 
         SyncResponse syncResponse = new SyncResponse(ResponseStatus.SUCCESS);
 
-        log.debug("-startSynchronization CALLED.^^^^^^^^");
+        log.debug("-SYNCHRONIZATION SERVICE: startSynchronization CALLED.^^^^^^^^");
 
         SyncResponse processCheckResponse = addTask(config.getSynchConfigId());
         if ( processCheckResponse.getStatus() == ResponseStatus.FAILURE ) {
@@ -148,8 +148,7 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 
             syncResponse = adapt.startSynch(config);
 			
-			log.debug("SyncReponse updateTime value=" + syncResponse.getLastRecordTime());
-			
+
 			if (syncResponse.getLastRecordTime() == null) {
 			
 				synchConfigDao.updateExecTime(config.getSynchConfigId(), new Timestamp( newLastExecTime ));
@@ -163,7 +162,7 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
 			}
 
 
-		    log.debug("-startSynchronization COMPLETE.^^^^^^^^");
+		    log.debug("-SYNCHRONIZATION SERVICE: startSynchronization COMPLETE.^^^^^^^^");
 
 		}catch( ClassNotFoundException cnfe) {
 

@@ -45,25 +45,37 @@
 					</div>
 				</div>
 			</div>
+
 <h4>Search Results</h4>
-	
-<c:if test="${resultList != null}" >
-	<table width="100%">
-		<tr class="tdlight">
-	      <td>Create Date</td>
-	      <td>Requestor</td>
-	      <td>Status</td>
-	      <td></td>
-	   </tr>
-	   
-	<c:forEach items="${resultList}" var="provisionRequest">
-		<tr>
-			<td> ${provisionRequest.requestDate}</td>
-			<td> </td>
-			<td>  ${provisionRequest.status}</td>
-			<td><a href="requestDetail.selfserve?requestId=${provisionRequest.requestId}">View</a></td>
-		</tr>
-	</c:forEach>
-	
-	</table>
-</c:if>
+<table class="resource alt">
+    <tbody>
+    <tr class="caption">
+        <th>Create Date</th>
+        <th>Requestor</th>
+        <th>Status</th>
+        <th>Reason</th>
+    </tr>
+
+    <c:if test="${resultList != null}" >
+        <c:forEach items="${resultList}" var="provisionRequest">
+            <tr>
+                <td><a href="requestDetail.selfserve?requestId=${provisionRequest.requestId}"> ${provisionRequest.requestDate}</a></td>
+                <td>
+                    <c:if test="${provisionRequest.requestorFirstName != null}" >
+                        ${provisionRequest.requestorFirstName}
+                    </c:if>
+                        ${provisionRequest.requestorLastName}
+                </td>
+                <td> ${provisionRequest.status}</td>
+                <td> ${provisionRequest.requestTitle}</td>
+            </tr>
+        </c:forEach>
+    </c:if>
+    <c:if test="${reqList == null}" >
+        <tr>
+            <td colspan="4">0 Requests are pending review.</td>
+        </tr
+    </c:if>
+
+    </tbody>
+</table>

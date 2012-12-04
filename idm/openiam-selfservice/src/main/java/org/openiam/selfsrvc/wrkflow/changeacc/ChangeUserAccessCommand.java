@@ -16,6 +16,7 @@ public class ChangeUserAccessCommand implements Serializable {
     private String roleId;
     private String roleDomain;
     private String resourceId;
+    private String groupId;
 
     public String getOperation() {
         return operation;
@@ -47,5 +48,13 @@ public class ChangeUserAccessCommand implements Serializable {
 
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

@@ -6,12 +6,14 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.synch.dto.Attribute;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.MatchObjectRule;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.idm.srvc.user.ws.UserListResponse;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
@@ -34,8 +36,10 @@ public class DefaultMatchObjectRule implements MatchObjectRule {
 
 
         Attribute atr =  rowAttr.get(config.getCustomMatchAttr());
+
         if ( atr == null ) {
-             log.debug("Match attribute not found. Check synchronization configuration");
+
+            log.debug("Match attribute not found. Check synchronization configuration");
             return null;
 
         }
@@ -45,26 +49,27 @@ public class DefaultMatchObjectRule implements MatchObjectRule {
 		matchAttrName = config.getMatchFieldName();
 	
 		
-		if (config.getMatchFieldName().equalsIgnoreCase("USERID")) {
+		if ( MATCH_USERID.equalsIgnoreCase(config.getMatchFieldName())) {
 			search.setUserId(srcFieldValue);
 		}
-		if (config.getMatchFieldName().equalsIgnoreCase("PRINCIPAL")) {
+		if (MATCH_PRINCIPAL.equalsIgnoreCase(config.getMatchFieldName()) ) {
 			search.setPrincipal(srcFieldValue);
 		}
-		if (config.getMatchFieldName().equalsIgnoreCase("EMAIL")) {
+		if (MATCH_EMAIL.equalsIgnoreCase(config.getMatchFieldName())) {
 			search.setEmailAddress(srcFieldValue);
 		}	
-		if (config.getMatchFieldName().equalsIgnoreCase("EMPLOYEE_ID")) {
+		if (MATCH_EMPLOYEE_ID.equalsIgnoreCase(config.getMatchFieldName())) {
 			search.setEmployeeId(srcFieldValue);
 		}		
-		if (config.getMatchFieldName().equalsIgnoreCase("ATTRIBUTE")) {
-			System.out.println("- cofiguring search by attribute..");
-			System.out.println("- match attr=.." + config.getCustomMatchAttr());
+		if (MATCH_CUSTOM_ATTRIBUTE.equalsIgnoreCase(config.getMatchFieldName())) {
+
+            log.debug("- Match users with custom attribute: " + config.getCustomMatchAttr());
 		
 				
 			// get the attribute value from the data_set
 			String valueToMatch = rowAttr.get(config.getCustomMatchAttr()).getValue();
-			System.out.println("- src field value=.." + valueToMatch);
+
+            log.debug("- Src field value used in matching: " + valueToMatch);
 			
 			search.setAttributeName(config.getCustomMatchAttr());
 			search.setAttributeValue(valueToMatch);
@@ -74,15 +79,21 @@ public class DefaultMatchObjectRule implements MatchObjectRule {
 			matchAttrValue = search.getAttributeValue();
 			
 		}
-		
 		userManager = (UserDataWebService) ac.getBean("userWS");
-		List<User> userList = userManager.search(search).getUserList();
-		
-		if (userList != null) {
-			System.out.println("User matched with existing user...");
-			User u = userList.get(0);
-			return u;
-		}		
+
+        UserListResponse userListResponse = userManager.search(search);
+        if (userListResponse.getStatus() == ResponseStatus.SUCCESS) {
+            List<User> userList = userListResponse.getUserList();
+
+            if (userList != null && !userList.isEmpty()) {
+			    log.debug("User matched with existing user...");
+
+                User u = userList.get(0);
+			    return u;
+		    }
+        }
+        log.debug("No matching user found");
+
 		return null;
 	}
 

@@ -70,7 +70,7 @@ public class DatabaseUtil {
 		while ( it.hasNext()) {
 			String key  = it.next();
 			Attribute attr =  rowObj.get(key);
-			if (attr.getType().contains("DATE")) {
+			if (attr.getType().contains("DATE") || attr.getType().contains("TIMESTAMP")) {
 				if (changeLog != null && key.equalsIgnoreCase(changeLog)) {
 					Timestamp tm = rs.getTimestamp(key);
 					if ( tm != null) {

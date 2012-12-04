@@ -79,7 +79,7 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         // rule used to match object from source system to data in IDM
         MatchObjectRule matchRule = null;
         String changeLog = null;
-        Date mostRecentRecord = null;
+        Timestamp mostRecentRecord = null;
         IdmAuditLog synchUserStartLog = null;
         provService = (ProvisionService) ac.getBean("defaultProvision");
 
@@ -122,11 +122,24 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
             lastExec = config.getLastExecTime();
         }
 
+
+
+
+
         // if its incremental synch, then add the change log parameter
         if (config.getSynchType().equalsIgnoreCase("INCREMENTAL")) {
+
             if ((sql != null && sql.length() > 0) && (lastExec != null)) {
-                changeLog = config.getQueryTimeField();
+
                 String temp = sql.toString().toUpperCase();
+                // strip off any trailing semi-colons. Not needed for jbdc
+                if (temp.endsWith(";")) {
+                    temp = removeLastChar(temp);
+                }
+
+
+                changeLog = config.getQueryTimeField();
+
                 if (temp.contains("WHERE")) {
                     sql.append(" AND ");
                 } else {
@@ -153,13 +166,13 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
             DatabaseUtil.populateTemplate(rsMetadata, rowHeader);
 
             // test
-            log.debug("Col. Header size = : " + rowHeader.getColumnMap().size());
+            log.debug("Result set contains following number of columns : " + rowHeader.getColumnMap().size());
 
             // Iterate through the resultset
             int ctr = 0;
 
             while (rs.next()) {
-                log.debug("-SYNCHRONIZING NEW RECORD ---" + ctr++);
+                log.debug("-RDBMS ADAPTER: SYNCHRONIZING  RECORD # ---" + ctr++);
                 // make sure we have a new object for each row
                 pUser = new ProvisionUser();
 
@@ -396,6 +409,13 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         } catch (SQLException se) {
             se.printStackTrace();
         }
+    }
+
+    public String removeLastChar(String s) {
+        if (s == null || s.length() == 0) {
+            return s;
+        }
+        return s.substring(0, s.length()-1);
     }
 
 

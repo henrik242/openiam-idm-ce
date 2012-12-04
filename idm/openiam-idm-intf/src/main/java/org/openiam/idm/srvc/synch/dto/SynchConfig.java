@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-// Generated May 29, 2010 8:20:09 PM by Hibernate Tools 3.2.2.GA
 
 
 
@@ -75,8 +74,8 @@ public class SynchConfig implements java.io.Serializable {
 	private String connectionUrl;
 	private String query;
 	private String queryTimeField;
-	@XmlSchemaType(name = "dateTime")
-	private java.util.Date lastExecTime;
+	@XmlSchemaType(name = "datetime")
+	private Date lastExecTime;
     private String lastRecProcessed;
 	private String customMatchRule;
 	private String customAdatperScript;
@@ -310,11 +309,11 @@ public class SynchConfig implements java.io.Serializable {
 		this.customMatchAttr = customMatchAttr;
 	}
 
-	public java.util.Date getLastExecTime() {
+	public Date getLastExecTime() {
 		return lastExecTime;
 	}
 
-	public void setLastExecTime(java.util.Date lastExecTime) {
+	public void setLastExecTime(Date lastExecTime) {
 		this.lastExecTime = lastExecTime;
 	}
 
@@ -382,5 +381,98 @@ public class SynchConfig implements java.io.Serializable {
 
     public void setWsScript(String wsScript) {
         this.wsScript = wsScript;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SynchConfig)) return false;
+
+        SynchConfig that = (SynchConfig) o;
+
+        if (baseDn != null ? !baseDn.equals(that.baseDn) : that.baseDn != null) return false;
+        if (connectionUrl != null ? !connectionUrl.equals(that.connectionUrl) : that.connectionUrl != null)
+            return false;
+        if (customAdatperScript != null ? !customAdatperScript.equals(that.customAdatperScript) : that.customAdatperScript != null)
+            return false;
+        if (customMatchAttr != null ? !customMatchAttr.equals(that.customMatchAttr) : that.customMatchAttr != null)
+            return false;
+        if (customMatchRule != null ? !customMatchRule.equals(that.customMatchRule) : that.customMatchRule != null)
+            return false;
+        if (driver != null ? !driver.equals(that.driver) : that.driver != null) return false;
+        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
+        if (lastExecTime != null ? !lastExecTime.equals(that.lastExecTime) : that.lastExecTime != null) return false;
+        if (lastRecProcessed != null ? !lastRecProcessed.equals(that.lastRecProcessed) : that.lastRecProcessed != null)
+            return false;
+        if (loadMatchOnly != null ? !loadMatchOnly.equals(that.loadMatchOnly) : that.loadMatchOnly != null)
+            return false;
+        if (managedSysId != null ? !managedSysId.equals(that.managedSysId) : that.managedSysId != null) return false;
+        if (matchFieldName != null ? !matchFieldName.equals(that.matchFieldName) : that.matchFieldName != null)
+            return false;
+        if (matchManagedSysId != null ? !matchManagedSysId.equals(that.matchManagedSysId) : that.matchManagedSysId != null)
+            return false;
+        if (matchSrcFieldName != null ? !matchSrcFieldName.equals(that.matchSrcFieldName) : that.matchSrcFieldName != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (processRule != null ? !processRule.equals(that.processRule) : that.processRule != null) return false;
+        if (query != null ? !query.equals(that.query) : that.query != null) return false;
+        if (queryTimeField != null ? !queryTimeField.equals(that.queryTimeField) : that.queryTimeField != null)
+            return false;
+        if (srcHost != null ? !srcHost.equals(that.srcHost) : that.srcHost != null) return false;
+        if (srcLoginId != null ? !srcLoginId.equals(that.srcLoginId) : that.srcLoginId != null) return false;
+        if (srcPassword != null ? !srcPassword.equals(that.srcPassword) : that.srcPassword != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (synchAdapter != null ? !synchAdapter.equals(that.synchAdapter) : that.synchAdapter != null) return false;
+        if (synchConfigId != null ? !synchConfigId.equals(that.synchConfigId) : that.synchConfigId != null)
+            return false;
+        if (synchFrequency != null ? !synchFrequency.equals(that.synchFrequency) : that.synchFrequency != null)
+            return false;
+        if (synchType != null ? !synchType.equals(that.synchType) : that.synchType != null) return false;
+        if (transformationRule != null ? !transformationRule.equals(that.transformationRule) : that.transformationRule != null)
+            return false;
+        if (updateAttribute != null ? !updateAttribute.equals(that.updateAttribute) : that.updateAttribute != null)
+            return false;
+        if (validationRule != null ? !validationRule.equals(that.validationRule) : that.validationRule != null)
+            return false;
+        if (wsScript != null ? !wsScript.equals(that.wsScript) : that.wsScript != null) return false;
+        if (wsUrl != null ? !wsUrl.equals(that.wsUrl) : that.wsUrl != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = synchConfigId != null ? synchConfigId.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (synchAdapter != null ? synchAdapter.hashCode() : 0);
+        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
+        result = 31 * result + (managedSysId != null ? managedSysId.hashCode() : 0);
+        result = 31 * result + (loadMatchOnly != null ? loadMatchOnly.hashCode() : 0);
+        result = 31 * result + (updateAttribute != null ? updateAttribute.hashCode() : 0);
+        result = 31 * result + (synchFrequency != null ? synchFrequency.hashCode() : 0);
+        result = 31 * result + (synchType != null ? synchType.hashCode() : 0);
+        result = 31 * result + (processRule != null ? processRule.hashCode() : 0);
+        result = 31 * result + (validationRule != null ? validationRule.hashCode() : 0);
+        result = 31 * result + (transformationRule != null ? transformationRule.hashCode() : 0);
+        result = 31 * result + (matchFieldName != null ? matchFieldName.hashCode() : 0);
+        result = 31 * result + (matchManagedSysId != null ? matchManagedSysId.hashCode() : 0);
+        result = 31 * result + (matchSrcFieldName != null ? matchSrcFieldName.hashCode() : 0);
+        result = 31 * result + (srcLoginId != null ? srcLoginId.hashCode() : 0);
+        result = 31 * result + (srcPassword != null ? srcPassword.hashCode() : 0);
+        result = 31 * result + (srcHost != null ? srcHost.hashCode() : 0);
+        result = 31 * result + (driver != null ? driver.hashCode() : 0);
+        result = 31 * result + (connectionUrl != null ? connectionUrl.hashCode() : 0);
+        result = 31 * result + (query != null ? query.hashCode() : 0);
+        result = 31 * result + (queryTimeField != null ? queryTimeField.hashCode() : 0);
+        result = 31 * result + (lastExecTime != null ? lastExecTime.hashCode() : 0);
+        result = 31 * result + (lastRecProcessed != null ? lastRecProcessed.hashCode() : 0);
+        result = 31 * result + (customMatchRule != null ? customMatchRule.hashCode() : 0);
+        result = 31 * result + (customAdatperScript != null ? customAdatperScript.hashCode() : 0);
+        result = 31 * result + (customMatchAttr != null ? customMatchAttr.hashCode() : 0);
+        result = 31 * result + (baseDn != null ? baseDn.hashCode() : 0);
+        result = 31 * result + (wsUrl != null ? wsUrl.hashCode() : 0);
+        result = 31 * result + (wsScript != null ? wsScript.hashCode() : 0);
+        return result;
     }
 }

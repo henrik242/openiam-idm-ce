@@ -1,14 +1,12 @@
-package org.openiam.selfsrvc.wrkflow.selfreg;
+package org.openiam.selfsrvc.wrkflow.newuser;
 
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginResponse;
-import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.msg.dto.NotificationParam;
 import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestUser;
-import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.provision.dto.ProvisionUser;
@@ -16,7 +14,6 @@ import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.selfsrvc.wrkflow.AbstractCompleteRequest;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,7 +23,7 @@ import java.util.Set;
  * Date: 11/25/12
  * Time: 4:18 PM
  */
-public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
+public class CompleteNewUserRequest extends AbstractCompleteRequest {
 
     public void approveRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId ) {
 

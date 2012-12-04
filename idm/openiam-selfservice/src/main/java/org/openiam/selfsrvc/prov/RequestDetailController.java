@@ -4,6 +4,7 @@ package org.openiam.selfsrvc.prov;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.grp.dto.Group;
@@ -26,7 +27,10 @@ import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.provision.service.ProvisionService;
 import org.openiam.selfsrvc.wrkflow.AbstractCompleteRequest;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -46,7 +50,7 @@ import java.util.Set;
 // temp
 
 
-public class RequestDetailController extends CancellableFormController {
+public class RequestDetailController extends CancellableFormController implements ApplicationContextAware {
 
     protected RequestWebService provRequestService;
     protected UserDataWebService userManager;
@@ -60,6 +64,7 @@ public class RequestDetailController extends CancellableFormController {
     protected OrganizationDataService orgManager;
     protected Map workflowApprovalMap;
 
+    protected static ApplicationContext ac;
 
     private static final Log log = LogFactory.getLog(RequestDetailController.class);
 
@@ -153,20 +158,32 @@ public class RequestDetailController extends CancellableFormController {
      */
 
     private void groupMembership(List<Group> groupList, RequestDetailCommand reqDetailCommand) {
+        StringBuilder msg = new StringBuilder();
+
         if (groupList != null && !groupList.isEmpty()) {
 
             Group g = groupList.get(0);
 
-            if (g.getOperation() != null) {
-                reqDetailCommand.setOperation(g.getOperation().toString());
-            }
 
             GroupResponse groupResponse = groupManager.getGroup(g.getGrpId());
 
-            if (groupResponse.getStatus() == ResponseStatus.SUCCESS) {
+            if ( g != null) {
 
-                reqDetailCommand.setGroup(groupResponse.getGroup());
+               if ( g.getOperation() == AttributeOperationEnum.ADD ) {
+                   msg.append("ADD GROUP ");
+
+               }else {
+                   msg.append("REMOVE GROUP ");
+               }
+
+                if (groupResponse.getStatus() == ResponseStatus.SUCCESS) {
+
+                    msg.append( groupResponse.getGroup().getGrpName());
+                    reqDetailCommand.setChangeDescription(msg.toString());
+                }
             }
+
+
 
         }
 
@@ -181,17 +198,25 @@ public class RequestDetailController extends CancellableFormController {
      */
 
     private void roleMembership(List<Role> roleList, RequestDetailCommand reqDetailCommand) {
+        StringBuilder msg = new StringBuilder();
+
         if (roleList != null && !roleList.isEmpty()) {
 
             Role r = roleList.get(0);
 
-            if (r.getOperation() != null) {
-                reqDetailCommand.setOperation(r.getOperation().toString());
+            if ( r.getOperation() == AttributeOperationEnum.ADD ) {
+                msg.append("ADD ROLE ");
+
+            }else {
+                msg.append("REMOVE ROLE ");
             }
 
             RoleResponse resp = roleDataService.getRole(r.getId().getServiceId(), r.getId().getRoleId());
             if (resp.getStatus() == ResponseStatus.SUCCESS) {
-                reqDetailCommand.getRole();
+
+                msg.append( resp.getRole().getId().getRoleId());
+                reqDetailCommand.setChangeDescription(msg.toString());
+
             }
         }
 
@@ -283,7 +308,7 @@ public class RequestDetailController extends CancellableFormController {
         pUser.setRequestorDomain(domain);
 
         AbstractCompleteRequest completeRequest = createRequestObject((String) workflowApprovalMap.get(req.getRequestType()));
-        completeRequest.init();
+        completeRequest.init(getApplicationContext());
 
         if (btn.equalsIgnoreCase("Approve")) {
 
@@ -320,6 +345,9 @@ public class RequestDetailController extends CancellableFormController {
         return null;
 
     }
+
+
+
 
 
     public UserDataWebService getUserManager() {

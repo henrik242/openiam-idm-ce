@@ -98,13 +98,17 @@ public class NewHireValidator implements Validator {
         // supervisor is required if the form uses supervisor as the approver
         List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
 
-        for ( ApproverAssociation ap : apList) {
-            if (ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
-                if (newHireCmd.getSupervisorId() == null || newHireCmd.getSupervisorId().length() == 0) {
-                    err.rejectValue("supervisorId", "required");
-                    break;
+        if (apList != null && !apList.isEmpty()) {
+
+            for ( ApproverAssociation ap : apList) {
+                if (ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
+                    if (newHireCmd.getSupervisorId() == null || newHireCmd.getSupervisorId().length() == 0) {
+                        err.rejectValue("supervisorId", "required");
+                        break;
+                    }
                 }
             }
+
         }
 		
 	}

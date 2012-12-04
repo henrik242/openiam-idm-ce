@@ -22,118 +22,28 @@ import java.util.Set;
 /**
  * Class process either an approval or rejection when a request is made to terminate a user.
  * User: suneetshah
- * Date: 11/25/12
- * Time: 4:18 PM
- * To change this template use File | Settings | File Templates.
  */
 public class CompleteTerminateRequest extends AbstractCompleteRequest {
 
     public void approveRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId ) {
 
 
-        pUser.getUser().setStatus(UserStatusEnum.ACTIVE);
-        pUser.getUser().setUserId(null);
-        pUser.setStatus(UserStatusEnum.ACTIVE);
-        ProvisionUserResponse resp = provisionService.addUser(pUser);
+        pUser.setStatus(UserStatusEnum.TERMINATE);
+        ProvisionUserResponse resp =  provisionService.modifyUser(pUser);
 
-        User newUser = resp.getUser();
-
-        log.info("New User userId = " + newUser.getUserId());
-
-        String requestType = req.getRequestType();
-
-        List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
-
-        for (ApproverAssociation ap : apList) {
-            String typeOfUserToNotify = ap.getApproveNotificationUserType();
-            if (typeOfUserToNotify == null || typeOfUserToNotify.length() == 0) {
-                typeOfUserToNotify = "USER";
-            }
-            String notifyUserId = null;
-            if (typeOfUserToNotify.equalsIgnoreCase("USER")) {
-                notifyUserId = ap.getNotifyUserOnApprove();
-            } else {
-                if (typeOfUserToNotify.equalsIgnoreCase("SUPERVISOR")) {
-                    Supervisor supVisor = pUser.getSupervisor();
-                    if (supVisor != null) {
-                        notifyUserId = supVisor.getSupervisor().getUserId();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                } else {
-                    // target user
-                    if (pUser.getEmailAddresses() != null) {
-                        notifyUserId = newUser.getUserId();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                }
-            }
-
-            if (notifyUserId != null) {
-                notifyRequestorApproval(req, approverUserId, newUser, notifyUserId);
-            } else {
-                log.info("Unable to determine userId to notify");
-            }
-        }
-
+        approve(resp.getUser(),req, approverUserId);
 
     }
 
     public void rejectRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId) {
 
-        String requestType = req.getRequestType();
-        String notifyEmail = null;
+
+        reject(pUser,req,approverUserId);
 
 
-        List<ApproverAssociation> apList = managedSysService.getApproverByRequestType(requestType, 1);
-        //String notifyUserId = ap.getNotifyUserOnReject();
-
-        for (ApproverAssociation ap : apList) {
-            String typeOfUserToNotify = ap.getRejectNotificationUserType();
-            if (typeOfUserToNotify == null || typeOfUserToNotify.length() == 0) {
-                typeOfUserToNotify = "USER";
-            }
-            String notifyUserId = null;
-            if (typeOfUserToNotify.equalsIgnoreCase("USER")) {
-                notifyUserId = ap.getNotifyUserOnReject();
-            } else {
-                if (typeOfUserToNotify.equalsIgnoreCase("SUPERVISOR")) {
-                    Supervisor supVisor = pUser.getSupervisor();
-                    if (supVisor != null) {
-                        notifyUserId = supVisor.getSupervisor().getUserId();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                } else {
-                    // target user
-                    if (pUser.getEmailAddresses() != null) {
-                        // user does not exist. We cant use their userId.
-                        notifyUserId = null;
-                        notifyEmail = pUser.getEmail();
-                    } else {
-                        notifyUserId = null;
-                    }
-
-                }
-            }
-
-
-            notifyRequestorReject(req, approverUserId, notifyUserId, notifyEmail);
-
-        }
     }
 
-    private void notifyRequestorApproval(ProvisionRequest req, String approverUserId, User newUser, String notifyUserId) {
-
-        // requestor information
-        String userId = req.getRequestorId();
-        String identity = null;
-        String password = null;
-
+    public void notifyRequestorApproval(ProvisionRequest req, String approverUserId, User newUser, String notifyUserId) {
 
         User approver = userManager.getUserWithDependent(approverUserId, false).getUser();
 
@@ -148,36 +58,23 @@ public class CompleteTerminateRequest extends AbstractCompleteRequest {
             }
         }
 
-        LoginResponse lgResponse = loginManager.getPrimaryIdentity(newUser.getUserId());
-        if (lgResponse.getStatus() == ResponseStatus.SUCCESS) {
-            Login l = lgResponse.getPrincipal();
-            identity = l.getId().getLogin();
-            password = (String) loginManager.decryptPassword(l.getPassword()).getResponseValue();
-        }
-
 
         NotificationRequest request = new NotificationRequest();
         // send a message to this user
         request.setUserId(notifyUserId);
-        request.setNotificationType("REQUEST_APPROVED");
+        request.setNotificationType("TERMINATE_REQUEST_APPROVED");
 
         request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
 
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestReason()));
+        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestTitle()));
         request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
         request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-        request.getParamList().add(new NotificationParam("IDENTITY", identity));
-        request.getParamList().add(new NotificationParam("PSWD", password));
 
 
         mailService.sendNotification(request);
     }
 
-    private void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
-
-        System.out.println("notifyRequestorReject() called");
-
-        String userId = req.getRequestorId();
+    public void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
 
         User approver = userManager.getUserWithDependent(approverUserId, false).getUser();
 
@@ -201,11 +98,9 @@ public class CompleteTerminateRequest extends AbstractCompleteRequest {
 
         request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
 
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestReason()));
+        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestTitle()));
         request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
         request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-
-        System.out.println("Sending notification for that request was rejected " + req.getRequestId());
 
         mailService.sendNotification(request);
 
