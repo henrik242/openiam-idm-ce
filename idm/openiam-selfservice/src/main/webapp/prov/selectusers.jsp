@@ -96,9 +96,6 @@ function validateInt(fld) {
             <input type="submit" name="_target2" value="Next"/>
         </div>
         <div class="button">
-            <input type="submit" name="_target0" value="Previous"/>
-        </div>
-        <div class="button">
             <input type="submit" name="_cancel" value="Cancel" />
         </div>
     </fieldset>

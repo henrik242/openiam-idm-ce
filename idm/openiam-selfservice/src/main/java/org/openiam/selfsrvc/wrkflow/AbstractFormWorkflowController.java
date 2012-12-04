@@ -1,6 +1,10 @@
 package org.openiam.selfsrvc.wrkflow;
 
+
 import com.thoughtworks.xstream.XStream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.dto.NotificationParam;
@@ -13,28 +17,57 @@ import org.openiam.idm.srvc.prov.request.dto.RequestUser;
 import org.openiam.idm.srvc.prov.request.ws.RequestWebService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
 import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.provision.dto.ProvisionUser;
-import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import org.openiam.idm.srvc.org.dto.Organization;
 
 
-public abstract class AbstractWorkflowRequest extends AbstractController {
+/**
+ *
+ */
+public class AbstractFormWorkflowController extends CancellableFormController {
 
+
+    protected RoleDataWebService roleDataService;
+    protected ResourceDataService resourceDataService;
+    protected GroupDataWebService groupManager;
     protected UserDataWebService userManager = null;
     protected OrganizationDataService orgManager = null;
-    protected ResourceDataService resourceDataService;
     protected ManagedSystemDataService managedSysService;
     protected MailService mailService;
     protected RequestWebService provRequestService;
 
+
+    protected static final Log log = LogFactory.getLog(AbstractFormWorkflowController.class);
+
+
+    public AbstractFormWorkflowController() {
+        super();
+    }
+
+
+    @Override
+    protected void initBinder(HttpServletRequest request,
+                              ServletRequestDataBinder binder) throws Exception {
+
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        df.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
+
+    }
 
     protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest) {
         ProvisionRequest req = new ProvisionRequest();
@@ -53,7 +86,7 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
         ProvisionUser pUser = new ProvisionUser(userData);
         String userAsXML = toXML(pUser);
 
-        User requestor = userManager.getUserWithDependent(requestorId,false).getUser();
+        User requestor = userManager.getUserWithDependent(requestorId, false).getUser();
 
         // build the request object
 
@@ -94,12 +127,12 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
 
     }
 
-    protected String getUserName(ProvisionRequest req ) {
+    protected String getUserName(ProvisionRequest req) {
         Set<RequestUser> requestUserSet = req.getRequestUsers();
         if (requestUserSet != null) {
-            for ( RequestUser user :requestUserSet ) {
+            for (RequestUser user : requestUserSet) {
 
-              return  user.getFirstName() + " " + user.getLastName();
+                return user.getFirstName() + " " + user.getLastName();
 
 
             }
@@ -108,7 +141,7 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
 
     }
 
-    private RequestApprover getApprover(String workflowResourceId, User userData) {
+    public RequestApprover getApprover(String workflowResourceId, User userData) {
 
         String approverId = null;
         int applyDelegationFilter = 0;
@@ -161,7 +194,7 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
     }
 
 
-    private void notifyApprover(ProvisionRequest pReq, RequestUser reqUser, String requestorId,
+    public void notifyApprover(ProvisionRequest pReq, RequestUser reqUser, String requestorId,
                                 User usr) {
 
         // requestor information
@@ -196,7 +229,7 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
 
                 // when working with role - the approver ID is the role
                 search.setRole(ra.getApproverId());
-                if ( usr.getCompanyId() != null) {
+                if (usr.getCompanyId() != null) {
                     search.setDelAdmin(ra.getApplyDelegationFilter());
                     search.setOrgFilter("%" + usr.getCompanyId() + "%");
                 }
@@ -230,10 +263,36 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
 
     }
 
-    private String toXML(ProvisionUser pUser) {
+    public String toXML(ProvisionUser pUser) {
         XStream xstream = new XStream();
         return xstream.toXML(pUser);
 
+    }
+
+
+
+    public RoleDataWebService getRoleDataService() {
+        return roleDataService;
+    }
+
+    public void setRoleDataService(RoleDataWebService roleDataService) {
+        this.roleDataService = roleDataService;
+    }
+
+    public ResourceDataService getResourceDataService() {
+        return resourceDataService;
+    }
+
+    public void setResourceDataService(ResourceDataService resourceDataService) {
+        this.resourceDataService = resourceDataService;
+    }
+
+    public GroupDataWebService getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(GroupDataWebService groupManager) {
+        this.groupManager = groupManager;
     }
 
     public UserDataWebService getUserManager() {
@@ -250,14 +309,6 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
 
     public void setOrgManager(OrganizationDataService orgManager) {
         this.orgManager = orgManager;
-    }
-
-    public ResourceDataService getResourceDataService() {
-        return resourceDataService;
-    }
-
-    public void setResourceDataService(ResourceDataService resourceDataService) {
-        this.resourceDataService = resourceDataService;
     }
 
     public ManagedSystemDataService getManagedSysService() {

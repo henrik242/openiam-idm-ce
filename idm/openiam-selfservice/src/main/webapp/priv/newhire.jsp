@@ -270,8 +270,8 @@ function selectChange(ctrl) {
 							</div> 
 							<div class="row">
 									<label>Mobile Phone</label>
-									<form:input path="cellAreaCode" size="3" maxlength="3" onchange="return  validateInt(cellAreaCode);"cssClass="code" /> 
-       						<form:input path="cellPhone" size="10" maxlength="10"  onchange="return  validateInt(cellPhone);" cssClass="phone" />
+									<form:input path="cellAreaCode" size="3" maxlength="3" onchange="return  validateInt(cellAreaCode);" cssClass="code" />
+       						        <form:input path="cellPhone" size="10" maxlength="10"  onchange="return  validateInt(cellPhone);" cssClass="phone" />
 								</div>	
 							<div class="row">
 									<label>Fax</label>

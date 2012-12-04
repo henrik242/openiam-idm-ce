@@ -14,11 +14,29 @@ public class ChangeUserAccessValidator implements Validator {
 	}
 
 	public void validate(Object cmd, Errors err) {
-		System.out.println("ManageMyIdentityValidator:validate");
 
 		ChangeUserAccessCommand identityCommand =  (ChangeUserAccessCommand) cmd;
 
-		
+        boolean selectedItem = false;
+
+        // validate that the user picked something
+        if (identityCommand.getGroupId() != null && !identityCommand.getGroupId().isEmpty()) {
+            selectedItem = true;
+        }
+
+        if (identityCommand.getResourceId() != null && !identityCommand.getResourceId().isEmpty()) {
+            selectedItem = true;
+        }
+
+        if ( identityCommand.getRoleId() != null && !identityCommand.getRoleId().isEmpty()) {
+            selectedItem = true;
+        }
+
+        if (!selectedItem) {
+            err.rejectValue("roleId", "required");
+        }
+
+
 		
 	}
 

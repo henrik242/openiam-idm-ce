@@ -114,9 +114,9 @@
 
          <property name="workflowApprovalMap">
              <map>
-                 <entry key="260" value="newHire.selfserve" />
+                 <entry key="260" value="org.openiam.selfsrvc.wrkflow.newuser.CompleteNewUserRequest" />
                  <entry key="261" value="org.openiam.selfsrvc.wrkflow.terminate.CompleteTerminateRequest" />
-                 <entry key="262" value="changeUserAccess.selfserve" />
+                 <entry key="262" value="org.openiam.selfsrvc.wrkflow.changeacc.CompleteChangeAccessRequest" />
                  <entry key="255" value="org.openiam.selfsrvc.wrkflow.selfreg.CompleteSelfRegistrationRequest" />
              </map>
          </property>
@@ -376,7 +376,7 @@
 		<property name="commandName" value="newHireCmd" />
 		<property name="commandClass" value="org.openiam.selfsrvc.hire.NewHireCommand" />
 		
-		<property name="requestType" value="254" />
+		<property name="requestType" value="260" />
 		<property name="validator" ref="newHireValidator" />
 				
 		<property name="groupManager" ref="groupServiceClient" />
@@ -404,8 +404,8 @@
      <bean id="newHireValidator" class="org.openiam.selfsrvc.hire.NewHireValidator">
          <property name="managedSysService" ref="managedSysServiceClient" />
          <property name="resourceDataService" ref="resourceServiceClient" />
-         <property name="requestType" value="254" />
          <property name="metadataService" ref="metadataServiceClient"	/>
+         <property name="requestType" value="260" />
      </bean>       
 
      <bean id="newUserNoApp" class="org.openiam.selfsrvc.hire.NewUserNoAppController">
@@ -522,11 +522,20 @@
         <property name="commandName" value="changeUserAccess" />
         <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessCommand" />
         <property name="formView" value="/priv/flow/changeUserAccess" />
-        <property name="successView" value="/priv/confirm" />
+        <property name="successView" value="/priv/flow/submitchangereq" />
+        <property name="validator" ref="changeUserAccessValidator" />
         <property name="roleDataService" ref="roleServiceClient" />
         <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="groupManager" ref="groupServiceClient" />
+        <property name="provRequestService" ref="provRequestServiceClient" />
+        <property name="userManager" ref="userServiceClient" />
+        <property name="managedSysService" ref="managedSysServiceClient" />
+        <property name="mailService" ref="mailServiceClient" />
+
     </bean>
 
+    <bean id="changeUserAccessValidator" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessValidator">
+    </bean>
 
 
         <!-- Delegated admin - user administration  -->

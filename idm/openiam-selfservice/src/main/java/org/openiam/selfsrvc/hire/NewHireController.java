@@ -394,9 +394,6 @@ public class NewHireController extends AbstractWizardFormController {
         List<Resource> resourceList = resourceDataService.getResourcesByType(this.configuration.getManagedSystemType());
         model.put("resourceList", resourceList);
 
-        //List<Role> roleList = roleDataService.getAllRoles().getRoleList();
-        //model.put("appRoleList", roleList);
-
         return model;
 
     }
@@ -426,15 +423,18 @@ public class NewHireController extends AbstractWizardFormController {
         User requestor = userMgr.getUserWithDependent(requestorID, false).getUser();
         if (requestor != null) {
 
-            req.setRequestorId(requestor.getFirstName() + " " + requestor.getLastName());
+            req.setRequestorId(requestorID);
 
         }
         req.setStatus("PENDING");
         req.setStatusDate(curDate);
         req.setRequestDate(curDate);
         req.setRequestType(newUserResource.getResourceId());
-        req.setRequestReason(newUserResource.getDescription() + " FOR:" + usr.getFirstName() + " " + usr.getLastName());
+        req.setWorkflowName(newUserResource.getName());
+        req.setRequestTitle(newUserResource.getDescription() + " FOR:" + usr.getFirstName() + " " + usr.getLastName());
         req.setRequestXML(asXML);
+        req.setRequestorFirstName(requestor.getFirstName());
+        req.setRequestorLastName(requestor.getLastName());
 
         if (usr.getCompanyId() != null && usr.getCompanyId().length() > 0) {
             req.setRequestForOrgId(usr.getCompanyId());
@@ -529,12 +529,14 @@ public class NewHireController extends AbstractWizardFormController {
 
                 request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
 
-                request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
+                request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestTitle()));
                 request.getParamList().add(new NotificationParam("REQUESTOR", requestor.getFirstName() + " " + requestor.getLastName()));
                 request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
 
 
                 mailService.sendNotification(request);
+
+
 
             } else {
                 DelegationFilterSearch search = new DelegationFilterSearch();
@@ -546,7 +548,6 @@ public class NewHireController extends AbstractWizardFormController {
 
                 List<User> roleApprovers = userMgr.searchByDelegationProperties(search).getUserList();
 
-                System.out.println("List of approvers for Role: " + roleApprovers);
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u : roleApprovers) {
@@ -557,7 +558,7 @@ public class NewHireController extends AbstractWizardFormController {
 
                         request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
 
-                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
+                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestTitle()));
                         request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
                         request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
 

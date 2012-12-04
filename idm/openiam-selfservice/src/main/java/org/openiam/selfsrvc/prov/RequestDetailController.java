@@ -4,6 +4,7 @@ package org.openiam.selfsrvc.prov;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.grp.dto.Group;
@@ -157,20 +158,32 @@ public class RequestDetailController extends CancellableFormController implement
      */
 
     private void groupMembership(List<Group> groupList, RequestDetailCommand reqDetailCommand) {
+        StringBuilder msg = new StringBuilder();
+
         if (groupList != null && !groupList.isEmpty()) {
 
             Group g = groupList.get(0);
 
-            if (g.getOperation() != null) {
-                reqDetailCommand.setOperation(g.getOperation().toString());
-            }
 
             GroupResponse groupResponse = groupManager.getGroup(g.getGrpId());
 
-            if (groupResponse.getStatus() == ResponseStatus.SUCCESS) {
+            if ( g != null) {
 
-                reqDetailCommand.setGroup(groupResponse.getGroup());
+               if ( g.getOperation() == AttributeOperationEnum.ADD ) {
+                   msg.append("ADD GROUP ");
+
+               }else {
+                   msg.append("REMOVE GROUP ");
+               }
+
+                if (groupResponse.getStatus() == ResponseStatus.SUCCESS) {
+
+                    msg.append( groupResponse.getGroup().getGrpName());
+                    reqDetailCommand.setChangeDescription(msg.toString());
+                }
             }
+
+
 
         }
 
@@ -185,17 +198,25 @@ public class RequestDetailController extends CancellableFormController implement
      */
 
     private void roleMembership(List<Role> roleList, RequestDetailCommand reqDetailCommand) {
+        StringBuilder msg = new StringBuilder();
+
         if (roleList != null && !roleList.isEmpty()) {
 
             Role r = roleList.get(0);
 
-            if (r.getOperation() != null) {
-                reqDetailCommand.setOperation(r.getOperation().toString());
+            if ( r.getOperation() == AttributeOperationEnum.ADD ) {
+                msg.append("ADD ROLE ");
+
+            }else {
+                msg.append("REMOVE ROLE ");
             }
 
             RoleResponse resp = roleDataService.getRole(r.getId().getServiceId(), r.getId().getRoleId());
             if (resp.getStatus() == ResponseStatus.SUCCESS) {
-                reqDetailCommand.getRole();
+
+                msg.append( resp.getRole().getId().getRoleId());
+                reqDetailCommand.setChangeDescription(msg.toString());
+
             }
         }
 
