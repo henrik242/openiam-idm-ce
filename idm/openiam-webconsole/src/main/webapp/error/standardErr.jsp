@@ -20,7 +20,9 @@
     <h1>Application Error: Please contact the system administrator</h1>
     </td>
   </tr>
-
+<%--  <tr>
+      <h2>${exception.customMsg}</h2>
+  </tr>--%>
  </table>
 
 </body>

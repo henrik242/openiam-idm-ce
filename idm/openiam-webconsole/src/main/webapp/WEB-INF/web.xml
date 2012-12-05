@@ -150,7 +150,11 @@
    <exception-type>ServletException</exception-type>
    <location>/error/standardErr.jsp</location>
   </error-page>
- 
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error/standardErr.jsp</location>
+    </error-page>
+
   
 
    <env-entry>
