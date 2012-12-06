@@ -532,16 +532,28 @@
 	<bean id="messageWS" class="org.openiam.idm.srvc.msg.ws.SysMessageWebServiceImpl" >
 		<property name="msgService" ref="sysMessageService" />
 	</bean>
-	
-	<bean id="sysMessageService" class="org.openiam.idm.srvc.msg.service.SysMessageServiceImpl" >
+
+    <bean id="templateWS" class="org.openiam.idm.srvc.msg.ws.MailTemplateWebServiceImpl" >
+        <property name="tmplService" ref="mailTemplateService" />
+    </bean>
+
+	<bean id="sysMessageService" class="org.openiam.idm.srvc.msg.service.NotificationServiceImpl" >
 		<property name="msgDao" ref="sysMessageDAO" />
 	</bean>
 
-	<bean id="sysMessageDAO" class="org.openiam.idm.srvc.msg.service.SysMessageDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>		
-	</bean>	
+    <bean id="mailTemplateService" class="org.openiam.idm.srvc.msg.service.MailTemplateServiceImpl" >
+        <property name="mailTemplateDAO" ref="mailTemplateDAO" />
+    </bean>
 
-	<bean id="orgPolicyWS" class="org.openiam.idm.srvc.orgpolicy.ws.OrgPolicyWebServiceImpl" >
+	<bean id="sysMessageDAO" class="org.openiam.idm.srvc.msg.service.NotificationDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"></property>		
+	</bean>
+
+    <bean id="mailTemplateDAO" class="org.openiam.idm.srvc.msg.service.MailTemplateDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="orgPolicyWS" class="org.openiam.idm.srvc.orgpolicy.ws.OrgPolicyWebServiceImpl" >
 		<property name="acceptService" ref="orgPolicyService" />
 	</bean>
 	
@@ -567,7 +579,7 @@
 		<property name="userManager" ref="userWS" />
 		<property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
 		<property name="auditHelper" ref="auditHelper" />
-		
+		<property name="sysMessageService" ref="sysMessageService" />
 	</bean>
 	
 	<bean id="emailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -718,7 +730,6 @@
 
                 <!-- End idm maps -->
 
-				<value>org/openiam/idm/srvc/msg/service/NotificationConfig.hbm.xml</value>
 				<value>org/openiam/idm/srvc/orgpolicy/service/OrgPolicy.hbm.xml</value>
 				<value>org/openiam/idm/srvc/orgpolicy/service/OrgPolicyUserLog.hbm.xml</value>
 				<value>org/openiam/idm/srvc/batch/service/BatchConfig.hbm.xml</value>
@@ -754,7 +765,8 @@
 											   org.openiam.idm.srvc.continfo.domain*,
                                                org.openiam.idm.srvc.res.domain*,
                                                org.openiam.idm.srvc.role.domain*,
-                                               org.openiam.idm.srvc.grp.domain*"/>
+                                               org.openiam.idm.srvc.grp.domain*,
+                                               org.openiam.idm.srvc.msg.domain*"/>
 	</bean>
 
   
@@ -960,6 +972,11 @@
   <aop:config>
     <aop:pointcut id="sysMessageOperation" expression="execution(* org.openiam.idm.srvc.msg.ws.SysMessageWebService.*(..))"/>
     <aop:advisor advice-ref="txAdvice" pointcut-ref="sysMessageOperation"/>
+  </aop:config>
+
+  <aop:config>
+    <aop:pointcut id="mailTemplateOperation" expression="execution(* org.openiam.idm.srvc.msg.ws.MailTemplateWebService.*(..))"/>
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="mailTemplateOperation"/>
   </aop:config>
 
   <aop:config>

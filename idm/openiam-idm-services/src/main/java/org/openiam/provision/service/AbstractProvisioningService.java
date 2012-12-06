@@ -35,8 +35,7 @@ import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
 import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
@@ -79,6 +78,8 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
     private static final Log log = LogFactory.getLog(DefaultProvisioningService.class);
     // used to inject the application context into the groovy scripts
     protected static ApplicationContext ac;
+    public static final String NEW_USER_EMAIL_SUPERVISOR_NOTIFICATION = "NEW_USER_EMAIL_SUPERVISOR";
+    public static final String NEW_USER_EMAIL_NOTIFICATION = "NEW_USER_EMAIL";
 
     protected UserDataService userMgr;
     protected LoginDataService loginManager;
@@ -223,21 +224,18 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
     protected void sendCredentialsToUser(User user, String identity, String password) {
 
         try {
-
-            NotificationRequest request = new NotificationRequest();
-            request.setUserId(user.getUserId());
-            request.setNotificationType("NEW_USER_EMAIL");
-
-            request.getParamList().add(new NotificationParam("IDENTITY", identity));
-            request.getParamList().add(new NotificationParam("PSWD", password));
-
             MuleClient client = new MuleClient(muleContext);
 
-            Map<String, String> msgPropMap = new HashMap<String, String>();
-            msgPropMap.put("SERVICE_HOST", serviceHost);
-            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
+            HashMap<String, String> msgPropMap = new HashMap<String, String>();
+            msgPropMap.put(MailTemplateParameters.SERVICE_HOST.value(), serviceHost);
+            msgPropMap.put(MailTemplateParameters.SERVICE_CONTEXT.value(), serviceContext);
+            msgPropMap.put(MailTemplateParameters.USER_ID.value(), user.getUserId());
+            msgPropMap.put(MailTemplateParameters.IDENTITY.value(), identity);
+            msgPropMap.put(MailTemplateParameters.PASSWORD.value(), password);
+            msgPropMap.put(MailTemplateParameters.FIRST_NAME.value(), user.getFirstName());
+            msgPropMap.put(MailTemplateParameters.LAST_NAME.value(), user.getLastName());
 
-            client.sendAsync("vm://notifyUserByEmailMessage", request, msgPropMap);
+            client.sendAsync("vm://notifyUserByEmailMessage", NEW_USER_EMAIL_NOTIFICATION, msgPropMap);
 
         } catch (MuleException me) {
             log.error(me.toString());
@@ -248,22 +246,19 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
     protected void sendCredentialsToSupervisor(User user, String identity, String password, String name) {
 
         try {
-
-            NotificationRequest request = new NotificationRequest();
-            request.setUserId(user.getUserId());
-            request.setNotificationType("NEW_USER_EMAIL_SUPERVISOR");
-
-            request.getParamList().add(new NotificationParam("IDENTITY", identity));
-            request.getParamList().add(new NotificationParam("PSWD", password));
-            request.getParamList().add(new NotificationParam("NAME", name));
-
             MuleClient client = new MuleClient(muleContext);
 
-            Map<String, String> msgPropMap = new HashMap<String, String>();
-            msgPropMap.put("SERVICE_HOST", serviceHost);
-            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
+            HashMap<String, String> msgPropMap = new HashMap<String, String>();
+            msgPropMap.put(MailTemplateParameters.SERVICE_HOST.value(), serviceHost);
+            msgPropMap.put(MailTemplateParameters.SERVICE_CONTEXT.value(), serviceContext);
+            msgPropMap.put(MailTemplateParameters.USER_ID.value(), user.getUserId());
+            msgPropMap.put(MailTemplateParameters.IDENTITY.value(), identity);
+            msgPropMap.put(MailTemplateParameters.PASSWORD.value(), password);
+            msgPropMap.put(MailTemplateParameters.USER_NAME.value(), name);
+            msgPropMap.put(MailTemplateParameters.FIRST_NAME.value(), user.getFirstName());
+            msgPropMap.put(MailTemplateParameters.LAST_NAME.value(), user.getLastName());
 
-            client.sendAsync("vm://notifyUserByEmailMessage", request, msgPropMap);
+            client.sendAsync("vm://notifyUserByEmailMessage", NEW_USER_EMAIL_SUPERVISOR_NOTIFICATION, msgPropMap);
 
         } catch (MuleException me) {
             log.error(me.toString());

@@ -26,6 +26,9 @@ public class ReportInfo {
     @Column(name = "REPORT_FILE_PATH")
     private String reportFilePath;
 
+    public ReportInfo() {
+    }
+
     public String getId() {
         return id;
     }

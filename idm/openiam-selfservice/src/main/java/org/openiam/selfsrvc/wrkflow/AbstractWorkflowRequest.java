@@ -1,11 +1,11 @@
 package org.openiam.selfsrvc.wrkflow;
 
 import com.thoughtworks.xstream.XStream;
+import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestApprover;
@@ -21,13 +21,14 @@ import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import org.openiam.idm.srvc.org.dto.Organization;
 
 
 public abstract class AbstractWorkflowRequest extends AbstractController {
 
+    public static final String NEW_PENDING_REQUEST_NOTIFICATION = "NEW_PENDING_REQUEST";
     protected UserDataWebService userManager = null;
     protected OrganizationDataService orgManager = null;
     protected ResourceDataService resourceDataService;
@@ -175,18 +176,14 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
             if (!"ROLE".equalsIgnoreCase(ra.getApproverType())) {
                 // approver type is either User or Supervisor
 
-                NotificationRequest request = new NotificationRequest();
-                request.setUserId(ra.getApproverId());
-                request.setNotificationType("NEW_PENDING_REQUEST");
+                HashMap<String, String> mailParameters = new HashMap<String, String>();
+                mailParameters.put(MailTemplateParameters.USER_ID.value(), ra.getApproverId());
+                mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), pReq.getRequestId());
+                mailParameters.put(MailTemplateParameters.REQUESTER.value(), requestor.getFirstName() + " " + requestor.getLastName());
+                mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
+                mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
 
-                request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
-
-                request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestTitle()));
-                request.getParamList().add(new NotificationParam("REQUESTOR", requestor.getFirstName() + " " + requestor.getLastName()));
-                request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
-
-
-                mailService.sendNotification(request);
+                mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
 
             } else {
 
@@ -207,20 +204,15 @@ public abstract class AbstractWorkflowRequest extends AbstractController {
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u : roleApprovers) {
-                        NotificationRequest request = new NotificationRequest();
-                        // one of the approvers
-                        request.setUserId(u.getUserId());
-                        request.setNotificationType("NEW_PENDING_REQUEST");
 
-                        request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
+                        HashMap<String, String> mailParameters = new HashMap<String, String>();
+                        mailParameters.put(MailTemplateParameters.USER_ID.value(), u.getUserId());
+                        mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), pReq.getRequestId());
+                        mailParameters.put(MailTemplateParameters.REQUESTER.value(), usr.getFirstName() + " " + usr.getLastName());
+                        mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestReason());
+                        mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
 
-                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
-                        request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
-                        request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
-
-
-                        mailService.sendNotification(request);
-
+                        mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
                     }
 
                 }

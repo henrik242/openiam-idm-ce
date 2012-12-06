@@ -3,16 +3,21 @@ package org.openiam.webadmin.user;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.meta.dto.MetadataElement;
 import org.openiam.idm.srvc.meta.ws.MetadataWebService;
+import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.ws.AsynchIdentitySynchService;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.provision.service.AsynchUserProvisionService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
@@ -42,7 +47,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
     private GroupDataWebService groupManager;
     private RoleDataWebService roleDataService;
     private NavigatorDataWebService navigatorDataService;
-
+    private UserDataWebService userDataWebService;
 
     private AsynchUserProvisionService provService;
     private OrganizationDataService orgManager;
@@ -50,6 +55,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
     private ResourceDataService resourceDataService;
     private MetadataWebService metadataService;
     private AsynchIdentitySynchService syncClient;
+    private MailService notificationService;
 
     private String resourceType;
     private String redirectView;
@@ -97,15 +103,39 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         String userId = (String) session.getAttribute("userId");
         String login = (String) session.getAttribute("login");
 
-
-
         // populate the config object
         BulkMigrationConfig config = cmd.getConfig();
         config.setRequestorLogin(login);
 
         // start the provisioning process.
-        syncClient.bulkUserMigration(config);
+        if(BulkMigrationConfig.ACTION_SEND_EMAIL.equalsIgnoreCase(cmd.getActionType())) {
+            String selectedNotificationName = cmd.getSelectedNotificationName();
 
+            PropertyMap mailParameters = new PropertyMap();
+            StringBuilder ids = new StringBuilder();
+            StringBuilder emails = new StringBuilder();
+            boolean first = true;
+            for(String selUserId : cmd.getSelectedUserIds()) {
+                if(!first) {
+                    ids.append(",");
+                    emails.append(", ");
+                }
+                ids.append("'").append(selUserId).append("'");
+
+                User recipient = userDataWebService.getUserWithDependent(selUserId, true).getUser();
+                emails.append(recipient.getEmail());
+                if(first) {
+                    first = false;
+                }
+            }
+
+            mailParameters.addProperty(MailTemplateParameters.USER_IDS.value(), ids.toString());
+            mailParameters.addProperty(MailTemplateParameters.TO.value(), emails.toString());
+
+            notificationService.sendNotification(selectedNotificationName, mailParameters);
+        } else {
+            syncClient.bulkUserMigration(config);
+        }
         /*BulkMigrationConfig config = new BulkMigrationConfig(cmd.getLastName(), cmd.getCompanyId(), cmd.getDeptId(),
                 cmd.getDivision(), cmd.getAttributeName(), cmd.getAttributeValue(),
                 null, cmd.getOperation(), cmd.getTargetRole(), cmd.getTargetResource());
@@ -128,7 +158,7 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
 
 
-        return new ModelAndView(new RedirectView(redirectView + "&mode=1", true));
+        return new ModelAndView(new RedirectView(redirectView, true));
 
 
     }
@@ -298,5 +328,21 @@ public class BulkProvisioningController extends AbstractWizardFormController {
 
     public void setRedirectView(String redirectView) {
         this.redirectView = redirectView;
+    }
+
+    public MailService getNotificationService() {
+        return notificationService;
+    }
+
+    public void setNotificationService(MailService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public UserDataWebService getUserDataWebService() {
+        return userDataWebService;
+    }
+
+    public void setUserDataWebService(UserDataWebService userDataWebService) {
+        this.userDataWebService = userDataWebService;
     }
 }

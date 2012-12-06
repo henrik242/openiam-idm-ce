@@ -12,8 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.openiam.dozer.converter.OrganizationAttributeDozerConverter;
 import org.openiam.dozer.converter.OrganizationDozerConverter;
-import org.openiam.dozer.converter.UserAffiliationDozerConvertor;
-import org.openiam.dozer.converter.UserDozerConverter;
+import org.openiam.dozer.converter.UserAffiliationDozerConverter;
 import org.openiam.idm.srvc.org.domain.OrganizationAttributeEntity;
 import org.openiam.idm.srvc.org.domain.OrganizationEntity;
 import org.openiam.idm.srvc.org.dto.*;
@@ -54,7 +53,7 @@ public class OrganizationDataServiceImpl implements OrganizationDataService {
     private OrganizationAttributeDozerConverter organizationAttributeDozerConverter;
 
     @Autowired
-    private UserAffiliationDozerConvertor userAffiliationDozerConvertor;
+    private UserAffiliationDozerConverter userAffiliationDozerConvertor;
     /**
      * Returns a list of companies that match the search criteria.
      *

@@ -4,6 +4,7 @@ package org.openiam.selfsrvc.reg;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.cd.dto.ReferenceData;
 import org.openiam.idm.srvc.cd.service.ReferenceDataService;
@@ -18,9 +19,8 @@ import org.openiam.idm.srvc.loc.ws.LocationDataWebService;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.service.PolicyDataService;
@@ -64,6 +64,7 @@ import java.util.*;
  */
 public class SelfRegistrationController extends CancellableFormController {
 
+    public static final String NEW_PENDING_REQUEST_NOTIFICATION = "NEW_PENDING_REQUEST";
     protected LoginDataWebService loginManager;
     protected GroupDataWebService groupManager;
     protected RoleDataWebService roleDataService;
@@ -327,18 +328,14 @@ public class SelfRegistrationController extends CancellableFormController {
 
             if (!ra.getApproverType().equalsIgnoreCase("ROLE")) {
 
-                NotificationRequest request = new NotificationRequest();
-                request.setUserId(ra.getApproverId());
-                request.setNotificationType("NEW_PENDING_REQUEST");
+                HashMap<String, String> mailParameters = new HashMap<String, String>();
+                mailParameters.put(MailTemplateParameters.USER_ID.value(), ra.getApproverId());
+                mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), pReq.getRequestId());
+                mailParameters.put(MailTemplateParameters.REQUESTER.value(), usr.getFirstName() + " " + usr.getLastName());
+                mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
+                mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
 
-                request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
-
-                request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestTitle()));
-                request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
-                request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
-
-
-                mailService.sendNotification(request);
+                mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
             } else {
                 // approverType is ROLE
                 // get
@@ -355,20 +352,17 @@ public class SelfRegistrationController extends CancellableFormController {
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u : roleApprovers) {
-                        NotificationRequest request = new NotificationRequest();
-                        // one of the approvers
-                        request.setUserId(u.getUserId());
-                        request.setNotificationType("NEW_PENDING_REQUEST");
-
-                        request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
-
-                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
-                        request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
-                        request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
 
                         log.info("notifyApprover:: Sending message to:   " + u);
 
-                        mailService.sendNotification(request);
+                        HashMap<String, String> mailParameters = new HashMap<String, String>();
+                        mailParameters.put(MailTemplateParameters.USER_ID.value(), u.getUserId());
+                        mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), pReq.getRequestId());
+                        mailParameters.put(MailTemplateParameters.REQUESTER.value(), usr.getFirstName() + " " + usr.getLastName());
+                        mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestReason());
+                        mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
+
+                        mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
 
                     }
 

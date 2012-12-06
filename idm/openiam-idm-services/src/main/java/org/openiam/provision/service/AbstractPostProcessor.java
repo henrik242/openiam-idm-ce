@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.provision.dto.PasswordSync;
 import org.openiam.provision.dto.ProvisionUser;
 
@@ -35,23 +34,6 @@ public abstract class AbstractPostProcessor implements ProvisionServicePostProce
 
     public void setMuleContext(MuleContext ctx) {
         muleContext = ctx;
-    }
-
-    public void sendEmailNotification( NotificationRequest request) {
-        try {
-
-
-            MuleClient client = new MuleClient(muleContext);
-
-            Map<String, String> msgPropMap = new HashMap<String, String>();
-            msgPropMap.put("SERVICE_HOST", serviceHost);
-            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
-
-            client.sendAsync("vm://notifyUserByEmailMessage", request, msgPropMap);
-
-        } catch (MuleException me) {
-            log.error(me.toString());
-        }
     }
 
     public abstract int addUser(ProvisionUser user, Map<String, Object> bindingMap);

@@ -38,7 +38,7 @@ public class OrgPolicyServiceImpl implements OrgPolicyService {
 	OrgPolicyUserLogDAO userLogDao; 
 	
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#addMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
+	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#addNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
 	public OrgPolicy addPolicyMessage(OrgPolicy policy) {
 		if (policy == null) {
@@ -78,7 +78,7 @@ public class OrgPolicyServiceImpl implements OrgPolicyService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#getMessageById(java.lang.String)
+	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#getNotificationById(java.lang.String)
 	 */
 	public OrgPolicy getPolicyMessageById(String id) {
 		if (id == null) {
@@ -89,7 +89,7 @@ public class OrgPolicyServiceImpl implements OrgPolicyService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#removeMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
+	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#removeNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
 	public void removePolicyMessage(String orgPolicyId) {
 		if (orgPolicyId == null) {
@@ -102,7 +102,7 @@ public class OrgPolicyServiceImpl implements OrgPolicyService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#updateMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
+	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#updateNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
 	public OrgPolicy updatePolicyMessage(OrgPolicy msg) {
 		if (msg == null) {

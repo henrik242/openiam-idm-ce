@@ -1,29 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE beans [
-        <!ELEMENT beans (bean)*>
-        <!ATTLIST beans
-                xmlns CDATA #REQUIRED
-                xmlns:xsi CDATA #REQUIRED
-                xmlns:aop CDATA #REQUIRED
-                xmlns:tx CDATA #REQUIRED
-                xsi:schemaLocation CDATA #REQUIRED>
-        <!ELEMENT bean (property)*>
-        <!ATTLIST bean
-                class CDATA #REQUIRED
-                id CDATA #REQUIRED>
-        <!ELEMENT property (value|list|props)*>
-        <!ATTLIST property
-                name CDATA #REQUIRED
-                ref CDATA #IMPLIED
-                value CDATA #IMPLIED>
-        <!ELEMENT value (#PCDATA)>
-        <!ELEMENT list (value)*>
-        <!ELEMENT props (prop)*>
-        <!ELEMENT prop (#PCDATA)>
-        <!ATTLIST prop
-                key CDATA #REQUIRED>
-        ]>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:aop="http://www.springframework.org/schema/aop"
@@ -580,23 +556,42 @@
 <!-- Sys Message controller -->     
 
      <bean id="sysMessageList" class="org.openiam.webadmin.admin.sysmsg.SysMsgListController">
-		<property name="successView" value="/maint/sysmsglist" />
-		<property name="sysMessageService" ref="sysMessageClient" />		
+         <property name="commandName" value="sysMsgListCmd" />
+         <property name="commandClass" value="org.openiam.webadmin.admin.sysmsg.SysMsgListCommand" />
+         <property name="formView" value="/maint/sysmsglist" />
+         <property name="successView" value="maint/sysmsg" />
+         <property name="sysMessageService" ref="sysMessageClient" />
+         <property name="mailTemplateWebService" ref="mailTemplateClient" />
      </bean>
      
      <bean id="sysMessageDetail" class="org.openiam.webadmin.admin.sysmsg.SysMsgDetailController">
 		<property name="commandName" value="sysMsgCmd" />
 		<property name="commandClass" value="org.openiam.webadmin.admin.sysmsg.SysMsgCommand" />
-		<property name="formView" value="/maint/sysmsgdetail" />
-		<property name="successView" value="/maint/sysmsglist" />
-		<property name="redirectView" value="sysMessageList.cnt?mode=1" />	
-		<property name="sysMessageService" ref="sysMessageClient" />	
-		<property name="mailService" ref="mailServiceClient" />
-		<property name="emailAddress" value="no-reply@openiam.org" />
-		<property name="userMgr" ref="userServiceClient" />
-		<property name="loginManager" ref="loginServiceClient" />
+		<property name="formView" value="/maint/sysmsg" />
+		<property name="successView" value="maint/sysmsglist" />
+		<property name="redirectView" value="sysMessageList.cnt?mode=1" />
+        <property name="sysMessageService" ref="sysMessageClient" />
+        <property name="mailTemplateWebService" ref="mailTemplateClient" />
      </bean>
 
+    <!-- Mail Template Message controller -->
+
+    <bean id="mailTemplateList" class="org.openiam.webadmin.admin.mailtmpl.MailTemplateListController">
+        <property name="commandName" value="mailTmplListCmd" />
+        <property name="commandClass" value="org.openiam.webadmin.admin.mailtmpl.MailTemplateListCommand" />
+        <property name="formView" value="/maint/mailtmpllist" />
+        <property name="successView" value="maint/mailtmpl" />
+        <property name="mailTemplateWebService" ref="mailTemplateClient" />
+    </bean>
+
+    <bean id="mailTemplateDetail" class="org.openiam.webadmin.admin.mailtmpl.MailTemplateController">
+        <property name="commandName" value="mailTmplCmd" />
+        <property name="commandClass" value="org.openiam.webadmin.admin.mailtmpl.MailTemplateCommand" />
+        <property name="formView" value="/maint/mailtmpl" />
+        <property name="successView" value="maint/mailtmpllist" />
+        <property name="redirectView" value="mailTmplList.cnt?mode=1" />
+        <property name="mailTemplateWebService" ref="mailTemplateClient" />
+    </bean>
 <!-- Load Data controllers  -->
     
 
@@ -918,11 +913,15 @@
         <property name="metadataService" ref="metadataServiceClient"	/>
         <property name="resourceType" value="MANAGED_SYS" />
         <property name="syncClient" ref="asynchSynchConfigServiceClient" />
-        <property name="redirectView" value="idman/userSearch.do?action=view" />
+        <property name="redirectView" value="userBulk.cnt?mode=1" />
+        <property name="notificationService" ref="mailServiceClient" />
+        <property name="userDataWebService" ref="userServiceClient" />
     </bean>
 
     <bean id="bulkProvisioningValidator" class="org.openiam.webadmin.user.BulkProvsioningValidator">
         <property name="idSyncClient" ref="synchConfigServiceClient" />
+        <property name="userDataWebService" ref="userServiceClient" />
+        <property name="sysMessageService" ref="sysMessageClient" />
     </bean>
 
 
@@ -982,6 +981,8 @@
                 <prop key="/orgPolicyDetail.cnt">orgPolicyDetail</prop>
                 <prop key="/sysMessageList.cnt">sysMessageList</prop>
                 <prop key="/sysMessageDetail.cnt">sysMessageDetail</prop>
+                <prop key="/mailTmplList.cnt">mailTemplateList</prop>
+                <prop key="/mailTmplDetail.cnt">mailTemplateDetail</prop>
                 <prop key="/resourcelist.cnt">resourceList</prop>
                 <prop key="/resourceDetail.cnt">resourceDetail</prop>
                 <prop key="/resourceMap.cnt">resourceMap</prop>

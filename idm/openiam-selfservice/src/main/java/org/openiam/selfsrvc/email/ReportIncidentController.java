@@ -73,7 +73,7 @@ public class ReportIncidentController extends SimpleFormController {
         System.out.println("Sending email from new hire form....");
 
 		mailService.send(rptIncidentCmd.getFrom(), emailAddress, rptIncidentCmd.getSubject(), 
-				rptIncidentCmd.getMessage());
+				rptIncidentCmd.getMessage(), false);
 		
 
 		

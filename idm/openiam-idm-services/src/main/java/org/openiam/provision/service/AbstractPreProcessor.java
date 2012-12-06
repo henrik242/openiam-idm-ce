@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,20 +35,4 @@ public abstract class AbstractPreProcessor implements ProvisionServicePreProcess
         muleContext = ctx;
     }
 
-    public void sendEmailNotification( NotificationRequest request) {
-        try {
-
-
-            MuleClient client = new MuleClient(muleContext);
-
-            Map<String, String> msgPropMap = new HashMap<String, String>();
-            msgPropMap.put("SERVICE_HOST", serviceHost);
-            msgPropMap.put("SERVICE_CONTEXT", serviceContext);
-
-            client.sendAsync("vm://notifyUserByEmailMessage", request, msgPropMap);
-
-        } catch (MuleException me) {
-            log.error(me.toString());
-        }
-    }
 }

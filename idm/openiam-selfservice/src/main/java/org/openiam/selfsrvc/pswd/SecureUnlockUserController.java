@@ -3,11 +3,11 @@ package org.openiam.selfsrvc.pswd;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenRequest;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenResponse;
 import org.openiam.idm.srvc.pswd.ws.PasswordWebService;
@@ -30,7 +30,8 @@ import java.util.*;
 public class SecureUnlockUserController extends CancellableFormController {
 
 
-	protected UserDataWebService userMgr;
+    public static final String REQUEST_PASSWORD_RESET_NOTIFICATION = "REQUEST_PASSWORD_RESET";
+    protected UserDataWebService userMgr;
 	protected LoginDataWebService loginManager;
 	protected PasswordConfiguration configuration;
     protected String extendController;
@@ -110,14 +111,12 @@ public class SecureUnlockUserController extends CancellableFormController {
 
         String baseUrl = res.getString("APP_BASE_URL");
 
-        NotificationRequest request = new NotificationRequest();
-        request.setUserId(userId);
-        request.setNotificationType("REQUEST_PASSWORD_RESET");
+        HashMap<String, String> mailParameters = new HashMap<String, String>();
+        mailParameters.put(MailTemplateParameters.USER_ID.value(), userId);
+        mailParameters.put(MailTemplateParameters.BASE_URL.value(), baseUrl);
+        mailParameters.put(MailTemplateParameters.TOKEN.value(), baseUrl);
 
-        request.getParamList().add(new NotificationParam("BASE_URL", baseUrl ));
-        request.getParamList().add(new NotificationParam("TOKEN", token));
-
-        mailService.sendNotification(request);
+        mailService.sendNotification(REQUEST_PASSWORD_RESET_NOTIFICATION, new PropertyMap(mailParameters));
     }
 
 

@@ -246,6 +246,14 @@
 	  <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}SysMessageWebService?"/>
 	</bean>
 
+    <bean id="mailTemplateClient" class="org.openiam.idm.srvc.msg.ws.MailTemplateWebService"
+          factory-bean="mailTemplateFactory" factory-method="create"/>
+
+
+    <bean id="mailTemplateFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.msg.ws.MailTemplateWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}MailTemplateWebService?"/>
+    </bean>
     <!--
    <bean id="bpmServiceClient" class="org.openiam.idm.srvc.bpm.service.BpmService" 
       factory-bean="bpmServiceFactory" factory-method="create"/>

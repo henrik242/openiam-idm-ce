@@ -1,22 +1,17 @@
 package org.openiam.selfsrvc.wrkflow.terminate;
 
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.auth.dto.Login;
-import org.openiam.idm.srvc.auth.ws.LoginResponse;
-import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
+import org.openiam.base.ws.PropertyMap;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestUser;
-import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.selfsrvc.wrkflow.AbstractCompleteRequest;
 
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,6 +19,9 @@ import java.util.Set;
  * User: suneetshah
  */
 public class CompleteTerminateRequest extends AbstractCompleteRequest {
+
+    public static final String TERMINATE_REQUEST_APPROVED_NOTIFICATION = "REQUEST_APPROVED";
+    public static final String REQUEST_REJECTED_NOTIFICATION = "REQUEST_REJECTED";
 
     public void approveRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId ) {
 
@@ -58,20 +56,14 @@ public class CompleteTerminateRequest extends AbstractCompleteRequest {
             }
         }
 
+        HashMap<String,String> mailParameters = new HashMap<String, String>();
+        mailParameters.put(MailTemplateParameters.USER_ID.value(), notifyUserId);
+        mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), req.getRequestTitle());
+        mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), req.getRequestId());
+        mailParameters.put(MailTemplateParameters.TARGET_USER.value(), targetUserName);
+        mailParameters.put(MailTemplateParameters.REQUESTER.value(), approver.getFirstName() + " " + approver.getLastName());
 
-        NotificationRequest request = new NotificationRequest();
-        // send a message to this user
-        request.setUserId(notifyUserId);
-        request.setNotificationType("TERMINATE_REQUEST_APPROVED");
-
-        request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
-
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestTitle()));
-        request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
-        request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-
-
-        mailService.sendNotification(request);
+        mailService.sendNotification(TERMINATE_REQUEST_APPROVED_NOTIFICATION, new PropertyMap(mailParameters));
     }
 
     public void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
@@ -91,19 +83,14 @@ public class CompleteTerminateRequest extends AbstractCompleteRequest {
 
         }
 
-        NotificationRequest request = new NotificationRequest();
-        request.setUserId(notifyUserId);
-        request.setNotificationType("REQUEST_REJECTED");
-        request.setTo(notifyEmail);
+        HashMap<String,String> mailParameters = new HashMap<String, String>();
+        mailParameters.put(MailTemplateParameters.USER_ID.value(), notifyUserId);
+        mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), req.getRequestTitle());
+        mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), req.getRequestId());
+        mailParameters.put(MailTemplateParameters.TARGET_USER.value(), targetUserName);
+        mailParameters.put(MailTemplateParameters.REQUESTER.value(), approver.getFirstName() + " " + approver.getLastName());
 
-        request.getParamList().add(new NotificationParam("REQUEST_ID", req.getRequestId()));
-
-        request.getParamList().add(new NotificationParam("REQUEST_REASON", req.getRequestTitle()));
-        request.getParamList().add(new NotificationParam("REQUESTOR", approver.getFirstName() + " " + approver.getLastName()));
-        request.getParamList().add(new NotificationParam("TARGET_USER", targetUserName));
-
-        mailService.sendNotification(request);
-
+        mailService.sendNotification(REQUEST_REJECTED_NOTIFICATION, new PropertyMap(mailParameters));
 
     }
 

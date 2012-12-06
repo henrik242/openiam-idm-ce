@@ -1,51 +1,27 @@
 package org.openiam.idm.srvc.msg.service;
 
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
+import org.openiam.base.ws.PropertyMap;
+import org.openiam.base.ws.PropertyMapAdapter;
+import org.openiam.base.ws.Response;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.HashMap;
 
 /**
  * Provides methods to be able to send emails.
  *
  * @author suneet
  */
-@WebService
+@WebService(targetNamespace = "urn:idm.openiam.org/srvc/msg/service", name = "EmailWebService")
 public interface MailService {
 
-    /**
-     * Sends an email to a specific user
-     */
     @WebMethod
-    void send(String from, String to, String Subject, String msg);
+    Response sendNotification(@WebParam(name = "notificationName", targetNamespace = "") String notificationName, @WebParam(name = "mailParams", targetNamespace = "") PropertyMap mailParams);
 
     @WebMethod
-    void sendWithCC(String from, String to, String cc, String subject, String msg);
+    void send(String from, String to, String subject, String msg, boolean isHtmlFormat);
 
-    /**
-     * Sends an email all users with OpenIAM
-     */
-
-    @WebMethod
-    void sendToAllUsers();
-
-    /**
-     * Sends an email all users in a specific group
-     *
-     * @param groupId
-     */
-    @WebMethod
-    void sendToGroup(String groupId);
-
-    /**
-     * Sends out a notification based on the information defined in the notification request.
-     *
-     * @param req
-     */
-
-    @WebMethod
-    boolean sendNotification(
-            @WebParam(name = "req", targetNamespace = "")
-            NotificationRequest req);
 }

@@ -294,6 +294,19 @@
 			</service>
 		</model>
 
+    <model name="tmplServiceModel">
+        <service name="tmplService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}MailTemplateWebService" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="templateWS" />
+            </component>
+        </service>
+    </model>
+
 		<model name="policyAcceptServiceModel">
 			<service name="policyAcceptService">
 				<inbound>

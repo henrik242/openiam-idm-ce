@@ -319,12 +319,19 @@
       factory-bean="sysMessageFactory" factory-method="create"/>
 
 
-<bean id="sysMessageFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+    <bean id="sysMessageFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
 	  <property name="serviceClass" value="org.openiam.idm.srvc.msg.ws.SysMessageWebService"/>
 	  <property name="address" value="${openiam.service_host}${openiam.idm.ws.path}SysMessageWebService?"/>
 	</bean>
 
-  
+    <bean id="mailTemplateClient" class="org.openiam.idm.srvc.msg.ws.MailTemplateWebService"
+          factory-bean="mailTemplateFactory" factory-method="create"/>
+
+
+    <bean id="mailTemplateFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.msg.ws.MailTemplateWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}MailTemplateWebService?"/>
+    </bean>
 <!-- Report servise -->
     <bean id="reportServiceClient" class="org.openiam.idm.srvc.report.ws.WebReportService"
       factory-bean="reportServiceFactory" factory-method="create"/>

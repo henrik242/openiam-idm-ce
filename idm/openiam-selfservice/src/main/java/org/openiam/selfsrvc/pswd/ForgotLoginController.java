@@ -94,7 +94,7 @@ public class ForgotLoginController extends SimpleFormController {
 			if (lg.getId().getManagedSysId().equalsIgnoreCase( configuration.getDefaultManagedSysId() )) {
 				// found the primary id
 				emailLoginId(lg.getId().getLogin(), cmd.getFirstName(), cmd.getLastName(), 
-						cmd.getPhone(), cmd.getEmailAddres());
+						cmd.getPhone(), cmd.getEmailAddres(), false);
 			}
 		}
 		
@@ -104,13 +104,13 @@ public class ForgotLoginController extends SimpleFormController {
 	}
 
 
-	private void emailLoginId(String login, String firstName, String lastName, String phone, String email) {
+	private void emailLoginId(String login, String firstName, String lastName, String phone, String email, boolean isHtmlFormat) {
 		
 		String msg = "Name=" + firstName + " " + lastName + "\n" +
 				" Phone=" + phone + "\n" + 
 				" Login Id=" + login + "\n";
 		
-		mailService.send(fromEmailAddress, email, emailSubject,	msg);
+		mailService.send(fromEmailAddress, email, emailSubject,	msg, false);
 	}
 
 	public UserDataWebService getUserMgr() {

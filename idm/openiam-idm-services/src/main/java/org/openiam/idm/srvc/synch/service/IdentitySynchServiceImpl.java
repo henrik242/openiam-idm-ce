@@ -42,6 +42,7 @@ import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.srcadapter.AdapterFactory;
+import org.openiam.idm.srvc.synch.util.UserSearchUtils;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.idm.srvc.user.dto.User;
@@ -246,7 +247,7 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         Response resp = new Response(ResponseStatus.SUCCESS);
 
         // select the user that we need to move
-        UserSearch search = buildSearch(config);
+        UserSearch search = UserSearchUtils.buildSearch(config);
         if (search.isEmpty()) {
             resp.setStatus(ResponseStatus.FAILURE);
             return resp;
@@ -272,7 +273,7 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
         Response resp = new Response(ResponseStatus.SUCCESS);
 
         // select the user that we need to move
-        UserSearch search = buildSearch(config);
+        UserSearch search = UserSearchUtils.buildSearch(config);
         if (search.isEmpty()) {
             resp.setStatus(ResponseStatus.FAILURE);
             return resp;
@@ -368,50 +369,6 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
             log.debug("EXCEPTION:bulkUserMigration");
             log.error(e);
         }
-    }
-
-    private UserSearch buildSearch(BulkMigrationConfig config){
-        UserSearch search = new UserSearch();
-        if (config.getOrganizationId() != null && !config.getOrganizationId().isEmpty()) {
-             search.setOrgId(config.getOrganizationId());
-        }
-
-        if (config.getLastName() != null && !config.getLastName().isEmpty()) {
-            search.setLastName(config.getLastName() + "%");
-        }
-
-        if (config.getDeptId() != null && !config.getDeptId().isEmpty()) {
-            search.setDeptCd(config.getDeptId());
-        }
-
-        if (config.getDivision() != null && !config.getDivision().isEmpty()) {
-            search.setDivision(config.getDivision());
-        }
-
-        if (config.getAttributeName() != null && !config.getAttributeName().isEmpty()) {
-            search.setAttributeName(config.getAttributeName());
-            search.setAttributeValue(config.getAttributeValue());
-        }
-
-        if (config.getUserStatus() != null ) {
-            search.setStatus(config.getUserStatus().toString());
-        }
-
-        // allow selection by a role
-        if (config.getRole() != null && !config.getRole().isEmpty())     {
-            String r = config.getRole();
-            int indx = r.indexOf("*");
-            String roleId = r.substring(indx+1, r.length()) ;
-            String domainId = r.substring(0, indx);
-
-            List<String> roleList = new ArrayList<String>();
-            roleList.add(roleId );
-            search.setRoleIdList(roleList);
-            search.setDomainId(domainId);
-        }
-
-        return search;
-
     }
 
     private UserSearch buildSearchByRole(RoleId roleId) {

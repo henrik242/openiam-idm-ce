@@ -19,8 +19,6 @@ import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.idm.srvc.continfo.dto.Phone;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 import org.openiam.idm.srvc.user.dto.User;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
 
 /**
 * Post-processor script that is used with the Provisioning service.

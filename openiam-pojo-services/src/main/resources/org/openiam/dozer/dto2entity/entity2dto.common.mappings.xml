@@ -131,4 +131,13 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.openiam.idm.srvc.msg.domain.NotificationEntity</class-a>
+        <class-b>org.openiam.idm.srvc.msg.dto.NotificationDto</class-b>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.msg.domain.MailTemplateEntity</class-a>
+        <class-b>org.openiam.idm.srvc.msg.dto.MailTemplateDto</class-b>
+    </mapping>
 </mappings>

@@ -15,15 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.openiam.base.ExtendController;
-import org.openiam.idm.srvc.msg.dto.NotificationRequest;
+import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.msg.service.MailService;
+import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.webadmin.util.AuditHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -62,13 +62,13 @@ import org.openiam.provision.service.AsynchUserProvisionService;
 import org.openiam.webadmin.admin.AppConfiguration;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
-import org.openiam.idm.srvc.msg.dto.NotificationParam;
 
 
 public class EditUserController extends CancellableFormController {
 
 
-	protected UserDataWebService userMgr;
+    public static final String NEW_USER_NOTIFICATION = "NEW_USER_EMAIL";
+    protected UserDataWebService userMgr;
 	protected LoginDataWebService loginManager;
 	protected GroupDataWebService groupManager;
 	protected RoleDataWebService roleDataService;
@@ -397,19 +397,15 @@ public class EditUserController extends CancellableFormController {
         Login l = loginManager.getPrimaryIdentity(user.getUserId()).getPrincipal();
         String identity = l.getId().getLogin();
         String password = (String)loginManager.decryptPassword(l.getPassword()).getResponseValue();
+        HashMap<String, String> mailParameters = new HashMap<String, String>();
+        mailParameters.put(MailTemplateParameters.PASSWORD.value(), password);
+        mailParameters.put(MailTemplateParameters.IDENTITY.value(), identity);
+        mailParameters.put(MailTemplateParameters.TO.value(),user.getEmail());
+        mailParameters.put(MailTemplateParameters.FIRST_NAME.value(),user.getFirstName());
+        mailParameters.put(MailTemplateParameters.LAST_NAME.value(),user.getLastName());
+        mailParameters.put(MailTemplateParameters.USER_ID.value(),user.getUserId());
 
-
-        NotificationRequest request = new NotificationRequest();
-        request.setUserId(user.getUserId());
-        request.setNotificationType("NEW_USER_EMAIL");
-
-        request.getParamList().add(new NotificationParam("IDENTITY", identity));
-        request.getParamList().add(new NotificationParam("PSWD", password));
-
-
-        notificationService.sendNotification(request);
-
-
+        notificationService.sendNotification(NEW_USER_NOTIFICATION, new PropertyMap(mailParameters));
     }
 
 	

@@ -1,9 +1,13 @@
 package org.openiam.webadmin.user;
 
+import org.openiam.idm.srvc.msg.dto.NotificationDto;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
+import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -12,6 +16,8 @@ import java.io.Serializable;
  * @author suneet
  */
 public class BulkProvisioningCommand implements Serializable {
+    public static final String MSG_PLAIN = "PLAIN";
+    public static final String MSG_HTML = "HTML";
 
     private String lastName;
     private String companyId;
@@ -38,8 +44,11 @@ public class BulkProvisioningCommand implements Serializable {
 
     private BulkMigrationConfig config;
 
+    private List<User> users = Collections.EMPTY_LIST;
+    private List<String> selectedUserIds = Collections.EMPTY_LIST;
 
-
+    private List<NotificationDto> notifications = Collections.EMPTY_LIST;
+    private String selectedNotificationName;
 
     public String getLastName() {
         return lastName;
@@ -119,6 +128,14 @@ public class BulkProvisioningCommand implements Serializable {
 
     public void setUserStatus(UserStatusEnum userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public List<NotificationDto> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<NotificationDto> notifications) {
+        this.notifications = notifications;
     }
 
     public boolean isSearchDefined() {
@@ -219,6 +236,31 @@ public class BulkProvisioningCommand implements Serializable {
     public void setConfig(BulkMigrationConfig config) {
         this.config = config;
     }
+
+    public String getSelectedNotificationName() {
+        return selectedNotificationName;
+    }
+
+    public void setSelectedNotificationName(String selectedNotificationName) {
+        this.selectedNotificationName = selectedNotificationName;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<String> getSelectedUserIds() {
+        return selectedUserIds;
+    }
+
+    public void setSelectedUserIds(List<String> selectedUserIds) {
+        this.selectedUserIds = selectedUserIds;
+    }
+
 }
 
 

@@ -27,8 +27,8 @@ import javax.jws.WebService;
 
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.msg.dto.NotificationConfig;
-import org.openiam.idm.srvc.msg.service.SysMessageService;
+import org.openiam.idm.srvc.msg.dto.NotificationDto;
+import org.openiam.idm.srvc.msg.service.NotificationService;
 
 
 /**
@@ -42,14 +42,14 @@ import org.openiam.idm.srvc.msg.service.SysMessageService;
 public class SysMessageWebServiceImpl implements
 		SysMessageWebService {
 
-	SysMessageService msgService; 
+	private NotificationService msgService;
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#addMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
+	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#addNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
-	public SysMessageResponse addMessage(NotificationConfig msg) {
+	public SysMessageResponse addMessage(NotificationDto msg) {
 		SysMessageResponse resp = new SysMessageResponse(ResponseStatus.SUCCESS);
-		NotificationConfig newMsg = msgService.addMessage(msg);
-		if (newMsg.getNotificationConfigId() == null || newMsg.getNotificationConfigId().isEmpty()) {
+        NotificationDto newMsg = msgService.addNotification(msg);
+		if (newMsg.getMsgId() == null || newMsg.getMsgId().isEmpty()) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setSysMessage(newMsg);
@@ -61,12 +61,12 @@ public class SysMessageWebServiceImpl implements
 
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#getMessageById(java.lang.String)
+	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#getNotificationById(java.lang.String)
 	 */
 	public SysMessageResponse getMessageById(String id) {
 		SysMessageResponse resp = new SysMessageResponse(ResponseStatus.SUCCESS);
-		NotificationConfig msg = msgService.getMessageById(id);
-		if (msg.getNotificationConfigId() == null || msg.getNotificationConfigId().isEmpty()) {
+        NotificationDto msg = msgService.getNotificationById(id);
+		if (msg.getMsgId() == null || msg.getMsgId().isEmpty()) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setSysMessage(msg);
@@ -75,22 +75,22 @@ public class SysMessageWebServiceImpl implements
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#removeMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
+	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#removeNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
 	public Response removeMessage(String msgId) {
 		Response resp = new Response(ResponseStatus.SUCCESS);
-		msgService.removeMessage(msgId);
+		msgService.removeNotification(msgId);
 		return resp;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#updateMessage(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
+	 * @see org.openiam.idm.srvc.msg.ws.SysMessageDeliveryWebService#updateNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
 	 */
 	public SysMessageResponse updateMessage(
-			NotificationConfig msg) {
+            NotificationDto msg) {
 		SysMessageResponse resp = new SysMessageResponse(ResponseStatus.SUCCESS);
-		NotificationConfig newMsg = msgService.updateMessage(msg);
-		if (newMsg.getNotificationConfigId() == null || newMsg.getNotificationConfigId().isEmpty()) {
+        NotificationDto newMsg = msgService.updateNotification(msg);
+		if (newMsg.getMsgId() == null || newMsg.getMsgId().isEmpty()) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
 			resp.setSysMessage(newMsg);
@@ -99,11 +99,11 @@ public class SysMessageWebServiceImpl implements
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.msg.ws.SysMessageWebService#getAllMessages()
+	 * @see org.openiam.idm.srvc.msg.ws.SysMessageWebService#getAllNotifications()
 	 */
 	public SysMessageListResponse getAllMessages() {
 		SysMessageListResponse resp = new SysMessageListResponse(ResponseStatus.SUCCESS);
-		List<NotificationConfig> msgList = msgService.getAllMessages();
+		List<NotificationDto> msgList = msgService.getAllNotifications();
 		if (msgList == null || msgList.isEmpty()) {
 			resp.setStatus(ResponseStatus.FAILURE);
 		}else {
@@ -112,11 +112,11 @@ public class SysMessageWebServiceImpl implements
 		return resp;
 	}
 
-	public SysMessageService getMsgService() {
+	public NotificationService getMsgService() {
 		return msgService;
 	}
 
-	public void setMsgService(SysMessageService msgService) {
+	public void setMsgService(NotificationService msgService) {
 		this.msgService = msgService;
 	}
 

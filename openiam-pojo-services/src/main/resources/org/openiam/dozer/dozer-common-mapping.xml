@@ -99,4 +99,13 @@
         <class-b>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-b>
     </mapping>
 
+    <mapping>
+        <class-a>org.openiam.idm.srvc.msg.dto.NotificationDto</class-a>
+        <class-b>org.openiam.idm.srvc.msg.dto.NotificationDto</class-b>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.msg.dto.MailTemplateDto</class-a>
+        <class-b>org.openiam.idm.srvc.msg.dto.MailTemplateDto</class-b>
+    </mapping>
 </mappings>

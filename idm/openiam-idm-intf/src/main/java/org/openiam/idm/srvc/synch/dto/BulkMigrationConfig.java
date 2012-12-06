@@ -13,6 +13,7 @@ public class BulkMigrationConfig {
 
     public static final String ACTION_RESET_PASSWORD = "RESET_PASSWORD";
     public static final String ACTION_MODIFY_ACCESS = "MODIFY_ACCESS";
+    public static final String ACTION_SEND_EMAIL = "SEND_EMAIL";
 
     String lastName;
     String organizationId;

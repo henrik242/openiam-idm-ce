@@ -67,7 +67,8 @@
 											   org.openiam.idm.srvc.continfo.domain*,
 											   org.openiam.idm.srvc.res.domain*,
 											   org.openiam.idm.srvc.role.domain*,
-											   org.openiam.idm.srvc.grp.domain*"/>
+											   org.openiam.idm.srvc.grp.domain*,
+											   org.openiam.idm.srvc.msg.domain*"/>
     </bean>
 
     <!--tx begin-->
@@ -182,10 +183,169 @@
 	</bean>
 
 	<bean id="roleAttributeDAO" class="org.openiam.idm.srvc.role.service.RoleAttributeDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
 	<bean id="rolePolicyDAO" class="org.openiam.idm.srvc.role.service.RolePolicyDAOImpl" >
-		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+
+    <!-- Email Beans -->
+    <bean id="sysMessageDAO" class="org.openiam.idm.srvc.msg.service.NotificationDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="sysMessageService" class="org.openiam.idm.srvc.msg.service.NotificationServiceImpl" >
+        <property name="msgDao" ref="sysMessageDAO" />
+    </bean>
+    <bean id="loginDAO" class="org.openiam.idm.srvc.auth.login.LoginDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+        <property name="dbType" value="${openiam.dbType}" />
+    </bean>
+
+    <bean id="sysConfiguration" class="org.openiam.base.SysConfiguration">
+        <property name="defaultManagedSysId" value="${openiam.default_managed_sys}" />
+        <property name="defaultSecurityDomain" value="${openiam.default_sec_domain}" />
+    </bean>
+
+    <bean id="loginAttrDAO" class="org.openiam.idm.srvc.auth.login.LoginAttributeDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="cryptor" class="org.openiam.util.encrypt.DESedeCryptor" >
+    </bean>
+    <bean id="secDomainService" class="org.openiam.idm.srvc.secdomain.service.SecurityDomainDataServiceImpl" >
+        <property name="secDomainDao" ref="secDomainDAO" />
+    </bean>
+
+    <bean id="secDomainDAO" class="org.openiam.idm.srvc.secdomain.service.SecurityDomainDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="userManager" class="org.openiam.idm.srvc.user.service.UserMgr" >
+        <property name="userDao" ref="userDAO" />
+        <property name="userAttributeDao" ref="userAttributeDAO" />
+        <property name="userNoteDao" ref="userNoteDAO" />
+        <property name="addressDao" ref="addressDAO" />
+        <property name="emailAddressDao" ref="emailAddressDAO" />
+        <property name="phoneDao" ref="phoneDAO" />
+        <property name="supervisorDao" ref="supervisorDAO" />
+        <property name="loginDao" ref="loginDAO" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
+    </bean>
+    <bean id="policyDAO" class="org.openiam.idm.srvc.policy.service.PolicyDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="userWS" class="org.openiam.idm.srvc.user.ws.UserDataWebServiceImpl" >
+        <property name="userManager" ref="userManager" />
+    </bean>
+
+    <bean id="mailSender" class=" org.openiam.idm.srvc.msg.service.MailSender">
+        <property name="host" value="${mail.host}" />
+        <property name="port" value="${mail.port}" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}" />
+        <property name="auth" value="false" />
+        <property name="starttls" value="false" />
+    </bean>
+    <bean id="passwordHistoryDAO" class="org.openiam.idm.srvc.pswd.service.PasswordHistoryDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="policyDefDAO" class="org.openiam.idm.srvc.policy.service.PolicyDefDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="policyDefParamDAO" class="org.openiam.idm.srvc.policy.service.PolicyDefParamDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="policyObjectAssocDAO" class="org.openiam.idm.srvc.policy.service.PolicyObjectAssocDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="policyDataService" class="org.openiam.idm.srvc.policy.service.PolicyDataServiceImpl" >
+        <property name="policyDefDao" ref="policyDefDAO" />
+        <property name="policyDao" ref="policyDAO" />
+        <property name="policyDefParamDao" ref="policyDefParamDAO" />
+        <property name="objectAssoc" ref="policyObjectAssocDAO" />
+    </bean>
+
+    <bean id="passwordValidator" class="org.openiam.idm.srvc.pswd.rule.PasswordValidatorImpl" >
+        <property name="policyDataService" ref="policyDataService" />
+        <property name="secDomainService" ref="secDomainService" />
+        <property name="userDao" ref="userDAO" />
+        <property name="loginDao" ref="loginDAO" />
+        <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
+        <property name="cryptor" ref="cryptor" />
+        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+
+    </bean>
+    <bean id="passwordManager" class="org.openiam.idm.srvc.pswd.service.PasswordServiceImpl" >
+        <property name="secDomainService" ref="secDomainService" />
+        <property name="passwordValidator" ref="passwordValidator" />
+        <property name="userManager" ref="userManager" />
+        <property name="loginManager" ref="loginManager" />
+        <property name="policyAssocDao" ref="policyObjectAssocDAO" />
+        <property name="policyDataService" ref="policyDataService" />
+        <property name="cryptor" ref="cryptor" />
+        <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
+        <property name="hash" ref="hash" />
+
+    </bean>
+    <bean id="loginManager" class="org.openiam.idm.srvc.auth.login.LoginDataServiceImpl" >
+        <property name="loginDao" ref="loginDAO" />
+        <property name="loginAttrDao" ref="loginAttrDAO" />
+        <property name="cryptor" ref="cryptor" />
+        <property name="secDomainService" ref="secDomainService" />
+        <property name="userDao" ref="userDAO" />
+        <property name="policyDao" ref="policyDAO" />
+        <property name="passwordManager" ref="passwordManager" />
+        <property name="passwordHistoryDao" ref="passwordHistoryDAO" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
+    </bean>
+    <bean id="hash" class="org.openiam.util.encrypt.SHA2Hash" >
+    </bean>
+    <bean id="auditDAO" class="org.openiam.idm.srvc.audit.service.IdmAuditLogDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="auditDataService" class="org.openiam.idm.srvc.audit.service.IdmAuditLogDataServiceImpl" >
+        <property name="auditDao" ref="auditDAO" />
+        <property name="hash" ref="hash" />
+
+        <property name="loginDS" ref="loginManager" />
+        <property name="sysConfiguration" ref="sysConfiguration" />
+    </bean>
+    <bean id="auditHelper" class="org.openiam.idm.srvc.audit.service.AuditHelperImpl" >
+        <property name="auditDataService" ref="auditDataService" />
+    </bean>
+    <bean id="mailTemplateDAO" class="org.openiam.idm.srvc.msg.service.MailTemplateDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="mailTemplateService" class="org.openiam.idm.srvc.msg.service.MailTemplateServiceImpl" >
+        <property name="mailTemplateDAO" ref="mailTemplateDAO" />
+    </bean>
+    <bean id="mailService" class="org.openiam.idm.srvc.msg.service.MailServiceImpl">
+        <!-- property name="mailSender" ref="emailSender" / -->
+        <property name="mailSender" ref="mailSender" />
+        <property name="defaultSender" value="${mail.defaultSender}" />
+        <property name="subjectPrefix" value="${mail.defaultSubjectPrefix}" />
+        <property name="optionalBccAddress" value="${mail.optionalBccAddress}" />
+        <property name="userManager" ref="userWS" />
+        <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
+        <property name="auditHelper" ref="auditHelper" />
+        <property name="sysMessageService" ref="sysMessageService" />
+    </bean>
+
+    <bean id="emailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}" />
+        <property name="port" value="${mail.port}" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">false</prop>
+                <prop key="mail.smtp.starttls.enable">false</prop>
+            </props>
+        </property>
+
+    </bean>
+
+
+
 </beans>

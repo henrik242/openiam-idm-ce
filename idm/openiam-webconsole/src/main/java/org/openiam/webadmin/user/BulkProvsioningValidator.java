@@ -2,20 +2,28 @@ package org.openiam.webadmin.user;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mule.util.StringUtils;
+import org.openiam.idm.srvc.msg.dto.NotificationDto;
+import org.openiam.idm.srvc.msg.ws.SysMessageWebService;
+import org.openiam.idm.srvc.synch.util.UserSearchUtils;
+import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
 import org.openiam.idm.srvc.synch.ws.IdentitySynchWebService;
 
-
+import java.util.Collections;
+import java.util.List;
 
 
 public class BulkProvsioningValidator implements Validator {
 
 	private static final Log log = LogFactory.getLog(BulkProvsioningValidator.class);
     private IdentitySynchWebService idSyncClient;
+    private UserDataWebService userDataWebService;
+    private SysMessageWebService sysMessageService;
 
-	
 	public boolean supports(Class cls) {
 		 return BulkProvisioningCommand.class.equals(cls);
 	}
@@ -56,6 +64,19 @@ public class BulkProvsioningValidator implements Validator {
             log.info("Result set size: " + resultSize.intValue());
         }
 
+        List<User> userList = userDataWebService.search(UserSearchUtils.buildSearch(config)).getUserList();
+        if(userList != null) {
+            provCmd.setUsers(userList);
+        } else {
+            provCmd.setUsers(Collections.EMPTY_LIST);
+        }
+        List<NotificationDto> notificationDtos = sysMessageService.getAllMessages().getSysMessageList();
+        if(userList != null) {
+            provCmd.setNotifications(notificationDtos);
+        } else {
+            provCmd.setNotifications(Collections.EMPTY_LIST);
+        }
+
     }
 
 
@@ -94,6 +115,12 @@ public class BulkProvsioningValidator implements Validator {
 
             }
         }
+
+        if (BulkMigrationConfig.ACTION_SEND_EMAIL.equalsIgnoreCase(provCmd.getActionType())) {
+            if(StringUtils.isEmpty(provCmd.getSelectedNotificationName())) {
+                err.rejectValue("selectedNotificationId", "required");
+            }
+        }
 		
 	}
 
@@ -103,5 +130,21 @@ public class BulkProvsioningValidator implements Validator {
 
     public void setIdSyncClient(IdentitySynchWebService idSyncClient) {
         this.idSyncClient = idSyncClient;
+    }
+
+    public UserDataWebService getUserDataWebService() {
+        return userDataWebService;
+    }
+
+    public void setUserDataWebService(UserDataWebService userDataWebService) {
+        this.userDataWebService = userDataWebService;
+    }
+
+    public SysMessageWebService getSysMessageService() {
+        return sysMessageService;
+    }
+
+    public void setSysMessageService(SysMessageWebService sysMessageService) {
+        this.sysMessageService = sysMessageService;
     }
 }

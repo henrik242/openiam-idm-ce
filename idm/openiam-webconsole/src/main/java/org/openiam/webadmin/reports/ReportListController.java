@@ -22,7 +22,6 @@ public class ReportListController extends SimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         ReportListCommand reportListCommand = new ReportListCommand();
         if(!request.getParameterMap().containsKey("report.reportId")) {
-            reportListCommand = new ReportListCommand();
             GetAllReportsResponse allReportsResponse = reportService.getReports();
             List<ReportDto> reports = (allReportsResponse != null && allReportsResponse.getReports() != null) ? allReportsResponse.getReports() : Collections.EMPTY_LIST;
             reportListCommand.setRepors(reports);

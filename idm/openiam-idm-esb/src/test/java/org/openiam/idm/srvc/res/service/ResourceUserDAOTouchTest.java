@@ -8,7 +8,7 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.testng.annotations.Test;
 
-@ContextConfiguration(locations = {"classpath:applicationContext-test.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext-test.xml","classpath:dozer-application-context-test.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class ResourceUserDAOTouchTest extends AbstractTransactionalTestNGSpringContextTests {
     @Autowired

@@ -68,7 +68,7 @@ public class ContactAdminController extends SimpleFormController {
 	
 
 		mailService.send(contactAdminCmd.getFrom(), emailAddress, contactAdminCmd.getSubject(), 
-				contactAdminCmd.getMessage());
+				contactAdminCmd.getMessage(), false);
 		
 
 		
