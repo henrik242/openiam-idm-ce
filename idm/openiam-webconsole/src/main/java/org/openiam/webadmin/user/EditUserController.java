@@ -511,7 +511,8 @@ public class EditUserController extends CancellableFormController {
                 pUser.setPhoneExt(p.getPhoneExt());
             }
 
-            if (!defaultFound) {
+            if (!defaultFound && deskPhone != null) {
+
                 pUser.setAreaCd(deskPhone.getAreaCd());
                 pUser.setPhoneNbr(deskPhone.getPhoneNbr());
                 pUser.setPhoneExt(deskPhone.getPhoneExt());

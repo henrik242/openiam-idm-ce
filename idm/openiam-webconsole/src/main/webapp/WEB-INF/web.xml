@@ -139,13 +139,9 @@
  
   <error-page>
 	<error-code>404</error-code>
-	<location>/error-pages/error-404.jsp</location>
+	<location>/error/error404.jsp</location>
   </error-page>
-  <error-page>
-	<error-code>500</error-code>
-	<location>/error-pages/error-500.jsp</location>
-  </error-page> 
- 
+
   <error-page>
    <exception-type>ServletException</exception-type>
    <location>/error/standardErr.jsp</location>

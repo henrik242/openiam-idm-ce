@@ -12,7 +12,7 @@
 <table width="980" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
-    <img src="../images/openiamlog.jpg">
+        <img src="<%=request.getContextPath()%>/images/openiamlogo.jpg"  width="175" height="75">
     </td>
   </tr>
   <tr>
