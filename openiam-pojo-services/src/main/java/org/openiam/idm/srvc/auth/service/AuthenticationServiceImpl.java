@@ -435,7 +435,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		    userId = lg.getUserId();
 
 			log.debug("UserId=" + userId);
-			user = userManager.getUserWithDependent(userId, false);
+			user = userManager.getUserWithDependent(userId, true);
 			log.debug("User object for " + userId + "=" + user);
             }
 
@@ -679,7 +679,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		    userId = lg.getUserId();
 
 			log.debug("UserId=" + userId);
-			user = userManager.getUserWithDependent(userId, false);
+			user = userManager.getUserWithDependent(userId, true);
 			log.debug("User object for " + userId + "=" + user);
             }
 

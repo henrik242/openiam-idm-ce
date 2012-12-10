@@ -251,7 +251,7 @@ public class UserMgr implements UserDataService {
 
         user.setLastUpdate(new Date(System.currentTimeMillis()));
 
-        userDao.update(userDozerConverter.convertToEntity(user, false));
+        userDao.update(userDozerConverter.convertToEntity(user, true));
 
     }
 
