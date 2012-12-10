@@ -60,5 +60,9 @@ create public synonym IAM_SYS_MESSAGES for IAMUSER.IAM_SYS_MESSAGES;
 create public synonym USER_AFFILIATION for IAMUSER.USER_AFFILIATION;
 create public synonym NOTIFICATION_CONFIG for IAMUSER.NOTIFICATION_CONFIG;
 
+create public synonym RESOURCE_PRIVILEGE for IAMUSER.RESOURCE_PRIVILEGE; 
+create public synonym USER_PRIVILEGE for IAMUSER.USER_PRIVILEGE;
+create public synonym REPORT_INFO for IAMUSER.REPORT_INFO;
+
 commit;
 

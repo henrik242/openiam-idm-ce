@@ -49,9 +49,6 @@ insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('418'
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('419','AUTH_REPO','MANAGED_SYS_ID');
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('420','AUTH_REPO','DN_ATTRIBUTE');
 
-
-insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('AD_GROUP_TYPE','AD GROUP TYPE', 0);
-
 /* AD GROUP DEFINITION */
 
 insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('450','AD_GROUP_TYPE','DN');
