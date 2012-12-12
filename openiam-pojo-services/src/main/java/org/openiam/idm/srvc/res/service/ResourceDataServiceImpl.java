@@ -1243,9 +1243,19 @@ public class ResourceDataServiceImpl implements ResourceDataService {
             log.info("resource list for user is null");
             return false;
         }
+
+        log.info("Starting to loop through resource to do authorization checks");
+
         for (Resource res : resList) {
 
-            ResourceProp prop = res.getResourceProperty(propertyName);
+            Resource r =  getResource(res.getResourceId());
+
+            log.info("Resource with properties: " + r.toString());
+
+            ResourceProp prop = r.getResourceProperty(propertyName);
+
+            log.info("Resource property: " + prop);
+
             if (prop != null) {
                 String val = prop.getPropValue();
                 if (val != null && val.length() > 0) {

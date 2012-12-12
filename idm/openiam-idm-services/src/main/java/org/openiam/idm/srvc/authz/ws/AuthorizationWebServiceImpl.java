@@ -96,7 +96,13 @@ public class AuthorizationWebServiceImpl implements AuthorizationWebService
 
             for (Resource res : resList) {
 
-                ResourceProp prop =  res.getResourceProperty(propertyName);
+                Resource r =  resourceDataService.getResource(res.getResourceId());
+
+                ResourceProp prop =  r.getResourceProperty(propertyName);
+
+                log.info("Resource with properties: " + r.toString());
+
+
                 if (prop != null) {
                     String val = prop.getPropValue();
 
