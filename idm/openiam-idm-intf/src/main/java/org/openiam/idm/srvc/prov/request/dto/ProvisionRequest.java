@@ -70,6 +70,12 @@ public class ProvisionRequest implements java.io.Serializable {
 	protected Set<RequestApprover> requestApprovers = new HashSet<RequestApprover>(0);
 	protected Set<RequestUser> requestUsers = new HashSet<RequestUser>(0);
 
+    public static final String NEW_USER_WORKFLOW = "260";
+    public static final String TERMINATE_USER_WORKFLOW = "261";
+    public static final String CHANGE_ACCESS_WORKFLOW = "262";
+    public static final String SELF_REGISTRATION_WORKFLOW = "255";
+
+
 	public ProvisionRequest() {
 	}
 

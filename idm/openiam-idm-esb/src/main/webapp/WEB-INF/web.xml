@@ -26,15 +26,11 @@
 
     <context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml  classpath:idmservice-Context.xml classpath:connector-coreContext.xml</param-value>
+		<param-value>classpath:applicationContext.xml,
+            classpath:idmservice-Context.xml,
+            classpath:connector-coreContext.xml</param-value>
 	</context-param>
 
-    <!--
-	<context-param>
-		<param-name>org.mule.config</param-name>
-		<param-value>openiam-mule-config.xml openiam-connector-mule-config.xml openiam-embedded-mule-config.xml openiam-idmservice-mule-config.xml idm-batch-config.xml mule-service-client-config.xml</param-value>
-	</context-param>
-    -->
 
 	<context-param>
 		<param-name>org.mule.config</param-name>
