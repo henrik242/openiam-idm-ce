@@ -50,7 +50,7 @@ function showSupervisorDialog(idfield, namefield) {
 //-->
 </script>
 
-		<table  width="800pt">
+		<table  width="1100pt">
 			<tr>
 				<td>
 					<table width="100%">
@@ -85,7 +85,7 @@ function showSupervisorDialog(idfield, namefield) {
 
 
 
-<table width="800pt"  class="bodyTable" height="100%" >
+<table width="1100pt"  class="bodyTable" height="100%" >
 <tr>
 	<td>    
 			<fieldset class="userformSearch" >

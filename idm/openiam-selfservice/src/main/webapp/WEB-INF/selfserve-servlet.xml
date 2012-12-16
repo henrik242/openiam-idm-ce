@@ -523,6 +523,8 @@
         <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessCommand" />
         <property name="formView" value="/priv/flow/changeUserAccess" />
         <property name="successView" value="/priv/flow/submitchangereq" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+        <property name="auditService" ref="auditServiceClient" />
         <property name="validator" ref="changeUserAccessValidator" />
         <property name="roleDataService" ref="roleServiceClient" />
         <property name="resourceDataService" ref="resourceServiceClient" />

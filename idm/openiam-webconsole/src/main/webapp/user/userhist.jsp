@@ -5,12 +5,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 
 
-		<table  width="1100pt">
+		<table  width="1200pt">
 			<tr>
 				<td>
 					<table width="100%">
 						<tr>
-							<td class="pageTitle" width="70%">
+							<td class="pageTitle" width="100%">
 								<h2 class="contentheading">User Management - History</h2>
 						</td>
 						</tr>
@@ -19,7 +19,7 @@
 				<tr>
 				<td>		
 
-	<table width="1100pt">
+	<table width="1200pt">
 			<tr>
 				<td align="center" height="100%">
 			     <fieldset class="userform" >
@@ -27,13 +27,13 @@
 	
 		<table class="resourceTable" cellspacing="2" cellpadding="2" width="100%" >	
     			<tr class="header">
-    				<th>DATE</td>
-    				<th>ACTION</td>
-    				<th>ACTION STATUS</td>
-                    <th>RES/ROLE</td>
-    				<th>REASON</td>
-    				<th>REQ PRINCIPAL</td>
-                    <th>TARGET PRINCIPAL</td>
+    				<th>DATE</th>
+    				<th>ACTION</th>
+    				<th>ACTION STATUS</th>
+                    <th>RES/ROLE</th>
+    				<th>REASON</th>
+    				<th>REQ PRINCIPAL</th>
+                    <th>TARGET PRINCIPAL</th>
     			</tr>
 		      <c:forEach items="${auditLog}" var="log" >
 		  

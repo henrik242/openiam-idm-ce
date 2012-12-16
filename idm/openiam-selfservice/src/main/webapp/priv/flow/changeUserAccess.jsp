@@ -12,11 +12,22 @@
 
 						
 						<fieldset>
+                            <p>
+                                Select an operation for one of the objects Below. For example:
+                            <ul>
+                                <li>ADD user to ROLE</li>
+                                <li>REMOVE user FROM GROUP</li>
+                                <li>ADD user to a Resource / Application</li>
+                            </ul>
+
+                            </p>
+
 							<label for="t-1">Operation:<span>*</span></label>
                             <form:select path="operation" multiple="false">
                                 <form:option value="ADD" label="ADD"/>
                                 <form:option value="REMOVE" label="REMOVE"/>
                             </form:select>
+
 
                             <label for="t-2">Role Membership:</label>
                             <form:select path="roleId" multiple="false">
@@ -27,10 +38,15 @@
                             </form:select>
                             <p><form:errors path="roleId"/></p>
 
-							<label for="t-3">Resource</label>
+							<label for="t-3">Resource / Application</label>
                             <form:select path="resourceId" multiple="false">
                                 <form:option value="" label="-Please Select-"/>
-                                <form:options items="${resourceList}" itemValue="resourceId" itemLabel="name"/>
+
+                                <c:forEach items="${resourceList}" var="res">
+                                    <c:if test="${res.managedSysId != null}">
+                                        <form:option value="${res.resourceId}" label="${res.name}" />
+                                    </c:if>
+                                </c:forEach>
                             </form:select>
 
                             <label for="t-3">Group Membership: </label>

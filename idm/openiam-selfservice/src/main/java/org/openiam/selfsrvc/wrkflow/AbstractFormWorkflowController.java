@@ -4,6 +4,7 @@ package org.openiam.selfsrvc.wrkflow;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
@@ -20,13 +21,17 @@ import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
 import org.openiam.idm.srvc.user.dto.Supervisor;
+import org.openiam.idm.srvc.user.ws.SupervisorListResponse;
+
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-
+import org.springframework.web.servlet.view.RedirectView;
+import org.openiam.base.ws.ResponseStatus;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +54,8 @@ public class AbstractFormWorkflowController extends CancellableFormController {
     protected ManagedSystemDataService managedSysService;
     protected MailService mailService;
     protected RequestWebService provRequestService;
+    protected String cancelView;
+    protected IdmAuditLogWebDataService auditService;
 
 
     protected static final Log log = LogFactory.getLog(AbstractFormWorkflowController.class);
@@ -56,6 +63,7 @@ public class AbstractFormWorkflowController extends CancellableFormController {
 
     public AbstractFormWorkflowController() {
         super();
+
     }
 
 
@@ -67,6 +75,11 @@ public class AbstractFormWorkflowController extends CancellableFormController {
         df.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
 
+    }
+
+    @Override
+    protected ModelAndView onCancel(Object command) throws Exception {
+        return new ModelAndView(new RedirectView(this.getCancelView(), true));
     }
 
     protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest) {
@@ -160,8 +173,16 @@ public class AbstractFormWorkflowController extends CancellableFormController {
 
 
                     if (ap.getAssociationType().equalsIgnoreCase("SUPERVISOR")) {
-                        Supervisor supVisor = userData.getSupervisor();
-                        approverId = supVisor.getSupervisor().getUserId();
+                        SupervisorListResponse supervisorResp = userManager.getSupervisors(userData.getUserId());
+                        if (supervisorResp.getStatus() == ResponseStatus.SUCCESS) {
+
+                            List<Supervisor> supVisorList = supervisorResp.getSupervisorList();
+
+                            if (supVisorList != null && !supVisorList.isEmpty()) {
+                                Supervisor supervisor = supVisorList.get(0);
+                                approverId =  supervisor.getSupervisor().getUserId();
+                            }
+                        }
 
 
                     } else if (ap.getAssociationType().equalsIgnoreCase("ROLE")) {
@@ -333,5 +354,13 @@ public class AbstractFormWorkflowController extends CancellableFormController {
 
     public void setProvRequestService(RequestWebService provRequestService) {
         this.provRequestService = provRequestService;
+    }
+
+    public IdmAuditLogWebDataService getAuditService() {
+        return auditService;
+    }
+
+    public void setAuditService(IdmAuditLogWebDataService auditService) {
+        this.auditService = auditService;
     }
 }

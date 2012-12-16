@@ -71,7 +71,8 @@ public class ChangeAccessWizardController extends CancellableFormController {
 
 
     protected ModelAndView onCancel(Object command) throws Exception {
-        return new ModelAndView("priv/cancel");
+        return new ModelAndView(new RedirectView("/welcomePage.selfserve", true));
+
 
     }
 

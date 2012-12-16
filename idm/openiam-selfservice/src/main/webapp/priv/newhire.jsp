@@ -291,7 +291,7 @@ function selectChange(ctrl) {
 				<div class="button">
 						 <input type="submit" name="_target0" value="Prev"/>
 				</div>
-                <div class="button alt">
+                <div class="button">
                     <input type="submit" name="_cancel" value="Cancel" />
                 </div>
 

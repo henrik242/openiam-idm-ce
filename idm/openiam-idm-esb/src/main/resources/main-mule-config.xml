@@ -33,10 +33,8 @@
         <spring:import resource="classpath:openiam-embedded-mule-config.xml"/>
         <spring:import resource="classpath:cxf-beans.xml"/>
 
-        <!--spring:import resource="classpath:applicationContext.xml" / -->
          <spring:import resource="classpath:am-service-Context.xml" />
          <spring:import resource="classpath:idmservice-Context.xml" />
-        <!--spring:import resource="classpath:connector-coreContext.xml" / -->
 
         <spring:import resource="classpath:openiam-mule-config.xml"/>
         <spring:import resource="classpath:openiam-am-service-mule-config.xml"/>

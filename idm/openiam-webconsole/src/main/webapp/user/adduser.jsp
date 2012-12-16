@@ -79,7 +79,7 @@ function selectChange(ctrl) {
 //-->
 </script>
 
-		<table  width="1000pt">
+		<table  width="1100pt">
 			<tr>
 				<td>
 					<table width="100%">
@@ -93,7 +93,7 @@ function selectChange(ctrl) {
 		</tr>
 		
 <form:form commandName="newUserCmd">
-		<table width="800pt"  class="bodyTable" height="100%" >
+		<table width="1100pt"  class="bodyTable" height="100%" >
 				<tr>
 					<td>    
 							<fieldset class="userformSearch" >

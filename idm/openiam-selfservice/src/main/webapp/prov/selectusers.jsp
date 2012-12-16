@@ -68,7 +68,7 @@ function validateInt(fld) {
                     <div class="row">
                         <label for="t-1">Select a Workflow:</label>
                         <form:select path="workflowResourceId" multiple="false">
-                            <form:option value="-" label="-Please Select-"/>
+                            <form:option value="" label="-Please Select-"/>
                             <form:options items="${workflowList}" itemValue="resourceId" itemLabel="name"/>
                         </form:select>
                         <form:errors path="workflowResourceId" cssClass="error" />

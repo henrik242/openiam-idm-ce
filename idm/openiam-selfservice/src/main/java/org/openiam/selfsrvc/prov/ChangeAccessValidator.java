@@ -37,7 +37,7 @@ public class ChangeAccessValidator implements Validator {
 
         String workflowId = changeCmd.getWorkflowResourceId();
 
-        if ( changeCmd.getWorkflowResourceId() == null && changeCmd.getWorkflowResourceId().isEmpty()    ) {
+        if ( changeCmd.getWorkflowResourceId() == null || changeCmd.getWorkflowResourceId().isEmpty()    ) {
             err.rejectValue("workflowResourceId","required");
 
         }

@@ -227,14 +227,21 @@ public class NewHireController extends AbstractWizardFormController {
 
 
         // log the request
-        IdmAuditLog log = new IdmAuditLog("REQUEST-APPROVAL", "NEW HIRE", "SUCCESS", null, configuration.getDefaultSecurityDomain(),
-                userId, (String) request.getSession().getAttribute("login"),
-                null,
-                request.getRemoteAddr());
-        log.setReqUrl(request.getRequestURL().toString());
-        log.setRequestId(pReq.getRequestId());
-        log.setSessionId(request.getSession().getId());
-        auditService.addLog(log);
+
+
+        IdmAuditLog auditLog = new IdmAuditLog(
+                new Date(System.currentTimeMillis()), "PENDING_REQUEST",
+                "SUCCESS", null, null,
+                request.getRemoteHost(), 1, null, null,
+                null, (String)request.getSession().getAttribute("login"), "NEW_USER_WORFKLOW",
+                ProvisionRequest.NEW_USER_WORKFLOW, pReq.getRequestTitle(), null,
+                null, null, (String)request.getSession().getAttribute("domain"), pReq.getRequestorId() );
+
+        auditLog.setRequestId(pReq.getRequestId());
+        auditLog.setSessionId(request.getSession().getId());
+
+
+        auditService.addLog(auditLog);
 
 
         return new ModelAndView("pub/confirm");
@@ -503,6 +510,11 @@ public class NewHireController extends AbstractWizardFormController {
         provRequestService.addRequest(req);
 
         notifyApprover(req, reqUser, requestorID, usr, approverRole, userOrg, applyDelegationFilter);
+
+
+
+
+
 
         return req;
 

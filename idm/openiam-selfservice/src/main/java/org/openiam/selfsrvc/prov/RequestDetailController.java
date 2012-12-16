@@ -17,6 +17,7 @@ import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestUser;
 import org.openiam.idm.srvc.prov.request.ws.RequestWebService;
+import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
@@ -27,7 +28,6 @@ import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.dto.UserResourceAssociation;
 import org.openiam.provision.service.ProvisionService;
 import org.openiam.selfsrvc.wrkflow.AbstractCompleteRequest;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -118,7 +118,7 @@ public class RequestDetailController extends CancellableFormController implement
             if (pUser != null) {
                 // if this is an existing user, then get their details
                 // check if this is change access request - clean up
-                if ( ProvisionRequest.CHANGE_ACCESS_WORKFLOW.equals(req.getRequestType())) {
+                if (ProvisionRequest.CHANGE_ACCESS_WORKFLOW.equals(req.getRequestType())) {
                     groupMembership(pUser.getMemberOfGroups(), reqDetailCommand);
                     roleMembership(pUser.getMemberOfRoles(), reqDetailCommand);
                     resourceMembership(pUser.getUserResourceList(), reqDetailCommand);
@@ -169,22 +169,21 @@ public class RequestDetailController extends CancellableFormController implement
 
             GroupResponse groupResponse = groupManager.getGroup(g.getGrpId());
 
-            if ( g != null) {
+            if (g != null) {
 
-               if ( g.getOperation() == AttributeOperationEnum.ADD ) {
-                   msg.append("ADD GROUP ");
+                if (g.getOperation() == AttributeOperationEnum.ADD) {
+                    msg.append("ADD GROUP ");
 
-               }else {
-                   msg.append("REMOVE GROUP ");
-               }
+                } else {
+                    msg.append("REMOVE GROUP ");
+                }
 
                 if (groupResponse.getStatus() == ResponseStatus.SUCCESS) {
 
-                    msg.append( groupResponse.getGroup().getGrpName());
+                    msg.append(groupResponse.getGroup().getGrpName());
                     reqDetailCommand.setChangeDescription(msg.toString());
                 }
             }
-
 
 
         }
@@ -206,17 +205,17 @@ public class RequestDetailController extends CancellableFormController implement
 
             Role r = roleList.get(0);
 
-            if ( r.getOperation() == AttributeOperationEnum.ADD ) {
+            if (r.getOperation() == AttributeOperationEnum.ADD) {
                 msg.append("ADD ROLE ");
 
-            }else {
+            } else {
                 msg.append("REMOVE ROLE ");
             }
 
             RoleResponse resp = roleDataService.getRole(r.getId().getServiceId(), r.getId().getRoleId());
             if (resp.getStatus() == ResponseStatus.SUCCESS) {
 
-                msg.append( resp.getRole().getId().getRoleId());
+                msg.append(resp.getRole().getId().getRoleId());
                 reqDetailCommand.setChangeDescription(msg.toString());
 
             }
@@ -233,18 +232,36 @@ public class RequestDetailController extends CancellableFormController implement
      */
 
     private void resourceMembership(List<UserResourceAssociation> resourceAssociation, RequestDetailCommand reqDetailCommand) {
+        StringBuilder msg = new StringBuilder();
+
         if (resourceAssociation != null && !resourceAssociation.isEmpty()) {
 
             UserResourceAssociation r = resourceAssociation.get(0);
 
             if (r.getOperation() != null) {
+
+                if (r.getOperation() == AttributeOperationEnum.ADD) {
+                    msg.append("ADD RESOURCE ");
+
+                } else {
+                    msg.append("REMOVE RESOURCE ");
+                }
+
                 reqDetailCommand.setOperation(r.getOperation().toString());
             }
 
-            reqDetailCommand.setResource(resourceDataService.getResource(r.getResourceId()));
+            Resource res = resourceDataService.getResource(r.getResourceId());
+
+            if (res != null) {
+
+                msg.append(res.getName());
+                reqDetailCommand.setChangeDescription(msg.toString());
+
+            }
+
+            reqDetailCommand.setResource(res);
 
         }
-
     }
 
 
@@ -347,9 +364,6 @@ public class RequestDetailController extends CancellableFormController implement
         return null;
 
     }
-
-
-
 
 
     public UserDataWebService getUserManager() {

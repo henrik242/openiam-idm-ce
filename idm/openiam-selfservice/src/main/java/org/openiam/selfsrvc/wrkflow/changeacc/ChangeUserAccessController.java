@@ -2,6 +2,7 @@ package org.openiam.selfsrvc.wrkflow.changeacc;
 
 
 import org.openiam.base.AttributeOperationEnum;
+import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
@@ -77,10 +78,7 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
 
     }
 
-    @Override
-    protected ModelAndView onCancel(Object command) throws Exception {
-        return new ModelAndView(new RedirectView(getCancelView(), true));
-    }
+
 
 
     @Override
@@ -96,6 +94,20 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
 
         provRequestService.addRequest(provReq);
         // implementation pending
+
+        IdmAuditLog auditLog = new IdmAuditLog(
+                new Date(System.currentTimeMillis()), "PENDING_REQUEST",
+                "SUCCESS", null, null,
+                request.getRemoteHost(), 1, null, null,
+                null, (String)request.getSession().getAttribute("login"), "CHANGE_ACCESS_WORFKLOW",
+                ProvisionRequest.CHANGE_ACCESS_WORKFLOW, provReq.getRequestTitle(), null,
+                null, null, (String)request.getSession().getAttribute("domain"), provReq.getRequestorId() );
+
+        auditLog.setRequestId(provReq.getRequestId());
+        auditLog.setSessionId(request.getSession().getId());
+
+
+        auditService.addLog(auditLog);
 
         ModelAndView mav = new ModelAndView(getSuccessView());
         mav.addObject("name", getUserName(provReq) );
@@ -146,7 +158,10 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
             ura.setManagedSystemId(res.getManagedSysId());
             ura.setResourceName(res.getName());
 
-            pUser.getUserResourceList().add(ura);
+            List<UserResourceAssociation> uraList = new ArrayList<UserResourceAssociation>();
+            uraList.add(ura);
+
+            pUser.setUserResourceList(uraList);
         }
 
         if ( identityCmd.getGroupId() != null && !identityCmd.getGroupId().isEmpty() ) {
@@ -160,8 +175,10 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
             }
             g.setGrpId(identityCmd.getGroupId());
 
+            List<Group> groupList = new ArrayList<Group>();
+            groupList.add(g);
 
-            pUser.getMemberOfGroups().add(g);
+            pUser.setMemberOfGroups(groupList);
 
         }
 
