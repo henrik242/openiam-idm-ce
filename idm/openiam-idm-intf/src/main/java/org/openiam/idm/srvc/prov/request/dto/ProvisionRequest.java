@@ -38,7 +38,7 @@ import org.openiam.idm.srvc.user.dto.User;
     "requestTitle",
         "workflowName"
 })
-public class ProvisionRequest implements java.io.Serializable {
+public class ProvisionRequest implements java.io.Serializable , Comparable<ProvisionRequest> {
 
 	protected String requestId;
 	protected Date requestDate;
@@ -79,6 +79,13 @@ public class ProvisionRequest implements java.io.Serializable {
 	public ProvisionRequest() {
 	}
 
+
+    public int compareTo(ProvisionRequest o) {
+        if (getRequestDate() == null || o == null) {
+            return Integer.MIN_VALUE;
+        }
+        return getRequestDate().compareTo(o.getRequestDate());
+    }
 
     @Override
     public boolean equals(Object o) {

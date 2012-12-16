@@ -257,7 +257,6 @@ public class AbstractFormWorkflowController extends CancellableFormController {
 
                 List<User> roleApprovers = userManager.searchByDelegationProperties(search).getUserList();
 
-                System.out.println("List of approvers for Role: " + roleApprovers);
 
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u : roleApprovers) {
@@ -268,7 +267,7 @@ public class AbstractFormWorkflowController extends CancellableFormController {
 
                         request.getParamList().add(new NotificationParam("REQUEST_ID", pReq.getRequestId()));
 
-                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestReason()));
+                        request.getParamList().add(new NotificationParam("REQUEST_REASON", pReq.getRequestTitle()));
                         request.getParamList().add(new NotificationParam("REQUESTOR", usr.getFirstName() + " " + usr.getLastName()));
                         request.getParamList().add(new NotificationParam("TARGET_USER", reqUser.getFirstName() + " " + reqUser.getLastName()));
 
