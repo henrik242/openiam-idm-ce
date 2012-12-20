@@ -1182,7 +1182,7 @@ public class ResourceDataServiceImpl implements ResourceDataService {
 
         List<ResourceEntity> resourceEntities = resourceDao.findResourcesForUserRole(userId);
 
-        return resourceConverter.convertToDTOList(resourceEntities, false);
+        return resourceConverter.convertToDTOList(resourceEntities, true);
     }
 
 
