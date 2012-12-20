@@ -49,7 +49,7 @@ public class MailTemplateController extends SimpleFormController {
             ModelAndView mav = new ModelAndView("/deleteconfirm");
             mav.addObject("msg", "Location has been successfully deleted.");
             return mav;
-        } else {
+        } else if ("submit".equalsIgnoreCase(btn)) {
             MultipartFile attachedFile = mailTmplCmd.getAttachmentFile();
             String attachedFileFileName = "";
 

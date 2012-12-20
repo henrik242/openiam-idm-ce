@@ -6,7 +6,6 @@ import org.openiam.idm.srvc.msg.service.MailSenderUtils
 
 class TestMailSenderNotification implements NotificationMessageProvider {
         private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
-        private static ResourceBundle DATASOURCE_PROPERTIES = ResourceBundle.getBundle("datasource");
 
         private static final String tmplBody = "<html>Dear [firstName] [lastName]: \n\n" +
                 "<b>This is to notify you that the request summarized below has been approved.</b> \n\n" +
@@ -36,13 +35,16 @@ class TestMailSenderNotification implements NotificationMessageProvider {
                     || "".equals(toAddress)) {
                 return Collections.EMPTY_LIST;
             }
+            ResourceBundle resDS = ResourceBundle.getBundle("datasource");
+            def from = resDS.getString("mail.defaultSender");
+
             List<Message> messageList = new LinkedList<Message>();
             Message message = new Message();
 
             message.addAttachments(res.getString("uploadDir") + File.separatorChar + "OpenIAM_and_BIRT_integration.docx");
 
             message.addTo(toAddress);
-            message.setFrom(DATASOURCE_PROPERTIES.getString("mail.defaultSender"));
+            message.setFrom(from);
             if(ccAddress != null && !"".equals(ccAddress)) {
                 message.addCc(ccAddress);
             }

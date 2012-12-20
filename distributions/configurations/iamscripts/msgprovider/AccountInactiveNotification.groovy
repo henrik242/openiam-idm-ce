@@ -8,7 +8,6 @@ import org.openiam.idm.srvc.msg.service.MailSenderUtils;
 public class AccountInactiveNotification implements NotificationMessageProvider {
 
     private static final String tmplBody = "Dear [firstName] [lastName]: \n\n Your account status has been changed due to inactivity. \n\n Please contact the security office to have your account reactivated.";
-    private static ResourceBundle DATASOURCE_PROPERTIES = ResourceBundle.getBundle("datasource");
 
     @Override
     public List<Message> build(final Map<String, String> args) {
@@ -22,10 +21,12 @@ public class AccountInactiveNotification implements NotificationMessageProvider 
                 || "".equals(toAddress)) {
            return Collections.EMPTY_LIST;
         }
+        ResourceBundle resDS = ResourceBundle.getBundle("datasource");
+        def from = resDS.getString("mail.defaultSender");
         List<Message> notificationMessageList = new LinkedList<Message>();
         Message notificationMessage = new Message();
         notificationMessage.addTo(toAddress);
-        notificationMessage.setFrom(DATASOURCE_PROPERTIES.getString("mail.defaultSender"));
+        notificationMessage.setFrom(from);
         if(ccAddress != null && !"".equals(ccAddress)) {
             notificationMessage.addCc(ccAddress);
         }

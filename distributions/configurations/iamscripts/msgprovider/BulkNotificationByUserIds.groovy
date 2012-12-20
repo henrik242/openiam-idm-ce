@@ -7,7 +7,6 @@ import groovy.sql.Sql
 
 
 public class BulkNotificationByUserIds implements NotificationMessageProvider {
-    private static ResourceBundle DATASOURCE_PROPERTIES = ResourceBundle.getBundle("datasource");
 
     public Sql connect() {
         ResourceBundle resDS = ResourceBundle.getBundle("datasource");
@@ -30,7 +29,8 @@ public class BulkNotificationByUserIds implements NotificationMessageProvider {
         if(userIds == null || "".equals(userIds)) {
             return Collections.EMPTY_LIST;
         }
-
+        ResourceBundle resDS = ResourceBundle.getBundle("datasource");
+        def from = resDS.getString("mail.defaultSender");
         def String query = "select FIRST_NAME, LAST_NAME, EMAIL_ADDRESS from USERS where USER_ID in ("+userIds+")";
         List<Message> messages = new LinkedList<Message>();
         def sql = connect();
@@ -40,7 +40,7 @@ public class BulkNotificationByUserIds implements NotificationMessageProvider {
             message.addTo(a.EMAIL_ADDRESS);
             message.setSubject(subject);
             message.setBody("Dear "+a.FIRST_NAME +" "+a.LAST_NAME + ": " +" Your user account was modified by administrator.");
-            message.setFrom(DATASOURCE_PROPERTIES.getString("mail.defaultSender"))
+            message.setFrom(from)
             message.setBodyType(Message.BodyType.PLAIN_TEXT);
             messages.add(message);
         };

@@ -8,7 +8,6 @@ import org.openiam.idm.srvc.msg.service.MailSenderUtils
 public class NewUserCreateToSupervisorNotification implements NotificationMessageProvider {
 
     private static final String tmplBody = "Dear [firstName] [lastName]: \n\nA new user account has been created for [name]\n\nThe login Id is: [identity] \nThe password is: [password]";
-    private static ResourceBundle DATASOURCE_PROPERTIES = ResourceBundle.getBundle("datasource");
     @Override
     public List<Message> build(Map<String, String> args) {
         String subject = "New Account Created";
@@ -20,11 +19,14 @@ public class NewUserCreateToSupervisorNotification implements NotificationMessag
                 || "".equals(toAddress)) {
             return Collections.EMPTY_LIST;
         }
+        ResourceBundle resDS = ResourceBundle.getBundle("datasource");
+        def from = resDS.getString("mail.defaultSender");
+
         List<Message> messageList = new LinkedList<Message>();
         Message message = new Message();
 
         message.addTo(toAddress);
-        message.setFrom(DATASOURCE_PROPERTIES.getString("mail.defaultSender"));
+        message.setFrom(from);
         if(ccAddress != null && !"".equals(ccAddress)) {
             message.addCc(ccAddress);
         }
