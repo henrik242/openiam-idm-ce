@@ -62,9 +62,10 @@ public class SupervisorDAOImpl implements SupervisorDAO  {
     /* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.user.service.SupervisorDAO#remove(org.openiam.idm.srvc.user.dto.Supervisor)
 	 */
-    public void remove(SupervisorEntity persistentInstance) {
+    public void remove(String id) {
         log.debug("deleting Supervisor instance");
         try {
+            SupervisorEntity persistentInstance = (SupervisorEntity)sessionFactory.getCurrentSession().get(SupervisorEntity.class,id);
             sessionFactory.getCurrentSession().delete(persistentInstance);
             log.debug("delete successful");
         }

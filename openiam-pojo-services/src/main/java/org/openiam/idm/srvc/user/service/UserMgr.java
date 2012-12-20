@@ -1228,7 +1228,7 @@ public class UserMgr implements UserDataService {
     public void removeSupervisor(Supervisor supervisor) {
         if (supervisor == null)
             throw new NullPointerException("supervisor is null");
-        this.supervisorDao.remove(supervisorDozerConverter.convertToEntity(supervisor, true));
+        this.supervisorDao.remove(supervisor.getOrgStructureId());
     }
 
     /*

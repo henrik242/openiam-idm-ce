@@ -9,7 +9,7 @@ public interface SupervisorDAO {
 
     public abstract void add(SupervisorEntity transientInstance);
 
-    public abstract void remove(SupervisorEntity persistentInstance);
+    public abstract void remove(String id);
 
     public abstract SupervisorEntity update(SupervisorEntity detachedInstance);
 

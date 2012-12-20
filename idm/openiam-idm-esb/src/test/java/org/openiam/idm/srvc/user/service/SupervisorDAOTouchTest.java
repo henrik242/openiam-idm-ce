@@ -46,7 +46,9 @@ public class SupervisorDAOTouchTest extends AbstractTransactionalTestNGSpringCon
 
     @Test
     public void touchRemove() {
-        supervisorDao.remove(new SupervisorEntity());
+        SupervisorEntity supervisorEntity = new SupervisorEntity();
+        supervisorDao.add(supervisorEntity);
+        supervisorDao.remove(supervisorEntity.getOrgStructureId());
     }
 
     @Test
