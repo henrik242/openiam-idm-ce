@@ -1,5 +1,7 @@
 INSERT INTO MAIL_TEMPLATE(TMPL_ID, TMPL_NAME, TMPL_SUBJECT, BODY_TYPE, BODY) values
 ('xa0081053ba8db9d013ba90ade400007', 'CEOIT Rollout-1','CEOIT Rollout-1','PLAIN','
+Dear [FIRST_NAME] [LAST_NAME]. Your login is: [LOGINID_FOR_MANAGEDSYS_0].
+
 As introduced by CEO/IT Management, here are your step-by-step instructions.
 Please complete the following steps on or before: 3/18/2012
 
@@ -26,7 +28,9 @@ If you have any questions you can click on the built-in FAQ link, or visit http:
 INSERT INTO MAIL_TEMPLATE(TMPL_ID, TMPL_NAME, TMPL_SUBJECT, BODY_TYPE, BODY) values
 ('xa0081053ba8db9d013ba90ade400008', 'CEOIT Rollout-2','CEOIT Rollout-2','HTML','
 
-<p class="MsoNormal" style="mso-margin-top-alt:auto;mso-margin-bottom-alt:auto"><span style="font-size:14.0pt;line-height:115%" lang="EN-US">Attn: <span style="color:red">Sheriff Department Staff</span>,</span></p>
+<p class="MsoNormal" style="mso-margin-top-alt:auto;mso-margin-bottom-alt:auto"><span style="font-size:14.0pt;line-height:115%" lang="EN-US">Dear [FIRST_NAME] [LAST_NAME]. Your login is: [LOGINID_FOR_MANAGEDSYS_0].
+
+Attn: <span style="color:red">Sheriff Department Staff</span>,</span></p>
 
 <p class="MsoListParagraph" style="mso-margin-top-alt:auto;mso-margin-bottom-alt:
 auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1"><span style="font-size:14.0pt;font-family:Symbol;mso-fareast-font-family:

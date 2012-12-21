@@ -4,12 +4,14 @@ import org.openiam.idm.srvc.msg.service.NotificationMessageProvider
 import groovy.sql.Sql
 import org.openiam.idm.srvc.msg.service.Message
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters
+import org.openiam.idm.srvc.msg.service.MailSenderUtils
 
 
 class CEOITRollout2Notification implements NotificationMessageProvider {
 
     private String DEFAULT_SUBJECT ="System Notification";
-    private String DEFAULT_BODY = "<p class=\"MsoNormal\" style=\"mso-margin-top-alt:auto;mso-margin-bottom-alt:auto\"><span style=\"font-size:14.0pt;line-height:115%\" lang=\"EN-US\">Attn: <span style=\"color:red\">Sheriff Department Staff</span>,</span></p>\n" +
+    private String DEFAULT_BODY = "<p class=\"MsoNormal\" style=\"mso-margin-top-alt:auto;mso-margin-bottom-alt:auto\"><span style=\"font-size:14.0pt;line-height:115%\" lang=\"EN-US\">Dear [FIRST_NAME] [LAST_NAME]. Your login is: [LOGINID_FOR_MANAGEDSYS_0]. \n" +
+            "Attn: <span style=\"color:red\">Sheriff Department Staff</span>,</span></p>\n" +
             "\n" +
             "<p class=\"MsoListParagraph\" style=\"mso-margin-top-alt:auto;mso-margin-bottom-alt:\n" +
             "auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1\"><span style=\"font-size:14.0pt;font-family:Symbol;mso-fareast-font-family:\n" +
@@ -80,17 +82,16 @@ class CEOITRollout2Notification implements NotificationMessageProvider {
         }
         ResourceBundle resDS = ResourceBundle.getBundle("datasource");
         def from = resDS.getString("mail.defaultSender");
-        def String query = "select FIRST_NAME, LAST_NAME, EMAIL_ADDRESS from USERS where USER_ID in ("+userIds+")";
-
+        def String query = "select FIRST_NAME, LAST_NAME, EMAIL_ADDRESS, LOGIN FROM USERS u LEFT JOIN LOGIN l ON l.USER_ID=u.USER_ID where u.USER_ID in ("+userIds+") and l.MANAGED_SYS_ID = 0";
         def templateName = "CEOIT Rollout-2";
         def String getTemplateQuery = "select TMPL_SUBJECT, BODY from MAIL_TEMPLATE where TMPL_NAME='"+templateName+"'";
 
         def String subject = DEFAULT_SUBJECT;
-        def String body = DEFAULT_BODY;
+        def String tmplBody = DEFAULT_BODY;
         def sql = connect();
         sql.eachRow(getTemplateQuery,[]) { a ->
             subject = a.TMPL_SUBJECT;
-            body = a.BODY;
+            tmplBody = a.BODY;
         };
 
         List<Message> messages = new LinkedList<Message>();
@@ -98,11 +99,15 @@ class CEOITRollout2Notification implements NotificationMessageProvider {
         def paramList = [];
 
         sql.eachRow(query,paramList) { a ->
+            args.put(MailTemplateParameters.FIRST_NAME.toString(),a.FIRST_NAME);
+            args.put(MailTemplateParameters.LAST_NAME.toString(),a.LAST_NAME);
+            args.put("LOGINID_FOR_MANAGEDSYS_0".toString(),a.LOGIN);
             Message message = new Message();
             message.addTo(a.EMAIL_ADDRESS);
             message.setSubject(subject);
-            message.setBody(body);
             message.setFrom(from);
+            String body = MailSenderUtils.parseBody(tmplBody, args);
+            message.setBody(body);
             message.setBodyType(Message.BodyType.HTML_TEXT);
             messages.add(message);
         };

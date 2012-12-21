@@ -3,13 +3,14 @@ package msgprovider;
 import groovy.sql.Sql;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
 import org.openiam.idm.srvc.msg.service.Message;
-import org.openiam.idm.srvc.msg.service.NotificationMessageProvider;
+import org.openiam.idm.srvc.msg.service.NotificationMessageProvider
+import org.openiam.idm.srvc.msg.service.MailSenderUtils;
 
 
 public class CEOITRollout1Notification implements NotificationMessageProvider {
 
     private String DEFAULT_SUBJECT ="System Notification";
-    private String DEFAULT_BODY = "As introduced by CEO/IT Management, here are your step-by-step instructions.\n" +
+    private String DEFAULT_BODY = "Dear [FIRST_NAME] [LAST_NAME]. Your login is: [LOGINID_FOR_MANAGEDSYS_0]. \n\nAs introduced by CEO/IT Management, here are your step-by-step instructions.\n" +
             "Please complete the following steps on or before: 3/18/2012\n" +
             "\n" +
             "1) Open a web browser, go to https://OCid.ocgov.com and login entering your assigned User Private Name (UPN) and Pass Phrase. Type the UPN exactly as shown using upper and lower case letters, the period and 3-digits. If you have lost or forgot your login credentials you can use the \"GET-UPN\" or \"Pass Phrase Reset\" self-service links on the OCid login page.\n" +
@@ -53,16 +54,16 @@ public class CEOITRollout1Notification implements NotificationMessageProvider {
         ResourceBundle resDS = ResourceBundle.getBundle("datasource");
         def from = resDS.getString("mail.defaultSender");
 
-        def String query = "select FIRST_NAME, LAST_NAME, EMAIL_ADDRESS from USERS where USER_ID in ("+userIds+")";
+        def String query = "select FIRST_NAME, LAST_NAME, EMAIL_ADDRESS, LOGIN FROM USERS u LEFT JOIN LOGIN l ON l.USER_ID=u.USER_ID where u.USER_ID in ("+userIds+") and l.MANAGED_SYS_ID = 0";
         def String mailTeplateName = "CEOIT Rollout-1";
 
         def String getTemplateQuery = "select TMPL_SUBJECT, BODY from MAIL_TEMPLATE where TMPL_NAME='"+mailTeplateName+"'";
         def String subject = DEFAULT_SUBJECT;
-        def String body = DEFAULT_BODY;
+        def String tmplBody = DEFAULT_BODY;
         def sql = connect();
         sql.eachRow(getTemplateQuery,[]) { a ->
             subject = a.TMPL_SUBJECT;
-            body = a.BODY;
+            tmplBody = a.BODY;
         };
 
         List<Message> messages = new LinkedList<Message>();
@@ -70,9 +71,13 @@ public class CEOITRollout1Notification implements NotificationMessageProvider {
         def paramList = [];
 
         sql.eachRow(query,paramList) { a ->
-                Message message = new Message();
+            args.put(MailTemplateParameters.FIRST_NAME.toString(),a.FIRST_NAME);
+            args.put(MailTemplateParameters.LAST_NAME.toString(),a.LAST_NAME);
+            args.put("loginId_for_managed_sys_0".toString(),a.LOGIN);
+            Message message = new Message();
             message.addTo(a.EMAIL_ADDRESS);
             message.setSubject(subject);
+            String body = MailSenderUtils.parseBody(tmplBody, args);
             message.setBody(body);
             message.setFrom(from);
             message.setBodyType(Message.BodyType.PLAIN_TEXT);
