@@ -58,9 +58,9 @@ public class BulkProvsioningValidator implements Validator {
         log.info("validateUserSelectionForm: " + resultSize);
 
         if (resultSize != null) {
-
-            provCmd.setResultSetSize(resultSize.intValue());
-
+            int resultSetSize = Math.min(resultSize.intValue(), 100);
+            provCmd.setResultSetSize(resultSetSize);
+            config.setMaxResultSize(resultSetSize);
             log.info("Result set size: " + resultSize.intValue());
         }
 

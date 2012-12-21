@@ -47,7 +47,9 @@ public class UserSearchUtils {
             search.setRoleIdList(roleList);
             search.setDomainId(domainId);
         }
-
+        if(config.getMaxResultSize() != null) {
+           search.setMaxResultSize(config.getMaxResultSize());
+        }
         return search;
 
     }

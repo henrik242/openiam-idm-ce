@@ -100,8 +100,7 @@
 
                                     <td><label for="recordsLbl" class="attribute"> Selection Criteria will impact:</label></td>
                                     <td class="error" id="recordsLbl">
-                                        ${bulkProvisionCmd.resultSetSize}  record(s)
-
+                                        ${bulkProvisionCmd.resultSetSize} <c:if test="${bulkProvisionCmd.resultSetSize == 100}"><span>+</span></c:if>  record(s)
                                     </td>
                                 </tr>
 

@@ -1,7 +1,5 @@
 package org.openiam.idm.srvc.synch.dto;
 
-import org.openiam.idm.srvc.user.dto.UserStatusEnum;
-
 /**
  * BulkMigrationConfig defines the parameters that are to be used for migrating user to and from resources and roles
  * User: suneetshah
@@ -15,18 +13,18 @@ public class BulkMigrationConfig {
     public static final String ACTION_MODIFY_ACCESS = "MODIFY_ACCESS";
     public static final String ACTION_SEND_EMAIL = "SEND_EMAIL";
 
-    String lastName;
-    String organizationId;
-    String deptId;
-    String division;
-    String attributeName;
-    String attributeValue;
-    String userStatus;
+    private String lastName;
+    private String organizationId;
+    private String deptId;
+    private String division;
+    private String attributeName;
+    private String attributeValue;
+    private String userStatus;
 
-    String operation;
-    String targetRole;
-    String targetResource;
-
+    private String operation;
+    private String targetRole;
+    private String targetResource;
+    private Integer maxResultSize;
     /* role is used to select the users for this operation */
     private String role;
 
@@ -169,5 +167,13 @@ public class BulkMigrationConfig {
 
     public void setRequestorLogin(String requestorLogin) {
         this.requestorLogin = requestorLogin;
+    }
+
+    public Integer getMaxResultSize() {
+        return maxResultSize;
+    }
+
+    public void setMaxResultSize(Integer maxResultSize) {
+        this.maxResultSize = maxResultSize;
     }
 }
