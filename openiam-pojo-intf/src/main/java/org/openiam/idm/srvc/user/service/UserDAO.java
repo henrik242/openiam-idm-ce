@@ -16,30 +16,32 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
  */
 public interface UserDAO {
 
-    public void add(UserEntity transientInstance);
+    void add(UserEntity transientInstance);
 
-    public void remove(UserEntity persistentInstance);
+    void remove(UserEntity persistentInstance);
 
-    public UserEntity update(UserEntity detachedInstance);
+    UserEntity update(UserEntity detachedInstance);
 
-    public UserEntity findById(String id);
+    UserEntity findById(String id);
 
-    public UserEntity findByName(String firstName, String lastName);
+    UserEntity findByName(String firstName, String lastName);
 
-    public List<UserEntity> findByLastUpdateRange(Date startDate, Date endDate);
+    List<UserEntity> findByLastUpdateRange(Date startDate, Date endDate);
 
-    public List<UserEntity> search(UserSearch search);
+    List<UserEntity> search(UserSearch search);
 
-    public List<UserEntity> findByStatus(UserStatusEnum status);
+    Integer searchCount(UserSearch search);
+
+    List<UserEntity> findByStatus(UserStatusEnum status);
 
     /* Methods to get staff and supervisors lists */
-    public List<UserEntity> findStaff(String supervisorId);
+    List<UserEntity> findStaff(String supervisorId);
 
-    public List<UserEntity> findSupervisors(String staffId);
+    List<UserEntity> findSupervisors(String staffId);
 
-    public List<UserEntity> findByOrganization(String orgId);
+    List<UserEntity> findByOrganization(String orgId);
 
-    public List<UserEntity> findByDelegationProperties(DelegationFilterSearch search);
+    List<UserEntity> findByDelegationProperties(DelegationFilterSearch search);
 
 
 }

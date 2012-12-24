@@ -253,16 +253,9 @@ public class IdentitySynchServiceImpl implements IdentitySynchService {
             return resp;
         }
 
-        List<User> searchResult =  userMgr.search(search);
+        resp.setResponseValue(userMgr.searchCount(search));
 
-        if (searchResult == null) {
-            resp.setResponseValue(new Integer(0));
-        }else {
-            resp.setResponseValue( new Integer( searchResult.size()));
-        }
         return resp;
-
-
     }
 
 

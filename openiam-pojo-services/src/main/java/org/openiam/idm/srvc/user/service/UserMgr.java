@@ -376,6 +376,11 @@ public class UserMgr implements UserDataService {
         return userDozerConverter.convertToDTOList(entityList, false);
     }
 
+    @Override
+    public Integer searchCount(UserSearch search) {
+        return userDao.searchCount(search);
+    }
+
     public List<User> searchByDelegationProperties(DelegationFilterSearch search) {
         List<UserEntity> entityList = userDao.findByDelegationProperties(search);
 

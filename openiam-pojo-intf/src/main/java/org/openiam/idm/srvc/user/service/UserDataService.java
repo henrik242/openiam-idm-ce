@@ -91,6 +91,8 @@ public interface UserDataService {
 
     public List<User> search(UserSearch search);
 
+    public Integer searchCount(UserSearch search);
+
     public List<User> searchByDelegationProperties(DelegationFilterSearch search);
 
     /* (non-Javadoc)

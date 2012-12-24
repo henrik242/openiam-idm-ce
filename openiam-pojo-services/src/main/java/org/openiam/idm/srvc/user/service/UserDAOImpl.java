@@ -16,6 +16,7 @@ import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.idm.srvc.user.dto.SearchAttribute;
 
 import javax.naming.InitialContext;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -180,8 +181,110 @@ public class UserDAOImpl implements UserDAO {
         return defaultSearch(search);
     }
 
+    @Override
+    public Integer searchCount(UserSearch search) {
+        if (dbType != null && dbType.equalsIgnoreCase("ORACLE_INSENSITIVE")) {
+            return searchOracleInsensitiveCount(search);
+        }
+        return defaultSearchCount(search);
+    }
+
+    private Integer searchOracleInsensitiveCount(UserSearch search){
+        String select = " SELECT COUNT(DISTINCT u.USER_ID) from USERS u " +
+                "  		LEFT JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) " +
+                "  		LEFT JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID) " +
+                "  		LEFT JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) " +
+                "  		LEFT JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID) " +
+                "  		LEFT JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) " +
+                "  		LEFT JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) " +
+                "	 	LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID) ";
+
+
+        SQLQuery qry = searchOracleInsensitiveQueryPrepare(search, select);
+        try {
+            BigInteger result = (BigInteger) qry.uniqueResult();
+            if (result == null) {
+                log.debug("search result is null");
+                return null;
+            }
+            log.debug("search resultset size=" + result);
+            return result.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
+    }
+
+    private Integer defaultSearchCount(UserSearch search) {
+
+        String select = " select COUNT(DISTINCT u.USER_ID) from USERS u ";
+
+        // MySQL's optimizer has a hard time with the large number of outer joins
+        // changing outer joins to inner-joins has a big impact on performance
+
+        SQLQuery qry = defaultSearchQueryPrepare(search, select);
+        try {
+            BigInteger result = (BigInteger) qry.uniqueResult();
+            if (result == null) {
+                log.debug("search result is null");
+                return null;
+            }
+            log.debug("search resultset size=" + result);
+            return result.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private List<UserEntity> searchOracleInsensitive(UserSearch search) {
 
+        String select = " select /*+ INDEX(IDX_USER_FIRSTNAME_UPPER) INDEX(IDX_USER_LASTNAME_UPPER) INDEX(IDX_LOGIN_PRINCIPAL_UPPER) INDEX(IDX_UA_NAME_UPPER)  */ " +
+                " DISTINCT u.USER_ID, u.TYPE_ID, " +
+                " u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME," +
+                " u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD, " +
+                " u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX, " +
+                " u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY," +
+                " u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID, " +
+                " u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID, " +
+                " u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION," +
+                " u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE, " +
+                " u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,  " +
+                " u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7," +
+                " u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED, " +
+                " u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN " +
+                " from 	USERS u " +
+                "  		LEFT JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) " +
+                "  		LEFT JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID) " +
+                "  		LEFT JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) " +
+                "  		LEFT JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID) " +
+                "  		LEFT JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) " +
+                "  		LEFT JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) " +
+                "	 	LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID) ";
+
+
+        SQLQuery qry = searchOracleInsensitiveQueryPrepare(search, select);
+        qry.addEntity(UserEntity.class);
+        try {
+            List<UserEntity> result = (List<UserEntity>) qry.list();
+            if (result == null || result.size() == 0) {
+                log.debug("search result is null");
+                return null;
+            }
+            log.debug("search resultset size=" + result.size());
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
+    }
+
+    private SQLQuery searchOracleInsensitiveQueryPrepare(UserSearch search, String select) {
+        StringBuffer where = new StringBuffer();
         boolean firstName = false;
         boolean lastName = false;
         boolean nickName = false;
@@ -223,33 +326,6 @@ public class UserDAOImpl implements UserDAO {
 
         List<String> nameList = new ArrayList<String>() ;
         List<String> valueList = new ArrayList<String>() ;
-
-        String select = " select /*+ INDEX(IDX_USER_FIRSTNAME_UPPER) INDEX(IDX_USER_LASTNAME_UPPER) INDEX(IDX_LOGIN_PRINCIPAL_UPPER) INDEX(IDX_UA_NAME_UPPER)  */ " +
-                " DISTINCT u.USER_ID, u.TYPE_ID, " +
-                " u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME," +
-                " u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD, " +
-                " u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX, " +
-                " u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY," +
-                " u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID, " +
-                " u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID, " +
-                " u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION," +
-                " u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE, " +
-                " u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,  " +
-                " u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7," +
-                " u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED, " +
-                " u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN " +
-                " from 	USERS u " +
-                "  		LEFT JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) " +
-                "  		LEFT JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID) " +
-                "  		LEFT JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) " +
-                "  		LEFT JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID) " +
-                "  		LEFT JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) " +
-                "  		LEFT JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) " +
-                "	 	LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID) ";
-
-
-        StringBuffer where = new StringBuffer();
-
         if (search.getShowInSearch() != null) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -328,7 +404,6 @@ public class UserDAOImpl implements UserDAO {
             where.append(" u.SECONDARY_STATUS = :secondaryStatus ");
             secondaryStatus = true;
         }
-
 
 
         if (search.getStartDate() != null) {
@@ -531,7 +606,6 @@ public class UserDAOImpl implements UserDAO {
         Session session = sessionFactory.getCurrentSession();
 
         SQLQuery qry = session.createSQLQuery(select);
-        qry.addEntity(UserEntity.class);
 
         if (userId) {
             qry.setString("userId", search.getUserId());
@@ -660,6 +734,31 @@ public class UserDAOImpl implements UserDAO {
             qry.setFetchSize(this.maxResultSetSize);
             qry.setMaxResults(this.maxResultSetSize);
         }
+        return qry;
+    }
+
+    private List<UserEntity> defaultSearch(UserSearch search) {
+
+        String select = " select DISTINCT u.USER_ID, u.TYPE_ID, " +
+                " u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME," +
+                " u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD, " +
+                " u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX, " +
+                " u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY," +
+                " u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID, " +
+                " u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID, " +
+                " u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION," +
+                " u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE, " +
+                " u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,  " +
+                " u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7," +
+                " u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED," +
+                " u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN " +
+                " from 	USERS u ";
+
+        // MySQL's optimizer has a hard time with the large number of outer joins
+        // changing outer joins to inner-joins has a big impact on performance
+
+        SQLQuery qry = defaultSearchQueryPrepare(search, select);
+        qry.addEntity(UserEntity.class);
         try {
             List<UserEntity> result = (List<UserEntity>) qry.list();
             if (result == null || result.size() == 0) {
@@ -676,8 +775,13 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-    private List<UserEntity> defaultSearch(UserSearch search) {
+    private SQLQuery defaultSearchQueryPrepare(UserSearch search, String select) {
+        StringBuilder join = new StringBuilder();
+        join.append("   JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) ");
+        join.append("   LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID)");
 
+
+        StringBuilder where = new StringBuilder();
         boolean firstName = false;
         boolean lastName = false;
         boolean nickName = false;
@@ -714,34 +818,6 @@ public class UserDAOImpl implements UserDAO {
         boolean bDeptIdList = false;
         boolean bDivIdList = false;
         boolean bAttrIdList = false;
-
-        StringBuilder join = new StringBuilder();
-
-        String select = " select DISTINCT u.USER_ID, u.TYPE_ID, " +
-                " u.TITLE, u.MIDDLE_INIT, u.LAST_NAME, u.FIRST_NAME," +
-                " u.BIRTHDATE, u.STATUS, u.SECONDARY_STATUS, u.DEPT_NAME, u.DEPT_CD, " +
-                " u.LAST_UPDATE, u.CREATED_BY, u.CREATE_DATE, u.SEX, " +
-                " u.USER_TYPE_IND, u.SUFFIX, u.PREFIX, u.LAST_UPDATED_BY," +
-                " u.LOCATION_NAME, u.LOCATION_CD, u.EMPLOYEE_TYPE, u.EMPLOYEE_ID, " +
-                " u.JOB_CODE, u.MANAGER_ID, u.COMPANY_OWNER_ID, u.COMPANY_ID, " +
-                " u.LAST_DATE, u.START_DATE, u.COST_CENTER, u.DIVISION," +
-                " u.PASSWORD_THEME, u.NICKNAME, u.MAIDEN_NAME, u.MAIL_CODE, " +
-                " u.COUNTRY, u.BLDG_NUM, u.STREET_DIRECTION, u.SUITE,  " +
-                " u.ADDRESS1, u.ADDRESS2, u.ADDRESS3, u.ADDRESS4, u.ADDRESS5, u.ADDRESS6, u.ADDRESS7," +
-                " u.CITY, u.STATE, u.POSTAL_CD, u.EMAIL_ADDRESS, u.ALTERNATE_ID, u.USER_OWNER_ID, u.DATE_PASSWORD_CHANGED, u.DATE_CHALLENGE_RESP_CHANGED," +
-                " u.PHONE_NBR, u.PHONE_EXT, u.AREA_CD, u.COUNTRY_CD, u.CLASSIFICATION, u.SHOW_IN_SEARCH, u.DEL_ADMIN " +
-                " from 	USERS u ";
-
-        // MySQL's optimizer has a hard time with the large number of outer joins
-        // changing outer joins to inner-joins has a big impact on performance
-
-        join.append("   JOIN LOGIN lg ON ( lg.USER_ID = u.USER_ID) ");
-        join.append("   LEFT JOIN USER_ROLE_VW urv on (u.USER_ID = urv.USER_ID)");
-
-
-
-        StringBuilder where = new StringBuilder();
-
         if (search.getShowInSearch() != null) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -1097,7 +1173,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = sessionFactory.getCurrentSession();
 
         SQLQuery qry = session.createSQLQuery(select);
-        qry.addEntity(UserEntity.class);
+
 
         if (userId) {
             qry.setString("userId", search.getUserId());
@@ -1222,20 +1298,7 @@ public class UserDAOImpl implements UserDAO {
             qry.setFetchSize(this.maxResultSetSize);
             qry.setMaxResults(this.maxResultSetSize);
         }
-        try {
-            List<UserEntity> result = (List<UserEntity>) qry.list();
-            if (result == null || result.size() == 0) {
-                log.debug("search result is null");
-                return null;
-            }
-            log.debug("search resultset size=" + result.size());
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-
-
+        return qry;
     }
 
 
