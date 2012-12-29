@@ -25,15 +25,23 @@
     <root>
 	       <priority value="warn" />
 	       <appender-ref ref="STDOUT" />  
-	       <appender-ref ref="A2" />
     </root>
 
-    <logger name="org.openiam.selfsrvc">
+    <logger name="org.openiam.selfsrvc" additivity="false">
         <level value="info"/>
         <appender-ref ref="openiam-esb"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %C{1} : %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+            <param name="LevelMax" value="FATAL" />
+            <param name="AcceptOnMatch" value="true" />
+        </filter>
+    </appender>
     <appender name="openiam-esb" class="org.apache.log4j.RollingFileAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p [%c] %m%n" />

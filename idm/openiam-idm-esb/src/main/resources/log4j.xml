@@ -24,35 +24,34 @@
     *********************************************************************************
     -->
     <root>
-	       <priority value="warn" />
-	       <appender-ref ref="STDOUT" />  
-	       <appender-ref ref="A2" />
+        <priority value="warn" />
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="A2" />
     </root>
- 	
- 	<logger name="org.openiam">
-        <level value="debug"/>
-        <appender-ref ref="openiam-esb"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
+    	<logger name="org.openiam" additivity="false">
+            <level value="debug"/>
+            <appender-ref ref="openiam-esb"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
 
- 	<logger name="org.apache">
-        <level value="warn"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
- 	
- 	<logger name="org.mule">
-        <level value="warn"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
+         <logger name="org.apache" additivity="false">
+            <level value="warn"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
 
- 	<logger name="org.hibernate">
-        <level value="warn"/>
-        <appender-ref ref="A3"/>
-    </logger>
+         <logger name="org.mule" additivity="false">
+            <level value="warn"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
 
-    <logger name="org.apache.cxf">
-        <level value="info"/>
-    </logger>
+         <logger name="org.hibernate">
+            <level value="warn"/>
+            <appender-ref ref="A3"/>
+        </logger>
+
+        <logger name="org.apache.cxf">
+            <level value="info"/>
+        </logger>
 
 	 <appender name="openiam-esb" class="org.apache.log4j.RollingFileAppender">
 		<layout class="org.apache.log4j.PatternLayout">
@@ -106,5 +105,5 @@
 
       </appender>
 
- 	
- </log4j:configuration> 
+
+ </log4j:configuration>

@@ -22,17 +22,28 @@
 *
 *********************************************************************************
 -->
-    <root>
-	       <priority value="warn" />
-	       <appender-ref ref="STDOUT" />  
-	       <appender-ref ref="A2" />
-    </root>
 
-    <logger name="org.openiam.webadmin">
+    <root>
+        <priority value="warn" />
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="A2" />
+    </root>
+    <logger name="org.openiam.webadmin"  additivity="false">
         <level value="debug"/>
         <appender-ref ref="A2"/>
         <appender-ref ref="STDOUT"/>
     </logger>
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender" >
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %C{1} : %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+            <param name="LevelMax" value="FATAL" />
+            <param name="AcceptOnMatch" value="true" />
+        </filter>
+    </appender>
 
     <appender name="A2" class="org.apache.log4j.RollingFileAppender">
         <layout class="org.apache.log4j.PatternLayout">

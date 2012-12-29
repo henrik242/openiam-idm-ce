@@ -19,7 +19,6 @@
         <property name="locations">
             <list>
                 <value>classpath:datasource.properties</value>
-                <value>file:/data/openiam/conf/datasource.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
