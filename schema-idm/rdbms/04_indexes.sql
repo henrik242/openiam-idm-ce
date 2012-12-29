@@ -1,3 +1,4 @@
+
 CREATE INDEX indx_login_user_id ON LOGIN (USER_ID);
 CREATE INDEX indx_login_login ON LOGIN (LOGIN);
 CREATE INDEX indx_login_service_id ON LOGIN (SERVICE_ID);
@@ -12,12 +13,13 @@ CREATE INDEX indx_phone_phone_nbr ON PHONE (PHONE_NBR);
 
 CREATE INDEX indx_user_attribute_name ON USER_ATTRIBUTES (NAME);
 CREATE INDEX indx_user_attribute_user_id ON USER_ATTRIBUTES (USER_ID);
-CREATE INDEX indx_user_attribute_user_id ON USER_ATTRIBUTES (VALUE);
-CREATE INDEX indx_user_attribute_user_id ON USER_ATTRIBUTES (METADATA_ID);
+CREATE INDEX indx_user_attribute_user_value ON USER_ATTRIBUTES (VALUE);
+CREATE INDEX indx_user_attribute_user_metaid ON USER_ATTRIBUTES (METADATA_ID);
 
 CREATE INDEX indx_user_grp_user_id ON USER_GRP (USER_ID);
 
 CREATE INDEX indx_company_company_id ON COMPANY (COMPANY_ID);
+CREATE INDEX indx_company_company_name ON COMPANY (COMPANY_NAME);
 
 CREATE INDEX indx_users_company_id ON USERS (COMPANY_ID);
 CREATE INDEX indx_users_show_in_search ON USERS (SHOW_IN_SEARCH);
