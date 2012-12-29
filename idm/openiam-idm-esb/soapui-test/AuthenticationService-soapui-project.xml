@@ -564,31 +564,26 @@
          <userId>?</userId>
       </ser:globalLogout>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/globalLogout"/></con:call></con:operation><con:operation isOneWay="false" action="" name="passwordAuth" bindingOperationName="passwordAuth" type="Request-Response" outputName="passwordAuthResponse" inputName="passwordAuth" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/globalLogout"/></con:call></con:operation><con:operation isOneWay="false" action="" name="passwordAuth" bindingOperationName="passwordAuth" type="Request-Response" outputName="passwordAuthResponse" inputName="passwordAuth" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:passwordAuth>
-         <!--Optional:-->
-         <domainId>?</domainId>
-         <!--Optional:-->
-         <principal>?</principal>
-         <!--Optional:-->
-         <password>?</password>
+         <domainId>USR_SEC_DOMAIN</domainId>
+         <principal>enter the user id value here</principal>
+         <password>enter the password here</password>
       </ser:passwordAuth>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/passwordAuth"/></con:call></con:operation><con:operation isOneWay="false" action="" name="renewToken" bindingOperationName="renewToken" type="Request-Response" outputName="renewTokenResponse" inputName="renewToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/passwordAuth"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="renewToken" bindingOperationName="renewToken" type="Request-Response" outputName="renewTokenResponse" inputName="renewToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:renewToken>
-         <!--Optional:-->
-         <principal>?</principal>
-         <!--Optional:-->
-         <token>?</token>
-         <!--Optional:-->
-         <tokenType>?</tokenType>
+
+         <principal>sona</principal>
+         <token>some token string</token>
+         <tokenType>OPENIAM_TOKEN</tokenType>
       </ser:renewToken>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/renewToken"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateAppStatus" bindingOperationName="updateAppStatus" type="Request-Response" outputName="updateAppStatusResponse" inputName="updateAppStatus" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/renewToken"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateAppStatus" bindingOperationName="updateAppStatus" type="Request-Response" outputName="updateAppStatusResponse" inputName="updateAppStatus" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:updateAppStatus>
@@ -604,19 +599,16 @@
          <token>?</token>
       </ser:updateAppStatus>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/updateAppStatus"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateToken" bindingOperationName="validateToken" type="Request-Response" outputName="validateTokenResponse" inputName="validateToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/updateAppStatus"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateToken" bindingOperationName="validateToken" type="Request-Response" outputName="validateTokenResponse" inputName="validateToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:validateToken>
-         <!--Optional:-->
-         <principal>?</principal>
-         <!--Optional:-->
-         <token>?</token>
-         <!--Optional:-->
-         <tokenType>?</tokenType>
+         <principal>sona</principal>
+         <token>token string goes here</token>
+         <tokenType>OPENIAM_TOKEN</tokenType>
       </ser:validateToken>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/validateToken"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateTokenByUser" bindingOperationName="validateTokenByUser" type="Request-Response" outputName="validateTokenByUserResponse" inputName="validateTokenByUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/validateToken"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateTokenByUser" bindingOperationName="validateTokenByUser" type="Request-Response" outputName="validateTokenByUserResponse" inputName="validateTokenByUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:validateTokenByUser>

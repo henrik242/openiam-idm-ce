@@ -285,6 +285,7 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISP
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('BLK_NOTIFICATION','ADMIN','Bulk Notification','Bulk Notification','sysMessageList.cnt', 'en',6);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('MAIL_TEMPLATES','ADMIN','Mail Templates','Mail Templates','mailTmplList.cnt', 'en',7);
 
+
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('REPORT','IDM','Report','Report','security/reportIndex.do', 'en',5);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('AUDITREPORT','REPORT','Audit Reports','Audit Information Reports','', 'en',2);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('AUDIT_RPT','AUDITREPORT','Audit Report','Audit Report','auditReport.cnt', 'en',1);
@@ -923,6 +924,18 @@ insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED,
 insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('105','RESET_PSWD_CHNG_COUNT', 'MINUTE','0','batch/resetPasswordChangeCount.groovy','2');
 insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('106','PUBLISH_AUDIT_EVENT', 'NIGHTLY','0','batch/publishAuditEvent.groovy','3');
 insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('108','PROV_ON_STARTDATE', 'NIGHTLY','0','batch/provisionOnStartDate.groovy','4');
+
+
+
+
+/* Messages  */
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('402881823ba67a37013ba68159740001','BulkUsersMessage','BulkNotificationByUserIds.groovy','SYSTEM');
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8e9af410001','NEW_USER_EMAIL','NewUserCreateNotification.groovy','SYSTEM');
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ea53030002','NEW_USER_EMAIL_SUPERVISOR','NewUserCreateToSupervisorNotification.groovy','SYSTEM');
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ea91d10003','REQUEST_APPROVED','RequestApproveNotification.groovy','SYSTEM');
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8eb000c0004','REQUEST_REJECTED','RequestRejectNotification.groovy','SYSTEM');
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ebe3380005','NEW_PENDING_REQUEST','RequestNotification.groovy','SYSTEM');
+INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ec3e580006','REQUEST_PASSWORD_RESET','RequestPasswordResetNotification.groovy','SYSTEM');
 
 
 commit;
