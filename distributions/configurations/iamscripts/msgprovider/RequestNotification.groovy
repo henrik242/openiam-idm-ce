@@ -10,15 +10,12 @@ public class RequestNotification implements NotificationMessageProvider {
 
     @Override
     public List<Message> build(Map<String, String> args) {
-        String subject = "Request APPROVED";
+        String subject = "Request Pending Approval";
         String userId = args.get(MailTemplateParameters.USER_ID.value());
 
         String toAddress = args.get(MailTemplateParameters.TO.value());
-
         String ccAddress = args.get(MailTemplateParameters.CC.value());
         String bccAddress = args.get(MailTemplateParameters.BCC.value());
-        String firstName = args.get(MailTemplateParameters.FIRST_NAME.value());
-        String lastName = args.get(MailTemplateParameters.LAST_NAME.value());
 
         if(args==null
                 || toAddress == null
@@ -42,9 +39,8 @@ public class RequestNotification implements NotificationMessageProvider {
         message.setSubject(subject);
         message.setBodyType(Message.BodyType.PLAIN_TEXT);
 
-        String tmplBody = "Dear " + firstName + " " + lastName + ": \n\n" +
+        String tmplBody = "Dear [firstName] [lastName]: \n\n" +
                 "A new request has been created and requires your review. Please login to the OpenIAM Selfservice application to review the request. \n\n" +
-                "\n\n" +
                 "Request Type: [requestReason] \n" +
                 "Requestor: [requester] \n" +
                 "For: [targetUser]";
