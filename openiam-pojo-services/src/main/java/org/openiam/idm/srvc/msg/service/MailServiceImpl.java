@@ -89,44 +89,49 @@ public class MailServiceImpl implements MailService {
             log.warn("Sending Notification Error: " + response);
             return response;
         }
-        User user = null;
-        if(params.containsKey(MailTemplateParameters.USER_ID.value())) {
+
+        if (params.containsKey(MailTemplateParameters.USER_ID.value())) {
             String userid = params.get(MailTemplateParameters.USER_ID.value());
-            user = userManager.getUserWithDependent(userid, true).getUser();
-            if(!params.containsKey(MailTemplateParameters.TO.value())) {
-                params.put(MailTemplateParameters.TO.value(), user.getEmail());
-            }
-            if(!params.containsKey(MailTemplateParameters.FIRST_NAME.value())) {
-                params.put(MailTemplateParameters.FIRST_NAME.value(), user.getFirstName());
-            }
-            if(!params.containsKey(MailTemplateParameters.LAST_NAME.value())) {
-                params.put(MailTemplateParameters.LAST_NAME.value(), user.getLastName());
+            User user = userManager.getUserWithDependent(userid, true).getUser();
+            if (user != null) {
+                if (!params.containsKey(MailTemplateParameters.TO.value())) {
+                    if (StringUtils.isEmpty(user.getEmail()) || !MailSenderUtils.isEmailValid(user.getEmail())) {
+                        log.warn("Email field is empty or invalid for user with id = " + userid + ". TO field of email is empty.");
+                    } else {
+                        params.put(MailTemplateParameters.TO.value(), user.getEmail());
+                    }
+                }
+                if (!params.containsKey(MailTemplateParameters.FIRST_NAME.value())) {
+                    params.put(MailTemplateParameters.FIRST_NAME.value(), user.getFirstName());
+                }
+                if (!params.containsKey(MailTemplateParameters.LAST_NAME.value())) {
+                    params.put(MailTemplateParameters.LAST_NAME.value(), user.getLastName());
+                }
+            } else {
+                log.warn("User with id = " + userid + " is not exists in the system.");
             }
         }
 
         NotificationDto sysMessageDto = sysMessageService.getNotificationByName(notificationName);
-        if(sysMessageDto == null) {
+        if (sysMessageDto == null) {
             response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
-            response.setErrorText("System Message with name = "+notificationName + " doesn't exist in the system.");
+            response.setErrorText("System Message with name = " + notificationName + " doesn't exist in the system.");
             log.warn("Sending Notification Error: " + response);
             return response;
         }
         String providerScript = sysMessageDto.getProviderScriptName();
-        if(sysMessageDto.isUseProviderScript()) {
+        if (sysMessageDto.isUseProviderScript()) {
             try {
                 Map<String, Object> bindingMap = new HashMap<String, Object>();
-                if(user != null) {
-                    bindingMap.put("user", user);
-                }
 
                 ScriptIntegration se = ScriptFactory.createModule(scriptEngine);
-                NotificationMessageProvider messageProvider = (NotificationMessageProvider) se.instantiateClass(bindingMap, "/msgprovider/"+providerScript);
+                NotificationMessageProvider messageProvider = (NotificationMessageProvider) se.instantiateClass(bindingMap, "/msgprovider/" + providerScript);
                 List<Message> messages = messageProvider.build(params);
-                if(messages == null || messages.size() == 0) {
+                if (messages == null || messages.size() == 0) {
                     log.info("No one message was not built in " + providerScript + ".");
                     return response;
                 }
-                for(Message message : messages) {
+                for (Message message : messages) {
                     try {
                         mailSender.send(message);
                     } catch (Exception e) {
@@ -141,9 +146,9 @@ public class MailServiceImpl implements MailService {
                 return response;
             }
 
-        } else if(sysMessageDto.getMailTemplate() != null) {
+        } else if (sysMessageDto.getMailTemplate() != null) {
             String toAddress = params.get(MailTemplateParameters.TO.value());
-            if(StringUtils.isEmpty(toAddress)) {
+            if (StringUtils.isEmpty(toAddress)) {
                 response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
                 response.setErrorText("Address field TO must be in parameters list.");
                 log.warn("Sending Notification Error: " + response);
@@ -155,20 +160,20 @@ public class MailServiceImpl implements MailService {
 
             Message message = new Message();
             message.addTo(toAddress);
-            if(StringUtils.isNotEmpty(fromAddress)) {
+            if (StringUtils.isNotEmpty(fromAddress)) {
                 message.setFrom(fromAddress);
             } else {
                 message.setFrom(defaultSender);
             }
-            if(StringUtils.isNotEmpty(bccAddress)) {
+            if (StringUtils.isNotEmpty(bccAddress)) {
                 message.addBcc(bccAddress);
             }
-            if(StringUtils.isNotEmpty(ccAddress)) {
+            if (StringUtils.isNotEmpty(ccAddress)) {
                 message.addCc(ccAddress);
             }
             message.setBodyType(sysMessageDto.getMailTemplate().getType() == MessageBodyType.HTML ? Message.BodyType.HTML_TEXT : Message.BodyType.PLAIN_TEXT);
             message.setSubject(sysMessageDto.getMailTemplate().getSubject());
-            if(StringUtils.isNotEmpty(sysMessageDto.getMailTemplate().getAttachmentFilePath())) {
+            if (StringUtils.isNotEmpty(sysMessageDto.getMailTemplate().getAttachmentFilePath())) {
                 message.addAttachments(res.getString("uploadDir") + File.separatorChar + sysMessageDto.getMailTemplate().getAttachmentFilePath());
             }
             String body = MailSenderUtils.parseBody(sysMessageDto.getMailTemplate().getBody(), params);

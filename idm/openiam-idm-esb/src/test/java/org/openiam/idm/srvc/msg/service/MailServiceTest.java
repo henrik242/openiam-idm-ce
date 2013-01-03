@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.HashMap;
 
@@ -153,6 +154,11 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
     // REQUEST_REJECTED [RequestRejectNotification.groovy],
     // NEW_PENDING_REQUEST [RequestNotification.groovy],
     // REQUEST_PASSWORD_RESET [RequestPasswordResetNotification]
+        sysMessageDto = new NotificationDto();
+        sysMessageDto.setName("NEW_PENDING_REQUEST");
+        sysMessageDto.setType(NotificationType.SYSTEM);
+        sysMessageDto.setProviderScriptName("RequestNotification.groovy");
+        sysMessageService.addNotification(sysMessageDto);
     }
 
     //@Test
@@ -214,6 +220,21 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), "Target User");
 
         mailService.sendNotification(TEST_HTML_TEMPLATE_MSG, new PropertyMap(mailParameters));
+    }
+
+    //@Test
+    public void testNewPendingRequest() {
+      /*  entry=[requester,Test UserJan1C],
+        entry=[requestReason,SELF REGISTRATION FOR:Test UserJan1C],
+        entry=[requestId,null],
+        entry=[targetUser,Test UserJan1C],
+        entry=[userId,3000],*/
+        HashMap<String, String> mailParameters = new HashMap<String, String>();
+        mailParameters.put("requester", "Test UserJan1C");
+        mailParameters.put("requestId", null);
+        mailParameters.put("targetUser", "Test UserJan1C");
+        mailParameters.put("userId", "3000");
+        mailService.sendNotification("NEW_PENDING_REQUEST", new PropertyMap(mailParameters));
     }
 
 }
