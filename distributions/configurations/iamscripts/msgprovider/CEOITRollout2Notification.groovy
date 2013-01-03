@@ -5,6 +5,7 @@ import groovy.sql.Sql
 import org.openiam.idm.srvc.msg.service.Message
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters
 import org.openiam.idm.srvc.msg.service.MailSenderUtils
+import org.openiam.util.StringUtil
 
 
 class CEOITRollout2Notification implements NotificationMessageProvider {
@@ -77,6 +78,8 @@ class CEOITRollout2Notification implements NotificationMessageProvider {
             return Collections.EMPTY_LIST;
         }
         String userIds = args.get(MailTemplateParameters.USER_IDS.value());
+        String defaultEmail = args.get(MailTemplateParameters.TO.value());
+
         if(userIds == null || "".equals(userIds)) {
             return Collections.EMPTY_LIST;
         }
@@ -103,13 +106,22 @@ class CEOITRollout2Notification implements NotificationMessageProvider {
             args.put(MailTemplateParameters.LAST_NAME.toString(),a.LAST_NAME);
             args.put("LOGINID_FOR_MANAGEDSYS_0".toString(),a.LOGIN);
             Message message = new Message();
-            message.addTo(a.EMAIL_ADDRESS);
-            message.setSubject(subject);
-            message.setFrom(from);
-            String body = MailSenderUtils.parseBody(tmplBody, args);
-            message.setBody(body);
-            message.setBodyType(Message.BodyType.HTML_TEXT);
-            messages.add(message);
+            if(defaultEmail != null
+                    && defaultEmail != '') {
+                message.addTo(defaultEmail);
+            }
+            if(a.EMAIL_ADDRESS != ''
+                    && MailSenderUtils.isEmailValid(a.EMAIL_ADDRESS)) {
+                message.addTo(a.EMAIL_ADDRESS);
+            }
+            if(message.getTo().size() != 0) {
+                message.setSubject(subject);
+                message.setFrom(from);
+                String body = MailSenderUtils.parseBody(tmplBody, args);
+                message.setBody(body);
+                message.setBodyType(Message.BodyType.HTML_TEXT);
+                messages.add(message);
+            }
         };
         return messages;
     }

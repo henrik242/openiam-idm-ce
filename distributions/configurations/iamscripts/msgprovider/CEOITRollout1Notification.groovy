@@ -48,6 +48,7 @@ public class CEOITRollout1Notification implements NotificationMessageProvider {
             return Collections.EMPTY_LIST;
         }
         String userIds = args.get(MailTemplateParameters.USER_IDS.value());
+        String defaultEmail = args.get(MailTemplateParameters.TO.value());
         if(userIds == null || "".equals(userIds)) {
             return Collections.EMPTY_LIST;
         }
@@ -75,13 +76,23 @@ public class CEOITRollout1Notification implements NotificationMessageProvider {
             args.put(MailTemplateParameters.LAST_NAME.toString(),a.LAST_NAME);
             args.put("loginId_for_managed_sys_0".toString(),a.LOGIN);
             Message message = new Message();
-            message.addTo(a.EMAIL_ADDRESS);
-            message.setSubject(subject);
-            String body = MailSenderUtils.parseBody(tmplBody, args);
-            message.setBody(body);
-            message.setFrom(from);
-            message.setBodyType(Message.BodyType.PLAIN_TEXT);
-            messages.add(message);
+
+            if(defaultEmail != null
+                    && defaultEmail != '') {
+                message.addTo(defaultEmail);
+            }
+            if(a.EMAIL_ADDRESS != ''
+                    && MailSenderUtils.isEmailValid(a.EMAIL_ADDRESS)) {
+                message.addTo(a.EMAIL_ADDRESS);
+            }
+            if(message.getTo().size() != 0) {
+                message.setSubject(subject);
+                message.setFrom(from);
+                String body = MailSenderUtils.parseBody(tmplBody, args);
+                message.setBody(body);
+                message.setBodyType(Message.BodyType.PLAIN_TEXT);
+                messages.add(message);
+            }
         };
         return messages;
     }
