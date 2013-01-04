@@ -32,13 +32,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SuspendRequest", propOrder = {
     "userIdentity",
-    "effectiveDate"
+    "effectiveDate",
+    "scriptHandler"
 })
-public class SuspendRequest    extends RequestType
+public class SuspendRequest extends RequestType
 {
     @XmlElement(required = true)
 	protected String userIdentity;
-	
+
+    @XmlElement
+    protected String scriptHandler;
+
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar effectiveDate;
 
@@ -58,5 +62,11 @@ public class SuspendRequest    extends RequestType
 		this.effectiveDate = effectiveDate;
 	}
 
+    public String getScriptHandler() {
+        return scriptHandler;
+    }
 
+    public void setScriptHandler(String scriptHandler) {
+        this.scriptHandler = scriptHandler;
+    }
 }

@@ -80,7 +80,7 @@ public class LdapDeleteCommand extends LdapAbstractCommand {
             log.debug("managedSys found for targetID=" + targetID + " " + " Name=" + managedSys.getName());
 
 
-            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler5());
 
             conMgr = ConnectionFactory.create(ConnectionManagerConstant.LDAP_CONNECTION);
             conMgr.setApplicationContext(ac);

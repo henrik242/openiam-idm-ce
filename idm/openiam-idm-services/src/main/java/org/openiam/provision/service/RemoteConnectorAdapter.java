@@ -57,7 +57,7 @@ public class RemoteConnectorAdapter {
     protected ConnectorDataService connectorService;
 
 
-    public UserResponse addRequest(ManagedSys managedSys, UserRequest addReqType, ProvisionConnector connector, MuleContext muleContext) {
+    public UserResponse addRequest(ManagedSys managedSys, RemoteUserRequest addReqType, ProvisionConnector connector, MuleContext muleContext) {
         UserResponse resp = new UserResponse();
         try {
 
@@ -93,7 +93,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public UserResponse modifyRequest(ManagedSys managedSys, UserRequest request, ProvisionConnector connector, MuleContext muleContext) {
+    public UserResponse modifyRequest(ManagedSys managedSys, RemoteUserRequest request, ProvisionConnector connector, MuleContext muleContext) {
         UserResponse resp = new UserResponse();
         try {
             if (managedSys == null) {
@@ -130,7 +130,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public LookupResponse lookupRequest(ManagedSys managedSys, LookupRequest req, ProvisionConnector connector, MuleContext muleContext) {
+    public LookupResponse lookupRequest(ManagedSys managedSys, RemoteLookupRequest req, ProvisionConnector connector, MuleContext muleContext) {
 
         LookupResponse resp = new LookupResponse();
 
@@ -166,7 +166,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public UserResponse deleteRequest(ManagedSys managedSys, UserRequest request, ProvisionConnector connector, MuleContext muleContext) {
+    public UserResponse deleteRequest(ManagedSys managedSys, RemoteUserRequest request, ProvisionConnector connector, MuleContext muleContext) {
         UserResponse resp = new UserResponse();
 
         if (managedSys == null) {
@@ -203,7 +203,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public ResponseType setPasswordRequest(ManagedSys managedSys, PasswordRequest request, ProvisionConnector connector, MuleContext muleContext) {
+    public ResponseType setPasswordRequest(ManagedSys managedSys, RemotePasswordRequest request, ProvisionConnector connector, MuleContext muleContext) {
         ResponseType resp = new ResponseType();
 
         if (managedSys == null) {
@@ -240,7 +240,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public ResponseType resetPasswordRequest(ManagedSys managedSys, PasswordRequest request, ProvisionConnector connector, MuleContext muleContext) {
+    public ResponseType resetPasswordRequest(ManagedSys managedSys, RemotePasswordRequest request, ProvisionConnector connector, MuleContext muleContext) {
         ResponseType resp = new ResponseType();
 
         if (managedSys == null) {
@@ -397,15 +397,13 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public ResponseType reconcileResource(ReconciliationConfig config, ProvisionConnector connector, MuleContext muleContext){
+    public ResponseType reconcileResource(RemoteReconciliationConfig config, ProvisionConnector connector, MuleContext muleContext){
         ResponseType resp = new ResponseType();
-
         if (config == null) {
             resp.setStatus(StatusCodeType.FAILURE);
             resp.setError(ErrorCode.INVALID_CONFIGURATION);
             return resp;
         }
-
         log.debug("ConnectorAdapter:reconcileRequest called. Resource =" + config.getResourceId());
         try {
 

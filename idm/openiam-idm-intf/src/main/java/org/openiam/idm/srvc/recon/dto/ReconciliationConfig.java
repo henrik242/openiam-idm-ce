@@ -17,7 +17,8 @@ import java.util.Set;
   })
 public class ReconciliationConfig implements java.io.Serializable {
 
-	private String reconConfigId;
+    private static final long serialVersionUID = 431603790346613674L;
+    private String reconConfigId;
 	private String resourceId;
 	private String frequency;
 	private String status;

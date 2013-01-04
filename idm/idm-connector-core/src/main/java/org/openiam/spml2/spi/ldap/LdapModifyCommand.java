@@ -129,7 +129,7 @@ public class LdapModifyCommand extends LdapAbstractCommand {
             }
         }
 
-        Directory dirSpecificImp = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+        Directory dirSpecificImp = DirectorySpecificImplFactory.create(managedSys.getHandler5());
 
 
         if (isInDirectory(ldapName, matchObj[0], ldapctx)) {

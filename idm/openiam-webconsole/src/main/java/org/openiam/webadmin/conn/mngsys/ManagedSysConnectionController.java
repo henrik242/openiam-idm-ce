@@ -147,10 +147,10 @@ public class ManagedSysConnectionController extends SimpleFormController {
              sys.getDeleteHandler(),
              sys.getPasswordHandler(),
              sys.getSuspendHandler(),
-             sys.getHandler1(),
-             sys.getHandler2(),
-             sys.getHandler3(),
-             sys.getHandler4(),
+             sys.getSearchHandler(),
+             sys.getLookupHandler(),
+             sys.getTestConnectionHandler(),
+             sys.getReconcileResourceHandler(),
              sys.getHandler5()       );
 			
 			
@@ -311,10 +311,10 @@ public class ManagedSysConnectionController extends SimpleFormController {
         sys.setConnectionString(sysConCommand.getConnectionString());
         sys.setDeleteHandler(sysConCommand.getDeleteHandler());
         sys.setDriverUrl(sysConCommand.getDriverUrl());
-        sys.setHandler1(sysConCommand.getHandler1());
-        sys.setHandler2(sysConCommand.getHandler2());
-        sys.setHandler3(sysConCommand.getHandler3());
-        sys.setHandler4(sysConCommand.getHandler4());
+        sys.setSearchHandler(sysConCommand.getSearchHandler());
+        sys.setLookupHandler(sysConCommand.getLookupHandler());
+        sys.setTestConnectionHandler(sysConCommand.getTestConnectionHandler());
+        sys.setReconcileResourceHandler(sysConCommand.getReconcileResourceHandler());
         sys.setHandler5(sysConCommand.getHandler5());
         sys.setModifyHandler(sysConCommand.getModifyHandler());
         sys.setPasswordHandler(sysConCommand.getPasswordHandler());

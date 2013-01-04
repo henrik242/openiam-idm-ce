@@ -9,12 +9,15 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchRequest", propOrder = {
-    "searchValue",
-    "searchQuery",
-    "returnData"
+        "searchValue",
+        "searchQuery",
+        "returnData",
+        "scriptHandler"
 })
 public class SearchRequest extends RequestType
 {
+    @XmlElement
+    private String scriptHandler;
 
     @XmlElement(required = true)
     protected String searchValue;                          // the value that we are searching for
@@ -69,4 +72,11 @@ public class SearchRequest extends RequestType
 		this.searchValue = searchValue;
 	}
 
+    public String getScriptHandler() {
+        return scriptHandler;
+    }
+
+    public void setScriptHandler(String scriptHandler) {
+        this.scriptHandler = scriptHandler;
+    }
 }

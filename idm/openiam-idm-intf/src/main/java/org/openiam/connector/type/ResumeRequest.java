@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.openiam.spml2.msg.PSOIdentifierType;
 
 
 /**
@@ -33,7 +32,8 @@ import org.openiam.spml2.msg.PSOIdentifierType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResumeRequest", propOrder = {
     "userIdentity",
-    "effectiveDate"
+    "effectiveDate",
+    "scriptHandler"
 })
 public class ResumeRequest    extends RequestType
 {
@@ -41,6 +41,8 @@ public class ResumeRequest    extends RequestType
     @XmlElement(required = true)
 	protected String userIdentity;
 
+    @XmlElement
+    protected String scriptHandler;
 
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar effectiveDate;
@@ -79,4 +81,11 @@ public class ResumeRequest    extends RequestType
 		this.userIdentity = userIdentity;
 	}
 
+    public String getScriptHandler() {
+        return scriptHandler;
+    }
+
+    public void setScriptHandler(String scriptHandler) {
+        this.scriptHandler = scriptHandler;
+    }
 }

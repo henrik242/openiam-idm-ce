@@ -30,14 +30,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.mule.api.context.MuleContextAware;
-import org.openiam.base.AttributeOperationEnum;
-import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.connector.type.LookupRequest;
-import org.openiam.connector.type.LookupResponse;
+import org.openiam.connector.type.RemoteReconciliationConfig;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
-import org.openiam.idm.srvc.mngsys.dto.ManagedSystemObjectMatch;
 import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
 import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
@@ -49,23 +45,14 @@ import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceRole;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.service.RoleDataService;
-import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
-import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.resp.LookupUserResponse;
 import org.openiam.provision.service.ConnectorAdapter;
 import  org.openiam.provision.service.ProvisionService;
 import org.openiam.idm.srvc.auth.dto.Login;
-import org.openiam.idm.srvc.auth.dto.LoginId;
 import org.openiam.provision.service.RemoteConnectorAdapter;
-import org.openiam.provision.type.ExtensibleAttribute;
-import org.openiam.provision.type.ExtensibleObject;
-import org.openiam.spml2.msg.LookupRequestType;
-import org.openiam.spml2.msg.LookupResponseType;
-import org.openiam.spml2.msg.PSOIdentifierType;
-import org.openiam.spml2.msg.StatusCodeType;
 
 /**
  * @author suneet
@@ -292,8 +279,12 @@ public class ReconciliationServiceImpl implements ReconciliationService, MuleCon
                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
                 log.debug("Calling reconcileResource with Remote connector");
-
-                remoteConnectorAdapter.reconcileResource(config, connector, muleContext);
+                RemoteReconciliationConfig remoteReconciliationConfig = null;
+                if(config != null) {
+                    remoteReconciliationConfig = new RemoteReconciliationConfig(config);
+                    remoteReconciliationConfig.setScriptHandler(mSys.getReconcileResourceHandler());
+                }
+                remoteConnectorAdapter.reconcileResource(remoteReconciliationConfig, connector, muleContext);
             } else {
 
                 log.debug("Calling reconcileResource local connector");

@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.openiam.base.SysConfiguration;
+import org.openiam.connector.type.RemoteUserRequest;
 import org.openiam.connector.type.UserRequest;
 import org.openiam.connector.type.UserResponse;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -213,7 +214,7 @@ public class BaseProvisioningHelper implements ApplicationContextAware {
             IdmAuditLog auditLog
     ) {
 
-        UserRequest request = new UserRequest();
+        RemoteUserRequest request = new RemoteUserRequest();
 
         request.setUserIdentity(mLg.getId().getLogin());
         request.setRequestID(requestId);
@@ -225,6 +226,8 @@ public class BaseProvisioningHelper implements ApplicationContextAware {
             request.setBaseDN(matchObj.getBaseDn());
         }
         request.setOperation("DELETE");
+
+        request.setScriptHandler(mSys.getDeleteHandler());
 
         UserResponse resp = remoteConnectorAdapter.deleteRequest(mSys, request, connector, muleContext);
 

@@ -46,10 +46,10 @@ import javax.xml.bind.annotation.XmlType;
     "deleteHandler",
     "passwordHandler",
     "suspendHandler",
-    "handler1",
-    "handler2",
-    "handler3",
-    "handler4",
+    "searchHandler",
+    "lookupHandler",
+    "testConnectionHandler",
+    "reconcileResourceHandler",
     "handler5"
 })
 public class ManagedSys implements java.io.Serializable {
@@ -86,10 +86,10 @@ public class ManagedSys implements java.io.Serializable {
     private  String deleteHandler;
     private  String passwordHandler;
     private  String suspendHandler;
-    private  String handler1;
-    private  String handler2;
-    private  String handler3;
-    private  String handler4;
+    private  String searchHandler;
+    private  String lookupHandler;
+    private  String testConnectionHandler;
+    private  String reconcileResourceHandler;
     private  String handler5;
 
 	
@@ -360,36 +360,36 @@ public class ManagedSys implements java.io.Serializable {
         this.suspendHandler = suspendHandler;
     }
 
-    public String getHandler1() {
-        return handler1;
+    public String getSearchHandler() {
+        return searchHandler;
     }
 
-    public void setHandler1(String handler1) {
-        this.handler1 = handler1;
+    public void setSearchHandler(String searchHandler) {
+        this.searchHandler = searchHandler;
     }
 
-    public String getHandler2() {
-        return handler2;
+    public String getLookupHandler() {
+        return lookupHandler;
     }
 
-    public void setHandler2(String handler2) {
-        this.handler2 = handler2;
+    public void setLookupHandler(String lookupHandler) {
+        this.lookupHandler = lookupHandler;
     }
 
-    public String getHandler3() {
-        return handler3;
+    public String getTestConnectionHandler() {
+        return testConnectionHandler;
     }
 
-    public void setHandler3(String handler3) {
-        this.handler3 = handler3;
+    public void setTestConnectionHandler(String testConnectionHandler) {
+        this.testConnectionHandler = testConnectionHandler;
     }
 
-    public String getHandler4() {
-        return handler4;
+    public String getReconcileResourceHandler() {
+        return reconcileResourceHandler;
     }
 
-    public void setHandler4(String handler4) {
-        this.handler4 = handler4;
+    public void setReconcileResourceHandler(String reconcileResourceHandler) {
+        this.reconcileResourceHandler = reconcileResourceHandler;
     }
 
     public String getHandler5() {
@@ -426,10 +426,10 @@ public class ManagedSys implements java.io.Serializable {
                 ", deleteHandler='" + deleteHandler + '\'' +
                 ", passwordHandler='" + passwordHandler + '\'' +
                 ", suspendHandler='" + suspendHandler + '\'' +
-                ", handler1='" + handler1 + '\'' +
-                ", handler2='" + handler2 + '\'' +
-                ", handler3='" + handler3 + '\'' +
-                ", handler4='" + handler4 + '\'' +
+                ", searchHandler='" + searchHandler + '\'' +
+                ", lookupHandler='" + lookupHandler + '\'' +
+                ", testConnectionHandler='" + testConnectionHandler + '\'' +
+                ", reconcileResourceHandler='" + reconcileResourceHandler + '\'' +
                 ", handler5='" + handler5 + '\'' +
                 ", mngSysObjectMatchs=" + mngSysObjectMatchs +
                 '}';

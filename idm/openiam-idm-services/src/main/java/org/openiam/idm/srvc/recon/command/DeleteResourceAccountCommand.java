@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
 import org.openiam.base.AttributeOperationEnum;
+import org.openiam.connector.type.RemoteUserRequest;
 import org.openiam.connector.type.UserRequest;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
@@ -59,12 +60,13 @@ public class DeleteResourceAccountCommand implements ReconciliationCommand {
                     connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
                 log.debug("Calling delete with Remote connector");
-                UserRequest request = new UserRequest();
+                RemoteUserRequest request = new RemoteUserRequest();
                 request.setUserIdentity(login.getId().getLogin());
                 request.setTargetID(login.getId().getManagedSysId());
                 request.setHostLoginId(mSys.getUserId());
                 request.setHostLoginPassword(mSys.getDecryptPassword());
                 request.setHostUrl(mSys.getHostUrl());
+                request.setScriptHandler(mSys.getDeleteHandler());
                 remoteConnectorAdapter.deleteRequest(mSys, request, connector, muleContext);
             } else {
                 DeleteRequestType reqType = new DeleteRequestType();

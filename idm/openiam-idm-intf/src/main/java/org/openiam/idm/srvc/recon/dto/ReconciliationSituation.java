@@ -18,7 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 		"script"})
 public class ReconciliationSituation implements java.io.Serializable {
 
-	private String reconSituationId;
+    private static final long serialVersionUID = -8870989951105414407L;
+    private String reconSituationId;
 	private String reconConfigId;
 	private String situation;
 	private String situationResp;

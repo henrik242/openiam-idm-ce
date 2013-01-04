@@ -31,10 +31,7 @@ import org.openiam.base.id.UUIDGen;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.connector.type.LookupRequest;
-import org.openiam.connector.type.LookupResponse;
-import org.openiam.connector.type.UserRequest;
-import org.openiam.connector.type.UserResponse;
+import org.openiam.connector.type.*;
 import org.openiam.exception.EncryptionException;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -72,6 +69,7 @@ import org.openiam.provision.type.ExtensibleUser;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
 import org.openiam.spml2.msg.*;
+import org.openiam.spml2.msg.ResponseType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 import org.springframework.context.ApplicationContextAware;
@@ -1723,7 +1721,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                                     extAttList.add(new ExtensibleAttribute("ORIG_IDENTITY", mLg.getOrigPrincipalName(), 2, "String"));
                                 }
 
-                                UserRequest userReq = new UserRequest();
+                                RemoteUserRequest userReq = new RemoteUserRequest();
                                 userReq.setUserIdentity(mLg.getId().getLogin());
                                 userReq.setRequestID(requestId);
                                 userReq.setTargetID(mLg.getId().getManagedSysId());
@@ -1733,6 +1731,8 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                                 userReq.setBaseDN(matchObj.getBaseDn());
                                 userReq.setOperation("EDIT");
                                 userReq.setUser(extUser);
+
+                                userReq.setScriptHandler(mSys.getModifyHandler());
 
                                 UserResponse respType = remoteConnectorAdapter.modifyRequest(mSys, userReq, connector, muleContext);
                                 if (respType.getStatus() == StatusCodeType.SUCCESS) {
@@ -1886,7 +1886,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
                     if (connector.getConnectorInterface() != null &&
                             connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
 
-                        UserRequest request = new UserRequest();
+                        RemoteUserRequest request = new RemoteUserRequest();
 
                         request.setUserIdentity(mLg.getId().getLogin());
                         request.setRequestID(requestId);
@@ -1897,6 +1897,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
                         request.setOperation("DELETE");
 
+                        request.setScriptHandler(mSys.getDeleteHandler());
 
                         remoteConnectorAdapter.deleteRequest(mSys, request, connector, muleContext);
 
@@ -2120,7 +2121,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
             log.debug("Calling lookupRequest with Remote connector");
 
-            LookupRequest reqType = new LookupRequest();
+            RemoteLookupRequest reqType = new RemoteLookupRequest();
             reqType.setSearchValue(principalName);
 
             reqType.setTargetID(managedSysId);
@@ -2132,6 +2133,8 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
                 reqType.setBaseDN(matchObj.getBaseDn());
             }
+
+            reqType.setScriptHandler(mSys.getLookupHandler());
 
             LookupResponse responseType = remoteConnectorAdapter.lookupRequest(mSys, reqType, connector, muleContext);
             if (responseType.getStatus() == StatusCodeType.FAILURE) {

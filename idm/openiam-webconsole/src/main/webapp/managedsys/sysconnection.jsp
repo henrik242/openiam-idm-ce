@@ -184,22 +184,26 @@
             <td>Suspend Object Rule</td>
             <td><form:input path="suspendHandler" size="50" maxlength="100" /></td>
         </tr>
+        <tr>
+            <td>Search Object Rule</td>
+            <td><form:input path="searchHandler" size="50" maxlength="100" /></td>
+        </tr>
+        <tr>
+            <td>Lookup Object Rule</td>
+            <td><form:input path="lookupHandler" size="50" maxlength="100" /></td>
+        </tr>
+        <tr>
+            <td>Test Connection Object Rule</td>
+            <td><form:input path="testConnectionHandler" size="50" maxlength="100" /></td>
+        </tr>
+        <tr>
+            <td>Reconcile Resource Object Rule</td>
+            <td><form:input path="reconcileResourceHandler" size="50" maxlength="100" /></td>
+        </tr>
       <!--
       create a screen that is unique for each connector instead of one generic screen
         <tr>
-            <td>Custom Rule 1</td>
-            <td><form:input path="handler2" size="50" maxlength="100" /></td>
-        </tr>
-        <tr>
-            <td>Custom Rule 2</td>
-            <td><form:input path="handler3" size="50" maxlength="100" /></td>
-        </tr>
-        <tr>
-            <td>Custom Rule 3</td>
-            <td><form:input path="handler4" size="50" maxlength="100" /></td>
-        </tr>
-        <tr>
-            <td>Custom Rule 4</td>
+            <td>Custom Rule 5</td>
             <td><form:input path="handler5" size="50" maxlength="100" /></td>
         </tr>
        -->

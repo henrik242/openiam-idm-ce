@@ -108,7 +108,7 @@ public class LdapAddCommand extends LdapAbstractCommand {
             }
 
 
-            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler5());
 
 
             log.debug("baseDN=" + matchObj.getBaseDn());

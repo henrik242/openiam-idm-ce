@@ -518,7 +518,7 @@ public class LdapConnectorImpl extends AbstractSpml2Complete implements Connecto
             }
 
 
-            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+            Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler5());
             ModificationItem[] mods = dirSpecificImp.setPassword(reqType);
 
 

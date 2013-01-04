@@ -93,9 +93,8 @@ public class RequestType   {
      * Gets the value of the executionMode property.
      * 
      * @return
-     *     possible object is
-     *     {@link ExecutionModeType }
-     *     
+     *     possible object is String
+     *
      */
     public String getExecutionMode() {
         return executionMode;
@@ -105,9 +104,8 @@ public class RequestType   {
      * Sets the value of the executionMode property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ExecutionModeType }
-     *     
+     *     allowed object is String
+     *
      */
     public void setExecutionMode(String value) {
         this.executionMode = value;

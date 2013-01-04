@@ -93,7 +93,7 @@ public class LdapSuspend extends  LdapAbstractCommand implements ApplicationCont
             if (identityExists(ldapName, ldapctx)) {
 
                 // Each directory
-                Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+                Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler5());
 
                 log.debug("Directory specific object name = " + dirSpecificImp.getClass().getName());
 
@@ -158,7 +158,7 @@ public class LdapSuspend extends  LdapAbstractCommand implements ApplicationCont
             // dont try to enable and object that does not exist
             if (identityExists(ldapName, ldapctx)) {
 
-                Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler1());
+                Directory dirSpecificImp  = DirectorySpecificImplFactory.create(managedSys.getHandler5());
                 dirSpecificImp.setAttributes("LDAP_NAME", ldapName);
                 dirSpecificImp.setAttributes("LOGIN_MANAGER", loginManager);
                 dirSpecificImp.setAttributes("CONFIGURATION", sysConfiguration);
