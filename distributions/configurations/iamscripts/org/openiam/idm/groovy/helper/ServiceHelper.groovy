@@ -18,6 +18,10 @@ import org.openiam.idm.srvc.recon.ws.AsynchReconciliationService;
 import org.openiam.idm.srvc.recon.ws.ReconciliationWebService;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import java.util.ResourceBundle;
+import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
+
 
 class ServiceHelper {
  
@@ -58,6 +62,41 @@ class ServiceHelper {
 				OrganizationDataService.class);
 	}
 
+    static GroupDataWebService groupService() {
+        ResourceBundle res = ResourceBundle.getBundle("datasource");
+        String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+
+
+        String serviceUrl = BASE_URL + "/GroupDataWebService"
+        String port ="GroupDataWebServicePort"
+        String nameSpace = "urn:idm.openiam.org/srvc/grp/service"
+
+        Service service = Service.create(QName.valueOf(serviceUrl))
+
+        service.addPort(new QName(nameSpace,port),
+                SOAPBinding.SOAP11HTTP_BINDING,	serviceUrl)
+
+        return service.getPort(new QName(nameSpace,	port),
+                GroupDataWebService.class);
+    }
+
+    static RoleDataWebService roleService() {
+        ResourceBundle res = ResourceBundle.getBundle("datasource");
+        String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
+
+
+        String serviceUrl = BASE_URL + "/RoleDataWebService"
+        String port ="RoleDataWebServicePort"
+        String nameSpace = "urn:idm.openiam.org/srvc/role/service"
+
+        Service service = Service.create(QName.valueOf(serviceUrl))
+
+        service.addPort(new QName(nameSpace,port),
+                SOAPBinding.SOAP11HTTP_BINDING,	serviceUrl)
+
+        return service.getPort(new QName(nameSpace,	port),
+                RoleDataWebService.class);
+    }
 	static MailService emailService() {
 	 	ResourceBundle res = ResourceBundle.getBundle("datasource");
  		String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
@@ -146,7 +185,7 @@ class ServiceHelper {
 				PasswordWebService.class);
 	}
 
-	static ProvisionService povisionService() {
+	static ProvisionService provisionService() {
 		 ResourceBundle res = ResourceBundle.getBundle("datasource");
  		 String BASE_URL =  res.getString("openiam.service_host") + res.getString("openiam.idm.ws.path");
  

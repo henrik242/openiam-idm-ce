@@ -326,7 +326,12 @@ public class SelfRegistrationController extends CancellableFormController {
         Set<RequestApprover> approverList = pReq.getRequestApprovers();
         for (RequestApprover ra : approverList) {
 
+
+
+
             if (!ra.getApproverType().equalsIgnoreCase("ROLE")) {
+
+                User approver =  userMgr.getUserWithDependent(ra.getApproverId(), false).getUser();
 
                 HashMap<String, String> mailParameters = new HashMap<String, String>();
                 mailParameters.put(MailTemplateParameters.USER_ID.value(), ra.getApproverId());
@@ -335,12 +340,16 @@ public class SelfRegistrationController extends CancellableFormController {
                 mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
                 mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
 
+                if (approver != null && approver.getEmail() != null  ) {
+                    mailParameters.put(MailTemplateParameters.TO.value(), approver.getEmail());
+                }
+
                 mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
             } else {
                 // approverType is ROLE
                 // get
 
-                log.info("notifyApprover:: Approver type = " + ra.getApproverType());
+                log.info("notifyApprover: Approver type = " + ra.getApproverType());
 
                 DelegationFilterSearch search = new DelegationFilterSearch();
                 search.setRole(approverRole);
@@ -361,6 +370,10 @@ public class SelfRegistrationController extends CancellableFormController {
                         mailParameters.put(MailTemplateParameters.REQUESTER.value(), usr.getFirstName() + " " + usr.getLastName());
                         mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestReason());
                         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
+
+                        if (u.getEmail() != null) {
+                            mailParameters.put(MailTemplateParameters.TO.value(), u.getEmail());
+                        }
 
                         mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
 

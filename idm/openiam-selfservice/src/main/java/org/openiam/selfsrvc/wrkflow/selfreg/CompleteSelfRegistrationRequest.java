@@ -84,6 +84,12 @@ public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
         mailParameters.put(MailTemplateParameters.IDENTITY.value(), identity);
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), password);
 
+        User notifyUser = getNotificationUser(notifyUserId);
+
+        if (notifyUser != null && notifyUser.getEmail() != null  ) {
+            mailParameters.put(MailTemplateParameters.TO.value(), notifyUser.getEmail());
+        }
+
         mailService.sendNotification(REQUEST_APPROVED_NOTIFICATION, new PropertyMap(mailParameters));
     }
 
@@ -115,6 +121,14 @@ public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
         mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), req.getRequestTitle());
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), targetUserName);
 
+        User notifyUser = getNotificationUser(notifyUserId);
+
+        if (notifyUser != null && notifyUser.getEmail() != null  ) {
+            mailParameters.put(MailTemplateParameters.TO.value(), notifyUser.getEmail());
+        }
+
         mailService.sendNotification(REQUEST_REJECTED_NOTIFICATION, new PropertyMap(mailParameters));
     }
+
+
 }

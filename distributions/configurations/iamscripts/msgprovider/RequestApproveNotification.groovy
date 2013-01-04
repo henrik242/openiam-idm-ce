@@ -6,7 +6,6 @@ import org.openiam.idm.srvc.msg.service.MailTemplateParameters
 import org.openiam.idm.srvc.msg.service.MailSenderUtils
 
 public class RequestApproveNotification implements NotificationMessageProvider {
-    private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
 
 
     private static final String tmplBody = "Dear [firstName] [lastName]: \n\n" +

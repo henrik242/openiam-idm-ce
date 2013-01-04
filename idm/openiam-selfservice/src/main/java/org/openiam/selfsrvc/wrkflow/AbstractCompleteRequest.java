@@ -138,6 +138,12 @@ public abstract class AbstractCompleteRequest  {
         }
     }
 
+    public User getNotificationUser(String notifyUserId) {
+
+       return userManager.getUserWithDependent(notifyUserId,false).getUser();
+
+    }
+
     abstract public void approveRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId );
     abstract public void rejectRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId);
 
