@@ -543,7 +543,7 @@ public class RoleDataServiceImpl implements RoleDataService {
         if (roleList != null && !roleList.isEmpty()) {
             updateRoleAssociation(roleList, RoleConstant.INDIRECT, newRoleSet);
         }
-        if (newRoleSet == null || newRoleSet.size() == 0) {
+        if (newRoleSet.size() == 0) {
             return null;
         }
         List<RoleEntity> newRoles = new LinkedList<RoleEntity>(newRoleSet);
@@ -560,7 +560,7 @@ public class RoleDataServiceImpl implements RoleDataService {
             }
         }
 
-        return roleDozerConverter.convertToDTOList(roleList, true);
+        return roleDozerConverter.convertToDTOList(newRoleList, true);
 
 
         //return newRoles;

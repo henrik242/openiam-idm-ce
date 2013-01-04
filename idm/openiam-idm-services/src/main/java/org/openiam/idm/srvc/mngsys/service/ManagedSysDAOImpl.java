@@ -96,7 +96,7 @@ public class ManagedSysDAOImpl implements ManagedSysDAO {
 		log.debug("getting ManagedSys instance with id: " + id);
 		try {
 			ManagedSys instance = (ManagedSys) sessionFactory
-					.getCurrentSession().get("org.openiam.idm.srvc.mngsys.dto.ManagedSys",
+					.getCurrentSession().get(ManagedSys.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -183,8 +183,7 @@ public class ManagedSysDAOImpl implements ManagedSysDAO {
 		log.debug("finding ManagedSys instance by example");
 		try {
 			List<ManagedSys> results = (List<ManagedSys>) sessionFactory
-					.getCurrentSession().createCriteria(
-							"org.openiam.idm.srvc.mngsys.dto.ManagedSys").add(
+					.getCurrentSession().createCriteria(ManagedSys.class).add(
 							create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

@@ -1,8 +1,8 @@
 package org.openiam.provision.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
@@ -11,24 +11,25 @@ import org.openiam.base.id.UUIDGen;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.exception.EncryptionException;
-import org.openiam.exception.ObjectNotFoundException;
-import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
+import org.openiam.connector.type.ResumeRequest;
+import org.openiam.connector.type.SuspendRequest;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
-import org.openiam.idm.srvc.grp.service.GroupDataService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
+import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.pswd.dto.Password;
-import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.role.service.RoleDataService;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.spml2.msg.PSOIdentifierType;
-import org.openiam.spml2.msg.password.SetPasswordRequestType;
+import org.openiam.spml2.msg.StatusCodeType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
@@ -41,14 +42,17 @@ import org.openiam.spml2.msg.suspend.SuspendRequestType;
 public class DisableUserDelegate {
 
 
-	protected UserDataService userMgr;
-	protected AuditHelper auditHelper;
-	protected SysConfiguration sysConfiguration;
-	protected LoginDataService loginManager;
-	protected ManagedSystemDataService managedSysService;
-	protected ConnectorAdapter connectorAdapter;
-	protected RemoteConnectorAdapter remoteConnectorAdapter;	
-	
+    private UserDataService userMgr;
+    private AuditHelper auditHelper;
+    private SysConfiguration sysConfiguration;
+    private LoginDataService loginManager;
+    private ManagedSystemDataService managedSysService;
+    private ConnectorAdapter connectorAdapter;
+    private RemoteConnectorAdapter remoteConnectorAdapter;
+
+    private ResourceDataService resourceDataService;
+    private RoleDataService roleDataService;
+    private ConnectorDataService connectorService;
 
 	protected static final Log log = LogFactory.getLog(DisableUserDelegate.class);
 
@@ -138,7 +142,7 @@ public class DisableUserDelegate {
 		                connectorAdapter.suspendRequest(mSys, suspendReq,muleContext);
 		                
 		                
-					}else {
+					} else {
 						// resume - re-enable
 						log.debug("preparing resumeRequest object");
 
@@ -178,6 +182,57 @@ public class DisableUserDelegate {
                 }
 			}
 		}
+        // Synchronize provision resources (e.g. connectors)
+        final List<Role> roleList = roleDataService.getUserRoles(userId);
+        Login lg = loginManager.getPrimaryIdentity(userId);
+        if (CollectionUtils.isNotEmpty(roleList)) {
+            for (final Role role : roleList) {
+                final RoleId roleId = role.getId();
+                final List<Resource> resourceList = resourceDataService.getResourcesForRole(roleId.getServiceId(), roleId.getRoleId());
+                if (CollectionUtils.isNotEmpty(resourceList)) {
+                    for (final Resource resource : resourceList) {
+                        final ManagedSys mSys = managedSysService.getManagedSys(resource.getManagedSysId());
+                        if (mSys != null) {
+
+                            ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
+                            boolean connectorSuccess = false;
+                            if (connector.getConnectorInterface() != null &&
+                                    connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
+                                org.openiam.connector.type.ResponseType resp;
+
+                                if (operation) {
+                                    SuspendRequest suspendRequest = new SuspendRequest();
+                                    suspendRequest.setScriptHandler(mSys.getSuspendHandler());
+                                    suspendRequest.setUserIdentity(lg.getId().getLogin());
+                                    suspendRequest.setTargetID(lg.getId().getManagedSysId());
+                                    suspendRequest.setHostLoginId(mSys.getUserId());
+                                    suspendRequest.setHostLoginPassword(mSys.getDecryptPassword());
+                                    suspendRequest.setHostUrl(mSys.getHostUrl());
+                                    suspendRequest.setRequestID("R" + System.currentTimeMillis());
+                                    resp = remoteConnectorAdapter.suspend(mSys, suspendRequest, connector, muleContext);
+                                } else {
+                                    ResumeRequest resumeRequestType = new ResumeRequest();
+                                    resumeRequestType.setScriptHandler(mSys.getSuspendHandler());
+                                    resumeRequestType.setUserIdentity(lg.getId().getLogin());
+                                    resumeRequestType.setTargetID(lg.getId().getManagedSysId());
+                                    resumeRequestType.setHostLoginId(mSys.getUserId());
+                                    resumeRequestType.setHostLoginPassword(mSys.getDecryptPassword());
+                                    resumeRequestType.setHostUrl(mSys.getHostUrl());
+                                    resumeRequestType.setRequestID("R" + System.currentTimeMillis());
+                                    resp = remoteConnectorAdapter.resumeRequest(mSys, resumeRequestType, connector, muleContext);
+                                }
+
+                                if (resp.getStatus() == StatusCodeType.SUCCESS) {
+                                    connectorSuccess = true;
+                                } else {
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 		response.setStatus(ResponseStatus.SUCCESS);
 		return response;
 
@@ -258,5 +313,28 @@ public class DisableUserDelegate {
 			RemoteConnectorAdapter remoteConnectorAdapter) {
 		this.remoteConnectorAdapter = remoteConnectorAdapter;
 	}
-	
+
+    public ResourceDataService getResourceDataService() {
+        return resourceDataService;
+    }
+
+    public void setResourceDataService(ResourceDataService resourceDataService) {
+        this.resourceDataService = resourceDataService;
+    }
+
+    public RoleDataService getRoleDataService() {
+        return roleDataService;
+    }
+
+    public void setRoleDataService(RoleDataService roleDataService) {
+        this.roleDataService = roleDataService;
+    }
+
+    public ConnectorDataService getConnectorService() {
+        return connectorService;
+    }
+
+    public void setConnectorService(ConnectorDataService connectorService) {
+        this.connectorService = connectorService;
+    }
 }

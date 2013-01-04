@@ -104,8 +104,6 @@
         <property name="connectorAdapter" ref="connectorAdapter" />
     </bean>
 
-
-
 	<bean id="disableUser" class="org.openiam.provision.service.DisableUserDelegate" >
 			<property name="userMgr" ref="userManager" />	
 			<property name="auditHelper" ref="auditHelper" />
@@ -114,6 +112,9 @@
 			<property name="managedSysService" ref="managedSysService" />
 			<property name="connectorAdapter" ref="connectorAdapter" />
 			<property name="remoteConnectorAdapter" ref="remoteConnectorAdapter" />
+            <property name="resourceDataService" ref="resourceDataService" />
+            <property name="roleDataService" ref="roleDataService" />
+            <property name="connectorService" ref="connectorService" />
 	</bean>
 	
 	<bean id="connectorAdapter" class="org.openiam.provision.service.ConnectorAdapter">

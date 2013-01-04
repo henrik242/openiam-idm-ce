@@ -34,8 +34,6 @@ import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.spml2.interf.ConnectorService;
 import org.openiam.spml2.msg.*;
-import org.openiam.spml2.msg.suspend.ResumeRequestType;
-import org.openiam.spml2.msg.suspend.SuspendRequestType;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -279,7 +277,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public ResponseType suspend(ManagedSys managedSys, SuspendRequestType request, ProvisionConnector connector, MuleContext muleContext) {
+    public ResponseType suspend(ManagedSys managedSys, SuspendRequest request, ProvisionConnector connector, MuleContext muleContext) {
         ResponseType resp = new ResponseType();
 
         if (managedSys == null) {
@@ -319,7 +317,7 @@ public class RemoteConnectorAdapter {
 
     }
 
-    public ResponseType resumeRequest(ManagedSys managedSys, ResumeRequestType request, ProvisionConnector connector, MuleContext muleContext) {
+    public ResponseType resumeRequest(ManagedSys managedSys, ResumeRequest request, ProvisionConnector connector, MuleContext muleContext) {
         ResponseType resp = new ResponseType();
 
         if (managedSys == null) {
@@ -473,11 +471,11 @@ public class RemoteConnectorAdapter {
             }
             if (operation.equalsIgnoreCase("suspend")) {
 
-                msg = client.send("vm://remoteConnectorClientSuspend", (SuspendRequestType) reqType, msgPropMap);
+                msg = client.send("vm://remoteConnectorClientSuspend", (SuspendRequest) reqType, msgPropMap);
             }
             if (operation.equalsIgnoreCase("resume")) {
 
-                msg = client.send("vm://remoteConnectorMessageResume", (ResumeRequestType) reqType, msgPropMap);
+                msg = client.send("vm://remoteConnectorMessageResume", (ResumeRequest) reqType, msgPropMap);
             }
             if (operation.equalsIgnoreCase("testConnection")) {
 
@@ -519,7 +517,6 @@ public class RemoteConnectorAdapter {
 
 
     }
-
 
     public ConnectorDataService getConnectorService() {
         return connectorService;

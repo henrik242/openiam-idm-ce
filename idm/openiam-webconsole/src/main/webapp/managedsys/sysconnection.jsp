@@ -154,7 +154,7 @@
         <tr>
             <td>Target System Type</td>
             <td>
-                <form:select path="handler1">
+                <form:select path="handler5">
                     <form:option value=""  label="-Select a value" />
                     <form:option value="LDAP"  label="LDAP" />
                     <form:option value="ACTIVE_DIRECTORY"  label="ACTIVE DIRECTORY" />

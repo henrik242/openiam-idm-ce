@@ -2110,10 +2110,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
         ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
         ProvisionConnector connector = connectorService.getConnector(mSys.getConnectorId());
 
-        ManagedSystemObjectMatch matchObj = null;
-        ManagedSystemObjectMatch[] matchObjAry = managedSysService.managedSysObjectParam(managedSysId, "USER");
-
-
         // do the lookup
 
         if (connector.getConnectorInterface() != null &&
@@ -2128,11 +2124,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
             reqType.setHostLoginId(mSys.getUserId());
             reqType.setHostLoginPassword(mSys.getDecryptPassword());
             reqType.setHostUrl(mSys.getHostUrl());
-
-            if (matchObj != null) {
-
-                reqType.setBaseDN(matchObj.getBaseDn());
-            }
 
             reqType.setScriptHandler(mSys.getLookupHandler());
 

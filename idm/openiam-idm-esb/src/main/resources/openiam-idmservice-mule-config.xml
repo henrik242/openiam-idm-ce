@@ -185,6 +185,18 @@
         </service>
     </model>
 
-		<!-- Web Services  -->
+    <model name="AsynchReconciliationWebServiceModel">
+        <service name="AsynchReconciliationWebService">
+            <inbound>
+                <inbound-endpoint address="${webservice.path}AsynchReconciliationWebService" 		exchange-pattern="request-response">
+                    <cxf:jaxws-service />
+                </inbound-endpoint>
+            </inbound>
+            <component>
+                <spring-object bean="asyncReconciliationServiceWS" />
+            </component>
+        </service>
+    </model>
+    <!-- Web Services  -->
 	
 </mule>
