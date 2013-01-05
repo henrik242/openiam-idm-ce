@@ -10,7 +10,7 @@ public class MailSenderUtils {
         String bodyCp = body;
         for(Map.Entry<String,String> entry : mailParams.entrySet()) {
             String pattern = "\\["+entry.getKey()+"\\]";
-            bodyCp = bodyCp.replaceAll(pattern, entry.getValue());
+            bodyCp = bodyCp.replaceAll(pattern, Matcher.quoteReplacement(entry.getValue()));
         }
         return bodyCp;
     }
