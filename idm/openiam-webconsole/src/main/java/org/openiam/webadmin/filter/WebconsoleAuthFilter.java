@@ -143,7 +143,8 @@ public class WebconsoleAuthFilter implements Filter {
 
         try {
 
-            Response resp = authService.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN);
+            String ip = request.getRemoteHost();
+            Response resp = authService.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN, ip);
             if (resp.getStatus() == ResponseStatus.FAILURE) {
                 log.info("Token renewal failed:" + userId + " - " + token);
                 session.invalidate();

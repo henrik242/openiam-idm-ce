@@ -47,7 +47,10 @@ public class LogoutAction extends DispatchActionSupport {
       
       try {
     	  if (userId != null) {
-    		  authenticate.globalLogout(userId);
+
+              String clientIP =  request.getRemoteHost();
+
+    		  authenticate.localLogout(userId, clientIP);
 
 
                 String nodeIP = null;

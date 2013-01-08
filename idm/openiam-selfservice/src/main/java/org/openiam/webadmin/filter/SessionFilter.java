@@ -8,11 +8,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 //import org.openiam.idm.srvc.menu.service.NavigatorDataService;
 import org.openiam.base.ws.BooleanResponse;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.auth.dto.SSOToken;
+import org.openiam.idm.srvc.auth.service.AuthenticationConstants;
 import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.selfsrvc.AppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.openiam.base.ws.Response;
 
 
 /**
@@ -80,6 +84,9 @@ public class SessionFilter implements javax.servlet.Filter {
 		boolean loginPage = false;
 		
 
+        String authenticationToken = (String)session.getAttribute("token");
+        String userIdentity = (String)session.getAttribute("login");
+
 		
 		String url = request.getRequestURI();
 
@@ -106,12 +113,24 @@ public class SessionFilter implements javax.servlet.Filter {
                 WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(context);
                 authService =  (AuthenticationService)webContext.getBean("authServiceClient");
 
-                BooleanResponse resp = authService.isUserLoggedin(userId);
+                String ip = request.getRemoteHost();
+
+                Response  resp =  authService.renewToken(userIdentity, authenticationToken, AuthenticationConstants.OPENIAM_TOKEN, ip);
+
+                //BooleanResponse resp = authService.isUserLoggedin(userId, ip);
                 // if not logged in then show the login page
-                if (resp == null || !resp.getValue().booleanValue()) {
+                if (resp.getStatus() == ResponseStatus.FAILURE) {
+                //if (resp == null || !resp.getValue().booleanValue()) {
                     session.invalidate();
                     response.sendRedirect(request.getContextPath() + expirePage);
                     return;
+                }else {
+                    // get the new token and update the session with this value
+                    SSOToken ssoToken = (SSOToken)resp.getResponseValue();
+                    if (ssoToken != null ) {
+                        session.setAttribute("token", ssoToken.getToken());
+                    }
+
                 }
 
 

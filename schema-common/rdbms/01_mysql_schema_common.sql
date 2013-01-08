@@ -872,6 +872,7 @@ CREATE TABLE LOGIN_ATTRIBUTE (
 ) ENGINE=InnoDB;
 
 CREATE TABLE AUTH_STATE (
+       AUTH_STATE_ID        varchar(32) NOT NULL,
        USER_ID              varchar(32) NOT NULL,
        AUTH_STATE           numeric(5,1) NULL,
        TOKEN                varchar(2000) NULL,
@@ -879,7 +880,7 @@ CREATE TABLE AUTH_STATE (
        EXPIRATION           numeric(18,0) NULL,
        LAST_LOGIN	    datetime NULL,
        IP_ADDRESS	    varchar(20) NULL,
-       PRIMARY KEY (USER_ID), 
+       PRIMARY KEY (AUTH_STATE_ID),
 	CONSTRAINT FK_AUTH_STATE_USERS FOREIGN KEY (USER_ID) REFERENCES USERS (USER_ID)
 ) ENGINE=InnoDB;
 

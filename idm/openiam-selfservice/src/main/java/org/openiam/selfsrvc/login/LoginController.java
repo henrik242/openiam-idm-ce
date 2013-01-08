@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 
 import org.openiam.base.ExtendController;
 import org.openiam.base.ws.ResponseStatus;
@@ -38,6 +40,7 @@ import org.openiam.idm.srvc.user.dto.Supervisor;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserAttribute;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.idm.srvc.auth.dto.Subject;
 import org.openiam.script.ScriptIntegration;
 import org.openiam.selfsrvc.AppConfiguration;
 import org.openiam.selfsrvc.helper.ScriptEngineUtil;
@@ -57,7 +60,8 @@ public class LoginController extends SimpleFormController {
 
 	private static final Log log = LogFactory.getLog(LoginController.class);
 	private String rootMenu;
-	
+
+
 	protected NavigatorDataWebService navigationDataService;
 	protected SecurityDomainDataService secDomainService;
 	protected AppConfiguration appConfiguration;
@@ -81,9 +85,13 @@ public class LoginController extends SimpleFormController {
 	 protected LoginDataWebService loginManager;
      protected RequestWebService provRequestService;
      protected OrganizationDataService orgManager;
-	 
-	 
-	public LoginController() {
+
+
+
+
+
+
+    public LoginController() {
 		super();
 	}
 
@@ -91,6 +99,8 @@ public class LoginController extends SimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         LoginCommand loginCmd = new LoginCommand();
         loginCmd.setClientIP( request.getRemoteHost());
+
+
         
         String expire = request.getParameter("expire");
         if (expire != null) {
@@ -143,6 +153,8 @@ public class LoginController extends SimpleFormController {
 		
 		LoginCommand loginCmd = (LoginCommand)command;
 		String userId = loginCmd.getSubject().getUserId();
+        Subject subject = loginCmd.getSubject();
+
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("userId", userId);
@@ -282,6 +294,8 @@ public class LoginController extends SimpleFormController {
 
         }
 
+
+
 		
 		// load the objects that are needed in the primary application
 		
@@ -337,6 +351,8 @@ public class LoginController extends SimpleFormController {
 
 		return search;
 	}
+
+
 
 	public String getRootMenu() {
 		return rootMenu;

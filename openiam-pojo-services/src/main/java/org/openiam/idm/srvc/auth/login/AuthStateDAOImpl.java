@@ -90,13 +90,13 @@ public class AuthStateDAOImpl implements AuthStateDAO {
 	public void saveAuthState(AuthState state) {
 		String userId = state.getUserId();
 		
-		AuthState as = findById(userId);
+		AuthState as = findByUserAndIP(userId,state.getIpAddress());
 		if (as == null) {
 			// need to add this record
 			add(state);
 		}else {
 			// update what is there
-			update(state);
+            updateByUserAndIP(state);
 		}
 		
 	}
@@ -137,4 +137,87 @@ public class AuthStateDAOImpl implements AuthStateDAO {
 		}
 		return state;  	   	
 	}
+
+    public AuthState findByUserAndIP(String userId, String ip) {
+        Session session = sessionFactory.getCurrentSession();
+        Query qry = session.createQuery("from org.openiam.idm.srvc.auth.dto.AuthState a " +
+                "  where a.userId = :userId and a.ipAddress = :ipAddress " );
+
+        qry.setString("userId", userId);
+        qry.setString("ipAddress", ip);
+
+        AuthState state = (AuthState)qry.uniqueResult();
+        if (state == null) {
+            log.debug("get successful, no state record found");
+        } else {
+            log.debug("get successful, state record found");
+        }
+        return state;
+    }
+
+    public void updateByUserAndIP(AuthState state) {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query qry = session.createQuery("UPDATE org.openiam.idm.srvc.auth.dto.AuthState a " +
+                    " SET   a.authState = :state, " +
+                    "       a.token = :token, " +
+                    "       a.aa = :aa, " +
+                    "       a.expiration = :expiration, " +
+                    "       a.lastLogin = :lastLogin " +
+                    " where a.userId = :userId and a.ipAddress = :ipAddress " );
+            qry.setString("token", state.getToken());
+            qry.setBigDecimal("state", state.getAuthState());
+            qry.setString("aa", state.getAa());
+            qry.setLong("expiration", state.getExpiration());
+            qry.setDate("lastLogin", state.getLastLogin());
+            qry.setString("userId", state.getUserId());
+            qry.setString("ipAddress", state.getIpAddress());
+
+            qry.executeUpdate();
+
+        } catch (HibernateException re) {
+            log.error("Update Failed", re);
+            throw re;
+        }
+
+    }
+
+    public void updateAllUserRecords(AuthState state) {
+        String userId = state.getUserId();
+
+        AuthState as = findById(userId);
+        if (as == null) {
+            // need to add this record
+            add(state);
+        }else {
+            // update what is there
+            try {
+                Session session = sessionFactory.getCurrentSession();
+                Query qry = session.createQuery("UPDATE org.openiam.idm.srvc.auth.dto.AuthState a " +
+                        " SET   a.authState = :state, " +
+                        "       a.token = :token, " +
+                        "       a.aa = :aa, " +
+                        "       a.expiration = :expiration, " +
+                        "       a.lastLogin = :lastLogin, " +
+                        "       a.ipAddress = :ipAddress" +
+                        " where a.userId = :userId " );
+
+                qry.setString("token", state.getToken());
+                qry.setBigDecimal("state", state.getAuthState());
+                qry.setString("aa", state.getAa());
+                qry.setLong("expiration", state.getExpiration());
+                qry.setDate("lastLogin", state.getLastLogin());
+                qry.setString("ipAddress", state.getIpAddress());
+                qry.setString("userId", state.getUserId());
+
+                qry.executeUpdate();
+
+            } catch (HibernateException re) {
+                log.error("Update Failed", re);
+                throw re;
+            }
+        }
+    }
 }
+
+

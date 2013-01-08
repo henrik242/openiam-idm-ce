@@ -14,6 +14,7 @@ import java.util.Date;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AuthState", propOrder = {
+        "authStateId",
         "userId",
         "authState",
         "token",
@@ -25,6 +26,7 @@ import java.util.Date;
 public class AuthState implements java.io.Serializable {
 
 
+    private String authStateId;
     private String userId;
     private BigDecimal authState;
     private String token;
@@ -118,4 +120,11 @@ public class AuthState implements java.io.Serializable {
         this.ipAddress = ipAddress;
     }
 
+    public String getAuthStateId() {
+        return authStateId;
+    }
+
+    public void setAuthStateId(String authStateId) {
+        this.authStateId = authStateId;
+    }
 }

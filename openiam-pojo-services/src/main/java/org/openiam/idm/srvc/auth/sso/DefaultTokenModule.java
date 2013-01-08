@@ -88,16 +88,12 @@ public class DefaultTokenModule implements SSOTokenModule {
         long curTime = System.currentTimeMillis();
 
 		try {
-			
-			log.debug("Token=" + token);
-			log.debug("cryptor =" + cryptor);
-			
+
 			decString = cryptor.decrypt(token);
 		}catch(EncryptionException encExcep) {
 			return false;
 		}
-		log.debug("Parsing token" );
-		
+
 		// tokenize this string
 		StringTokenizer tokenizer = new StringTokenizer(decString,":");
 		if (tokenizer.hasMoreTokens()) {
@@ -105,9 +101,7 @@ public class DefaultTokenModule implements SSOTokenModule {
 		}else {
 			return false;
 		}
-		
-		log.debug("- userId = " + decUserId );
-		
+
 		if (tokenizer.hasMoreTokens()) {
 			decTime =  tokenizer.nextToken();
 		}else  {
@@ -121,23 +115,10 @@ public class DefaultTokenModule implements SSOTokenModule {
 		
 		long ldecTime = Long.parseLong( decTime );
 
-        log.debug("- Time found in Token => " + ldecTime );
-        log.debug("- Time found in Token as date => " + new Date(ldecTime) );
-
-        log.debug("- Token life in millis => " + getIdleTime());
-
-        // decTime + idleTime = validTime for Token
-       // long tokenValidTime = ldecTime + getIdleTime();
-
-        log.debug("Valid token time=" + ldecTime + " curtime = " + curTime);
-        log.debug("Token is valid till = " + new Date(ldecTime));
-        log.debug("Current time=" + new Date(curTime));
-        log.debug("Diff between token and curTime = " + (ldecTime - curTime));
 
 		if ( curTime > ldecTime ) {
 			//current time is greater then the allowed idle time
-			
-			log.debug("Token Failed time check"  );
+
 			return false;
 		}
 		return true;

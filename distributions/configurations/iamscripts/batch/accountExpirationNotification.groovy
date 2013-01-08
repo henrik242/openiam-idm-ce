@@ -27,10 +27,10 @@ import java.util.ResourceBundle;
 
 
 
-def db=res.getString("openiam.driver_url")  				//'jdbc:mysql://localhost:3306/gilt'
-def u=res.getString("openiam.username")   					//'demouser'
-def password=res.getString("openiam.password")			//'demouser'
-def driver= res.getString("openiam.driver_classname")  //'com.mysql.jdbc.Driver'
+def db=res.getString("openiam.driver_url")
+def u=res.getString("openiam.username")
+def password=res.getString("openiam.password")
+def driver= res.getString("openiam.driver_classname")
 
 String str = "select USER_ID, USER_OWNER_ID " + 
 			" FROM USERS  " + 

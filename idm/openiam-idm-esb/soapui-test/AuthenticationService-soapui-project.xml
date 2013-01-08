@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project name="AuthenticationService" resourceRoot="" soapui-version="4.5.1" activeEnvironment="Default" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="$Proxy18ServiceSoapBinding" type="wsdl" bindingName="{http://unknown.namespace/}$Proxy18ServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="$Proxy18Service" targetNamespace="http://unknown.namespace/" xmlns:ns1="http://service.auth.srvc.idm.openiam.org/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://unknown.namespace/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<con:soapui-project activeEnvironment="Default" name="AuthenticationService" resourceRoot="" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="$Proxy56ServiceSoapBinding" type="wsdl" bindingName="{http://unknown.namespace/}$Proxy56ServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl"><con:part><con:url>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="$Proxy56Service" targetNamespace="http://unknown.namespace/" xmlns:ns1="http://service.auth.srvc.idm.openiam.org/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://unknown.namespace/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:import location="http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService?wsdl=AuthenticationService.wsdl" namespace="http://service.auth.srvc.idm.openiam.org/"></wsdl:import>
-  <wsdl:binding name="$Proxy18ServiceSoapBinding" type="ns1:AuthenticationService">
+  <wsdl:binding name="$Proxy56ServiceSoapBinding" type="ns1:AuthenticationService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="authenticateByToken">
       <soap:operation soapAction="" style="document"/>
@@ -14,6 +14,15 @@
       <wsdl:fault name="AuthenticationException">
         <soap:fault name="AuthenticationException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="login">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="renewToken">
       <soap:operation soapAction="" style="document"/>
@@ -33,6 +42,18 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="localLogout">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="localLogout">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="localLogoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="LogoutException">
+        <soap:fault name="LogoutException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="globalLogout">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="globalLogout">
@@ -44,6 +65,15 @@
       <wsdl:fault name="LogoutException">
         <soap:fault name="LogoutException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isUserLoggedin">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isUserLoggedin">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isUserLoggedinResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="passwordAuth">
       <soap:operation soapAction="" style="document"/>
@@ -73,8 +103,8 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="$Proxy18Service">
-    <wsdl:port binding="tns:$Proxy18ServiceSoapBinding" name="$Proxy18Port">
+  <wsdl:service name="$Proxy56Service">
+    <wsdl:port binding="tns:$Proxy56ServiceSoapBinding" name="$Proxy56Port">
       <soap:address location="http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService"/>
     </wsdl:port>
   </wsdl:service>
@@ -239,6 +269,12 @@
       <xs:element name="authenticateByTokenResponse" type="tns:authenticateByTokenResponse"/>
       <xs:element name="globalLogout" type="tns:globalLogout"/>
       <xs:element name="globalLogoutResponse" type="tns:globalLogoutResponse"/>
+      <xs:element name="isUserLoggedin" type="tns:isUserLoggedin"/>
+      <xs:element name="isUserLoggedinResponse" type="tns:isUserLoggedinResponse"/>
+      <xs:element name="localLogout" type="tns:localLogout"/>
+      <xs:element name="localLogoutResponse" type="tns:localLogoutResponse"/>
+      <xs:element name="login" type="tns:login"/>
+      <xs:element name="loginResponse" type="tns:loginResponse"/>
       <xs:element name="passwordAuth" type="tns:passwordAuth"/>
       <xs:element name="passwordAuthResponse" type="tns:passwordAuthResponse"/>
       <xs:element name="renewToken" type="tns:renewToken"/>
@@ -251,9 +287,9 @@
       <xs:element name="validateTokenResponse" type="tns:validateTokenResponse"/>
       <xs:complexType name="authenticateByToken">
         <xs:sequence>
-          <xs:element minOccurs="0" name="userId" type="xs:string"/>
           <xs:element minOccurs="0" name="token" type="xs:string"/>
           <xs:element minOccurs="0" name="tokenType" type="xs:string"/>
+          <xs:element minOccurs="0" name="ip" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="authenticateByTokenResponse">
@@ -296,6 +332,7 @@
           <xs:element minOccurs="0" name="principal" type="xs:string"/>
           <xs:element minOccurs="0" name="token" type="xs:string"/>
           <xs:element minOccurs="0" name="tokenType" type="xs:string"/>
+          <xs:element minOccurs="0" name="ip" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="renewTokenResponse">
@@ -311,6 +348,34 @@
         </xs:sequence>
         <xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
       </xs:complexType>
+      <xs:complexType name="login">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:AuthenticationRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AuthenticationRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="domainId" type="xs:string"/>
+          <xs:element minOccurs="0" name="principal" type="xs:string"/>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+          <xs:element minOccurs="0" name="clientIP" type="xs:string"/>
+          <xs:element minOccurs="0" name="nodeIP" type="xs:string"/>
+          <xs:element minOccurs="0" name="requestSource" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="loginResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:AuthenticationResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AuthenticationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="subject" type="tns:Subject"/>
+          <xs:element name="authErrorCode" type="xs:int"/>
+          <xs:element minOccurs="0" name="authErrorMessage" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
+      </xs:complexType>
       <xs:complexType name="updateAppStatus">
         <xs:sequence>
           <xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
@@ -322,6 +387,30 @@
       </xs:complexType>
       <xs:complexType name="updateAppStatusResponse">
         <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="localLogout">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+          <xs:element minOccurs="0" name="ip" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="localLogoutResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="isUserLoggedin">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="userId" type="xs:string"/>
+          <xs:element minOccurs="0" name="ip" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="isUserLoggedinResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:BooleanResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BooleanResponse">
+        <xs:sequence/>
+        <xs:attribute name="value" type="xs:boolean" use="required"/>
       </xs:complexType>
       <xs:complexType name="globalLogout">
         <xs:sequence>
@@ -343,10 +432,6 @@
           <xs:element minOccurs="0" name="return" type="tns:BooleanResponse"/>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="BooleanResponse">
-        <xs:sequence/>
-        <xs:attribute name="value" type="xs:boolean" use="required"/>
-      </xs:complexType>
       <xs:complexType name="passwordAuth">
         <xs:sequence>
           <xs:element minOccurs="0" name="domainId" type="xs:string"/>
@@ -358,14 +443,6 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="return" type="tns:AuthenticationResponse"/>
         </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="AuthenticationResponse">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="subject" type="tns:Subject"/>
-          <xs:element name="authErrorCode" type="xs:int"/>
-          <xs:element minOccurs="0" name="authErrorMessage" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
       </xs:complexType>
       <xs:complexType name="validateToken">
         <xs:sequence>
@@ -383,6 +460,9 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="objectState" type="xs:string"/>
           <xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+          <xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+          <xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
       <xs:simpleType name="ResponseStatus">
@@ -405,6 +485,7 @@
           <xs:enumeration value="groupIdInvalid"/>
           <xs:enumeration value="roleIdNull"/>
           <xs:enumeration value="roleIdInvalid"/>
+          <xs:enumeration value="objectIdInvalid"/>
           <xs:enumeration value="success"/>
           <xs:enumeration value="FAIL_SQL_ERORR"/>
           <xs:enumeration value="FAIL_CONNECTION"/>
@@ -427,14 +508,21 @@
           <xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
           <xs:enumeration value="COMMUNICATION_EXCEPTION"/>
           <xs:enumeration value="FAIL_CONNECTOR"/>
+          <xs:enumeration value="INVALID_ARGUMENTS"/>
           <xs:enumeration value="IO_EXCEPTION"/>
           <xs:enumeration value="FILE_EXCEPTION"/>
           <xs:enumeration value="SQL_EXCEPTION"/>
+          <xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+          <xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
           <xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
           <xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
           <xs:enumeration value="PERMISSION_EXCEPTION"/>
           <xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
           <xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
+          <xs:enumeration value="FAIL_PREPROCESSOR"/>
+          <xs:enumeration value="FAIL_POSTPROCESSOR"/>
+          <xs:enumeration value="FAIL_PROCESS_ALREADY_RUNNING"/>
+          <xs:enumeration value="MISSING_REQUIRED_ATTRIBUTE"/>
           <xs:enumeration value="FAIL_OTHER"/>
         </xs:restriction>
       </xs:simpleType>
@@ -464,11 +552,11 @@
       </xs:complexType>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="validateTokenByUser">
-    <wsdl:part element="ns1:validateTokenByUser" name="parameters"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="passwordAuth">
     <wsdl:part element="ns1:passwordAuth" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTokenByUser">
+    <wsdl:part element="ns1:validateTokenByUser" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="renewToken">
     <wsdl:part element="ns1:renewToken" name="parameters"></wsdl:part>
@@ -476,11 +564,20 @@
   <wsdl:message name="authenticateByTokenResponse">
     <wsdl:part element="ns1:authenticateByTokenResponse" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="localLogoutResponse">
+    <wsdl:part element="ns1:localLogoutResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="globalLogout">
     <wsdl:part element="ns1:globalLogout" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part element="ns1:loginResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="validateTokenByUserResponse">
     <wsdl:part element="ns1:validateTokenByUserResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="localLogout">
+    <wsdl:part element="ns1:localLogout" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateTokenResponse">
     <wsdl:part element="ns1:validateTokenResponse" name="parameters"></wsdl:part>
@@ -503,14 +600,23 @@
   <wsdl:message name="AuthenticationException">
     <wsdl:part element="ns1:AuthenticationException" name="AuthenticationException"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateAppStatusResponse">
-    <wsdl:part element="ns1:updateAppStatusResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="globalLogoutResponse">
     <wsdl:part element="ns1:globalLogoutResponse" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="login">
+    <wsdl:part element="ns1:login" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAppStatusResponse">
+    <wsdl:part element="ns1:updateAppStatusResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="renewTokenResponse">
     <wsdl:part element="ns1:renewTokenResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserLoggedin">
+    <wsdl:part element="ns1:isUserLoggedin" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserLoggedinResponse">
+    <wsdl:part element="ns1:isUserLoggedinResponse" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:portType name="AuthenticationService">
     <wsdl:operation name="authenticateByToken">
@@ -522,9 +628,22 @@
       <wsdl:input message="ns1:renewToken" name="renewToken"></wsdl:input>
       <wsdl:output message="ns1:renewTokenResponse" name="renewTokenResponse"></wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="login">
+      <wsdl:input message="ns1:login" name="login"></wsdl:input>
+      <wsdl:output message="ns1:loginResponse" name="loginResponse"></wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateAppStatus">
       <wsdl:input message="ns1:updateAppStatus" name="updateAppStatus"></wsdl:input>
       <wsdl:output message="ns1:updateAppStatusResponse" name="updateAppStatusResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="localLogout">
+      <wsdl:input message="ns1:localLogout" name="localLogout"></wsdl:input>
+      <wsdl:output message="ns1:localLogoutResponse" name="localLogoutResponse"></wsdl:output>
+      <wsdl:fault message="ns1:LogoutException" name="LogoutException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isUserLoggedin">
+      <wsdl:input message="ns1:isUserLoggedin" name="isUserLoggedin"></wsdl:input>
+      <wsdl:output message="ns1:isUserLoggedinResponse" name="isUserLoggedinResponse"></wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="globalLogout">
       <wsdl:input message="ns1:globalLogout" name="globalLogout"></wsdl:input>
@@ -549,11 +668,11 @@
    <soapenv:Body>
       <ser:authenticateByToken>
          <!--Optional:-->
-         <userId>?</userId>
-         <!--Optional:-->
          <token>?</token>
          <!--Optional:-->
          <tokenType>?</tokenType>
+         <!--Optional:-->
+         <ip>?</ip>
       </ser:authenticateByToken>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/authenticateByToken"/></con:call></con:operation><con:operation isOneWay="false" action="" name="globalLogout" bindingOperationName="globalLogout" type="Request-Response" outputName="globalLogoutResponse" inputName="globalLogout" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
@@ -564,23 +683,71 @@
          <userId>?</userId>
       </ser:globalLogout>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/globalLogout"/></con:call></con:operation><con:operation isOneWay="false" action="" name="passwordAuth" bindingOperationName="passwordAuth" type="Request-Response" outputName="passwordAuthResponse" inputName="passwordAuth" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/globalLogout"/></con:call></con:operation><con:operation isOneWay="false" action="" name="isUserLoggedin" bindingOperationName="isUserLoggedin" type="Request-Response" outputName="isUserLoggedinResponse" inputName="isUserLoggedin" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:isUserLoggedin>
+         <!--Optional:-->
+         <userId>?</userId>
+         <!--Optional:-->
+         <ip>?</ip>
+      </ser:isUserLoggedin>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/isUserLoggedin"/></con:call></con:operation><con:operation isOneWay="false" action="" name="localLogout" bindingOperationName="localLogout" type="Request-Response" outputName="localLogoutResponse" inputName="localLogout" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:localLogout>
+         <!--Optional:-->
+         <userId>?</userId>
+         <!--Optional:-->
+         <ip>?</ip>
+      </ser:localLogout>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/localLogout"/></con:call></con:operation><con:operation isOneWay="false" action="" name="login" bindingOperationName="login" type="Request-Response" outputName="loginResponse" inputName="login" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:login>
+         <!--Optional:-->
+         <request>
+            <!--Optional:-->
+            <domainId>?</domainId>
+            <!--Optional:-->
+            <principal>?</principal>
+            <!--Optional:-->
+            <password>?</password>
+            <!--Optional:-->
+            <clientIP>?</clientIP>
+            <!--Optional:-->
+            <nodeIP>?</nodeIP>
+            <!--Optional:-->
+            <requestSource>?</requestSource>
+         </request>
+      </ser:login>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/login"/></con:call></con:operation><con:operation isOneWay="false" action="" name="passwordAuth" bindingOperationName="passwordAuth" type="Request-Response" outputName="passwordAuthResponse" inputName="passwordAuth" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:passwordAuth>
-         <domainId>USR_SEC_DOMAIN</domainId>
-         <principal>enter the user id value here</principal>
-         <password>enter the password here</password>
+         <!--Optional:-->
+         <domainId>?</domainId>
+         <!--Optional:-->
+         <principal>?</principal>
+         <!--Optional:-->
+         <password>?</password>
       </ser:passwordAuth>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/passwordAuth"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="renewToken" bindingOperationName="renewToken" type="Request-Response" outputName="renewTokenResponse" inputName="renewToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/passwordAuth"/></con:call></con:operation><con:operation isOneWay="false" action="" name="renewToken" bindingOperationName="renewToken" type="Request-Response" outputName="renewTokenResponse" inputName="renewToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:renewToken>
-
-         <principal>sona</principal>
-         <token>some token string</token>
-         <tokenType>OPENIAM_TOKEN</tokenType>
+         <!--Optional:-->
+         
+         <!--Optional:-->
+         <principal>snelson</principal>
+         <!--Optional:-->
+         
+         <!--Optional:-->
+         <token>2d57b7974edfb53c8cc0dc9e3343b3ffd36ab70765548efa</token><tokenType>OPENIAM_TOKEN</tokenType><ip>127.0.0.1</ip>
       </ser:renewToken>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/renewToken"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateAppStatus" bindingOperationName="updateAppStatus" type="Request-Response" outputName="updateAppStatusResponse" inputName="updateAppStatus" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
@@ -599,16 +766,19 @@
          <token>?</token>
       </ser:updateAppStatus>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/updateAppStatus"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateToken" bindingOperationName="validateToken" type="Request-Response" outputName="validateTokenResponse" inputName="validateToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/updateAppStatus"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateToken" bindingOperationName="validateToken" type="Request-Response" outputName="validateTokenResponse" inputName="validateToken" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:validateToken>
-         <principal>sona</principal>
-         <token>token string goes here</token>
-         <tokenType>OPENIAM_TOKEN</tokenType>
+         <!--Optional:-->
+         <principal>?</principal>
+         <!--Optional:-->
+         <token>?</token>
+         <!--Optional:-->
+         <tokenType>?</tokenType>
       </ser:validateToken>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/validateToken"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateTokenByUser" bindingOperationName="validateTokenByUser" type="Request-Response" outputName="validateTokenByUserResponse" inputName="validateTokenByUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/validateToken"/></con:call></con:operation><con:operation isOneWay="false" action="" name="validateTokenByUser" bindingOperationName="validateTokenByUser" type="Request-Response" outputName="validateTokenByUserResponse" inputName="validateTokenByUser" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:validateTokenByUser>
@@ -620,48 +790,94 @@
          <tokenType>?</tokenType>
       </ser:validateTokenByUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/validateTokenByUser"/></con:call></con:operation></con:interface><con:testSuite name="$Proxy18ServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="authenticateByToken TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="authenticateByToken"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>authenticateByToken</con:operation><con:request name="authenticateByToken"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://unknown.namespace/AuthenticationService/validateTokenByUser"/></con:call></con:operation></con:interface><con:testSuite name="$Proxy56ServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="authenticateByToken TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="authenticateByToken"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>authenticateByToken</con:operation><con:request name="authenticateByToken"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:authenticateByToken>
          <!--Optional:-->
-         <userId>?</userId>
-         <!--Optional:-->
          <token>?</token>
          <!--Optional:-->
          <tokenType>?</tokenType>
+         <!--Optional:-->
+         <ip>?</ip>
       </ser:authenticateByToken>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/authenticateByToken"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="globalLogout TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="globalLogout"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>globalLogout</con:operation><con:request name="globalLogout"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/authenticateByToken"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="globalLogout TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="globalLogout"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>globalLogout</con:operation><con:request name="globalLogout"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:globalLogout>
-         <userId>3000</userId>
+         <!--Optional:-->
+         <userId>?</userId>
       </ser:globalLogout>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/AuthenticationService/globalLogout" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="passwordAuth TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="passwordAuth"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>passwordAuth</con:operation><con:request name="passwordAuth"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/globalLogout"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="isUserLoggedin TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="isUserLoggedin"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>isUserLoggedin</con:operation><con:request name="isUserLoggedin"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:isUserLoggedin>
+         <!--Optional:-->
+         <userId>?</userId>
+         <!--Optional:-->
+         <ip>?</ip>
+      </ser:isUserLoggedin>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/isUserLoggedin"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="localLogout TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="localLogout"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>localLogout</con:operation><con:request name="localLogout"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:localLogout>
+         <!--Optional:-->
+         <userId>?</userId>
+         <!--Optional:-->
+         <ip>?</ip>
+      </ser:localLogout>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/localLogout"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="login TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="login"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>login</con:operation><con:request name="login"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:login>
+         <!--Optional:-->
+         <request>
+            <!--Optional:-->
+            <domainId>?</domainId>
+            <!--Optional:-->
+            <principal>?</principal>
+            <!--Optional:-->
+            <password>?</password>
+            <!--Optional:-->
+            <clientIP>?</clientIP>
+            <!--Optional:-->
+            <nodeIP>?</nodeIP>
+            <!--Optional:-->
+            <requestSource>?</requestSource>
+         </request>
+      </ser:login>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/login"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="passwordAuth TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="passwordAuth"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>passwordAuth</con:operation><con:request name="passwordAuth"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:passwordAuth>
          <!--Optional:-->
-         
+         <domainId>?</domainId>
          <!--Optional:-->
-         <domainId>USR_SEC_DOMAIN</domainId>
+         <principal>?</principal>
          <!--Optional:-->
-         <principal>SICKKIDS-SS-Nurse4_test</principal><password>passwd02</password>
+         <password>?</password>
       </ser:passwordAuth>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/AuthenticationService/passwordAuth" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="renewToken TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="renewToken"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>renewToken</con:operation><con:request name="renewToken"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/passwordAuth"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="renewToken TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="renewToken"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>renewToken</con:operation><con:request name="renewToken"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:renewToken>
-
-         <principal>SICKKIDS-SS-Nurse4_test</principal>
-         
-         <token>9f7dc437c4fb438b9178cbfef2335723ecb95aac6534672c49bc48c3387ef14b89eda83b6347500eceb652fc1571001</token><tokenType>OPENIAM_TOKEN</tokenType>
+         <!--Optional:-->
+         <principal>?</principal>
+         <!--Optional:-->
+         <token>?</token>
+         <!--Optional:-->
+         <tokenType>?</tokenType>
+         <!--Optional:-->
+         <ip>?</ip>
       </ser:renewToken>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/AuthenticationService/renewToken" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="updateAppStatus TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="updateAppStatus"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>updateAppStatus</con:operation><con:request name="updateAppStatus"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/renewToken"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="updateAppStatus TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="updateAppStatus"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>updateAppStatus</con:operation><con:request name="updateAppStatus"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:updateAppStatus>
@@ -677,19 +893,19 @@
          <token>?</token>
       </ser:updateAppStatus>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/updateAppStatus"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="validateToken TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="validateToken"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>validateToken</con:operation><con:request name="validateToken"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/updateAppStatus"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="validateToken TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="validateToken"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>validateToken</con:operation><con:request name="validateToken"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:validateToken>
          <!--Optional:-->
-         
+         <principal>?</principal>
          <!--Optional:-->
-         <principal>SICKKIDS-SS-Nurse4_test</principal>
+         <token>?</token>
          <!--Optional:-->
-         <token>OPENIAM_TOKEN</token><tokenType>OPENIAM_TOKEN</tokenType>
+         <tokenType>?</tokenType>
       </ser:validateToken>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://unknown.namespace/AuthenticationService/validateToken" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="validateTokenByUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="validateTokenByUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy18ServiceSoapBinding</con:interface><con:operation>validateTokenByUser</con:operation><con:request name="validateTokenByUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/validateToken"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="validateTokenByUser TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="validateTokenByUser"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>$Proxy56ServiceSoapBinding</con:interface><con:operation>validateTokenByUser</con:operation><con:request name="validateTokenByUser"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/openiam-idm-esb/idmsrvc/AuthenticationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.auth.srvc.idm.openiam.org/">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:validateTokenByUser>
@@ -701,4 +917,4 @@
          <tokenType>?</tokenType>
       </ser:validateTokenByUser>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/validateTokenByUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:wsaConfig action="http://unknown.namespace/AuthenticationService/validateTokenByUser"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:properties/><con:wssContainer/><con:databaseConnectionContainer/></con:soapui-project>

@@ -201,7 +201,8 @@ public class SelfServeAuthFilter implements javax.servlet.Filter {
 
 
        // token is valid, but renew it for this request
-        Response resp = authService.renewToken(principal,token,AuthenticationConstants.OPENIAM_TOKEN);
+        String ip = request.getRemoteHost();
+        Response resp = authService.renewToken(principal,token,AuthenticationConstants.OPENIAM_TOKEN, ip);
         if (resp.getStatus() == ResponseStatus.FAILURE) {
             log.debug("Token renewal failed:" + userId + " - " + token );
             session.invalidate();

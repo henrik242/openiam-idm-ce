@@ -42,4 +42,13 @@ public interface AuthStateDAO {
 
     void saveAuthState(AuthState state);
 
+    void updateAllUserRecords(AuthState state);
+
+    void updateByUserAndIP(AuthState state);
+
+    AuthState findByUserAndIP(String userId, String ip);
+
+
+
+
 }

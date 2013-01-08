@@ -106,6 +106,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     protected PasswordService passwordManager;
 	
 	private static final Log log = LogFactory.getLog(AuthenticationServiceImpl.class);
+    private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
 
 	
 	/* (non-Javadoc)
@@ -167,7 +168,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			Subject sub = loginModule.login(ctx);
 			// add the sso token to the authstate
 			
-			updateAuthState(sub);
+			updateAuthState(sub, ctx.getClientIP());
 				
 			populateSubject(sub.getUserId(), sub);
 			
@@ -214,7 +215,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @see org.openiam.idm.srvc.auth.service.AuthenticationService#authenticateByToken(java.lang.String, java.lang.String, java.lang.String)
 	 */
     @ManagedAttribute
-	public Subject authenticateByToken(String token,	String tokenType) throws AuthenticationException {
+	public Subject authenticateByToken(String token,
+                                       String tokenType,
+                                       String ip) throws AuthenticationException {
 
         String userId = null;
         SSOTokenModule tkModule = SSOTokenFactory.createModule(tokenType);
@@ -245,7 +248,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Login lg = loginManager.getPrimaryIdentity(userId);
 
-        Response resp = renewToken(lg.getId().getLogin(), token, tokenType);
+        Response resp = renewToken(lg.getId().getLogin(), token, tokenType, ip);
 
         log.debug("authenticateByToken: response from renewToken=" + resp);
 
@@ -276,47 +279,78 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (userId == null) {
 			throw new NullPointerException("UserId is null");
 		}
-		
-		AuthState authSt = authStateDao.findById(userId);
-		if (authSt == null) {
-			log.error("AuthState not found for userId=" + userId);
-			throw new LogoutException();
-		}
+
+        AuthState authSt = new AuthState();
 
 		authSt.setAuthState(new BigDecimal(0));
 		authSt.setToken("LOGOUT");
-		this.authStateDao.saveAuthState(authSt);
-		
+        authSt.setUserId(userId);
+
+        // logout this user regardless of which machine they logged in from
+        authStateDao.updateAllUserRecords(authSt);
+
 
 	}
 
+    public void localLogout(String userId, String ip) throws LogoutException {
+        if (userId == null) {
+            throw new NullPointerException("UserId is null");
+        }
+
+        AuthState authSt = authStateDao.findByUserAndIP(userId,ip);
+        if (authSt == null) {
+            log.error("AuthState not found for userId=" + userId);
+            throw new LogoutException();
+        }
+
+        authSt.setAuthState(new BigDecimal(0));
+        authSt.setToken("LOGOUT");
+        authSt.setIpAddress(ip);
+
+
+        // logout this user regardless of which machine they logged in from
+        authStateDao.updateByUserAndIP(authSt);
+
+
+    }
+
+
     @Override
-    public BooleanResponse isUserLoggedin (String userId) {
+    public BooleanResponse isUserLoggedin (String userId, String ip) {
         BooleanResponse resp = new BooleanResponse(false);
 
         if (userId == null) {
             throw new NullPointerException("UserId is null");
         }
 
-        AuthState authSt = authStateDao.findById(userId);
+        AuthState authSt = authStateDao.findByUserAndIP(userId, ip);
 
-        if (authSt == null) {
-            log.error("AuthState not found for userId=" + userId);
+        boolean status = loggedIn(authSt);
 
-            // if the auth state record is not found, the user is not logged in
+        if (status) {
+            resp.setValue(new Boolean(true));
+        }else {
             resp.setValue(new Boolean(false));
-            return resp;
+        }
+
+
+        return resp;
+
+    }
+
+    private boolean loggedIn(AuthState authSt) {
+        if (authSt == null) {
+            log.error("AuthState not found for userId");
+            return false;
         }
 
         // get the token that is stored in the DB
         String storedTkn = authSt.getToken();
         if ("LOGOUT".equalsIgnoreCase(storedTkn)) {
-            resp.setValue(new Boolean(false));
-        } else {
-            resp.setValue(new Boolean(true));
+            return false;
         }
+        return true;
 
-        return resp;
 
     }
 
@@ -568,7 +602,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		// add the sso token to the authstate
 
-		updateAuthState(sub);
+		updateAuthState(sub, request.getClientIP());
 		populateSubject(sub.getUserId(), sub);
 
         log.debug("*** PasswordAuth complete...Returning response object");
@@ -809,7 +843,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		// add the sso token to the authstate
 		
-		updateAuthState(sub);
+		updateAuthState(sub, null);
 		populateSubject(sub.getUserId(), sub);
 
         log.debug("*** PasswordAuth complete...Returning response object");
@@ -838,7 +872,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.auth.service.AuthenticationService#validateToken(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public BooleanResponse validateToken(String loginId, String token, String tokenType) {
+	public BooleanResponse validateToken(String loginId,
+                                         String token,
+                                         String tokenType) {
 			
 		if (loginId == null) {
 			throw new IllegalArgumentException("loginId is null");
@@ -874,12 +910,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@WebMethod
 	public Response renewToken(
-			String principal,  String token, String tokenType) {
+			String principal,
+            String token,
+            String tokenType,
+            String ip) {
         
         log.debug("RenewToken called.");
 		
 		Response resp = new Response(ResponseStatus.SUCCESS);
-		
+
+        // allow external Login
+        String extLogin =  res.getString("ALLOW_EXTERNAL_LOGIN");
+        // token value that will be validated
+        String validationToken = null;
+
+
 		// validateToken first
 		
 		SecurityDomain secDomain = secDomainService.getSecurityDomain(getSysConfiguration().getDefaultSecurityDomain());
@@ -906,6 +951,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		tokenParam.put("USER_ID",lg.getUserId());
 		tokenParam.put("PRINCIPAL",principal);
 
+
+        // if the user has been disabled or deleted then we cant renew the token
         if (!isUserStatusValid(lg.getUserId())) {
             
             log.debug("RenewToken: user status failed for userId = " + lg.getUserId());
@@ -914,15 +961,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return resp;
             
         }
+        AuthState authSt = authStateDao.findByUserAndIP(lg.getUserId(), ip);
 
-        AuthState authSt = authStateDao.findById(lg.getUserId());
-        if (authSt != null ) {
+        // check if the user is still logged - its possible the user was logged out by another application
+        if (!loggedIn(authSt)) {
+            // user is not logged in
+            resp.setStatus(ResponseStatus.FAILURE);
+            return resp;
+        }
 
-            if ( authSt.getToken() == null || "LOGOUT".equalsIgnoreCase(authSt.getToken())) {
-                resp.setStatus(ResponseStatus.FAILURE);
-                return resp;
-            }
+        // set a flag to allow multiple logins.
+        /* user is logged in
+         - if multiple logins then check the token in authst
+         - if single login then check the token that was passed in.
+         - if the token is valid, then renew the token - update the db
+         - if the token is not valid, then logout the user
 
+         */
+
+        if ("Y".equalsIgnoreCase(extLogin)) {
+            validationToken = authSt.getToken();
+        } else {
+            validationToken = token;
         }
 
 
@@ -930,12 +990,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         tkModule.setCryptor(this.cryptor);
         tkModule.setTokenLife(Integer.parseInt( tokenLife));
 		
-		if (!tkModule.isTokenValid(lg.getUserId(), principal, token))  {
+		if (!tkModule.isTokenValid(lg.getUserId(), principal, validationToken))  {
 			resp.setStatus(ResponseStatus.FAILURE);
 			return resp;
 		}
 		
 		SSOToken ssoToken = tkModule.createToken(tokenParam);
+
+        // update auth state with the new token
+        authSt.setToken(ssoToken.getToken());
+        authStateDao.update(authSt);
 
 
 		resp.setResponseValue(ssoToken);
@@ -1032,10 +1096,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	}
 	
-	private void updateAuthState(Subject sub) {
+	private void updateAuthState(Subject sub, String clientIP) {
 		
 		AuthState state = new AuthState(sub.getDomainId(), new BigDecimal(1),  sub.getSsoToken().getExpirationTime().getTime(),
 				sub.getSsoToken().getToken(), sub.getUserId());
+        state.setIpAddress(clientIP);
+
 	
 		authStateDao.saveAuthState(state);
 	}
