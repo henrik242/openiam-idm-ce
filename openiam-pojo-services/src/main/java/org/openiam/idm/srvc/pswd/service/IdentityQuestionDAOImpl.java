@@ -13,7 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.role.dto.Role;
-
+import org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -42,10 +42,10 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 		}
 	}
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionDAO#add(org.openiam.idm.srvc.pswd.dto.IdentityQuestion)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionEntityDAO#add(org.openiam.idm.srvc.pswd.dto.IdentityQuestionEntity)
 	 */
-	public IdentityQuestion add(IdentityQuestion transientInstance) {
-		log.debug("persisting IdentityQuestion instance");
+	public IdentityQuestionEntity add(IdentityQuestionEntity transientInstance) {
+		log.debug("persisting IdentityQuestionEntity instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
@@ -58,10 +58,10 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionDAO#remove(org.openiam.idm.srvc.pswd.dto.IdentityQuestion)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionEntityDAO#remove(org.openiam.idm.srvc.pswd.dto.IdentityQuestionEntity)
 	 */
-	public void remove(IdentityQuestion persistentInstance) {
-		log.debug("deleting IdentityQuestion instance");
+	public void remove(IdentityQuestionEntity persistentInstance) {
+		log.debug("deleting IdentityQuestionEntity instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -72,12 +72,12 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionDAO#update(org.openiam.idm.srvc.pswd.dto.IdentityQuestion)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionEntityDAO#update(org.openiam.idm.srvc.pswd.dto.IdentityQuestionEntity)
 	 */
-	public IdentityQuestion update(IdentityQuestion detachedInstance) {
-		log.debug("merging IdentityQuestion instance");
+	public IdentityQuestionEntity update(IdentityQuestionEntity detachedInstance) {
+		log.debug("merging IdentityQuestionEntity instance");
 		try {
-			IdentityQuestion result = (IdentityQuestion) sessionFactory
+			IdentityQuestionEntity result = (IdentityQuestionEntity) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -88,14 +88,14 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionDAO#findById(java.lang.String)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionEntityDAO#findById(java.lang.String)
 	 */
-	public IdentityQuestion findById(java.lang.String id) {
-		log.debug("getting IdentityQuestion instance with id: " + id);
+	public IdentityQuestionEntity findById(java.lang.String id) {
+		log.debug("getting IdentityQuestionEntity instance with id: " + id);
 		try {
-			IdentityQuestion instance = (IdentityQuestion) sessionFactory
+			IdentityQuestionEntity instance = (IdentityQuestionEntity) sessionFactory
 					.getCurrentSession()
-					.get("org.openiam.idm.srvc.pswd.dto.IdentityQuestion",
+					.get("org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity",
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -109,46 +109,46 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 		}
 	}
 	
-	public List<IdentityQuestion> findAllQuestions() {
+	public List<IdentityQuestionEntity> findAllQuestions() {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from IdentityQuestion iq "
+		Query qry = session.createQuery("from IdentityQuestionEntity iq "
 				+ " order by iq.questionText asc ");
 		// enable caching
 		qry.setCacheable(true);
 		qry.setCacheRegion("query.iq.findAllQuestions");
 		
-		List<IdentityQuestion> result = (List<IdentityQuestion>) qry.list();
+		List<IdentityQuestionEntity> result = (List<IdentityQuestionEntity>) qry.list();
 		if (result == null || result.size() == 0)
 			return null;
 
 		return result;
 	}
 	
-	public List<IdentityQuestion> findAllQuestionsByQuestionGroup(String questionGroup) {
+	public List<IdentityQuestionEntity> findAllQuestionsByQuestionGroup(String questionGroup) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from IdentityQuestion iq "
-				+ " where iq.identityQuestGrp = :questionGroup" +
-				  " order by iq.questionText asc ");
+		Query qry = session.createQuery("from IdentityQuestionEntity iq "
+				+ " where iq.identityQuestGrp.identityQuestGrpId = :questionGroup" +
+				   " order by iq.questionText asc ");
 		qry.setString("questionGroup", questionGroup);
 		// enable caching
 		qry.setCacheable(true);
 		qry.setCacheRegion("query.iq.findQuestionByQuestionGroup");
 		
-		List<IdentityQuestion> result = (List<IdentityQuestion>) qry.list();
+		List<IdentityQuestionEntity> result = (List<IdentityQuestionEntity>) qry.list();
 		if (result == null || result.size() == 0)
 			return null;
 
 		return result;		
 	}
-	public List<IdentityQuestion> findAllQuestionsByUser(String userId) {
+	public List<IdentityQuestionEntity> findAllQuestionsByUser(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from IdentityQuestion iq "
+		Query qry = session.createQuery("from IdentityQuestionEntity iq "
 				+ " where iq.userId = :userId" +
 				  " order by iq.questionText asc ");
 		qry.setString("userId", userId);
 
 		
-		List<IdentityQuestion> result = (List<IdentityQuestion>) qry.list();
+		List<IdentityQuestionEntity> result = (List<IdentityQuestionEntity>) qry.list();
 		if (result == null || result.size() == 0)
 			return null;
 

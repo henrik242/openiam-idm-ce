@@ -18,6 +18,25 @@
 package org.openiam.idm.srvc.pswd.dto;
 
 
+
+import javax.annotation.Generated;
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -25,6 +44,8 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import org.openiam.dozer.DozerDTOCorrespondence;
+import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
 
 /**
  * IdentityQuestGroup is a domain object that allows you to group questions together. These questions can be
@@ -42,6 +63,9 @@ import java.util.Set;
         "lastUpdatedBy",
         "identityQuestions"
 })
+
+
+@DozerDTOCorrespondence(IdentityQuestGroupEntity.class)
 public class IdentityQuestGroup extends org.openiam.base.BaseObject implements java.io.Serializable {
 
     /**
@@ -54,7 +78,7 @@ public class IdentityQuestGroup extends org.openiam.base.BaseObject implements j
     protected String companyOwnerId;
     @XmlSchemaType(name = "dateTime")
     protected Date createDate;
-    protected String createdBy;
+     protected String createdBy;
     @XmlSchemaType(name = "dateTime")
     protected Date lastUpdate;
     protected String lastUpdatedBy;
@@ -82,7 +106,7 @@ public class IdentityQuestGroup extends org.openiam.base.BaseObject implements j
         this.lastUpdatedBy = lastUpdatedBy;
         this.identityQuestions = identityQuestions;
     }
-
+   
     public String getIdentityQuestGrpId() {
         return this.identityQuestGrpId;
     }

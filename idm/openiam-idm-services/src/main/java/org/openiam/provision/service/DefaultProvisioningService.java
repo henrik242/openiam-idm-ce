@@ -32,6 +32,11 @@ import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.connector.type.*;
+import org.openiam.connector.type.LookupRequest;
+import org.openiam.connector.type.LookupResponse;
+import org.openiam.connector.type.UserRequest;
+import org.openiam.connector.type.UserResponse;
+import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.exception.EncryptionException;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -72,6 +77,7 @@ import org.openiam.spml2.msg.*;
 import org.openiam.spml2.msg.ResponseType;
 import org.openiam.spml2.msg.suspend.ResumeRequestType;
 import org.openiam.spml2.msg.suspend.SuspendRequestType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextAware;
 
 import javax.jws.WebMethod;
@@ -92,7 +98,9 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
 
     private static final Log log = LogFactory.getLog(DefaultProvisioningService.class);
 
-
+    @Autowired
+	private PasswordHistoryDozerConverter passwordHistoryDozerConverter;
+    
     public Response testConnectionConfig(String managedSysId) {
         return validateConnection.testConnection(managedSysId, muleContext);
     }
@@ -308,7 +316,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService impl
             PasswordHistory hist = new PasswordHistory(primaryLogin.getId().getLogin(), primaryLogin.getId().getDomainId(),
                     primaryLogin.getId().getManagedSysId());
             hist.setPassword(primaryLogin.getPassword());
-            passwordHistoryDao.add(hist);
+            passwordHistoryDao.add(passwordHistoryDozerConverter.convertToEntity(hist, true));
         }
 
 

@@ -21,7 +21,7 @@
  */
 package org.openiam.idm.srvc.pswd.service;
 
-import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
+import org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity;
 
 import java.util.List;
 
@@ -30,15 +30,15 @@ import java.util.List;
  */
 public interface UserIdentityAnswerDAO {
 
-    public abstract UserIdentityAnswer add(UserIdentityAnswer transientInstance);
+    public abstract UserIdentityAnswerEntity add(UserIdentityAnswerEntity transientInstance);
 
-    public abstract void delete(UserIdentityAnswer persistentInstance);
+    public abstract void delete(UserIdentityAnswerEntity persistentInstance);
 
-    public UserIdentityAnswer update(
-            UserIdentityAnswer detachedInstance);
+    public UserIdentityAnswerEntity update(
+            UserIdentityAnswerEntity detachedInstance);
 
-    UserIdentityAnswer findById(java.lang.String id);
+    UserIdentityAnswerEntity findById(java.lang.String id);
 
-    List<UserIdentityAnswer> findAnswersByUser(String userId);
+    List<UserIdentityAnswerEntity> findAnswersByUser(String userId);
 
 }

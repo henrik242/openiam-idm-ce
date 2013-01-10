@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
-
+import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
 
 /**
  * DAO implementation object for the domain model class IdentityQuestGroup.
@@ -35,9 +35,9 @@ public class IdentityQuestGroupDAOImpl implements IdentityQuestGroupDAO {
 		}
 	}
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#add(org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#add(org.openiam.idm.srvc.pswd.dto.IdentityQuestGroupEntity)
 	 */
-	public void add(IdentityQuestGroup transientInstance) {
+	public void add(IdentityQuestGroupEntity transientInstance) {
 		log.debug("persisting IdentityQuestGrp instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -50,9 +50,9 @@ public class IdentityQuestGroupDAOImpl implements IdentityQuestGroupDAO {
 
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#remove(org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#remove(org.openiam.idm.srvc.pswd.dto.IdentityQuestGroupEntity)
 	 */
-	public void remove(IdentityQuestGroup persistentInstance) {
+	public void remove(IdentityQuestGroupEntity persistentInstance) {
 		log.debug("deleting IdentityQuestGrp instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -64,12 +64,12 @@ public class IdentityQuestGroupDAOImpl implements IdentityQuestGroupDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#update(org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup)
+	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#update(org.openiam.idm.srvc.pswd.dto.IdentityQuestGroupEntity)
 	 */
-	public IdentityQuestGroup update(IdentityQuestGroup detachedInstance) {
+	public IdentityQuestGroupEntity update(IdentityQuestGroupEntity detachedInstance) {
 		log.debug("merging IdentityQuestGrp instance");
 		try {
-			IdentityQuestGroup result = (IdentityQuestGroup) sessionFactory
+			IdentityQuestGroupEntity result = (IdentityQuestGroupEntity) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -82,12 +82,12 @@ public class IdentityQuestGroupDAOImpl implements IdentityQuestGroupDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.pswd.service.IdentityQuestionGroupDAO#findById(java.lang.String)
 	 */
-	public IdentityQuestGroup findById(java.lang.String id) {
+	public IdentityQuestGroupEntity findById(java.lang.String id) {
 		log.debug("getting IdentityQuestGrp instance with id: " + id);
 		try {
-			IdentityQuestGroup instance = (IdentityQuestGroup) sessionFactory
+			IdentityQuestGroupEntity instance = (IdentityQuestGroupEntity) sessionFactory
 					.getCurrentSession()
-					.get("org.openiam.idm.srvc.pswd.service.IdentityQuestGrp",
+					.get("org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity",
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");

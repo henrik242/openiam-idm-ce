@@ -19,6 +19,7 @@
         <property name="locations">
             <list>
                 <value>classpath:datasource.properties</value>
+                
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
@@ -134,6 +135,19 @@
 	</bean>
 
     <bean id="resourcePrivilegeDAO" class="org.openiam.idm.srvc.res.service.ResourcePrivilegeDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="identityQuestGroupDAO" class="org.openiam.idm.srvc.pswd.service.IdentityQuestGroupDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="identityQuestionDAO" class="org.openiam.idm.srvc.pswd.service.IdentityQuestionDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- <bean id="passwordHistoryDAO" class="org.openiam.idm.srvc.pswd.service.PasswordHistoryDAOImpl" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean> -->
+	<bean id="userIdentityAnswerDAO" class="org.openiam.idm.srvc.pswd.service.UserIdentityAnswerDAOImpl" >
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 

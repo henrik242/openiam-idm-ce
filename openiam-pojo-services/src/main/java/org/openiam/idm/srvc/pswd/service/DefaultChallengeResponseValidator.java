@@ -26,6 +26,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.BaseObject;
+import org.openiam.dozer.converter.IdentityQuestionDozerConverter;
+import org.openiam.dozer.converter.UserIdentityAnswerDozerConverter;
 import org.openiam.exception.data.IdentityAnswerNotFoundException;
 import org.openiam.exception.data.PrincipalNotFoundException;
 import org.openiam.idm.srvc.auth.dto.Login;
@@ -34,6 +36,7 @@ import org.openiam.idm.srvc.pswd.dto.ChallengeResponseUser;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
 import org.openiam.util.encrypt.Cryptor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Default implementation of the challenge response validator. This implementation uses the information stored in the OpenIAM repository
@@ -47,23 +50,28 @@ public class DefaultChallengeResponseValidator implements
 	protected UserIdentityAnswerDAO identityAnswerDao;
 	protected Cryptor cryptor;
 	protected LoginDataService loginManager;
-	
+	@Autowired
+	private IdentityQuestionDozerConverter identityQuestionDozerConverter;
+
+	@Autowired
+	private UserIdentityAnswerDozerConverter userIdentityAnswerDozerConverter;
+
 	private static final Log log = LogFactory.getLog(DefaultChallengeResponseValidator.class);
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.pswd.service.ChallengeResponseValidator#getQuestion(org.openiam.idm.srvc.pswd.dto.ChallengeResponseUser)
 	 */
 	public List<IdentityQuestion> getQuestions(ChallengeResponseUser req) {
 		if (req == null) {
-			return identityQuestDao.findAllQuestions();
+			return identityQuestionDozerConverter.convertToDTOList(identityQuestDao.findAllQuestions(), true);
 		}
 		if (req.getQuestionGroup() != null) {
-			return identityQuestDao.findAllQuestionsByQuestionGroup(req.getQuestionGroup());
+			return identityQuestionDozerConverter.convertToDTOList(identityQuestDao.findAllQuestionsByQuestionGroup(req.getQuestionGroup()), true);
 		}
 		return null;
 	}
 	
 	public  IdentityQuestion getQuestion(String questionId) {
-		return identityQuestDao.findById(questionId);
+		return identityQuestionDozerConverter.convertToDTO(identityQuestDao.findById(questionId), true);
 	}
 	
 	public boolean isResponseValid(ChallengeResponseUser req, List<UserIdentityAnswer> newAnswerList, int requiredCorrectAns) {
@@ -158,21 +166,21 @@ public class DefaultChallengeResponseValidator implements
 		if (userId == null) {
 			throw new NullPointerException("UserId is null");
 		}
-		return this.identityAnswerDao.findAnswersByUser(userId);
+		return userIdentityAnswerDozerConverter.convertToDTOList(this.identityAnswerDao.findAnswersByUser(userId), true);
 	}
 	
  	private UserIdentityAnswer addAnswer(UserIdentityAnswer answer) {
  		if (answer == null) {
  			throw new NullPointerException("Answer object is null");
  		}
- 		return identityAnswerDao.add(answer);
+ 		return userIdentityAnswerDozerConverter.convertToDTO(identityAnswerDao.add(userIdentityAnswerDozerConverter.convertToEntity(answer, true)),true);
  		
  	}
  	private UserIdentityAnswer updateAnswer(UserIdentityAnswer answer) {
  		if (answer == null) {
  			throw new NullPointerException("Answer object is null");
  		}
- 		return identityAnswerDao.update(answer);		
+ 		return userIdentityAnswerDozerConverter.convertToDTO(identityAnswerDao.update(userIdentityAnswerDozerConverter.convertToEntity(answer, true)),true);		
  	}
 	
 	

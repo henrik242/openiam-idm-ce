@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.auth.login;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.SysConfiguration;
+import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.exception.AuthenticationException;
 import org.openiam.exception.EncryptionException;
 import org.openiam.idm.srvc.auth.dto.Login;
@@ -21,6 +22,7 @@ import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDAO;
 import org.openiam.util.encrypt.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -45,6 +47,8 @@ public class LoginDataServiceImpl implements LoginDataService {
 	static protected ResourceBundle res = ResourceBundle.getBundle("securityconf");
 	boolean encrypt = true;	// default encryption setting
 	private static final Log log = LogFactory.getLog(LoginDataServiceImpl.class);
+	@Autowired
+	private PasswordHistoryDozerConverter passwordHistoryDozerConverter;
 	
 	public Login addLogin(Login login) {
 		if (login == null)
@@ -232,7 +236,7 @@ public class LoginDataServiceImpl implements LoginDataService {
 			PasswordHistory hist = new PasswordHistory(lg.getId().getLogin() , lg.getId().getDomainId(),
 					lg.getId().getManagedSysId());
 			hist.setPassword(password);
-			passwordHistoryDao.add(hist);
+			passwordHistoryDao.add(passwordHistoryDozerConverter.convertToEntity(hist, true));
 			return true;
 		}
 		return false;

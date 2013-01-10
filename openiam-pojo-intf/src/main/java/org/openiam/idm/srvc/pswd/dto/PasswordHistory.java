@@ -2,12 +2,32 @@ package org.openiam.idm.srvc.pswd.dto;
 
 // Generated Jan 23, 2010 1:06:13 AM by Hibernate Tools 3.2.2.GA
 
+
+
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
-
+import org.openiam.dozer.DozerDTOCorrespondence;
+import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
 /**
  * Password history object
  */
@@ -20,8 +40,8 @@ import java.util.Date;
         "dateCreated",
         "password"
 })
+@DozerDTOCorrespondence(PasswordHistoryEntity.class)
 public class PasswordHistory implements java.io.Serializable {
-
     private String pwdHistoryId;
     private String login;
     private String serviceId;

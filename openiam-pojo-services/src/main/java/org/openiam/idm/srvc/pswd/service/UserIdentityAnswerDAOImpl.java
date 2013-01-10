@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
-
+import org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -43,7 +43,7 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerDAO#add(org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer)
 	 */
-	public UserIdentityAnswer add(UserIdentityAnswer transientInstance) {
+	public UserIdentityAnswerEntity add(UserIdentityAnswerEntity transientInstance) {
 		log.debug("persisting UserIdentityAns instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
@@ -58,9 +58,9 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerDAO#delete(org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer)
+	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerEntityDAO#delete(org.openiam.idm.srvc.pswd.dto.UserIdentityAnswerEntity)
 	 */
-	public void delete(UserIdentityAnswer persistentInstance) {
+	public void delete(UserIdentityAnswerEntity persistentInstance) {
 		log.debug("deleting UserIdentityAns instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -72,12 +72,12 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerDAO#update(org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer)
+	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerEntityDAO#update(org.openiam.idm.srvc.pswd.dto.UserIdentityAnswerEntity)
 	 */
-	public UserIdentityAnswer update(UserIdentityAnswer detachedInstance) {
+	public UserIdentityAnswerEntity update(UserIdentityAnswerEntity detachedInstance) {
 		log.debug("merging UserIdentityAns instance");
 		try {
-			UserIdentityAnswer result = (UserIdentityAnswer) sessionFactory
+			UserIdentityAnswerEntity result = (UserIdentityAnswerEntity) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -88,14 +88,14 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerDAO#findById(java.lang.String)
+	 * @see org.openiam.idm.srvc.pswd.service.UserIdentityAnswerEntityDAO#findById(java.lang.String)
 	 */
-	public UserIdentityAnswer findById(java.lang.String id) {
+	public UserIdentityAnswerEntity findById(java.lang.String id) {
 		log.debug("getting UserIdentityAns instance with id: " + id);
 		try {
-			UserIdentityAnswer instance = (UserIdentityAnswer) sessionFactory
+			UserIdentityAnswerEntity instance = (UserIdentityAnswerEntity) sessionFactory
 					.getCurrentSession()
-					.get("org.openiam.idm.srvc.pswd.service.UserIdentityAnswer",
+					.get("org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity",
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -109,15 +109,15 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 		}
 	}
 	
-	public List<UserIdentityAnswer> findAnswersByUser(String userId) {
+	public List<UserIdentityAnswerEntity> findAnswersByUser(String userId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("from UserIdentityAnswer ans "
+		Query qry = session.createQuery("from UserIdentityAnswerEntity ans "
 				+ " where ans.userId = :userId" +
 				  " order by ans.questionText asc ");
 		qry.setString("userId", userId);
 
 		
-		List<UserIdentityAnswer> result = (List<UserIdentityAnswer>) qry.list();
+		List<UserIdentityAnswerEntity> result = (List<UserIdentityAnswerEntity>) qry.list();
 		if (result == null || result.size() == 0)
 			return null;
 

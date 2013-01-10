@@ -14,7 +14,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
-
+import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
+import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -47,9 +48,9 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 
 	
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO#add(org.openiam.idm.srvc.pswd.dto.PasswordHistory)
+	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO#add(org.openiam.idm.srvc.pswd.dto.PasswordHistoryEntity)
 	 */
-	public void add(PasswordHistory transientInstance) {
+	public void add(PasswordHistoryEntity transientInstance) {
 		log.debug("persisting PwdHistory instance");
 		try {
 			if (transientInstance != null && transientInstance.getDateCreated() == null) {
@@ -66,9 +67,9 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO#remove(org.openiam.idm.srvc.pswd.dto.PasswordHistory)
+	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryEntityDAO#remove(org.openiam.idm.srvc.pswd.dto.PasswordHistoryEntity)
 	 */
-	public void remove(PasswordHistory persistentInstance) {
+	public void remove(PasswordHistoryEntity persistentInstance) {
 		log.debug("deleting PwdHistory instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -80,12 +81,12 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO#update(org.openiam.idm.srvc.pswd.dto.PasswordHistory)
+	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryEntityDAO#update(org.openiam.idm.srvc.pswd.dto.PasswordHistoryEntity)
 	 */
-	public PasswordHistory update(PasswordHistory detachedInstance) {
+	public PasswordHistoryEntity update(PasswordHistoryEntity detachedInstance) {
 		log.debug("merging PwdHistory instance");
 		try {
-			PasswordHistory result = (PasswordHistory) sessionFactory.getCurrentSession()
+			PasswordHistoryEntity result = (PasswordHistoryEntity) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -96,14 +97,14 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO#findById(java.lang.String)
+	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryEntityDAO#findById(java.lang.String)
 	 */
-	public PasswordHistory findById(java.lang.String id) {
+	public PasswordHistoryEntity findById(java.lang.String id) {
 		log.debug("getting PwdHistory instance with id: " + id);
 		try {
-			PasswordHistory instance = (PasswordHistory) sessionFactory
+			PasswordHistoryEntity instance = (PasswordHistoryEntity) sessionFactory
 					.getCurrentSession().get(
-							"org.openiam.idm.srvc.pswd.dto.PasswordHistory", id);
+							"org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -117,14 +118,14 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO#findPasswordHistoryByPrincipal(java.lang.String, java.lang.String, java.lang.String)
+	 * @see org.openiam.idm.srvc.pswd.service.PasswordHistoryEntityDAO#findPasswordHistoryEntityByPrincipal(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public List<PasswordHistory> findPasswordHistoryByPrincipal(
+	public List<PasswordHistoryEntity> findPasswordHistoryByPrincipal(
 			String domainId, String principal, String managedSys, int versions) {
 		log.debug("getting PwdHistoryByPrinciPal instance with id: " + principal);
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query qry = session.createQuery("from PasswordHistory ph "
+			Query qry = session.createQuery("from PasswordHistoryEntity ph "
 					+ " where ph.serviceId = :domainId and " +
 					  " ph.managedSysId = :managedSys and " +
 					  " ph.login = :principal " +
@@ -136,7 +137,7 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 			qry.setFetchSize(versions);
 			qry.setMaxResults(versions);	
 			
-			List<PasswordHistory> result = (List<PasswordHistory>) qry.list();
+			List<PasswordHistoryEntity> result = (List<PasswordHistoryEntity>) qry.list();
 			if (result == null || result.size() == 0)
 				return null;
 			return result;

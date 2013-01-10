@@ -17,10 +17,12 @@
  */
 package org.openiam.idm.srvc.pswd.dto;
 
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
+import org.openiam.dozer.DozerDTOCorrespondence;
+import org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity;
 
 /**
  * Domain object representing an answer by the user for a challenge response question.
@@ -33,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
         "userId",
         "questionAnswer"
 })
+@DozerDTOCorrespondence(UserIdentityAnswerEntity.class)
 public class UserIdentityAnswer extends org.openiam.base.BaseObject implements java.io.Serializable {
 
     /**

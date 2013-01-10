@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
+import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.exception.EncryptionException;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.auth.dto.Login;
@@ -54,6 +55,7 @@ import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.util.encrypt.Cryptor;
 import org.openiam.util.encrypt.HashDigest;
 import org.openiam.idm.srvc.pswd.dto.ValidatePasswordResetTokenResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -74,6 +76,8 @@ public class PasswordServiceImpl implements PasswordService {
 	protected Cryptor cryptor;
 	protected PasswordHistoryDAO passwordHistoryDao;
     protected HashDigest hash;
+    @Autowired
+	private PasswordHistoryDozerConverter passwordHistoryDozerConverter;
 	
 	
 	private static final Log log = LogFactory.getLog(PasswordServiceImpl.class);
@@ -312,8 +316,8 @@ public class PasswordServiceImpl implements PasswordService {
 			return -1;
 		}
 		int version =  Integer.parseInt( attr.getValue1() );
-		List<PasswordHistory> historyList = this.passwordHistoryDao.findPasswordHistoryByPrincipal(
-				 pswd.getDomainId(), pswd.getPrincipal(), pswd.getManagedSysId(), version);
+		List<PasswordHistory> historyList = passwordHistoryDozerConverter.convertToDTOList(this.passwordHistoryDao.findPasswordHistoryByPrincipal(
+				 pswd.getDomainId(), pswd.getPrincipal(), pswd.getManagedSysId(), version), true);
 		if (historyList == null || historyList.isEmpty()) {
 			// no history
 			return 0;

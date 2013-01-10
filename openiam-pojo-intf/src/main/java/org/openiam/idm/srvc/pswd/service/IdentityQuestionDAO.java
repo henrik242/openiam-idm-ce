@@ -21,7 +21,7 @@
  */
 package org.openiam.idm.srvc.pswd.service;
 
-import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
+import org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity;
 
 import java.util.List;
 
@@ -30,18 +30,18 @@ import java.util.List;
  */
 public interface IdentityQuestionDAO {
 
-    IdentityQuestion add(IdentityQuestion transientInstance);
+    IdentityQuestionEntity add(IdentityQuestionEntity transientInstance);
 
-    void remove(IdentityQuestion persistentInstance);
+    void remove(IdentityQuestionEntity persistentInstance);
 
-    IdentityQuestion update(IdentityQuestion detachedInstance);
+    IdentityQuestionEntity update(IdentityQuestionEntity detachedInstance);
 
-    IdentityQuestion findById(java.lang.String id);
+    IdentityQuestionEntity findById(java.lang.String id);
 
-    List<IdentityQuestion> findAllQuestions();
+    List<IdentityQuestionEntity> findAllQuestions();
 
-    List<IdentityQuestion> findAllQuestionsByQuestionGroup(String questionGroup);
+    List<IdentityQuestionEntity> findAllQuestionsByQuestionGroup(String questionGroup);
 
-    List<IdentityQuestion> findAllQuestionsByUser(String userId);
+    List<IdentityQuestionEntity> findAllQuestionsByUser(String userId);
 
 }

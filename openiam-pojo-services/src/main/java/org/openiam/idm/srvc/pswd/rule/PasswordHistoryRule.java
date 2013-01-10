@@ -26,6 +26,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.dozer.converter.IdentityQuestionDozerConverter;
+import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.exception.EncryptionException;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.pswd.dto.Password;
@@ -34,6 +36,7 @@ import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
 import org.openiam.idm.srvc.pswd.service.PasswordService;
 import org.openiam.idm.srvc.service.service.ServiceDAOImpl;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
@@ -48,7 +51,9 @@ import org.springframework.core.io.Resource;
 public class PasswordHistoryRule extends AbstractPasswordRule {
 
 	private static final Log log = LogFactory.getLog(PasswordHistoryRule.class);
-
+	@Autowired
+	private PasswordHistoryDozerConverter passwordHistoryDozerConverter;
+	
 	public PasswordValidationCode isValid() {
 		
 		log.info("PasswordHistoryRule called.");
@@ -71,8 +76,8 @@ public class PasswordHistoryRule extends AbstractPasswordRule {
 			pswd.setPassword(password);
 			
 			int version =  Integer.parseInt( attribute.getValue1() );
-			List<PasswordHistory> historyList = passwordHistoryDao.findPasswordHistoryByPrincipal(
-					 pswd.getDomainId(), pswd.getPrincipal(), pswd.getManagedSysId(), version);
+			List<PasswordHistory> historyList = passwordHistoryDozerConverter.convertToDTOList(passwordHistoryDao.findPasswordHistoryByPrincipal(
+					 pswd.getDomainId(), pswd.getPrincipal(), pswd.getManagedSysId(), version), true);
 			if (historyList == null || historyList.isEmpty()) {
 				// no history
 				return retval;
