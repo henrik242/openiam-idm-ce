@@ -471,7 +471,7 @@ public class RemoteConnectorAdapter {
             }
             if (operation.equalsIgnoreCase("suspend")) {
 
-                msg = client.send("vm://remoteConnectorClientSuspend", (SuspendRequest) reqType, msgPropMap);
+                msg = client.send("vm://remoteConnectorMessageSuspend", (SuspendRequest) reqType, msgPropMap);
             }
             if (operation.equalsIgnoreCase("resume")) {
 

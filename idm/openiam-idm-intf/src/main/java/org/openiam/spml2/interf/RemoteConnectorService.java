@@ -105,7 +105,7 @@ public interface RemoteConnectorService {
 	@WebMethod(action="http://www.openiam.org/service/connector/RemoteConnectorService/suspend") 
 	ResponseType suspend(
 			@WebParam(name = "request", targetNamespace = "")
-			SuspendRequest request); 
+			SuspendRequest request);
 
 	/**
 	 * Restores a user that was previously disabled.
