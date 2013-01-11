@@ -3,24 +3,18 @@ package org.openiam.idm.srvc.pswd.domain;
 // Generated Jan 23, 2010 1:06:13 AM by Hibernate Tools 3.2.2.GA
 
 
-
-import javax.persistence.*;
-import javax.annotation.Generated;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import java.util.Date;
 import org.openiam.dozer.DozerDTOCorrespondence;
 import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlSchemaType;
+import java.util.Date;
+
 @Entity
-@Table(name="PWD_HISTORY")
+@Table(name = "PWD_HISTORY")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @DozerDTOCorrespondence(PasswordHistory.class)
@@ -28,25 +22,25 @@ public class PasswordHistoryEntity implements java.io.Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name="PWD_HISTORY_ID")
+    @Column(name = "PWD_HISTORY_ID")
     private String pwdHistoryId;
-    @Column(name="LOGIN")
+    @Column(name = "LOGIN")
     private String login;
-    @Column(name="SERVICE_ID")
+    @Column(name = "SERVICE_ID")
     private String serviceId;
-    @Column(name="MANAGED_SYS_ID")
+    @Column(name = "MANAGED_SYS_ID")
     private String managedSysId;
     @XmlSchemaType(name = "dateTime")
-     @Column(name="DATE_CREATED")
+    @Column(name = "DATE_CREATED")
     private Date dateCreated;
-    @Column(name="PASSWORD")
+    @Column(name = "PASSWORD")
     private String password;
 
     public PasswordHistoryEntity() {
     }
 
     public PasswordHistoryEntity(String login, String serviceId,
-                           String managedSysId) {
+                                 String managedSysId) {
         this.pwdHistoryId = pwdHistoryId;
         this.login = login;
         this.serviceId = serviceId;
@@ -55,7 +49,7 @@ public class PasswordHistoryEntity implements java.io.Serializable {
     }
 
     public PasswordHistoryEntity(String pwdHistoryId, String login, String serviceId,
-                           String managedSysId, Date dateCreated, String password) {
+                                 String managedSysId, Date dateCreated, String password) {
         this.pwdHistoryId = pwdHistoryId;
         this.login = login;
         this.serviceId = serviceId;
@@ -111,6 +105,7 @@ public class PasswordHistoryEntity implements java.io.Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,7 +119,7 @@ public class PasswordHistoryEntity implements java.io.Serializable {
         if (managedSysId != null ? !managedSysId.equals(that.managedSysId) : that.managedSysId != null) return false;
         if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        
+
         return true;
     }
 

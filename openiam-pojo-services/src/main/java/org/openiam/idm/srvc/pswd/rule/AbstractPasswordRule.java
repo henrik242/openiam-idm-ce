@@ -21,6 +21,7 @@
  */
 package org.openiam.idm.srvc.pswd.rule;
 
+import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.pswd.dto.PasswordValidationCode;
@@ -43,6 +44,7 @@ public abstract class AbstractPasswordRule {
 	protected Login lg;
 	protected PasswordHistoryDAO passwordHistoryDao;
 	protected Cryptor cryptor;
+    protected PasswordHistoryDozerConverter passwordHistoryDozerConverter;
 
 	public abstract PasswordValidationCode isValid(); 
 	
@@ -110,5 +112,11 @@ public abstract class AbstractPasswordRule {
 		this.cryptor = cryptor;
 	}
 
+    public PasswordHistoryDozerConverter getPasswordHistoryDozerConverter() {
+        return passwordHistoryDozerConverter;
+    }
 
+    public void setPasswordHistoryDozerConverter(PasswordHistoryDozerConverter passwordHistoryDozerConverter) {
+        this.passwordHistoryDozerConverter = passwordHistoryDozerConverter;
+    }
 }
