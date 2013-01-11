@@ -52,7 +52,6 @@ public class IdentityQuestGroupEntity extends org.openiam.base.BaseObject implem
     @OneToMany(fetch=FetchType.EAGER,orphanRemoval=true,cascade={CascadeType.ALL})
     @JoinColumns({
              @JoinColumn(name="IDENTITY_QUEST_GRP_ID"),
-             //@JoinColumn(name="IDENTITY_QUESTION_ID")
     })
     private Set<IdentityQuestionEntity> identityQuestions = new HashSet<IdentityQuestionEntity>(
             0);
@@ -166,8 +165,6 @@ public class IdentityQuestGroupEntity extends org.openiam.base.BaseObject implem
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (lastUpdate != null ? !lastUpdate.equals(that.lastUpdate) : that.lastUpdate != null) return false;
         if (lastUpdatedBy != null ? !lastUpdatedBy.equals(that.lastUpdatedBy) : that.lastUpdatedBy != null) return false;
-        if (identityQuestions != null ? !identityQuestions.equals(that.identityQuestions) : that.identityQuestions != null) return false;
-        
         return true;
     }
 
@@ -182,7 +179,6 @@ public class IdentityQuestGroupEntity extends org.openiam.base.BaseObject implem
         result = 31 * result + (lastUpdate != null ? lastUpdate.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (lastUpdatedBy != null ? lastUpdatedBy.hashCode() : 0);
-        result = 31 * result + (identityQuestions != null ? identityQuestions.hashCode() : 0);
         return result;
     }
 }

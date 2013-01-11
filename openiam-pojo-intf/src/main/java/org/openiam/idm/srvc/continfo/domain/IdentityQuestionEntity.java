@@ -37,7 +37,6 @@ public class IdentityQuestionEntity extends org.openiam.base.BaseObject implemen
     private String identityQuestionId;
     @ManyToOne
     @JoinColumn(name="IDENTITY_QUEST_GRP_ID")
-    //@Column(name="IDENTITY_QUEST_GRP_ID")
     private IdentityQuestGroupEntity identityQuestGrp;
     @Column(name="QUESTION_TEXT")
     private String questionText;
@@ -73,11 +72,6 @@ public class IdentityQuestionEntity extends org.openiam.base.BaseObject implemen
         this.identityQuestionId = identityQuestionId;
     }
 
-    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
-    @JoinColumns({
-             //@JoinColumn(name="IDENTITY_QUEST_GRP_ID"),
-             @JoinColumn(name="IDENTITY_QUESTION_ID")
-    })
     public IdentityQuestGroupEntity getIdentityQuestGrp() {
         return this.identityQuestGrp;
     }

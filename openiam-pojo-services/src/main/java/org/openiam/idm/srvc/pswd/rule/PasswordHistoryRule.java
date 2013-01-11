@@ -76,12 +76,14 @@ public class PasswordHistoryRule extends AbstractPasswordRule {
 			pswd.setPassword(password);
 			
 			int version =  Integer.parseInt( attribute.getValue1() );
-			List<PasswordHistory> historyList = passwordHistoryDozerConverter.convertToDTOList(passwordHistoryDao.findPasswordHistoryByPrincipal(
-					 pswd.getDomainId(), pswd.getPrincipal(), pswd.getManagedSysId(), version), true);
-			if (historyList == null || historyList.isEmpty()) {
+			List<PasswordHistoryEntity> historyEntityList = passwordHistoryDao.findPasswordHistoryByPrincipal(
+					 pswd.getDomainId(), pswd.getPrincipal(), pswd.getManagedSysId(), version);
+			if (historyEntityList == null || historyEntityList.isEmpty()) {
 				// no history
 				return retval;
 			}
+			List<PasswordHistory> historyList = passwordHistoryDozerConverter.convertToDTOList(historyEntityList, true);
+			
 			// check the list.
 			log.info("Found " + historyList.size() + " passwords in the history");
 			for ( PasswordHistory hist  : historyList) {

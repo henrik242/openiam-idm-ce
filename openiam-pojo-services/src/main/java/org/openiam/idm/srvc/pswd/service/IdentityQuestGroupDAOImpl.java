@@ -87,7 +87,7 @@ public class IdentityQuestGroupDAOImpl implements IdentityQuestGroupDAO {
 		try {
 			IdentityQuestGroupEntity instance = (IdentityQuestGroupEntity) sessionFactory
 					.getCurrentSession()
-					.get("org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity",
+					.get(org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");

@@ -95,7 +95,7 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 		try {
 			IdentityQuestionEntity instance = (IdentityQuestionEntity) sessionFactory
 					.getCurrentSession()
-					.get("org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity",
+					.get(org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");

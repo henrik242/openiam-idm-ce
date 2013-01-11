@@ -95,7 +95,7 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 		try {
 			UserIdentityAnswerEntity instance = (UserIdentityAnswerEntity) sessionFactory
 					.getCurrentSession()
-					.get("org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity",
+					.get(org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
