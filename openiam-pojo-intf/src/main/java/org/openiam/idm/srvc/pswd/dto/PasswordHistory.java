@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
+import org.openiam.idm.srvc.pswd.domain.PasswordHistoryEntity;
 /**
  * Password history object
  */

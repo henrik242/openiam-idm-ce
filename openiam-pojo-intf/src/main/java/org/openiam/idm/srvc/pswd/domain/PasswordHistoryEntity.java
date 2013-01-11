@@ -1,4 +1,4 @@
-package org.openiam.idm.srvc.continfo.domain;
+package org.openiam.idm.srvc.pswd.domain;
 
 // Generated Jan 23, 2010 1:06:13 AM by Hibernate Tools 3.2.2.GA
 

@@ -21,7 +21,7 @@
  */
 package org.openiam.idm.srvc.pswd.service;
 
-import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
+import org.openiam.idm.srvc.pswd.domain.PasswordHistoryEntity;
 
 import java.util.List;
 

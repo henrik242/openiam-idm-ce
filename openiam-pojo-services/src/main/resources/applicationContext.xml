@@ -762,6 +762,7 @@
 											   org.openiam.idm.srvc.org.domain*,
 											   org.openiam.idm.srvc.user.domain*,
 											   org.openiam.idm.srvc.continfo.domain*,
+											   org.openiam.idm.srvc.pswd.domain*,
                                                org.openiam.idm.srvc.res.domain*,
                                                org.openiam.idm.srvc.role.domain*,
                                                org.openiam.idm.srvc.grp.domain*,

@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity;
+import org.openiam.idm.srvc.pswd.domain.UserIdentityAnswerEntity;
 
 /**
  * Domain object representing an answer by the user for a challenge response question.

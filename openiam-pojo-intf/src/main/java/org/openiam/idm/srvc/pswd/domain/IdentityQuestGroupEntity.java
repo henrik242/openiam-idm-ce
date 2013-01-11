@@ -1,4 +1,4 @@
-package org.openiam.idm.srvc.continfo.domain;
+package org.openiam.idm.srvc.pswd.domain;
 
 import java.util.Date;
 import java.util.HashSet;

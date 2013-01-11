@@ -10,9 +10,9 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.openiam.idm.srvc.pswd.domain.UserIdentityAnswerEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
-import org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -95,7 +95,7 @@ public class UserIdentityAnswerDAOImpl implements UserIdentityAnswerDAO {
 		try {
 			UserIdentityAnswerEntity instance = (UserIdentityAnswerEntity) sessionFactory
 					.getCurrentSession()
-					.get(org.openiam.idm.srvc.continfo.domain.UserIdentityAnswerEntity.class,
+					.get(org.openiam.idm.srvc.pswd.domain.UserIdentityAnswerEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");

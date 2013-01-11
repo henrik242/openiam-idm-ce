@@ -1,12 +1,13 @@
 package org.openiam.dozer;
 
 import junit.framework.Assert;
+
+import org.openiam.idm.srvc.pswd.domain.PasswordHistoryEntity;
 import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.apache.commons.lang.RandomStringUtils;
 import org.openiam.dozer.converter.EmailAddressDozerConverter;
 import org.openiam.idm.srvc.continfo.domain.EmailAddressEntity;
-import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;

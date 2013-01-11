@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity;
 
 /**
  * IdentityQuestGroup is a domain object that allows you to group questions together. These questions can be

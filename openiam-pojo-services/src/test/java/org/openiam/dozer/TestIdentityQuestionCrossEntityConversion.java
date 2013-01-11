@@ -1,11 +1,12 @@
 package org.openiam.dozer;
 
 import junit.framework.Assert;
+
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.apache.commons.lang.RandomStringUtils;
 import org.openiam.dozer.converter.EmailAddressDozerConverter;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
 import org.openiam.idm.srvc.continfo.dto.EmailAddress;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.dozer.converter.IdentityQuestionDozerConverter;

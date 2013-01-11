@@ -1,8 +1,9 @@
 package org.openiam.dozer.converter;
 
 import java.util.List;
+
+import org.openiam.idm.srvc.pswd.domain.PasswordHistoryEntity;
 import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
-import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
 import org.springframework.stereotype.Component;
 
 @Component("passwordHistoryDozerMapper")

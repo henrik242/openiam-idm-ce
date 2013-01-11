@@ -1,4 +1,4 @@
-package org.openiam.idm.srvc.continfo.domain;
+package org.openiam.idm.srvc.pswd.domain;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,12 +11,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.hibernate.annotations.GenericGenerator;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
 import org.openiam.idm.srvc.user.domain.UserEntity;
 
 @Entity

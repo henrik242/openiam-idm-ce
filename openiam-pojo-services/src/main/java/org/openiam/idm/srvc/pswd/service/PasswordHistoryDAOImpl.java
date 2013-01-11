@@ -12,10 +12,10 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.openiam.idm.srvc.pswd.domain.PasswordHistoryEntity;
 import org.openiam.idm.srvc.pswd.dto.PasswordHistory;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
 import org.openiam.idm.srvc.pswd.service.PasswordHistoryDAO;
-import org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -104,7 +104,7 @@ public class PasswordHistoryDAOImpl implements PasswordHistoryDAO {
 		try {
 			PasswordHistoryEntity instance = (PasswordHistoryEntity) sessionFactory
 					.getCurrentSession().get(
-							"org.openiam.idm.srvc.continfo.domain.PasswordHistoryEntity", id);
+							org.openiam.idm.srvc.pswd.domain.PasswordHistoryEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {

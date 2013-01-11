@@ -11,9 +11,9 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -95,7 +95,7 @@ public class IdentityQuestionDAOImpl implements IdentityQuestionDAO {
 		try {
 			IdentityQuestionEntity instance = (IdentityQuestionEntity) sessionFactory
 					.getCurrentSession()
-					.get(org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity.class,
+					.get(org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");

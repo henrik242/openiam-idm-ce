@@ -3,7 +3,7 @@ package org.openiam.dozer.converter;
 import java.util.List;
 
 import org.openiam.dozer.converter.AbstractDozerEntityConverter;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
 import org.springframework.stereotype.Component;
 

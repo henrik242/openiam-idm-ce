@@ -21,7 +21,7 @@
  */
 package org.openiam.idm.srvc.pswd.service;
 
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity;
 
 import java.util.List;
 

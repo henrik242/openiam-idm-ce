@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestionEntity;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity;
 
 /**
  * Domain object that represents a question for use in the challenge response functionality

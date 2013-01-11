@@ -6,8 +6,8 @@ import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
-import org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity;
 
 /**
  * DAO implementation object for the domain model class IdentityQuestGroup.
@@ -87,7 +87,7 @@ public class IdentityQuestGroupDAOImpl implements IdentityQuestGroupDAO {
 		try {
 			IdentityQuestGroupEntity instance = (IdentityQuestGroupEntity) sessionFactory
 					.getCurrentSession()
-					.get(org.openiam.idm.srvc.continfo.domain.IdentityQuestGroupEntity.class,
+					.get(org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity.class,
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
