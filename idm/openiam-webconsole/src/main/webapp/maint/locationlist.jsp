@@ -6,7 +6,7 @@
 
 
 
-   		<table  width="600pt" >
+   		<table  width="800pt" >
 			<tr>
 				<td>
 					<table width="100%">
@@ -28,18 +28,19 @@
 		<tr>
 				<td>	
 
-<table width="600pt" >
+<table width="800pt" >
 			<tr>
 				<td align="center" height="100%">
 			     <fieldset class="userform" >
 						<legend>LOCATION LIST</legend>
 	
-     	<table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">	 
+     	<table class="resourceTable" cellspacing="2" cellpadding="2" width="800pt">
           <tr class="header">
-			  			<th>Name</td>
-              <th class="tdheader" >Address</td>
-              <th class="tdheader" >City</td>
-			  			<th class="tdheader" >State</td>
+			  <th>Name</th>
+              <th class="tdheader" >Address</th>
+              <th class="tdheader" >City</th>
+			  <th class="tdheader" >State</th>
+              <th class="tdheader" >Postal Code</th>
           </tr>
 	
 
@@ -49,8 +50,9 @@
 							<td class="tableEntry">${location.name}</td>
 							<td class="tableEntry"><a href="locationDetail.cnt?locationId=${location.locationId}">${location.bldgNum} ${location.streetDirection} ${location.address1}</a> </td>
 							<td class="tableEntry">${location.city}</td>
-							<td class="tableEntry">${location.state} </td> 
-						</tr>
+							<td class="tableEntry">${location.state} </td>
+                            <td class="tableEntry">${location.postalCd} </td>
+                        </tr>
 					</c:forEach>
 
 			</table>
