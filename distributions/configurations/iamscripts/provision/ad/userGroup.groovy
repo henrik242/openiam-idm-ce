@@ -29,11 +29,8 @@ if (groupList != null) {
         		groupName = grp.grpName;
         
 			}
-			
 			println("Adding group id  " + r.grpId + " --> " + (groupName + groupBaseDN));
-			
-			//roleStrList.add("cn=" + groupName +  groupBaseDN);
-			
+
 			String qualifiedGroupName = "cn=" + groupName +  groupBaseDN
 			
 			attributeContainer.getAttributeList().add(new BaseAttribute(qualifiedGroupName, qualifiedGroupName, r.operation));
