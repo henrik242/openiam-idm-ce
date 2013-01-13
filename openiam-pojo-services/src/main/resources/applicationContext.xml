@@ -774,23 +774,22 @@
 	<!-- See JPetStore for an example of using Commons DBCP BasicDataSource as alternative -->
 	<!-- See Image Database for an example of using C3P0 ComboPooledDataSource as alternative -->
 
-     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="${openiam.driver_classname}" />
-        <property name="jdbcUrl" value="${openiam.driver_url}" />
-        <property name="user" value="${openiam.username}" />
-        <property name="password" value="${openiam.password}"/>
-
-        <property name="minPoolSize" value="${openiam.hibernate.minPoolSize}"/>
-        <property name="maxPoolSize" value="${openiam.hibernate.maxPoolSize}"/>
-        <property name="maxStatements" value="${openiam.hibernate.max_statement}"/>
-        <property name="idleConnectionTestPeriod" value="${openiam.hibernate.idle_test_period}"/>
-        <property name="loginTimeout" value="300"/>
-        <property name="acquireIncrement" value="${openiam.hibernate.acquireIncrement}" />
-        <property name="acquireRetryAttempts" value="${openiam.hibernate.acquireRetryAttempts}"/>
-        <property name="acquireRetryDelay" value="${openiam.hibernate.acquireRetryDelay}"/>
-        <property name="breakAfterAcquireFailure" value="${openiam.hibernate.breakAfterAcquireFailure}"/>
-        <property name="automaticTestTable" value="${openiam.hibernate.automaticTestTable}"/>
-        <property name="testConnectionOnCheckin" value="${openiam.hibernate.testConnectionOnCheckin}"/>
+    <!-- The Tomcat JDBC Connection Pool -->
+    <!-- The JDBC Connection Pool org.apache.tomcat.jdbc.pool is a replacement or an alternative to the commons-dbcp connection pool. -->
+    <!-- http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html -->
+     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+         <property name="url" value="${openiam.driver_url}" />
+         <property name="username" value="${openiam.username}" />
+         <property name="password" value="${openiam.password}" />
+         <property name="driverClassName" value="${openiam.driver_classname}"/>
+         <property name="initialSize" value="${openiam.hibernate.minPoolSize}"/>
+         <property name="maxActive" value="${openiam.hibernate.maxPoolSize}"/>
+         <property name="testWhileIdle" value="true"/>
+         <property name="validationQuery" value="${openiam.hibernate.validationQuery}"/>
+         <property name="maxWait" value="${openiam.hibernate.timeout}"/>
+         <property name="removeAbandoned" value="true"/>
+         <property name="removeAbandonedTimeout" value="60"/>
+         <property name="logAbandoned" value="true"/>
      </bean>
 
 

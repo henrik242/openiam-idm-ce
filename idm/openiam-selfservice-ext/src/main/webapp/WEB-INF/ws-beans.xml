@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://cxf.apache.org/transports/http/configuration
+        http://cxf.apache.org/schemas/configuration/http-conf.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd ">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <value>classpath:datasource.properties</value>
+        </property>
+    </bean>
+
+    <!--  User Service -->
+    <bean id="userServiceClient" class="org.openiam.idm.srvc.user.ws.UserDataWebService"
+          factory-bean="userServiceFactory" factory-method="create"/>
+
+
+    <bean id="userServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.user.ws.UserDataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}UserDataService"/>
+    </bean>
+
+    <!--  Organization Service -->
+    <bean id="orgServiceClient" class="org.openiam.idm.srvc.org.service.OrganizationDataService"
+          factory-bean="orgServiceFactory" factory-method="create"/>
+
+
+    <bean id="orgServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.org.service.OrganizationDataService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}OrganizationDataService"/>
+    </bean>
+
+    <!--  Role Service -->
+    <bean id="roleServiceClient" class="org.openiam.idm.srvc.role.ws.RoleDataWebService"
+          factory-bean="roleServiceFactory" factory-method="create"/>
+
+
+    <bean id="roleServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.role.ws.RoleDataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}RoleDataWebService"/>
+    </bean>
+
+    <!--  Email Service -->
+    <bean id="mailServiceClient" class="org.openiam.idm.srvc.msg.service.MailService"
+          factory-bean="mailServiceFactory" factory-method="create"/>
+
+
+    <bean id="mailServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.msg.service.MailService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}EmailWebService"/>
+    </bean>
+
+   <!-- Provision Request Service -->
+    <bean id="provRequestServiceClient" class="org.openiam.idm.srvc.prov.request.ws.RequestWebService"
+          factory-bean="provRequestServiceFactory" factory-method="create"/>
+
+
+    <bean id="provRequestServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.prov.request.ws.RequestWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}RequestWebService"/>
+    </bean>
+
+    <!--  Resource Service -->
+    <bean id="resourceServiceClient" class="org.openiam.idm.srvc.res.service.ResourceDataService"
+          factory-bean="resourceServiceFactory" factory-method="create"/>
+
+
+    <bean id="resourceServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.res.service.ResourceDataService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}ResourceDataWebService"/>
+    </bean>
+
+    <!--  Managed System Service -->
+    <bean id="managedSysServiceClient" class="org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService"
+          factory-bean="managedSysServiceFactory" factory-method="create"/>
+
+
+    <bean id="managedSysServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}ManagedSystemWebService"/>
+    </bean>
+</beans>

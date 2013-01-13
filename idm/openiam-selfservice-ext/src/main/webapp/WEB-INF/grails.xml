@@ -1,0 +1,6 @@
+<grails>
+<resources>
+    <resource>Config</resource>
+    <resource>org.openiam.taglib.composition.CompositionTagLib</resource>
+</resources>
+</grails>

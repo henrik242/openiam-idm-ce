@@ -27,6 +27,7 @@
 		<module>openiam-selfservice</module>
 
         <module>openiam-reportviewer</module>
+        <module>openiam-selfservice-ext</module>
   </modules>
   
 </project>
