@@ -48,11 +48,7 @@ public class IdentityQuestGroupEntity extends org.openiam.base.BaseObject implem
     private Date lastUpdate;
     @Column(name = "LAST_UPDATED_BY")
     private String lastUpdatedBy;
-    
-    @OneToMany(fetch=FetchType.EAGER,orphanRemoval=true,cascade={CascadeType.ALL})
-    @JoinColumns({
-             @JoinColumn(name="IDENTITY_QUEST_GRP_ID"),
-    })
+    @OneToMany(fetch=FetchType.LAZY, orphanRemoval=true, cascade = {CascadeType.ALL}, mappedBy="identityQuestGrp")
     private Set<IdentityQuestionEntity> identityQuestions = new HashSet<IdentityQuestionEntity>(
             0);
 

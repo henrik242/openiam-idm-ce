@@ -94,7 +94,7 @@ public class ChallengeResponseServiceImpl implements ChallengeResponseService {
 			throw new NullPointerException("UserId is null");
 		}
 		return identityQuestionDozerConverter.convertToDTOList(
-				identityQuestDao.findAllQuestionsByUser(userId), true);
+				identityQuestDao.findAllQuestionsByUser(userId), false);
 
 	}
 
