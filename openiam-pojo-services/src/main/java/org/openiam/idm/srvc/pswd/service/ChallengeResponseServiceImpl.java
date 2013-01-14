@@ -36,6 +36,7 @@ import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.policy.service.PolicyDataService;
+import org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity;
 import org.openiam.idm.srvc.pswd.dto.ChallengeResponseUser;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.openiam.idm.srvc.pswd.dto.UserIdentityAnswer;
@@ -93,8 +94,13 @@ public class ChallengeResponseServiceImpl implements ChallengeResponseService {
 		if (userId == null) {
 			throw new NullPointerException("UserId is null");
 		}
-		return identityQuestionDozerConverter.convertToDTOList(
-				identityQuestDao.findAllQuestionsByUser(userId), true);
+		List<IdentityQuestionEntity> entityList = identityQuestDao.findAllQuestionsByUser(userId);
+		if (entityList != null) {
+			return identityQuestionDozerConverter.convertToDTOList(entityList
+				, false);
+		}else{
+			return null;
+		}
 
 	}
 

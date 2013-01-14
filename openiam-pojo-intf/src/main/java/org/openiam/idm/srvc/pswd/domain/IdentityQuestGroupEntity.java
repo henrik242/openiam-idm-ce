@@ -5,18 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.annotation.Generated;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.hibernate.annotations.GenericGenerator;
-import org.openiam.base.AttributeOperationEnum;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
-import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
 
 
@@ -48,11 +41,7 @@ public class IdentityQuestGroupEntity extends org.openiam.base.BaseObject implem
     private Date lastUpdate;
     @Column(name = "LAST_UPDATED_BY")
     private String lastUpdatedBy;
-    
-    @OneToMany(fetch=FetchType.EAGER,orphanRemoval=true,cascade={CascadeType.ALL})
-    @JoinColumns({
-             @JoinColumn(name="IDENTITY_QUEST_GRP_ID"),
-    })
+    @OneToMany(fetch=FetchType.LAZY, orphanRemoval=true, cascade = {CascadeType.ALL}, mappedBy="identityQuestGrp")
     private Set<IdentityQuestionEntity> identityQuestions = new HashSet<IdentityQuestionEntity>(
             0);
 
