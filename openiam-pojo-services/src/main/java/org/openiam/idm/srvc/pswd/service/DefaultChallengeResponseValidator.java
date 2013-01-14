@@ -62,10 +62,10 @@ public class DefaultChallengeResponseValidator implements
 	 */
 	public List<IdentityQuestion> getQuestions(ChallengeResponseUser req) {
 		if (req == null) {
-			return identityQuestionDozerConverter.convertToDTOList(identityQuestDao.findAllQuestions(), true);
+			return identityQuestionDozerConverter.convertToDTOList(identityQuestDao.findAllQuestions(), false);
 		}
 		if (req.getQuestionGroup() != null) {
-			return identityQuestionDozerConverter.convertToDTOList(identityQuestDao.findAllQuestionsByQuestionGroup(req.getQuestionGroup()), true);
+			return identityQuestionDozerConverter.convertToDTOList(identityQuestDao.findAllQuestionsByQuestionGroup(req.getQuestionGroup()), false);
 		}
 		return null;
 	}
