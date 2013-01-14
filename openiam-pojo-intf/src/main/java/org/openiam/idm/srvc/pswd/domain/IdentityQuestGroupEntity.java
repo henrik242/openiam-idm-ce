@@ -5,18 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.annotation.Generated;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.openiam.idm.srvc.pswd.dto.IdentityQuestion;
 import org.hibernate.annotations.GenericGenerator;
-import org.openiam.base.AttributeOperationEnum;
 import org.openiam.dozer.DozerDTOCorrespondence;
-import org.openiam.idm.srvc.continfo.dto.EmailAddress;
-import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.pswd.dto.IdentityQuestGroup;
 
 
