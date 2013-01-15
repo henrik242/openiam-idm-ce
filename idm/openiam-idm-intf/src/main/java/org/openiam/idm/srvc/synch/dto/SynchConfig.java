@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlType;
 		"baseDn",
         "lastRecProcessed",
         "wsScript",
-        "wsUrl"
+        "wsUrl",
+        "wsEndPoint"
 })
 /**
  * Object containing the configuration for a synchronization task
@@ -84,6 +85,7 @@ public class SynchConfig implements java.io.Serializable {
 
     private String wsUrl;
     private String wsScript;
+    private String wsEndPoint;
 
 
 	
@@ -383,7 +385,15 @@ public class SynchConfig implements java.io.Serializable {
         this.wsScript = wsScript;
     }
 
-    @Override
+    public String getWsEndPoint() {
+		return wsEndPoint;
+	}
+
+	public void setWsEndPoint(String wsEndPoint) {
+		this.wsEndPoint = wsEndPoint;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SynchConfig)) return false;
