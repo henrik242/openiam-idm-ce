@@ -2,43 +2,30 @@ function onSelectSyncSource() {
 	var value = $("#syncConfig\\.synchAdapter").val();
 	$('#soUser').show();
 	var list = $('#soList');
+	$(".common-row").show();
+	$(".csv-row").hide();
+	$(".ldap-row").hide();
+	$(".db-row").hide();
+	$(".ws-row").hide();
 	list.hide();
-	if (value == "") {
-		$(".commonRow").show();
-		$(".csvRow").hide();
-		$(".ldapRow").hide();
-		$(".dbRow").hide();
-		list.val = "USER";
-	} else if (value == "RDBMS") {
-		$(".commonRow").show();
-		$(".csvRow").hide();
-		$(".ldapRow").hide();
-		$(".dbRow").show();
-		list.val("USER");
+	list.val("USER");
+	if (value == "RDBMS") {
+		$(".common-row").show();
+		$(".db-row").show();
 	} else if (value == "CSV") {
 		$('#soUser').hide();
 		$('#soList').show();
-		$(".commonRow").show();
-		$(".csvRow").show();
-		$(".ldapRow").hide();
-		$(".dbRow").hide();
+		$(".csv-row").show();
 	} else if (value == "LDAP") {
-		$(".commonRow").show();
-		$(".csvRow").hide();
-		$(".ldapRow").show();
-		$(".dbRow").hide();
-		list.val("USER");
+		$(".ldap-row").show();
 	} else if (value == "WS") {
-		$(".commonRow").show();
-		$(".csvRow").hide();
-		$(".ldapRow").hide();
-		$(".dbRow").hide();
-		list.val("USER");
+		$(".ws-row").show();
 	} else if (value == "CUSTOM") {
-		$(".commonRow").show();
-		$(".csvRow").show();
-		$(".ldapRow").show();
-		$(".dbRow").show();
+		$(".common-row").show();
+		$(".csv-row").show();
+		$(".ldap-row").show();
+		$(".db-row").show();
+		$(".ws-row").show();
 		list.val("USER");
 	}
 }

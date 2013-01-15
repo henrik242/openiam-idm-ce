@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;" %>
+<%@ page language="java" contentType="text/html;"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -7,7 +7,7 @@
 	src="<c:url value='/scripts/jquery-1.7.1.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/sync.js'/>"></script>
 <script>
-    window.onload = onSelectSyncSource;
+	window.onload = onSelectSyncSource;
 </script>
 <table width="700pt">
 	<tr>
@@ -35,13 +35,13 @@
 							</tr>
 
 
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td>Name<font color="red">*</font></td>
 								<td><form:hidden path="syncConfig.synchConfigId" /> <form:input
 										path="syncConfig.name" size="40" maxlength="40" /> <form:errors
 										path="syncConfig.name" cssClass="error" /></td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td>Status</td>
 								<td><form:select path="syncConfig.status" multiple="false">
 										<form:option value="" label="-Please Select-" />
@@ -49,7 +49,7 @@
 										<form:option value="INACTIVE" />
 									</form:select></td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Synchronization Source <font color="red">*</font></td>
 								<td class="tdlightnormal"><form:select
 										path="syncConfig.synchAdapter" multiple="false"
@@ -65,14 +65,14 @@
 
 								</td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Custom Adapter Script</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.customAdatperScript" size="60" maxlength="60" />
 								</td>
 							</tr>
 
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Synchronize Object</td>
 								<td class="tdlightnormal"><div>
 										<form:select id="soList" path="syncConfig.processRule"
@@ -82,10 +82,12 @@
 											<form:option value="ORG" label="ORGANIZATION" />
 										</form:select>
 									</div>
-									<p id="soUser"><b>USER</b></p></td>
+									<p id="soUser">
+										<b>USER</b>
+									</p></td>
 
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Synch Type</td>
 								<td class="tdlightnormal"><form:select
 										path="syncConfig.synchType" multiple="false">
@@ -93,7 +95,7 @@
 										<form:option value="INCREMENTAL" label="INCREMENTAL" />
 									</form:select></td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Synch Frequency</td>
 								<td class="tdlightnormal"><form:select
 										path="syncConfig.synchFrequency" multiple="false">
@@ -105,7 +107,7 @@
 										<form:option value="NIGHTLY" label="NIGHTLY" />
 									</form:select></td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Validate Rule <font color="red">*</font></td>
 								<td class="normaltext"><form:input
 										path="syncConfig.validationRule" size="60" maxlength="60" />
@@ -113,7 +115,7 @@
 										into the transformation process</i> <form:errors
 										path="syncConfig.validationRule" cssClass="error" /></td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Transformation Rule <font color="red">*</font></td>
 								<td class="normaltext"><form:input
 										path="syncConfig.transformationRule" size="60" maxlength="60" />
@@ -121,7 +123,7 @@
 										used by the identity manager.</i> <form:errors
 										path="syncConfig.transformationRule" cssClass="error" /></td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">Match Object On</td>
 								<td class="tdlightnormal">
 									<table>
@@ -153,7 +155,7 @@
 									</table>
 								</td>
 							</tr>
-							<tr class="commonRow">
+							<tr class="common-row">
 								<td class="tddark">CUSTOM Rule For Matching</td>
 								<td class="normaltext"><form:input
 										path="syncConfig.customMatchRule" size="40" maxlength="40" />
@@ -161,47 +163,62 @@
 										matching multiple fields or a custom algorithm is required.</i></td>
 							</tr>
 							<!-- End of commons part-->
-							<tr class="csvRow">
+							<tr class="ws-row">
+								<td class="tddark">Web service script path</td>
+								<td class="tdlightnormal"><form:input
+										path="syncConfig.wsScript" size="60" maxlength="60" /></td>
+							</tr>
+							<tr class="ws-row">
+								<td class="tddark">Web Service URL</td>
+								<td class="tdlightnormal"><form:input
+										path="syncConfig.wsUrl" size="60" maxlength="100" /></td>
+							</tr>								
+							<tr  class="ws-row">
+								<td class="tddark">Web service end point</td>
+								<td class="tdlightnormal"><form:input
+										path="syncConfig.wsEndPoint" size="60" maxlength="100" /></td>
+							</tr>				
+							<tr class="csv-row">
 								<td class="tddark">File Path</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.fileName" size="60" maxlength="60" /></td>
 							</tr>
 
-							<tr class="ldapRow">
+							<tr class="ldap-row">
 								<td class="tddark">Host Name</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.srcHost" size="60" maxlength="60" /></td>
 							</tr>
-							<tr class="ldapRow dbRow">
+							<tr class="ldap-row db-row">
 								<td class="tddark">Src Login</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.srcLoginId" size="60" maxlength="60" /></td>
 							</tr>
-							<tr class="ldapRow dbRow">
+							<tr class="ldap-row db-row">
 								<td class="tddark">Src Password</td>
 								<td class="tdlightnormal"><form:password
 										path="syncConfig.srcPassword" size="60" maxlength="60"
 										showPassword="true" /></td>
 							</tr>
 
-							<tr class="dbRow">
+							<tr class="db-row">
 								<td class="tddark">JDBC Driver</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.driver" size="60" maxlength="100" /></td>
 							</tr>
-							<tr class="dbRow">
+							<tr class="db-row">
 								<td class="tddark">Connection URL</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.connectionUrl" size="60" maxlength="100" />
 								</td>
 							</tr>
-							<tr class="dbRow">
+							<tr class="db-row">
 								<td class="tddark">SQL Query / Directory Filter</td>
 								<td class="tdlightnormal"><form:textarea
 										path="syncConfig.query" rows="5" cols="60" /></td>
 							</tr>
 
-							<tr class="ldapRow">
+							<tr class="ldap-row">
 								<td class="tddark">Base DN</td>
 								<td class="tdlightnormal"><form:input
 										path="syncConfig.baseDn" size="60" maxlength="60" /></td>

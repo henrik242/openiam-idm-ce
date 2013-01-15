@@ -103,9 +103,10 @@
         </property>
         <property name="wsScript"  type="string">
             <column name="WS_SCRIPT" length="100" />
+        </property>        
+        <property name="wsEndPoint"  type="string">
+            <column name="WS_ENDPOINT" length="100" />
         </property>
-
-
     </class>
 </hibernate-mapping>
 
