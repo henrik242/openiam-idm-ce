@@ -16,12 +16,10 @@ import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.dto.UserResourceAssociation;
-import org.openiam.selfsrvc.hire.NewHireCommand;
 import org.openiam.selfsrvc.wrkflow.AbstractFormWorkflowController;
 import org.openiam.selfsrvc.wrkflow.WorkflowRequest;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,10 +27,10 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 
-public class ChangeUserAccessController extends AbstractFormWorkflowController {
+public class ChangeUserRoleController extends AbstractFormWorkflowController {
 
 
-    public ChangeUserAccessController() {
+    public ChangeUserRoleController() {
         super();
     }
 
@@ -70,7 +68,7 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
 
-        ChangeUserAccessCommand cmd = new ChangeUserAccessCommand();
+        ChangeUserRoleCommand cmd = new ChangeUserRoleCommand();
 
 
         return cmd;
@@ -86,7 +84,7 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
 
         HttpSession session = request.getSession();
 
-        ChangeUserAccessCommand identityCmd = (ChangeUserAccessCommand) command;
+        ChangeUserRoleCommand identityCmd = (ChangeUserRoleCommand) command;
 
         WorkflowRequest wrkFlowRequest = (WorkflowRequest) request.getSession().getAttribute("wrkflowRequest");
 
@@ -99,15 +97,15 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
                 new Date(System.currentTimeMillis()), "PENDING_REQUEST",
                 "SUCCESS", null, null,
                 request.getRemoteHost(), 1, null, null,
-                null, (String)request.getSession().getAttribute("login"), "CHANGE_ACCESS_WORFKLOW",
-                ProvisionRequest.CHANGE_ACCESS_WORKFLOW, provReq.getRequestTitle(), null,
+                null, (String)request.getSession().getAttribute("login"), "CHANGE_ROLE_WORKFLOW",
+                ProvisionRequest.CHANGE_ROLE_WORKFLOW, provReq.getRequestTitle(), null,
                 null, null, (String)request.getSession().getAttribute("domain"), provReq.getRequestorId() );
 
         auditLog.setRequestId(provReq.getRequestId());
         auditLog.setSessionId(request.getSession().getId());
 
 
-        auditService.addLog(auditLog);
+        auditService.createLog(auditLog);
 
         ModelAndView mav = new ModelAndView(getSuccessView());
         mav.addObject("name", getUserName(provReq) );
@@ -116,7 +114,7 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
 
     }
 
-    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest, ChangeUserAccessCommand identityCmd) {
+    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest, ChangeUserRoleCommand identityCmd) {
         ProvisionRequest req = new ProvisionRequest();
         Date curDate = new Date(System.currentTimeMillis());
         boolean addOperation = false;
@@ -219,7 +217,7 @@ public class ChangeUserAccessController extends AbstractFormWorkflowController {
         RequestApprover reqApprover = getApprover(workflowResourceId, userData);
         req.getRequestApprovers().add(reqApprover);
 
-        notifyApprover(req, reqUser, requestorId, userData);
+        //notifyApprover(req, reqUser, requestorId, userData);
 
         return req;
 

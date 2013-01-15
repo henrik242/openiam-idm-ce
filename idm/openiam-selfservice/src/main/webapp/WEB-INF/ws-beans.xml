@@ -53,7 +53,16 @@
 	  <property name="serviceClass" value="org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService"/>
 	  <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}AuditService"/>
 	</bean>
-	
+
+
+    <bean id="asynchAuditServiceClient" class="org.openiam.idm.srvc.audit.ws.AsynchIdmAuditLogWebService"
+          factory-bean="asynchAuditServiceFactory" factory-method="create"/>
+
+
+    <bean id="asynchAuditServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.audit.ws.AsynchIdmAuditLogWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}AsynchAuditDataService"/>
+    </bean>
 
 
   	   <bean id="provRequestServiceClient" class="org.openiam.idm.srvc.prov.request.ws.RequestWebService" 

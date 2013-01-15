@@ -4,18 +4,18 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 
-public class ChangeUserAccessValidator implements Validator {
+public class ChangeUserRoleValidator implements Validator {
 
 	
 
 
 	public boolean supports(Class cls) {
-		 return ChangeUserAccessCommand.class.equals(cls);
+		 return ChangeUserRoleCommand.class.equals(cls);
 	}
 
 	public void validate(Object cmd, Errors err) {
 
-		ChangeUserAccessCommand identityCommand =  (ChangeUserAccessCommand) cmd;
+		ChangeUserRoleCommand identityCommand =  (ChangeUserRoleCommand) cmd;
 
         boolean selectedItem = false;
 

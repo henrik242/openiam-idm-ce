@@ -35,7 +35,7 @@ public class UserDAOImpl implements UserDAO {
     private static final Log log = LogFactory.getLog(UserDAOImpl.class);
 
     private SessionFactory sessionFactory;
-    private SequenceGenDAO seqGenDao;
+    //private SequenceGenDAO seqGenDao;
     private String emailSearchVal;
     private String phoneSearchVal;
     private Integer maxResultSetSize;
@@ -1402,15 +1402,6 @@ public class UserDAOImpl implements UserDAO {
         List<UserEntity> results = (List<UserEntity>) qry.list();
         return results;
 
-    }
-
-
-    public SequenceGenDAO getSeqGenDao() {
-        return seqGenDao;
-    }
-
-    public void setSeqGenDao(SequenceGenDAO seqGenDao) {
-        this.seqGenDao = seqGenDao;
     }
 
 

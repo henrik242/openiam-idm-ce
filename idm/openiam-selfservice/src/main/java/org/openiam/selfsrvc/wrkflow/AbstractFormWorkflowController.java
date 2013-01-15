@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService;
+import org.openiam.idm.srvc.audit.ws.AsynchIdmAuditLogWebService;
 
 import org.openiam.base.ws.PropertyMap;
 
@@ -60,7 +60,7 @@ public class AbstractFormWorkflowController extends CancellableFormController {
     protected MailService mailService;
     protected RequestWebService provRequestService;
     protected String cancelView;
-    protected IdmAuditLogWebDataService auditService;
+    protected AsynchIdmAuditLogWebService auditService;
 
 
     protected static final Log log = LogFactory.getLog(AbstractFormWorkflowController.class);
@@ -87,22 +87,26 @@ public class AbstractFormWorkflowController extends CancellableFormController {
         return new ModelAndView(new RedirectView(this.getCancelView(), true));
     }
 
-    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest) {
+    protected ProvisionUser buildUserObject(WorkflowRequest wrkFlowRequest) {
+        String personId = wrkFlowRequest.getPersonId();
+        User userData = userManager.getUserWithDependent(personId, true).getUser();
+        ProvisionUser pUser = new ProvisionUser(userData);
+
+        return pUser;
+
+    }
+
+
+    protected ProvisionRequest buildRequest(WorkflowRequest wrkFlowRequest, ProvisionUser pUser){
         ProvisionRequest req = new ProvisionRequest();
         Date curDate = new Date(System.currentTimeMillis());
 
 
         String workflowResourceId = wrkFlowRequest.getWorkflowResId();
-        String personId = wrkFlowRequest.getPersonId();
+
         String requestorId = wrkFlowRequest.getRequestorId();
 
         Resource wrkflowResource = resourceDataService.getResource(workflowResourceId);
-
-        User userData = userManager.getUserWithDependent(personId, true).getUser();
-
-        // put the user information into a consistent object that we can serialize
-        ProvisionUser pUser = new ProvisionUser(userData);
-        String userAsXML = toXML(pUser);
 
         User requestor = userManager.getUserWithDependent(requestorId, false).getUser();
 
@@ -119,31 +123,26 @@ public class AbstractFormWorkflowController extends CancellableFormController {
         req.setRequestorLastName(requestor.getLastName());
 
 
-        req.setRequestTitle(wrkflowResource.getDescription() + " FOR:" + userData.getFirstName() + " " + userData.getLastName());
+        req.setRequestTitle(wrkflowResource.getDescription() + " FOR:" + pUser.getFirstName() + " " + pUser.getLastName());
         req.setRequestReason(wrkFlowRequest.getDescription());
 
 
-        req.setRequestXML(userAsXML);
+        req.setRequestXML(pUser.toXML());
 
         // add a user to the request - this is the person that we are terminating
         Set<RequestUser> reqUserSet = req.getRequestUsers();
         RequestUser reqUser = new RequestUser();
-        reqUser.setFirstName(userData.getFirstName());
-        reqUser.setLastName(userData.getLastName());
-        reqUser.setUserId(userData.getUserId());
-        reqUser.setDeptCd(userData.getDeptCd());
+        reqUser.setFirstName(pUser.getFirstName());
+        reqUser.setLastName(pUser.getLastName());
+        reqUser.setUserId(pUser.getUserId());
+        reqUser.setDeptCd(pUser.getDeptCd());
         reqUserSet.add(reqUser);
 
-
-        RequestApprover reqApprover = getApprover(workflowResourceId, userData);
-        req.getRequestApprovers().add(reqApprover);
-
-        notifyApprover(req, reqUser, requestorId, userData);
-
         return req;
-
-
     }
+
+
+
 
     protected String getUserName(ProvisionRequest req) {
         Set<RequestUser> requestUserSet = req.getRequestUsers();
@@ -220,8 +219,12 @@ public class AbstractFormWorkflowController extends CancellableFormController {
     }
 
 
-    public void notifyApprover(ProvisionRequest pReq, RequestUser reqUser, String requestorId,
-                                User usr) {
+    public void notifyApprover(ProvisionRequest pReq, User usr) {
+
+
+        String requestorId = pReq.getRequestorId();
+
+        RequestUser reqUser = pReq.getFirstRequestUser();
 
         // requestor information
         //  User approver = userMgr.getUserWithDependent(approverUserId, false).getUser();
@@ -231,15 +234,19 @@ public class AbstractFormWorkflowController extends CancellableFormController {
 
             User requestor = userManager.getUserWithDependent(requestorId, false).getUser();
 
+
             if (!"ROLE".equalsIgnoreCase(ra.getApproverType())) {
                 // approver type is either User or Supervisor
+
+                User approver = userManager.getUserWithDependent(ra.getApproverId(), false).getUser();
+
                 HashMap<String, String> mailParameters = new HashMap<String, String>();
                 mailParameters.put(MailTemplateParameters.USER_ID.value(), ra.getApproverId());
                 mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), pReq.getRequestId());
                 mailParameters.put(MailTemplateParameters.REQUESTER.value(), requestor.getFirstName() + " " + requestor.getLastName());
                 mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
                 mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
-
+                mailParameters.put(MailTemplateParameters.TO.value(), approver.getEmail()) ;
                 mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
 
 
@@ -262,12 +269,14 @@ public class AbstractFormWorkflowController extends CancellableFormController {
                 if (roleApprovers != null && !roleApprovers.isEmpty()) {
                     for (User u : roleApprovers) {
 
+
                         HashMap<String, String> mailParameters = new HashMap<String, String>();
                         mailParameters.put(MailTemplateParameters.USER_ID.value(), u.getUserId());
                         mailParameters.put(MailTemplateParameters.REQUEST_ID.value(), pReq.getRequestId());
                         mailParameters.put(MailTemplateParameters.REQUESTER.value(), usr.getFirstName() + " " + usr.getLastName());
                         mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestReason());
                         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
+                        mailParameters.put(MailTemplateParameters.TO.value(), u.getEmail()) ;
 
                         mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
 
@@ -352,11 +361,11 @@ public class AbstractFormWorkflowController extends CancellableFormController {
         this.provRequestService = provRequestService;
     }
 
-    public IdmAuditLogWebDataService getAuditService() {
+    public AsynchIdmAuditLogWebService getAuditService() {
         return auditService;
     }
 
-    public void setAuditService(IdmAuditLogWebDataService auditService) {
+    public void setAuditService(AsynchIdmAuditLogWebService auditService) {
         this.auditService = auditService;
     }
 }

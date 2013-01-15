@@ -115,14 +115,20 @@
          <property name="workflowApprovalMap">
              <map>
                  <entry key="260" value="org.openiam.selfsrvc.wrkflow.newuser.CompleteNewUserRequest" />
-                 <entry key="261" value="org.openiam.selfsrvc.wrkflow.terminate.CompleteTerminateRequest" />
-                 <entry key="262" value="org.openiam.selfsrvc.wrkflow.changeacc.CompleteChangeAccessRequest" />
+                 <entry key="261" value="org.openiam.selfsrvc.wrkflow.terminate.CompleteUserStatusRequest" />
+                 <entry key="262" value="org.openiam.selfsrvc.wrkflow.changeacc.CompleteChangeRoleRequest" />
                  <entry key="255" value="org.openiam.selfsrvc.wrkflow.selfreg.CompleteSelfRegistrationRequest" />
+
+                 <entry key="263" value="org.openiam.selfsrvc.wrkflow.reorg.ReOrgUserRequest" />
+                 <entry key="264" value="org.openiam.selfsrvc.wrkflow.changeacc.CompleteChangeApplicationRequest" />
+                 <entry key="265" value="org.openiam.selfsrvc.wrkflow.changeacc.CompleteChangeGroupRequest" />
+
              </map>
          </property>
 
      </bean>
-    
+
+
     <!-- User Profile Controller  -->
     <bean id="profile" class="org.openiam.selfsrvc.profile.ProfileController">
      	<property name="sessionForm"><value>true</value></property>
@@ -458,11 +464,14 @@
         <property name="workflowUrl">
             <map>
                 <entry key="260" value="newHire.selfserve" />
-                <entry key="261" value="terminateUser.selfserve" />
-                <entry key="262" value="changeUserAccess.selfserve" />
+                <entry key="261" value="changeUserStatus.selfserve" />
+                <entry key="262" value="changeRoleAccess.selfserve" />
+                <entry key="263" value="reOrgUserAccess.selfserve" />
+                <entry key="264" value="changeApplicationAccess.selfserve" />
+                <entry key="265" value="changeGroupAccess.selfserve" />
             </map>
         </property>
-		
+
      </bean>
      <bean id="changeAccessValidator" class="org.openiam.selfsrvc.prov.ChangeAccessValidator">
      	<property name="userMgr" ref="userServiceClient" />
@@ -506,26 +515,31 @@
         <!-- CE Workflow type of controller  -->
 
 
-    <bean id="startTerminateFlow" class="org.openiam.selfsrvc.wrkflow.terminate.TerminateUserController">
-        <property name="view" value="/priv/flow/startTerminate" />
-        <property name="viewErr" value="/priv/flow/startTerminateFail" />
+    <bean id="startChangeStatusFlow" class="org.openiam.selfsrvc.wrkflow.terminate.ChangeUserStatusController">
+        <property name="sessionForm"> <value>true</value></property>
+        <property name="commandName" value="changeUserStatus" />
+        <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.terminate.ChangeUserStatusCommand" />
+        <property name="formView" value="/priv/flow/changeUserStatus" />
+        <property name="successView" value="/priv/flow/submitchangereq" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
         <property name="provRequestService" ref="provRequestServiceClient" />
         <property name="userManager" ref="userServiceClient" />
         <property name="resourceDataService" ref="resourceServiceClient" />
         <property name="managedSysService" ref="managedSysServiceClient" />
         <property name="mailService" ref="mailServiceClient" />
+        <property name="auditService" ref="asynchAuditServiceClient" />
     </bean>
 
 
-    <bean id="startChangeUserAccess" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessController">
+    <bean id="startChangeRoleAccess" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserRoleController">
         <property name="sessionForm"><value>true</value></property>
         <property name="commandName" value="changeUserAccess" />
-        <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessCommand" />
+        <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserRoleCommand" />
         <property name="formView" value="/priv/flow/changeUserAccess" />
         <property name="successView" value="/priv/flow/submitchangereq" />
         <property name="cancelView" value="/welcomePage.selfserve" />
-        <property name="auditService" ref="auditServiceClient" />
-        <property name="validator" ref="changeUserAccessValidator" />
+        <property name="auditService" ref="asynchAuditServiceClient" />
+        <property name="validator" ref="changeUserRoleValidator" />
         <property name="roleDataService" ref="roleServiceClient" />
         <property name="resourceDataService" ref="resourceServiceClient" />
         <property name="groupManager" ref="groupServiceClient" />
@@ -536,7 +550,7 @@
 
     </bean>
 
-    <bean id="changeUserAccessValidator" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserAccessValidator">
+    <bean id="changeUserRoleValidator" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserRoleValidator">
     </bean>
 
 
@@ -766,8 +780,8 @@
 
                 <prop key="/myIdentityDetail.selfserve">myIdentityDetailView</prop>
                 <prop key="/myIdentityList.selfserve">myIdentityList</prop>
-                <prop key="/terminateUser.selfserve">startTerminateFlow</prop>
-                <prop key="/changeUserAccess.selfserve">startChangeUserAccess</prop>
+                <prop key="/changeUserStatus.selfserve">startChangeStatusFlow</prop>
+                <prop key="/changeRoleAccess.selfserve">startChangeRoleAccess</prop>
   
                 
             </props>
