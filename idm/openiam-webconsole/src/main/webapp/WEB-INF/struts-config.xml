@@ -33,7 +33,8 @@
            <form-property name="attributeName" type="java.lang.String"/>
            <form-property name="attributeValue" type="java.lang.String"/>
             <form-property name="principalName" type="java.lang.String"/>
-
+            <form-property name="lastLoginDate" type="java.lang.String"/>
+            
       </form-bean>
        
 

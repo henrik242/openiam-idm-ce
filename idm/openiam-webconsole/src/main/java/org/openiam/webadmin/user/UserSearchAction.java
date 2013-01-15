@@ -49,6 +49,8 @@ import org.openiam.webadmin.admin.AppConfiguration;
 
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.*;
@@ -193,7 +195,15 @@ public class UserSearchAction extends DispatchActionSupport {
 				&& ((String) form.get("lastName")).length() > 0) {
 			search.setLastName(form.get("lastName") + "%");
 		}
-
+		if (form.get("lastLoginDate") != null
+				&& ((String) form.get("lastLoginDate")).length() > 0) {
+			try {
+				search.setLastLoginDate(new SimpleDateFormat("MM/dd/yyyy").parse((String)form.get("lastLoginDate")));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if (form.get("firstName") != null
 				&& ((String) form.get("firstName")).length() > 0) {
 			search.setFirstName(form.get("firstName") + "%");
