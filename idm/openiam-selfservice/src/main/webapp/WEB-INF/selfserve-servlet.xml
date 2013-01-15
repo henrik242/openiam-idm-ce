@@ -535,7 +535,7 @@
         <property name="sessionForm"><value>true</value></property>
         <property name="commandName" value="changeUserAccess" />
         <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserRoleCommand" />
-        <property name="formView" value="/priv/flow/changeUserAccess" />
+        <property name="formView" value="/priv/flow/changeUserRole" />
         <property name="successView" value="/priv/flow/submitchangereq" />
         <property name="cancelView" value="/welcomePage.selfserve" />
         <property name="auditService" ref="asynchAuditServiceClient" />
@@ -551,6 +551,29 @@
     </bean>
 
     <bean id="changeUserRoleValidator" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserRoleValidator">
+    </bean>
+
+
+    <bean id="startChangeGroupAccess" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserGroupController">
+        <property name="sessionForm"><value>true</value></property>
+        <property name="commandName" value="changeUserGroup" />
+        <property name="commandClass" value="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserGroupCommand" />
+        <property name="formView" value="/priv/flow/changeUserGroup" />
+        <property name="successView" value="/priv/flow/submitchangereq" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+        <property name="auditService" ref="asynchAuditServiceClient" />
+        <property name="validator" ref="changeUserGroupValidator" />
+        <property name="roleDataService" ref="roleServiceClient" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="groupManager" ref="groupServiceClient" />
+        <property name="provRequestService" ref="provRequestServiceClient" />
+        <property name="userManager" ref="userServiceClient" />
+        <property name="managedSysService" ref="managedSysServiceClient" />
+        <property name="mailService" ref="mailServiceClient" />
+
+    </bean>
+
+    <bean id="changeUserGroupValidator" class="org.openiam.selfsrvc.wrkflow.changeacc.ChangeUserGroupValidator">
     </bean>
 
 
@@ -728,6 +751,18 @@
     </bean>
 
 
+    <bean id="myexample" class="org.openiam.selfsrvc.example.FormExampleController">
+        <property name="successView" value="/priv/example" />
+        <property name="commandName" value="exampleCmd" />
+        <property name="commandClass" value="org.openiam.selfsrvc.example.FormExampleCommand" />
+        <property name="formView" value="/priv/example" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+
+        <property name="groupManager" ref="groupServiceClient" />
+
+
+    </bean>
+
 
 
 
@@ -782,7 +817,9 @@
                 <prop key="/myIdentityList.selfserve">myIdentityList</prop>
                 <prop key="/changeUserStatus.selfserve">startChangeStatusFlow</prop>
                 <prop key="/changeRoleAccess.selfserve">startChangeRoleAccess</prop>
-  
+                <prop key="/changeGroupAccess.selfserve">startChangeGroupAccess</prop>
+
+                <prop key="/myexample.selfserve">myexample</prop>
                 
             </props>
         </property>

@@ -118,6 +118,13 @@ public class RequestDetailController extends CancellableFormController implement
             if (pUser != null) {
                 // if this is an existing user, then get their details
                 // check if this is change access request - clean up
+                if (ProvisionRequest.CHANGE_GROUP_WORKFLOW.equals(req.getRequestType())) {
+                    groupMembership(pUser.getMemberOfGroups(), reqDetailCommand);
+                    roleMembership(pUser.getMemberOfRoles(), reqDetailCommand);
+                    resourceMembership(pUser.getUserResourceList(), reqDetailCommand);
+
+                }
+
                 if (ProvisionRequest.CHANGE_ROLE_WORKFLOW.equals(req.getRequestType())) {
                     groupMembership(pUser.getMemberOfGroups(), reqDetailCommand);
                     roleMembership(pUser.getMemberOfRoles(), reqDetailCommand);
