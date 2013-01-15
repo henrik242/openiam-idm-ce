@@ -1,5 +1,7 @@
 package org.openiam.idm.srvc.synch.dto;
 
+import java.util.Date;
+
 /**
  * BulkMigrationConfig defines the parameters that are to be used for migrating user to and from resources and roles
  * User: suneetshah
@@ -36,13 +38,15 @@ public class BulkMigrationConfig {
 
     private String requestorLogin;
 
+    private Date lastLoginDate;
+    
     public BulkMigrationConfig() {
 
     }
 
     public BulkMigrationConfig(String lastName, String organizationId, String deptId,
                                String division, String attributeName, String attributeValue,
-                               String userStatus, String operation, String targetRole, String targetResource) {
+                               String userStatus, String operation, String targetRole, String targetResource, Date lastLoginDate) {
         this.lastName = lastName;
         this.organizationId = organizationId;
         this.deptId = deptId;
@@ -53,6 +57,7 @@ public class BulkMigrationConfig {
         this.operation = operation;
         this.targetRole = targetRole;
         this.targetResource = targetResource;
+        this.lastLoginDate = lastLoginDate;
     }
 
     public String getLastName() {
@@ -176,4 +181,12 @@ public class BulkMigrationConfig {
     public void setMaxResultSize(Integer maxResultSize) {
         this.maxResultSize = maxResultSize;
     }
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
 }

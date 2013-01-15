@@ -34,7 +34,9 @@ public class UserSearchUtils {
         if (config.getUserStatus() != null ) {
             search.setStatus(config.getUserStatus().toString());
         }
-
+        if (config.getLastLoginDate() != null ) {
+            search.setLastLoginDate(config.getLastLoginDate());
+        }
         // allow selection by a role
         if (config.getRole() != null && !config.getRole().isEmpty())     {
             String r = config.getRole();
