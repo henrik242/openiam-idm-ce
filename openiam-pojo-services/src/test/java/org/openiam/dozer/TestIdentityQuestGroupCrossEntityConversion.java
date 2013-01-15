@@ -53,8 +53,7 @@ public class TestIdentityQuestGroupCrossEntityConversion extends AbstractTestNGS
         Assert.assertEquals(address.getCreatedBy(), entity.getCreatedBy());
         Assert.assertEquals(address.getLastUpdate(), entity.getLastUpdate());
         Assert.assertEquals(address.getLastUpdatedBy(), entity.getLastUpdatedBy());
-        Assert.assertEquals(address.getIdentityQuestions(), entity.getIdentityQuestions());
-        
+
         if(isDeep) {
            // Assert.assertEquals(address.getParentId(), entity.getParent().getUserId());
         }

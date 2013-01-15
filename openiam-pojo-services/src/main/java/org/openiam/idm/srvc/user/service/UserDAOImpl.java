@@ -35,7 +35,7 @@ public class UserDAOImpl implements UserDAO {
     private static final Log log = LogFactory.getLog(UserDAOImpl.class);
 
     private SessionFactory sessionFactory;
-    private SequenceGenDAO seqGenDao;
+    //private SequenceGenDAO seqGenDao;
     private String emailSearchVal;
     private String phoneSearchVal;
     private Integer maxResultSetSize;
@@ -317,7 +317,7 @@ public class UserDAOImpl implements UserDAO {
 
         boolean zipCode = false;
         boolean dateOfBirth = false;
-
+        boolean lastLoginDate = false;
         boolean bOrgIdList = false;
         boolean bDeptIdList = false;
         boolean bDivIdList = false;
@@ -429,7 +429,13 @@ public class UserDAOImpl implements UserDAO {
             dateOfBirth = true;
         }
 
-
+        if (search.getLastLoginDate() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" (lg.LAST_LOGIN <= :lastLoginDate OR lg.LAST_LOGIN IS NULL)");
+            lastLoginDate = true;
+        }
         if (search.getZipCode() != null) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -639,7 +645,9 @@ public class UserDAOImpl implements UserDAO {
         if (dateOfBirth) {
             qry.setDate("dateOfBirth", search.getDateOfBirth());
         }
-
+        if (lastLoginDate) {
+            qry.setDate("lastLoginDate", search.getLastLoginDate());
+        }
         if (zipCode) {
             qry.setString("zipCode", search.getZipCode());
         }
@@ -813,6 +821,7 @@ public class UserDAOImpl implements UserDAO {
         boolean startDate = false;
         boolean lastDate = false;
         boolean dateOfBirth = false;
+        boolean lastLoginDate = false;
 
         boolean bOrgIdList = false;
         boolean bDeptIdList = false;
@@ -917,6 +926,13 @@ public class UserDAOImpl implements UserDAO {
             }
             where.append(" u.BIRTHDATE = :dateOfBirth ");
             dateOfBirth = true;
+        }
+        if (search.getLastLoginDate() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" (lg.LAST_LOGIN <= :lastLoginDate OR lg.LAST_LOGIN IS NULL)");
+            lastLoginDate = true;
         }
 
 
@@ -1203,6 +1219,9 @@ public class UserDAOImpl implements UserDAO {
         if (dateOfBirth) {
             qry.setDate("dateOfBirth", search.getDateOfBirth());
         }
+        if (lastLoginDate) {
+            qry.setDate("lastLoginDate", search.getLastLoginDate());
+        }
         if (zipCode) {
             qry.setString("zipCode", search.getZipCode());
         }
@@ -1402,15 +1421,6 @@ public class UserDAOImpl implements UserDAO {
         List<UserEntity> results = (List<UserEntity>) qry.list();
         return results;
 
-    }
-
-
-    public SequenceGenDAO getSeqGenDao() {
-        return seqGenDao;
-    }
-
-    public void setSeqGenDao(SequenceGenDAO seqGenDao) {
-        this.seqGenDao = seqGenDao;
     }
 
 

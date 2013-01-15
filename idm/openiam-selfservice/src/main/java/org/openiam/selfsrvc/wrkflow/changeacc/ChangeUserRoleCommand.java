@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author suneet
  */
-public class ChangeUserAccessCommand implements Serializable {
+public class ChangeUserRoleCommand implements Serializable {
 
     private String operation;
     private String roleId;

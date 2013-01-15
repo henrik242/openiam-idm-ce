@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.dozer.converter.UserDozerConverter;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.auth.dto.Login;
@@ -68,6 +69,8 @@ public class PasswordValidatorImpl implements PasswordValidator {
 
     @Autowired
     private UserDozerConverter userDozerConverter;
+    @Autowired
+    private PasswordHistoryDozerConverter passwordHistoryDozerConverter;
 
 	public PasswordValidatorImpl() {
 		
@@ -149,6 +152,7 @@ public class PasswordValidatorImpl implements PasswordValidator {
                     rule.setPolicy(pswdPolicy);
                     rule.setPasswordHistoryDao(passwordHistoryDao);
                     rule.setCryptor(cryptor);
+                    rule.setPasswordHistoryDozerConverter(passwordHistoryDozerConverter);
                     // -- check if valid
                     PasswordValidationCode retval = rule.isValid();
 

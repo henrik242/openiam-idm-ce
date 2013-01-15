@@ -21,6 +21,7 @@
  */
 package org.openiam.provision.dto;
 
+import com.thoughtworks.xstream.XStream;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.grp.dto.Group;
@@ -185,6 +186,10 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     }
 
+    /**
+     * Extract a user object from the ProvisionUser object
+     * @return
+     */
     public User getUser() {
         User user = new User();
 
@@ -455,5 +460,10 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
 
     public void setSkipPostProcessor(boolean skipPostProcessor) {
         this.skipPostProcessor = skipPostProcessor;
+    }
+
+    public String toXML() {
+        XStream xstream = new XStream();
+        return xstream.toXML(this);
     }
 }

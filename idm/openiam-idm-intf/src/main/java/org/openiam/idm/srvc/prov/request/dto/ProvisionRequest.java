@@ -36,7 +36,7 @@ import org.openiam.idm.srvc.user.dto.User;
     "requestUsers",
     "requestForOrgId",
     "requestTitle",
-        "workflowName"
+    "workflowName"
 })
 public class ProvisionRequest implements java.io.Serializable , Comparable<ProvisionRequest> {
 
@@ -71,13 +71,34 @@ public class ProvisionRequest implements java.io.Serializable , Comparable<Provi
 	protected Set<RequestUser> requestUsers = new HashSet<RequestUser>(0);
 
     public static final String NEW_USER_WORKFLOW = "260";
-    public static final String TERMINATE_USER_WORKFLOW = "261";
-    public static final String CHANGE_ACCESS_WORKFLOW = "262";
+    public static final String CHANGE_USER_STATUS_WORKFLOW = "261";
+    public static final String CHANGE_ROLE_WORKFLOW = "262";
+    public static final String MODIFY_USER_ORG_WORKFLOW = "263";
     public static final String SELF_REGISTRATION_WORKFLOW = "255";
+    public static final String CHANGE_APPLICATION_WORKFLOW = "264";
+    public static final String CHANGE_GROUP_WORKFLOW = "265";
+
 
 
 	public ProvisionRequest() {
 	}
+
+
+    public RequestUser getFirstRequestUser() {
+
+        if (requestUsers == null || requestUsers.isEmpty() ) {
+
+            return null;
+        }
+
+        for (RequestUser ru : requestUsers) {
+            return ru;
+
+        }
+        return null;
+
+
+    }
 
 
     public int compareTo(ProvisionRequest o) {

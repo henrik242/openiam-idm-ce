@@ -7,6 +7,7 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -50,6 +51,8 @@ public class BulkProvisioningCommand implements Serializable {
     private List<NotificationDto> notifications = Collections.EMPTY_LIST;
     private String selectedNotificationName;
 
+    private Date lastLoginDate; 
+    
     public String getLastName() {
         return lastName;
     }
@@ -170,7 +173,10 @@ public class BulkProvisioningCommand implements Serializable {
 
         }
 
+        if ( lastLoginDate != null ) {
+            return true;
 
+        }
         if (userStatus != null) {
             return true;
         }
@@ -214,7 +220,7 @@ public class BulkProvisioningCommand implements Serializable {
 
         BulkMigrationConfig config = new BulkMigrationConfig(lastName, companyId, deptId,
                 division, attributeName, attributeValue,
-                null,operation, targetRole, targetResource);
+                null,operation, targetRole, targetResource, lastLoginDate);
 
         if ( userStatus != null) {
             config.setUserStatus(userStatus.toString());
@@ -260,6 +266,13 @@ public class BulkProvisioningCommand implements Serializable {
     public void setSelectedUserIds(List<String> selectedUserIds) {
         this.selectedUserIds = selectedUserIds;
     }
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
 
 }
 

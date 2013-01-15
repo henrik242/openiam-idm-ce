@@ -4,13 +4,28 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * MailSenderUtils provides methods to help replace template place holders with actual values.
+ *
+ * Example: If we have have the following string:
+ * String tmplBody = "Dear [firstName] [lastName]: \n\n";
+ *
+ * ParseBody will replace [firstName] with a person firstName.
+ *
+ */
 public class MailSenderUtils {
 
     public static String parseBody(final String body, final Map<String, String> mailParams) {
         String bodyCp = body;
         for(Map.Entry<String,String> entry : mailParams.entrySet()) {
             String pattern = "\\["+entry.getKey()+"\\]";
-            bodyCp = bodyCp.replaceAll(pattern, Matcher.quoteReplacement(entry.getValue()));
+            // null value will cause the replacement method fail.
+            if ( entry.getValue() != null ) {
+                bodyCp = bodyCp.replaceAll(pattern, Matcher.quoteReplacement(entry.getValue()));
+            } else {
+                // dummy value to highlight that there is a problem
+                bodyCp = bodyCp.replaceAll(pattern, Matcher.quoteReplacement("#NO VALUE#"));
+            }
         }
         return bodyCp;
     }

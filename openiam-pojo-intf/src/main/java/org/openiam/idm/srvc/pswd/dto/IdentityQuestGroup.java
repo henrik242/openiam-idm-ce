@@ -19,24 +19,6 @@ package org.openiam.idm.srvc.pswd.dto;
 
 
 
-import javax.annotation.Generated;
-import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -60,8 +42,7 @@ import org.openiam.idm.srvc.pswd.domain.IdentityQuestGroupEntity;
         "createDate",
         "createdBy",
         "lastUpdate",
-        "lastUpdatedBy",
-        "identityQuestions"
+        "lastUpdatedBy"
 })
 
 
@@ -82,8 +63,6 @@ public class IdentityQuestGroup extends org.openiam.base.BaseObject implements j
     @XmlSchemaType(name = "dateTime")
     protected Date lastUpdate;
     protected String lastUpdatedBy;
-    protected Set<IdentityQuestion> identityQuestions = new HashSet<IdentityQuestion>(
-            0);
 
     public IdentityQuestGroup() {
     }
@@ -94,8 +73,7 @@ public class IdentityQuestGroup extends org.openiam.base.BaseObject implements j
 
     public IdentityQuestGroup(String identityQuestGrpId, String name,
                               String status, String companyOwnerId, Date createDate,
-                              String createdBy, Date lastUpdate, String lastUpdatedBy,
-                              Set<IdentityQuestion> identityQuestions) {
+                              String createdBy, Date lastUpdate, String lastUpdatedBy) {
         this.identityQuestGrpId = identityQuestGrpId;
         this.name = name;
         this.status = status;
@@ -104,7 +82,6 @@ public class IdentityQuestGroup extends org.openiam.base.BaseObject implements j
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
-        this.identityQuestions = identityQuestions;
     }
    
     public String getIdentityQuestGrpId() {
@@ -171,12 +148,5 @@ public class IdentityQuestGroup extends org.openiam.base.BaseObject implements j
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public Set<IdentityQuestion> getIdentityQuestions() {
-        return this.identityQuestions;
-    }
-
-    public void setIdentityQuestions(Set<IdentityQuestion> identityQuestions) {
-        this.identityQuestions = identityQuestions;
-    }
 
 }

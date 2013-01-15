@@ -18,7 +18,7 @@ import java.util.Set;
  * Class process either an approval or rejection when a request is made to terminate a user.
  * User: suneetshah
  */
-public class CompleteTerminateRequest extends AbstractCompleteRequest {
+public class CompleteUserStatusRequest extends AbstractCompleteRequest {
 
     public static final String TERMINATE_REQUEST_APPROVED_NOTIFICATION = "REQUEST_APPROVED";
     public static final String REQUEST_REJECTED_NOTIFICATION = "REQUEST_REJECTED";
@@ -26,7 +26,6 @@ public class CompleteTerminateRequest extends AbstractCompleteRequest {
     public void approveRequest(ProvisionUser pUser, ProvisionRequest req, String approverUserId ) {
 
 
-        pUser.setStatus(UserStatusEnum.TERMINATE);
         ProvisionUserResponse resp =  provisionService.modifyUser(pUser);
 
         approve(resp.getUser(),req, approverUserId);
