@@ -124,6 +124,15 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><label for="username" class="attribute">Not logged in since</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue">
+                                        <form:input path="lastLoginDate" size="35" maxlength="40"  />(MM/dd/yyyy)
+                                        <form:errors path="lastLoginDate" cssClass="error" />
+                                    </td>
+
+                                </tr>
+
+                                <tr>
                                     <td colspan="4" align ="right"  >
                                         <input type="submit" name="_target1" value="Next"/>
                                         <input type="submit" name="_cancel" value="Cancel" />

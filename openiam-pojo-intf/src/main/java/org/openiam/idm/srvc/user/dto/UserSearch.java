@@ -70,6 +70,7 @@ import java.util.List;
         "lastDate",
         "dateOfBirth",
         "zipCode",
+        "lastLoginDate",
         "orgIdList",
         "deptIdList",
         "divisionIdList",
@@ -114,6 +115,8 @@ public class UserSearch implements Serializable {
     @XmlSchemaType(name = "dateTime")
     protected Date dateOfBirth;
     protected String zipCode;
+    @XmlSchemaType(name = "dateTime")
+    protected Date lastLoginDate;
 
     protected String loggedIn = null;
 
@@ -148,7 +151,7 @@ public class UserSearch implements Serializable {
                 (zipCode == null || zipCode.length() == 0) &&
                 (startDate == null) &&
                 (dateOfBirth == null) &&
-                (lastDate == null)) {
+                (lastDate == null) && (lastLoginDate == null) ) {
             retval = true;
         }
 
@@ -444,4 +447,12 @@ public class UserSearch implements Serializable {
     public void setDivisionIdList(List<String> divisionIdList) {
         this.divisionIdList = divisionIdList;
     }
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
 }

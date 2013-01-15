@@ -141,6 +141,13 @@
 			        	   <html:text property="attributeValue" size="40" maxlength="40" />
 			         </td>                    
 			   </tr>
+			    <tr>
+                                    <td><label for="username" class="attribute">Not logged in since</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue">
+                                        <html:text property="lastLoginDate"  size="30" maxlength="30" />(MM/dd/yyyy)
+                                    </td>
+
+                                </tr>
 			   <tr>
 			          <td colspan="4" align ="right"  >
 			              <input type="submit" name="Search" value="Search">
