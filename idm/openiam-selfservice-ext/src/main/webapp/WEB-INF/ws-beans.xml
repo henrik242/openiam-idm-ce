@@ -88,4 +88,14 @@
         <property name="serviceClass" value="org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService"/>
         <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}ManagedSystemWebService"/>
     </bean>
+
+    <!-- Provision Service -->
+    <bean id="provisionServiceClient" class="org.openiam.provision.service.ProvisionService"
+          factory-bean="defaultProvisionServiceFactory" factory-method="create"/>
+
+
+    <bean id="defaultProvisionServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.provision.service.ProvisionService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}/ProvisioningService"/>
+    </bean>
 </beans>

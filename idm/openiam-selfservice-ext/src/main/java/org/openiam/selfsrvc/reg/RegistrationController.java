@@ -301,9 +301,11 @@ public class RegistrationController {
         em1.setParentType(ContactConstants.PARENT_TYPE_USER);
         em1.setName("EMAIL1");
         user.setEmail(command.getEmail1());
+        user.getEmailAddresses().add(em1);
         user.setStatus(UserStatusEnum.PENDING_APPROVAL);
         return user;
     }
+
     private Phone buildPhone(ProvisionUser usr, String name,
                              String areaCode, String phone) {
         Phone ph = new Phone();
@@ -317,13 +319,9 @@ public class RegistrationController {
 
         return ph;
     }
+
     private void setPhone(RegistrationCommand cmd, ProvisionUser usr) {
-        //	Set<Phone> phSet = usr.getPhone();
-
-        // add obbject
-
-
-        Phone ph = buildPhone(usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
+       Phone ph = buildPhone(usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
         if (cmd.getWorkPhone() != null && cmd.getWorkPhone().length() > 0) {
             ph.setPhoneId(cmd.getWorkPhone());
         }
