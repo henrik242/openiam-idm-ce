@@ -3,7 +3,6 @@ package org.openiam.selfsrvc.wrkflow.changeacc;
 
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
-import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestApprover;
 import org.openiam.provision.dto.ProvisionUser;
@@ -11,6 +10,8 @@ import org.openiam.selfsrvc.wrkflow.AbstractFormWorkflowController;
 import org.openiam.selfsrvc.wrkflow.WorkflowRequest;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.provision.dto.UserResourceAssociation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 
-public class ChangeUserGroupController extends AbstractFormWorkflowController {
+public class ChangeUserResourceController extends AbstractFormWorkflowController {
 
 
-    public ChangeUserGroupController() {
+    public ChangeUserResourceController() {
         super();
     }
 
@@ -35,11 +36,11 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
 
     protected Map loadResourceInformation(HttpServletRequest request) {
 
-        List<Group> groupList = groupManager.getAllGroups().getGroupList();
+        List<Resource> resourceList = resourceDataService.getResourcesByType("MANAGED_SYS");
 
         Map model = new HashMap();
 
-        model.put("groupList", groupList);
+        model.put("resourceList", resourceList);
 
 
         return model;
@@ -50,7 +51,7 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
 
-        ChangeUserGroupCommand cmd = new ChangeUserGroupCommand();
+        ChangeUserResourceCommand cmd = new ChangeUserResourceCommand();
 
 
         WorkflowRequest wrkFlowRequest = (WorkflowRequest) request.getSession().getAttribute("wrkflowRequest");
@@ -58,8 +59,6 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
 
             String personId = wrkFlowRequest.getPersonId();
             cmd.setSelectedUser(userManager.getUserWithDependent(personId, false).getUser());
-            cmd.setCurrentGroupMemberships(groupManager.getUserInGroupsAsFlatList(personId).getGroupList());
-
 
         }
 
@@ -72,23 +71,25 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-        HttpSession session = request.getSession();
 
-        ChangeUserGroupCommand identityCmd = (ChangeUserGroupCommand) command;
+        ChangeUserResourceCommand identityCmd = (ChangeUserResourceCommand) command;
 
         WorkflowRequest wrkFlowRequest = (WorkflowRequest) request.getSession().getAttribute("wrkflowRequest");
 
-        ProvisionRequest provReq = createRequest(wrkFlowRequest, identityCmd);
+
+        ProvisionRequest provReq = createRequest(wrkFlowRequest,identityCmd);
 
         provRequestService.addRequest(provReq);
+
+
         // implementation pending
 
         IdmAuditLog auditLog = new IdmAuditLog(
                 new Date(System.currentTimeMillis()), "PENDING_REQUEST",
                 "SUCCESS", null, null,
                 request.getRemoteHost(), 1, null, null,
-                null, (String) request.getSession().getAttribute("login"), "CHANGE_GROUP_WORKFLOW",
-                ProvisionRequest.CHANGE_GROUP_WORKFLOW, provReq.getRequestTitle(), null,
+                null, (String) request.getSession().getAttribute("login"), "CHANGE_APPLICATION_WORKFLOW",
+                ProvisionRequest.CHANGE_APPLICATION_WORKFLOW, provReq.getRequestTitle(), null,
                 null, null, (String) request.getSession().getAttribute("domain"), provReq.getRequestorId());
 
         auditLog.setRequestId(provReq.getRequestId());
@@ -104,7 +105,7 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
 
     }
 
-    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest, ChangeUserGroupCommand cmd) {
+    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest, ChangeUserResourceCommand cmd) {
 
         boolean addOperation = false;
 
@@ -115,23 +116,26 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
 
         ProvisionUser pUser = buildUserObject(wrkFlowRequest);
 
-        if (cmd.getGroupId() != null && !cmd.getGroupId().isEmpty()) {
+        if ( cmd.getResourceId() != null && !cmd.getResourceId().isEmpty()) {
 
-
-            Group g = new Group();
+            UserResourceAssociation ura = new UserResourceAssociation();
+            ura.setResourceId(cmd.getResourceId());
             if (addOperation) {
-                g.setOperation(AttributeOperationEnum.ADD);
-            } else {
-                g.setOperation(AttributeOperationEnum.DELETE);
+                ura.setOperation(AttributeOperationEnum.ADD);
+            }else {
+                ura.setOperation(AttributeOperationEnum.DELETE);
             }
-            g.setGrpId(cmd.getGroupId());
+            Resource res = resourceDataService.getResource(cmd.getResourceId());
 
-            List<Group> groupList = new ArrayList<Group>();
-            groupList.add(g);
+            ura.setManagedSystemId(res.getManagedSysId());
+            ura.setResourceName(res.getName());
 
-            pUser.setMemberOfGroups(groupList);
+            List<UserResourceAssociation> uraList = new ArrayList<UserResourceAssociation>();
+            uraList.add(ura);
 
+            pUser.setUserResourceList(uraList);
         }
+
 
 
         ProvisionRequest pReq = buildRequest(wrkFlowRequest, pUser);
@@ -149,3 +153,5 @@ public class ChangeUserGroupController extends AbstractFormWorkflowController {
 
 
 }
+
+

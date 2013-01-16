@@ -79,6 +79,10 @@ public class CompleteChangeGroupRequest extends AbstractCompleteRequest {
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), password);
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), targetUserName);
 
+        User notifyUser = userManager.getUserWithDependent(notifyUserId,false).getUser();
+        mailParameters.put(MailTemplateParameters.TO.value(), notifyUser.getEmail() );
+
+
         mailService.sendNotification(REQUEST_APPROVED_NOTIFICATION, new PropertyMap(mailParameters));
     }
 

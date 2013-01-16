@@ -46,19 +46,12 @@ public class ChangeUserRoleController extends AbstractFormWorkflowController {
         log.info("referenceData called.");
 
         HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
 
         List<Role> roleList = roleDataService.getAllRoles().getRoleList();
-        List<Resource> resourceList = resourceDataService.getResourcesByType("MANAGED_SYS");
-        List<Group> groupList = groupManager.getAllGroups().getGroupList();
-
 
         Map model = new HashMap();
 
         model.put("roleList", roleList);
-        model.put("resourceList", resourceList);
-        model.put("groupList", groupList);
-
 
         return model;
 
@@ -70,13 +63,20 @@ public class ChangeUserRoleController extends AbstractFormWorkflowController {
 
         ChangeUserRoleCommand cmd = new ChangeUserRoleCommand();
 
+        WorkflowRequest wrkFlowRequest = (WorkflowRequest) request.getSession().getAttribute("wrkflowRequest");
+        if ( wrkFlowRequest != null) {
+
+            String personId = wrkFlowRequest.getPersonId();
+            cmd.setSelectedUser(userManager.getUserWithDependent(personId, false).getUser());
+            cmd.setCurrentRoleMemberships(roleDataService.getUserRolesAsFlatList(personId).getRoleList());
+
+
+        }
 
         return cmd;
 
 
     }
-
-
 
 
     @Override
@@ -114,115 +114,41 @@ public class ChangeUserRoleController extends AbstractFormWorkflowController {
 
     }
 
-    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest, ChangeUserRoleCommand identityCmd) {
-        ProvisionRequest req = new ProvisionRequest();
-        Date curDate = new Date(System.currentTimeMillis());
+    protected ProvisionRequest createRequest(WorkflowRequest wrkFlowRequest, ChangeUserRoleCommand cmd) {
+
         boolean addOperation = false;
 
-        String workflowResourceId = wrkFlowRequest.getWorkflowResId();
-        String personId = wrkFlowRequest.getPersonId();
-        String requestorId = wrkFlowRequest.getRequestorId();
-
-        Resource wrkflowResource = resourceDataService.getResource(workflowResourceId);
-
-        User userData = userManager.getUserWithDependent(personId, true).getUser();
-
-        // put the user information into a consistent object that we can serialize
-        ProvisionUser pUser = new ProvisionUser(userData);
-
-
-        // update the object based on the change requests
-        if ( "ADD".equalsIgnoreCase(identityCmd.getOperation())) {
+        if ("ADD".equalsIgnoreCase(cmd.getOperation())) {
             addOperation = true;
 
         }
-        if ( identityCmd.getRoleId() != null && !identityCmd.getRoleId().isEmpty()) {
 
-            pUser.setMemberOfRoles(getRoleList(identityCmd.getRoleId(), addOperation));
+        ProvisionUser pUser = buildUserObject(wrkFlowRequest);
 
-        }
+        if ( cmd.getRoleId() != null && !cmd.getRoleId().isEmpty()) {
 
-        if ( identityCmd.getResourceId() != null && !identityCmd.getResourceId().isEmpty()) {
-
-            UserResourceAssociation ura = new UserResourceAssociation();
-            ura.setResourceId(identityCmd.getResourceId());
-            if (addOperation) {
-                ura.setOperation(AttributeOperationEnum.ADD);
-            }else {
-                ura.setOperation(AttributeOperationEnum.DELETE);
-            }
-            Resource res = resourceDataService.getResource(identityCmd.getResourceId());
-
-            ura.setManagedSystemId(res.getManagedSysId());
-            ura.setResourceName(res.getName());
-
-            List<UserResourceAssociation> uraList = new ArrayList<UserResourceAssociation>();
-            uraList.add(ura);
-
-            pUser.setUserResourceList(uraList);
-        }
-
-        if ( identityCmd.getGroupId() != null && !identityCmd.getGroupId().isEmpty() ) {
-
-
-            Group g = new Group();
-            if (addOperation) {
-                g.setOperation(AttributeOperationEnum.ADD);
-            }else {
-                g.setOperation(AttributeOperationEnum.DELETE);
-            }
-            g.setGrpId(identityCmd.getGroupId());
-
-            List<Group> groupList = new ArrayList<Group>();
-            groupList.add(g);
-
-            pUser.setMemberOfGroups(groupList);
+            pUser.setMemberOfRoles(getRoleList(cmd.getRoleId(), addOperation));
 
         }
 
 
-        String userAsXML = toXML(pUser);
-
-        User requestor = userManager.getUserWithDependent(requestorId, false).getUser();
-
-        // build the request object
-
-        req.setRequestId(null);
-        req.setStatus("PENDING");
-        req.setStatusDate(curDate);
-        req.setRequestDate(curDate);
-        req.setRequestType(workflowResourceId);
-        req.setWorkflowName(wrkflowResource.getName());
-        req.setRequestorId(requestorId);
-        req.setRequestorFirstName(requestor.getFirstName());
-        req.setRequestorLastName(requestor.getLastName());
 
 
-        req.setRequestTitle(wrkflowResource.getDescription() + " FOR:" + userData.getFirstName() + " " + userData.getLastName());
-        req.setRequestReason(wrkFlowRequest.getDescription());
+        ProvisionRequest pReq = buildRequest(wrkFlowRequest, pUser);
 
+        wrkFlowRequest.getWorkflowResId();
 
-        req.setRequestXML(userAsXML);
+        RequestApprover reqApprover = getApprover(wrkFlowRequest.getWorkflowResId(), pUser);
+        pReq.getRequestApprovers().add(reqApprover);
 
-        // add a user to the request - this is the person that we are terminating
-        Set<RequestUser> reqUserSet = req.getRequestUsers();
-        RequestUser reqUser = new RequestUser();
-        reqUser.setFirstName(userData.getFirstName());
-        reqUser.setLastName(userData.getLastName());
-        reqUser.setUserId(userData.getUserId());
-        reqUser.setDeptCd(userData.getDeptCd());
-        reqUserSet.add(reqUser);
+        notifyApprover(pReq, pUser);
 
-
-        RequestApprover reqApprover = getApprover(workflowResourceId, userData);
-        req.getRequestApprovers().add(reqApprover);
-
-        //notifyApprover(req, reqUser, requestorId, userData);
-
-        return req;
-
+        return pReq;
 
     }
+
+
+
 
 
 

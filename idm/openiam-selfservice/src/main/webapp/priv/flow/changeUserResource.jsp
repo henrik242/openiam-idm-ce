@@ -6,7 +6,7 @@
 
 
 
-<form:form commandName="changeUserRole" cssClass="profile">
+<form:form commandName="changeUserResource" cssClass="profile">
     <fieldset>
         <div class="block">
             <div class="wrap alt">
@@ -21,25 +21,16 @@
                         </form:select>
                     </div>
                     <div class="row">
-                        <label for="t-2">Role Membership:</label>
-                        <form:select path="roleId" multiple="false">
-                            <form:option value="" label="-Please Select-"/>
-                            <c:forEach items="${roleList}" var="role">
-                                <form:option value="${role.id.serviceId}*${role.id.roleId}" label="${role.id.serviceId}-${role.roleName}" />
-                            </c:forEach>
-                        </form:select>
-                        <p><form:errors path="roleId"/></p>
+                        <label for="t-2">Resource / Application:</label>
+                            <form:select path="resourceId" multiple="false">
+                                <form:option value="" label="-Please Select-"/>
+                                <form:options items="${resourceList}" itemValue="resourceId" itemLabel="name"/>
+                            </form:select>
+                            <p><form:errors path="resourceId"/></p>
                     </div>
                 </div>
                 <div class="col">
-                    <!-- show the users current group membership -->
-                    <p> ${changeUserRole.selectedUser.firstName} ${changeUserRole.selectedUser.lastName} is currently a member of the following Roles:</p>
-                    <c:forEach items="${changeUserRole.currentRoleMemberships}" var="role" varStatus="roleStatus">
-                        <div class="row">
-                        ${role.id.serviceId}-${role.roleName}
-                        </div>
 
-                    </c:forEach>
                 </div>
             </div>
         </div>

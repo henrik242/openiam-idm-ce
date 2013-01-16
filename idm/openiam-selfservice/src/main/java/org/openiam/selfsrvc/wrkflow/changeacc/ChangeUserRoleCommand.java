@@ -1,9 +1,10 @@
 package org.openiam.selfsrvc.wrkflow.changeacc;
 
-import org.openiam.idm.srvc.auth.dto.Login;
-import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.user.dto.User;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Command object for the ManageMyIdentityController
@@ -15,8 +16,9 @@ public class ChangeUserRoleCommand implements Serializable {
     private String operation;
     private String roleId;
     private String roleDomain;
-    private String resourceId;
-    private String groupId;
+    private User selectedUser;
+    private List<Role> currentRoleMemberships;
+
 
     public String getOperation() {
         return operation;
@@ -42,19 +44,19 @@ public class ChangeUserRoleCommand implements Serializable {
         this.roleDomain = roleDomain;
     }
 
-    public String getResourceId() {
-        return resourceId;
+    public User getSelectedUser() {
+        return selectedUser;
     }
 
-    public void setResourceId(String resourceId) {
-        this.resourceId = resourceId;
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public List<Role> getCurrentRoleMemberships() {
+        return currentRoleMemberships;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setCurrentRoleMemberships(List<Role> currentRoleMemberships) {
+        this.currentRoleMemberships = currentRoleMemberships;
     }
 }

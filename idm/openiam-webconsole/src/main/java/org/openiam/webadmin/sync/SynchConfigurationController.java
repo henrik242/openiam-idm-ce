@@ -199,9 +199,6 @@ public class SynchConfigurationController extends SimpleFormController {
 		}
 
         if (btn != null && btn.equalsIgnoreCase("Sync Now")) {
-            // check the object type you want to synch and
-            System.out.println("Synch object=" + config.getProcessRule());
-            System.out.println("Synch adapter= " + config.getSynchAdapter());
 
             if (!config.getProcessRule().equalsIgnoreCase("USER") && config.getSynchAdapter().equalsIgnoreCase("CSV")) {
                 // temp hack to be able to Org and role objects from a csv file

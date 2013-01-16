@@ -23,7 +23,7 @@ import java.util.Set;
  * Date: 11/25/12
  * Time: 4:18 PM
  */
-public class CompleteChangeAccessRequest extends AbstractCompleteRequest {
+public class CompleteChangeResourceRequest extends AbstractCompleteRequest {
 
     public static final String REQUEST_REJECTED_NOTIFICATION = "REQUEST_REJECTED";
     public static final String REQUEST_APPROVED_NOTIFICATION = "REQUEST_APPROVED";
@@ -78,6 +78,10 @@ public class CompleteChangeAccessRequest extends AbstractCompleteRequest {
         mailParameters.put(MailTemplateParameters.IDENTITY.value(), identity);
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), password);
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), targetUserName);
+
+        User notifyUser = userManager.getUserWithDependent(notifyUserId,false).getUser();
+        mailParameters.put(MailTemplateParameters.TO.value(), notifyUser.getEmail() );
+
 
         mailService.sendNotification(REQUEST_APPROVED_NOTIFICATION, new PropertyMap(mailParameters));
     }
