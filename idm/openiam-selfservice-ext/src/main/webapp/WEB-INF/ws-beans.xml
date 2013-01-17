@@ -127,4 +127,14 @@
         <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}NavigationService"/>
     </bean>
 
+    <!--  Metadata Service -->
+    <bean id="metadataServiceClient" class="org.openiam.idm.srvc.meta.ws.MetadataWebService"
+          factory-bean="metadataServiceFactory" factory-method="create"/>
+
+
+    <bean id="metadataServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.meta.ws.MetadataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}MetadataWebService"/>
+    </bean>
+
 </beans>

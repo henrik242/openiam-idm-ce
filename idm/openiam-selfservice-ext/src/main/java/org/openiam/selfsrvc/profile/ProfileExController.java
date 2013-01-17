@@ -46,12 +46,6 @@ public class ProfileExController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(df,true) );
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/confirm")
-    public String getConfirmForm(Model model, HttpServletRequest request) {
-        LOG.info("Confirmation form called after registration.");
-        return "/priv/confirm";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
     public String getEditForm(Model model, HttpServletRequest request) {
         LOG.info("Edit user profile form called.");
@@ -60,7 +54,7 @@ public class ProfileExController {
         editFormInitialization(request, profileCommand);
 
         model.addAttribute("profileCommand", profileCommand);
-        return "/priv/profile";
+        return "/priv/profile/edit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
@@ -94,12 +88,12 @@ public class ProfileExController {
             provisionServiceClient.modifyUser(pUser);
             LOG.info("User=" + pUser);
 
-            return "redirect:/profile/confirm.jsp";
+            return "/priv/confirm";
         } else {
             model.addAttribute("registrationCommand", command);
             model.addAttribute("errors",result);
             editFormInitialization(request, command);
-            return "/priv/profile";
+            return "/priv/profile/edit";
         }
     }
 

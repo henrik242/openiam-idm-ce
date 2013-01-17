@@ -86,7 +86,7 @@ public class RegistrationController {
         LOG.info("Edit registration form called.");
         editFormInitialization(model);
         model.addAttribute("registrationCommand", new RegistrationCommand());
-        return "/pub/selfreg";
+        return "/pub/selfreg/edit";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/confirm")
@@ -121,12 +121,12 @@ public class RegistrationController {
             LOG.info("pUser serialized to XML:" + userAsXML);
             ProvisionRequest pReq = createRequest(userId, user, userAsXML, pUser);
 
-            return "redirect:/registration/confirm.jsp";
+            return "/pub/confirm";
         } else {
             model.addAttribute("registrationCommand", command);
             model.addAttribute("errors",result);
             editFormInitialization(model);
-            return "/pub/selfreg";
+            return "/pub/selfreg/edit";
         }
     }
 
