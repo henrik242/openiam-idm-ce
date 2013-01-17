@@ -70,11 +70,11 @@ import java.util.List;
         "lastDate",
         "dateOfBirth",
         "zipCode",
-        "lastLoginDate",
         "orgIdList",
         "deptIdList",
         "divisionIdList",
-        "attributeList"
+        "attributeList",
+        "dateAttributeList"
 })
 public class UserSearch implements Serializable {
 
@@ -115,8 +115,6 @@ public class UserSearch implements Serializable {
     @XmlSchemaType(name = "dateTime")
     protected Date dateOfBirth;
     protected String zipCode;
-    @XmlSchemaType(name = "dateTime")
-    protected Date lastLoginDate;
 
     protected String loggedIn = null;
 
@@ -124,6 +122,7 @@ public class UserSearch implements Serializable {
     protected List<String> deptIdList = new ArrayList<String>();
     protected List<String> divisionIdList = new ArrayList<String>();
     protected List<SearchAttribute> attributeList = new ArrayList<SearchAttribute>();
+    protected List<DateSearchAttribute> dateAttributeList = new ArrayList<DateSearchAttribute>();
 
 
     public boolean isEmpty() {
@@ -149,9 +148,10 @@ public class UserSearch implements Serializable {
                 showInSearch == null &&
                 (userId == null || userId.length() == 0) &&
                 (zipCode == null || zipCode.length() == 0) &&
+                (dateAttributeList == null || dateAttributeList.size() == 0) &&
                 (startDate == null) &&
                 (dateOfBirth == null) &&
-                (lastDate == null) && (lastLoginDate == null) ) {
+                (lastDate == null)  ) {
             retval = true;
         }
 
@@ -424,6 +424,18 @@ public class UserSearch implements Serializable {
         this.attributeList = attributeList;
     }
 
+    public List<DateSearchAttribute> getDateAttributeList() {
+        return dateAttributeList;
+    }
+
+    public void addDateSearchAttribute(DateSearchAttribute dateSearchAttribute) {
+        dateAttributeList.add(dateSearchAttribute);
+    }
+    
+    public void setDateAttributeList(List<DateSearchAttribute> dateAttributeList) {
+        this.dateAttributeList = dateAttributeList;
+    }
+    
     public List<String> getOrgIdList() {
         return orgIdList;
     }
@@ -448,11 +460,4 @@ public class UserSearch implements Serializable {
         this.divisionIdList = divisionIdList;
     }
 
-	public Date getLastLoginDate() {
-		return lastLoginDate;
-	}
-
-	public void setLastLoginDate(Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
-	}
 }

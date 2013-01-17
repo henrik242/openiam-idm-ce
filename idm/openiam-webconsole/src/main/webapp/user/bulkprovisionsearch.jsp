@@ -124,8 +124,16 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label for="username" class="attribute">Not logged in since</label></td>
-                                    <td  class="userformInput" for="username" class="labelValue">
+                                    <td><label for="username" class="attribute">Last Login</label></td>
+                                    <td  class="userformInput" for="username" class="labelValue" colspan="3">
+                                    <form:select path="dateOperation" multiple="false">
+                                            <form:option value="=" label="=" />
+                                            <form:option value="<>" label="<>"/>
+                                            <form:option value="<" label="<" />
+                                            <form:option value="<=" label="<="/>
+                                            <form:option value=">" label=">"/>
+                                            <form:option value=">=" label=">="/>
+                                        </form:select>
                                         <form:input path="lastLoginDate" size="35" maxlength="40"  />(MM/dd/yyyy)
                                         <form:errors path="lastLoginDate" cssClass="error" />
                                     </td>

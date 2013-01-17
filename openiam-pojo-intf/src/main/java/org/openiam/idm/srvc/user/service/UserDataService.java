@@ -23,6 +23,12 @@ import java.util.Set;
 public interface UserDataService {
 
 
+	//constants specifying date fields available for user search
+	public static String LAST_LOGIN= "lg.LAST_LOGIN";
+	public static String START_DATE= "u.START_DATE";
+	public static String LAST_DATE= "u.LAST_DATE";
+	public static String BIRTH_DATE= "u.BIRTHDATE";
+	
     /**
      * Returns a user object for the id. The dependents flag determines if the method return the dependent objects such as
      * Attributes, EmailAddress, Phone and Address. True will return these collections. False will not.

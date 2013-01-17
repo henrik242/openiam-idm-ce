@@ -1,8 +1,11 @@
 package org.openiam.idm.srvc.synch.util;
 
 import org.openiam.idm.srvc.synch.dto.BulkMigrationConfig;
+import org.openiam.idm.srvc.user.dto.DateSearchAttribute;
 import org.openiam.idm.srvc.user.dto.UserSearch;
+import org.openiam.idm.srvc.user.service.UserDataService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +38,11 @@ public class UserSearchUtils {
             search.setStatus(config.getUserStatus().toString());
         }
         if (config.getLastLoginDate() != null ) {
-            search.setLastLoginDate(config.getLastLoginDate());
+        	DateSearchAttribute dateSearchAttribute = new DateSearchAttribute();
+			dateSearchAttribute.setAttributeName(UserDataService.LAST_LOGIN);
+			dateSearchAttribute.setOperation(config.getDateOperation());
+			dateSearchAttribute.setAttributeValue(config.getLastLoginDate());
+			search.addDateSearchAttribute(dateSearchAttribute);
         }
         // allow selection by a role
         if (config.getRole() != null && !config.getRole().isEmpty())     {

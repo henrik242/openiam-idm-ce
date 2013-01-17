@@ -52,6 +52,7 @@ public class BulkProvisioningCommand implements Serializable {
     private String selectedNotificationName;
 
     private Date lastLoginDate; 
+    private String dateOperation;
     
     public String getLastName() {
         return lastName;
@@ -220,7 +221,7 @@ public class BulkProvisioningCommand implements Serializable {
 
         BulkMigrationConfig config = new BulkMigrationConfig(lastName, companyId, deptId,
                 division, attributeName, attributeValue,
-                null,operation, targetRole, targetResource, lastLoginDate);
+                null,operation, targetRole, targetResource, lastLoginDate, dateOperation);
 
         if ( userStatus != null) {
             config.setUserStatus(userStatus.toString());
@@ -272,6 +273,14 @@ public class BulkProvisioningCommand implements Serializable {
 
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
+	}
+
+	public String getDateOperation() {
+		return dateOperation;
+	}
+
+	public void setDateOperation(String dateOperation) {
+		this.dateOperation = dateOperation;
 	}
 
 }

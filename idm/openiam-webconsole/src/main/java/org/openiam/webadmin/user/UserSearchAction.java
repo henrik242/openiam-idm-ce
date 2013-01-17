@@ -43,7 +43,9 @@ import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
+import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.idm.srvc.user.dto.DateSearchAttribute;
 import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.webadmin.admin.AppConfiguration;
 
@@ -198,7 +200,11 @@ public class UserSearchAction extends DispatchActionSupport {
 		if (form.get("lastLoginDate") != null
 				&& ((String) form.get("lastLoginDate")).length() > 0) {
 			try {
-				search.setLastLoginDate(new SimpleDateFormat("MM/dd/yyyy").parse((String)form.get("lastLoginDate")));
+				DateSearchAttribute dateSearchAttribute = new DateSearchAttribute();
+				dateSearchAttribute.setAttributeName(UserDataService.LAST_LOGIN);
+				dateSearchAttribute.setOperation(form.getString("operation"));
+				dateSearchAttribute.setAttributeValue(new SimpleDateFormat("MM/dd/yyyy").parse((String)form.get("lastLoginDate")));
+				search.addDateSearchAttribute(dateSearchAttribute);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
