@@ -1,6 +1,6 @@
 package org.openiam.selfsrvc.profile;
 
-public class ProfileCommand {
+public class ProfileExCommand {
     private String firstName;
     private String workAreaCode;
     private String workPhone;

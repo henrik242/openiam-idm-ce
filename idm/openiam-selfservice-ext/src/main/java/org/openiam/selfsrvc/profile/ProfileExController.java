@@ -30,8 +30,8 @@ import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/profile")
-public class ProfileController {
-    private static final Log LOG = LogFactory.getLog(ProfileController.class);
+public class ProfileExController {
+    private static final Log LOG = LogFactory.getLog(ProfileExController.class);
 
     @Autowired
     private ProvisionService provisionServiceClient;
@@ -56,7 +56,7 @@ public class ProfileController {
     public String getEditForm(Model model, HttpServletRequest request) {
         LOG.info("Edit user profile form called.");
 
-        ProfileCommand profileCommand = new ProfileCommand();
+        ProfileExCommand profileCommand = new ProfileExCommand();
         editFormInitialization(request, profileCommand);
 
         model.addAttribute("profileCommand", profileCommand);
@@ -64,8 +64,8 @@ public class ProfileController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
-    public String save(Model model, ProfileCommand command, BindingResult result, HttpServletRequest request) {
-        ProfileValidator.validate(command, result);
+    public String save(Model model, ProfileExCommand command, BindingResult result, HttpServletRequest request) {
+        ProfileExValidator.validate(command, result);
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
 
@@ -82,8 +82,8 @@ public class ProfileController {
             pUser.setEmailAddresses(emailSet);
             pUser.setPhones(phoneSet);
 
-            getPhone(command, pUser);
-            getEmail(command, pUser);
+            updatePhone(command, pUser);
+            updateEmail(command, pUser);
 
             String login = (String)session.getAttribute("login");
             String domain = (String)session.getAttribute("domain");
@@ -103,7 +103,7 @@ public class ProfileController {
         }
     }
 
-    private ProfileCommand editFormInitialization(HttpServletRequest request, ProfileCommand profileCommand) {
+    private ProfileExCommand editFormInitialization(HttpServletRequest request, ProfileExCommand profileCommand) {
         HttpSession session =  request.getSession();
         String userId = (String)session.getAttribute("userId");
 
@@ -113,17 +113,24 @@ public class ProfileController {
             profileCommand.setFirstName(usr.getFirstName());
             profileCommand.setLastName(usr.getLastName());
             profileCommand.setEmail1(usr.getEmail());
-            profileCommand.setWorkPhone(usr.getPhoneNbr());
-            profileCommand.setWorkAreaCode(usr.getPhoneExt());
+            if(usr.getPhones().size() > 0) {
+                for(Phone phone : usr.getPhones()) {
+                    if (phone.getName().equalsIgnoreCase("DESK PHONE")) {
+                        profileCommand.setWorkAreaCode(phone.getAreaCd());
+                        profileCommand.setWorkPhone(phone.getPhoneNbr());
+                    }
+                    if (phone.getName().equalsIgnoreCase("FAX")) {
+                        profileCommand.setFaxAreaCode(phone.getAreaCd());
+                        profileCommand.setFaxPhone(phone.getPhoneNbr());
+                    }
+                }
+            }
         }
         return profileCommand;
     }
 
-    private static void getEmail(ProfileCommand profileCommand, User usr) {
+    private static void updateEmail(ProfileExCommand profileCommand, User usr) {
         Set<EmailAddress> emailAdrSet =  usr.getEmailAddresses();
-
-
-        EmailAddress email1 = null, email2 = null, email3 = null;
 
         Iterator<EmailAddress> emailIterator = emailAdrSet.iterator();
         while (emailIterator.hasNext()) {
@@ -140,7 +147,7 @@ public class ProfileController {
         if (!emailExists(emailAdrSet, "EMAIL1")) {
             // add email
 
-            email1 = new EmailAddress();
+            EmailAddress email1 = new EmailAddress();
             email1.setEmailAddress(profileCommand.getEmail1());
             email1.setName("EMAIL1");
             email1.setParentId(usr.getUserId());
@@ -149,10 +156,8 @@ public class ProfileController {
         }
     }
 
-    private static void getPhone(ProfileCommand profileCmd, User usr) {
+    private static void updatePhone(ProfileExCommand profileCmd, User usr) {
         Set<Phone> phSet = usr.getPhones();
-
-        Phone deskPhone = null, cellPhone = null, faxPhone=null, homePhone = null, altCellPhone = null, personalPhone = null;
 
         Iterator<Phone> phoneIterator = phSet.iterator();
         while (phoneIterator.hasNext()) {
@@ -174,7 +179,7 @@ public class ProfileController {
         // add obbject
         if (!phoneExists(phSet, "DESK PHONE")) {
             // add
-            deskPhone = new Phone();
+            Phone deskPhone = new Phone();
             deskPhone.setAreaCd(profileCmd.getWorkAreaCode());
             deskPhone.setPhoneNbr(profileCmd.getWorkPhone());
             deskPhone.setDescription("WORK");
@@ -186,7 +191,7 @@ public class ProfileController {
 
         if (!phoneExists(phSet, "FAX")) {
             // add
-            faxPhone = new Phone();
+            Phone faxPhone = new Phone();
             faxPhone.setAreaCd(profileCmd.getFaxAreaCode());
             faxPhone.setPhoneNbr(profileCmd.getFaxPhone());
             faxPhone.setDescription("FAX");

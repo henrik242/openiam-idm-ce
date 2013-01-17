@@ -14,9 +14,7 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd ">
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <value>classpath:datasource.properties</value>
-        </property>
+        <property name="locations" value="classpath:datasource.properties"/>
     </bean>
 
     <!--  User Service -->
@@ -98,4 +96,35 @@
         <property name="serviceClass" value="org.openiam.provision.service.ProvisionService"/>
         <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}/ProvisioningService"/>
     </bean>
+
+    <!-- Authentication Service -->
+    <bean id="authServiceClient" class="org.openiam.idm.srvc.auth.service.AuthenticationService"
+          factory-bean="authServiceFactory" factory-method="create"/>
+
+
+    <bean id="authServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.auth.service.AuthenticationService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}AuthenticationService"/>
+    </bean>
+
+    <!-- Login Data Web Service -->
+    <bean id="loginServiceClient" class="org.openiam.idm.srvc.auth.ws.LoginDataWebService"
+          factory-bean="loginServiceFactory" factory-method="create"/>
+
+
+    <bean id="loginServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.auth.ws.LoginDataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}LoginDataWebService"/>
+    </bean>
+
+    <!--  Navigator Service -->
+    <bean id="navServiceClient" class="org.openiam.idm.srvc.menu.ws.NavigatorDataWebService"
+          factory-bean="navServiceFactory" factory-method="create"/>
+
+
+    <bean id="navServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.menu.ws.NavigatorDataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}NavigationService"/>
+    </bean>
+
 </beans>

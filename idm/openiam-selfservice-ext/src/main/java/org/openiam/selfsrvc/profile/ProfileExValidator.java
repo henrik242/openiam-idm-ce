@@ -2,8 +2,8 @@ package org.openiam.selfsrvc.profile;
 
 import org.springframework.validation.Errors;
 
-public class ProfileValidator {
-    public static void validate(ProfileCommand cmd, Errors err) {
+public class ProfileExValidator {
+    public static void validate(ProfileExCommand cmd, Errors err) {
         if (cmd.getFirstName() == null || cmd.getFirstName().length() == 0) {
             err.rejectValue("firstName", "required");
 

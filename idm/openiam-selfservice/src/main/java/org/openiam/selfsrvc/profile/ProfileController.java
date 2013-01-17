@@ -106,12 +106,12 @@ public class ProfileController extends CancellableFormController {
 		List<Supervisor> supVisorList = userMgr.getSupervisors(userId).getSupervisorList();
 		if (supVisorList != null && !supVisorList.isEmpty()) {
 			Supervisor supervisor = supVisorList.get(0);
-			
+
 			profileCmd.setSupervisorId(supervisor.getSupervisor().getUserId());
 			profileCmd.setSupervisorName(supervisor.getSupervisor().getFirstName() + " " + supervisor.getSupervisor().getLastName());
 
 		}
-		
+
 		Address addr = userMgr.getAddressByName(userId, "DEFAULT ADR").getAddress();
 		
 		
