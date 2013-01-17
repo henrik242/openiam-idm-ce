@@ -39,6 +39,7 @@ public class BulkMigrationConfig {
     private String requestorLogin;
 
     private Date lastLoginDate;
+    private String dateOperation;
     
     public BulkMigrationConfig() {
 
@@ -46,7 +47,7 @@ public class BulkMigrationConfig {
 
     public BulkMigrationConfig(String lastName, String organizationId, String deptId,
                                String division, String attributeName, String attributeValue,
-                               String userStatus, String operation, String targetRole, String targetResource, Date lastLoginDate) {
+                               String userStatus, String operation, String targetRole, String targetResource, Date lastLoginDate, String dateOperation) {
         this.lastName = lastName;
         this.organizationId = organizationId;
         this.deptId = deptId;
@@ -58,9 +59,18 @@ public class BulkMigrationConfig {
         this.targetRole = targetRole;
         this.targetResource = targetResource;
         this.lastLoginDate = lastLoginDate;
+        this.dateOperation = dateOperation;
     }
 
-    public String getLastName() {
+    public String getDateOperation() {
+		return dateOperation;
+	}
+
+	public void setDateOperation(String dateOperation) {
+		this.dateOperation = dateOperation;
+	}
+
+	public String getLastName() {
         return lastName;
     }
 

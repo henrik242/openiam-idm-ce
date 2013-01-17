@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.openiam.base.id.SequenceGenDAO;
 
 import org.openiam.idm.srvc.user.domain.UserEntity;
+import org.openiam.idm.srvc.user.dto.DateSearchAttribute;
 import org.openiam.idm.srvc.user.dto.DelegationFilterSearch;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserSearch;
@@ -307,17 +308,11 @@ public class UserDAOImpl implements UserDAO {
         boolean metadataElementId = false;
         boolean showInSearch = false;
         boolean locationId = false;
-        boolean createDate = false;
 
         boolean userTypeInd = false;
         boolean classification = false;
         boolean orgName = false;
-        boolean startDate = false;
-        boolean lastDate = false;
-
         boolean zipCode = false;
-        boolean dateOfBirth = false;
-        boolean lastLoginDate = false;
         boolean bOrgIdList = false;
         boolean bDeptIdList = false;
         boolean bDivIdList = false;
@@ -406,36 +401,6 @@ public class UserDAOImpl implements UserDAO {
         }
 
 
-        if (search.getStartDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.START_DATE = :startDate ");
-            startDate = true;
-        }
-        if (search.getLastDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.LAST_DATE = :lastDate ");
-            lastDate = true;
-        }
-
-        if (search.getDateOfBirth() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.BIRTHDATE = :dateOfBirth ");
-            dateOfBirth = true;
-        }
-
-        if (search.getLastLoginDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" (lg.LAST_LOGIN <= :lastLoginDate OR lg.LAST_LOGIN IS NULL)");
-            lastLoginDate = true;
-        }
         if (search.getZipCode() != null) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -600,7 +565,24 @@ public class UserDAOImpl implements UserDAO {
             where.append(" ua.METADATA_ID = :elementId ");
             metadataElementId = true;
         }
+        /* Date Search Attribute*/
+        if (!search.getDateAttributeList().isEmpty()) {
+            // create a list for each set of values
 
+            log.debug("Building query parameters for date search attributes");
+
+            for ( DateSearchAttribute atr  : search.getDateAttributeList()) {
+            	if (where.length() > 0 ) {
+                    where.append(" and ");
+                }
+            	// attribute name is of the form tableName.columnName
+            	// assumption is that table is already part of the join
+                if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getAttributeValue() != null) {
+                	where.append(" " + atr.getAttributeName() + " " + atr.getOperation() + " :" + atr.getAttributeName());
+                }
+                
+            }
+        }
         if (where.length() > 0) {
             select = select + " WHERE " + where.toString();
         }
@@ -633,21 +615,6 @@ public class UserDAOImpl implements UserDAO {
         }
 
 
-        if (createDate) {
-            qry.setDate("createDate", search.getCreateDate());
-        }
-        if (startDate) {
-            qry.setDate("startDate", search.getStartDate());
-        }
-        if (lastDate) {
-            qry.setDate("lastDate", search.getLastDate());
-        }
-        if (dateOfBirth) {
-            qry.setDate("dateOfBirth", search.getDateOfBirth());
-        }
-        if (lastLoginDate) {
-            qry.setDate("lastLoginDate", search.getLastLoginDate());
-        }
         if (zipCode) {
             qry.setString("zipCode", search.getZipCode());
         }
@@ -733,7 +700,15 @@ public class UserDAOImpl implements UserDAO {
             qry.setParameterList("valueList", valueList);
 
         }
-
+        /* Date Search Attribute*/
+        if (!search.getDateAttributeList().isEmpty()) {
+            for ( DateSearchAttribute atr  : search.getDateAttributeList()) {
+                if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getAttributeValue() != null) {
+                	qry.setDate( atr.getAttributeName() , atr.getAttributeValue());
+                }
+                
+            }
+        }
 
         if (search.getMaxResultSize() != null && search.getMaxResultSize().intValue() > 0) {
             qry.setFetchSize(search.getMaxResultSize().intValue());
@@ -821,7 +796,6 @@ public class UserDAOImpl implements UserDAO {
         boolean startDate = false;
         boolean lastDate = false;
         boolean dateOfBirth = false;
-        boolean lastLoginDate = false;
 
         boolean bOrgIdList = false;
         boolean bDeptIdList = false;
@@ -905,36 +879,6 @@ public class UserDAOImpl implements UserDAO {
             where.append(" u.SECONDARY_STATUS = :secondaryStatus ");
             secondaryStatus = true;
         }
-
-        if (search.getStartDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.START_DATE = :startDate ");
-            startDate = true;
-        }
-        if (search.getLastDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.LAST_DATE = :lastDate ");
-            lastDate = true;
-        }
-        if (search.getDateOfBirth() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" u.BIRTHDATE = :dateOfBirth ");
-            dateOfBirth = true;
-        }
-        if (search.getLastLoginDate() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" (lg.LAST_LOGIN <= :lastLoginDate OR lg.LAST_LOGIN IS NULL)");
-            lastLoginDate = true;
-        }
-
 
         if (search.getZipCode() != null) {
             if (where.length() > 0) {
@@ -1122,6 +1066,24 @@ public class UserDAOImpl implements UserDAO {
 
         }
 
+        /* Date Search Attribute*/
+        if (!search.getDateAttributeList().isEmpty()) {
+            // create a list for each set of values
+
+            log.debug("Building query parameters for date search attributes");
+
+            for ( DateSearchAttribute atr  : search.getDateAttributeList()) {
+            	if (where.length() > 0 ) {
+                    where.append(" and ");
+                }
+            	// attribute name is of the form tableName.columnName
+            	// assumption is that table is already part of the join
+                if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getAttributeValue() != null) {
+                	where.append(" " + atr.getAttributeName() + " " + atr.getOperation() + " :" + atr.getAttributeName());
+                }
+                
+            }
+        }
 
         /* Login  */
         if (search.getPrincipal() != null) {
@@ -1210,18 +1172,6 @@ public class UserDAOImpl implements UserDAO {
             qry.setString("secondaryStatus", search.getSecondaryStatus());
         }
 
-        if (startDate) {
-            qry.setDate("startDate", search.getStartDate());
-        }
-        if (lastDate) {
-            qry.setDate("lastDate", search.getLastDate());
-        }
-        if (dateOfBirth) {
-            qry.setDate("dateOfBirth", search.getDateOfBirth());
-        }
-        if (lastLoginDate) {
-            qry.setDate("lastLoginDate", search.getLastLoginDate());
-        }
         if (zipCode) {
             qry.setString("zipCode", search.getZipCode());
         }
@@ -1308,7 +1258,15 @@ public class UserDAOImpl implements UserDAO {
            qry.setParameterList("valueList", valueList);
 
         }
-
+        /* Date Search Attribute*/
+        if (!search.getDateAttributeList().isEmpty()) {
+            for ( DateSearchAttribute atr  : search.getDateAttributeList()) {
+                if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getAttributeValue() != null) {
+                	qry.setDate( atr.getAttributeName() , atr.getAttributeValue());
+                }
+                
+            }
+        }
 
         if (search.getMaxResultSize() != null && search.getMaxResultSize().intValue() > 0) {
             qry.setFetchSize(search.getMaxResultSize().intValue());
