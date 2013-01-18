@@ -137,4 +137,43 @@
         <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}MetadataWebService"/>
     </bean>
 
+    <!-- Reference Data Service -->
+    <bean id="referenceDataServiceClient" class="org.openiam.idm.srvc.cd.service.ReferenceDataService"
+          factory-bean="referenceDataServiceFactory" factory-method="create"/>
+
+
+    <bean id="referenceDataServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.cd.service.ReferenceDataService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}ReferenceDataWebService"/>
+    </bean>
+
+    <!--  Group Service -->
+    <bean id="groupServiceClient" class="org.openiam.idm.srvc.grp.ws.GroupDataWebService"
+          factory-bean="groupServiceFactory" factory-method="create"/>
+
+
+    <bean id="groupServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.grp.ws.GroupDataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}GroupDataWebService"/>
+    </bean>
+
+    <!-- Location Service -->
+    <bean id="locationServiceClient" class="org.openiam.idm.srvc.loc.ws.LocationDataWebService"
+          factory-bean="locationServiceFactory" factory-method="create"/>
+
+
+    <bean id="locationServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.loc.ws.LocationDataWebService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}LocationDataWebService"/>
+    </bean>
+
+    <!-- Audit Service -->
+    <bean id="auditServiceClient" class="org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService"
+          factory-bean="auditServiceFactory" factory-method="create"/>
+
+
+    <bean id="auditServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService"/>
+        <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}AuditService"/>
+    </bean>
 </beans>

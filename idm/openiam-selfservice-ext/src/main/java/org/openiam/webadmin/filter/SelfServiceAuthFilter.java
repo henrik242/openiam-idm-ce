@@ -91,6 +91,7 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
         }
         String userId = servletRequest.getParameter("userId");
         String principal = servletRequest.getParameter("lg");
+        String backUrl = servletRequest.getParameter("backUrl");
 
         String sessionUserId = (String) session.getAttribute("userId");
 
@@ -129,6 +130,9 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
 
                     session.setAttribute("userId", userId);
                     session.setAttribute("login", principal);
+                    if(StringUtils.isNotEmpty(backUrl)) {
+                       session.setAttribute("backUrl", backUrl);
+                    }
                 }
             }
         } catch (Exception e) {

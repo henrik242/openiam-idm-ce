@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 @Controller
-@RequestMapping(value = "/profile")
+@RequestMapping(value = "/priv/profile")
 public class ProfileExController {
     private static final Log LOG = LogFactory.getLog(ProfileExController.class);
 

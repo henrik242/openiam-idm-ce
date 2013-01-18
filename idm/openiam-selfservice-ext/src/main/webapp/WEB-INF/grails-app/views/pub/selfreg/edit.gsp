@@ -3,7 +3,7 @@
         <g:render template="/menu_template" model="[selectedMenuItem: 'selfRegistration']"/>
     </ui:define>
     <ui:define composition="${it}" name="body">
-        <g:form method="post" class="user-info" url="[action: 'edit.jsp', controller: 'registration']">
+        <g:form method="post" class="user-info" url="[action: 'edit.jsp', controller: 'pub/registration']">
             <fieldset>
                 <div class="block">
                     <div class="wrap alt">
@@ -138,9 +138,8 @@
                                 <label for="t-16">Zip</label>
                                 <g:textField id="t-16" name="postalCd" value="${registrationCommand?.postalCd}"/>
                             </div>
-                            <!-- Column 2 -->
                         </div>
-
+                        <!-- Column 2 -->
                         <div class="col-1">
                             <div class="row">
                                 <label for="t-17">Work Phone</label>

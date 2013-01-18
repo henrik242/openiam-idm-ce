@@ -3,7 +3,7 @@
         <g:render template="/menu_template" model="[selectedMenuItem: 'profile']"/>
     </ui:define>
     <ui:define composition="${it}" name="body">
-        <g:form method="post" class="profile" url="[action: 'edit.jsp', controller: 'profile']">
+        <g:form method="post" class="profile" url="[action: 'edit.jsp', controller: 'priv/profile']">
             <fieldset>
                 <div class="block">
                     <div class="wrap alt">

@@ -48,7 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "/registration")
+@RequestMapping(value = "/pub/registration")
 public class RegistrationController {
     private static final Log LOG = LogFactory.getLog(RegistrationController.class);
 
@@ -56,25 +56,25 @@ public class RegistrationController {
     private static final String REQUEST_TYPE = "255";
 
     @Autowired
-    public OrganizationDataService orgServiceClient;
+    private OrganizationDataService orgServiceClient;
 
     @Autowired
-    public RoleDataWebService roleServiceClient;
+    private RoleDataWebService roleServiceClient;
 
     @Autowired
-    public UserDataWebService userServiceClient;
+    private UserDataWebService userServiceClient;
 
     @Autowired
-    public MailService mailServiceClient;
+    private MailService mailServiceClient;
 
     @Autowired
-    public RequestWebService provRequestServiceClient;
+    private RequestWebService provRequestServiceClient;
 
     @Autowired
-    public ResourceDataService resourceServiceClient;
+    private ResourceDataService resourceServiceClient;
 
     @Autowired
-    public ManagedSystemDataService managedSysServiceClient;
+    private ManagedSystemDataService managedSysServiceClient;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
