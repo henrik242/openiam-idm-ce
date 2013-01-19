@@ -272,7 +272,7 @@
                         </connector>
                     </connectors>
                     <webAppConfig>
-                        <contextPath>/spring</contextPath>
+                        <contextPath>/</contextPath>
                     </webAppConfig>
                 </configuration>
             </plugin>
