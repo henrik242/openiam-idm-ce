@@ -8,6 +8,14 @@
 
 
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:datasource.properties</value>
+                <value>classpath:securityconf.properties</value>
+            </list>
+        </property>
+    </bean>
 
 
 
@@ -49,7 +57,14 @@
 		<property name="publicRightMenuGroup1" value="ACCESSCENTER" />
 		<property name="publicRightMenuGroup2" value="SELFCENTER" />
 		<property name="publicRightMenuGroup3" value="REPORTCENTER" />
-	</bean>		
+
+        <property name="appBase" value="${APP_BASE_URL}" />
+        <property name="selfserviceExtContext" value="${SELFSERVICE_EXT_CONTEXT}" />
+        <property name="selfserviceContext" value="${SELFSERVICE_CONTEXT}" />
+	</bean>
+
+
+
 
 	<bean id="authenticationConfiguration" class="org.openiam.selfsrvc.login.AuthenticationConfiguration">
 		<!--Indicates the security domain that should be used by the self service application

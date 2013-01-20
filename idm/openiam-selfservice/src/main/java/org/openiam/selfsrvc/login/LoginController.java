@@ -124,8 +124,11 @@ public class LoginController extends SimpleFormController {
 		session.setAttribute("logoUrl", appConfiguration.getLogoUrl());
 		session.setAttribute("title", appConfiguration.getTitle());
 		session.setAttribute("defaultLang", appConfiguration.getDefaultLang());
-		
-		
+
+        // used to complete the URLs from the menu
+		session.setAttribute("appBase", appConfiguration.getAppBase());
+        session.setAttribute("selfserviceContext", appConfiguration.getAppBase() + "/" + appConfiguration.getSelfserviceContext());
+        session.setAttribute("selfserviceExtContext", appConfiguration.getAppBase() + "/" + appConfiguration.getSelfserviceExtContext());
 		
 		
 		String userId = (String)session.getAttribute("userId");

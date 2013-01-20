@@ -2,15 +2,21 @@
 <%@ page session="true" %>
 <%@page import="java.util.*, org.openiam.idm.srvc.menu.dto.Menu, org.openiam.idm.srvc.user.dto.User,org.openiam.idm.srvc.user.dto.UserStatusEnum"%>
 <%@ page import="org.openiam.idm.srvc.res.dto.Resource" %>
-
-
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
-<%  
-	String bpmToken = (String)request.getSession().getAttribute("identityKey");
+<%@ page import="java.util.ResourceBundle" %>
+
+
+<%
+
+    String selfserviceContext = (String)session.getAttribute("selfserviceContext");
+    String selfserviceExtContext = (String)session.getAttribute("selfserviceExtContext");
+
+
+
 	String rMenu = (String)request.getSession().getAttribute("hideRMenu");
 	if (rMenu == null ||  !rMenu.equals("1")) {
 
@@ -55,12 +61,17 @@ System.out.println("menubar.jsp");
 				            url = url + "?" + queryString + "&menuid=" + m.getId().getMenuId() + "&l=p";
 				         } else {    
 				            url = url + "&"  + queryString + "&menuid=" + m.getId().getMenuId() + "&l=p";
-				         }  
+				         }
+                         url = url.replace("{SELFSERVICE}", selfserviceContext);
+                         url = url.replace("{SELFSERVICE_EXT}", selfserviceExtContext);
+
 				      }
+
+
 
 	%>				
 				
-				<li><a href="<%= request.getContextPath() %>/<%=url %>"><%=m.getMenuName() %></a></li>
+				<li><a href="<%=url %>"><%=m.getMenuName() %></a></li>
                     <%
                         if ("Manage User".equalsIgnoreCase(m.getMenuName())) {
                     %>
@@ -92,14 +103,16 @@ System.out.println("menubar.jsp");
 				            url = url + "?" + queryString + "&menuid=" + m.getId().getMenuId() + "&l=p";
 				         } else {    
 				            url = url + "&"  + queryString + "&menuid=" + m.getId().getMenuId() + "&l=p";
-				         }  
+				         }
+                         url = url.replace("{SELFSERVICE}", selfserviceContext);
+                         url = url.replace("{SELFSERVICE_EXT}", selfserviceExtContext);
 				      }
 				    if (m.getUrl().toLowerCase().contains("http")) {				  	 
 	%>
 			            <li><a href="<%= request.getContextPath() %>/pub/launchProcess.selfserve?menuId=<%=m.getId().getMenuId()%> %>"><%=m.getMenuName() %></a></li>
 
 	<% 				} else { %>
-			<li><a href="<%= request.getContextPath() %>/<%=url %>"><%=m.getMenuName() %></a></li>
+			<li><a href="<%=url %>"><%=m.getMenuName() %></a></li>
 
 	<% 				}
 				}

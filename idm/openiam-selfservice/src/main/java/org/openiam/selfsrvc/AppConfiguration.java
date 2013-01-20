@@ -27,6 +27,11 @@ public class AppConfiguration {
     protected String workFlowResourceType;
     protected String ssoResourceType;
 
+    protected String appBase;
+    protected String selfserviceExtContext;
+    protected String selfserviceContext;
+
+
 
 	
 	public Integer getMaxResultSetSize() {
@@ -126,6 +131,30 @@ public class AppConfiguration {
 
     public void setSsoResourceType(String ssoResourceType) {
         this.ssoResourceType = ssoResourceType;
+    }
+
+    public String getAppBase() {
+        return appBase;
+    }
+
+    public void setAppBase(String appBase) {
+        this.appBase = appBase;
+    }
+
+    public String getSelfserviceExtContext() {
+        return selfserviceExtContext;
+    }
+
+    public void setSelfserviceExtContext(String selfserviceExtContext) {
+        this.selfserviceExtContext = selfserviceExtContext;
+    }
+
+    public String getSelfserviceContext() {
+        return selfserviceContext;
+    }
+
+    public void setSelfserviceContext(String selfserviceContext) {
+        this.selfserviceContext = selfserviceContext;
     }
 }
 

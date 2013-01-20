@@ -90,7 +90,12 @@ public class IndexAction extends DispatchActionSupport {
 		session.setAttribute("title", appConfiguration.getTitle());
 		session.setAttribute("defaultLang", appConfiguration.getDefaultLang());
 		session.setAttribute("welcomePageUrl", appConfiguration.getWelcomePageUrl());
-		
+
+
+        ResourceBundle res = ResourceBundle.getBundle("securityconf");
+        String APP_BASE_URL =  res.getString("APP_BASE_URL");
+        String SELFSERVICE_EXT_CONTEXT =  res.getString("SELFSERVICE_EXT_CONTEXT");
+        String SELFSERVICE_CONTEXT =  res.getString("SELFSERVICE_CONTEXT");
 
 		String userId = request.getParameter("userId");
 		String login = request.getParameter("lg");

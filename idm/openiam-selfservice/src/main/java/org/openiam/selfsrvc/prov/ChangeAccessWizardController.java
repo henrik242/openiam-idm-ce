@@ -28,6 +28,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -100,11 +101,23 @@ public class ChangeAccessWizardController extends CancellableFormController {
         wrkFlowRequest.setWorkflowResId(workflowId);
         wrkFlowRequest.setRequestorId((String)request.getSession().getAttribute("userId"));
 
-        request.getSession().setAttribute("wrkflowRequest", wrkFlowRequest);
+        HttpSession session =  request.getSession();
+
+        session.setAttribute("wrkflowRequest", wrkFlowRequest);
 
 
         if (workflowId != null) {
             String url =  workflowUrl.get(workflowId);
+
+            if ("260".equalsIgnoreCase(workflowId)) {
+                String selfserviceContext = (String)session.getAttribute("selfserviceContext");
+                String selfserviceExtContext = (String)session.getAttribute("selfserviceExtContext");
+                String appBase = (String)session.getAttribute("appBase");
+
+                url = url.replace("{APP_BASE_URL}", appBase);
+                url = url.replace("SELFSERVICE_EXT_CONTEXT", appBase);
+            }
+
             return new ModelAndView(new RedirectView(url, true));
 
 

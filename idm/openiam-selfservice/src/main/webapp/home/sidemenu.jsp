@@ -12,7 +12,11 @@
 
 <%
 
-    System.out.println("sidemenu.jsp called.");
+
+
+    String selfserviceContext = (String)session.getAttribute("selfserviceContext");
+    String selfserviceExtContext = (String)session.getAttribute("selfserviceExtContext");
+
 
     String sideMenuGroup = (String)request.getAttribute("menuGroup");
     List<Menu> menuL3 = (List<Menu>)request.getAttribute("menuL3");
@@ -54,6 +58,11 @@
     }
     if (personId != null) {
         url = url + "&personId=" + personId + queryString;
+    }
+
+    if (url != null) {
+        url = url.replace("{SELFSERVICE}", selfserviceContext);
+        url = url.replace("{SELFSERVICE_EXT}", selfserviceExtContext);
     }
 
 %>
