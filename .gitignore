@@ -9,3 +9,5 @@ target
 .settings
 .classpath
 /*.log
+idm/openiam-selfservice-ext/src/main/resources/datasource.properties
+idm/openiam-selfservice-ext/src/main/resources/securityconf.properties

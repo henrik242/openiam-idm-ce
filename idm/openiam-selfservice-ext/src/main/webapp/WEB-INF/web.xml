@@ -5,7 +5,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/applicationContext.xml /WEB-INF/ws-beans.xml</param-value>
+        <param-value>/WEB-INF/applicationContext.xml /WEB-INF/ws-beans.xml</param-value>
     </context-param>
 
 
@@ -74,22 +74,6 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
-    <filter>
-        <filter-name>TokenFilter</filter-name>
-        <filter-class>org.openiam.webadmin.filter.SelfServiceAuthFilter</filter-class>
-        <init-param>
-            <param-name>expirePage</param-name>
-            <param-value>http://localhost:8080/selfservice/login.selfserve?expire=1</param-value>
-        </init-param>
-        <init-param>
-            <param-name>excludePath</param-name>
-            <param-value>/pub</param-value>
-        </init-param>
-        <init-param>
-            <param-name>defaultLang</param-name>
-            <param-value>en</param-value>
-        </init-param>
-    </filter>
 
 
     <servlet>
@@ -119,8 +103,5 @@
         <url-pattern>*.jsp</url-pattern>
     </servlet-mapping>
 
-    <filter-mapping>
-        <filter-name>TokenFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+
 </web-app>

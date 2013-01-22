@@ -1,11 +1,14 @@
 package org.openiam.taglib.composition
 
+import grails.artefact.Artefact
+
+@Artefact("TagLibrary")
 class CompositionTagLib {
     static namespace = 'ui'
 
     def out
 
-    def composition = { attrs, body ->
+    Closure composition = { attrs, body ->
         if (!attrs.template) {
             throwTagError("Tag [composition] is missing required attribute [template]")
         }
@@ -14,7 +17,7 @@ class CompositionTagLib {
         out << g.render(template: attrs.template, model: composition.defines)
     }
 
-    def define = { attrs, body ->
+    Closure define = { attrs, body ->
         if (!attrs.composition) {
             throwTagError("Tag [define] is missing required attribute [composition]")
         }
