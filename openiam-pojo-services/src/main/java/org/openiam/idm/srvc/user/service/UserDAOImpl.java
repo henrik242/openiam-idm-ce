@@ -577,8 +577,10 @@ public class UserDAOImpl implements UserDAO {
                 }
             	// attribute name is of the form tableName.columnName
             	// assumption is that table is already part of the join
-                if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getAttributeValue() != null) {
+                if (atr.getAttributeName() != null && atr.getOperation() != null && (!atr.getOperation().equals("IS NULL")) && atr.getAttributeValue() != null) {
                 	where.append(" " + atr.getAttributeName() + " " + atr.getOperation() + " :" + atr.getAttributeName());
+                }else if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getOperation().equals("IS NULL")) {
+                	where.append(" " + atr.getAttributeName() + " " + atr.getOperation());
                 }
                 
             }
@@ -1078,8 +1080,10 @@ public class UserDAOImpl implements UserDAO {
                 }
             	// attribute name is of the form tableName.columnName
             	// assumption is that table is already part of the join
-                if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getAttributeValue() != null) {
+                if (atr.getAttributeName() != null && atr.getOperation() != null && (!atr.getOperation().equals("IS NULL")) && atr.getAttributeValue() != null) {
                 	where.append(" " + atr.getAttributeName() + " " + atr.getOperation() + " :" + atr.getAttributeName());
+                }else if (atr.getAttributeName() != null && atr.getOperation() != null && atr.getOperation().equals("IS NULL")) {
+                	where.append(" " + atr.getAttributeName() + " " + atr.getOperation());
                 }
                 
             }
