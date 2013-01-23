@@ -133,6 +133,7 @@
                                             <form:option value="<=" label="<="/>
                                             <form:option value=">" label=">"/>
                                             <form:option value=">=" label=">="/>
+                                            <form:option value="IS NULL" label="= NULL"/>
                                         </form:select>
                                         <form:input path="lastLoginDate" size="35" maxlength="40"  />(MM/dd/yyyy)
                                         <form:errors path="lastLoginDate" cssClass="error" />

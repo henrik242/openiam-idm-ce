@@ -210,6 +210,13 @@ public class UserSearchAction extends DispatchActionSupport {
 				e.printStackTrace();
 			}
 		}
+		if (form.get("operation") != null
+				&& form.getString("operation").equals("IS NULL")) {
+				DateSearchAttribute dateSearchAttribute = new DateSearchAttribute();
+				dateSearchAttribute.setAttributeName(UserDataService.LAST_LOGIN);
+				dateSearchAttribute.setOperation(form.getString("operation"));
+				search.addDateSearchAttribute(dateSearchAttribute);
+		}
 		if (form.get("firstName") != null
 				&& ((String) form.get("firstName")).length() > 0) {
 			search.setFirstName(form.get("firstName") + "%");
