@@ -178,6 +178,9 @@ public class BulkProvisioningCommand implements Serializable {
             return true;
 
         }
+        if ( dateOperation != null && dateOperation.equals("IS NULL")) {
+            return true;
+        }
         if (userStatus != null) {
             return true;
         }

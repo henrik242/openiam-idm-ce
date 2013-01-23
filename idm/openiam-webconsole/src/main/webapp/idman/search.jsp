@@ -162,6 +162,7 @@
 												<html:option value="<=">&lt;=</html:option>
 												<html:option value=">">&gt;</html:option>
 												<html:option value=">=">&gt;=</html:option>
+												<html:option value="IS NULL">= NULL</html:option>
 											</html:select> <html:text property="lastLoginDate" size="30" maxlength="30" />(MM/dd/yyyy)
 										</td>
 
