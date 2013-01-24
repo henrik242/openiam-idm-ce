@@ -93,7 +93,8 @@ public class IndexAction extends DispatchActionSupport {
 
 
         ResourceBundle res = ResourceBundle.getBundle("securityconf");
-        String APP_BASE_URL =  res.getString("APP_BASE_URL");
+        String SELFSERVICE_BASE_URL =  res.getString("SELFSERVICE_BASE_URL");
+        String SELFSERVICE_EXT_BASE_URL =  res.getString("SELFSERVICE_EXT_BASE_URL");
         String SELFSERVICE_EXT_CONTEXT =  res.getString("SELFSERVICE_EXT_CONTEXT");
         String SELFSERVICE_CONTEXT =  res.getString("SELFSERVICE_CONTEXT");
 

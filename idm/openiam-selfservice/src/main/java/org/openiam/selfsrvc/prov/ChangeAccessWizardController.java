@@ -112,10 +112,12 @@ public class ChangeAccessWizardController extends CancellableFormController {
             if ("260".equalsIgnoreCase(workflowId)) {
                 String selfserviceContext = (String)session.getAttribute("selfserviceContext");
                 String selfserviceExtContext = (String)session.getAttribute("selfserviceExtContext");
-                String appBase = (String)session.getAttribute("appBase");
-
-                url = url.replace("{APP_BASE_URL}", appBase);
-                url = url.replace("SELFSERVICE_EXT_CONTEXT", appBase);
+                String selfserviceExtBase = (String)session.getAttribute("selfserviceExtBase");
+                String selfserviceBase = (String)session.getAttribute("selfserviceBase");
+                url = url.replace("{SELFSERVICE_EXT_BASE_URL}", selfserviceExtBase);
+                url = url.replace("{SELFSERVICE_BASE_URL}", selfserviceBase);
+                url = url.replace("{SELFSERVICE_EXT_CONTEXT}", selfserviceExtContext);
+                url = url.replace("{SELFSERVICE_CONTEXT}", selfserviceContext);
             }
 
             return new ModelAndView(new RedirectView(url, true));

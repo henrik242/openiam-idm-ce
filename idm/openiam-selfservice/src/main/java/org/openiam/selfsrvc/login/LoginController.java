@@ -126,9 +126,10 @@ public class LoginController extends SimpleFormController {
 		session.setAttribute("defaultLang", appConfiguration.getDefaultLang());
 
         // used to complete the URLs from the menu
-		session.setAttribute("appBase", appConfiguration.getAppBase());
-        session.setAttribute("selfserviceContext", appConfiguration.getAppBase() + "/" + appConfiguration.getSelfserviceContext());
-        session.setAttribute("selfserviceExtContext", appConfiguration.getAppBase() + "/" + appConfiguration.getSelfserviceExtContext());
+		session.setAttribute("selfserviceBase", appConfiguration.getSelfserviceBase());
+        session.setAttribute("selfserviceExtBase", appConfiguration.getSelfserviceExtBase());
+        session.setAttribute("selfserviceContext", appConfiguration.getSelfserviceBase() + "/" + appConfiguration.getSelfserviceContext());
+        session.setAttribute("selfserviceExtContext", appConfiguration.getSelfserviceExtBase() + "/" + appConfiguration.getSelfserviceExtContext());
 		
 		
 		String userId = (String)session.getAttribute("userId");
@@ -163,7 +164,12 @@ public class LoginController extends SimpleFormController {
 		session.setAttribute("userId", userId);
         if (loginCmd.getSubject().getSsoToken().getToken() != null &&
             !loginCmd.getSubject().getSsoToken().getToken().contains("saml")){
-		    session.setAttribute("token", loginCmd.getSubject().getSsoToken().getToken());
+            String token = loginCmd.getSubject().getSsoToken().getToken();
+		    session.setAttribute("token", token);
+            // Set cookie with new token in Response to communicate with Selfservice app
+            Cookie c = new Cookie("token", token);
+            c.setMaxAge(-1);
+            response.addCookie(c);
         }
 
 		

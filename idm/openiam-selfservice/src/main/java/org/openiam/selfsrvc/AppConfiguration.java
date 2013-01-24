@@ -27,7 +27,8 @@ public class AppConfiguration {
     protected String workFlowResourceType;
     protected String ssoResourceType;
 
-    protected String appBase;
+    protected String selfserviceBase;
+    protected String selfserviceExtBase;
     protected String selfserviceExtContext;
     protected String selfserviceContext;
 
@@ -133,12 +134,20 @@ public class AppConfiguration {
         this.ssoResourceType = ssoResourceType;
     }
 
-    public String getAppBase() {
-        return appBase;
+    public String getSelfserviceBase() {
+        return selfserviceBase;
     }
 
-    public void setAppBase(String appBase) {
-        this.appBase = appBase;
+    public void setSelfserviceBase(String selfserviceBase) {
+        this.selfserviceBase = selfserviceBase;
+    }
+
+    public String getSelfserviceExtBase() {
+        return selfserviceExtBase;
+    }
+
+    public void setSelfserviceExtBase(String selfserviceExtBase) {
+        this.selfserviceExtBase = selfserviceExtBase;
     }
 
     public String getSelfserviceExtContext() {

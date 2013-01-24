@@ -3,10 +3,18 @@
         <g:render template="/menu_template" model="[selectedMenuItem: 'newhire']"/>
     </ui:define>
     <ui:define composition="${it}" name="body">
+        <script type="text/javascript">
+            var submitPressed = function(src) {
+                var action = jQuery(src).attr('name');
+                jQuery('#submitFld').val(action);
+                return true;
+            }
+        </script>
         <div class="block alt">
             <div class="wrap alt">
                 <h5>SELECT TYPE OF USER</h5>
                 <g:form method="post" class="type-user" url="[action: 'edit.jsp', controller: 'priv/newhire']">
+                    <g:hiddenField id="submitFld" name="submitAction" value="_cancel" />
                     <g:hiddenField name="firstName" value="${newHireCommand.firstName}" />
                     <g:hiddenField name="lastName" value="${newHireCommand.lastName}" />
                     <g:hiddenField name="middleName" value="${newHireCommand.middleName}" />
@@ -54,11 +62,11 @@
                         </div>
 
                         <div class="button">
-                            <input type="submit" name="_cancel" value="Cancel"/>
+                            <input type="submit" name="_cancel" value="Cancel" onclick="return submitPressed(this)"/>
                         </div>
 
                         <div class="button">
-                            <input type="submit" name="_target1" value="Next"/>
+                            <input type="submit" name="_target1" value="Next" onclick="return submitPressed(this)"/>
                         </div>
 
                     </fieldset>

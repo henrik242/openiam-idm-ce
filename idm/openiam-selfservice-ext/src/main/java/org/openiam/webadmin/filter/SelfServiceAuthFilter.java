@@ -3,16 +3,10 @@ package org.openiam.webadmin.filter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openiam.base.ws.Response;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.auth.dto.Login;
-import org.openiam.idm.srvc.auth.dto.SSOToken;
-import org.openiam.idm.srvc.auth.service.AuthenticationConstants;
+
 import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
-import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -21,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 /**
@@ -38,6 +33,9 @@ import java.util.StringTokenizer;
 public class SelfServiceAuthFilter implements javax.servlet.Filter {
 
     private static final Log LOG = LogFactory.getLog(SelfServiceAuthFilter.class);
+    private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
+    private String SELFSERVICE_BASE_URL = res.getString("SELFSERVICE_BASE_URL");
+    private String SELFSERVICE_CONTEXT = res.getString("SELFSERVICE_CONTEXT");
 
     private FilterConfig filterConfig = null;
 
@@ -85,21 +83,25 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
 
         // validate the token. If the token is not valid then redirect to the login page
         // invalidate the session
-        String token = servletRequest.getParameter("tk");
+        String token = (String) session.getAttribute("token");
+
+        // if token was not found in Request parameters try to find in Cookies
         if(StringUtils.isEmpty(token)) {
-            token = (String) session.getAttribute("token");
+            token = servletRequest.getParameter("tk");
         }
-        String userId = servletRequest.getParameter("userId");
-        String principal = servletRequest.getParameter("lg");
+
         String backUrl = servletRequest.getParameter("backUrl");
+        if(StringUtils.isEmpty(backUrl)) {
+            backUrl = SELFSERVICE_BASE_URL + "/" + SELFSERVICE_CONTEXT;
+        }
+        session.setAttribute("backUrl", backUrl);
 
         String sessionUserId = (String) session.getAttribute("userId");
-
 
         if (StringUtils.isEmpty(sessionUserId) && StringUtils.isEmpty(token)) {
             // token is missing
             LOG.debug("token is null");
-            response.sendRedirect(expirePage);
+            response.sendRedirect(SELFSERVICE_BASE_URL+"/"+SELFSERVICE_CONTEXT+expirePage);
             return;
 
         }
@@ -115,50 +117,22 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
             StringTokenizer tokenizer = new StringTokenizer(decString, ":");
             if (tokenizer.hasMoreTokens()) {
                 String decUserId = tokenizer.nextToken();
-                if (decUserId == null || decUserId.isEmpty()) {
-
+                if(StringUtils.isNotEmpty(decUserId)) {
+                    session.setAttribute("userId", decUserId);
+                } else {
                     LOG.debug("Token validation failed...");
-
                     session.invalidate();
-                    response.sendRedirect(expirePage);
+                    response.sendRedirect(SELFSERVICE_BASE_URL+"/"+SELFSERVICE_CONTEXT+expirePage);
                     return;
-                }
-                if (principal == null || principal.isEmpty()) {
-                    Login l = loginServiceClient.getPrimaryIdentity(decUserId).getPrincipal();
-                    principal = l.getId().getLogin();
-                    userId = decUserId;
-
-                    session.setAttribute("userId", userId);
-                    session.setAttribute("login", principal);
-                    if(StringUtils.isNotEmpty(backUrl)) {
-                       session.setAttribute("backUrl", backUrl);
-                    }
                 }
             }
         } catch (Exception e) {
             LOG.info("Token validation created exception failed");
             LOG.error(e);
             session.invalidate();
-            response.sendRedirect(expirePage);
+            response.sendRedirect(SELFSERVICE_BASE_URL+"/"+SELFSERVICE_CONTEXT+expirePage);
             return;
         }
-
-        // token is valid, but renew it for this request
-        String ip = request.getRemoteHost();
-        Response resp = authServiceClient.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN, ip);
-        if (resp.getStatus() == ResponseStatus.FAILURE) {
-            LOG.debug("Token renewal failed:" + userId + " - " + token);
-            session.invalidate();
-            response.sendRedirect(expirePage);
-            return;
-
-        }
-        LOG.debug("Token renewed");
-
-        SSOToken ssoToken = (SSOToken) resp.getResponseValue();
-        String newToken = ssoToken.getToken();
-        LOG.info("New token: " + userId + " - " + newToken);
-        session.setAttribute("token", newToken);
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
