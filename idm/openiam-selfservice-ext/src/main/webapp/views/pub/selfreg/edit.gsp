@@ -1,6 +1,6 @@
-<ui:composition template="../composition">
+<ui:composition template="/composition">
     <ui:define composition="${it}" name="menu">
-        <g:render template="../menu_template" model="[selectedMenuItem: 'selfRegistration']"/>
+        <g:render template="/menu_template" model="[selectedMenuItem: 'selfRegistration']"/>
     </ui:define>
     <ui:define composition="${it}" name="body">
         <g:form method="post" class="user-info" url="[action: 'edit.jsp', controller: 'pub/registration']">

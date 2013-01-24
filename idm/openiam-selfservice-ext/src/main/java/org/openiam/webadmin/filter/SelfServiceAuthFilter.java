@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -88,6 +89,7 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
         // if token was not found in Request parameters try to find in Cookies
         if(StringUtils.isEmpty(token)) {
             token = servletRequest.getParameter("tk");
+            session.setAttribute("token", token);
         }
 
         String backUrl = servletRequest.getParameter("backUrl");
