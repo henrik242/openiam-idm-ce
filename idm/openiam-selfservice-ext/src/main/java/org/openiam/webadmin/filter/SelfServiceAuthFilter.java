@@ -74,6 +74,15 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
         String url = request.getRequestURI();
         LOG.debug("* Requested url=" + url);
 
+        String backUrl = (String) session.getAttribute("token");
+        if(StringUtils.isEmpty(backUrl)) {
+            backUrl = servletRequest.getParameter("backUrl");
+            if(StringUtils.isEmpty(backUrl)) {
+                backUrl = SELFSERVICE_BASE_URL + "/" + SELFSERVICE_CONTEXT;
+            }
+            session.setAttribute("backUrl", backUrl);
+        }
+
         if (url == null || url.equals("/") || url.endsWith("login.gsp") || isExcludeObject(url) || isPublicUrl(url)) {
             LOG.info("Pass through request for object");
             filterChain.doFilter(servletRequest, servletResponse);
@@ -91,12 +100,6 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
             token = servletRequest.getParameter("tk");
             session.setAttribute("token", token);
         }
-
-        String backUrl = servletRequest.getParameter("backUrl");
-        if(StringUtils.isEmpty(backUrl)) {
-            backUrl = SELFSERVICE_BASE_URL + "/" + SELFSERVICE_CONTEXT;
-        }
-        session.setAttribute("backUrl", backUrl);
 
         String sessionUserId = (String) session.getAttribute("userId");
 

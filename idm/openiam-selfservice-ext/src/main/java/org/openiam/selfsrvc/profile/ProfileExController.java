@@ -59,13 +59,13 @@ public class ProfileExController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
     public String save(Model model, ProfileExCommand command, BindingResult result, HttpServletRequest request) {
-        ProfileExValidator.validate(command, result);
-        HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
         if(StringUtils.isNotEmpty(command.getSubmitAction()) && "_cancel".equals(command.getSubmitAction())) {
             String backUrl = (String)request.getSession().getAttribute("backUrl");
             return "redirect:"+backUrl;
         }
+        ProfileExValidator.validate(command, result);
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
         if (!result.hasErrors() && StringUtils.isNotEmpty(userId)) {
             User currentUser = userServiceClient.getUserWithDependent(userId, true).getUser();
             currentUser.setFirstName(command.getFirstName());
