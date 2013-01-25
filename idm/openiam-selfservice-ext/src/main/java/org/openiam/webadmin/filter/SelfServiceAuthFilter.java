@@ -6,6 +6,8 @@ import org.apache.commons.logging.LogFactory;
 
 import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
+import org.openiam.idm.srvc.menu.dto.Menu;
+import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -37,6 +40,7 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
     private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
     private String SELFSERVICE_BASE_URL = res.getString("SELFSERVICE_BASE_URL");
     private String SELFSERVICE_CONTEXT = res.getString("SELFSERVICE_CONTEXT");
+    private String defaultLang = "en";
 
     private FilterConfig filterConfig = null;
 
@@ -44,13 +48,35 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
     private AuthenticationService authServiceClient;
     private LoginDataWebService loginServiceClient;
 
+    private NavigatorDataWebService navServiceClient;
+
     private String expirePage;
     private String excludePath;
+    private String publicLeftMenuGroup;
+    private String publicRightMenuGroup1;
+    private String publicRightMenuGroup2;
+    private String publicRightMenuGroup3;
+    private String leftMenuGroup;
+    private String rightMenuGroup1;
+    private String rightMenuGroup2;
+    private String rightMenuGroup3;
+    private String rootMenu;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         this.expirePage = filterConfig.getInitParameter("expirePage");
         this.excludePath = filterConfig.getInitParameter("excludePath");
+        this.defaultLang = filterConfig.getInitParameter("defaultLang");
+        this.rootMenu = filterConfig.getInitParameter("rootMenu");
+        this.leftMenuGroup = filterConfig.getInitParameter("leftMenuGroup");
+        this.rightMenuGroup1 = filterConfig.getInitParameter("rightMenuGroup1");
+        this.rightMenuGroup2 = filterConfig.getInitParameter("rightMenuGroup2");
+        this.rightMenuGroup3 = filterConfig.getInitParameter("rightMenuGroup3");
+        this.publicLeftMenuGroup = filterConfig.getInitParameter("publicLeftMenuGroup");
+        this.publicRightMenuGroup1 = filterConfig.getInitParameter("publicRightMenuGroup1");
+        this.publicRightMenuGroup2 = filterConfig.getInitParameter("publicRightMenuGroup2");
+        this.publicRightMenuGroup3 = filterConfig.getInitParameter("publicRightMenuGroup3");
     }
 
     @Override
@@ -124,6 +150,23 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
                 String decUserId = tokenizer.nextToken();
                 if(StringUtils.isNotEmpty(decUserId)) {
                     session.setAttribute("userId", decUserId);
+
+                    // get the menus that the user has permissions too
+                    List<Menu> menuList = navServiceClient.menuGroupByUser(rootMenu, decUserId, "en").getMenuList();
+
+                    session.setAttribute("permissions", menuList);
+
+                    // user has been authentication - show the private menus
+                    session.setAttribute("privateLeftMenuGroup",
+                            navServiceClient.menuGroupSelectedByUser(leftMenuGroup, decUserId, defaultLang).getMenuList());
+                    session.setAttribute("privateRightMenuGroup1",
+                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup1, decUserId, defaultLang).getMenuList());
+                    session.setAttribute("privateRightMenuGroup2",
+                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup2, decUserId, defaultLang).getMenuList());
+
+                    session.setAttribute("privateRightMenuGroup3",
+                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup3, decUserId, defaultLang).getMenuList());
+
                 } else {
                     LOG.debug("Token validation failed...");
                     session.invalidate();
@@ -155,6 +198,9 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
             if(userServiceClient == null) {
                 userServiceClient =  (UserDataWebService)webContext.getBean("userServiceClient");
             }
+            if(navServiceClient == null) {
+                navServiceClient = (NavigatorDataWebService)webContext.getBean("navServiceClient");
+            }
         }
     }
 
@@ -174,4 +220,6 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
     public FilterConfig getFilterConfig() {
         return filterConfig;
     }
+
+
 }
