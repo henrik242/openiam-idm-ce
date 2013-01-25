@@ -40,7 +40,7 @@
 
     <filter>
     <filter-name>SessionFilter</filter-name>
-    <filter-class>org.openiam.webadmin.filter.SessionFilter</filter-class>
+    <filter-class>org.openiam.webadmin.filter.SelfSessionFilter</filter-class>
     <init-param>
       <param-name>expirePage</param-name>
       <param-value>/login.selfserve?expire=1</param-value>

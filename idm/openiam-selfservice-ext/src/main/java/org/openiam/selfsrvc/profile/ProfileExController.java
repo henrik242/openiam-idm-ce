@@ -59,10 +59,13 @@ public class ProfileExController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
     public String save(Model model, ProfileExCommand command, BindingResult result, HttpServletRequest request) {
+        if(StringUtils.isNotEmpty(command.getSubmitAction()) && "_cancel".equals(command.getSubmitAction())) {
+            String backUrl = (String)request.getSession().getAttribute("backUrl");
+            return "redirect:"+backUrl;
+        }
         ProfileExValidator.validate(command, result);
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
-
         if (!result.hasErrors() && StringUtils.isNotEmpty(userId)) {
             User currentUser = userServiceClient.getUserWithDependent(userId, true).getUser();
             currentUser.setFirstName(command.getFirstName());
@@ -98,24 +101,25 @@ public class ProfileExController {
     }
 
     private ProfileExCommand editFormInitialization(HttpServletRequest request, ProfileExCommand profileCommand) {
-        HttpSession session =  request.getSession();
-        String userId = (String)session.getAttribute("userId");
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        if (StringUtils.isNotEmpty(userId)) {
+            User usr = userServiceClient.getUserWithDependent(userId, true).getUser();
 
-        User usr = userServiceClient.getUserWithDependent(userId, true).getUser();
-
-        if(usr != null) {
-            profileCommand.setFirstName(usr.getFirstName());
-            profileCommand.setLastName(usr.getLastName());
-            profileCommand.setEmail1(usr.getEmail());
-            if(usr.getPhones().size() > 0) {
-                for(Phone phone : usr.getPhones()) {
-                    if (phone.getName().equalsIgnoreCase("DESK PHONE")) {
-                        profileCommand.setWorkAreaCode(phone.getAreaCd());
-                        profileCommand.setWorkPhone(phone.getPhoneNbr());
-                    }
-                    if (phone.getName().equalsIgnoreCase("FAX")) {
-                        profileCommand.setFaxAreaCode(phone.getAreaCd());
-                        profileCommand.setFaxPhone(phone.getPhoneNbr());
+            if (usr != null) {
+                profileCommand.setFirstName(usr.getFirstName());
+                profileCommand.setLastName(usr.getLastName());
+                profileCommand.setEmail1(usr.getEmail());
+                if (usr.getPhones().size() > 0) {
+                    for (Phone phone : usr.getPhones()) {
+                        if (phone.getName().equalsIgnoreCase("DESK PHONE")) {
+                            profileCommand.setWorkAreaCode(phone.getAreaCd());
+                            profileCommand.setWorkPhone(phone.getPhoneNbr());
+                        }
+                        if (phone.getName().equalsIgnoreCase("FAX")) {
+                            profileCommand.setFaxAreaCode(phone.getAreaCd());
+                            profileCommand.setFaxPhone(phone.getPhoneNbr());
+                        }
                     }
                 }
             }

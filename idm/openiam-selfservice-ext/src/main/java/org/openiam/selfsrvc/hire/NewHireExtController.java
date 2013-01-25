@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.tags.form.OptionTag;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -120,6 +121,10 @@ public class NewHireExtController {
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
     public String getUserDetailsForm(Model model, NewHireExtCommand hireExtCommand, BindingResult result, HttpServletRequest request) {
         LOG.info("New hire select type of user post form called.");
+        if(StringUtils.isNotEmpty(hireExtCommand.getSubmitAction()) && "_cancel".equals(hireExtCommand.getSubmitAction())) {
+            String backUrl = (String)request.getSession().getAttribute("backUrl");
+            return "redirect:"+backUrl;
+        }
         NewHireExtValidator.validateSelectUserTypeForm(hireExtCommand, result);
         if (!result.hasErrors()) {
             userDetailsFormInitialization(model, hireExtCommand.getMetadataTypeId());
@@ -135,12 +140,13 @@ public class NewHireExtController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/save")
-    public String saveForm(Model model, NewHireExtCommand hireExtCommand, BindingResult result, HttpServletRequest request) {
+    public String saveForm(Model model, NewHireExtCommand hireExtCommand, BindingResult result, HttpServletRequest request,  HttpServletResponse response) {
         LOG.info("New hire save post action called.");
 
         if(StringUtils.isNotEmpty(hireExtCommand.getSubmitAction())) {
            if("_cancel".equals(hireExtCommand.getSubmitAction())) {
-               return (String)request.getSession().getAttribute("backUrl");
+               String backUrl = (String)request.getSession().getAttribute("backUrl");
+               return "redirect:"+backUrl;
            } else if("_prev".equals(hireExtCommand.getSubmitAction())) {
                MetadataType[] typeAry = metadataServiceClient.getTypesInCategory(USER_CATEGORY_TYPE).getMetadataTypeAry();
                model.addAttribute("metadataTypeAry", typeAry);

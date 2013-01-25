@@ -89,14 +89,12 @@ public class RegistrationController {
         return "/pub/selfreg/edit";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/confirm")
-    public String getConfirmForm(Model model, HttpServletRequest request) {
-        LOG.info("Confirmation form called after registration.");
-        return "/pub/confirm";
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
     public String save(Model model, RegistrationCommand command, BindingResult result, HttpServletRequest request) {
+        if(org.mule.util.StringUtils.isNotEmpty(command.getSubmitAction()) && "_cancel".equals(command.getSubmitAction())) {
+            String backUrl = (String)request.getSession().getAttribute("backUrl");
+            return "redirect:"+backUrl;
+        }
         RegistrationValidator.validate(command, result);
         if (!result.hasErrors()) {
             HttpSession session = request.getSession();

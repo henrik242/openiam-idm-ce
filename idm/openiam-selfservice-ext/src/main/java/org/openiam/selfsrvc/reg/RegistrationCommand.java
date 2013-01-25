@@ -1,23 +1,14 @@
 package org.openiam.selfsrvc.reg;
 
-import org.openiam.idm.srvc.cd.dto.ReferenceData;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.loc.dto.Location;
-import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.User;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 public class RegistrationCommand implements Serializable {
     /**
      * serialVersionUID
      */
     private static final long serialVersionUID = -3001967685870249543L;
+    private String submitAction;
     private String firstName;
     private String middleInit;
     private String lastName;
@@ -255,5 +246,13 @@ public class RegistrationCommand implements Serializable {
 
     public void setAltCellNbr(String altCellNbr) {
         this.altCellNbr = altCellNbr;
+    }
+
+    public String getSubmitAction() {
+        return submitAction;
+    }
+
+    public void setSubmitAction(String submitAction) {
+        this.submitAction = submitAction;
     }
 }

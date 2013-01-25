@@ -246,7 +246,7 @@
                         </connector>
                     </connectors>
                     <webAppConfig>
-                        <contextPath>/</contextPath>
+                        <contextPath>/selfservice-ext</contextPath>
                     </webAppConfig>
                 </configuration>
             </plugin>

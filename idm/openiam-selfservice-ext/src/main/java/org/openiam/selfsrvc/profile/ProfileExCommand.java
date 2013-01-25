@@ -1,6 +1,8 @@
 package org.openiam.selfsrvc.profile;
 
 public class ProfileExCommand {
+    private String submitAction;
+
     private String firstName;
     private String workAreaCode;
     private String workPhone;
@@ -63,5 +65,13 @@ public class ProfileExCommand {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getSubmitAction() {
+        return submitAction;
+    }
+
+    public void setSubmitAction(String submitAction) {
+        this.submitAction = submitAction;
     }
 }

@@ -58,7 +58,8 @@
 		<property name="publicRightMenuGroup2" value="SELFCENTER" />
 		<property name="publicRightMenuGroup3" value="REPORTCENTER" />
 
-        <property name="appBase" value="${APP_BASE_URL}" />
+        <property name="selfserviceExtBase" value="${SELFSERVICE_EXT_BASE_URL}" />
+        <property name="selfserviceBase" value="${SELFSERVICE_BASE_URL}" />
         <property name="selfserviceExtContext" value="${SELFSERVICE_EXT_CONTEXT}" />
         <property name="selfserviceContext" value="${SELFSERVICE_CONTEXT}" />
 	</bean>

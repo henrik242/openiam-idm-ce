@@ -463,7 +463,7 @@
 		<property name="orgManager" ref="orgServiceClient" />
         <property name="workflowUrl">
             <map>
-                <entry key="260" value="http://{APP_BASE_URL}/{SELFSERVICE_EXT_CONTEXT}/newHire.selfserve" />
+                <entry key="260" value="http://{SELFSERVICE_EXT_BASE_URL}/{SELFSERVICE_EXT_CONTEXT}/newHire.selfserve" />
                 <entry key="261" value="changeUserStatus.selfserve" />
                 <entry key="262" value="changeRoleAccess.selfserve" />
                 <entry key="263" value="reOrgUserAccess.selfserve" />

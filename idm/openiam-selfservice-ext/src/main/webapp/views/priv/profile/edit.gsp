@@ -3,7 +3,15 @@
         <g:render template="/menu_template" model="[selectedMenuItem: 'profile']"/>
     </ui:define>
     <ui:define composition="${it}" name="body">
+        <script type="text/javascript">
+            var submitPressed = function(src) {
+                var action = jQuery(src).attr('name');
+                jQuery('#submitFld').val(action);
+                return true;
+            }
+        </script>
         <g:form method="post" class="profile" url="[action: 'edit.jsp', controller: 'priv/profile']">
+            <g:hiddenField id="submitFld" name="submitAction" value="_cancel" />
             <fieldset>
                 <div class="block">
                     <div class="wrap alt">
@@ -61,11 +69,11 @@
                     </div>
                 </div>
                 <div class="button">
-                    <input type="submit" value="Submit" />
+                    <input type="submit" name="_finish" value="Submit" onclick="return submitPressed(this)"/>
                 </div>
 
                 <div class="button alt">
-                    <input type="submit" name="_cancel" value="Cancel" />
+                    <input type="submit" name="_cancel" value="Cancel" onclick="return submitPressed(this)"/>
                 </div>
 
             </fieldset>
