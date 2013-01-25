@@ -81,7 +81,7 @@
 
     <bean id="userDAO" class="org.openiam.idm.srvc.user.service.UserDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
-        <property name="seqGenDao" ref="seqGenDAO"/>
+        <!--property name="seqGenDao" ref="seqGenDAO"/-->
         <property name="emailSearchVal" value="EMAIL1"/>
         <property name="phoneSearchVal" value="Desk Phone"/>
         <property name="maxResultSetSize" value="${fetch.size}"/>
