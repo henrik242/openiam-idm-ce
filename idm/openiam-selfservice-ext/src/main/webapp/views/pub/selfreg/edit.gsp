@@ -1,6 +1,6 @@
 <ui:composition template="/composition">
     <ui:define composition="${it}" name="menu">
-        <g:render template="/menu_template" model="[selectedMenuItem: 'selfRegistration']"/>
+        <g:render template="/pub_menu_template" model="[selectedMenuItem: 'REGISTRATION']"/>
     </ui:define>
     <ui:define composition="${it}" name="body">
         <script type="text/javascript">

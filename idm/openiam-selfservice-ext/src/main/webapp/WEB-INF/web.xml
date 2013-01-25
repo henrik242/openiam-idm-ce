@@ -59,6 +59,42 @@
             <param-name>defaultLang</param-name>
             <param-value>en</param-value>
         </init-param>
+        <init-param>
+            <param-name>rootMenu</param-name>
+            <param-value>SELFSERVICE</param-value>
+        </init-param>
+        <init-param>
+            <param-name>publicLeftMenuGroup</param-name>
+            <param-value>BUSINESCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>publicRightMenuGroup1</param-name>
+            <param-value>ACCESSCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>publicRightMenuGroup2</param-name>
+            <param-value>SELFCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>publicRightMenuGroup3</param-name>
+            <param-value>REPORTCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>leftMenuGroup</param-name>
+            <param-value>BUSINESCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>rightMenuGroup1</param-name>
+            <param-value>ACCESSCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>rightMenuGroup2</param-name>
+            <param-value>SELFCENTER</param-value>
+        </init-param>
+        <init-param>
+            <param-name>rightMenuGroup3</param-name>
+            <param-value>REPORTCENTER</param-value>
+        </init-param>
     </filter>
 
     <filter-mapping>
