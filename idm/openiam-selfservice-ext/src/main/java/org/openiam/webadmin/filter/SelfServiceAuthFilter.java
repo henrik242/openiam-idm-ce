@@ -4,6 +4,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.openiam.base.ws.Response;
+import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.auth.dto.Login;
+import org.openiam.idm.srvc.auth.dto.SSOToken;
+import org.openiam.idm.srvc.auth.service.AuthenticationConstants;
 import org.openiam.idm.srvc.auth.service.AuthenticationService;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.menu.dto.Menu;
@@ -100,7 +105,7 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
         String url = request.getRequestURI();
         LOG.debug("* Requested url=" + url);
 
-        String backUrl = (String) session.getAttribute("token");
+        String backUrl = (String) session.getAttribute("backUrl");
         if(StringUtils.isEmpty(backUrl)) {
             backUrl = servletRequest.getParameter("backUrl");
             if(StringUtils.isEmpty(backUrl)) {
@@ -108,7 +113,6 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
             }
             session.setAttribute("backUrl", backUrl);
         }
-
         if (url == null || url.equals("/") || url.endsWith("login.gsp") || isExcludeObject(url) || isPublicUrl(url)) {
             LOG.info("Pass through request for object");
             filterChain.doFilter(servletRequest, servletResponse);
@@ -120,6 +124,10 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
         // validate the token. If the token is not valid then redirect to the login page
         // invalidate the session
         String token = (String) session.getAttribute("token");
+        String principal = (String)session.getAttribute("login");
+        if(StringUtils.isEmpty(principal)) {
+            principal = servletRequest.getParameter("lg");
+        }
 
         // if token was not found in Request parameters try to find in Cookies
         if(StringUtils.isEmpty(token)) {
@@ -139,8 +147,7 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
 
         // get the user in the token and make sure that user in the token is the same as the one in the session
         LOG.debug("Validating token");
-        try {
-            //spring services beans initialization if needed
+        if (isCode(url) && !isPublicUrl(url)) {
             sprinBeansInitialization(context);
 
             String decString = (String) loginServiceClient.decryptPassword(token).getResponseValue();
@@ -150,40 +157,73 @@ public class SelfServiceAuthFilter implements javax.servlet.Filter {
                 String decUserId = tokenizer.nextToken();
                 if(StringUtils.isNotEmpty(decUserId)) {
                     session.setAttribute("userId", decUserId);
+                }
+            }
+            /* There is no User attribute so redirect to login page */
+            String userId =  (String)session.getAttribute("userId");
+
+            if(userId == null) {
+                LOG.debug("Token validation failed...");
+                session.invalidate();
+                response.sendRedirect(SELFSERVICE_BASE_URL+"/"+SELFSERVICE_CONTEXT+expirePage);
+                return;
+            }
+            // userId is not null
+
+                String ip = request.getRemoteHost();
+            if (StringUtils.isEmpty(principal)) {
+                Login l = loginServiceClient.getPrimaryIdentity(userId).getPrincipal();
+                principal = l.getId().getLogin();
+                session.setAttribute("userId", userId);
+                session.setAttribute("login", principal);
+            }
+                Response resp =  authServiceClient.renewToken(principal, token, AuthenticationConstants.OPENIAM_TOKEN, ip);
+
+                //BooleanResponse resp = authService.isUserLoggedin(userId, ip);
+                // if not logged in then show the login page
+                if (resp.getStatus() == ResponseStatus.FAILURE) {
+                    //if (resp == null || !resp.getValue().booleanValue()) {
+                    session.invalidate();
+                    response.sendRedirect(request.getContextPath() + expirePage);
+                    return;
+                }else {
+                    // get the new token and update the session with this value
+                    SSOToken ssoToken = (SSOToken)resp.getResponseValue();
+                    if (ssoToken != null ) {
+                        session.setAttribute("token", ssoToken.getToken());
+                    }
 
                     // get the menus that the user has permissions too
-                    List<Menu> menuList = navServiceClient.menuGroupByUser(rootMenu, decUserId, "en").getMenuList();
+                    List<Menu> menuList = navServiceClient.menuGroupByUser(rootMenu, userId, defaultLang).getMenuList();
 
                     session.setAttribute("permissions", menuList);
 
                     // user has been authentication - show the private menus
                     session.setAttribute("privateLeftMenuGroup",
-                            navServiceClient.menuGroupSelectedByUser(leftMenuGroup, decUserId, defaultLang).getMenuList());
+                            navServiceClient.menuGroupSelectedByUser(leftMenuGroup, userId, defaultLang).getMenuList());
                     session.setAttribute("privateRightMenuGroup1",
-                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup1, decUserId, defaultLang).getMenuList());
+                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup1, userId, defaultLang).getMenuList());
                     session.setAttribute("privateRightMenuGroup2",
-                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup2, decUserId, defaultLang).getMenuList());
+                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup2, userId, defaultLang).getMenuList());
 
                     session.setAttribute("privateRightMenuGroup3",
-                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup3, decUserId, defaultLang).getMenuList());
+                            navServiceClient.menuGroupSelectedByUser(rightMenuGroup3, userId, defaultLang).getMenuList());
 
-                } else {
-                    LOG.debug("Token validation failed...");
-                    session.invalidate();
-                    response.sendRedirect(SELFSERVICE_BASE_URL+"/"+SELFSERVICE_CONTEXT+expirePage);
-                    return;
                 }
+
             }
-        } catch (Exception e) {
-            LOG.info("Token validation created exception failed");
-            LOG.error(e);
-            session.invalidate();
-            response.sendRedirect(SELFSERVICE_BASE_URL+"/"+SELFSERVICE_CONTEXT+expirePage);
-            return;
-        }
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
+    public boolean isCode(String url) {
+
+        if (url.contains(".jsp") || url.contains(".gsp")) {
+            return true;
+        }
+        return false;
+    }
+
 
     private void sprinBeansInitialization(ServletContext context) {
         if(authServiceClient == null || loginServiceClient == null || userServiceClient == null) {
