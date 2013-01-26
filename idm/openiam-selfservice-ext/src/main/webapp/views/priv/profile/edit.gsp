@@ -44,9 +44,9 @@
                             <div class="row">
                                 <label for="t-4">Primary Email<span>*</span></label>
                                 <g:textField id="t-4" name="email1" value="${profileCommand?.email1}"/>
-                                <g:hasErrors bean="${errors}" field="firstName">
+                                <g:hasErrors bean="${errors}" field="email1">
                                     <div class="error">
-                                        <g:renderErrors bean="${errors}" field="firstName" as="list"/>
+                                        <g:renderErrors bean="${errors}" field="email1" as="list"/>
                                     </div>
                                 </g:hasErrors>
                             </div>
@@ -59,9 +59,9 @@
                             <div class="row">
                                 <label for="t-7">Last Name<span>*</span></label>
                                 <g:textField id="t-7" name="lastName" value="${profileCommand?.lastName}"/>
-                                <g:hasErrors bean="${errors}" field="firstName">
+                                <g:hasErrors bean="${errors}" field="lastName">
                                     <div class="error">
-                                        <g:renderErrors bean="${errors}" field="firstName" as="list"/>
+                                        <g:renderErrors bean="${errors}" field="lastName" as="list"/>
                                     </div>
                                 </g:hasErrors>
                             </div>

@@ -93,9 +93,9 @@ public class ProfileExController {
 
             return "/priv/confirm";
         } else {
-            model.addAttribute("registrationCommand", command);
             model.addAttribute("errors",result);
-            editFormInitialization(request, command);
+       //    editFormInitialization(request, command);
+            model.addAttribute("profileCommand", command);
             return "/priv/profile/edit";
         }
     }

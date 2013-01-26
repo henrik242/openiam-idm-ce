@@ -19,10 +19,15 @@
     <r:layoutResources />
 </head>
 <body>
+<%
+    ResourceBundle res = ResourceBundle.getBundle("securityconf");
+    String SELFSERVICE_BASE_URL =  res.getString("SELFSERVICE_BASE_URL");
+    String SELFSERVICE_CONTEXT =  res.getString("SELFSERVICE_CONTEXT");
+%>
 <div id="wrapper">
     <div id="header">
         <p>OpenIAM Selfservice Application</p>
-        <h1 class="logo">OpenIAM</h1>
+        <h1 class="logo"><a href="<%= SELFSERVICE_BASE_URL %>/<%= SELFSERVICE_CONTEXT %>">OpenIAM</a></h1>
     </div>
     <div id="main">
         <g:layoutBody />
