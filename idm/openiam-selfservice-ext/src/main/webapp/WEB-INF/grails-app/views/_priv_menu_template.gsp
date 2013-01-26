@@ -14,7 +14,6 @@
     String rMenu = (String)request.getSession().getAttribute("hideRMenu");
     if (rMenu == null ||  !rMenu.equals("1")) {
 
-        System.out.println("menubar.jsp");
         String userId = (String)session.getAttribute("userId");
         String token = (String)session.getAttribute("token");
 
