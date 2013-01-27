@@ -4,14 +4,14 @@
     <parent>
         <artifactId>am-core</artifactId>
         <groupId>org.openiam</groupId>
-        <version>2.1.0</version>
+        <version>2.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openiam</groupId>
     <artifactId>openiam-am-intf</artifactId>
     <packaging>jar</packaging>
     <name>openiam-am-intf</name>
-    <version>2.1.0</version>
+    <version>2.3.0</version>
     <description>Interfaces and DTO for the Access Manager specific services</description>
     <ciManagement>
         <system>am</system>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>org.openiam</groupId>
             <artifactId>openiam-pojo-intf</artifactId>
-            <version>2.1.0</version>
+            <version>2.3.0</version>
         </dependency>
 
         <dependency>

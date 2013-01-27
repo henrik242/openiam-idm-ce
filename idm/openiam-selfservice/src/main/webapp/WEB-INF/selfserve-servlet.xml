@@ -471,8 +471,9 @@
                 <entry key="265" value="changeGroupAccess.selfserve" />
             </map>
         </property>
-
      </bean>
+
+
      <bean id="changeAccessValidator" class="org.openiam.selfsrvc.prov.ChangeAccessValidator">
      	<property name="userMgr" ref="userServiceClient" />
      	<property name="loginManager" ref="loginServiceClient" />

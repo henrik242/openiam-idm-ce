@@ -2,14 +2,14 @@
   <parent>
     <artifactId>idm-core</artifactId>
     <groupId>org.openiam</groupId>
-    <version>2.1.0</version>
+    <version>2.3.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openiam</groupId>
   <artifactId>openiam-selfservice</artifactId>
   <packaging>war</packaging>
   <name>selfservice</name>
-  <version>2.1.0</version>
+  <version>2.3.0</version>
   <description>OpenIAM SelfService application.</description>
   <ciManagement>
     <system>idm</system>
@@ -63,25 +63,25 @@
     <dependency>
       <groupId>org.openiam</groupId>
       <artifactId>openiam-pojo-intf</artifactId>
-      <version>2.1.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openiam</groupId>
       <artifactId>idm-connector-intf</artifactId>
-      <version>2.1.0</version>
+      <version>${project.version}</version>
     </dependency>
 
 
     <dependency>
       <groupId>org.openiam</groupId>
       <artifactId>openiam-idm-intf</artifactId>
-      <version>2.1.0</version>
+      <version>${project.version} </version>
     </dependency>
 
     <!--<dependency>-->
       <!--<groupId>org.openiam</groupId>-->
       <!--<artifactId>openiam-idm-ee-intf</artifactId>-->
-      <!--<version>2.1.0</version>-->
+      <!--<version>2.3.0</version>-->
     <!--</dependency>-->
 
     <dependency>
@@ -174,7 +174,7 @@
      <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
-      <version>1.8.6</version>
+      <version>${groovy.version}</version>
     </dependency> 
 
         <dependency>
@@ -191,7 +191,7 @@
         <dependency>
           <groupId>log4j</groupId>
           <artifactId>log4j</artifactId>
-          <version>1.2.15</version>
+          <version>${log4j.version}</version>
           <exclusions>
             <exclusion>
               <artifactId>jms</artifactId>
