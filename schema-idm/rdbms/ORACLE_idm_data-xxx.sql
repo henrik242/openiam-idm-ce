@@ -223,7 +223,7 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISP
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('ACC_CONTROL','IDM','Access Control','Access Control','access/accessIndex.do', 'en',2);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, active, display_order) values('PROVISIONING','IDM','Provisioning','Provisioning','prov/provIndex.do', 'en',1,3);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, active, display_order) values('SECURITY_POLICY','IDM','Policy','Policy','security/policy.do?method=init&nav=reset', 'en',1,4);
-insert into MENU (menu_id, menu_group, menu_name, menu_desc, url, LANGUAGE_CD, DISPLAY_ORDER) values( 'BIRT_REPORT', 'IDM', 'Reports', 'Reports', 'birtReportList.cnt', 'en', '5');
+
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('ADMIN','IDM','Administration','Administration','admin/index.jsp', 'en',6);
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('USER','IDMAN','User','User','menunav.do', 'en',1);
@@ -283,38 +283,47 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISP
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('BATCH_PROC','ADMIN','Batch Processes','Batch Processes','batchList.cnt', 'en',4);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('METADATA','ADMIN','Metadata','Metadata','metadataTypeList.cnt', 'en',5);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('BLK_NOTIFICATION','ADMIN','Bulk Notification','Bulk Notification','sysMessageList.cnt', 'en',6);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('MAIL_TEMPLATES','ADMIN','Mail Templates','Mail Templates','mailTmplList.cnt', 'en',7);
+
+
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('REPORT','IDM','Report','Report','security/reportIndex.do', 'en',5);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('AUDITREPORT','REPORT','Audit Reports','Audit Information Reports','', 'en',2);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('AUDIT_RPT','AUDITREPORT','Audit Report','Audit Report','auditReport.cnt', 'en',1);
 
 /* Self Service MENU options */
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order) values('SELFSERVICE', 'ROOT' ,'SELF SERVICE','SELF SERVICE','', 'en',0);
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('ACCESSCENTER','SELFSERVICE', 'Access Management Center', 'Access Management Center', null, 'en', '1',0);
 
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('REQINBOX', 'ACCESSCENTER' , 'In-Box','In-Box','{SELFSERVICE}/myPendingRequest.selfserve', 'en','3',0);
-INSERT INTO MENU (MENU_ID,LANGUAGE_CD,MENU_GROUP,MENU_NAME,MENU_DESC,URL,ACTIVE,DISPLAY_ORDER,PUBLIC_URL) VALUES ('CREATEREQ','en','ACCESSCENTER','Create Request','Create Request','{SELFSERVICE}/createRequest.selfserve',null,'4',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('REQINBOX', 'ACCESSCENTER' , 'In-Box','In-Box','myPendingRequest.selfserve', 'en','3',0);
+INSERT INTO MENU (MENU_ID,LANGUAGE_CD,MENU_GROUP,MENU_NAME,MENU_DESC,URL,ACTIVE,DISPLAY_ORDER,PUBLIC_URL) VALUES ('CREATEREQ','en','ACCESSCENTER','Create Request','Create Request','createRequest.selfserve',null,'4',0);
 
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MANAGEREQ', 'ACCESSCENTER' , 'Request History','Request History','{SELFSERVICE}/requestList.selfserve', 'en','5',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MANAGEREQ', 'ACCESSCENTER' , 'Request History','Request History','requestList.selfserve', 'en','5',0);
+
+/* insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('NEWUSER','ACCESSCENTER','New User', 'New User', 'newHire.selfserve', 'en', '6',0);  */
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('NEWUSER-NOAPPRV','ACCESSCENTER','New User-NO Approver', 'New User-No Approver', 'newUserNoApp.selfserve', 'en', '7',0);
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('SELFCENTER','SELFSERVICE','Self Service Center', 'Self Service Center', null, 'en', '2',0);
 
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('DIRECTORY','SELFCENTER','Directory Lookup', 'Directory Lookup', '{SELFSERVICE}/pub/directory.do?method=view', 'en', '1',1);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('CHNGPSWD','SELFCENTER', 'Change Password', 'Change Password', '{SELFSERVICE}/passwordChange.selfserve', 'en', '3',0);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('IDQUEST','SELFCENTER', 'Challenge Response', 'Challenge Response', '{SELFSERVICE}/identityQuestion.selfserve', 'en', '4',0);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('PROFILE','SELFCENTER', 'Edit Your Profile', 'Edit Your Profile', '{SELFSERVICE_EXT}/priv/profile/edit.jsp', 'en', '6',0);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MY-ID-LIST','SELFCENTER', 'My Identities', 'My Identities', '{SELFSERVICE}/myIdentityList.selfserve', 'en', '7',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('DIRECTORY','SELFCENTER','Directory Lookup', 'Directory Lookup', 'pub/directory.do?method=view', 'en', '1',1);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('CHNGPSWD','SELFCENTER', 'Change Password', 'Change Password', 'passwordChange.selfserve', 'en', '3',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('IDQUEST','SELFCENTER', 'Challenge Response', 'Challenge Response', 'identityQuestion.selfserve', 'en', '4',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('PROFILE','SELFCENTER', 'Edit Your Profile', 'Edit Your Profile', 'profile.selfserve', 'en', '6',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MY-ID-LIST','SELFCENTER', 'My Identities', 'My Identities', 'myIdentityList.selfserve', 'en', '7',0);
 
 
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER, PUBLIC_URL) values('SELF_QUERYUSER','ACCESSCENTER','Manage User','Manage User','{SELFSERVICE}/idman/userSearch.do?action=view', 'en',1,0);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERSUMMARY','SELF_QUERYUSER','User Details','User Details','{SELFSERVICE}/editUser.selfserve', 'en',1);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERIDENTITY','SELF_QUERYUSER','Identities','User Identities','{SELFSERVICE}/userIdentity.selfserve', 'en',2);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERGROUP','SELF_QUERYUSER','Group','User Groups','{SELFSERVICE}/userGroup.selfserve', 'en',3);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERROLE','SELF_QUERYUSER','Role','User Role','{SELFSERVICE}/userRole.selfserve', 'en',4);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERPSWDRESET','SELF_QUERYUSER','Password Reset','Password Reset','{SELFSERVICE}/resetPassword.selfserve', 'en',7);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER, PUBLIC_URL) values('SELF_QUERYUSER','ACCESSCENTER','Manage User','Manage User','idman/userSearch.do?action=view', 'en',1,0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERSUMMARY','SELF_QUERYUSER','User Details','User Details','editUser.selfserve', 'en',1);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERIDENTITY','SELF_QUERYUSER','Identities','User Identities','userIdentity.selfserve', 'en',2);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERGROUP','SELF_QUERYUSER','Group','User Groups','userGroup.selfserve', 'en',3);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERROLE','SELF_QUERYUSER','Role','User Role','userRole.selfserve', 'en',4);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERPSWDRESET','SELF_QUERYUSER','Password Reset','Password Reset','resetPassword.selfserve', 'en',7);
 
-
+insert into MENU(menu_id, menu_group, menu_name, menu_desc, url, LANGUAGE_CD, DISPLAY_ORDER)
+	values( 'BIRT_REPORT', 'IDM', 'BIRT Reports', 'BIRT Reports', 'birtReportList.cnt', 'en', '5');
 
 
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) values('BIRT_REPORT','SUPER_SEC_ADMIN','IDM');
+
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('BATCH_PROC','SUPER_SEC_ADMIN','IDM');
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('REPORT','SUPER_SEC_ADMIN','IDM');
 
@@ -333,7 +342,6 @@ INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('LOCATION','SUPER_SEC
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('CHALLENGE','SUPER_SEC_ADMIN','IDM');
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('REFDATA','SUPER_SEC_ADMIN','IDM');
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('BLK_NOTIFICATION','SUPER_SEC_ADMIN','IDM');
-INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('MAIL_TEMPLATES','SUPER_SEC_ADMIN','IDM');
 
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('ORG','SUPER_SEC_ADMIN','IDM');
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) VALUES('USER','SUPER_SEC_ADMIN','IDM');
@@ -432,18 +440,27 @@ insert into LOGIN(SERVICE_ID, LOGIN, MANAGED_SYS_ID, USER_ID, PASSWORD,RESET_PWD
 update LOGIN set reset_pwd = 0, is_locked = 0;
 
 
-INSERT INTO AUTH_STATE(AUTH_STATE_ID,USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('100','3000', NULL,0,'OPENIAM',0);
-INSERT INTO AUTH_STATE(AUTH_STATE_ID,USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('101','3001', NULL,0,'OPENIAM',0);
-INSERT INTO AUTH_STATE(AUTH_STATE_ID,USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('102','3006', NULL,0,'OPENIAM',0);
+INSERT INTO AUTH_STATE(USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('3000', NULL,0,'OPENIAM',0);
+INSERT INTO AUTH_STATE(USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('3001', NULL,0,'OPENIAM',0);
+INSERT INTO AUTH_STATE(USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('3006', NULL,0,'OPENIAM',0);
 
-INSERT INTO AUTH_STATE(AUTH_STATE_ID,USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('103','3007', NULL,0,'OPENIAM',0);
-INSERT INTO AUTH_STATE(AUTH_STATE_ID,USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('104','3008', NULL,0,'OPENIAM',0);
-INSERT INTO AUTH_STATE(AUTH_STATE_ID,USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('105','3009', NULL,0,'OPENIAM',0);
+INSERT INTO AUTH_STATE(USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('3007', NULL,0,'OPENIAM',0);
+INSERT INTO AUTH_STATE(USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('3008', NULL,0,'OPENIAM',0);
+INSERT INTO AUTH_STATE(USER_ID, TOKEN, AUTH_STATE, AA, EXPIRATION) values('3009', NULL,0,'OPENIAM',0);
 
 /* Sequence Gen*/
-insert into SEQUENCE_GEN (attribute, next_id)	values('CATEGORY_ID','3000');
+insert into SEQUENCE_GEN (attribute, next_id)	values('METADATA_ID','3000');
+insert into SEQUENCE_GEN (attribute, next_id)	values('METADATA_VALUE_ID','2000');
 insert into SEQUENCE_GEN (attribute, next_id)	values('METADATA_ELEMENT_ID','2000');
+insert into SEQUENCE_GEN (attribute, next_id)	values('CATEGORY_ID','3000');
+INSERT INTO SEQUENCE_GEN (ATTRIBUTE,NEXT_ID) 	VALUES('TYPE_ID','1013');
+insert into SEQUENCE_GEN (attribute, next_id) values ('PRIVILEGE_ID', '1001');
+insert into SEQUENCE_GEN (attribute, next_id) values('SERVICE_ID','1000');
 insert into SEQUENCE_GEN (attribute, next_id) values('DOMAIN_ID','1000');
+insert into SEQUENCE_GEN (attribute, next_id) values ('ORG_STRUCTURE_ID','200');
+insert into SEQUENCE_GEN (attribute, next_id) values ('MANAGED_SYS_ID','100');
+
+
 
 insert into STATUS ( CODE_GROUP, status_cd, LANGUAGE_CD, status_type, description, COMPANY_OWNER_ID, SERVICE_ID) values( 'USER', 'PENDING_START_DATE','en','String','PENDING_START_DATE','100', 'IDM');
 insert into STATUS ( CODE_GROUP, status_cd, LANGUAGE_CD, status_type, description, COMPANY_OWNER_ID, SERVICE_ID) values( 'USER', 'PENDING_APPROVAL','en','String','PENDING_APPROVAL','100', 'IDM');
@@ -733,7 +750,7 @@ INSERT INTO MANAGED_SYS (MANAGED_SYS_ID, NAME, DESCRIPTION, STATUS, CONNECTOR_ID
 
 INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('AUTH_REPO', 'Authentication Repository', 'AUTH_REPO', null);
 INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('MANAGED_SYS', 'Managed Systems', 'MANAGED_SYSTEM', 1);
-INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('SYS_ACTION', 'Public Workflow', 'SYS_ACTION', 0);
+INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('SYS_ACTION', 'System Action', 'SYS_ACTION', 0);
 INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('WORKFLOW', 'Workflow', 'WORKFLOW', 0);
 
 
@@ -746,15 +763,12 @@ insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, MANAGED_SYS_
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, MANAGED_SYS_ID ) VALUES ('110', 'MANAGED_SYS', 'ACTIVE DIRECTORY', 3, '110');
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, MANAGED_SYS_ID ) VALUES ('111', 'MANAGED_SYS', 'Oracle Connector', 4, '111');
 
-/* Workflows */
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('255', 'SYS_ACTION', 'SELFSERVICE_SELFREGISTER', 6, 'SELF REGISTRATION');
 
+
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('260', 'WORKFLOW', 'NEW_USER', 1, 'NEW USER');
-insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('261', 'WORKFLOW', 'CHANGE_USER_STATUS', 2, 'CHANGE USER STATUS');
-insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('263', 'WORKFLOW', 'MODIFY_USER_ORG', 3, 'MODIFY USER ORG ATTRIBUTES');
-insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('262', 'WORKFLOW', 'CHANGE_ROLE', 4, 'CHANGE ROLE MEMBERSHIP');
-insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('264', 'WORKFLOW', 'CHANGE_APPLICATION', 5, 'APPLICATION ACCESS');
-insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('265', 'WORKFLOW', 'CHANGE_GROUP', 6, 'CHANGE GROUP MEMBERSHIP');
+insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('261', 'WORKFLOW', 'TERMINATE_USER', 1, 'TERMINATE USER');
+insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('262', 'WORKFLOW', 'CHANGE_ACCESS', 1, 'CHANGE ACCESS');
 
 
 
@@ -789,14 +803,11 @@ insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUE
 insert into RESOURCE_PROP(RESOURCE_PROP_ID, RESOURCE_ID, NAME, PROP_VALUE) VALUES ('217', '105','POST_PROCESS', null);
 
 
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1000','260',1,'USER',NULL,'3000','','','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1001','261',1,'USER',NULL,'3000','','','USER','REQUESTOR',NULL,NULL,NULL,0);
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1002','262',1,'USER',NULL,'3000','','','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1003','255',1,'USER',NULL,'3000','','3000','TARGET_USER','USER',NULL,NULL,NULL,0);
+INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('402881063a00b213013a00e1546c0007','260',1,'USER',NULL,'3000','','','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
+INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('402881063a00b213013a00e3e6330009','261',1,'USER',NULL,'3000','','','USER','REQUESTOR',NULL,NULL,NULL,0);
+INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('402881063a00b213013a00e49244000b','262',1,'USER',NULL,'3000','','','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
 
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1004','263',1,'USER',NULL,'3000','','3000','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1005','264',1,'USER',NULL,'3000','','3000','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
-INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('1006','265',1,'USER',NULL,'3000','','3000','TARGET_USER','REQUESTOR',NULL,NULL,NULL,0);
+INSERT INTO APPROVER_ASSOC (APPROVER_ASSOC_ID,REQUEST_TYPE,APPROVER_LEVEL,ASSOCIATION_TYPE,ASSOCIATION_OBJ_ID,APPROVER_USER_ID,ON_APPROVE_NOTIFY_USER_ID,ON_REJECT_NOTIFY_USER_ID,APPROVE_NOTIFY_USER_TYPE,REJECT_NOTIFY_USER_TYPE,ACTN,APPROVER_ROLE_ID,APPROVER_ROLE_DOMAIN,APPLY_DELEGATION_FILTER) VALUES ('402881063a00b213013a00ee389d000e','255',1,'USER',NULL,'3000','','3000','TARGET_USER','USER',NULL,NULL,NULL,0);
 
 
 
@@ -911,19 +922,5 @@ insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED,
 insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('105','RESET_PSWD_CHNG_COUNT', 'MINUTE','0','batch/resetPasswordChangeCount.groovy','2');
 insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('106','PUBLISH_AUDIT_EVENT', 'NIGHTLY','0','batch/publishAuditEvent.groovy','3');
 insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('108','PROV_ON_STARTDATE', 'NIGHTLY','0','batch/provisionOnStartDate.groovy','4');
-insert into BATCH_CONFIG(TASK_ID, TASK_NAME, FREQUENCY_UNIT_OF_MEASURE, ENABLED, TASK_URL, EXECUTION_ORDER) VALUES('109','SESSION_CLEANUP', 'MINUTE','0','batch/SessionCleanup.groovy','2');
-
-
-
-
-/* Messages  */
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('402881823ba67a37013ba68159740001','BulkUsersMessage','BulkNotificationByUserIds.groovy','SYSTEM');
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8e9af410001','NEW_USER_EMAIL','NewUserCreateNotification.groovy','SYSTEM');
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ea53030002','NEW_USER_EMAIL_SUPERVISOR','NewUserCreateToSupervisorNotification.groovy','SYSTEM');
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ea91d10003','REQUEST_APPROVED','RequestApproveNotification.groovy','SYSTEM');
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8eb000c0004','REQUEST_REJECTED','RequestRejectNotification.groovy','SYSTEM');
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ebe3380005','NEW_PENDING_REQUEST','RequestNotification.groovy','SYSTEM');
-INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a0081053ba8db9d013ba8ec3e580006','REQUEST_PASSWORD_RESET','RequestPasswordResetNotification.groovy','SYSTEM');
-
 
 commit;

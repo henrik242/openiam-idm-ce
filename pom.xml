@@ -6,7 +6,7 @@
 	<groupId>org.openiam</groupId>
 	<artifactId>openiam</artifactId>
 	<packaging>pom</packaging>
-	<version>2.1.0</version>
+	<version>2.3.0</version>
 
 	<name>OpenIAM Identity Manager</name>
 	<description>openiam is open source Identity and access Management Project</description>
@@ -14,6 +14,15 @@
 
 	<inceptionYear>2008</inceptionYear>
 	<developers>
+        <developer>
+            <name>Alexander Duckardt</name>
+            <id>alexander.duckardt</id>
+            <email>alexander.duckardt@openiam.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
 		<developer>
 			<name>Ameet Shah</name>
 			<id>ameet_shah</id>
@@ -23,6 +32,7 @@
 				<role>documentation</role>
 			</roles>
 		</developer>
+
 		<developer>
 			<name>Arun Shah</name>
 			<id>arun.shah</id>
@@ -32,6 +42,44 @@
 				<role>documentation</role>
 			</roles>
 		</developer>
+
+        <developer>
+            <name>Denis Rastorguev</name>
+            <id>denis.rastorguev</id>
+            <email>denis.rastorguev@openiam.com </email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Dmitry Zaporozhec</name>
+            <id>Dmitry.Zaporozhec</id>
+            <email>Dmitry.Zaporozhec@openiam.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Ekta Agarwal</name>
+            <id>ekta.agarwal</id>
+            <email>ekta.agarwal@openiam.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Lev Bornovalov</name>
+            <id>lev.bornovalov</id>
+            <email>lev.bornovalov@openiam.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+
 		<developer>
 			<name>Suneet Shah</name>
 			<id>suneet_shah</id>
@@ -41,6 +89,15 @@
 				<role>documentation</role>
 			</roles>
 		</developer>
+        <developer>
+            <name>Vitaly Yakunin</name>
+            <id>vitaly.yakunin</id>
+            <email>vitaly.yakunin@openiam.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
 	</developers>
 
 	<licenses>
@@ -82,6 +139,7 @@
 		<activemq.version>5.3.2</activemq.version>
 		<xbean.version>3.6</xbean.version>
 		<groovy.version>1.8.6</groovy.version>
+        <grails.version>2.2.0</grails.version>
 		<googleapps.version>1.41.5</googleapps.version>
 		<hibernate.version>3.6.6.Final</hibernate.version>
         <hibernatesearch.version>3.4.0.Final</hibernatesearch.version>

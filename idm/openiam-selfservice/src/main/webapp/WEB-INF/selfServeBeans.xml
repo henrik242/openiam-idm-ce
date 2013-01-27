@@ -40,7 +40,7 @@
 	<bean id="appConfiguration" class="org.openiam.selfsrvc.AppConfiguration" >
  
 		<property name="logoUrl" value="images/openiamlog.jpg" />
-		<property name="title" value="OpenIAM Identity Manager- v2.1 - Self Service"/>
+		<property name="title" value="OpenIAM Identity Manager- v2.3 - Self Service"/>
 		<property name="welcomePageUrl" value="/welcomePage.selfserve"/>
 		<property name="defaultLang" value="en"/>
 		<property name="maxResultSetSize" value="200"/>
