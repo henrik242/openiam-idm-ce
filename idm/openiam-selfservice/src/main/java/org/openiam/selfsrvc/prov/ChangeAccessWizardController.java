@@ -100,6 +100,7 @@ public class ChangeAccessWizardController extends CancellableFormController {
         wrkFlowRequest.setPersonId(personId);
         wrkFlowRequest.setWorkflowResId(workflowId);
         wrkFlowRequest.setRequestorId((String)request.getSession().getAttribute("userId"));
+        String tk = (String)request.getSession().getAttribute("token");
 
         HttpSession session =  request.getSession();
 
@@ -119,6 +120,10 @@ public class ChangeAccessWizardController extends CancellableFormController {
                 url = url.replace("{SELFSERVICE_EXT_CONTEXT}", selfserviceExtContext);
                 url = url.replace("{SELFSERVICE_CONTEXT}", selfserviceContext);
             }
+
+            url = url.replace("{token}",tk);
+
+            log.info("Redirecting from ChangeAccessWizard to: " + url);
 
             return new ModelAndView(new RedirectView(url, true));
 
