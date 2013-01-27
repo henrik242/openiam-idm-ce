@@ -33,7 +33,7 @@ function showUserDialog(idfield, namefield) {
     if ( msie > 0 ) {	
 		dialogReturnValue = window.showModalDialog("user/dialogshell.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
 		document.getElementById (idfield).value = dialogReturnValue.id;
-		document.getElementById (nameField).value = dialogReturnValue.name;
+		document.getElementById (namefield).value = dialogReturnValue.name;
     }else {
         var prevReturnValue = window.returnValue;
         window.returnValue = undefined;

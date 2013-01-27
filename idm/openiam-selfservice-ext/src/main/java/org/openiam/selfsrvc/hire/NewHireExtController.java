@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.mule.util.StringUtils;
 import org.openiam.base.AttributeOperationEnum;
 import org.openiam.base.ws.PropertyMap;
+import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService;
 import org.openiam.idm.srvc.cd.dto.ReferenceData;
@@ -38,6 +39,7 @@ import org.openiam.idm.srvc.role.dto.RoleId;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.user.dto.*;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
+import org.openiam.idm.srvc.user.ws.UserListResponse;
 import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -64,6 +66,7 @@ public class NewHireExtController {
     private static final Log LOG = LogFactory.getLog(NewHireExtController.class);
     public static final String USER_CATEGORY_TYPE = "USER_TYPE";
     public static final String REQUEST_TYPE = "260";
+    public static final int MAX_RESULT_SIZE = 25;
 
     @Autowired
     private MetadataWebService metadataServiceClient;
@@ -106,6 +109,64 @@ public class NewHireExtController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/seluser")
+    public String getSelectSupervisorForm(Model model, HttpServletRequest request) {
+        LOG.info("New hire select type of user view form called.");
+
+        return "/priv/newhire/seluser";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/selsupervisor")
+    public String getSupervisorList(Model model, HttpServletRequest request) {
+    String firstName = request.getParameter("firstName");
+    String lastName = request.getParameter("lastName");
+
+    UserSearch search = new UserSearch();
+    if (firstName != null && firstName.length() > 0) {
+        search.setFirstName(firstName + "%");
+    }
+    if (lastName != null && lastName.length() > 0) {
+        search.setLastName(lastName + "%");
+    }
+    List<User> userList = userServiceClient.search(search).getUserList();
+    if (userList != null) {
+        request.getSession().setAttribute("supervisorList", userList );
+    }
+        return "/priv/newhire/selsupervisor";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/seluser")
+    public String getSelUserList(Model model, HttpServletRequest request) {
+        LOG.info("New hire select type of user view form called.");
+
+        request.getSession().removeAttribute("supervisorList");
+        request.getSession().removeAttribute("result");
+        request.getSession().removeAttribute("msg");
+
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+
+        UserSearch search = new UserSearch();
+        if (firstName != null && firstName.length() > 0) {
+            search.setFirstName(firstName + "%");
+        }
+        if (lastName != null && lastName.length() > 0) {
+            search.setLastName(lastName + "%");
+        }
+        search.setStatus("ACTIVE");
+        search.setMaxResultSize(MAX_RESULT_SIZE);
+        UserListResponse resp = userServiceClient.search(search);
+        if (resp.getStatus().equals(ResponseStatus.SUCCESS)) {
+            List<User> userList = userServiceClient.search(search).getUserList();
+            if (userList != null) {
+                request.getSession().setAttribute("supervisorList", userList);
+            }
+        } else {
+            request.getSession().setAttribute("msg", "No matches found");
+        }
+        request.getSession().setAttribute("result", "1");
+        return "/priv/newhire/seluser";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
     public String getSelecttypeForm(Model model, HttpServletRequest request) {

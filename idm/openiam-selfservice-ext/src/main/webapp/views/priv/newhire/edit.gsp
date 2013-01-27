@@ -9,6 +9,28 @@
            jQuery('#submitFld').val(action);
            return true;
         }
+
+        var showUserDialog = function(idfield, namefield) {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf ( "MSIE " );
+
+            if ( msie > 0 ) {
+                dialogReturnValue = window.showModalDialog("dialogshell.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+                document.getElementById (idfield).value = dialogReturnValue.id;
+                document.getElementById (namefield).value = dialogReturnValue.name;
+            }else {
+                var prevReturnValue = window.returnValue;
+                window.returnValue = undefined;
+                dialogReturnValue = window.showModalDialog("seluser.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+                if(dialogReturnValue == undefined) {
+                    dialogReturnValue = window.returnValue;
+                }
+                window.returnValue = prevReturnValue;
+
+                document.getElementById (idfield).value = dialogReturnValue.id;
+                document.getElementById (namefield).value = dialogReturnValue.name;
+            }
+        }
     </script>
 
                 <g:form method="post" class="user-info" url="[action: 'save.jsp', controller: 'priv/newhire']">
@@ -64,8 +86,10 @@
                                         <g:textField id="t-3" name="title" size="40" maxlength="40" value="${newHireCommand?.title}"/>
                                     </div>
                                     <div class="row">
-                                        <label for="t-4">Supervisor Id<span style="color:red">*</span></label>
-                                        <g:textField id="t-4" name="supervisorId" size="50" value="${newHireCommand?.supervisorId}"/>
+                                        <label for="supervisorName"><a href="javascript:showUserDialog('supervisorId', 'supervisorName' );">Supervisor Id<span style="color:red">*</span></a></label>
+                                        <g:hiddenField name="supervisorId" />
+                                        <g:textField id="supervisorName" name="supervisorName" size="50" readonly="true" value="${newHireCommand?.supervisorName}"/>
+
                                         <g:hasErrors bean="${errors}" field="supervisorId">
                                             <div class="error">
                                                 <g:renderErrors bean="${errors}" field="supervisorId" as="list"/>
