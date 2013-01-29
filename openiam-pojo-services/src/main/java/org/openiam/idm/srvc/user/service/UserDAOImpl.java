@@ -927,11 +927,11 @@ public class UserDAOImpl implements UserDAO {
             where.append(" c.COMPANY_NAME like :orgName ");
             join.append("  JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) ");
             orgName = true;
-        } else {
+        } /*else {
 
             join.append("   LEFT JOIN COMPANY c ON ( c.COMPANY_ID = u.COMPANY_ID) ");
 
-        }
+        }*/
 
 
         if (search.getPhoneAreaCd() != null) {
@@ -951,12 +951,12 @@ public class UserDAOImpl implements UserDAO {
 
         if (phoneNbr || phoneAreaCd) {
             join.append("   JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) ");
-        }else {
+        }/*else {
 
             join.append("   LEFT JOIN PHONE p ON ( p.PARENT_ID = u.USER_ID) ");
 
 
-        }
+        }*/
 
         if (search.getEmailAddress() != null) {
             if (where.length() > 0) {
@@ -966,11 +966,11 @@ public class UserDAOImpl implements UserDAO {
             where.append(" (em.EMAIL_ADDRESS LIKE :emailAddress  OR u.EMAIL_ADDRESS LIKE :emailAddress) ");
             join.append("   JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID)");
             emailAddress = true;
-        } else {
+        } /*else {
 
             join.append("   LEFT JOIN EMAIL_ADDRESS em ON ( em.PARENT_ID = u.USER_ID)");
 
-        }
+        }*/
         if (!search.getGroupIdList().isEmpty()) {
             if (where.length() > 0) {
                 where.append(" and ");
@@ -978,9 +978,9 @@ public class UserDAOImpl implements UserDAO {
             where.append(" g.GRP_ID in (:groupList) ");
             join.append("   JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) ");
             groupId = true;
-        }else {
+        }/*else {
             join.append("   LEFT JOIN USER_GRP g ON ( g.USER_ID = u.USER_ID) ");
-        }
+        }*/
 
         if (!search.getRoleIdList().isEmpty()) {
             if (where.length() > 0) {
@@ -1062,11 +1062,11 @@ public class UserDAOImpl implements UserDAO {
 
             join.append(" JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID)" );
 
-        }else {
+        }/*else {
 
             join.append(" LEFT JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID)" ) ;
 
-        }
+        }*/
 
         /* Date Search Attribute*/
         if (!search.getDateAttributeList().isEmpty()) {

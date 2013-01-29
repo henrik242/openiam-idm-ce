@@ -44,6 +44,12 @@ public class UserSearchUtils {
 			dateSearchAttribute.setAttributeValue(config.getLastLoginDate());
 			search.addDateSearchAttribute(dateSearchAttribute);
         }
+        if (config.getDateOperation() != null && config.getDateOperation().equals("IS NULL") ) {
+        	DateSearchAttribute dateSearchAttribute = new DateSearchAttribute();
+			dateSearchAttribute.setAttributeName(UserDataService.LAST_LOGIN);
+			dateSearchAttribute.setOperation(config.getDateOperation());
+			search.addDateSearchAttribute(dateSearchAttribute);
+        }
         // allow selection by a role
         if (config.getRole() != null && !config.getRole().isEmpty())     {
             String r = config.getRole();
