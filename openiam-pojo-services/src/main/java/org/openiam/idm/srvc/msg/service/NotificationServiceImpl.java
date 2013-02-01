@@ -36,7 +36,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationDozerConverter notificationDozerConvertor;
 
-	NotificationDAO msgDao;
+	private NotificationDAO msgDao;
 	
 	/* (non-Javadoc)
 	 * @see org.openiam.idm.srvc.msg.service.SysMessageDeliveryService#addNotification(org.openiam.idm.srvc.msg.dto.SysMessageDelivery)
@@ -113,5 +113,13 @@ public class NotificationServiceImpl implements NotificationService {
 		this.msgDao = msgDao;
 	}
 
+    @Override
+    public List<NotificationDto> getConfigurableNotifications() {
+        return notificationDozerConvertor.convertToDTOList(msgDao.findConfigurableList(), true);
+    }
 
+    @Override
+    public List<NotificationDto> getSystemNotifications() {
+        return notificationDozerConvertor.convertToDTOList(msgDao.findSystemList(), true);
+    }
 }

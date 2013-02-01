@@ -42,4 +42,10 @@ public interface SysMessageWebService {
 
     @WebMethod
     public SysMessageListResponse getAllMessages();
+
+    @WebMethod
+    public SysMessageListResponse getConfigurableMessages();
+
+    @WebMethod
+    public SysMessageListResponse getSystemMessages();
 }

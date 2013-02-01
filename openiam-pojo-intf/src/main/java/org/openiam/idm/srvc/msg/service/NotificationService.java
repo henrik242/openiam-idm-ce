@@ -26,4 +26,8 @@ public interface NotificationService {
     NotificationDto getNotificationByName(String name);
 
     List<NotificationDto> getAllNotifications();
+
+    List<NotificationDto> getConfigurableNotifications();
+
+    List<NotificationDto> getSystemNotifications();
 }

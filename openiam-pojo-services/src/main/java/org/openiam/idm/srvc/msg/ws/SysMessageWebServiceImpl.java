@@ -120,4 +120,27 @@ public class SysMessageWebServiceImpl implements
 		this.msgService = msgService;
 	}
 
+    @Override
+    public SysMessageListResponse getConfigurableMessages() {
+        SysMessageListResponse resp = new SysMessageListResponse(ResponseStatus.SUCCESS);
+        List<NotificationDto> msgList = msgService.getConfigurableNotifications();
+        if (msgList == null || msgList.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }else {
+            resp.setSysMessageList(msgList);
+        }
+        return resp;
+    }
+
+    @Override
+    public SysMessageListResponse getSystemMessages() {
+        SysMessageListResponse resp = new SysMessageListResponse(ResponseStatus.SUCCESS);
+        List<NotificationDto> msgList = msgService.getSystemNotifications();
+        if (msgList == null || msgList.isEmpty()) {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }else {
+            resp.setSysMessageList(msgList);
+        }
+        return resp;
+    }
 }

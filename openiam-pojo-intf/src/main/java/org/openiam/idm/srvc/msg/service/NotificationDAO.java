@@ -26,4 +26,8 @@ public interface NotificationDAO {
 
     List<NotificationEntity> findAll();
 
+    List<NotificationEntity> findConfigurableList();
+
+    List<NotificationEntity> findSystemList();
+
 }

@@ -37,7 +37,7 @@
     var beforeSubmit = function(obj) {
         var selectedRadio = $("input[name='templateMethod']:checked").val();
         var validationResult = true;
-        if(selectedRadio == '1') {
+      /*  if(selectedRadio == '1') {
             if($('#mailTemplateId').val() == '') {
                validationResult = false;
                alert('Please select mail template.');
@@ -55,7 +55,7 @@
             validationResult = false;
             alert('Please fill name field.');
             return validationResult;
-        }
+        }*/
         if(validationResult) {
             $('input#submitTypeInp').val(obj);
         }
@@ -157,9 +157,9 @@
                                     <tr>
                                         <td colspan="4" align ="right"  >
                                             <input id="submitTypeInp" type="hidden" name="btn" value="" />
-                                            <input id="submitBtn" onclick="return beforeSubmit('submit');" type="submit" value="Submit"/>
+                                            <input id="submitBtn" onclick="return beforeSubmit('save');" type="submit" value="Submit"/>
                                             <c:if test="${sysMsgCmd.msg.msgId != null && sysMsgCmd.msg.type != 'SYSTEM'}"><input id="deleteBtn" onclick="return beforeSubmit('delete');" type="submit" value="Delete"/></c:if>
-                                            <input type="submit" name="_cancel" value="Cancel" />
+                                            <input id="cancelBtn" type="submit" name="_cancel" value="Cancel" />
                                         </td>
                                     </tr>
                                 </table>

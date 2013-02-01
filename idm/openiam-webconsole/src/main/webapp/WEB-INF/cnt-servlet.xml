@@ -563,7 +563,9 @@
          <property name="sysMessageService" ref="sysMessageClient" />
          <property name="mailTemplateWebService" ref="mailTemplateClient" />
      </bean>
-     
+
+     <bean id="sysMsgDetailsValidator" class="org.openiam.webadmin.admin.sysmsg.SysMsgDetailValidator"/>
+
      <bean id="sysMessageDetail" class="org.openiam.webadmin.admin.sysmsg.SysMsgDetailController">
 		<property name="commandName" value="sysMsgCmd" />
 		<property name="commandClass" value="org.openiam.webadmin.admin.sysmsg.SysMsgCommand" />
@@ -572,6 +574,8 @@
 		<property name="redirectView" value="sysMessageList.cnt?mode=1" />
         <property name="sysMessageService" ref="sysMessageClient" />
         <property name="mailTemplateWebService" ref="mailTemplateClient" />
+        <property name="validator" ref="sysMsgDetailsValidator" />
+        <property name="cancelView" value="maint/sysmsglist" />
      </bean>
 
     <!-- Mail Template Message controller -->

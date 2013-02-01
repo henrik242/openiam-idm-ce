@@ -11,6 +11,7 @@ import org.hibernate.*;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openiam.idm.srvc.msg.domain.NotificationEntity;
+import org.openiam.idm.srvc.msg.dto.NotificationType;
 
 
 /**
@@ -131,5 +132,35 @@ public class NotificationDAOImpl implements NotificationDAO {
 		}
 	}
 
+    @Override
+    public List<NotificationEntity> findConfigurableList() {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Criteria criteria = session.createCriteria(NotificationEntity.class)
+                    .add(Restrictions.eq("type", NotificationType.CONFIGURABLE))
+                    .addOrder(Order.asc("name"));
 
+            List<NotificationEntity> results = (List<NotificationEntity>)criteria.list();
+            return results;
+        } catch (HibernateException re) {
+            log.error("get failed", re);
+            throw re;
+        }
+    }
+
+    @Override
+    public List<NotificationEntity> findSystemList() {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Criteria criteria = session.createCriteria(NotificationEntity.class)
+                    .add(Restrictions.eq("type", NotificationType.SYSTEM))
+                    .addOrder(Order.asc("name"));
+
+            List<NotificationEntity> results = (List<NotificationEntity>)criteria.list();
+            return results;
+        } catch (HibernateException re) {
+            log.error("get failed", re);
+            throw re;
+        }
+    }
 }

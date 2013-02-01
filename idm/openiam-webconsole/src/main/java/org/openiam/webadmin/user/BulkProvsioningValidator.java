@@ -70,7 +70,7 @@ public class BulkProvsioningValidator implements Validator {
         } else {
             provCmd.setUsers(Collections.EMPTY_LIST);
         }
-        List<NotificationDto> notificationDtos = sysMessageService.getAllMessages().getSysMessageList();
+        List<NotificationDto> notificationDtos = sysMessageService.getConfigurableMessages().getSysMessageList();
         if(userList != null) {
             provCmd.setNotifications(notificationDtos);
         } else {

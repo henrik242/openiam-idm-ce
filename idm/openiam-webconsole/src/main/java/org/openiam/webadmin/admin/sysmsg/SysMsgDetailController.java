@@ -21,14 +21,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
 //import org.openiam.idm.srvc.audit.service.AuditLogUtil;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.msg.ws.SysMessageWebService;
 
-public class SysMsgDetailController extends SimpleFormController {
+public class SysMsgDetailController extends CancellableFormController {
 
     private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
 
@@ -75,8 +75,8 @@ public class SysMsgDetailController extends SimpleFormController {
             ModelAndView mav = new ModelAndView("/deleteconfirm");
             mav.addObject("msg", "Location has been successfully deleted.");
             return mav;
-        } else {
-            if(msgCmd.getTemplateMethod() == 0) {
+        } else if ("save".equalsIgnoreCase(btn)) {
+            if (msgCmd.getTemplateMethod() == 0) {
                 MultipartFile providerScriptFile = msgCmd.getProviderScriptFile();
                 String providerScriptFileName = "";
                 if (providerScriptFile != null && providerScriptFile.getSize() > 0) {
@@ -100,14 +100,13 @@ public class SysMsgDetailController extends SimpleFormController {
             }
 
             if (StringUtils.isEmpty(sysMessage.getMsgId())) {
-                sysMessageService.addMessage(sysMessage);
-            } else {
-                sysMessageService.updateMessage(sysMessage);
-            }
+                    sysMessageService.addMessage(sysMessage);
+                } else {
+                    sysMessageService.updateMessage(sysMessage);
+                }
         }
 
         ModelAndView mav = new ModelAndView(new RedirectView(redirectView, true));
-        mav.addObject("sysMsgCmd", msgCmd);
 
         return mav;
     }
