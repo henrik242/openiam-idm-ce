@@ -9,7 +9,7 @@
 
 %>
 
-        
+
 		<table  width="700pt">
 			<tr>
 				<td>
@@ -33,7 +33,7 @@
 			<tr>
 				<td>       
 <form:form commandName="roleDetailCmd">
-	<form:hidden path="mode" />
+	<form:hidden path="formMode" />
 <table width="700pt"  class="bodyTable" height="100%" >
 <tr>
 	<td>    
@@ -49,13 +49,14 @@
           <tr>
 			  			<td><label for="username" class="attribute">Role ID</label><font color="red">*</font></td>
               <td >
-<c:if test="${roleDetailCmd.mode == 'NEW'}" >              
+<c:if test="${roleDetailCmd.formMode == 'NEW'}" >
               <form:input path="role.id.roleId" size="32" maxlength="32" />
 </c:if>
-<c:if test="${roleDetailCmd.mode != 'NEW'}" >              
+<c:if test="${roleDetailCmd.formMode != 'NEW'}" >
               <form:input path="role.id.roleId" size="32" maxlength="32" readonly="true" />
+
 </c:if>
-              <form:errors path="role.id.roleId" cssClass="error" /></td>
+                  <form:errors path="role.id.roleId" cssClass="error" /></td>
           </tr>
 
           <tr>
@@ -158,6 +159,7 @@
                                                     <i>To add a new row, click on SAVE first. A new row will be added.</i></td>
                                             </tr>
                                         </table>
+                                        </fieldset>
                                 </td>
                             </tr>
                         </table>
@@ -178,6 +180,7 @@
               </c:if>
               <input type="submit" name="btn" value="Save"> <input type="submit" name="_cancel" value="Cancel" /></td>
           </tr>
+        </fieldset>
 </table>
 </form:form>
 

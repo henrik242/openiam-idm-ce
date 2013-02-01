@@ -76,9 +76,9 @@
 
       
          <tr>
-			  <th>Name</td>
-              <th>Description</td>
-              <th>Status </td>
+			  <th>Name</th>
+              <th>Description</th>
+              <th>Status </th>
           </tr>
 	
 
@@ -96,7 +96,7 @@
           <tr>
               <td align="left"> <a href="roleDetail.cnt?domainid=${domainId}&mode=NEW">New Role</a></td>
           </tr>
-          
+    </fieldset>
           
 </table>
 

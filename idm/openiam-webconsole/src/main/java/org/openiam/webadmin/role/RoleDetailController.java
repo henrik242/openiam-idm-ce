@@ -118,12 +118,10 @@ public class RoleDetailController extends CancellableFormController {
 
         String roleId = request.getParameter("roleid");
         String domainId = request.getParameter("domainid");
-        String mode = request.getParameter("mode");
+        String reqmode = request.getParameter("mode");
 
-        if (mode != null && mode.equalsIgnoreCase("NEW")) {
-
-            request.setAttribute("mode", mode);
-
+        if ((reqmode != null && reqmode.equalsIgnoreCase("NEW")) ) {
+            roleCommand.setFormMode("NEW");
             session.removeAttribute("roleid");
             session.setAttribute("domainid", domainId);
         } else {
@@ -144,21 +142,18 @@ public class RoleDetailController extends CancellableFormController {
 
         if (roleId != null) {
             role = roleDataService.getRole(domainId, roleId).getRole();
-            roleCommand.setMode("UPDATE");
+            roleCommand.setFormMode("UPDATE");
 
             roleCommand.setRole(role);
 
             Set<RoleAttribute> roleAttrSet = role.getRoleAttributes();
             attrSetToList(roleAttrSet, attrList);
 
-
-        } else if (mode != null && mode.equalsIgnoreCase("NEW")) {
-
+        } else {
             role = new Role();
             RoleId id = new RoleId();
             id.setServiceId(domainId);
             role.setId(id);
-            roleCommand.setMode("NEW");
             roleCommand.setRole(role);
         }
         addNewRowToAttributeList(attrList);
@@ -226,7 +221,7 @@ public class RoleDetailController extends CancellableFormController {
             // update - role exists
             roleDataService.updateRole(role);
 
-            if (roleCommand.getMode().equalsIgnoreCase("NEW")) {
+            if (roleCommand.getFormMode().equalsIgnoreCase("NEW")) {
                 auditHelper.addLog("CREATE", domainId, login,
                         "WEBCONSOLE", userId, "0", "ROLE", role.getId().getRoleId(),
                         null, "SUCCESS", null, null,

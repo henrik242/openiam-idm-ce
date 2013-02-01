@@ -40,28 +40,27 @@ public class RoleDetailValidator implements Validator {
 
 	public void validate(Object cmd, Errors err) {
 		RoleDetailCommand command =  (RoleDetailCommand) cmd;
-		String mode = command.getMode();
-		
-		if (mode == null ||  mode.equalsIgnoreCase("NEW")) {
+        String mode = command.getFormMode();
 
-			if (command.getRole().getRoleName() == null || command.getRole().getRoleName().length() == 0 ) {
-				err.rejectValue("role.roleName", "required");
-			}
-			
-			if (command.getRole().getId().getRoleId() == null || command.getRole().getId().getRoleId().length() == 0 ) {
-				err.rejectValue("role.id.roleId", "required");
-			}
-			
-			RoleId id = command.getRole().getId();
-			Role rl =  roleDataService.getRole(id.getServiceId(), id.getRoleId()).getRole();
-			if (rl != null) {
-				err.rejectValue("role.id.roleId", "duplicate");
-			}
-		}
-		
-		
-		
-	}
+        if (!"Re-Synchronize".equalsIgnoreCase(command.getBtn()) && mode != null) {
+
+            if (command.getRole().getRoleName() == null || command.getRole().getRoleName().length() == 0) {
+                err.rejectValue("role.roleName", "required");
+            }
+            if (command.getRole().getId().getRoleId() == null || command.getRole().getId().getRoleId().length() == 0) {
+                err.rejectValue("role.id.roleId", "required");
+            } else if ("NEW".equalsIgnoreCase(mode)) {
+                RoleId id = command.getRole().getId();
+                Role rl = roleDataService.getRole(id.getServiceId(), id.getRoleId()).getRole();
+                if (rl != null) {
+                    err.rejectValue("role.id.roleId", "duplicate");
+                }
+            }
+
+        }
+
+
+    }
 
 	public RoleDataWebService getRoleDataService() {
 		return roleDataService;

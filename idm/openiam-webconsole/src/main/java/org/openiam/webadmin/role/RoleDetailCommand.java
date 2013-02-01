@@ -42,9 +42,10 @@ public class RoleDetailCommand implements Serializable {
 	private static final long serialVersionUID = 8342679897533185206L;
 	private Role role = new Role();
 	private MetadataType[] typeList;
-	private String mode;
+	private String formMode;
 	private String resApproverId;
 	private String resApproverName;
+    private String btn;
 
     private List<RoleAttribute> attributeList;
 	
@@ -61,13 +62,16 @@ public class RoleDetailCommand implements Serializable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public String getMode() {
-		return mode;
-	}
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
-	public String getResApproverId() {
+
+    public String getFormMode() {
+        return formMode;
+    }
+
+    public void setFormMode(String formMode) {
+        this.formMode = formMode;
+    }
+
+    public String getResApproverId() {
 		return resApproverId;
 	}
 	public void setResApproverId(String resApproverId) {
@@ -86,5 +90,13 @@ public class RoleDetailCommand implements Serializable {
 
     public void setAttributeList(List<RoleAttribute> attributeList) {
         this.attributeList = attributeList;
+    }
+
+    public String getBtn() {
+        return btn;
+    }
+
+    public void setBtn(String btn) {
+        this.btn = btn;
     }
 }
