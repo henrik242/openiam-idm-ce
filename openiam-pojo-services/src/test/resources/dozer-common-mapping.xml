@@ -99,5 +99,14 @@
         <class-b>org.openiam.idm.srvc.continfo.dto.EmailAddress</class-b>
     </mapping>
 
+    <mapping>
+        <class-a>org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto</class-a>
+        <class-b>org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto</class-b>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.report.dto.ReportInfoDto</class-a>
+        <class-b>org.openiam.idm.srvc.report.dto.ReportInfoDto</class-b>
+    </mapping>
 
 </mappings>

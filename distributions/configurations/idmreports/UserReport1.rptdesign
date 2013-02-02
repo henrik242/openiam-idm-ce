@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">soapEndPoint</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">connectionClass</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">connectionTimeOut</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">wsdlURI</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">driverClassPath</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileName</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">7</property>
+        </structure>
+    </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -42,15 +72,37 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="REPORT_NAME" id="76">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">USER_REPORT</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">></property>
+                <property name="pattern">></property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.ws" name="Data Source" id="7">
-            <property name="soapEndPoint">http://localhost:9090/idmsrvc/ReportServicePort</property>
-            <property name="wsdlURI">C:\work\openIAM\iam-services\openiam-esb\wsdl\ReportService.wsdl</property>
+            <method name="beforeOpen"><![CDATA[var myresourcefolder = reportContext.getDesignHandle().getResourceFolder();
+this.setExtensionProperty("OdaConnProfileStorePath", myresourcefolder + "/configuration.cps");]]></method>
+            <property name="wsdlURI">http://localhost:9090/idmsrvc/ReportService?wsdl</property>
+            <property name="OdaConnProfileName">Data Source</property>
+            <property name="OdaConnProfileStorePath">configuration.cps</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.ws.dataSet" name="Data Set" id="8">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">FIRST_NAME</property>
@@ -105,13 +157,24 @@
             </list-property>
             <list-property name="parameters">
                 <structure>
+                    <property name="name">REPORT_NAME</property>
+                    <property name="paramName">REPORT_NAME</property>
+                    <property name="nativeName">REPORT_NAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">1</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue" type="constant">CustomData value: REPORT_NAME, displayValue: null</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
                     <property name="name">ROLE</property>
                     <property name="paramName">ROLE</property>
                     <property name="nativeName">ROLE</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">1</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue" type="javascript">""</expression>
+                    <property name="position">2</property>
                     <property name="isOptional">false</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
@@ -122,8 +185,7 @@
                     <property name="nativeName">STATUS</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">1</property>
-                    <property name="position">2</property>
-                    <expression name="defaultValue" type="javascript">""</expression>
+                    <property name="position">3</property>
                     <property name="isOptional">false</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
@@ -134,8 +196,7 @@
                     <property name="nativeName">ORG_ID</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">1</property>
-                    <property name="position">3</property>
-                    <expression name="defaultValue" type="javascript">""</expression>
+                    <property name="position">4</property>
                     <property name="isOptional">false</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
@@ -268,25 +329,23 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[<?xml version="1.0"?>
-<SOAP-ENV:Envelope
-xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-	<SOAP-ENV:Body>
-		<m:executeQuery xmlns:m="urn:idm.openiam.org/idm/srvc/report/ws/service">
-            <reportName>UserReportTest</reportName>
-            <queryParams>
+            <xml-property name="queryText"><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="urn:idm.openiam.org/idm/srvc/report/ws/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:executeQuery>
+         <!--Optional:-->
+         <reportName>&amp;?REPORT_NAME?&amp;</reportName>
+         <!--Optional:-->
+         <queryParams>
             <entry key='ROLE' value='&amp;?ROLE?&amp;'/>
             <entry key='STATUS' value='&amp;?STATUS?&amp;'/>
             <entry key='ORG_ID' value='&amp;?ORG_ID?&amp;'/>
-            </queryParams>
-		</m:executeQuery>
-	</SOAP-ENV:Body>
-</SOAP-ENV:Envelope>]]></xml-property>
+         </queryParams>
+      </ser:executeQuery>
+   </soapenv:Body>
+</soapenv:Envelope>]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
   <DataSetParameters>
     <parameter>
@@ -294,7 +353,7 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
         <design:inOutMode>In</design:inOutMode>
         <design:attributes>
           <design:identifier>
-            <design:name>ROLE</design:name>
+            <design:name>REPORT_NAME</design:name>
             <design:position>1</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
@@ -305,7 +364,29 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
         <design:inputAttributes>
           <design:elementAttributes>
             <design:defaultValues>
-              <design:values></design:values>
+              <design:values>CustomData value: REPORT_NAME, displayValue: null</design:values>
+            </design:defaultValues>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name>ROLE</design:name>
+            <design:position>2</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
+          <design:precision>-1</design:precision>
+          <design:scale>-1</design:scale>
+          <design:nullability>Unknown</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:defaultValues>
+              <design:values xsi:nil="true"/>
             </design:defaultValues>
           </design:elementAttributes>
         </design:inputAttributes>
@@ -317,7 +398,7 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
         <design:attributes>
           <design:identifier>
             <design:name>STATUS</design:name>
-            <design:position>2</design:position>
+            <design:position>3</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
           <design:precision>-1</design:precision>
@@ -327,7 +408,7 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
         <design:inputAttributes>
           <design:elementAttributes>
             <design:defaultValues>
-              <design:values></design:values>
+              <design:values xsi:nil="true"/>
             </design:defaultValues>
           </design:elementAttributes>
         </design:inputAttributes>
@@ -339,7 +420,7 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
         <design:attributes>
           <design:identifier>
             <design:name>ORG_ID</design:name>
-            <design:position>3</design:position>
+            <design:position>4</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
           <design:precision>-1</design:precision>
@@ -349,7 +430,7 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
         <design:inputAttributes>
           <design:elementAttributes>
             <design:defaultValues>
-              <design:values></design:values>
+              <design:values xsi:nil="true"/>
             </design:defaultValues>
           </design:elementAttributes>
         </design:inputAttributes>
@@ -531,7 +612,7 @@ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
                 </ex-property>
                 <ex-property>
                     <name>operationTrace</name>
-                    <value>WebReportServiceService$-$ReportServicePort$-$executeQuery</value>
+                    <value>ReportService$-$ReportServicePort$-$executeQuery</value>
                 </ex-property>
                 <ex-property>
                     <name>xmlFileURI</name>

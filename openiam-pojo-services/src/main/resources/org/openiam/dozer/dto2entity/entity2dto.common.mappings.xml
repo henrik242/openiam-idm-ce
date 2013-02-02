@@ -140,4 +140,30 @@
         <class-a>org.openiam.idm.srvc.msg.domain.MailTemplateEntity</class-a>
         <class-b>org.openiam.idm.srvc.msg.dto.MailTemplateDto</class-b>
     </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity</class-a>
+        <class-b>org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto</class-b>
+        <field>
+            <a>report.id</a>
+            <b>reportId</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.report.domain.ReportInfoEntity</class-a>
+        <class-b>org.openiam.idm.srvc.report.dto.ReportInfoDto</class-b>
+        <field>
+            <a>id</a>
+            <b>reportId</b>
+        </field>
+        <field>
+            <a>datasourceFilePath</a>
+            <b>reportDataSource</b>
+        </field>
+        <field>
+            <a>reportFilePath</a>
+            <b>reportUrl</b>
+        </field>
+    </mapping>
 </mappings>

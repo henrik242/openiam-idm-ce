@@ -1,4 +1,4 @@
-package org.openiam.core.domain;
+package org.openiam.idm.srvc.report.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,10 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.openiam.dozer.DozerDTOCorrespondence;
+import org.openiam.idm.srvc.report.dto.ReportInfoDto;
 
+/**
+ * This entity used in reporting system to define Report information
+ *
+ * @author vitaly.yakunin
+ */
 @Entity
 @Table(name = "REPORT_INFO")
-public class ReportInfo {
+@DozerDTOCorrespondence(ReportInfoDto.class)
+public class ReportInfoEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -26,7 +34,7 @@ public class ReportInfo {
     @Column(name = "REPORT_FILE_PATH")
     private String reportFilePath;
 
-    public ReportInfo() {
+    public ReportInfoEntity() {
     }
 
     public String getId() {
@@ -59,5 +67,15 @@ public class ReportInfo {
 
     public void setReportFilePath(String reportFilePath) {
         this.reportFilePath = reportFilePath;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportInfo{" +
+                "id='" + id + '\'' +
+                ", reportName='" + reportName + '\'' +
+                ", datasourceFilePath='" + datasourceFilePath + '\'' +
+                ", reportFilePath='" + reportFilePath + '\'' +
+                '}';
     }
 }

@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.openiam.core.dao.ReportDataDao;
-import org.openiam.core.domain.ReportInfo;
+
+import org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity;
+import org.openiam.idm.srvc.report.domain.ReportInfoEntity;
 import org.openiam.exception.ScriptEngineException;
+import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
@@ -20,12 +22,14 @@ public class ReportDataServiceImpl implements ReportDataService {
     private static final String scriptEngine = "org.openiam.script.GroovyScriptEngineIntegration";
 
     @Autowired
-    private ReportDataDao reportDao;
+    private ReportInfoDao reportDao;
+    @Autowired
+    private ReportCriteriaParamDao criteriaParamDao;
 
     @Override
     @Transactional(readOnly = true)
     public ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams) throws ClassNotFoundException, ScriptEngineException, IOException {
-        ReportInfo reportInfo = reportDao.findByName(reportName);
+        ReportInfoEntity reportInfo = reportDao.findByName(reportName);
         if (reportInfo == null) {
             throw new IllegalArgumentException("Invalid parameter list: report with name="+reportName + " was not found in Database");
         }
@@ -38,19 +42,25 @@ public class ReportDataServiceImpl implements ReportDataService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReportInfo> getAllReports() {
+    public List<ReportInfoEntity> getAllReports() {
         return reportDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ReportInfo getReportByName(String name) {
+    public ReportInfoEntity getReportByName(String name) {
         return reportDao.findByName(name);
     }
 
     @Override
     @Transactional
-    public void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl) {
+    public void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl, List<ReportCriteriaParamEntity> parameters) {
        reportDao.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
+    }
+
+    @Override
+    @Transactional
+    public List<ReportCriteriaParamEntity> getReportParametersByReportId(String reportId) {
+        return criteriaParamDao.findByReportInfoId(reportId);
     }
 }

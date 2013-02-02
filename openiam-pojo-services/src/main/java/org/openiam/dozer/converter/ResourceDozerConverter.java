@@ -1,14 +1,9 @@
 package org.openiam.dozer.converter;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.dozer.Mapper;
 import org.openiam.idm.srvc.res.domain.ResourceEntity;
-import org.openiam.idm.srvc.res.domain.ResourcePropEntity;
 import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.res.dto.ResourceProp;
 import org.springframework.stereotype.Component;
 
 @Component("resourceDozerMapper")

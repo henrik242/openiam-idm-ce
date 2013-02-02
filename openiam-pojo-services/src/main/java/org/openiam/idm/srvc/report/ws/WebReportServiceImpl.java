@@ -9,9 +9,13 @@ import org.apache.commons.lang.StringUtils;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.core.domain.ReportInfo;
+import org.openiam.dozer.converter.ReportCriteriaParamDozerConverter;
+import org.openiam.dozer.converter.ReportInfoDozerConverter;
+import org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity;
+import org.openiam.idm.srvc.report.domain.ReportInfoEntity;
+import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
-import org.openiam.idm.srvc.report.dto.ReportDto;
+import org.openiam.idm.srvc.report.dto.ReportInfoDto;
 import org.openiam.idm.srvc.report.service.ReportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +26,10 @@ import org.springframework.stereotype.Service;
         portName = "ReportServicePort",
         serviceName = "ReportService")
 public class WebReportServiceImpl implements WebReportService {
-
+    @Autowired
+    private ReportInfoDozerConverter reportInfoDozerConverter;
+    @Autowired
+    private ReportCriteriaParamDozerConverter criteriaParamDozerConverter;
     @Autowired
     private ReportDataService reportDataService;
 
@@ -50,27 +57,22 @@ public class WebReportServiceImpl implements WebReportService {
 
     @Override
     public GetAllReportsResponse getReports() {
-        List<ReportInfo> reports = reportDataService.getAllReports();
+        List<ReportInfoEntity> reports = reportDataService.getAllReports();
         GetAllReportsResponse reportsResponse = new GetAllReportsResponse();
-        List<ReportDto> reportDtos = new LinkedList<ReportDto>();
-        for (ReportInfo reportInfo : reports) {
-            ReportDto reportDto = new ReportDto();
-            reportDto.setReportId(reportInfo.getId());
-            reportDto.setReportName(reportInfo.getReportName());
-            reportDto.setReportDataSource(reportInfo.getDatasourceFilePath());
-            reportDto.setReportUrl(reportInfo.getReportFilePath());
-            reportDtos.add(reportDto);
+        List<ReportInfoDto> reportDtos = new LinkedList<ReportInfoDto>();
+        if(reports != null) {
+            reportDtos = reportInfoDozerConverter.convertToDTOList(reports, false);
         }
         reportsResponse.setReports(reportDtos);
         return reportsResponse;
     }
 
     @Override
-    public Response createOrUpdateReportInfo(@WebParam(name = "reportName", targetNamespace = "") String reportName, @WebParam(name = "reportDataSource", targetNamespace = "") String reportDataSource, @WebParam(name = "reportUrl", targetNamespace = "") String reportUrl) {
+    public Response createOrUpdateReportInfo(@WebParam(name = "reportName", targetNamespace = "") String reportName, @WebParam(name = "reportDataSource", targetNamespace = "") String reportDataSource, @WebParam(name = "reportUrl", targetNamespace = "") String reportUrl, @WebParam(name = "parameters", targetNamespace = "") List<ReportCriteriaParamDto> parameters) {
         Response response = new Response();
         if (!StringUtils.isEmpty(reportName)) {
             try {
-                reportDataService.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
+                reportDataService.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl, criteriaParamDozerConverter.convertToEntityList(parameters, false));
             } catch (Throwable t) {
                 response.setStatus(ResponseStatus.FAILURE);
                 response.setErrorCode(ResponseCode.SQL_EXCEPTION);
@@ -81,6 +83,25 @@ public class WebReportServiceImpl implements WebReportService {
         } else {
             response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
             response.setErrorText("Invalid parameter list: reportName=" + reportName);
+            response.setStatus(ResponseStatus.FAILURE);
+        }
+        return response;
+    }
+
+    @Override
+    public GetReportParametersResponse getReportParametersByReportId(@WebParam(name = "reportId", targetNamespace = "") String reportId) {
+        GetReportParametersResponse response = new GetReportParametersResponse();
+        if (!StringUtils.isEmpty(reportId)) {
+            List<ReportCriteriaParamEntity> params = reportDataService.getReportParametersByReportId(reportId);
+            List<ReportCriteriaParamDto> paramsDtos = new LinkedList<ReportCriteriaParamDto>();
+            if(params != null) {
+               paramsDtos = criteriaParamDozerConverter.convertToDTOList(params, false);
+            }
+            response.setParameters(paramsDtos);
+            response.setStatus(ResponseStatus.SUCCESS);
+        } else {
+            response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
+            response.setErrorText("Invalid parameter list: reportId=" + reportId);
             response.setStatus(ResponseStatus.FAILURE);
         }
         return response;

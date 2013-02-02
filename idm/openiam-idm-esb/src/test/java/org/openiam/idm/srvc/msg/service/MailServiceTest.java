@@ -23,6 +23,11 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 
+/**
+ * Unit Test for MailService (mail notification)
+ *
+ * @author vitaly.yakunin
+ */
 @ContextConfiguration(locations = {"classpath:applicationContext-test.xml","classpath:dozer-application-context-test.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTests {

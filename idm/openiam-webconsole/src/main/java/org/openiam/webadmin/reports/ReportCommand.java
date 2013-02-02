@@ -1,12 +1,12 @@
 package org.openiam.webadmin.reports;
 
-import org.openiam.idm.srvc.report.dto.ReportDto;
+import org.openiam.idm.srvc.report.dto.ReportInfoDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ReportCommand {
     private MultipartFile dataSourceScriptFile;
     private MultipartFile reportDesignFile;
-    private ReportDto report = new ReportDto();
+    private ReportInfoDto report = new ReportInfoDto();
 
     public MultipartFile getDataSourceScriptFile() {
         return dataSourceScriptFile;
@@ -24,11 +24,11 @@ public class ReportCommand {
         this.reportDesignFile = reportDesignFile;
     }
 
-    public ReportDto getReport() {
+    public ReportInfoDto getReport() {
         return report;
     }
 
-    public void setReport(ReportDto report) {
+    public void setReport(ReportInfoDto report) {
         this.report = report;
     }
 }

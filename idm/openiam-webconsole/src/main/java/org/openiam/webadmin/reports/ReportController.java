@@ -2,11 +2,16 @@ package org.openiam.webadmin.reports;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.cxf.common.util.StringUtils;
+
+import org.apache.commons.lang.StringUtils;
+import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.ws.WebReportService;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -54,8 +59,9 @@ public class ReportController extends SimpleFormController {
                     e.printStackTrace();
                 }
             }
-            if(!StringUtils.isEmpty(reportCommand.getReport().getReportName())) {
-                reportService.createOrUpdateReportInfo(reportCommand.getReport().getReportName(), dataSourceFile.getSize() > 0 ? dataSourceFileName : reportCommand.getReport().getReportDataSource(), designFile.getSize() > 0 ? designFileName : reportCommand.getReport().getReportUrl());
+            if(StringUtils.isNotEmpty(reportCommand.getReport().getReportName())) {
+                List<ReportCriteriaParamDto> params = new LinkedList<ReportCriteriaParamDto>();
+                reportService.createOrUpdateReportInfo(reportCommand.getReport().getReportName(), dataSourceFile.getSize() > 0 ? dataSourceFileName : reportCommand.getReport().getReportDataSource(), designFile.getSize() > 0 ? designFileName : reportCommand.getReport().getReportUrl(), params);
             }
         }
         return new ModelAndView(new RedirectView("birtReportList.cnt", true));

@@ -8,6 +8,11 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.testng.annotations.Test;
 
+/**
+ * Smoke Test for DAO service for UserAffiliation entity
+ *
+ * @author vitaly.yakunin
+ */
 @ContextConfiguration(locations = {"classpath:applicationContext-test.xml","classpath:dozer-application-context-test.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class UserAffiliationDAOTouchTest extends AbstractTransactionalTestNGSpringContextTests {

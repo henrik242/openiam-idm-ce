@@ -7,6 +7,7 @@ import org.openiam.idm.srvc.report.dto.ReportRow.ReportColumn
 import org.openiam.idm.srvc.report.dto.ReportTable;
 import org.openiam.idm.srvc.report.service.*;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
+import org.apache.commons.lang.StringUtils;
 
 import java.text.*;
 
@@ -56,11 +57,11 @@ public class UserReport implements ReportDataSetBuilder {
                 "   			LEFT JOIN USER_ROLE ur ON (ur.USER_ID = u.USER_ID) " +
                 "   		where l.MANAGED_SYS_ID = '0' ";
 
-        if (orgId != null && orgId.length() > 0) {
+        if (StringUtils.isNotEmpty(orgId)) {
             query = query + " and u.COMPANY_ID = '" + orgId + "' ";
 
         }
-        if (status != null && status.length() > 0) {
+        if (StringUtils.isNotEmpty(status)) {
             if ("DISABLE".equalsIgnoreCase(status)) {
                 query = query + " and u.SECONDARY_STATUS = '" + status + "' ";
             } else {
@@ -69,7 +70,7 @@ public class UserReport implements ReportDataSetBuilder {
 
         }
 
-        if (role != null && role.length() > 0) {
+        if (StringUtils.isNotEmpty(role)) {
             query = query + " and ur.ROLE_ID  = '" + role + "' ";
         }
 

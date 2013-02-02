@@ -15,7 +15,7 @@ public interface SecurityDomainDataService {
     /**
      * Returns the <code>SecurityDomain</code> object specified by the the domainId
      *
-     * @param id - domainId
+     * @param domainId - domainId
      * @return
      */
     public abstract SecurityDomain getSecurityDomain(String domainId);
@@ -23,7 +23,7 @@ public interface SecurityDomainDataService {
     /**
      * Adds a new security domain to the system.
      *
-     * @param val - SecurityDomain Object
+     * @param secDom - SecurityDomain Object
      */
 
     public abstract void addSecurityDomain(SecurityDomain secDom);
@@ -31,7 +31,7 @@ public interface SecurityDomainDataService {
     /**
      * Updates an existing security domain object.
      *
-     * @param serv - Service Object
+     * @param secDom - Service Object
      */
     public abstract void updateSecurityDomain(SecurityDomain secDom);
 
@@ -45,7 +45,7 @@ public interface SecurityDomainDataService {
     /**
      * Removes an existing service.
      *
-     * @param id - Service id
+     * @param secDom - Service id
      */
     public abstract void removeSecurityDomain(SecurityDomain secDom);
 

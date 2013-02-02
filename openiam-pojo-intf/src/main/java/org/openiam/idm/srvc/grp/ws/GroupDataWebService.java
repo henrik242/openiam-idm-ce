@@ -34,8 +34,6 @@ public interface GroupDataWebService {
      * @param subgroups  -
      *                   True will force the system to traverse the tree of child
      *                   groups
-     * @param dependants -
-     *                   True tells the system to retrieve dependent objects as well.
      * @return List of Group objects.
      */
     @WebMethod
@@ -62,7 +60,7 @@ public interface GroupDataWebService {
      * grpManager.addGroup(grpValue);<br>
      * </code>
      *
-     * @param Group
+     * @param group
      * @return - Number of records created. 0 if add failed to add any records
      */
 
@@ -75,7 +73,7 @@ public interface GroupDataWebService {
      * This method retrieves an existing group object. Dependent objects such as
      * users are not retrieved. Null is returned if the groupId is not found.
      *
-     * @param grpId
+     * @param groupId
      */
     @WebMethod
     public GroupResponse getGroup(
@@ -86,7 +84,7 @@ public interface GroupDataWebService {
      * This method retrieves an existing group along with an dependant objects
      * that it may contain. null is returned if the groupId is not found.
      *
-     * @param grpId
+     * @param groupId
      * @return
      */
     @WebMethod
@@ -101,7 +99,7 @@ public interface GroupDataWebService {
      * grpManager.updateGroup(grpValue);<br>
      * </code>
      *
-     * @param grp
+     * @param group
      * @return - Number of records created. 0 if update failed to update any records
      */
     @WebMethod
@@ -117,7 +115,7 @@ public interface GroupDataWebService {
      * grpManager.removeGroup(grpId);<br>
      * </code>
      *
-     * @param grpId The grpId to be removed.
+     * @param groupId The grpId to be removed.
      * @return - Returns the number of records removed. 0 if no records were removed.
      */
     @WebMethod
@@ -134,7 +132,7 @@ public interface GroupDataWebService {
      * </code>
      *
      * @param parentGroupId
-     * @param subGroups     -
+     * @param subgroups     -
      *                      true to retrieve the group hierarchy. false, to retrieve just
      *                      the current level of groups
      * @return List of Group objects. Returns null if no groups are found.
@@ -163,7 +161,7 @@ public interface GroupDataWebService {
      * Returns the parent Group object for the groupId that is passed in. If no
      * parent group is found, the system return null.
      *
-     * @param parentGroupId
+     * @param groupId
      * @param dependants    -
      *                      True indicates that dependant objects will be loaded as well.
      * @return
@@ -250,7 +248,7 @@ public interface GroupDataWebService {
      * Set userList = grpManager.getUsersByGroup(groupId);<br>
      * </code>
      *
-     * @param grpId The group to which users belong .
+     * @param groupId The group to which users belong .
      * @return List of User object .
      */
     //@WebMethod
@@ -269,7 +267,7 @@ public interface GroupDataWebService {
      * </code>
      *
      * @param userId User to be added to group.
-     * @param grpId  Group to which user will be added .
+     * @param groupId  Group to which user will be added .
      */
     @WebMethod
     public Response addUserToGroup(
@@ -287,7 +285,7 @@ public interface GroupDataWebService {
      * grpManager.removeUserGroup(groupId,userId);<br>
      * </code>
      *
-     * @param grpId  Group from where user would be removed .
+     * @param groupId  Group from where user would be removed .
      * @param userId User which is to be removed from group .
      */
     @WebMethod
@@ -354,8 +352,7 @@ public interface GroupDataWebService {
     /**
      * Removes a GroupAttribute specified by the attribute.
      *
-     * @param userId
-     * @param attributeId
+     * @param attribute
      */
     @WebMethod
     public Response removeAttribute(
@@ -365,7 +362,7 @@ public interface GroupDataWebService {
     /**
      * Removes all the attributes associated with a groupId.
      *
-     * @param userId
+     * @param groupId
      */
     @WebMethod
     public Response removeAllAttributes(

@@ -13,7 +13,7 @@
     					http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.openiam.core.dao*,org.openiam.idm.srvc*,org.openiam.dozer.converter*" />
+    <context:component-scan base-package="org.openiam.idm.srvc*,org.openiam.dozer.converter*" />
 
     <bean id="springContextProvider" class="org.openiam.util.SpringContextProvider" />
     <bean id="deepDozerMapper" class="org.dozer.DozerBeanMapper">
@@ -750,8 +750,7 @@
    				<prop key="hibernate.validationQuery">${openiam.hibernate.validationQuery}</prop>
 			</props>
 		</property>
-	    <property name="packagesToScan" value="org.openiam.core.domain*,
-											   org.openiam.idm.srvc.grp.dto*,
+	    <property name="packagesToScan" value="org.openiam.idm.srvc.grp.dto*,
 											   org.openiam.idm.srvc.res.dto*,
 											   org.openiam.idm.srvc.role.dto*,
 											   org.openiam.idm.srvc.user.dto*,
@@ -765,7 +764,8 @@
                                                org.openiam.idm.srvc.res.domain*,
                                                org.openiam.idm.srvc.role.domain*,
                                                org.openiam.idm.srvc.grp.domain*,
-                                               org.openiam.idm.srvc.msg.domain*"/>
+                                               org.openiam.idm.srvc.msg.domain*,
+                                               org.openiam.idm.srvc.report.domain*"/>
 	</bean>
 
   

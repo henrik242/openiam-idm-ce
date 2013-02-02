@@ -2,25 +2,25 @@ package org.openiam.webadmin.reports;
 
 import java.util.Collections;
 import java.util.List;
-import org.openiam.idm.srvc.report.dto.ReportDto;
+import org.openiam.idm.srvc.report.dto.ReportInfoDto;
 
 public class ReportListCommand {
-    private List<ReportDto> reports = Collections.EMPTY_LIST;
-    private ReportDto report = new ReportDto();
+    private List<ReportInfoDto> reports = Collections.EMPTY_LIST;
+    private ReportInfoDto report = new ReportInfoDto();
 
-    public List<ReportDto> getReports() {
+    public List<ReportInfoDto> getReports() {
         return reports;
     }
 
-    public void setRepors(List<ReportDto> reports) {
+    public void setRepors(List<ReportInfoDto> reports) {
         this.reports = reports;
     }
 
-    public ReportDto getReport() {
+    public ReportInfoDto getReport() {
         return report;
     }
 
-    public void setReport(ReportDto report) {
+    public void setReport(ReportInfoDto report) {
         this.report = report;
     }
 }

@@ -14,7 +14,8 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="org.openiam.idm.srvc.user.service"/>
+    <context:component-scan base-package="org.openiam.idm.srvc"/>
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
@@ -54,8 +55,7 @@
 				<value>org/openiam/idm/srvc/service/service/RequestApprover.hbm.xml</value>
             </list>
         </property>
-        <property name="packagesToScan" value="org.openiam.core.domain*,
-											   org.openiam.idm.srvc.grp.dto*,
+        <property name="packagesToScan" value="org.openiam.idm.srvc.grp.dto*,
 											   org.openiam.idm.srvc.res.dto*,
 											   org.openiam.idm.srvc.role.dto*,
 											   org.openiam.idm.srvc.user.dto*,
@@ -69,7 +69,8 @@
 											   org.openiam.idm.srvc.res.domain*,
 											   org.openiam.idm.srvc.role.domain*,
 											   org.openiam.idm.srvc.grp.domain*,
-											   org.openiam.idm.srvc.msg.domain*"/>
+											   org.openiam.idm.srvc.msg.domain*,
+											   org.openiam.idm.srvc.report.domain*"/>
     </bean>
 
     <!--tx begin-->

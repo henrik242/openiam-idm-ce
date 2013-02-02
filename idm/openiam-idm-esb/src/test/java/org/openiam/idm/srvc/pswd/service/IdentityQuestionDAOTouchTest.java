@@ -10,6 +10,11 @@ import org.testng.annotations.Test;
 import org.openiam.idm.srvc.pswd.domain.IdentityQuestionEntity;
 import org.openiam.idm.srvc.pswd.service.IdentityQuestionDAO;
 
+/**
+ * Smoke Test for DAO service of IdentityQuest entity
+ *
+ * @author vitaly.yakunin
+ */
 @ContextConfiguration(locations = {"classpath:applicationContext-test.xml","classpath:dozer-application-context-test.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class IdentityQuestionDAOTouchTest extends AbstractTransactionalTestNGSpringContextTests {
