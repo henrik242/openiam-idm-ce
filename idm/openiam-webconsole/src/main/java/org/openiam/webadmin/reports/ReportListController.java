@@ -43,7 +43,6 @@ public class ReportListController extends SimpleFormController {
             reportViewerLink.append(reportViewerUrl).append("/reportviewer");
             reportViewerLink.append("/frameset?");
             reportViewerLink.append("__report=").append(reportLocation);
-            reportViewerLink.append("&").append("http://localhost:9090/idmsrvc/ReportService?wsdl");
 
             response.sendRedirect(reportViewerLink.toString());
             return null;
