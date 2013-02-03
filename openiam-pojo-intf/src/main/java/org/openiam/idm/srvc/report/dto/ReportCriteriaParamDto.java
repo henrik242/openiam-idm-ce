@@ -30,6 +30,12 @@ public class ReportCriteriaParamDto {
     public ReportCriteriaParamDto() {
     }
 
+    public ReportCriteriaParamDto(String reportId, String name, String value) {
+        this.reportId = reportId;
+        this.name = name;
+        this.value = value;
+    }
+
     public String getId() {
         return id;
     }

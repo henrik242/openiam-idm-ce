@@ -14,6 +14,7 @@ public interface ReportDataService {
     ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams) throws ClassNotFoundException, ScriptEngineException, IOException;
     List<ReportInfoEntity> getAllReports();
     ReportInfoEntity getReportByName(String name);
-    void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl, List<ReportCriteriaParamEntity> prameters);
+    void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl);
     List<ReportCriteriaParamEntity> getReportParametersByReportId(String reportId);
+    void updateReportParametersByReportName(String reportName, List<ReportCriteriaParamEntity> prameters);
 }

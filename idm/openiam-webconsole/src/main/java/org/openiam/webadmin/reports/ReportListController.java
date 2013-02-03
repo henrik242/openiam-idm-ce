@@ -49,7 +49,9 @@ public class ReportListController extends SimpleFormController {
         } else if (request.getParameterMap().containsKey("edit_btn")) {
             ReportCommand reportCommand = new ReportCommand();
             reportCommand.setReport(selectedReport);
-            return new ModelAndView(getSuccessView(), "reportCommand", reportCommand);
+            ModelAndView modelAndView = new ModelAndView(getSuccessView(), "reportCommand", reportCommand);
+            modelAndView.addObject("reportParameters", reportService.getReportParametersByReportId(selectedReport.getReportId()).getParameters());
+            return modelAndView;
         } else if (request.getParameterMap().containsKey("add_btn")) {
             ReportCommand reportCommand = new ReportCommand();
             reportCommand.setReport(new ReportInfoDto());

@@ -21,7 +21,8 @@ import java.util.List;
 public class ReportCriteriaParamDAOTouchTest extends AbstractTransactionalTestNGSpringContextTests {
     @Autowired
     private ReportCriteriaParamDao criteriaParamDao;
-
+    @Autowired
+    private ReportInfoDao reportInfoDao;
     @Test
     public void touchSave() {
         criteriaParamDao.save(new ReportCriteriaParamEntity());
@@ -29,16 +30,6 @@ public class ReportCriteriaParamDAOTouchTest extends AbstractTransactionalTestNG
 
     @Test
     public void touchFindByReportInfoId() {
-        ReportCriteriaParamEntity paramEntity = new ReportCriteriaParamEntity();
-        ReportInfoEntity reportInfoEntity = new ReportInfoEntity();
-        reportInfoEntity.setId("1");
-        reportInfoEntity.setReportName("TestReport1");
-        reportInfoEntity.setDatasourceFilePath("sdf");
-        reportInfoEntity.setReportFilePath("test");
-        paramEntity.setReport(reportInfoEntity);
-        criteriaParamDao.save(paramEntity);
-        List<ReportCriteriaParamEntity> list = criteriaParamDao.findByReportInfoId(reportInfoEntity.getId());
-        Assert.assertNotNull(list);
-        Assert.assertEquals(list.size(), 1);
+        criteriaParamDao.findByReportInfoId("1");
     }
 }

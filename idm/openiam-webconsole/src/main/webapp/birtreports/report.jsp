@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%--@elvariable id="reportCommand" type="org.openiam.webadmin.reports.ReportCommand"--%>
-
+<%--@elvariable id="reportParameters" type="java.util.List<org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto>"--%>
 <script type="text/javascript" src="<c:url value='/scripts/jquery-1.7.1.min.js'/>"></script>
 <script type="text/javascript">
     $(function() {
@@ -21,6 +21,15 @@
     };
     var selectDesignFile = function() {
         $('#designFileInpId').click();
+        return false;
+    };
+    var addParameter = function() {
+        var newrow = '<tr><td><span>Name: </span><input type="text" name="paramName" value="${param.name}"/></td><td><span>Default Value: </span><input type="text" name="paramValue" value="${param.value}"/><span><a href="#" onclick="return remove(this);">remove</a></span></td></tr>';
+        $('#paramTable').append(newrow);
+        return false;
+    };
+    var remove = function(obj) {
+        $(obj).closest('tr').remove();
         return false;
     };
 </script>
@@ -94,8 +103,54 @@
                                                    value="${reportCommand.report.reportUrl}">
                                         </td>
                                     </tr>
+                                    <tr><td colspan="2">Parameters</td></tr>
+                                    <tr>
+                                    <td colspan="2">
+                                     <table id="paramTable">
+                                            <c:choose>
+                                            <c:when test="${not empty reportParameters}">
+                                            <c:forEach items="${reportParameters}" var="rep" varStatus="status">
+                                            <tr>
+                                                <td>
+                                                    <span>Name: </span>
+                                                    <input type="text"
+                                                           name="paramName"
+                                                           value="${rep.name}"/>
+                                                </td>
+                                                <td>
+                                                    <span>Default Value: </span>
+                                                    <input type="text"
+                                                           name="paramValue"
+                                                           value="${rep.value}"/>
+                                                    <c:if test="${status.index > 0}"><span><a href="#" onclick="return remove(this);">remove</a></span> </c:if>
+                                                </td>
+                                            </tr>
+                                            </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td >
+                                                        <span>Name: </span>
+                                                        <input type="text"
+                                                               name="paramName"
+                                                               value=""/>
+                                                    </td>
+                                                    <td>
+                                                        <span>Default Value: </span>
+                                                        <input type="text"
+                                                               name="paramValue"
+                                                               value=""/>
+                                                    </td>
+                                                </tr>
+                                            </c:otherwise>
+                                            </c:choose>
+                                       </table>
+                                    </td>
+                                    </tr>
+                                    <tr><td colspan="2"><a href="#" onclick="return addParameter();">Add</a></td></tr>
                                     <tr>
                                         <td colspan="2" align="right">
+                                           <%-- <input type="submit" name="delete" value="Delete">--%>
                                             <input type="submit" name="cancel" value="Cancel">
                                             <input type="submit" name="save" value="Save">
                                         </td>

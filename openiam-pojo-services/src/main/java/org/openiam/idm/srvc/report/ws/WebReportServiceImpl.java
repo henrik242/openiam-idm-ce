@@ -72,7 +72,8 @@ public class WebReportServiceImpl implements WebReportService {
         Response response = new Response();
         if (!StringUtils.isEmpty(reportName)) {
             try {
-                reportDataService.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl, criteriaParamDozerConverter.convertToEntityList(parameters, false));
+                reportDataService.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
+                reportDataService.updateReportParametersByReportName(reportName, criteriaParamDozerConverter.convertToEntityList(parameters, false));
             } catch (Throwable t) {
                 response.setStatus(ResponseStatus.FAILURE);
                 response.setErrorCode(ResponseCode.SQL_EXCEPTION);

@@ -2,13 +2,13 @@ package org.openiam.idm.srvc.report.service;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity;
 import org.openiam.idm.srvc.report.domain.ReportInfoEntity;
 import org.openiam.exception.ScriptEngineException;
-import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
@@ -31,11 +31,11 @@ public class ReportDataServiceImpl implements ReportDataService {
     public ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams) throws ClassNotFoundException, ScriptEngineException, IOException {
         ReportInfoEntity reportInfo = reportDao.findByName(reportName);
         if (reportInfo == null) {
-            throw new IllegalArgumentException("Invalid parameter list: report with name="+reportName + " was not found in Database");
+            throw new IllegalArgumentException("Invalid parameter list: report with name=" + reportName + " was not found in Database");
         }
 
         ScriptIntegration se = ScriptFactory.createModule(scriptEngine);
-        ReportDataSetBuilder dataSourceBuilder = (ReportDataSetBuilder) se.instantiateClass(Collections.EMPTY_MAP, "/reports/"+reportInfo.getDatasourceFilePath());
+        ReportDataSetBuilder dataSourceBuilder = (ReportDataSetBuilder) se.instantiateClass(Collections.EMPTY_MAP, "/reports/" + reportInfo.getDatasourceFilePath());
 
         return dataSourceBuilder.getReportData(reportParams);
     }
@@ -54,8 +54,18 @@ public class ReportDataServiceImpl implements ReportDataService {
 
     @Override
     @Transactional
-    public void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl, List<ReportCriteriaParamEntity> parameters) {
-       reportDao.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
+    public void createOrUpdateReportInfo(final String reportName, final String reportDataSource, final String reportUrl) {
+        reportDao.createOrUpdateReportInfo(reportName, reportDataSource, reportUrl);
+        List<ReportCriteriaParamEntity> paramEntitiesSrc = criteriaParamDao.findByReportInfoName(reportName);
+        for(ReportCriteriaParamEntity paramEntity : paramEntitiesSrc) {
+            criteriaParamDao.delete(paramEntity);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateReportParametersByReportName(final String reportName, final List<ReportCriteriaParamEntity> parameters) {
+        criteriaParamDao.save(parameters);
     }
 
     @Override

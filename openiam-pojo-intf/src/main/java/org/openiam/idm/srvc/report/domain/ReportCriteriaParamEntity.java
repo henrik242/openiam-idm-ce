@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @author vitaly.yakunin
  */
 @Entity
-@Table(name = "REPORT_INFO")
+@Table(name = "REPORT_CRITERIA_PARAMETER")
 @DozerDTOCorrespondence(ReportCriteriaParamDto.class)
 public class ReportCriteriaParamEntity {
     @Id

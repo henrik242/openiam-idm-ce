@@ -31,4 +31,14 @@ public class ReportCriteriaParamDaoImpl extends BaseDaoImpl<ReportCriteriaParamE
 
         return criteria.list();
     }
+
+    @Override
+    public List<ReportCriteriaParamEntity> findByReportInfoName(String reportInfoName) {
+        Criteria criteria = getSession().createCriteria(ReportCriteriaParamEntity.class)
+                .createAlias("report","r")
+                .add(Restrictions.eq("r.reportName", reportInfoName))
+                .addOrder(Order.asc("name"));
+
+        return criteria.list();
+    }
 }

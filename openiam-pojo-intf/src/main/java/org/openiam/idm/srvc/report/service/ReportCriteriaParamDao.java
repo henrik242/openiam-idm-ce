@@ -13,5 +13,5 @@ public interface ReportCriteriaParamDao extends BaseDao<ReportCriteriaParamEntit
 
     List<ReportCriteriaParamEntity> findByReportInfoId(String reportInfoId);
 
-
+    List<ReportCriteriaParamEntity> findByReportInfoName(String reportInfoName);
 }
