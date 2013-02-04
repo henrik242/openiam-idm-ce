@@ -444,15 +444,6 @@
   <action-mappings>
 
 
-    <!-- permission action-->
-    <!-- 
-   
-    <action path="/permission" type="org.openiam.webadmin.login.PermissionAction">
-      <forward name="dispatcher" path="/dispatcher.jsp"/>
-      <forward name="permissionlist" path="/home.jsp?bodyjsp=welcome.jsp"/>
-      <forward name="login" path="/home.jsp?bodyjsp=login.jsp"/>
-    </action>
-  -->
     <!-- logout action-->
   
     <action path="/logout" type="org.springframework.web.struts.DelegatingActionProxy">
@@ -467,15 +458,7 @@
     <action path="/switch" type="org.apache.struts.actions.SwitchAction"/>
 
 <!-- User and Identity related actions  -->
- <!-- 
-   	<action path="/navigator" 
-    			type="org.openiam.webadmin.busdel.base.NavigationAction" 
-    			unknown="false">
-    			
-        	<forward name="success" path="/home.jsp"/>
-         	<forward name="failure" path="/home.jsp"/>
-     </action>
- -->     
+
 	 <action path="/idman/index" type="org.openiam.webadmin.user.IndexAction">				
 			<forward name="welcome" path="/home.jsp?bodyjsp=blank.jsp"/>
          	<forward name="failure" path="/home.jsp"/>
@@ -494,17 +477,7 @@
          	<forward name="failure" path="/home.jsp"/>
      </action>     
 
-    <action    path="/idman/userSearch"
-               type="org.springframework.web.struts.DelegatingActionProxy"
-               name="searchForm" scope="request"
-               parameter="action"
-               validate="false" unknown="false">
-      <forward name="view"         path="/home.jsp?bodyjsp=idman/search.jsp"/>          
-      <forward name="success"      path="/home.jsp?bodyjsp=idman/searchresult.jsp"/>      
-    </action>
-     
-		   
-   
+
     
     
     

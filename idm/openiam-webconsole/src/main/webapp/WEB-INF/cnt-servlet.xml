@@ -898,6 +898,25 @@
 		<property name="userMgr" ref="userServiceClient" />
      </bean>
 
+    <bean id="userSearch" class="org.openiam.webadmin.user.UserSearchController">
+        <property name="sessionForm"><value>true</value></property>
+        <property name="commandName" value="userSearchCmd" />
+        <property name="commandClass" value="org.openiam.webadmin.user.UserSearchCommand" />
+        <property name="formView" value="/user/usersearch" />
+        <property name="successView" value="/user/usersearch" />
+        <property name="userDataWebService" ref="userServiceClient" />
+        <property name="roleDataService" ref="roleServiceClient" />
+        <property name="orgManager" ref="orgServiceClient" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="metadataService" ref="metadataServiceClient"	/>
+
+        <property name="cancelView" value="/" />
+        <property name="validator" ref="userSearchValidator" />
+    </bean>
+
+    <bean id="userSearchValidator" class="org.openiam.webadmin.user.UserSearchValidator">
+    </bean>
+
     <bean id="bulkProvisioning" class="org.openiam.webadmin.user.BulkProvisioningController">
         <property name="pages">
             <list>
@@ -1013,6 +1032,8 @@
                 <prop key="/custlist.cnt">clientList</prop>
              	<prop key="/custDetail.cnt">clientDetail</prop>
                 <prop key="/custDetail.cnt">clientDetail</prop>
+
+                <prop key="/userSearch.cnt">userSearch</prop>
 
                 <prop key="/userBulk.cnt">bulkProvisioning</prop>
                 <prop key="/birtReportList.cnt">reportListController</prop>

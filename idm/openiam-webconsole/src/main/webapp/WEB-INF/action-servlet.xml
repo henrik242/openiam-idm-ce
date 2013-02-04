@@ -38,22 +38,6 @@
 		<property name="navDS" ref="navServiceClient" />
     </bean>        
 
-	
-  
-    <bean name="/idman/userSearch" class="org.openiam.webadmin.user.UserSearchAction">
-    	<property name="roleDataService" ref="roleServiceClient" />
-    	<property name="groupManager" ref="groupServiceClient" />
-    	<property name="orgManager" ref="orgServiceClient" />
-    	<property name="defaultSecurityDoamin" value="USR_SEC_DOMAIN" />
-    	<property name="maxResultSize" value="100" />
-    	<property name="refDataService" ref="referenceDataServiceClient" />	
-    	<property name="userMgr" ref="userServiceClient" />	
-    	<property name="configuration" ref="appConfiguration" />
-    </bean>
-
-   
-
-
 
     <bean name="/security/policy"  class="org.openiam.webadmin.access.PolicyAction">
 			<property name="policyDS" ref="policyServiceClient" /> 
