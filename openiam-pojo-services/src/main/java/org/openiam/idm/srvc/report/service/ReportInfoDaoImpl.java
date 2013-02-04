@@ -10,7 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Repository;
 
-
+/**
+ * DAO service for ReportInfoEntity implementation
+ *
+ * @author vitaly.yakunin
+ */
 @Repository
 public class ReportInfoDaoImpl extends BaseDaoImpl<ReportInfoEntity, String> implements ReportInfoDao {
 

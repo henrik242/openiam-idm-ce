@@ -15,7 +15,7 @@ import java.util.List;
 })
 public class GetReportParametersResponse extends Response {
 
-    protected List<ReportCriteriaParamDto> parameters;
+    private List<ReportCriteriaParamDto> parameters;
 
     public List<ReportCriteriaParamDto> getParameters() {
         return parameters;

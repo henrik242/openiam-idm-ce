@@ -9,6 +9,7 @@ import java.util.Map;
 import org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity;
 import org.openiam.idm.srvc.report.domain.ReportInfoEntity;
 import org.openiam.exception.ScriptEngineException;
+import org.openiam.idm.srvc.report.domain.ReportParamTypeEntity;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
@@ -16,6 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service for providing report data
+ *
+ * @author vitaly.yakunin
+ */
 @Service
 public class ReportDataServiceImpl implements ReportDataService {
 
@@ -25,7 +31,8 @@ public class ReportDataServiceImpl implements ReportDataService {
     private ReportInfoDao reportDao;
     @Autowired
     private ReportCriteriaParamDao criteriaParamDao;
-
+    @Autowired
+    private ReportParamTypeDao reportParamTypeDao;
     @Override
     @Transactional(readOnly = true)
     public ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams) throws ClassNotFoundException, ScriptEngineException, IOException {
@@ -72,5 +79,11 @@ public class ReportDataServiceImpl implements ReportDataService {
     @Transactional
     public List<ReportCriteriaParamEntity> getReportParametersByReportId(String reportId) {
         return criteriaParamDao.findByReportInfoId(reportId);
+    }
+
+    @Override
+    @Transactional
+    public List<ReportParamTypeEntity> getReportParameterTypes() {
+        return reportParamTypeDao.findAll();
     }
 }

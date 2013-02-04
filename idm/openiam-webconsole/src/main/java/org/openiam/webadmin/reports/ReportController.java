@@ -68,7 +68,8 @@ public class ReportController extends SimpleFormController {
             if(StringUtils.isNotEmpty(reportCommand.getReport().getReportName())) {
                 List<ReportCriteriaParamDto> params = new LinkedList<ReportCriteriaParamDto>();
                 for(int i =0; i < reportCommand.getParamName().length; i++) {
-                    params.add(new ReportCriteriaParamDto(reportCommand.getReport().getReportId(), reportCommand.getParamName()[i],reportCommand.getParamValue()[i]));
+                    String paramTypeId = reportCommand.getParamTypeId()[i];
+                    params.add(new ReportCriteriaParamDto(reportCommand.getReport().getReportId(), reportCommand.getParamName()[i], "", "0".equals(paramTypeId)?"1":paramTypeId));
                 }
                 reportService.createOrUpdateReportInfo(reportCommand.getReport().getReportName(), dataSourceFile.getSize() > 0 ? dataSourceFileName : reportCommand.getReport().getReportDataSource(), designFile.getSize() > 0 ? designFileName : reportCommand.getReport().getReportUrl(), params);
             }

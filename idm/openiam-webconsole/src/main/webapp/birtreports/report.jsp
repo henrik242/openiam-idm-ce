@@ -5,6 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%--@elvariable id="reportCommand" type="org.openiam.webadmin.reports.ReportCommand"--%>
 <%--@elvariable id="reportParameters" type="java.util.List<org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto>"--%>
+<%--@elvariable id="reportTypes" type="java.util.List<org.openiam.idm.srvc.report.dto.ReportParamTypeDto>"--%>
+
 <script type="text/javascript" src="<c:url value='/scripts/jquery-1.7.1.min.js'/>"></script>
 <script type="text/javascript">
     $(function() {
@@ -24,7 +26,7 @@
         return false;
     };
     var addParameter = function() {
-        var newrow = '<tr><td><span>Name: </span><input type="text" name="paramName" value="${param.name}"/></td><td><span>Default Value: </span><input type="text" name="paramValue" value="${param.value}"/><span><a href="#" onclick="return remove(this);">remove</a></span></td></tr>';
+        var newrow = '<tr><td><span>Name: </span><input type="text" name="paramName" value=""/></td><td><span>Type: </span><select name="paramTypeId" id="paramTypeId"><option value="0">-Select a value</option><c:forEach items="${reportTypes}" var="paramType" varStatus="sts"><option value="${paramType.id}" label="${paramType.description}">${paramType.description}</option></c:forEach></select><span><a href="#" onclick="return remove(this);">remove</a></span></td></tr>';
         $('#paramTable').append(newrow);
         return false;
     };
@@ -118,10 +120,13 @@
                                                            value="${rep.name}"/>
                                                 </td>
                                                 <td>
-                                                    <span>Default Value: </span>
-                                                    <input type="text"
-                                                           name="paramValue"
-                                                           value="${rep.value}"/>
+                                                    <span>Type: </span>
+                                                    <select name="paramTypeId">
+                                                        <option value="0">-Select a value</option>
+                                                        <c:forEach items="${reportTypes}" var="paramType" varStatus="sts">
+                                                            <option <c:if test="${paramType.id == rep.typeId}"> selected="selected" </c:if> value="${paramType.id}" label="${paramType.description}">${paramType.description}</option>
+                                                        </c:forEach>
+                                                    </select>
                                                     <c:if test="${status.index > 0}"><span><a href="#" onclick="return remove(this);">remove</a></span> </c:if>
                                                 </td>
                                             </tr>
@@ -136,10 +141,12 @@
                                                                value=""/>
                                                     </td>
                                                     <td>
-                                                        <span>Default Value: </span>
-                                                        <input type="text"
-                                                               name="paramValue"
-                                                               value=""/>
+                                                        <span>Type: </span>
+                                                        <form:select path="paramTypeId" multiple="false">
+                                                            <form:option value="0"  label="-Select a value" />
+                                                            <form:options items="${reportTypes}" itemValue="id" itemLabel="description"  />
+                                                        </form:select>
+                                                        <c:if test="${status.index > 0}"><span><a href="#" onclick="return remove(this);">remove</a></span> </c:if>
                                                     </td>
                                                 </tr>
                                             </c:otherwise>

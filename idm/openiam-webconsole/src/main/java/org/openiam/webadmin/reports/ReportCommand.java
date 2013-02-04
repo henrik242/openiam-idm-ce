@@ -11,6 +11,7 @@ public class ReportCommand {
     private ReportInfoDto report = new ReportInfoDto();
     private String[] paramName;
     private String[] paramValue;
+    private String[] paramTypeId;
 
     public MultipartFile getDataSourceScriptFile() {
         return dataSourceScriptFile;
@@ -50,5 +51,13 @@ public class ReportCommand {
 
     public void setParamValue(String[] paramValue) {
         this.paramValue = paramValue;
+    }
+
+    public String[] getParamTypeId() {
+        return paramTypeId;
+    }
+
+    public void setParamTypeId(String[] paramTypeId) {
+        this.paramTypeId = paramTypeId;
     }
 }

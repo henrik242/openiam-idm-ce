@@ -7,9 +7,15 @@ import java.util.Map;
 import org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity;
 import org.openiam.idm.srvc.report.domain.ReportInfoEntity;
 import org.openiam.exception.ScriptEngineException;
+import org.openiam.idm.srvc.report.domain.ReportParamTypeEntity;
 import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
-
+import org.openiam.idm.srvc.report.dto.ReportTable;
+/**
+ * Report data service provides transactional
+ *
+ * @author vitaly.yakunin
+ */
 public interface ReportDataService {
     ReportDataDto getReportData(final String reportName, final Map<String, String> reportParams) throws ClassNotFoundException, ScriptEngineException, IOException;
     List<ReportInfoEntity> getAllReports();
@@ -17,4 +23,5 @@ public interface ReportDataService {
     void createOrUpdateReportInfo(String reportName, String reportDataSource, String reportUrl);
     List<ReportCriteriaParamEntity> getReportParametersByReportId(String reportId);
     void updateReportParametersByReportName(String reportName, List<ReportCriteriaParamEntity> prameters);
+    List<ReportParamTypeEntity> getReportParameterTypes();
 }

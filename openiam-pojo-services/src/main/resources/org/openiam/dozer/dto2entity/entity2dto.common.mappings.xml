@@ -148,6 +148,10 @@
             <a>report.id</a>
             <b>reportId</b>
         </field>
+        <field>
+            <a>type.id</a>
+            <b>typeId</b>
+        </field>
     </mapping>
 
     <mapping>
@@ -165,5 +169,10 @@
             <a>reportFilePath</a>
             <b>reportUrl</b>
         </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.openiam.idm.srvc.report.domain.ReportParamTypeEntity</class-a>
+        <class-b>org.openiam.idm.srvc.report.dto.ReportParamTypeDto</class-b>
     </mapping>
 </mappings>

@@ -11,15 +11,23 @@ import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.dozer.converter.ReportCriteriaParamDozerConverter;
 import org.openiam.dozer.converter.ReportInfoDozerConverter;
+import org.openiam.dozer.converter.ReportParamTypeDozerConverter;
 import org.openiam.idm.srvc.report.domain.ReportCriteriaParamEntity;
 import org.openiam.idm.srvc.report.domain.ReportInfoEntity;
+import org.openiam.idm.srvc.report.domain.ReportParamTypeEntity;
 import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.dto.ReportDataDto;
 import org.openiam.idm.srvc.report.dto.ReportInfoDto;
+import org.openiam.idm.srvc.report.dto.ReportParamTypeDto;
 import org.openiam.idm.srvc.report.service.ReportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * WS for report system
+ *
+ * @author vitaly.yakunin
+ */
 @Service("reportWS")
 @WebService(endpointInterface = "org.openiam.idm.srvc.report.ws.WebReportService",
         targetNamespace = "urn:idm.openiam.org/idm/srvc/report/ws",
@@ -30,6 +38,8 @@ public class WebReportServiceImpl implements WebReportService {
     private ReportInfoDozerConverter reportInfoDozerConverter;
     @Autowired
     private ReportCriteriaParamDozerConverter criteriaParamDozerConverter;
+    @Autowired
+    private ReportParamTypeDozerConverter paramTypeDozerConverter;
     @Autowired
     private ReportDataService reportDataService;
 
@@ -105,6 +115,19 @@ public class WebReportServiceImpl implements WebReportService {
             response.setErrorText("Invalid parameter list: reportId=" + reportId);
             response.setStatus(ResponseStatus.FAILURE);
         }
+        return response;
+    }
+
+    @Override
+    public GetReportParameterTypesResponse getReportParameterTypes() {
+        GetReportParameterTypesResponse response = new GetReportParameterTypesResponse();
+        List<ReportParamTypeEntity> paramTypeEntities = reportDataService.getReportParameterTypes();
+        List<ReportParamTypeDto> reportParamTypeDtos = new LinkedList<ReportParamTypeDto>();
+        if(paramTypeEntities != null && paramTypeEntities.size() > 0) {
+           reportParamTypeDtos = paramTypeDozerConverter.convertToDTOList(paramTypeEntities, false);
+        }
+        response.setTypes(reportParamTypeDtos);
+        response.setStatus(ResponseStatus.SUCCESS);
         return response;
     }
 }

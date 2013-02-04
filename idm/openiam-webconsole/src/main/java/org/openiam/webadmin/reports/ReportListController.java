@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.openiam.idm.srvc.report.dto.ReportCriteriaParamDto;
 import org.openiam.idm.srvc.report.dto.ReportInfoDto;
 import org.openiam.idm.srvc.report.ws.GetAllReportsResponse;
 import org.openiam.idm.srvc.report.ws.WebReportService;
@@ -50,12 +52,16 @@ public class ReportListController extends SimpleFormController {
             ReportCommand reportCommand = new ReportCommand();
             reportCommand.setReport(selectedReport);
             ModelAndView modelAndView = new ModelAndView(getSuccessView(), "reportCommand", reportCommand);
-            modelAndView.addObject("reportParameters", reportService.getReportParametersByReportId(selectedReport.getReportId()).getParameters());
+            List<ReportCriteriaParamDto> paramDtos = reportService.getReportParametersByReportId(selectedReport.getReportId()).getParameters();
+            modelAndView.addObject("reportParameters", paramDtos);
+            modelAndView.addObject("reportTypes", reportService.getReportParameterTypes().getTypes());
             return modelAndView;
         } else if (request.getParameterMap().containsKey("add_btn")) {
             ReportCommand reportCommand = new ReportCommand();
             reportCommand.setReport(new ReportInfoDto());
-            return new ModelAndView(getSuccessView(), "reportCommand", reportCommand);
+            ModelAndView modelAndView = new ModelAndView(getSuccessView(), "reportCommand", reportCommand);
+            modelAndView.addObject("reportTypes", reportService.getReportParameterTypes().getTypes());
+            return modelAndView;
         }
         return null;
     }

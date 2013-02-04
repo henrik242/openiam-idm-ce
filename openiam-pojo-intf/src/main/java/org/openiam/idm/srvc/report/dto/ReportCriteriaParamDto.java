@@ -17,7 +17,8 @@ import javax.xml.bind.annotation.XmlType;
         "id",
         "reportId",
         "name",
-        "value"
+        "value",
+        "typeId"
 })
 @DozerDTOCorrespondence(ReportCriteriaParamEntity.class)
 public class ReportCriteriaParamDto {
@@ -26,14 +27,16 @@ public class ReportCriteriaParamDto {
     private String reportId;
     private String name;
     private String value;
+    private String typeId;
 
     public ReportCriteriaParamDto() {
     }
 
-    public ReportCriteriaParamDto(String reportId, String name, String value) {
+    public ReportCriteriaParamDto(String reportId, String name, String value, String typeId) {
         this.reportId = reportId;
         this.name = name;
         this.value = value;
+        this.typeId = typeId;
     }
 
     public String getId() {
@@ -68,6 +71,14 @@ public class ReportCriteriaParamDto {
         this.value = value;
     }
 
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,6 +89,7 @@ public class ReportCriteriaParamDto {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (reportId != null ? !reportId.equals(that.reportId) : that.reportId != null) return false;
+        if (typeId != null ? !typeId.equals(that.typeId) : that.typeId != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;
@@ -89,6 +101,7 @@ public class ReportCriteriaParamDto {
         result = 31 * result + (reportId != null ? reportId.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (typeId != null ? typeId.hashCode() : 0);
         return result;
     }
 
@@ -99,6 +112,7 @@ public class ReportCriteriaParamDto {
                 ", reportId='" + reportId + '\'' +
                 ", name='" + name + '\'' +
                 ", value='" + value + '\'' +
+                ", typeId='" + typeId + '\'' +
                 '}';
     }
 }

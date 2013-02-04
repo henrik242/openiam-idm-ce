@@ -25,4 +25,6 @@ public interface WebReportService {
     @WebMethod
     GetReportParametersResponse getReportParametersByReportId(@WebParam(name = "reportId", targetNamespace = "") String reportId);
 
+    @WebMethod
+    GetReportParameterTypesResponse getReportParameterTypes();
 }
