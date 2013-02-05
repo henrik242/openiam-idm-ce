@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.ServletContextEvent;
 
 /**
- * HACK to override web application init parameter "BIRT_VIEWER_WORKING_FOLDER"
+ * HACK to overwrite web application init parameter "BIRT_VIEWER_WORKING_FOLDER"
  */
 public class ViewerServletContextListenerExt extends ViewerServletContextListener {
     private static ResourceBundle res = ResourceBundle.getBundle("securityconf");

@@ -81,7 +81,9 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.ws" name="Data Source" id="255">
-            <method name="beforeOpen"><![CDATA[var myresourcefolder = reportContext.getDesignHandle().getResourceFolder();
+            <method name="beforeOpen"><![CDATA[//var myresourcefolder = reportContext.getDesignHandle().getResourceFolder();
+var reportFolderAndReportName = reportContext.getReportRunnable().getReportName();
+var myresourcefolder = reportFolderAndReportName.substr(0,reportFolderAndReportName.lastIndexOf('/')) 
 this.setExtensionProperty("OdaConnProfileStorePath", myresourcefolder + "/configuration.cps");]]></method>
             <property name="wsdlURI">http://localhost:9090/idmsrvc/ReportService?wsdl</property>
             <property name="OdaConnProfileName">Data Source</property>
@@ -89,6 +91,8 @@ this.setExtensionProperty("OdaConnProfileStorePath", myresourcefolder + "/config
         </oda-data-source>
         <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.ws" name="Data Source1" id="704">
             <property name="wsdlURI">http://lnx06.openiamdemo.com:8080/openiam-esb/idmsrvc/ReportService?wsdl</property>
+            <property name="OdaConnProfileName">Data Source1</property>
+            <property name="OdaConnProfileStorePath">C:\Documents and Settings\Vitaly\workspace\.metadata\.plugins\org.eclipse.datatools.connectivity\ServerProfiles.dat</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
