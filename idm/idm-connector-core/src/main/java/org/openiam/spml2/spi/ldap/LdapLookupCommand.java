@@ -75,12 +75,8 @@ public class LdapLookupCommand extends LdapAbstractCommand {
                 List<String> attrList = getAttributeNameList(attrMap);
                 String[] attrAry = new String[attrList.size()];
                 attrList.toArray(attrAry);
-                log.debug("Attribute array=" + attrAry);
 
                 NamingEnumeration results = lookupSearch(matchObj[0], ldapctx, rdn, attrAry, objectBaseDN);
-
-                log.debug("results=" + results);
-                log.debug(" results has more elements=" + results.hasMoreElements());
 
                 PSOType psoType = new PSOType();
                 psoType.setPsoID(psoId);

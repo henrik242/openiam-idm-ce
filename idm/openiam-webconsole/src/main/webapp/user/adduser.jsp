@@ -383,8 +383,8 @@ function selectChange(ctrl) {
 
        </td>
        <td>Desk Phone</td>
-       <td   colspan="3"><form:input path="user.areaCd" size="3"  maxlength="3" onblur="return validateInt(workAreaCode)"  /> 
-       <form:input path="user.phoneNbr" size="10" maxlength="10" onblur="return  validateInt(workPhone)" /> - <form:input path="user.phoneExt" size="10" maxlength="10" onblur="return  validateInt(workPhone)" /> 
+       <td   colspan="3"><form:input path="user.areaCd" size="3"  maxlength="3"   />
+       <form:input path="user.phoneNbr" size="10" maxlength="10"  /> - <form:input path="user.phoneExt" size="10" maxlength="10"  />
       	<font color="red"><form:errors path="workAreaCode" />
        		<form:errors path="workPhone" />
        	</font>
@@ -395,8 +395,8 @@ function selectChange(ctrl) {
        <td><form:input path="user.bldgNum" size="5" maxlength="5" /> <form:input path="user.address1" size="20" maxlength="30" /></td>
        <td    >Cell/BlackBerry Phone</td>
        <td   colspan="3">
-       		<form:input path="cellAreaCode" size="3" maxlength="3" onchange="return  validateInt(cellAreaCode);" /> 
-       		<form:input path="cellPhone" size="10" maxlength="10"  onchange="return  validateInt(cellPhone);"/>
+       		<form:input path="cellAreaCode" size="3" maxlength="3"  />
+       		<form:input path="cellPhone" size="10" maxlength="10"  />
       	<font color="red"><form:errors path="cellPhone" />
        		<form:errors path="workPhone" />
        	</font>
@@ -407,8 +407,8 @@ function selectChange(ctrl) {
        <td  ><form:input path="user.address2" size="30"  /></td>
        <td    >Fax</td>
        <td   colspan="3">
-			<form:input path="faxAreaCode" size="3" maxlength="3" onchange="return  validateInt(faxAreaCode);" /> 
-			<form:input path="faxPhone" size="10" maxlength="10" onchange="return  validateInt(faxPhone);"/> 
+			<form:input path="faxAreaCode" size="3" maxlength="3"  />
+			<form:input path="faxPhone" size="10" maxlength="10"/>
       	<font color="red"> <form:errors path="faxAreaCode" />
        		<form:errors path="faxPhone" />
        	</font>   

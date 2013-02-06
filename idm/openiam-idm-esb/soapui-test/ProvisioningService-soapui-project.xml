@@ -3027,7 +3027,7 @@
             <dto:companyId>100</dto:companyId>
             <dto:employeeId>EMP-100</dto:employeeId>
             <dto:employeeType>FULL TIME</dto:employeeType>
-            <dto:firstName>Donald-2ROLE-TESTB</dto:firstName>
+            <dto:firstName>MON-2ROLE-A</dto:firstName>
             <dto:jobCode>JB-100</dto:jobCode>
             <dto:lastName>MOUSE</dto:lastName>
             <dto:locationCd>LOC-100</dto:locationCd>
@@ -3055,7 +3055,7 @@
             </memberOfRoles>
             <memberOfRoles>
                <dto3:id>
-                  <dto3:roleId>MANAGER</dto3:roleId>
+                  <dto3:roleId>TEST ROLE</dto3:roleId>
                   <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
                </dto3:id>
                <dto3:userAssociationMethod/>
@@ -6484,14 +6484,10 @@
       <prov:modifyUser>
          <!--Optional:-->
          <user>
-            <dto:firstName>X-FIRST NAME</dto:firstName>
-            <dto:jobCode>JB-102</dto:jobCode>
-            <dto:lastName>X-LAST NAME</dto:lastName>
-            <dto:title>NEW TITLE-2</dto:title>
-            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <dto:userId>40288f823ca87aa6013ca89ce1d70023</dto:userId>
             <memberOfRoles>
                <dto3:id>
-                  <dto3:roleId>MANAGER</dto3:roleId>
+                  <dto3:roleId>TEST ROLE</dto3:roleId>
                   <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
                </dto3:id>
                <dto3:userAssociationMethod/>
@@ -6514,14 +6510,10 @@
       <prov:modifyUser>
          <!--Optional:-->
          <user>
-            <dto:firstName>X-FIRST NAME2</dto:firstName>
-            <dto:jobCode>JB-102</dto:jobCode>
-            <dto:lastName>X-LAST NAME2</dto:lastName>
-            <dto:title>NEW TITLE-UPDATE</dto:title>
-            <dto:userId>402881063a1fd422013a1fd91de2000b</dto:userId>
+            <dto:userId>40288f823ca87aa6013ca89ce1d70023</dto:userId>
             <memberOfRoles>
                <dto3:id>
-                  <dto3:roleId>MANAGER</dto3:roleId>
+                  <dto3:roleId>TEST ROLE</dto3:roleId>
                   <dto3:serviceId>USR_SEC_DOMAIN</dto3:serviceId>
                </dto3:id>
                <dto3:userAssociationMethod/>

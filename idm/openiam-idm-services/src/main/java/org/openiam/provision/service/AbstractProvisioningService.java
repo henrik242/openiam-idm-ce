@@ -161,7 +161,11 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
     }
 
-    protected Map<String, String> getCurrentObjectAtTargetSystem(Login mLg, ManagedSys mSys, ProvisionConnector connector, ManagedSystemObjectMatch matchObj) {
+    protected boolean getCurrentObjectAtTargetSystem(Login mLg, ManagedSys mSys,
+                                                                 ProvisionConnector connector,
+                                                                 ManagedSystemObjectMatch matchObj,
+                                                                 Map<String, String> curValueMap ) {
+
 
         String identity = mLg.getId().getLogin();
 
@@ -174,7 +178,6 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         }
 
 
-        Map<String, String> curValueMap = new HashMap<String, String>();
 
         if (connector.getConnectorInterface() != null &&
                 connector.getConnectorInterface().equalsIgnoreCase("REMOTE")) {
@@ -196,7 +199,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
             if (lookupRespType == null || lookupRespType.getStatus() == StatusCodeType.FAILURE) {
                 log.debug("Attribute lookup did not find a match.");
-                return null;
+                return false;
             }
 
         } else {
@@ -217,9 +220,9 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
 
         if (curValueMap.size() == 0) {
-            return null;
+            return false;
         }
-        return curValueMap;
+        return true;
 
     }
 
@@ -1260,9 +1263,14 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
     }
 
-    protected void addMissingUserComponents(ProvisionUser user) {
+    protected void addMissingUserComponents(ProvisionUser user, User origUser) {
 
         log.debug("addMissingUserComponents() called.");
+
+        // if the new object is empty, then restore the values that we currently have for the user.
+        // allow the scripts to function
+
+        user.updateMissingUserAttributes(origUser);
 
         // check addresses
         Set<Address> addressSet = user.getAddresses();
@@ -2422,7 +2430,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         req.setRequestID(requestId);
         req.setTargetID(login.getId().getManagedSysId());
         req.setHostLoginId(mSys.getUserId());
-        req.setHostLoginPassword(mSys.getPswd());
+        req.setHostLoginPassword(mSys.getDecryptPassword());
         req.setHostUrl(mSys.getHostUrl());
         req.setBaseDN(matchObj.getBaseDn());
         req.setOperation("RESET_PASSWORD");
@@ -2453,7 +2461,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         req.setRequestID(requestId);
         req.setTargetID(login.getId().getManagedSysId());
         req.setHostLoginId(mSys.getUserId());
-        req.setHostLoginPassword(mSys.getPswd());
+        req.setHostLoginPassword(mSys.getDecryptPassword());
         req.setHostUrl(mSys.getHostUrl());
         req.setBaseDN(matchObj.getBaseDn());
         req.setOperation("SET_PASSWORD");

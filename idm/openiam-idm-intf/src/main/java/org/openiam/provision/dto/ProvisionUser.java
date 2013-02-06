@@ -322,6 +322,83 @@ public class ProvisionUser extends org.openiam.idm.srvc.user.dto.User {
         return null;
     }
 
+
+    /**
+     * Its possible for the user to send service request which is missing most of the values that a User already has
+     * This can cause the provisioning scripts to fail
+     * @param origUser
+     */
+    public void updateMissingUserAttributes(User user) {
+
+        if (birthdate == null) { birthdate = user.getBirthdate(); }
+        if (companyId == null) {companyId = user.getCompanyId(); }
+        if (companyOwnerId ==null) {companyOwnerId = user.getCompanyOwnerId(); }
+        if (createDate == null) {createDate = user.getCreateDate(); }
+        if ( createdBy == null) {createdBy = user.getCreatedBy(); }
+        if ( deptCd == null) {deptCd = user.getDeptCd(); }
+        if ( deptName == null) {deptName = user.getDeptName(); }
+        if ( employeeId == null) {employeeId = user.getEmployeeId(); }
+        if ( employeeType == null) {employeeType = user.getEmployeeType(); }
+
+        if ( firstName == null) {firstName = user.getFirstName(); }
+        if ( jobCode == null) {jobCode = user.getJobCode(); }
+        if ( lastName == null) {lastName = user.getLastName(); }
+        if ( lastUpdate == null) {lastUpdate = user.getLastUpdate(); }
+        if ( lastUpdatedBy == null) {lastUpdatedBy = user.getLastUpdatedBy(); }
+        if ( locationCd == null) {locationCd = user.getLocationCd(); }
+        if ( locationName == null) {locationName = user.getLocationName(); }
+        if ( managerId == null) {managerId = user.getManagerId(); }
+        if ( metadataTypeId == null) {metadataTypeId = user.getMetadataTypeId(); }
+        if ( classification == null) {classification = user.getClassification(); }
+        if ( middleInit == null) { middleInit = user.getMiddleInit(); }
+        if ( prefix == null) { prefix = user.getPrefix(); }
+        if ( sex == null) { sex = user.getSex(); }
+        if ( status == null) { status = user.getStatus(); }
+        if ( secondaryStatus == null) { secondaryStatus = user.getSecondaryStatus(); }
+        if ( suffix == null) { suffix = user.getSuffix(); }
+        if ( title == null) { title = user.getTitle(); }
+        if ( userTypeInd == null) { userTypeInd = user.getUserTypeInd(); }
+        if ( division == null) { division = user.getDivision(); }
+        if ( mailCode == null) { mailCode = user.getMailCode(); }
+        if ( costCenter == null) { costCenter = user.getCostCenter(); }
+        if ( startDate == null) { startDate = user.getStartDate(); }
+        if ( lastDate == null) { lastDate = user.getLastDate(); }
+        if ( nickname == null) { nickname = user.getNickname(); }
+        if ( maidenName == null) { maidenName = user.getMaidenName(); }
+        if ( passwordTheme == null) { passwordTheme = user.getPasswordTheme(); }
+        if ( country == null) { country = user.getCountry(); }
+        if ( bldgNum == null) { bldgNum = user.getBldgNum(); }
+        if ( streetDirection == null) { streetDirection = user.getStreetDirection(); }
+        if ( address1 == null) { address1 = user.getAddress1(); }
+        if ( address2 == null) { address2 = user.getAddress2(); }
+        if ( address3== null) { address3 = user.getAddress3(); }
+        if ( address4 == null) { address4 = user.getAddress4(); }
+        if ( address5 == null) { address5 = user.getAddress5(); }
+        if ( address6 == null) { address6 = user.getAddress6(); }
+        if ( address7 == null) { address7 = user.getAddress7(); }
+        if ( city == null) {city = user.getCity(); }
+        if ( state == null) {state = user.getState(); }
+        if ( postalCd == null) { postalCd = user.getPostalCd(); }
+        if ( email == null) { email = user.getEmail(); }
+        if ( areaCd == null) { areaCd = user.getAreaCd(); }
+        if ( countryCd == null) { countryCd = user.getCountryCd(); }
+        if ( phoneNbr == null) { phoneNbr = user.getPhoneNbr(); }
+        if ( phoneExt == null) { phoneExt = user.getPhoneExt(); }
+        if ( showInSearch == null) { showInSearch = user.getShowInSearch(); }
+        if ( delAdmin == null) { delAdmin = user.getDelAdmin(); }
+        if ( alternateContactId == null) { alternateContactId = user.getAlternateContactId(); }
+
+        if ( createdBy == null) { createdBy = user.getCreatedBy(); }
+        if ( startDate == null) { startDate = user.getStartDate(); }
+        if ( lastDate == null) { lastDate = user.getLastDate(); }
+
+        if ( userOwnerId == null) { userOwnerId = user.getUserOwnerId(); }
+        if ( dateChallengeRespChanged == null) { dateChallengeRespChanged = user.getDateChallengeRespChanged(); }
+        if ( datePasswordChanged == null) { datePasswordChanged = user.getDatePasswordChanged(); }
+
+
+    }
+
     public void setMemberOfRoles(List<Role> memberOfRoles) {
         this.memberOfRoles = memberOfRoles;
     }
