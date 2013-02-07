@@ -38,7 +38,18 @@
 			</service>
 	</model>
 
-
+ 	<model name="csvConnectorServiceModel">
+			<service name="csvConnectorService">
+				<inbound>
+						<inbound-endpoint address="${webservice.path}CSVConnectorService" 		exchange-pattern="request-response">
+						<cxf:jaxws-service />
+					</inbound-endpoint>
+				</inbound>
+				<component>
+					<spring-object bean="csvConnector" />
+				</component>
+			</service>
+	</model>
  	<model name="googleAppsConnectorServiceModel">
 			<service name="googleAppsConnectorService">
 				<inbound>

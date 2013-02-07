@@ -39,7 +39,7 @@ public class DeleteRequestType
     @XmlElement(required = true)
     protected PSOIdentifierType psoID;
     @XmlAttribute
-    protected Boolean recursive;
+	protected Boolean recursive;
 
     /**
      * Gets the value of the psoID property.

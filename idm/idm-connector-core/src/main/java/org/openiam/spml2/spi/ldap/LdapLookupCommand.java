@@ -148,7 +148,7 @@ public class LdapLookupCommand extends LdapAbstractCommand {
 
         log.debug("LOOKUP successful");
 
-        if (!found) {
+		if (!found) {
             respType.setStatus(StatusCodeType.FAILURE);
         } else {
             respType.setStatus(StatusCodeType.SUCCESS);

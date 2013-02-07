@@ -2259,7 +2259,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         addReqType.setRequestID(requestId);
         addReqType.setTargetID(mLg.getId().getManagedSysId());
         addReqType.getData().getAny().add(extUser);
-
+        addReqType.setpUser(user);
         log.debug("Local connector - Creating identity in target system:" + mLg.getId());
         AddResponseType resp = connectorAdapter.addRequest(mSys, addReqType, muleContext);
 
@@ -2368,7 +2368,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         DeleteRequestType reqType = new DeleteRequestType();
         reqType.setRequestID(requestId);
         reqType.setPsoID(idType);
-
+        reqType.setpUser(user);
         ResponseType resp = connectorAdapter.deleteRequest(mSys, reqType, muleContext);
 
 

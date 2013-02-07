@@ -1,4 +1,3 @@
-
 package org.openiam.spml2.msg;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,11 +6,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.openiam.provision.dto.ProvisionUser;
 
 /**
- * <p>Java class for LookupRequestType complex type.
+ * <p>
+ * Java class for LookupRequestType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="LookupRequestType">
@@ -29,68 +32,57 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LookupRequestType", propOrder = {
-    "psoID"
-})
-public class LookupRequestType
-    extends RequestType
-{
+@XmlType(name = "LookupRequestType", propOrder = { "psoID" })
+public class LookupRequestType extends RequestType {
 
-    @XmlElement(required = true)
-    protected PSOIdentifierType psoID;
-    @XmlAttribute
-    protected ReturnDataType returnData;
+	@XmlElement(required = true)
+	protected PSOIdentifierType psoID;
+	@XmlAttribute
+	protected ReturnDataType returnData;
 
-    /**
-     * Gets the value of the psoID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link PSOIdentifierType }
-     *     
-     */
-    public PSOIdentifierType getPsoID() {
-        return psoID;
-    }
+	/**
+	 * Gets the value of the psoID property.
+	 * 
+	 * @return possible object is {@link PSOIdentifierType }
+	 * 
+	 */
+	public PSOIdentifierType getPsoID() {
+		return psoID;
+	}
 
-    /**
-     * Sets the value of the psoID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link PSOIdentifierType }
-     *     
-     */
-    public void setPsoID(PSOIdentifierType value) {
-        this.psoID = value;
-    }
+	/**
+	 * Sets the value of the psoID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link PSOIdentifierType }
+	 * 
+	 */
+	public void setPsoID(PSOIdentifierType value) {
+		this.psoID = value;
+	}
 
-    /**
-     * Gets the value of the returnData property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ReturnDataType }
-     *     
-     */
-    public ReturnDataType getReturnData() {
-        if (returnData == null) {
-            return ReturnDataType.EVERYTHING;
-        } else {
-            return returnData;
-        }
-    }
+	/**
+	 * Gets the value of the returnData property.
+	 * 
+	 * @return possible object is {@link ReturnDataType }
+	 * 
+	 */
+	public ReturnDataType getReturnData() {
+		if (returnData == null) {
+			return ReturnDataType.EVERYTHING;
+		} else {
+			return returnData;
+		}
+	}
 
-    /**
-     * Sets the value of the returnData property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ReturnDataType }
-     *     
-     */
-    public void setReturnData(ReturnDataType value) {
-        this.returnData = value;
-    }
-
+	/**
+	 * Sets the value of the returnData property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ReturnDataType }
+	 * 
+	 */
+	public void setReturnData(ReturnDataType value) {
+		this.returnData = value;
+	}
 }
