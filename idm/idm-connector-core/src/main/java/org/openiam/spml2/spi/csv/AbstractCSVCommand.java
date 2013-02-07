@@ -1,5 +1,6 @@
 package org.openiam.spml2.spi.csv;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -11,10 +12,13 @@ import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.provision.dto.ProvisionUser;
+import org.openiam.provision.type.ExtensibleAttribute;
+import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.spi.common.UserFields;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.StringUtils;
 
 public class AbstractCSVCommand implements ApplicationContextAware {
 	protected static final Log log = LogFactory
@@ -82,25 +86,30 @@ public class AbstractCSVCommand implements ApplicationContextAware {
 		userParser.updateObjectFromCSV(newUser, managedSys, attrMapList);
 	}
 
-	protected boolean lookupObjectInCSV(ProvisionUser newUser,
-			ManagedSys managedSys) throws Exception {
+	protected boolean lookupObjectInCSV(String findValue,
+			ManagedSys managedSys, ExtensibleObject extOnject) throws Exception {
 		List<ProvisionUser> users = this.getUsersFromCSV(managedSys);
 		for (ProvisionUser user : users) {
-			if (match(newUser, user))
+			if (match(findValue, user, extOnject)) {
+				List<ExtensibleAttribute> eAttr = new ArrayList<ExtensibleAttribute>(
+						0);
+				eAttr.add(new ExtensibleAttribute("isFind", "true"));
+				extOnject.setAttributes(eAttr);
 				return true;
+			}
 		}
 		return false;
 	}
 
-	protected boolean match(ProvisionUser user1, ProvisionUser user2) {
-		if (user1 == null || user2 == null) {
+	protected boolean match(String findValue, ProvisionUser user2,
+			ExtensibleObject extOnject) {
+		if (!StringUtils.hasText(findValue) || user2 == null) {
 			return false;
 		}
-		if (user1.equals(user2))
+		if (findValue.equals(user2.getFirstName() + " " + user2.getLastName())) {
+			extOnject.setObjectId(user2.getUserId());
 			return true;
-		// CUstomMathing
-		// TODO
+		}
 		return false;
 	}
-
 }

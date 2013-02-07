@@ -10,6 +10,7 @@ import org.openiam.base.BaseAttribute;
 import org.openiam.connector.type.LookupResponse;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.provision.dto.ProvisionUser;
+import org.openiam.provision.type.ExtensibleObject;
 import org.openiam.spml2.msg.AddRequestType;
 import org.openiam.spml2.msg.AddResponseType;
 import org.openiam.spml2.msg.ErrorCode;
@@ -41,7 +42,7 @@ public class LookupCSVCommand extends AbstractCSVCommand {
 
 		/* Indicates what type of data we should return from this operations */
 		ReturnDataType returnData = reqType.getReturnData();
-
+		String principal = reqType.getPsoID().getID();
 		/*
 		 * A) Use the targetID to look up the connection information under
 		 * managed systems
@@ -51,13 +52,9 @@ public class LookupCSVCommand extends AbstractCSVCommand {
 
 		// Initialise
 		try {
-			ProvisionUser user = reqType.getpUser();
-			if (user == null) {
-				response.setStatus(StatusCodeType.FAILURE);
-				response.setError(ErrorCode.CSV_ERROR);
-				response.addErrorMessage("Sync object is null");
-			}
-			if (this.lookupObjectInCSV(user, managedSys)) {
+			ExtensibleObject extOnject = new ExtensibleObject();
+			if (this.lookupObjectInCSV(principal, managedSys, extOnject)) {
+				response.getAny().add(extOnject);
 				response.setStatus(StatusCodeType.SUCCESS);
 
 			} else

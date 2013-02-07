@@ -497,8 +497,9 @@ public class UserCSVParser extends AbstractCSVParser<ProvisionUser, UserFields> 
 		List<ProvisionUser> users = this.getObjectList(managedSys, attrMapList);
 		Iterator<ProvisionUser> userIter = users.iterator();
 		while (userIter.hasNext()) {
-			if (userIter.next().equals(newObject)
-					|| userIter.next().getUserId()
+			ProvisionUser user = userIter.next();
+			if (user.equals(newObject)
+					|| user.getUserId()
 							.equals(newObject.getUserId())) {
 				userIter.remove();
 			}
