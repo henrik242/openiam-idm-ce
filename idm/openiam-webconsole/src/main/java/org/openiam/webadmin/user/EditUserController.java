@@ -274,8 +274,7 @@ public class EditUserController extends CancellableFormController {
 	
 		String scriptEngine = "org.openiam.script.GroovyScriptEngineIntegration";
 		
-		System.out.println("EditUserController: onSubmit called");
-		
+
 		EditUserCommand cmd =(EditUserCommand)command;
 		
 		HttpSession session = request.getSession();
@@ -293,7 +292,6 @@ public class EditUserController extends CancellableFormController {
 
 		
 		User usr = cmd.getUser();
-		log.info("User=" + usr);
 
         List<Organization> currentOrgList = orgManager.getOrganizationsForUser(usr.getUserId());
         

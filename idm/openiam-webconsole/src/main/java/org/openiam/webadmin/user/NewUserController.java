@@ -227,7 +227,7 @@ public class NewUserController extends AbstractWizardFormController {
 
 
 
-        return new ModelAndView(new RedirectView(redirectView+"&mode=1", true));
+        return new ModelAndView(new RedirectView(redirectView, true));
           
 	        
 	}

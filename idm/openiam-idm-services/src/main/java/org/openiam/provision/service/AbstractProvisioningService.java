@@ -107,17 +107,17 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
     MuleContext muleContext;
 
-    protected static final String MATCH_PARAM = "matchParam";
-    protected static final String TARGET_SYSTEM_IDENTITY_STATUS = "targetSystemIdentityStatus";
-    protected static final String TARGET_SYSTEM_IDENTITY = "targetSystemIdentity";
-    protected static final String TARGET_SYSTEM_ATTRIBUTES = "targetSystemAttributes";
+    public static final String MATCH_PARAM = "matchParam";
+    public static final String TARGET_SYSTEM_IDENTITY_STATUS = "targetSystemIdentityStatus";
+    public static final String TARGET_SYSTEM_IDENTITY = "targetSystemIdentity";
+    public static final String TARGET_SYSTEM_ATTRIBUTES = "targetSystemAttributes";
 
-    protected static final String TARGET_SYS_RES_ID = "resourceId";
-    protected static final String TARGET_SYS_MANAGED_SYS_ID = "managedSysId";
-    protected static final String TARGET_SYS_SECURITY_DOMAIN = "securityDomain";
+    public static final String TARGET_SYS_RES_ID = "resourceId";
+    public static final String TARGET_SYS_MANAGED_SYS_ID = "managedSysId";
+    public static final String TARGET_SYS_SECURITY_DOMAIN = "securityDomain";
 
-    protected static final String IDENTITY_NEW = "NEW";
-    protected static final String IDENTITY_EXIST = "EXIST";
+    public static final String IDENTITY_NEW = "NEW";
+    public static final String IDENTITY_EXIST = "EXIST";
 
     final static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
     final static protected String serviceHost = res.getString("openiam.service_base");
