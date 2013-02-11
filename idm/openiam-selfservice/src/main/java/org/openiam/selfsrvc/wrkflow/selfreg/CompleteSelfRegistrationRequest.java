@@ -1,10 +1,10 @@
 package org.openiam.selfsrvc.wrkflow.selfreg;
 
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginResponse;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestUser;
 import org.openiam.idm.srvc.user.dto.User;
@@ -90,7 +90,7 @@ public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
             mailParameters.put(MailTemplateParameters.TO.value(), notifyUser.getEmail());
         }
 
-        mailService.sendNotification(REQUEST_APPROVED_NOTIFICATION, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(REQUEST_APPROVED_NOTIFICATION,mailParameters));
     }
 
     public void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
@@ -127,7 +127,7 @@ public class CompleteSelfRegistrationRequest extends AbstractCompleteRequest {
             mailParameters.put(MailTemplateParameters.TO.value(), notifyUser.getEmail());
         }
 
-        mailService.sendNotification(REQUEST_REJECTED_NOTIFICATION, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(REQUEST_REJECTED_NOTIFICATION,mailParameters));
     }
 
 

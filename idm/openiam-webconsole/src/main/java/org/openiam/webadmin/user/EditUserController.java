@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.openiam.base.ExtendController;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.webadmin.util.AuditHelper;
 import org.springframework.validation.BindException;
@@ -403,7 +403,7 @@ public class EditUserController extends CancellableFormController {
         mailParameters.put(MailTemplateParameters.LAST_NAME.value(),user.getLastName());
         mailParameters.put(MailTemplateParameters.USER_ID.value(),user.getUserId());
 
-        notificationService.sendNotification(NEW_USER_NOTIFICATION, new PropertyMap(mailParameters));
+        notificationService.sendNotificationRequest(new NotificationRequest(NEW_USER_NOTIFICATION,mailParameters));
     }
 
 	

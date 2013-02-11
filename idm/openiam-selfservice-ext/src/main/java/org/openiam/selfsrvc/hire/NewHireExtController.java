@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.util.StringUtils;
 import org.openiam.base.AttributeOperationEnum;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService;
@@ -26,6 +25,7 @@ import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
@@ -448,7 +448,7 @@ public class NewHireExtController {
                     mailParameters.put(MailTemplateParameters.TO.value(), approver.getEmail());
                 }
 
-                mailServiceClient.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
+                mailServiceClient.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
             } else {
                 // approverType is ROLE
                 // get
@@ -479,8 +479,7 @@ public class NewHireExtController {
                             mailParameters.put(MailTemplateParameters.TO.value(), u.getEmail());
                         }
 
-                        mailServiceClient.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
-
+                        mailServiceClient.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
                     }
 
                 }

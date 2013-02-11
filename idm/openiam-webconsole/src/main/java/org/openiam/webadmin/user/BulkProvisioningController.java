@@ -1,15 +1,16 @@
 package org.openiam.webadmin.user;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.meta.dto.MetadataElement;
 import org.openiam.idm.srvc.meta.ws.MetadataWebService;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
@@ -111,28 +112,32 @@ public class BulkProvisioningController extends AbstractWizardFormController {
         if(BulkMigrationConfig.ACTION_SEND_EMAIL.equalsIgnoreCase(cmd.getActionType())) {
             String selectedNotificationName = cmd.getSelectedNotificationName();
 
-            PropertyMap mailParameters = new PropertyMap();
+            HashMap<String,String> mailParameters = new HashMap<String,String>();
             StringBuilder ids = new StringBuilder();
             StringBuilder emails = new StringBuilder();
             boolean first = true;
             for(String selUserId : cmd.getSelectedUserIds()) {
                 if(!first) {
                     ids.append(",");
-                    emails.append(", ");
                 }
                 ids.append("'").append(selUserId).append("'");
 
                 User recipient = userDataWebService.getUserWithDependent(selUserId, true).getUser();
-                emails.append(recipient.getEmail());
+                if(StringUtils.isNotEmpty(recipient.getEmail())) {
+                    if(!first) {
+                        emails.append(",");
+                    }
+                    emails.append(recipient.getEmail());
+                }
                 if(first) {
                     first = false;
                 }
             }
 
-            mailParameters.addProperty(MailTemplateParameters.USER_IDS.value(), ids.toString());
-            mailParameters.addProperty(MailTemplateParameters.TO.value(), emails.toString());
+            mailParameters.put(MailTemplateParameters.USER_IDS.value(), ids.toString());
+            mailParameters.put(MailTemplateParameters.TO.value(), emails.toString());
 
-            notificationService.sendNotification(selectedNotificationName, mailParameters);
+            notificationService.sendNotificationRequest(new NotificationRequest(selectedNotificationName,mailParameters));
         } else {
             syncClient.bulkUserMigration(config);
         }

@@ -413,7 +413,7 @@
 
 	  		<outbound-endpoint responseTimeout="72000000"
 	  			address="http://#[header:INBOUND:SERVICE_HOST]/#[header:INBOUND:SERVICE_CONTEXT]EmailWebService" exchange-pattern="request-response" >
-	  		<cxf:jaxws-client serviceClass="org.openiam.idm.srvc.msg.service.MailService" operation="sendNotification"  >
+	  		<cxf:jaxws-client serviceClass="org.openiam.idm.srvc.msg.service.MailService" operation="sendNotificationRequest"  >
 	  		 </cxf:jaxws-client>
 	  		</outbound-endpoint>
 		</flow>

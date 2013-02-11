@@ -2,6 +2,7 @@ package org.openiam.provision.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.context.MuleContextAware;
@@ -36,6 +37,7 @@ import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
 import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
@@ -231,16 +233,19 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
         try {
             MuleClient client = new MuleClient(muleContext);
 
-            HashMap<String, String> msgPropMap = new HashMap<String, String>();
-            msgPropMap.put(MailTemplateParameters.SERVICE_HOST.value(), serviceHost);
-            msgPropMap.put(MailTemplateParameters.SERVICE_CONTEXT.value(), serviceContext);
-            msgPropMap.put(MailTemplateParameters.USER_ID.value(), user.getUserId());
-            msgPropMap.put(MailTemplateParameters.IDENTITY.value(), identity);
-            msgPropMap.put(MailTemplateParameters.PASSWORD.value(), password);
-            msgPropMap.put(MailTemplateParameters.FIRST_NAME.value(), user.getFirstName());
-            msgPropMap.put(MailTemplateParameters.LAST_NAME.value(), user.getLastName());
+            HashMap<String, String> msgParamsMap = new HashMap<String, String>();
+            msgParamsMap.put(MailTemplateParameters.SERVICE_HOST.value(), serviceHost);
+            msgParamsMap.put(MailTemplateParameters.SERVICE_CONTEXT.value(), serviceContext);
+            msgParamsMap.put(MailTemplateParameters.USER_ID.value(), user.getUserId());
+            msgParamsMap.put(MailTemplateParameters.IDENTITY.value(), identity);
+            msgParamsMap.put(MailTemplateParameters.PASSWORD.value(), password);
+            msgParamsMap.put(MailTemplateParameters.FIRST_NAME.value(), user.getFirstName());
+            msgParamsMap.put(MailTemplateParameters.LAST_NAME.value(), user.getLastName());
 
-            client.sendAsync("vm://notifyUserByEmailMessage", NEW_USER_EMAIL_NOTIFICATION, msgPropMap);
+            Map<String, String> msgProp = new HashMap<String, String>();
+            msgProp.put("SERVICE_HOST", serviceHost);
+            msgProp.put("SERVICE_CONTEXT", serviceContext);
+            client.sendAsync("vm://notifyUserByEmailMessage", new NotificationRequest(NEW_USER_EMAIL_NOTIFICATION, msgParamsMap), msgProp);
 
         } catch (MuleException me) {
             log.error(me.toString());

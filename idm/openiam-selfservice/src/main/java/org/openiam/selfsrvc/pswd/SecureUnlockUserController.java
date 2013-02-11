@@ -3,11 +3,11 @@ package org.openiam.selfsrvc.pswd;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenRequest;
 import org.openiam.idm.srvc.pswd.dto.PasswordResetTokenResponse;
 import org.openiam.idm.srvc.pswd.ws.PasswordWebService;
@@ -116,7 +116,7 @@ public class SecureUnlockUserController extends CancellableFormController {
         mailParameters.put(MailTemplateParameters.BASE_URL.value(), baseUrl);
         mailParameters.put(MailTemplateParameters.TOKEN.value(), baseUrl);
 
-        mailService.sendNotification(REQUEST_PASSWORD_RESET_NOTIFICATION, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(REQUEST_PASSWORD_RESET_NOTIFICATION,mailParameters));
     }
 
 

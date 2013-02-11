@@ -5,7 +5,6 @@ import com.thoughtworks.xstream.XStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.AttributeOperationEnum;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.ws.IdmAuditLogWebDataService;
 import org.openiam.idm.srvc.cd.dto.ReferenceData;
@@ -25,6 +24,7 @@ import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.service.PolicyDataService;
@@ -541,8 +541,7 @@ public class NewHireController extends AbstractWizardFormController {
                 mailParameters.put(MailTemplateParameters.REQUESTER.value(), requestor.getFirstName() + " " + requestor.getLastName());
                 mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
 
-                mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
-
+                mailService.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
             } else {
                 DelegationFilterSearch search = new DelegationFilterSearch();
                 search.setRole(approverRole);
@@ -563,7 +562,7 @@ public class NewHireController extends AbstractWizardFormController {
                         mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
                         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
 
-                        mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
+                        mailService.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
                     }
 
                 }
