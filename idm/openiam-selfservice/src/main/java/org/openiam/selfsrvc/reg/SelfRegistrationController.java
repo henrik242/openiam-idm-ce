@@ -21,6 +21,7 @@ import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.org.dto.Organization;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.policy.service.PolicyDataService;
@@ -343,8 +344,7 @@ public class SelfRegistrationController extends CancellableFormController {
                 if (approver != null && approver.getEmail() != null  ) {
                     mailParameters.put(MailTemplateParameters.TO.value(), approver.getEmail());
                 }
-
-                mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
+                mailService.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
             } else {
                 // approverType is ROLE
                 // get
@@ -375,8 +375,7 @@ public class SelfRegistrationController extends CancellableFormController {
                             mailParameters.put(MailTemplateParameters.TO.value(), u.getEmail());
                         }
 
-                        mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
-
+                        mailService.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
                     }
 
                 }

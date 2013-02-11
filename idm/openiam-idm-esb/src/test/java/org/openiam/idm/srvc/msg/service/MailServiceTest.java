@@ -1,11 +1,11 @@
 package org.openiam.idm.srvc.msg.service;
 
 import org.mockito.Matchers;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.idm.srvc.msg.dto.MailTemplateDto;
 import org.openiam.idm.srvc.msg.dto.MessageBodyType;
 import org.openiam.idm.srvc.msg.dto.NotificationDto;
 import org.openiam.idm.srvc.msg.dto.NotificationType;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
@@ -180,7 +180,7 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), "password");
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), "Target User");
 
-        mailService.sendNotification(TEST_SCRIPT_MSG, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(TEST_SCRIPT_MSG,mailParameters));
     }
 
     //@Test
@@ -191,7 +191,7 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
         HashMap<String, String> mailParameters = new HashMap<String, String>();
         mailParameters.put(MailTemplateParameters.USER_ID.value(), user.getUserId());
         mailParameters.put(MailTemplateParameters.USER_IDS.value(), "'297e52f33b37a5ef013b380b17c00017','297e52f33b37a5ef013b382d225a0026'");
-        mailService.sendNotification(TEST_SCRIPT_MSG, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(TEST_SCRIPT_MSG,mailParameters));
     }
 
     //@Test
@@ -208,7 +208,7 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), "password");
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), "Target User");
 
-        mailService.sendNotification(TEST_TEMPLATE_MSG, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(TEST_TEMPLATE_MSG,mailParameters));
     }
 
     //@Test
@@ -224,7 +224,7 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), "password");
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), "Target User");
 
-        mailService.sendNotification(TEST_HTML_TEMPLATE_MSG, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(TEST_HTML_TEMPLATE_MSG,mailParameters));
     }
 
     //@Test
@@ -239,7 +239,7 @@ public class MailServiceTest extends AbstractTransactionalTestNGSpringContextTes
         mailParameters.put("requestId", null);
         mailParameters.put("targetUser", "Test UserJan1C");
         mailParameters.put("userId", "3000");
-        mailService.sendNotification("NEW_PENDING_REQUEST", new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest("NEW_PENDING_REQUEST",mailParameters));
     }
 
 }

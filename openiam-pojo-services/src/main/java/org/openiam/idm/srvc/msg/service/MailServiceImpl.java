@@ -3,13 +3,14 @@ package org.openiam.idm.srvc.msg.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.util.StringUtils;
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
 import org.openiam.idm.srvc.msg.dto.MessageBodyType;
 import org.openiam.idm.srvc.msg.dto.NotificationDto;
+import org.openiam.idm.srvc.msg.ws.NotificationParam;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.script.ScriptFactory;
@@ -17,6 +18,7 @@ import org.openiam.script.ScriptIntegration;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.io.File;
 import java.util.*;
@@ -79,9 +81,17 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public Response sendNotification(final String notificationName, final PropertyMap mailParams) {
-        log.info("Sending Notification: " + notificationName + ", Params:" + mailParams);
-        Map<String, String> params = mailParams.asMap();
+    public Response sendNotificationRequest(@WebParam(name = "req", targetNamespace = "") NotificationRequest req) {
+        HashMap<String,String> params = new HashMap<String,String>();
+        for(NotificationParam param : req.getParamList()) {
+            params.put(param.getName(), param.getValue());
+        }
+        return this.sendNotification(req.getNotificationType(), params);
+    }
+
+
+    private Response sendNotification(final String notificationName, final HashMap<String,String> params) {
+        log.info("Sending Notification: " + notificationName + ", Params:" + params);
         Response response = new Response(ResponseStatus.SUCCESS);
         if (StringUtils.isEmpty(notificationName)) {
             response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
@@ -148,7 +158,7 @@ public class MailServiceImpl implements MailService {
 
         } else if (sysMessageDto.getMailTemplate() != null) {
             String toAddress = params.get(MailTemplateParameters.TO.value());
-            if (StringUtils.isEmpty(toAddress)) {
+            if (StringUtils.isEmpty(toAddress) || !MailSenderUtils.isEmailArrayValid(toAddress)) {
                 response.setErrorCode(ResponseCode.INVALID_ARGUMENTS);
                 response.setErrorText("Address field TO must be in parameters list.");
                 log.warn("Sending Notification Error: " + response);
@@ -159,7 +169,13 @@ public class MailServiceImpl implements MailService {
             String ccAddress = params.get(MailTemplateParameters.CC.value());
 
             Message message = new Message();
-            message.addTo(toAddress);
+            if(toAddress.contains(",")) {
+                for(String addr : toAddress.split(",")) {
+                    message.addTo(addr.trim());
+                }
+            } else {
+                message.addTo(toAddress);
+            }
             if (StringUtils.isNotEmpty(fromAddress)) {
                 message.setFrom(fromAddress);
             } else {

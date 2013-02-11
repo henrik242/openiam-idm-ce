@@ -1,10 +1,10 @@
 package org.openiam.selfsrvc.wrkflow.newuser;
 
-import org.openiam.base.ws.PropertyMap;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.auth.ws.LoginResponse;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestUser;
 import org.openiam.idm.srvc.user.dto.User;
@@ -83,7 +83,7 @@ public class CompleteNewUserRequest extends AbstractCompleteRequest {
         mailParameters.put(MailTemplateParameters.IDENTITY.value(), identity);
         mailParameters.put(MailTemplateParameters.PASSWORD.value(), password);
         mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), req.getRequestTitle());
-        mailService.sendNotification(REQUEST_APPROVED_NOTIFICATION, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(REQUEST_APPROVED_NOTIFICATION,mailParameters));
     }
 
     public void notifyRequestorReject(ProvisionRequest req, String approverUserId, String notifyUserId, String notifyEmail) {
@@ -114,7 +114,7 @@ public class CompleteNewUserRequest extends AbstractCompleteRequest {
         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), targetUserName);
         mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), req.getRequestTitle());
 
-        mailService.sendNotification(REQUEST_REJECTED_NOTIFICATION, new PropertyMap(mailParameters));
+        mailService.sendNotificationRequest(new NotificationRequest(REQUEST_REJECTED_NOTIFICATION,mailParameters));
 
     }
 }

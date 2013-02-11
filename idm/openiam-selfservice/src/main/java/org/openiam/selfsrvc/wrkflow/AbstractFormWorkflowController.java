@@ -7,13 +7,12 @@ import org.apache.commons.logging.LogFactory;
 
 import org.openiam.idm.srvc.audit.ws.AsynchIdmAuditLogWebService;
 
-import org.openiam.base.ws.PropertyMap;
-
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ApproverAssociation;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.msg.service.MailService;
 import org.openiam.idm.srvc.msg.service.MailTemplateParameters;
+import org.openiam.idm.srvc.msg.ws.NotificationRequest;
 import org.openiam.idm.srvc.org.service.OrganizationDataService;
 import org.openiam.idm.srvc.prov.request.dto.ProvisionRequest;
 import org.openiam.idm.srvc.prov.request.dto.RequestApprover;
@@ -247,8 +246,8 @@ public class AbstractFormWorkflowController extends CancellableFormController {
                 mailParameters.put(MailTemplateParameters.REQUEST_REASON.value(), pReq.getRequestTitle());
                 mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
                 mailParameters.put(MailTemplateParameters.TO.value(), approver.getEmail()) ;
-                mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
 
+                mailService.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
 
             } else {
 
@@ -278,8 +277,7 @@ public class AbstractFormWorkflowController extends CancellableFormController {
                         mailParameters.put(MailTemplateParameters.TARGET_USER.value(), reqUser.getFirstName() + " " + reqUser.getLastName());
                         mailParameters.put(MailTemplateParameters.TO.value(), u.getEmail()) ;
 
-                        mailService.sendNotification(NEW_PENDING_REQUEST_NOTIFICATION, new PropertyMap(mailParameters));
-
+                        mailService.sendNotificationRequest(new NotificationRequest(NEW_PENDING_REQUEST_NOTIFICATION,mailParameters));
                     }
 
                 }
