@@ -107,7 +107,9 @@ if (msgPrincipal != null) { %>
 	</table>
 
            <tr>
-              <td  align="right"><input type="submit" name="btn" value="CSV Header" /> <input type="submit" name="btn" value="Delete" onclick="return confirm('Are you sure you want to delete this mapping?');" />  <input type="submit" name="btn" value="Save" /> <input type="submit" name="_cancel" value="Cancel" />  </td>
+              <td  align="right">
+<!--               <input type="submit" name="btn" value="CSV Header" /> -->
+               <input type="submit" name="btn" value="Delete" onclick="return confirm('Are you sure you want to delete this mapping?');" />  <input type="submit" name="btn" value="Save" /> <input type="submit" name="_cancel" value="Cancel" />  </td>
           </tr>
 </table>
 </TD>
