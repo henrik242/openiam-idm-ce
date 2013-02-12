@@ -158,33 +158,30 @@ form fieldset {
 }
 /* content */
 #content {
-	float:left;
+    float:left;
 	margin:25px 0 0 0;
-	width:810px;
 	text-align:center;
+    width: 800px;
+    height:100%;
 }
 #content .block.alt {margin:50px 0 0 0;}
 *+html #content .block {display:inline;}
 #content .block {
 	display:inline-block;
 	border:1px solid #d3d2d2;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
 	border-radius: 5px;
 	background: #fffdfe;
-	behavior: url(js/pie.htc);
 	position:relative;
+    float:left;
+    margin:0 auto;
 }
 .block .wrap {
 	margin:1px;
 	float:left;
 	padding:65px 66px 50px;
 	border: 1px solid #f5f1f4;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
 	border-radius: 5px;
 	background: #f5f1f4;
-	behavior: url(js/pie.htc);
 	position:relative;
 	text-align:left;
 }
@@ -344,11 +341,8 @@ form fieldset {
 	width:422px;
 	display:inline-block;
 	border:1px solid #e3e1e2;
-	-webkit-border-radius:2px;
-	-moz-border-radius:2px;
 	border-radius:2px;
 	background:#f3f1f1;
-	behavior: url(js/pie.htc);
 	position:relative;
 }
 .wrap-box dl {

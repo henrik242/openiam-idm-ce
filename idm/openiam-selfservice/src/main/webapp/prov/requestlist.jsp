@@ -2,12 +2,12 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<div class="lookup-wrap">
+<div class="block">
+    <div class="wrap">
 				<h4>Request History</h4>
-				<div class="block">
-					<div class="wrap alt">
+
 						
 <form:form commandName="requestSearchCriteria" cssClass="lookup">
 	<fieldset>
@@ -20,7 +20,7 @@
 						 </div>
 						<div class="row alt">
 									<label for="t-1">Date (MM/DD/YYYY):</label>
-									<form:input path="startDate" size="10" cssClass="date" />
+									<form:input id="t-1" path="startDate" size="10" cssClass="date" />
 									<p class="sep">-</p>
 									<form:input path="endDate" size="10"  cssClass="date" />
 						</div>		
@@ -43,8 +43,8 @@
 
 </form:form>
 					</div>
-				</div>
-			</div>
+</div>
+</div>
 
 <h4>Search Results</h4>
 <table class="resource alt">
