@@ -69,14 +69,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LdapAdapter implements SourceAdapter {
 
-    /*
-     * The flags for the running tasks are handled by this Thread-Safe Set.
-     * It stores the taskIds of the currently executing tasks.
-     * This is faster and as reliable as storing the flags in the database,
-     * if the tasks are only launched from ONE host in a clustered environment.
-     * It is unique for each class-loader, which means unique per war-deployment.
-     */
-    private static Set<String> runningTask = Collections.newSetFromMap(new ConcurrentHashMap());
+
 
     protected LineObject rowHeader = new LineObject();
     protected ProvisionUser pUser = new ProvisionUser();
@@ -118,25 +111,9 @@ public class LdapAdapter implements SourceAdapter {
         synchStartLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
         synchStartLog = auditHelper.logEvent(synchStartLog);
 
-        // This needs to be synchronized, because the check for the taskId and the insertion need to
-        // happen atomically. It is possible for two threads, started by Quartz, to reach this point at
-        // the same time for the same task.
-        synchronized (runningTask) {
-            if(runningTask.contains(config.getSynchConfigId())) {
-                log.debug("**** Synchronization Configuration " + config.getName() + " is already running");
-
-                SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-                resp.setErrorCode(ResponseCode.FAIL_PROCESS_ALREADY_RUNNING);
-                return resp;
-            }
-            runningTask.add(config.getSynchConfigId());
-        }
-
         try {
 
             if (!connect(config)) {
-
-                runningTask.remove(config.getSynchConfigId());
 
                 SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
                 resp.setErrorCode(ResponseCode.FAIL_CONNECTION);
@@ -146,8 +123,6 @@ public class LdapAdapter implements SourceAdapter {
             try {
                 matchRule = matchRuleFactory.create(config);
             } catch (ClassNotFoundException cnfe) {
-
-                runningTask.remove(config.getSynchConfigId());
 
                 log.error(cnfe);
 
@@ -312,9 +287,6 @@ public class LdapAdapter implements SourceAdapter {
 
                 } catch (ClassNotFoundException cnfe) {
 
-                    if(runningTask.contains(config.getSynchConfigId())) {
-                        runningTask.remove(config.getSynchConfigId());
-                    }
 
                     log.error(cnfe);
 
@@ -328,9 +300,6 @@ public class LdapAdapter implements SourceAdapter {
                     return resp;
                 }  catch (IOException fe ) {
 
-                    if(runningTask.contains(config.getSynchConfigId())) {
-                        runningTask.remove(config.getSynchConfigId());
-                    }
 
                     log.error(fe);
 
@@ -350,9 +319,6 @@ public class LdapAdapter implements SourceAdapter {
 
         } catch (NamingException ne) {
 
-            if(runningTask.contains(config.getSynchConfigId())) {
-                runningTask.remove(config.getSynchConfigId());
-            }
 
             log.error(ne);
 
@@ -365,9 +331,6 @@ public class LdapAdapter implements SourceAdapter {
             return resp;
 
         }
-
-        runningTask.remove(config.getSynchConfigId());
-
         log.debug("LDAP SYNCHRONIZATION COMPLETE^^^^^^^^");
 
         SyncResponse resp = new SyncResponse(ResponseStatus.SUCCESS);
