@@ -29,23 +29,25 @@ import javax.xml.ws.soap.SOAPBinding;
 
 public class TransformActiveDirRecord extends AbstractTransformScript {
 
+    /* constants - maps to a managed sys id*/
     static String BASE_URL= "http://localhost:8080/openiam-idm-esb/idmsrvc";
-
+    static String DOMAIN = "USR_SEC_DOMAIN";
+    static String AD_MANAGED_SYS_ID = "110";
+    static String defaultRole = "END_USER";
+    static boolean KEEP_AD_ID = true;
 
 	public int execute(LineObject rowObj, ProvisionUser pUser) {
 
-        /* constants - maps to a managed sys id*/
-        String DOMAIN = "USR_SEC_DOMAIN";
-        String MANAGED_SYS_ID = "110";
-        String defaultRole = "END_USER";
-
-
-	
-		println("Is New User:" + isNewUser)
-		println("User Object:" + user)
+     	println("Is New User:" + isNewUser)
+	    println("User Object:" + user)
 		println("PrincipalList: " + principalList)
 		println("User Roles:" + userRoleList)
-		
+
+
+        println("---------------------------------");
+        println("Synching object for: " + rowObj );
+        println("");
+
 		populateObject(rowObj, pUser);
 		
 
@@ -68,23 +70,26 @@ public class TransformActiveDirRecord extends AbstractTransformScript {
 	
 	private void populateObject(LineObject rowObj, ProvisionUser pUser) {
 		Attribute attrVal = null;
-		DateFormat df =  new SimpleDateFormat("MM-dd-yyyy"); 
+		DateFormat df =  new SimpleDateFormat("MM-dd-yyyy");
+        List<Login> principalList = new ArrayList<Login>();
 		
 		Map<String,Attribute> columnMap =  rowObj.getColumnMap();
         def OrganizationDataService orgService = orgService();
-
+        String sAMAccountName = null;
 
         if (isNewUser) {
             pUser.setUserId(null);
         }
 
+
+
         attrVal = columnMap.get("sAMAccountName");
-        if (attrVal != null) {
+        if (attrVal != null && attrVal.value != null) {
             addAttribute(pUser, attrVal);
+            sAMAccountName = attrVal.value;
         }
 
         attrVal = columnMap.get("company");
-        if (attrVal != null) {
             if (attrVal != null && attrVal.value != null) {
                 String orgName = attrVal.value;
                 List<Organization> orgList = orgService.search(orgName, null, null, null);
@@ -93,9 +98,7 @@ public class TransformActiveDirRecord extends AbstractTransformScript {
                     pUser.companyId = o.orgId;
                 }
             }
-        }
         attrVal = columnMap.get("department");
-        if (attrVal != null) {
             if (attrVal != null && attrVal.value != null) {
                 String orgName = attrVal.value;
                 List<Organization> orgList = orgService.search(orgName, null, null, null);
@@ -104,43 +107,41 @@ public class TransformActiveDirRecord extends AbstractTransformScript {
                     pUser.deptCd = o.orgId;
                 }
             }
-        }
+
 
 
 		attrVal = columnMap.get("givenName");
-		if (attrVal != null) {
+		if (attrVal != null && attrVal.value != null) {
 			pUser.setFirstName(attrVal.getValue());
 		}
 		
 		attrVal = columnMap.get("sn");
-		if (attrVal != null) {
+		if (attrVal != null && attrVal.value != null) {
 			pUser.setLastName(attrVal.getValue());
 		}
 		
 
 		
 		attrVal = columnMap.get("mail");
-		if (attrVal != null) {
-            if (attrVal != null) {
+		if (attrVal != null && attrVal.value != null ) {
                 // check if we already have a value for EMAIL1
                 addEmailAddress(attrVal, pUser, user);
 
-            }
 		}
 
 	
 		
 		attrVal = columnMap.get("street");
-		if (attrVal != null) {
+		if (attrVal != null && attrVal.value != null) {
 			pUser.address1 = attrVal.getValue();
 		}			
 
         attrVal = columnMap.get("l");
-        if (attrVal != null) {
+        if (attrVal != null && attrVal.value != null) {
             pUser.city = attrVal.getValue();
         }
         attrVal = columnMap.get("postalCode");
-        if (attrVal != null) {
+        if (attrVal != null && attrVal.value != null) {
             pUser.postalCd = attrVal.getValue();
         }
         attrVal = columnMap.get("st");
@@ -153,6 +154,7 @@ public class TransformActiveDirRecord extends AbstractTransformScript {
             addAttribute(pUser, attrVal);
         }
 
+        println(" - Processing Phone objects: ");
 
         attrVal = columnMap.get("mobile");
         if (attrVal != null && attrVal.getValue() != null) {
@@ -174,6 +176,56 @@ public class TransformActiveDirRecord extends AbstractTransformScript {
 
             addPhone("FAX", attrVal, pUser, user);
 
+        }
+
+        if (KEEP_AD_ID) {
+
+            println(" - Processing PrincipalName and DN");
+
+            attrVal = columnMap.get("userPrincipalName");
+            if (attrVal != null && attrVal.value != null) {
+
+                // PRE-POPULATE THE USER LOGIN. IN SOME CASES THE COMPANY WANTS TO KEEP THE LOGIN THAT THEY HAVE
+                // THIS SHOWS HOW WE CAN DO THAT
+
+                if (isNewUser) {
+                    Login lg = new Login();
+                    lg.id = new LoginId(DOMAIN, attrVal.value, "0");
+                    principalList.add(lg);
+                    pUser.principalList = principalList;
+                }
+
+
+            } else {
+                // all AD objects must have a sAMAccountName. If this we dont have userPrincipalName then fail
+                // back to the sAMAccountName
+
+                if (isNewUser) {
+                    Login lg = new Login();
+                    lg.id = new LoginId(DOMAIN, sAMAccountName, "0");
+                    principalList.add(lg);
+                    pUser.principalList = principalList;
+                }
+            }
+
+            attrVal = columnMap.get("distinguishedName");
+            if (attrVal != null && attrVal.value != null) {
+                // PRE-POPULATE THE USER LOGIN. IN SOME CASES THE COMPANY WANTS TO KEEP THE LOGIN THAT THEY HAVE
+                // THIS SHOWS HOW WE CAN DO THAT
+
+                if (isNewUser) {
+                    Login lg = new Login();
+                    lg.id = new LoginId(DOMAIN, attrVal.value, AD_MANAGED_SYS_ID);
+                    principalList.add(lg);
+                    pUser.principalList = principalList;
+                }
+
+
+            }
+        }
+
+        if (!principalList.isEmpty()) {
+            pUser.principalList = principalList;
         }
 
 
