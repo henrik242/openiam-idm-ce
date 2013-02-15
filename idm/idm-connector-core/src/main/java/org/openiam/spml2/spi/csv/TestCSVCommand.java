@@ -11,7 +11,7 @@ public class TestCSVCommand extends AbstractCSVCommand {
 	public ResponseType test(ManagedSys managedSys) {
 		ResponseType response = new ResponseType();
 		try {
-			List<ProvisionUser> users = this.getUsersFromCSV(managedSys);
+			this.getUsersFromCSV(managedSys);
 		} catch (Exception e) {
 			response.setStatus(StatusCodeType.FAILURE);
 			response.setRequestID(managedSys.getManagedSysId());

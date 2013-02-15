@@ -53,8 +53,7 @@ public class LookupCSVCommand extends AbstractCSVCommand {
 		// Initialise
 		try {
 			ExtensibleObject extOnject = new ExtensibleObject();
-			if (this.lookupObjectInCSV(principal, managedSys, extOnject)) {
-				response.getAny().add(extOnject);
+			if (this.lookupObjectInCSV(principal, managedSys, response.getAny())) {
 				response.setStatus(StatusCodeType.SUCCESS);
 
 			} else

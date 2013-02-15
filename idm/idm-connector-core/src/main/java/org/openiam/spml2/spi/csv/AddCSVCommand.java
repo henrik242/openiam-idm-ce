@@ -64,7 +64,7 @@ public class AddCSVCommand extends AbstractCSVCommand {
 				response.setError(ErrorCode.CSV_ERROR);
 				response.addErrorMessage("Sync object is null");
 			}
-			this.addUsersToCSV(user, managedSys);
+			this.addUsersToCSV(psoID.getID(), user, managedSys);
 		} catch (Exception e) {
 			e.printStackTrace();
 

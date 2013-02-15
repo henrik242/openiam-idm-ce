@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.spml2.spi.common.UserFields;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +26,14 @@ import wslite.http.HTTPResponse;
 public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	private char SEPARATOR;
 	private char END_OF_LINE;
+	private static String PRINCIPAL_OBJECT = "PRINCIPAL";
 	private String pathToCSV;
+	private String header;
+
+	public String getHeader() {
+		return header;
+	}
+
 	protected static final Log log = LogFactory
 			.getLog(AbstractCSVCommand.class);
 
@@ -47,34 +55,36 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 		this.pathToCSV = pathToCSV;
 	}
 
-	private T csvToObject(Class<T> clazz, Class<E> clazz2,
+	private CSVObject<T> csvToObject(Class<T> clazz, Class<E> clazz2,
 			List<AttributeMap> attrMap, Map<String, String> object)
 			throws InstantiationException, IllegalAccessException {
+		CSVObject<T> csvObject = new CSVObject<T>();
 		T obj = clazz.newInstance();
 		for (AttributeMap a : attrMap) {
 			String objValue = object.get(a.getAttributeName());
 			if (StringUtils.hasText(objValue)) {
 				if (a.getAttributePolicy() != null
-						&& a.getAttributePolicy().getName() != null
-						&& getObjectType(clazz2)
-								.equals(a.getMapForObjectType())) {
+						&& a.getAttributePolicy().getName() != null) {
+					if (getObjectType(clazz2).equals(a.getMapForObjectType())) {
 
-					E fieldValue;
-					try {
-						fieldValue = Enum.valueOf(clazz2, a
-								.getAttributePolicy().getName());
-					} catch (IllegalArgumentException e) {
-						log.info(e.getMessage());
-						fieldValue = Enum.valueOf(clazz2, "DEFAULT");
+						E fieldValue;
+						try {
+							fieldValue = Enum.valueOf(clazz2, a
+									.getAttributePolicy().getName());
+						} catch (IllegalArgumentException e) {
+							log.info(e.getMessage());
+							fieldValue = Enum.valueOf(clazz2, "DEFAULT");
+						}
+						this.putValueInDTO(obj, fieldValue, objValue);
+
+					} else if (PRINCIPAL_OBJECT.equals(a.getMapForObjectType())) {
+						csvObject.setPrincipal(objValue);
 					}
-					this.putValueInDTO(obj, fieldValue, objValue);
-
-				} else {
-
 				}
 			}
 		}
-		return obj;
+		csvObject.setObject(obj);
+		return csvObject;
 	}
 
 	protected abstract void putValueInDTO(T obj, E field, String value);
@@ -113,18 +123,16 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	private String generateHeader(List<AttributeMap> attrMap, Class<E> clazz) {
 		if (attrMap == null)
 			return "";
-		getObjectType(clazz);
 		StringBuilder sb = new StringBuilder();
 		for (AttributeMap a : attrMap) {
-			if (StringUtils.hasText(a.getAttributeName())
-					&& "USER".equals(a.getMapForObjectType())) {
+			if (StringUtils.hasText(a.getAttributeName())) {
 				sb.append(a.getAttributeName());
 				sb.append(SEPARATOR);
 			}
 		}
 		sb.deleteCharAt(sb.length() - 1);
 		sb.append(END_OF_LINE);
-		return sb.toString();
+		return header = sb.toString();
 	}
 
 	private String getObjectType(Class<E> clazz) {
@@ -175,9 +183,7 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 			String[] headerFields, Class<E> clazz) {
 		String header = mergeValues(headerFields).toLowerCase();
 		for (AttributeMap am : attrMap) {
-			if (am.getAttributeName().equalsIgnoreCase(
-					this.getObjectType(clazz))
-					&& !header.contains(am.getAttributeName().toLowerCase())) {
+			if (!header.contains(am.getAttributeName().toLowerCase())) {
 				return false;
 			}
 		}
@@ -207,7 +213,7 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	 * @param clazz
 	 * @return
 	 */
-	private String[] objectToCSV(List<AttributeMap> attrMap, T obj,
+	private String[] objectToCSV(List<AttributeMap> attrMap, CSVObject<T> obj,
 			Class<E> clazz) {
 		List<String> values = new ArrayList<String>(0);
 
@@ -217,19 +223,22 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 			AttributeMap am = this.findAttributeMapByAttributeName(attrMap,
 					field);
 			if (am != null) {
-				// TODO create common solution
-				if (StringUtils.hasText(am.getMapForObjectType())
-						&& "USER".equals(am.getMapForObjectType())) {
-					E fields;
-					try {
-						fields = Enum.valueOf(clazz, am.getAttributePolicy()
-								.getName());
-					} catch (IllegalArgumentException illegalArgumentException) {
-						log.info(illegalArgumentException.getMessage());
-						fields = Enum.valueOf(clazz, "DEFAULT");
+				if (StringUtils.hasText(am.getMapForObjectType())) {
+					if (this.getObjectType(clazz).equals(
+							am.getMapForObjectType())) {
+						E fields;
+						try {
+							fields = Enum.valueOf(clazz, am
+									.getAttributePolicy().getName());
+						} catch (IllegalArgumentException illegalArgumentException) {
+							log.info(illegalArgumentException.getMessage());
+							fields = Enum.valueOf(clazz, "DEFAULT");
+						}
+						values.add(this.putValueIntoString(obj.getObject(),
+								fields));
+					} else if ("PRINCIPAL".equals(am.getMapForObjectType())) {
+						values.add(obj.getPrincipal());
 					}
-					values.add(this.putValueIntoString(obj, fields));
-
 				}
 			} else
 				values.add("");
@@ -269,10 +278,10 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<T> getObjectList(ManagedSys managedSys,
+	protected List<CSVObject<T>> getObjectList(ManagedSys managedSys,
 			List<AttributeMap> attrMapList, Class<T> clazz, Class<E> enumClass)
 			throws Exception {
-		List<T> objects = new ArrayList<T>(0);
+		List<CSVObject<T>> objects = new ArrayList<CSVObject<T>>(0);
 		FileReader fr = this.getCSVFile(managedSys, attrMapList, enumClass);
 		if (fr == null) {
 			return objects;
@@ -292,6 +301,21 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 		return objects;
 	}
 
+	public Map<String, String> convertToMap(List<AttributeMap> attrMap,
+			CSVObject<T> obj, Class<E> clazz) {
+		String[] values = this.objectToCSV(attrMap, obj, clazz);
+		String[] header_ = header.split(String.valueOf(SEPARATOR));
+		Map<String, String> result = new HashMap<String, String>(0);
+		if (values.length != header_.length) {
+			log.error("CSV internal error");
+			return null;
+		}
+		for (int i = 0; i < header_.length; i++) {
+			result.put(header_[i], values[i]);
+		}
+		return result;
+	}
+
 	/**
 	 * Add object in CSV -file. If file not exists this method create one
 	 * 
@@ -305,9 +329,10 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	 *            - class of a Type
 	 * @throws Exception
 	 */
-	protected void appendObjectToCSV(T newObject, ManagedSys managedSys,
-			List<AttributeMap> attrMapList, Class<T> clazz, Class<E> enumClass,
-			boolean append) throws Exception {
+	protected void appendObjectToCSV(CSVObject<T> newObject,
+			ManagedSys managedSys, List<AttributeMap> attrMapList,
+			Class<T> clazz, Class<E> enumClass, boolean append)
+			throws Exception {
 		if (this.getCSVFile(managedSys, attrMapList, enumClass) != null) {
 			String fName = this.getFileName(managedSys);
 			FileWriter fw = new FileWriter(fName, append);
@@ -320,14 +345,15 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 		}
 	}
 
-	protected void updateCSV(List<T> newObjectList, ManagedSys managedSys,
-			List<AttributeMap> attrMapList, Class<T> clazz, Class<E> enumClass,
-			boolean append) throws Exception {
+	protected void updateCSV(List<CSVObject<T>> newObjectList,
+			ManagedSys managedSys, List<AttributeMap> attrMapList,
+			Class<T> clazz, Class<E> enumClass, boolean append)
+			throws Exception {
 		if (this.getCSVFile(managedSys, attrMapList, enumClass) != null) {
 			String fName = this.getFileName(managedSys);
 			FileWriter fw = new FileWriter(fName, append);
 			fw.append(this.generateHeader(attrMapList, enumClass));
-			for (T t : newObjectList) {
+			for (CSVObject<T> t : newObjectList) {
 				fw.append(this.mergeValues(this.objectToCSV(attrMapList, t,
 						enumClass)));
 			}

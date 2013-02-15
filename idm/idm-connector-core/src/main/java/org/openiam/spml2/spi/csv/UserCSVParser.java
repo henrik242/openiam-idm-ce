@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.mvel2.optimizers.impl.refl.nodes.ArrayLength;
 import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
@@ -473,48 +474,53 @@ public class UserCSVParser extends AbstractCSVParser<ProvisionUser, UserFields> 
 		return objValue;
 	}
 
-	protected List<ProvisionUser> getObjectList(ManagedSys managedSys,
-			List<AttributeMap> attrMapList) throws Exception {
+	protected List<CSVObject<ProvisionUser>> getObjectList(
+			ManagedSys managedSys, List<AttributeMap> attrMapList)
+			throws Exception {
 		return getObjectList(managedSys, attrMapList, ProvisionUser.class,
 				UserFields.class);
 	}
 
-	public void addObjectToCSV(ProvisionUser newObject, ManagedSys managedSys,
-			List<AttributeMap> attrMapList) throws Exception {
+	public void addObjectToCSV(CSVObject<ProvisionUser> newObject,
+			ManagedSys managedSys, List<AttributeMap> attrMapList)
+			throws Exception {
 		appendObjectToCSV(newObject, managedSys, attrMapList,
 				ProvisionUser.class, UserFields.class, true);
 	}
 
-	public void updateCSV(List<ProvisionUser> newObject, ManagedSys managedSys,
-			List<AttributeMap> attrMapList, boolean append) throws Exception {
+	public void updateCSV(List<CSVObject<ProvisionUser>> newObject,
+			ManagedSys managedSys, List<AttributeMap> attrMapList,
+			boolean append) throws Exception {
 		updateCSV(newObject, managedSys, attrMapList, ProvisionUser.class,
 				UserFields.class, append);
 	}
 
-	public void deleteObjectFromCSV(ProvisionUser newObject,
-			ManagedSys managedSys, List<AttributeMap> attrMapList)
-			throws Exception {
-		List<ProvisionUser> users = this.getObjectList(managedSys, attrMapList);
-		Iterator<ProvisionUser> userIter = users.iterator();
+	public void deleteObjectFromCSV(String principal, ManagedSys managedSys,
+			List<AttributeMap> attrMapList) throws Exception {
+		List<CSVObject<ProvisionUser>> users = this.getObjectList(managedSys,
+				attrMapList);
+		Iterator<CSVObject<ProvisionUser>> userIter = users.iterator();
 		while (userIter.hasNext()) {
-			ProvisionUser user = userIter.next();
-			if (user.equals(newObject)
-					|| user.getUserId()
-							.equals(newObject.getUserId())) {
-				userIter.remove();
+			CSVObject<ProvisionUser> user = userIter.next();
+			if (principal != null) {
+				if (principal.equals(user.getPrincipal())) {
+					userIter.remove();
+				}
 			}
 		}
 		this.updateCSV(users, managedSys, attrMapList, false);
 	}
 
-	public void updateObjectFromCSV(ProvisionUser newObject,
+	public void updateObjectFromCSV(CSVObject<ProvisionUser> newUser,
 			ManagedSys managedSys, List<AttributeMap> attrMapList)
 			throws Exception {
-		List<ProvisionUser> users = this.getObjectList(managedSys, attrMapList);
-		List<ProvisionUser> newUsers = new ArrayList<ProvisionUser>(0);
-		for (ProvisionUser user : users) {
-			if (user.getUserId().equals(newObject.getUserId())) {
-				newUsers.add(newObject);
+		List<CSVObject<ProvisionUser>> users = this.getObjectList(managedSys,
+				attrMapList);
+		List<CSVObject<ProvisionUser>> newUsers = new ArrayList<CSVObject<ProvisionUser>>(
+				0);
+		for (CSVObject<ProvisionUser> user : users) {
+			if (newUser.getPrincipal().equals(user.getPrincipal())) {
+				newUsers.add(newUser);
 			} else {
 				newUsers.add(user);
 			}
@@ -522,4 +528,8 @@ public class UserCSVParser extends AbstractCSVParser<ProvisionUser, UserFields> 
 		this.updateCSV(newUsers, managedSys, attrMapList, false);
 	}
 
+	public Map<String, String> convertToMap(List<AttributeMap> attrMap,
+			CSVObject<ProvisionUser> obj) {
+		return super.convertToMap(attrMap, obj, UserFields.class);
+	}
 }
