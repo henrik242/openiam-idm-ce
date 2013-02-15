@@ -518,24 +518,17 @@ public class SelfRegistrationController extends CancellableFormController {
 
 
         Phone ph = buildPhone(usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
-        if (cmd.getWorkPhoneId() != null && cmd.getWorkPhoneId().length() > 0) {
-            ph.setPhoneId(cmd.getWorkPhoneId());
-        }
+
         usr.setAreaCd(ph.getAreaCd());
         usr.setPhoneNbr(ph.getPhoneNbr());
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
         log.info("CELL PHONE: " + cmd.getCellPhoneId());
-        if (cmd.getCellPhoneId() != null && cmd.getCellPhoneId().length() > 0) {
-            ph.setPhoneId(cmd.getCellPhoneId());
-        }
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone());
-        if (cmd.getFaxPhoneId() != null && cmd.getFaxPhoneId().length() > 0) {
-            ph.setPhoneId(cmd.getFaxPhoneId());
-        }
+
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr());
@@ -545,15 +538,11 @@ public class SelfRegistrationController extends CancellableFormController {
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr());
-        if (cmd.getAltCellNbrId() != null && cmd.getAltCellNbrId().length() > 0) {
-            ph.setPhoneId(cmd.getAltCellNbrId());
-        }
+
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "PERSONAL PHONE", cmd.getPersonalAreaCode(), cmd.getPersonalNbr());
-        if (cmd.getPersonalNbrId() != null && cmd.getPersonalNbrId().length() > 0) {
-            ph.setPhoneId(cmd.getPersonalNbrId());
-        }
+
         usr.getPhones().add(ph);
 
 

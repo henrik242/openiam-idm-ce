@@ -1021,6 +1021,33 @@ public class UserDAOImpl implements UserDAO {
             bDivIdList = true;
         }
 
+        /* single attribute */
+        if (search.getAttributeName() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" ua.NAME = :attributeName ");
+            attributeName = true;
+        }
+        if (search.getAttributeValue() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" ua.VALUE like :attributeValue ");
+            attributeValue = true;
+        }
+        if (search.getAttributeElementId() != null) {
+            if (where.length() > 0) {
+                where.append(" and ");
+            }
+            where.append(" ua.METADATA_ID = :elementId ");
+            metadataElementId = true;
+        }
+
+        if (attributeName || attributeValue || metadataElementId) {
+            join.append(" JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID)" );
+        }
+
 
         /* attribute list */
 
@@ -1058,7 +1085,7 @@ public class UserDAOImpl implements UserDAO {
 
         }
 
-        if (bAttrIdList) {
+        if (bAttrIdList && !attributeName) {
 
             join.append(" JOIN USER_ATTRIBUTES ua ON ( ua.USER_ID = u.USER_ID)" );
 
@@ -1119,28 +1146,7 @@ public class UserDAOImpl implements UserDAO {
         }
 
 
-        /* User Attributes fields */
-        if (search.getAttributeName() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" ua.NAME = :attributeName ");
-            attributeName = true;
-        }
-        if (search.getAttributeValue() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" ua.VALUE like :attributeValue ");
-            attributeValue = true;
-        }
-        if (search.getAttributeElementId() != null) {
-            if (where.length() > 0) {
-                where.append(" and ");
-            }
-            where.append(" ua.METADATA_ID = :elementId ");
-            metadataElementId = true;
-        }
+
 
         if (where.length() > 0) {
             select = select + join.toString() + " WHERE " + where.toString();

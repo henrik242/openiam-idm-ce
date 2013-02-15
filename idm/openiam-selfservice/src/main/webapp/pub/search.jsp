@@ -27,18 +27,18 @@
 <br>
 
 <html:form action = "/pub/directory.do?method=search" styleClass="user-info">
-	<fieldset>
             <div class="block">
-                <div class="wrap alt">
+                <div class="wrap">
+                    <fieldset>
                     <div class="col-1">
 						<div class="row alt">
                             <label for="t-1">Last Name</label>
-                            <input name="lastName" type="text" size="30" maxlength="30" />
+                            <input id="t-1" name="lastName" type="text" size="30" maxlength="30" />
                       </div>
                       <p class="info">'%' for wildcard searches</p>
                      	<div class="row alt">
-                            <label for="t-1">Department</label>
-                            <html:select property="dept" >
+                            <label for="t-2">Department</label>
+                            <html:select styleId="t-2" property="dept" >
 	        					<html:options collection="orgList" property="value" labelProperty="label"/>
 	     					</html:select>
                       </div>                      
@@ -46,12 +46,12 @@
                 
                 <div class="col-1">
  											<div class="row alt">
-                            <label for="t-2">First Name</label>
-                            <input name="firstName" type="text" id="firstName" size="30" maxlength="40" />
+                            <label for="t-3">First Name</label>
+                            <input id="t-3" name="firstName" type="text" id="firstName" size="30" maxlength="40" />
                       </div>               
  											<div class="row alt">
-                            <label for="t-2">Phone Number</label>
-                            <input name="phone_areaCd" type="text" size="8" class="code" /> 
+                            <label for="t-4">Phone Number</label>
+                            <input id="t-4" name="phone_areaCd" type="text" size="8" class="code" />
                             <input name="phone_nbr" type="text" size="18" maxlength="30" class="phone" />
                       </div>
                 </div>             	
@@ -63,10 +63,9 @@
                     <input type="reset" name="Reset" value="Reset">
                 </div>
 
-
+                    </fieldset>
                 </div>
             </div>
-        </fieldset>
     </html:form>
 
 <jsp:include page="searchresult.jsp" flush="true" />

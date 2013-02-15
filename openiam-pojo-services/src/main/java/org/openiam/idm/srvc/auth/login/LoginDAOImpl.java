@@ -5,6 +5,8 @@ package org.openiam.idm.srvc.auth.login;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.*;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.openiam.idm.srvc.auth.dto.Login;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 
@@ -200,10 +202,10 @@ public class LoginDAOImpl implements LoginDAO {
 
     public List<Login> findUser(String userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query qry = session.createQuery("from org.openiam.idm.srvc.auth.dto.Login l " +
-                " where l.userId = :userId order by l.status desc, l.id.managedSysId asc ");
-        qry.setString("userId", userId);
-        return (List<Login>) qry.list();
+        Criteria criteria = session.createCriteria(Login.class).add(Restrictions.eq("userId", userId))
+        .addOrder(Order.desc("status"))
+        .addOrder(Order.asc("id.managedSysId"));
+        return (List<Login>) criteria.list();
 
 
     }

@@ -273,7 +273,7 @@ public class RegistrationController {
         for(Role role : roleList) {
             OptionTag ot = new OptionTag();
             ot.setLabel(role.getRoleName());
-            ot.setValue(role.getId().getRoleId()+"*"+role.getId().getServiceId());
+            ot.setValue(role.getId().getServiceId()+"*"+role.getId().getRoleId());
             roles.add(ot);
         }
         return roles;
@@ -320,36 +320,26 @@ public class RegistrationController {
 
     private void setPhone(RegistrationCommand cmd, ProvisionUser usr) {
        Phone ph = buildPhone(usr, "DESK PHONE", cmd.getWorkAreaCode(), cmd.getWorkPhone());
-        if (cmd.getWorkPhone() != null && cmd.getWorkPhone().length() > 0) {
-            ph.setPhoneId(cmd.getWorkPhone());
-        }
+
         usr.setAreaCd(ph.getAreaCd());
         usr.setPhoneNbr(ph.getPhoneNbr());
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "CELL PHONE", cmd.getCellAreaCode(), cmd.getCellPhone());
         LOG.info("CELL PHONE: " + cmd.getCellPhone());
-        if (cmd.getCellPhone() != null && cmd.getCellPhone().length() > 0) {
-            ph.setPhoneId(cmd.getCellPhone());
-        }
+
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "FAX", cmd.getFaxAreaCode(), cmd.getFaxPhone());
-        if (cmd.getFaxPhone() != null && cmd.getFaxPhone().length() > 0) {
-            ph.setPhoneId(cmd.getFaxPhone());
-        }
+
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "HOME PHONE", cmd.getHomePhoneAreaCode(), cmd.getHomePhoneNbr());
-        if (cmd.getHomePhoneNbr() != null && cmd.getHomePhoneNbr().length() > 0) {
-            ph.setPhoneId(cmd.getHomePhoneNbr());
-        }
+
         usr.getPhones().add(ph);
 
         ph = buildPhone(usr, "ALT CELL PHONE", cmd.getAltCellAreaCode(), cmd.getAltCellNbr());
-        if (cmd.getAltCellNbr() != null && cmd.getAltCellNbr().length() > 0) {
-            ph.setPhoneId(cmd.getAltCellNbr());
-        }
+
         usr.getPhones().add(ph);
     }
 
