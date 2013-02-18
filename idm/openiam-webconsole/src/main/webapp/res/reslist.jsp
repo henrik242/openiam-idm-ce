@@ -2,10 +2,11 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql" %>
 
 
-   		<table  width="800pt" >
+<table  width="800pt" >
 			<tr>
 				<td>
 					<table width="100%">
@@ -27,25 +28,26 @@
 			     <fieldset class="userform" >
 						<legend>SELECT RESOURCE TYPE</legend>
 	
-	<table class="fieldsetTable"  width="600pt" >
+                        <table class="fieldsetTable"  width="600pt" >
 
-     <tr>
-		<td class="plaintext">Select Resource Type:</td>
-         <td>
-     	
-           <form:select path="resourceTypeId" multiple="false">
-              <form:option value="-" label="-Please Select-"/>
-              <form:options items="${resTypeList}" itemValue="resourceTypeId" itemLabel="description"/>
-          </form:select>       
-	
-         </td>
-  	</tr>
-         <tr>
-    	  <td></td>
-    	  <td class="error"><form:errors path="resourceTypeId" /></td>
-    	</tr>	
-	</table>
+                         <tr>
+                            <td class="plaintext">Select Resource Type:</td>
+                             <td>
 
+                               <form:select path="resourceTypeId" multiple="false">
+                                  <form:option value="-" label="-Please Select-"/>
+                                  <form:options items="${resTypeList}" itemValue="resourceTypeId" itemLabel="description"/>
+                              </form:select>
+
+                             </td>
+                         </tr>
+                         <tr>
+                              <td></td>
+                              <td class="error"><form:errors path="resourceTypeId" /></td>
+                         </tr>
+                        </table>
+                     </fieldset>
+          </tr>
           <tr class="buttonRow">
               <td align="right"> <input type="submit" value="Search"> </td>
           </tr>

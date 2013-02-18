@@ -96,8 +96,9 @@ public class RoleDetailController extends CancellableFormController {
 
     @Override
     protected ModelAndView onCancel(Object command) throws Exception {
-        return new ModelAndView(new RedirectView(getCancelView(), true));
+        return new ModelAndView(new RedirectView(getCancelView(),true));
     }
+
 
 
     @Override

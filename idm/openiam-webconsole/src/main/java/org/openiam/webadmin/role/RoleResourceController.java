@@ -20,44 +20,40 @@ package org.openiam.webadmin.role;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.menu.dto.Menu;
+import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.dto.ResourceRole;
+import org.openiam.idm.srvc.res.dto.ResourceRoleId;
+import org.openiam.idm.srvc.res.dto.ResourceType;
+import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openiam.webadmin.util.AuditHelper;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.menu.dto.Menu;
-import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
-import org.openiam.idm.srvc.meta.ws.MetadataWebService;
-import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.res.dto.ResourceRole;
-import org.openiam.idm.srvc.res.dto.ResourceRoleId;
-import org.openiam.idm.srvc.res.service.ResourceDataService;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.RoleId;
-import org.openiam.idm.srvc.role.ws.RoleDataWebService;
-import org.openiam.idm.srvc.role.ws.RoleListResponse;
-
-
-public class RoleResourceController extends SimpleFormController {
+public class RoleResourceController extends CancellableFormController {
 
 	protected RoleDataWebService roleDataService;
-	protected MetadataWebService metadataService;
+    protected ResourceDataService resourceDataService;
+    protected NavigatorDataWebService navigationDataService;
+
 	protected String roleTypeCategory;
 	protected String redirectView;
-	protected ResourceDataService resourceDataService;
-	protected NavigatorDataWebService navigationDataService;
+
 	protected String menuGroup;
-    protected AuditHelper auditHelper;
+
 	
 	private static final Log log = LogFactory.getLog(RoleResourceController.class);
 
@@ -65,14 +61,34 @@ public class RoleResourceController extends SimpleFormController {
 		super();
 	}
 
+    @Override
+    protected Map referenceData(HttpServletRequest request) throws Exception {
+
+        List<ResourceType> resTypeList = resourceDataService.getAllResourceTypes();
+
+        Map model = new HashMap();
+        model.put("resTypeList", resTypeList);
+
+        return model;
+    }
+
+    private void loadReferenceData(ModelAndView mav) {
+        List<ResourceType> resTypeList = resourceDataService.getAllResourceTypes();
+        mav.addObject("resTypeList", resTypeList);
+    }
+
+    private void restoreMenu(HttpServletRequest request, String userId) {
+
+        List<Menu> level3MenuList =  navigationDataService.menuGroupByUser(menuGroup, userId, "en").getMenuList();
+        request.setAttribute("menuL3", level3MenuList);
+    }
 	
 	
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
 		
-		log.info("RoleResourceController - formBakingObject called.");
-		Role role = null;
+
 		RoleResourceCommand roleCommand = new RoleResourceCommand();
 
 		HttpSession session =  request.getSession();
@@ -81,9 +97,23 @@ public class RoleResourceController extends SimpleFormController {
 		String roleId = (String)session.getAttribute("roleid");
 		String domainId = (String)session.getAttribute("domainid");
 
-		List<Menu> level3MenuList =  navigationDataService.menuGroupByUser(menuGroup, userId, "en").getMenuList();
-		request.setAttribute("menuL3", level3MenuList);	
-			
+        String type = request.getParameter("resType");
+        if (type != null && !type.isEmpty()) {
+            roleCommand.setResourceTypeId(type);
+            prePopulateCurrentResourceSelection(roleCommand,domainId,roleId);
+
+        }
+        String mode = request.getParameter("mode");
+        if (mode != null && "1".equals(mode)) {
+            request.setAttribute("msg","The role has been successfully modified");
+        }
+
+
+
+
+
+        restoreMenu(request, userId);
+
 		if (roleId != null) {		
 			// used by the ui add/remove role and resource associations
 			roleCommand.setDomainId(domainId);
@@ -92,43 +122,55 @@ public class RoleResourceController extends SimpleFormController {
 	
 		request.setAttribute("menuGroup", "SECURITY_ROLE");
 
-		// get all the resources
-		List<Resource> fullResList = new ArrayList<Resource>();
-		List<Resource> resList = resourceDataService.getAllResources();
-		
-		List<Resource> roleResourceList =  resourceDataService.getResourcesForRole(domainId, roleId);
-		
-	
-			// for each role in the main list, check the userRole list to see if its there
-			for (Resource res : resList) {
-				boolean found = false;
-				if (roleResourceList != null) {
-					for (Resource r : roleResourceList ) {
-						if (res.getResourceId().equalsIgnoreCase(r.getResourceId())) {
-							res.setSelected(true);
-							fullResList.add(res);
-							found = true;
-						}
-					}
-				}
-				if (!found) {
-					fullResList.add(res);
-				}
-			}
-		
-		
 
-		
-		
-		roleCommand.setResourceList(fullResList);
-
-		return roleCommand;
+        return roleCommand;
 	}
-	
+
+
+    private void prePopulateCurrentResourceSelection(RoleResourceCommand roleCommand,
+                                                     String domainId, String roleId) {
+
+        String typeId = roleCommand.getResourceTypeId();
+        if (typeId == null || typeId.isEmpty()) {
+            return;
+
+        }
+
+        List<Resource> fullResList = new ArrayList<Resource>();
+        List<Resource> resList =   resourceDataService.getResourcesByType(typeId);
+            //resourceDataService.getAllResources();
+
+        List<Resource> roleResourceList =  resourceDataService.getResourcesForRole(domainId, roleId);
+
+
+        // for each role in the main list, check the userRole list to see if its there
+        for (Resource res : resList) {
+            boolean found = false;
+            if (roleResourceList != null) {
+                for (Resource r : roleResourceList ) {
+                    if (res.getResourceId().equalsIgnoreCase(r.getResourceId())) {
+                        res.setSelected(true);
+                        fullResList.add(res);
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
+                fullResList.add(res);
+            }
+        }
+        roleCommand.setResourceList(fullResList);
+    }
 
 
 
-	
+    @Override
+    protected ModelAndView onCancel(Object command) throws Exception {
+        return new ModelAndView(new RedirectView(getCancelView(),true));
+    }
+
+
+
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
@@ -142,9 +184,20 @@ public class RoleResourceController extends SimpleFormController {
 		String domainId = (String)request.getSession().getAttribute("domainid");
 		String login = (String)request.getSession().getAttribute("login");
 
-		
-		// current resource-role list
-		List<Resource> curRoleResList = resourceDataService.getResourcesForRole(roleCommand.getDomainId(), roleCommand.getRoleId());
+        ModelAndView mav =  new ModelAndView(getSuccessView());
+        prePopulateCurrentResourceSelection(roleCommand, roleCommand.getDomainId(),
+                roleCommand.getRoleId());
+
+        mav.addObject("roleResCmd", roleCommand);
+        loadReferenceData(mav);
+
+        restoreMenu(request, userId);
+
+        return mav;
+
+
+            // current resource-role list
+		/*List<Resource> curRoleResList = resourceDataService.getResourcesForRole(roleCommand.getDomainId(), roleCommand.getRoleId());
 		List<Resource> newRoleResList = roleCommand.getResourceList();
 	
 		//
@@ -194,11 +247,14 @@ public class RoleResourceController extends SimpleFormController {
 				}
 			}
 		}
-	
-		ModelAndView mav = new ModelAndView(getSuccessView());
-		
-		return mav;
 
+        prePopulateCurrentResourceSelection(roleCommand, roleCommand.getDomainId(), roleCommand.getRoleId());
+
+        // pass on a message that we have saved the details
+        successUrl = successUrl + "&mode=1";
+        return new ModelAndView(successUrl);
+
+       */
 		
 	}
 	
@@ -269,29 +325,6 @@ public class RoleResourceController extends SimpleFormController {
 	}
 
 
-
-
-
-
-
-
-	public MetadataWebService getMetadataService() {
-		return metadataService;
-	}
-
-
-
-
-
-
-
-
-	public void setMetadataService(MetadataWebService metadataService) {
-		this.metadataService = metadataService;
-	}
-
-
-
 	public NavigatorDataWebService getNavigationDataService() {
 		return navigationDataService;
 	}
@@ -314,12 +347,4 @@ public class RoleResourceController extends SimpleFormController {
 	public void setMenuGroup(String menuGroup) {
 		this.menuGroup = menuGroup;
 	}
-
-    public AuditHelper getAuditHelper() {
-        return auditHelper;
-    }
-
-    public void setAuditHelper(AuditHelper auditHelper) {
-        this.auditHelper = auditHelper;
-    }
 }

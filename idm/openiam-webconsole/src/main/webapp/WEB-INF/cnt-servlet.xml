@@ -105,6 +105,7 @@
 		<property name="successView" value="/role/rolelist" />
 		<property name="roleDataService" ref="roleServiceClient" />
 		<property name="secDomainService" ref="secDomainServiceClient" />
+         <property name="cancelView" value="/" />
      </bean>
      <bean id="roleDetail" class="org.openiam.webadmin.role.RoleDetailController">
 		<property name="commandName" value="roleDetailCmd" />
@@ -129,18 +130,18 @@
      </bean>
      
      <bean id="roleResource" class="org.openiam.webadmin.role.RoleResourceController">
+        <property name="sessionForm" value="true" />
 		<property name="commandName" value="roleResCmd" />
 		<property name="commandClass" value="org.openiam.webadmin.role.RoleResourceCommand" />
 		<property name="formView" value="/role/roleresource" />
-		<property name="successView" value="/confirm" />
+		<property name="successView" value="/role/roleresource" />
 		<property name="roleDataService" ref="roleServiceClient" />
-		<property name="metadataService" ref="metadataServiceClient" />	
-		<property name="roleTypeCategory" value="ROLE_TYPE" />	
+		<property name="roleTypeCategory" value="ROLE_TYPE" />
 		 <property name="resourceDataService" ref="resourceServiceClient" />
 		<property name="redirectView" value="rolelist.cnt?mode=1" />
 		<property name="navigationDataService" ref="navServiceClient" />
 		<property name="menuGroup" value="SECURITY_ROLE" />
-         <property name="auditHelper" ref="auditHelper" />
+         <property name="cancelView" value="rolelist.cnt" />
      </bean>
 
      <bean id="roleGroup" class="org.openiam.webadmin.role.GroupRoleController">
@@ -154,8 +155,16 @@
 		 <property name="resourceDataService" ref="resourceServiceClient" />
 		<property name="redirectView" value="rolelist.cnt?mode=1" />
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="menuGroup" value="SECURITY_ROLE" />	
+		<property name="menuGroup" value="SECURITY_ROLE" />
+         <property name="cancelView" value="rolelist.cnt" />
      </bean>
+
+    <bean id="updateRoleMembership" class="org.openiam.webadmin.role.UpdateRoleMembershipController">
+        <property name="resourceDataService" ref="resourceServiceClient" />
+        <property name="auditService" ref="asyncAuditServiceClient" />
+        <property name="successView" value="/error" />
+    </bean>
+
 
      <bean id="rolePolicy" class="org.openiam.webadmin.role.RolePolicyController">
 		<property name="commandName" value="rolePolicyCmd" />
@@ -168,7 +177,8 @@
 		 <property name="resourceDataService" ref="resourceServiceClient" />
 		<property name="redirectView" value="rolelist.cnt?mode=1" />
 		<property name="navigationDataService" ref="navServiceClient" />
-		<property name="menuGroup" value="SECURITY_ROLE" />	
+		<property name="menuGroup" value="SECURITY_ROLE" />
+         <property name="cancelView" value="rolelist.cnt" />
      </bean>
      
  <!-- Report Parameter controllers -->
@@ -968,7 +978,8 @@
              	<prop key="/roleResource.cnt">roleResource</prop> 
              	
              	<prop key="/roleGroupMap.cnt">roleGroup</prop> 
-             	<prop key="/rolePolicy.cnt">rolePolicy</prop> 
+             	<prop key="/rolePolicy.cnt">rolePolicy</prop>
+                <prop key="/updateRoleMembership.cnt">updateRoleMembership</prop>
              
                 <!--  prop key="/domain.cnt">domainController </prop -->
                 <prop key="/connectorList.cnt">connectorList</prop>
