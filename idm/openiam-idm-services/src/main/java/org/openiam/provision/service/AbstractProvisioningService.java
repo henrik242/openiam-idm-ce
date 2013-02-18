@@ -199,7 +199,9 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
             lookupRespType = remoteConnectorAdapter.lookupRequest(mSys, reqType, connector, muleContext);
 
-            if (lookupRespType == null || lookupRespType.getStatus() == StatusCodeType.FAILURE) {
+            if (lookupRespType != null && lookupRespType.getStatus() == StatusCodeType.SUCCESS) {
+                return true;
+            } else {
                 log.debug("Attribute lookup did not find a match.");
                 return false;
             }
