@@ -18,14 +18,10 @@ package org.openiam.webadmin.role;
  */
 
 
+import org.openiam.idm.srvc.res.dto.Resource;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.openiam.idm.srvc.menu.dto.Menu;
-import org.openiam.idm.srvc.meta.dto.MetadataType;
-import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 
 /**
  * Command object for the RoleDetailController 
@@ -44,6 +40,7 @@ public class RoleResourceCommand implements Serializable {
 	private List<Resource> resourceList ;
 	private String roleId;
 	private String domainId;
+    private String resourceTypeId;
 
 	public List<Resource> getResourceList() {
 		return resourceList;
@@ -68,9 +65,13 @@ public class RoleResourceCommand implements Serializable {
 	public void setDomainId(String domainId) {
 		this.domainId = domainId;
 	}
-	
 
-    
-	
 
+    public String getResourceTypeId() {
+        return resourceTypeId;
+    }
+
+    public void setResourceTypeId(String resourceTypeId) {
+        this.resourceTypeId = resourceTypeId;
+    }
 }

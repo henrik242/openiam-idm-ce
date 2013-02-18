@@ -16,50 +16,94 @@
 						</td>
 						</tr>
 					</table>
-			</td>
-				<tr>
+			    </td>
+            </tr>
+               <% if (request.getAttribute("msg") != null) { %>
+               <tr>
+                   <td colspan="2" align="center" class="msg" >
+                       <%=request.getAttribute("msg") %>
+                   </td>
+               </tr>
+               <% } %>
+
+               <tr>
 				<td>       
 	
 <form:form commandName="roleResCmd">
 	<form:hidden path="roleId" />
 	<form:hidden path="domainId" />
-	<table width="600pt">
+
+    <table width="600pt">
+        <tr>
+            <td align="center" height="100%">
+                <fieldset class="userform" >
+                    <legend>SELECT RESOURCE TYPE</legend>
+
+                    <table class="fieldsetTable"  width="600pt" >
+
+                        <tr>
+                            <td class="plaintext">Select Resource Type:</td>
+                            <td>
+
+                                <form:select path="resourceTypeId" multiple="false">
+                                    <form:option value="-" label="-Please Select-"/>
+                                    <form:options items="${resTypeList}" itemValue="resourceTypeId" itemLabel="description"/>
+                                </form:select>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="error"><form:errors path="resourceTypeId" /></td>
+                        </tr>
+                    </table>
+                </fieldset>
+        </tr>
+        <tr class="buttonRow">
+            <td align="right"> <input type="submit" name="formBtn" value="Search"> <input type="submit" name="_cancel" value="Cancel" />  </td>
+        </tr>
+    </table>
+
+
+
+    <table width="600pt">
 			<tr>
 				<td align="center" height="100%">
 			     <fieldset class="userform" >
 						<legend>ASSOCIATE RESOURCES TO A ROLE</legend>
 
    
-     	<table class="resourceTable" cellspacing="2" cellpadding="2" width="800pt">	
+     	<table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">
     			<tr class="header">
-    				<th>Resource Name</td>
-    				<th>Parent</td>
+    				<th>Resource Name</th>
+    				<th></th>
+
     			</tr>
-		      <c:forEach items="${roleResCmd.resourceList}" var="resourceList" varStatus="res">
+             <c:forEach items="${roleResCmd.resourceList}" var="resourceList" varStatus="res">
 		  
 				<tr class="plaintext">
 								<td class="tableEntry">
-									<form:checkbox path="resourceList[${res.index}].selected" />
-									${resourceList.name}
+                                    <form:checkbox path="resourceList[${res.index}].selected" />${resourceList.name}
 								</td>
-								<td class="tableEntry">${resourceList.resourceParent}</td>
+								<td class="tableEntry">
+                                    <c:choose>
+                                        <c:when test="${!resourceList.selected}">
+                                            <a href="updateRoleMembership.cnt?objtype=RES&action=ADD&role=${roleResCmd.roleId}&domain=${roleResCmd.domainId}&objid=${resourceList.resourceId}">ADD to Role</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="updateRoleMembership.cnt?objtype=RES&action=DEL&role=${roleResCmd.roleId}&domain=${roleResCmd.domainId}&objid=${resourceList.resourceId}">REMOVE from Role</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
 				</tr>
-				
 			</c:forEach>
 			</table>
+         </fieldset>
 	</td>	
 	</tr>    
-
-
-    	<tr>
- 		   <td colspan="2" align="center" bgcolor="8397B4" >
- 		    <font></font>
- 		   </td>
-    	</tr>
-          <tr>
-              <td colspan="2" align="right"> <input type="submit" name="btn" value="Submit"> </td>
-          </tr>
 </table>
 </form:form>
-
+        </td>
+       </tr>
+     </table>
 </div>
