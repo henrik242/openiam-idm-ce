@@ -30,9 +30,9 @@
 	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_WORKING_FOLDER</param-name>
-		<param-value></param-value>
+		<param-value>${reportRoot}</param-value>
 	</context-param>
-	
+		
 	<!--
 		Temporary document files directory. Defaults to ${birt home}/documents
 	-->
@@ -173,10 +173,6 @@
         <servlet-name>EngineServlet</servlet-name>
     </filter-mapping>
     				
-	<!-- Viewer Servlet Context Listener -->
-	<listener>
-		<listener-class>org.eclipse.birt.report.listener.ViewerServletContextListenerExt</listener-class>
-	</listener>
 
 	<!-- Viewer HttpSession Listener -->
 	<listener>

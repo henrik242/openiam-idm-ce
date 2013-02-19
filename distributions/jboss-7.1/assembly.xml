@@ -7,15 +7,17 @@
     <moduleSet>
 	  <useAllReactorProjects>true</useAllReactorProjects>
 	  <includes>
-		<include>org.openiam:openiam-selfservice</include>
-		<include>org.openiam:openiam-webconsole</include>
+		<include>org.openiam:openiam-reportviewer</include>
+		<include>org.openiam:openiam-selfservice-ext</include>
+				<include>org.openiam:openiam-selfservice</include>
+				<include>org.openiam:openiam-webconsole</include>
 		<include>org.openiam:openiam-idm-esb</include>
 	  </includes>
       <binaries>
 		<outputFileNameMapping>standalone/deployments/${artifact.name}.war</outputFileNameMapping>
 		<includeDependencies>false</includeDependencies>
         <unpack>false</unpack>
-      </binaries>
+      </binaries>    
     </moduleSet>
   </moduleSets>
   <fileSets>
