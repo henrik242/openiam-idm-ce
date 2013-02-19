@@ -19,7 +19,8 @@ public class ReconConfigurationCommand implements Serializable {
     private Resource res;
     private ReconciliationConfig config = new ReconciliationConfig();
     private List<ReconciliationSituation> situationList = new ArrayList<ReconciliationSituation>();
-
+    private boolean isCSV;
+    private String csvRemoteLocation;
     public Resource getRes() {
         return res;
     }
@@ -43,6 +44,22 @@ public class ReconConfigurationCommand implements Serializable {
     public void setSituationList(List<ReconciliationSituation> situationList) {
         this.situationList = situationList;
     }
+
+	public boolean getIsCSV() {
+		return isCSV;
+	}
+
+	public void setIsCSV(boolean isCSV) {
+		this.isCSV = isCSV;
+	}
+
+	public String getCsvRemoteLocation() {
+		return csvRemoteLocation;
+	}
+
+	public void setCsvRemoteLocation(String csvRemoteLocation) {
+		this.csvRemoteLocation = csvRemoteLocation;
+	}
 
 
 }

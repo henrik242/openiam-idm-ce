@@ -88,7 +88,7 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 	@WebMethod
 	public ResponseType reconcileResource(
 			@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
-		log.debug("reconcile resource called in LDAPConnector");
+		log.debug("reconcile resource called in CSVConnector");
 
 		Resource res = resourceDataService.getResource(config.getResourceId());
 		String managedSysId = res.getManagedSysId();
