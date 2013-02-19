@@ -23,11 +23,15 @@ import org.openiam.idm.srvc.batch.service.BatchDataService;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.mngsys.dto.ProvisionConnector;
+import org.openiam.idm.srvc.mngsys.service.ConnectorDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.recon.dto.ReconciliationSituation;
 import org.openiam.idm.srvc.recon.ws.AsynchReconciliationService;
 import org.openiam.idm.srvc.recon.ws.ReconciliationWebService;
+import org.openiam.provision.dto.ProvisionUser;
+import org.openiam.spml2.interf.ConnectorService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -47,6 +51,7 @@ public class ReconConfigurationController extends CancellableFormController {
 	protected ReconciliationWebService reconcileService;
 	protected BatchDataService batchDataService;
 	protected AsynchReconciliationService asynchReconService;
+	private ConnectorDataService connectorService;
 
 	public void setManagedSysService(ManagedSystemDataService managedSysService) {
 		this.managedSysService = managedSysService;
@@ -79,18 +84,17 @@ public class ReconConfigurationController extends CancellableFormController {
 		return new ModelAndView(new RedirectView(getCancelView(), true));
 	}
 
-	private String getFileName(String resId) {
-		ManagedSys mSys = managedSysService.getManagedSysByResource(resId);
-		StringBuilder sb = new StringBuilder(pathToCSV);
+	private String getFileName(ManagedSys mSys, boolean isForReconciliation) {
+
+		StringBuilder sb = new StringBuilder();
+		if (!isForReconciliation)
+			sb.append(pathToCSV);
+		if (isForReconciliation)
+			sb.append("recon_");
 		sb.append(mSys.getManagedSysId());
 		sb.append(mSys.getResourceId());
 		sb.append(".csv");
 		return sb.toString();
-	}
-
-	private boolean isCSVExist(String resId) {
-		File f = new File(getFileName(resId));
-		return f.exists();
 	}
 
 	@Override
@@ -107,7 +111,23 @@ public class ReconConfigurationController extends CancellableFormController {
 		}
 
 		ReconConfigurationCommand cmd = new ReconConfigurationCommand();
-		cmd.setIsCSV(isCSVExist(resId));
+		try {
+			ManagedSys mSys = managedSysService.getManagedSysByResource(resId);
+			ProvisionConnector pCon = connectorService.getConnector(mSys
+					.getConnectorId());
+
+			boolean isCSV = pCon != null
+					&& pCon.getServiceUrl().contains("CSVConnectorService");
+
+			cmd.setIsCSV(isCSV);
+			if (isCSV) {
+				cmd.setReconCSVName(this.getFileName(mSys, true));
+				cmd.setCsvDirectory(pathToCSV);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			cmd.setIsCSV(false);
+		}
 		ReconciliationConfig config = reconcileService.getConfigByResource(
 				resId).getConfig();
 		if (config == null) {
@@ -146,6 +166,10 @@ public class ReconConfigurationController extends CancellableFormController {
 		return cmd;
 	}
 
+	public void setConnectorService(ConnectorDataService connectorService) {
+		this.connectorService = connectorService;
+	}
+
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
@@ -160,17 +184,18 @@ public class ReconConfigurationController extends CancellableFormController {
 
 		String btn = request.getParameter("btn");
 		String configId = config.getReconConfigId();
-		if (btn != null && btn.equalsIgnoreCase("Import CSV")) {
-			return new ModelAndView("/upload");
-		}
 		if (btn != null && btn.equalsIgnoreCase("Export to CSV")) {
 			FileInputStream stream = null;
 			File file;
 			int length = 0;
 			try {
-				file = new File(this.getFileName(config.getResourceId()));
+				file = new File(
+						this.getFileName(
+								managedSysService
+										.getManagedSysByResource(config
+												.getResourceId()), false));
 				if (!file.exists()) {
-					log.error("Problem with creating");
+					log.error("Nothing to Export");
 				} else {
 					response.setContentType("application/octet-stream");
 					response.setHeader("Content-Disposition",

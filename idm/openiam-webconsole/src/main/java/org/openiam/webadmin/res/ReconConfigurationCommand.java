@@ -8,42 +8,51 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Command object for Synchronization Configuration
- *
+ * 
  * @author suneet
  */
 public class ReconConfigurationCommand implements Serializable {
 
-    private Resource res;
-    private ReconciliationConfig config = new ReconciliationConfig();
-    private List<ReconciliationSituation> situationList = new ArrayList<ReconciliationSituation>();
-    private boolean isCSV;
-    private String csvRemoteLocation;
-    public Resource getRes() {
-        return res;
-    }
+	private Resource res;
+	private ReconciliationConfig config = new ReconciliationConfig();
+	private List<ReconciliationSituation> situationList = new ArrayList<ReconciliationSituation>();
+	private boolean isCSV;
+	private String csvDirectory;
+	private String reconCSVName;
 
-    public void setRes(Resource res) {
-        this.res = res;
-    }
+	public String getReconCSVName() {
+		return reconCSVName;
+	}
 
-    public ReconciliationConfig getConfig() {
-        return config;
-    }
+	public void setReconCSVName(String reconCSVName) {
+		this.reconCSVName = reconCSVName;
+	}
 
-    public void setConfig(ReconciliationConfig config) {
-        this.config = config;
-    }
+	public Resource getRes() {
+		return res;
+	}
 
-    public List<ReconciliationSituation> getSituationList() {
-        return situationList;
-    }
+	public void setRes(Resource res) {
+		this.res = res;
+	}
 
-    public void setSituationList(List<ReconciliationSituation> situationList) {
-        this.situationList = situationList;
-    }
+	public ReconciliationConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(ReconciliationConfig config) {
+		this.config = config;
+	}
+
+	public List<ReconciliationSituation> getSituationList() {
+		return situationList;
+	}
+
+	public void setSituationList(List<ReconciliationSituation> situationList) {
+		this.situationList = situationList;
+	}
 
 	public boolean getIsCSV() {
 		return isCSV;
@@ -53,13 +62,11 @@ public class ReconConfigurationCommand implements Serializable {
 		this.isCSV = isCSV;
 	}
 
-	public String getCsvRemoteLocation() {
-		return csvRemoteLocation;
+	public String getCsvDirectory() {
+		return csvDirectory;
 	}
 
-	public void setCsvRemoteLocation(String csvRemoteLocation) {
-		this.csvRemoteLocation = csvRemoteLocation;
+	public void setCsvDirectory(String csvDirectory) {
+		this.csvDirectory = csvDirectory;
 	}
-
-
 }
