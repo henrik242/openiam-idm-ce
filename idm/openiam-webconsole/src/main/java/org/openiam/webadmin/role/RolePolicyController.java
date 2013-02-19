@@ -20,36 +20,28 @@ package org.openiam.webadmin.role;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.menu.dto.Menu;
+import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
+import org.openiam.idm.srvc.meta.ws.MetadataWebService;
+import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.dto.RolePolicy;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.openiam.base.ws.ResponseStatus;
-import org.openiam.idm.srvc.menu.dto.Menu;
-import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
-import org.openiam.idm.srvc.meta.ws.MetadataWebService;
-import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
-import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.res.dto.ResourceRole;
-import org.openiam.idm.srvc.res.dto.ResourceRoleId;
-import org.openiam.idm.srvc.res.service.ResourceDataService;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.dto.RoleId;
-import org.openiam.idm.srvc.role.dto.RolePolicy;
-import org.openiam.idm.srvc.role.ws.RoleDataWebService;
-import org.openiam.idm.srvc.role.ws.RoleListResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class RolePolicyController extends SimpleFormController {
+public class RolePolicyController extends CancellableFormController {
 
 	protected RoleDataWebService roleDataService;
 	protected MetadataWebService metadataService;
@@ -65,6 +57,10 @@ public class RolePolicyController extends SimpleFormController {
 		super();
 	}
 
+    @Override
+    protected ModelAndView onCancel(Object command) throws Exception {
+        return new ModelAndView(new RedirectView(getCancelView(),true));
+    }
 	
 	
 	@Override

@@ -43,10 +43,10 @@
 	</bean>
 
      <bean id="asynchProvisionServiceClient" class="org.openiam.provision.service.AsynchUserProvisionService"
-      factory-bean="asynchPProvisionServiceFactory" factory-method="create"/>
+      factory-bean="asynchProvisionServiceFactory" factory-method="create"/>
 
 
-	<bean id="asynchPProvisionServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+	<bean id="asynchProvisionServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
 	  <property name="serviceClass" value="org.openiam.provision.service.AsynchUserProvisionService"/>
 	  <property name="address" value="${openiam.service_host}${openiam.connector.ws.path}AsynchUserProvisionService"/>
 	</bean>

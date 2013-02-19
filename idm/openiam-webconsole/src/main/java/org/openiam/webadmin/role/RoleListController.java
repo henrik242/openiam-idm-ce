@@ -18,26 +18,24 @@ package org.openiam.webadmin.role;
  *  along with OpenIAM.  If not, see <http://www.gnu.org/licenses/>. *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
+import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
+import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.role.ws.RoleDataWebService;
-import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
-import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
-
-public class RoleListController extends SimpleFormController {
+public class RoleListController extends CancellableFormController {
 
 	protected RoleDataWebService roleDataService;
 	protected SecurityDomainDataService secDomainService;
@@ -50,6 +48,11 @@ public class RoleListController extends SimpleFormController {
 	public RoleListController() {
 		super();
 	}
+
+    @Override
+    protected ModelAndView onCancel(Object command) throws Exception {
+        return new ModelAndView(new RedirectView(getCancelView(),true));
+    }
 
 
 	@Override
