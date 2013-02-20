@@ -55,7 +55,7 @@ public class SubscribeReportsController extends SimpleFormController {
                 }
             }
             if(!StringUtils.isEmpty(reportCommand.getReport().getReportName())) {
-                reportService.createOrUpdateReportInfo(reportCommand.getReport().getReportName(), dataSourceFile.getSize() > 0 ? dataSourceFileName : reportCommand.getReport().getReportDataSource(), designFile.getSize() > 0 ? designFileName : reportCommand.getReport().getReportUrl());
+                //reportService.createOrUpdateReportInfo(reportCommand.getReport().getReportName(), dataSourceFile.getSize() > 0 ? dataSourceFileName : reportCommand.getReport().getReportDataSource(), designFile.getSize() > 0 ? designFileName : reportCommand.getReport().getReportUrl());
             }
         }
         return new ModelAndView(new RedirectView("reportList.selfserve", true));
