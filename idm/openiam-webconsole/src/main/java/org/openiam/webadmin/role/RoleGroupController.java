@@ -22,11 +22,10 @@ package org.openiam.webadmin.role;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
-import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.res.dto.ResourceType;
-import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,38 +40,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RoleResourceController extends CancellableFormController {
+public class RoleGroupController extends CancellableFormController {
 
 	protected RoleDataWebService roleDataService;
-    protected ResourceDataService resourceDataService;
     protected NavigatorDataWebService navigationDataService;
+    protected GroupDataWebService groupManager;
 
 	protected String roleTypeCategory;
 	protected String redirectView;
 
 	protected String menuGroup;
 
-	
-	private static final Log log = LogFactory.getLog(RoleResourceController.class);
 
-	public RoleResourceController() {
+	private static final Log log = LogFactory.getLog(RoleGroupController.class);
+
+	public RoleGroupController() {
 		super();
 	}
 
     @Override
     protected Map referenceData(HttpServletRequest request) throws Exception {
 
-        List<ResourceType> resTypeList = resourceDataService.getAllResourceTypes();
+
+        List<Group> rootGroupList = groupManager.getAllGroupsWithDependents(false).getGroupList();
 
         Map model = new HashMap();
-        model.put("resTypeList", resTypeList);
+        model.put("rootGroupList", rootGroupList);
 
         return model;
     }
 
     private void loadReferenceData(ModelAndView mav) {
-        List<ResourceType> resTypeList = resourceDataService.getAllResourceTypes();
-        mav.addObject("resTypeList", resTypeList);
+        List<Group> rootGroupList = groupManager.getAllGroupsWithDependents(false).getGroupList();
+        mav.addObject("rootGroupList", rootGroupList);
     }
 
     private void restoreMenu(HttpServletRequest request, String userId) {
@@ -87,7 +87,7 @@ public class RoleResourceController extends CancellableFormController {
 			throws Exception {
 		
 
-		RoleResourceCommand roleCommand = new RoleResourceCommand();
+		RoleGroupCommand roleCommand = new RoleGroupCommand();
 
 		HttpSession session =  request.getSession();
 		String userId = (String)session.getAttribute("userId");
@@ -95,9 +95,9 @@ public class RoleResourceController extends CancellableFormController {
 		String roleId = (String)session.getAttribute("roleid");
 		String domainId = (String)session.getAttribute("domainid");
 
-        String type = request.getParameter("resType");
-        if (type != null && !type.isEmpty()) {
-            roleCommand.setResourceTypeId(type);
+        String parentGrp = request.getParameter("parentGrp");
+        if (parentGrp != null && !parentGrp.isEmpty()) {
+            roleCommand.setGroupId(parentGrp);
             prePopulateCurrentResourceSelection(roleCommand,domainId,roleId);
 
         }
@@ -105,10 +105,6 @@ public class RoleResourceController extends CancellableFormController {
         if (mode != null && "1".equals(mode)) {
             request.setAttribute("msg","The role has been successfully modified");
         }
-
-
-
-
 
         restoreMenu(request, userId);
 
@@ -125,44 +121,51 @@ public class RoleResourceController extends CancellableFormController {
 	}
 
 
-    private void prePopulateCurrentResourceSelection(RoleResourceCommand roleCommand,
+    private void prePopulateCurrentResourceSelection(RoleGroupCommand roleCommand,
                                                      String domainId, String roleId) {
 
-        String typeId = roleCommand.getResourceTypeId();
-        if (typeId == null || typeId.isEmpty()) {
-            return;
+        List<Group> groupList = null;
+        String parentGroupId = roleCommand.getGroupId();
 
+
+        List<Group> fullGroupList = new ArrayList<Group>();
+        if (parentGroupId != null && !parentGroupId.isEmpty()) {
+            groupList = groupManager.getChildGroups(parentGroupId,false).getGroupList();
+        }else {
+            groupList= groupManager.getAllGroupsWithDependents(false).getGroupList();
         }
 
-        List<Resource> fullResList = new ArrayList<Resource>();
-        List<Resource> resList =   resourceDataService.getResourcesByType(typeId);
+        Group[] roleGroupAry =  roleDataService.getGroupsInRole(domainId,roleId).getGroupAry();
 
-        List<Resource> roleResourceList =  resourceDataService.getResourcesForRole(domainId, roleId);
+
 
 
         // for each role in the main list, check the userRole list to see if its there
-        if (resList != null) {
-            for (Resource res : resList) {
+        if (groupList != null) {
+            for (Group grp : groupList) {
                 boolean found = false;
-                if (roleResourceList != null) {
-                    for (Resource r : roleResourceList ) {
-                        if (res.getResourceId().equalsIgnoreCase(r.getResourceId())) {
-                            res.setSelected(true);
-                            fullResList.add(res);
+                if (roleGroupAry != null) {
+                    for (Group g : roleGroupAry ) {
+                        if (grp.getGrpId().equalsIgnoreCase(g.getGrpId())) {
+                            grp.setSelected(true);
+                            fullGroupList.add(grp);
                             found = true;
                         }
                     }
                 }
                 if (!found) {
-                    fullResList.add(res);
+                    fullGroupList.add(grp);
                 }
             }
         }
-        if (!fullResList.isEmpty()) {
-            roleCommand.setResourceList(fullResList);
-        } else {
-            roleCommand.setResourceList(null);
+        if (!fullGroupList.isEmpty() ) {
+            roleCommand.setGroupList(fullGroupList);
+        }else {
+            roleCommand.setGroupList(null);
         }
+
+
+
     }
 
 
@@ -180,8 +183,8 @@ public class RoleResourceController extends CancellableFormController {
 			throws Exception {
 
 		log.info("RoleResourceController - onSubmit called.");
-		
-		RoleResourceCommand roleCommand = (RoleResourceCommand)command;
+
+        RoleGroupCommand roleCommand = (RoleGroupCommand)command;
 
         String userId = (String)request.getSession().getAttribute("userId");
 		String domainId = (String)request.getSession().getAttribute("domainid");
@@ -191,14 +194,18 @@ public class RoleResourceController extends CancellableFormController {
         prePopulateCurrentResourceSelection(roleCommand, roleCommand.getDomainId(),
                 roleCommand.getRoleId());
 
-        mav.addObject("roleResCmd", roleCommand);
+        mav.addObject("roleGroupCmd", roleCommand);
         loadReferenceData(mav);
 
         restoreMenu(request, userId);
 
         return mav;
 
+
+
+		
 	}
+	
 
 
 
@@ -235,14 +242,6 @@ public class RoleResourceController extends CancellableFormController {
 	}
 
 
-	public ResourceDataService getResourceDataService() {
-		return resourceDataService;
-	}
-
-
-	public void setResourceDataService(ResourceDataService resourceDataService) {
-		this.resourceDataService = resourceDataService;
-	}
 
 
 	public NavigatorDataWebService getNavigationDataService() {
@@ -267,4 +266,12 @@ public class RoleResourceController extends CancellableFormController {
 	public void setMenuGroup(String menuGroup) {
 		this.menuGroup = menuGroup;
 	}
+
+    public GroupDataWebService getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(GroupDataWebService groupManager) {
+        this.groupManager = groupManager;
+    }
 }

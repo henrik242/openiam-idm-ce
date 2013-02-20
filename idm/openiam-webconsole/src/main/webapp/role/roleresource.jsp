@@ -46,7 +46,7 @@
                             <td>
 
                                 <form:select path="resourceTypeId" multiple="false">
-                                    <form:option value="-" label="-Please Select-"/>
+                                    <form:option value="" label="-Please Select-"/>
                                     <form:options items="${resTypeList}" itemValue="resourceTypeId" itemLabel="description"/>
                                 </form:select>
 
@@ -79,8 +79,9 @@
     				<th></th>
 
     			</tr>
+             <c:if test="${roleResCmd.resourceList != null }" >
              <c:forEach items="${roleResCmd.resourceList}" var="resourceList" varStatus="res">
-		  
+
 				<tr class="plaintext">
 								<td class="tableEntry">
                                     <form:checkbox path="resourceList[${res.index}].selected" />${resourceList.name}
@@ -96,7 +97,9 @@
                                     </c:choose>
                                 </td>
 				</tr>
+
 			</c:forEach>
+             </c:if>
 			</table>
          </fieldset>
 	</td>	
