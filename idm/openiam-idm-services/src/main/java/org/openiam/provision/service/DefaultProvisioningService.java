@@ -2485,7 +2485,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 			PSOIdentifierType idType = new PSOIdentifierType(principalName,
 					null, managedSysId);
 			request.setPsoID(idType);
-
 			LookupResponseType responseType = connectorAdapter.lookupRequest(
 					mSys, request, muleContext);
 

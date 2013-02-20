@@ -24,7 +24,9 @@ import org.openiam.idm.srvc.user.dto.User;
 import static org.hibernate.criterion.Example.create;
 
 /**
- * Interface for the User-Group DAO which manages the relationship between users and groups.
+ * Interface for the User-Group DAO which manages the relationship between users
+ * and groups.
+ * 
  * @see org.openiam.idm.srvc.grp.dto.UserGroup
  * @author Suneet Shah
  */
@@ -34,14 +36,14 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 
 	private SessionFactory sessionFactory;
 
-	
 	public void setSessionFactory(SessionFactory session) {
-		   this.sessionFactory = session;
+		this.sessionFactory = session;
 	}
 
 	protected SessionFactory getSessionFactory() {
 		try {
-			return (SessionFactory) new InitialContext().lookup("SessionFactory");
+			return (SessionFactory) new InitialContext()
+					.lookup("SessionFactory");
 		} catch (Exception e) {
 			log.error("Could not locate SessionFactory in JNDI", e);
 			throw new IllegalStateException(
@@ -49,8 +51,12 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#persist(org.openiam.idm.srvc.grp.dto.UserGroup)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openiam.idm.srvc.grp.service.UserGroupDAO#persist(org.openiam.idm
+	 * .srvc.grp.dto.UserGroup)
 	 */
 	public void add(UserGroupEntity transientInstance) {
 		log.debug("persisting UserGrp instance");
@@ -63,9 +69,12 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 		}
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#delete(org.openiam.idm.srvc.grp.dto.UserGroup)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openiam.idm.srvc.grp.service.UserGroupDAO#delete(org.openiam.idm.
+	 * srvc.grp.dto.UserGroup)
 	 */
 	public void remove(UserGroupEntity persistentInstance) {
 		log.debug("deleting UserGrp instance");
@@ -77,54 +86,52 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 			throw re;
 		}
 	}
-	
+
 	public List<UserGroupEntity> findUserInGroup(String groupId, String userId) {
 		Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserGroupEntity.class)
-                .add(Restrictions.eq("user.userId", userId))
-                .add(Restrictions.eq("group.grpId", groupId));
+		Criteria criteria = session.createCriteria(UserGroupEntity.class)
+				.add(Restrictions.eq("user.userId", userId))
+				.add(Restrictions.eq("group.grpId", groupId));
 
 		return criteria.list();
 	}
-	
+
 	public List<UserEntity> findUserByGroup(String groupId) {
 		Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserGroup.class)
-                .add(Restrictions.eq("grpId",groupId))
-                .addOrder(Order.asc("lastName"))
-                .addOrder(Order.asc("firstName"))
-                .setProjection(Projections.property("user"));
+		Criteria criteria = session.createCriteria(UserGroupEntity.class)
+				.createAlias("user", "usr")
+				.add(Restrictions.eq("group.grpId", groupId))
+				.addOrder(Order.asc("usr.lastName"))
+				.addOrder(Order.asc("usr.firstName")).setProjection(Projections.property("user"));;
 
-		//Query qry = session.createQuery("select usr from org.openiam.idm.srvc.user.dto.User as usr, UserGroup ug " +
-		//				" where ug.grpId = :groupId and ug.userId = usr.userId " +
-		//				" order by usr.lastName, usr.firstName ");
-		
-
-		//qry.setString("groupId", groupId);
-		List<UserEntity> result = (List<UserEntity>)criteria.list();
+		List<UserEntity> result = (List<UserEntity>) criteria.list();
 		if (result == null || result.size() == 0)
 			return null;
-		return result;			
-	}
-	
-	
-	public void removeUserFromGroup(String grpId, String userId) {
-		Session session = sessionFactory.getCurrentSession();
-		Query qry = session.createQuery("delete org.openiam.idm.srvc.grp.domain.UserGroupEntity ug " +
-					" where ug.group.grpId = :grpId and ug.user.userId = :userId ");
-		qry.setString("grpId", grpId);
-		qry.setString("userId", userId);
-		qry.executeUpdate();		
+		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#update(org.openiam.idm.srvc.grp.dto.UserGroup)
+	public void removeUserFromGroup(String grpId, String userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query qry = session
+				.createQuery("delete org.openiam.idm.srvc.grp.domain.UserGroupEntity ug "
+						+ " where ug.group.grpId = :grpId and ug.user.userId = :userId ");
+		qry.setString("grpId", grpId);
+		qry.setString("userId", userId);
+		qry.executeUpdate();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openiam.idm.srvc.grp.service.UserGroupDAO#update(org.openiam.idm.
+	 * srvc.grp.dto.UserGroup)
 	 */
 	public UserGroupEntity update(UserGroupEntity detachedInstance) {
 		log.debug("merging UserGrp instance");
 		try {
-			UserGroupEntity result = (UserGroupEntity) sessionFactory.getCurrentSession()
-					.merge(detachedInstance);
+			UserGroupEntity result = (UserGroupEntity) sessionFactory
+					.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (HibernateException re) {
@@ -133,14 +140,17 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openiam.idm.srvc.grp.service.UserGroupDAO#findById(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openiam.idm.srvc.grp.service.UserGroupDAO#findById(java.lang.String)
 	 */
 	public UserGroupEntity findById(java.lang.String id) {
 		log.debug("getting UserGrp instance with id: " + id);
 		try {
-			UserGroupEntity instance = (UserGroupEntity) sessionFactory.getCurrentSession()
-					.get(UserGroupEntity.class, id);
+			UserGroupEntity instance = (UserGroupEntity) sessionFactory
+					.getCurrentSession().get(UserGroupEntity.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -152,6 +162,5 @@ public class UserGroupDAOImpl implements UserGroupDAO {
 			throw re;
 		}
 	}
-
 
 }

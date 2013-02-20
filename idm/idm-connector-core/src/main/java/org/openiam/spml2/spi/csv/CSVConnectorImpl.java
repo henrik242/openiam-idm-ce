@@ -88,7 +88,7 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 	@WebMethod
 	public ResponseType reconcileResource(
 			@WebParam(name = "config", targetNamespace = "") ReconciliationConfig config) {
-		log.debug("reconcile resource called in LDAPConnector");
+		log.debug("reconcile resource called in CSVConnector");
 
 		Resource res = resourceDataService.getResource(config.getResourceId());
 		String managedSysId = res.getManagedSysId();
@@ -115,7 +115,7 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 			return response;
 		}
 		String keyField = matchObjAry[0].getKeyField();
-		String searchString = keyField + "=*," + matchObjAry[0].getBaseDn();
+		String searchString = keyField + "=*";
 		PSOIdentifierType idType = new PSOIdentifierType(searchString, null,
 				managedSysId);
 		request.setPsoID(idType);
@@ -135,8 +135,6 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 				for (ExtensibleAttribute attr : obj.getAttributes()) {
 					if (attr.getName().equalsIgnoreCase(keyField)) {
 						principal = attr.getValue();
-						searchPrincipal = keyField + "=" + principal + ","
-								+ matchObjAry[0].getBaseDn();
 						break;
 					}
 				}
@@ -144,7 +142,7 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 					log.debug("reconcile principle found");
 
 					Login login = loginManager.getLoginByManagedSys(
-							mSys.getDomainId(), searchPrincipal, managedSysId);
+							mSys.getDomainId(), principal, managedSysId);
 					if (login == null) {
 						log.debug("Situation: IDM Not Found");
 						DeleteRequestType delete = new DeleteRequestType();
