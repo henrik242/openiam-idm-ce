@@ -321,11 +321,6 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISP
 insert into MENU(menu_id, menu_group, menu_name, menu_desc, url, LANGUAGE_CD, DISPLAY_ORDER)
 	values( 'BIRT_REPORT', 'IDM', 'BIRT Reports', 'BIRT Reports', 'birtReportList.cnt', 'en', '5');
 
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('REPORTSCENTER','SELFSERVICE','Reports Center', 'Reports Center', null, 'en', '3',0);
-
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('SUBSCRIBE_REPORT','REPORTSCENTER','Subscribe to Report', 'Subscribe to Report', 'report/subscribeReport.do', 'en', '1',0);
-insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('VIEW_REPORTS','REPORTSCENTER', 'View Reports', 'View Reports', 'report/viewReports.do', 'en', '2',0);
-
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID,SERVICE_ID) values('BIRT_REPORT','SUPER_SEC_ADMIN','IDM');
 
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('BATCH_PROC','SUPER_SEC_ADMIN','IDM');
@@ -428,9 +423,6 @@ INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('PROFILE','HELPDESK'
 INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('CREATEREQ','HELPDESK','USR_SEC_DOMAIN');
 
 
-INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('REPORTSCENTER','END_USER','USR_SEC_DOMAIN');
-INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('SUBSCRIBE_REPORT','END_USER','USR_SEC_DOMAIN');
-INSERT INTO PERMISSIONS(MENU_ID,ROLE_ID, SERVICE_ID) VALUES('VIEW_REPORTS','END_USER','USR_SEC_DOMAIN');
 
 insert into LOGIN(SERVICE_ID, LOGIN, MANAGED_SYS_ID, USER_ID, PASSWORD,RESET_PWD, IS_LOCKED, AUTH_FAIL_COUNT) VALUES('IDM','sysadmin','0','3000','b83a81d1b3f5f209a70ec02c3d7f7fc5',0,0,0);
 insert into LOGIN(SERVICE_ID, LOGIN, MANAGED_SYS_ID, USER_ID, PASSWORD,RESET_PWD, IS_LOCKED, AUTH_FAIL_COUNT) VALUES('USR_SEC_DOMAIN','sysadmin','0','3000','b83a81d1b3f5f209a70ec02c3d7f7fc5',0,0,0);

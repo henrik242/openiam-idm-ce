@@ -163,12 +163,6 @@
        <forward name="success_search"      path="/pub/directory.do?method=view"/>      
  	  <forward name="detail"      	path="/home.jsp?bodyjsp=/pub/roDirectoryUser.jsp"/> 
     </action>
-    <action path="/report/viewReports"  type="org.springframework.web.struts.DelegatingActionProxy" >
-       <forward name="reportlist"     path="/home.jsp?bodyjsp=/report/reportlist.jsp"/>
-    </action>
-    <action path="/report/subscribeReport"  type="org.springframework.web.struts.DelegatingActionProxy" >
-       <forward name="subscribereport"     path="/home.jsp?bodyjsp=/report/subscribereport.jsp"/>
-    </action>
      
 
      	    
