@@ -9,7 +9,7 @@
 	<artifactId>openiam-distribution-jboss71</artifactId>
 	<packaging>pom</packaging>
 	
-	<name>OpenIAM Tomcat Distribution</name>
+	<name>OpenIAM JBOSS 7 Distribution</name>
 	
 	<modules>
 		<module>../../</module>

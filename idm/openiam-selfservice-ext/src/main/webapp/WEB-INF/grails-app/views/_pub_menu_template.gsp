@@ -16,6 +16,18 @@
         Self - Service Center
     </div>
 
+    <% if (SELFSERVICE_CONTEXT == null || SELFSERVICE_CONTEXT.isEmpty()) {%>
+
+    <ul class="menu">
+
+        <li><a <g:if test="${selectedMenuItem == 'DIRECTORY'}">class='active'</g:if> href="<%= SELFSERVICE_BASE_URL %>/pub/directory.do?method=view">Directory Lookup</a></li>
+        <li><a <g:if test="${selectedMenuItem == 'UNLOCK_ACCOUNT_URL'}">class='active'</g:if> href="<%= SELFSERVICE_BASE_URL %><%=UNLOCK_ACCOUNT_URL%>">Forgot Password</a></li>
+        <li><a <g:if test="${selectedMenuItem == 'REGISTRATION'}">class='active'</g:if> href="<%= SELFSERVICE_EXT_BASE_URL %>/<%= SELFSERVICE_EXT_CONTEXT %>/pub/registration/edit.jsp">Self Registration</a></li>
+
+    </ul>
+
+    <% }else { %>
+
     <ul class="menu">
 
         <li><a <g:if test="${selectedMenuItem == 'DIRECTORY'}">class='active'</g:if> href="<%= SELFSERVICE_BASE_URL %>/<%= SELFSERVICE_CONTEXT %>/pub/directory.do?method=view">Directory Lookup</a></li>
@@ -23,6 +35,9 @@
         <li><a <g:if test="${selectedMenuItem == 'REGISTRATION'}">class='active'</g:if> href="<%= SELFSERVICE_EXT_BASE_URL %>/<%= SELFSERVICE_EXT_CONTEXT %>/pub/registration/edit.jsp">Self Registration</a></li>
 
     </ul>
+
+    <% } %>
+
 </div>
 
 

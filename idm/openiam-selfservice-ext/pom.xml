@@ -14,8 +14,6 @@
     <name>selfservice-ext</name>
     <description>OpenIAM SelfService Ext application.</description>
     <url>http://www.openiam.org</url>
-
-
     <properties>
         <org.springframework.version>3.1.2.RELEASE</org.springframework.version>
         <org.slf4j.version>1.6.1</org.slf4j.version>
@@ -206,6 +204,7 @@
     </repositories>
 
     <build>
+            <finalName>selfservice-ext</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

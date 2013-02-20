@@ -18,31 +18,37 @@ package org.openiam.webadmin.role;
  */
 
 
+import org.openiam.idm.srvc.res.dto.Resource;
+
 import java.io.Serializable;
 import java.util.List;
 
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.menu.dto.Menu;
-import org.openiam.idm.srvc.meta.dto.MetadataType;
-import org.openiam.idm.srvc.res.dto.Resource;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
-
 /**
- * Command object for the Role-Group Mapping screen 
+ * Command object for the RoleDetailController 
  * @author suneet
  *
  */
-public class GroupRoleCommand implements Serializable {
+public class RoleMenuCommand implements Serializable {
 
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -762132470124353337L;
-	private List<Group> groupList ;
+	private static final long serialVersionUID = -7380232102573091869L;
+	
+	private List<Resource> resourceList ;
 	private String roleId;
 	private String domainId;
+    private String resourceTypeId;
+
+	public List<Resource> getResourceList() {
+		return resourceList;
+	}
+
+	public void setResourceList(List<Resource> resourceList) {
+		this.resourceList = resourceList;
+	}
 
 	public String getRoleId() {
 		return roleId;
@@ -60,16 +66,12 @@ public class GroupRoleCommand implements Serializable {
 		this.domainId = domainId;
 	}
 
-	public List<Group> getGroupList() {
-		return groupList;
-	}
 
-	public void setGroupList(List<Group> groupList) {
-		this.groupList = groupList;
-	}
-	
+    public String getResourceTypeId() {
+        return resourceTypeId;
+    }
 
-    
-	
-
+    public void setResourceTypeId(String resourceTypeId) {
+        this.resourceTypeId = resourceTypeId;
+    }
 }

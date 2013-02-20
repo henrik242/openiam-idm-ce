@@ -1,27 +1,26 @@
 package org.openiam.idm.srvc.grp.service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.dozer.converter.GroupAttributeDozerConverter;
 import org.openiam.dozer.converter.GroupDozerConverter;
 import org.openiam.dozer.converter.UserDozerConverter;
+import org.openiam.exception.data.DataException;
 import org.openiam.idm.srvc.grp.domain.GroupAttributeEntity;
 import org.openiam.idm.srvc.grp.domain.GroupEntity;
 import org.openiam.idm.srvc.grp.domain.UserGroupEntity;
-import org.openiam.idm.srvc.grp.dto.*;
-
+import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.grp.dto.GroupAttribute;
+import org.openiam.idm.srvc.grp.dto.GroupSearch;
 import org.openiam.idm.srvc.user.domain.UserEntity;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDAO;
-
-import org.openiam.exception.data.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <code>GroupDataServiceImpl</code> provides a service to manage groups as
@@ -71,7 +70,8 @@ public class GroupDataServiceImpl implements GroupDataService {
                 groupEntityList = getRecursiveChildGroup(null, groupEntityList);
             }
         }
-        return null;
+
+        return groupDozerConverter.convertToDTOList(groupEntityList, false);
 
     }
 
