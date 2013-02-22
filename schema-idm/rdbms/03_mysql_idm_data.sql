@@ -121,6 +121,13 @@ insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('SCRIPT_Connector','Scrip
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('GOOGLE_Connector','GOOGLE APPS Connector');
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('LINUX_Connector','Linux Connector');
 
+
+insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('WEB-APP','WEB Apps', 0);
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('WEB-APP1','WEB-APP','PROXY_URL');
+
+INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('WEB-APP', 'Web Application', 'WEB-APP', 0);
+
+
 UPDATE METADATA_TYPE
 SET ACTIVE = 1, SYNC_MANAGED_SYS = 1;
 
@@ -305,6 +312,8 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, disp
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('IDQUEST','SELFCENTER', 'Challenge Response', 'Challenge Response', '{SELFSERVICE}identityQuestion.selfserve', 'en', '4',0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('PROFILE','SELFCENTER', 'Edit Your Profile', 'Edit Your Profile', '{SELFSERVICE_EXT}priv/profile/edit.jsp', 'en', '6',0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MY-ID-LIST','SELFCENTER', 'My Identities', 'My Identities', '{SELFSERVICE}myIdentityList.selfserve', 'en', '7',0);
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MY-APPS','SELFCENTER', 'Launch Apps', 'Launch Apps', '{SELFSERVICE}launchApp.selfserve', 'en', '8',0);
+
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER, PUBLIC_URL) values('SELF_QUERYUSER','ACCESSCENTER','Manage User','Manage User','{SELFSERVICE}idman/userSearch.do?action=view', 'en',1,0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERSUMMARY','SELF_QUERYUSER','User Details','User Details','{SELFSERVICE}editUser.selfserve', 'en',1);

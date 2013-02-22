@@ -5,10 +5,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.ws.AsynchIdmAuditLogWebService;
+import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
+import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceRole;
 import org.openiam.idm.srvc.res.dto.ResourceRoleId;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -29,6 +32,8 @@ public class UpdateRoleMembershipController extends AbstractController {
 	protected String successView;
     protected ResourceDataService resourceDataService;
     protected AsynchIdmAuditLogWebService auditService;
+    protected GroupDataWebService groupManager;
+    protected RoleDataWebService roleDataService;
 
 
 
@@ -116,7 +121,45 @@ public class UpdateRoleMembershipController extends AbstractController {
 
     private ModelAndView updateGroup(HttpServletRequest request, String action, String objectId, String domain, String role) {
 
-        return null;
+        StringBuilder returnUrl = new StringBuilder( "/roleGroupMap.cnt?menuid=ROLE_GRPMAP&menugrp=SECURITY_ROLE&mode=1&parentGrp=");
+
+
+        String userId = (String)request.getSession().getAttribute("userId");
+        String domainId = (String)request.getSession().getAttribute("domainid");
+        String login = (String)request.getSession().getAttribute("login");
+
+        String parentGroup = request.getParameter("parentGrp");
+
+        Group g = groupManager.getGroup(objectId).getGroup();
+
+        returnUrl.append(parentGroup);
+
+        if ("ADD".equalsIgnoreCase(action)) {
+
+
+            roleDataService.addGroupToRole(domain,role,g.getGrpId());
+
+
+            logEvent("MODIFY", domainId, login,
+                    "WEBCONSOLE", userId, "0", "ROLE", role,
+                    "SUCCESS", "ADD GROUP",
+                    g.getGrpId(), null,
+                    "ADD GROUP TO " + role + "-" + domain, request.getRemoteHost());
+        }else {
+
+            roleDataService.removeGroupFromRole(domain,role, g.getGrpId());
+
+            logEvent("MODIFY", domainId, login,
+                    "WEBCONSOLE", userId, "0", "ROLE", role,
+                    "SUCCESS", "REMOVE GROUP",
+                    g.getGrpId(), null,
+                    "REMOVE GROUP FROM " + role + "-" + domain, request.getRemoteHost());
+        }
+
+
+
+        return new ModelAndView(new RedirectView(returnUrl.toString(), true));
+
     }
 
     private ModelAndView updateMenu(HttpServletRequest request, String action, String objectId, String domain, String role) {
@@ -199,5 +242,21 @@ public class UpdateRoleMembershipController extends AbstractController {
 
     public void setAuditService(AsynchIdmAuditLogWebService auditService) {
         this.auditService = auditService;
+    }
+
+    public GroupDataWebService getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(GroupDataWebService groupManager) {
+        this.groupManager = groupManager;
+    }
+
+    public RoleDataWebService getRoleDataService() {
+        return roleDataService;
+    }
+
+    public void setRoleDataService(RoleDataWebService roleDataService) {
+        this.roleDataService = roleDataService;
     }
 }
