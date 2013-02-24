@@ -12,7 +12,7 @@
 					<table width="100%">
 						<tr>
 							<td class="pageTitle" width="70%">
-								<h2 class="contentheading">Resource to Role Management</h2>
+								<h2 class="contentheading">Associate Resources with Role: ${roleid}</h2>
 						</td>
 						</tr>
 					</table>

@@ -768,6 +768,7 @@
 		<property name="connectorService" ref="connectorServiceClient" />
 		<property name="managedSysService" ref="managedSysServiceClient" />
 		<property name="pathToCSV" value="${csv.path}" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
 	</bean>
 
 

@@ -1,21 +1,5 @@
 package org.openiam.webadmin.res;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.batch.dto.BatchTask;
@@ -30,14 +14,25 @@ import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
 import org.openiam.idm.srvc.recon.dto.ReconciliationSituation;
 import org.openiam.idm.srvc.recon.ws.AsynchReconciliationService;
 import org.openiam.idm.srvc.recon.ws.ReconciliationWebService;
-import org.openiam.provision.dto.ProvisionUser;
-import org.openiam.spml2.interf.ConnectorService;
+import org.openiam.idm.srvc.res.dto.Resource;
+import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Controller for the new hire form.
@@ -52,6 +47,7 @@ public class ReconConfigurationController extends CancellableFormController {
 	protected BatchDataService batchDataService;
 	protected AsynchReconciliationService asynchReconService;
 	private ConnectorDataService connectorService;
+    private ResourceDataService resourceDataService;
 
 	public void setManagedSysService(ManagedSystemDataService managedSysService) {
 		this.managedSysService = managedSysService;
@@ -161,7 +157,9 @@ public class ReconConfigurationController extends CancellableFormController {
 
 		List<Menu> level3MenuList = navigationDataService.menuGroupByUser(
 				menuGrp, userId, "en").getMenuList();
-		request.setAttribute("menuL3", level3MenuList);
+
+        Resource res = resourceDataService.getResource(resId);
+        request.setAttribute("menuL3", ResourceMenuHelper.resourceTypeMenu( res.getResourceType().getResourceTypeId(), level3MenuList ));
 
 		return cmd;
 	}
@@ -354,4 +352,12 @@ public class ReconConfigurationController extends CancellableFormController {
 			AsynchReconciliationService asynchReconService) {
 		this.asynchReconService = asynchReconService;
 	}
+
+    public ResourceDataService getResourceDataService() {
+        return resourceDataService;
+    }
+
+    public void setResourceDataService(ResourceDataService resourceDataService) {
+        this.resourceDataService = resourceDataService;
+    }
 }
