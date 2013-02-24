@@ -23,26 +23,23 @@
 	pageContext.setAttribute("roleList", roleList);
 	
 %>
-
-<br>
-
 <html:form action = "/pub/directory.do?method=search" styleClass="user-info">
-            <div class="block">
-                <div class="wrap">
-                    <fieldset>
-                    <div class="col-1">
-						<div class="row alt">
+    <fieldset>
+        <div class="block">
+            <div class="wrap alt">
+                <div class="col-1">
+                     <div class="row alt">
                             <label for="t-1">Last Name</label>
                             <input id="t-1" name="lastName" type="text" size="30" maxlength="30" />
                       </div>
                       <p class="info">'%' for wildcard searches</p>
-                     	<div class="row alt">
+                     	<div class="row">
                             <label for="t-2">Department</label>
                             <html:select styleId="t-2" property="dept" >
 	        					<html:options collection="orgList" property="value" labelProperty="label"/>
 	     					</html:select>
-                      </div>                      
-								</div>
+                        </div>
+				</div>
                 
                 <div class="col-1">
  											<div class="row alt">
@@ -62,10 +59,9 @@
                 <div class="button">
                     <input type="reset" name="Reset" value="Reset">
                 </div>
-
-                    </fieldset>
-                </div>
             </div>
+        </div>
+    </fieldset>
     </html:form>
 
 <jsp:include page="searchresult.jsp" flush="true" />
