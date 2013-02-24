@@ -12,7 +12,7 @@
             <table width="100%">
                 <tr>
                     <td class="pageTitle" width="70%">
-                        <h2 class="contentheading">Group to Role Management</h2>
+                        <h2 class="contentheading">Menu To Role Management</h2>
                     </td>
                 </tr>
             </table>
@@ -29,7 +29,7 @@
     <tr>
         <td>
 
-            <form:form commandName="roleGroupCmd">
+            <form:form commandName="roleMenuCmd">
                 <form:hidden path="roleId" />
                 <form:hidden path="domainId" />
 
@@ -37,7 +37,7 @@
                     <tr>
                         <td align="center" height="100%">
                             <fieldset class="userform" >
-                                <legend>SELECT BASE GROUP</legend>
+                                <legend>SELECT BASE MENU</legend>
 
                                 <table class="fieldsetTable"  width="600pt" >
 
@@ -45,16 +45,12 @@
                                         <td class="plaintext">Select Group:</td>
                                         <td>
 
-                                            <form:select path="groupId" multiple="false">
+                                            <form:select path="menuId" multiple="false">
                                                 <form:option value="" label="-Please Select-"/>
-                                                <form:options items="${rootGroupList}" itemValue="grpId" itemLabel="grpName"/>
+                                                <form:options items="${rootMenuList}" itemValue="id.menuId" itemLabel="menuName"/>
                                             </form:select>
 
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td class="error"><form:errors path="groupId" /></td>
                                     </tr>
                                 </table>
                             </fieldset>
@@ -65,46 +61,41 @@
                 </table>
             </form:form>
 
-
             <table width="600pt">
                 <tr>
                     <td align="center" height="100%">
                         <fieldset class="userform" >
-                            <legend>ASSOCIATE GROUPS TO A ROLE</legend>
+                            <legend>ASSOCIATE MENUS TO A ROLE</legend>
 
 
                             <table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">
                                 <tr class="header">
-                                    <th colspan="2">GROUP Name</th>
+                                    <th colspan="2">MENU Name</th>
                                     <th></th>
 
                                 </tr>
-                                <c:if test="${groupList != null}" >
-                                    <c:forEach items="${groupList}" var="grp">
+                                <c:if test="${menuList != null}" >
+                                    <c:forEach items="${menuList}" var="m">
 
                                         <tr class="plaintext">
                                             <td class="tableEntry">
                                                 <c:choose>
-                                                    <c:when test="${grp.selected}">
+                                                    <c:when test="${m.selected}">
                                                         <img src="images/checkbox.png">
                                                     </c:when>
                                                     <c:otherwise>
-
                                                     </c:otherwise>
                                                 </c:choose>
 
-
-
                                             </td>
-                                            <td class="tableEntry"> ${grp.grpName}
-                                            </td>
+                                            <td class="tableEntry"> ${m.menuName}</td>
                                             <td class="tableEntry">
                                                 <c:choose>
-                                                    <c:when test="${!grp.selected}">
-                                                        <a href="updateRoleMembership.cnt?objtype=GROUP&action=ADD&role=${roleid}&domain=${domainid}&objid=${grp.grpId}&parentGrp=${parentGrp}">ADD to Role</a>
+                                                    <c:when test="${!m.selected}">
+                                                        <a href="updateRoleMembership.cnt?objtype=MENU&action=ADD&role=${roleid}&domain=${domainid}&objid=${m.id.menuId}&parentMenu=${parentMenu}">ADD to Role</a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <a href="updateRoleMembership.cnt?objtype=GROUP&action=DEL&role=${roleid}&domain=${domainid}&objid=${grp.grpId}&parentGrp=${parentGrp}">REMOVE from Role</a>
+                                                        <a href="updateRoleMembership.cnt?objtype=MENU&action=DEL&role=${roleid}&domain=${domainid}&objid=${m.id.menuId}&parentMenu=${parentMenu}">REMOVE from Role</a>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -118,6 +109,7 @@
                     </td>
                 </tr>
             </table>
+
 
         </td>
     </tr>

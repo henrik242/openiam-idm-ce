@@ -18,39 +18,21 @@ package org.openiam.webadmin.role;
  */
 
 
-import org.openiam.idm.srvc.res.dto.Resource;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * Command object for the RoleDetailController 
+ * Command object for the RoleMenuController
  * @author suneet
  *
  */
 public class RoleMenuCommand implements Serializable {
 
+    private String roleId;
+    private String domainId;
+    private String menuId;
 
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7380232102573091869L;
-	
-	private List<Resource> resourceList ;
-	private String roleId;
-	private String domainId;
-    private String resourceTypeId;
 
-	public List<Resource> getResourceList() {
-		return resourceList;
-	}
-
-	public void setResourceList(List<Resource> resourceList) {
-		this.resourceList = resourceList;
-	}
-
-	public String getRoleId() {
+ 	public String getRoleId() {
 		return roleId;
 	}
 
@@ -66,12 +48,11 @@ public class RoleMenuCommand implements Serializable {
 		this.domainId = domainId;
 	}
 
-
-    public String getResourceTypeId() {
-        return resourceTypeId;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setResourceTypeId(String resourceTypeId) {
-        this.resourceTypeId = resourceTypeId;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 }

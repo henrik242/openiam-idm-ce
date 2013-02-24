@@ -12,7 +12,7 @@
 					<table width="100%">
 						<tr>
 							<td class="pageTitle" width="70%">
-								<h2 class="contentheading">Role Management</h2>
+								<h2 class="contentheading">Resource to Role Management</h2>
 						</td>
 						</tr>
 					</table>
@@ -63,7 +63,7 @@
             <td align="right"> <input type="submit" name="formBtn" value="Search"> <input type="submit" name="_cancel" value="Cancel" />  </td>
         </tr>
     </table>
-
+</form:form>
 
 
     <table width="600pt">
@@ -75,37 +75,45 @@
    
      	<table class="resourceTable" cellspacing="2" cellpadding="2" width="600pt">
     			<tr class="header">
-    				<th>Resource Name</th>
+    				<th colspan="2">Resource Name</th>
     				<th></th>
 
     			</tr>
-             <c:if test="${roleResCmd.resourceList != null }" >
-             <c:forEach items="${roleResCmd.resourceList}" var="resourceList" varStatus="res">
+
+            <c:if test="${resourceList != null}" >
+                <c:forEach items="${resourceList}" var="res">
 
 				<tr class="plaintext">
 								<td class="tableEntry">
-                                    <form:checkbox path="resourceList[${res.index}].selected" />${resourceList.name}
-								</td>
-								<td class="tableEntry">
                                     <c:choose>
-                                        <c:when test="${!resourceList.selected}">
-                                            <a href="updateRoleMembership.cnt?objtype=RES&action=ADD&role=${roleResCmd.roleId}&domain=${roleResCmd.domainId}&objid=${resourceList.resourceId}">ADD to Role</a>
+                                        <c:when test="${res.selected}">
+                                            <img src="images/checkbox.png">
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="updateRoleMembership.cnt?objtype=RES&action=DEL&role=${roleResCmd.roleId}&domain=${roleResCmd.domainId}&objid=${resourceList.resourceId}">REMOVE from Role</a>
+                                        </c:otherwise>
+                                    </c:choose>
+								</td>
+                                <td class="tableEntry">${res.name}</td>
+								<td class="tableEntry">
+                                    <c:choose>
+                                        <c:when test="${!res.selected}">
+                                            <a href="updateRoleMembership.cnt?objtype=RES&action=ADD&role=${roleid}&domain=${domainid}&objid=${res.resourceId}&resType=${resType}">ADD to Role</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="updateRoleMembership.cnt?objtype=RES&action=DEL&role=${roleid}&domain=${domainid}&objid=${res.resourceId}&resType=${resType}">REMOVE from Role</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
 				</tr>
 
 			</c:forEach>
-             </c:if>
-			</table>
+           </c:if>
+	    </table>
          </fieldset>
 	</td>	
 	</tr>    
 </table>
-</form:form>
+
         </td>
        </tr>
      </table>

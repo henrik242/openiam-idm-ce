@@ -19,18 +19,20 @@
 
 package org.openiam.idm.srvc.menu.ws;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.menu.dto.Menu;
+import org.openiam.idm.srvc.menu.dto.Permission;
 import org.openiam.idm.srvc.menu.service.NavigatorDataService;
+import org.openiam.idm.srvc.role.ws.RoleListResponse;
+import org.openiam.idm.srvc.role.dto.Role;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import java.util.List;
+
 /**
  * @author suneet
  *
@@ -163,4 +165,145 @@ public class NavigatorDataWebServiceImpl implements NavigatorDataWebService {
 		this.navigatorDataService = navigatorDataService;
 	}
 
+
+    @Override
+    public PermissionResponse addPermission(@WebParam(name = "menuId", targetNamespace = "") String menuId, @WebParam(name = "roleId", targetNamespace = "") String roleId, @WebParam(name = "serviceId", targetNamespace = "") String serviceId) {
+        PermissionResponse resp = new PermissionResponse(ResponseStatus.SUCCESS);
+
+        Permission p = navigatorDataService.addPermission(menuId,roleId,serviceId);
+        if (p == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+
+        }else {
+            resp.setPermission(p);
+        }
+        return resp;
+    }
+
+    @Override
+    public PermissionResponse updatePermission(@WebParam(name = "permission", targetNamespace = "") Permission permission) {
+        PermissionResponse resp = new PermissionResponse(ResponseStatus.SUCCESS);
+
+        Permission p = navigatorDataService.updatePermission(permission);
+        if (p == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+
+        }else {
+            resp.setPermission(p);
+        }
+        return resp;
+
+    }
+
+    @Override
+    public PermissionResponse getPermission(@WebParam(name = "menuId", targetNamespace = "") String menuId, @WebParam(name = "roleId", targetNamespace = "") String roleId, @WebParam(name = "serviceId", targetNamespace = "") String serviceId) {
+        PermissionResponse resp = new PermissionResponse(ResponseStatus.SUCCESS);
+
+        Permission p = navigatorDataService.getPermission(menuId, roleId, serviceId);
+        if (p == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+
+        }else {
+            resp.setPermission(p);
+        }
+        return resp;
+    }
+
+    @Override
+    public PermissionListResponse getAllPermissions() {
+        PermissionListResponse resp = new PermissionListResponse(ResponseStatus.SUCCESS);
+
+        List<Permission> p = navigatorDataService.getAllPermissions();
+        if (p == null) {
+            resp.setStatus(ResponseStatus.FAILURE);
+
+        }else {
+            resp.setPermissionList(p);
+        }
+        return resp;
+    }
+
+    @Override
+    public void removePermission(@WebParam(name = "menuId", targetNamespace = "") String menuId, @WebParam(name = "roleId", targetNamespace = "") String roleId, @WebParam(name = "serviceId", targetNamespace = "") String serviceId) {
+       navigatorDataService.removePermission(menuId, roleId, serviceId);
+    }
+
+    @Override
+    public int removeAllPermissions() {
+        return navigatorDataService.removeAllPermissions();
+    }
+
+    @Override
+    public RoleListResponse getRolesByMenu(@WebParam(name = "menuId", targetNamespace = "") String menuId) {
+        RoleListResponse resp = new RoleListResponse(ResponseStatus.SUCCESS);
+
+        List<Role> roleList = navigatorDataService.getRolesByMenu(menuId);
+
+        if (roleList != null) {
+            resp.setRoleList(roleList);
+        }else {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }
+        return resp;
+
+    }
+
+    @Override
+    public MenuListResponse getMenusByRole(@WebParam(name = "roleId", targetNamespace = "") String roleId, @WebParam(name = "serviceId", targetNamespace = "") String serviceId) {
+
+        MenuListResponse resp = new MenuListResponse(ResponseStatus.SUCCESS);
+
+        List<Menu> menuList = navigatorDataService.getMenusByRole(roleId,serviceId);
+
+        if (menuList != null) {
+            resp.setMenuList(menuList);
+        }else {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }
+        return resp;
+    }
+
+    @Override
+    public MenuListResponse getMenusByUser(@WebParam(name = "menuGroup", targetNamespace = "") String menuGroup, @WebParam(name = "roleId", targetNamespace = "") String roleId, @WebParam(name = "userId", targetNamespace = "") String userId) {
+        MenuListResponse resp = new MenuListResponse(ResponseStatus.SUCCESS);
+
+        List<Menu> menuList = navigatorDataService.getMenusByUser(menuGroup,roleId,userId);
+
+        if (menuList != null) {
+            resp.setMenuList(menuList);
+        }else {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }
+        return resp;
+    }
+
+    @Override
+    public MenuListResponse getMenuFamily(@WebParam(name = "menuId", targetNamespace = "") String menuId, @WebParam(name = "languageCd", targetNamespace = "") String languageCd) {
+
+        MenuListResponse resp = new MenuListResponse(ResponseStatus.SUCCESS);
+
+        List<Menu> menuList = navigatorDataService.getMenuFamily(menuId,languageCd);
+
+        if (menuList != null) {
+            resp.setMenuList(menuList);
+        }else {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }
+        return resp;
+
+    }
+
+    @Override
+    public MenuListResponse getMenuTree(@WebParam(name = "menuId", targetNamespace = "") String menuId, @WebParam(name = "languageCd", targetNamespace = "") String languageCd) {
+        MenuListResponse resp = new MenuListResponse(ResponseStatus.SUCCESS);
+
+        List<Menu> menuList = navigatorDataService.getMenuTree(menuId,languageCd);
+
+        if (menuList != null) {
+            resp.setMenuList(menuList);
+        }else {
+            resp.setStatus(ResponseStatus.FAILURE);
+        }
+        return resp;
+    }
 }

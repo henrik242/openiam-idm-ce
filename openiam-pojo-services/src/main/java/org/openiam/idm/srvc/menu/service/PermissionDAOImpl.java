@@ -116,8 +116,7 @@ public class PermissionDAOImpl implements PermissionDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Query qry = session.createQuery("from org.openiam.idm.srvc.menu.dto.Permission " +
 				"order by id.menuId asc");
-		qry.setCacheable(true);
-		qry.setCacheRegion("query.permission.findAllPermissions");
+
 		List<Permission> result = (List<Permission>)qry.list();
 		
 		return result;
@@ -144,8 +143,6 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 		qry.addEntity(Role.class);
 		qry.setString("menuId", menuId);
-		qry.setCacheable(true);
-		qry.setCacheRegion("query.permission.findRolesByMenu");
 		List<Role> result = (List<Role>)qry.list();
 		
 		for (Role instance:result) {
@@ -170,8 +167,6 @@ public class PermissionDAOImpl implements PermissionDAO {
 		qry.addEntity(Menu.class);
 		qry.setString("roleId", roleId);
 		qry.setString("serviceId", serviceId);
-		qry.setCacheable(true);
-		qry.setCacheRegion("query.permission.findMenusByRole");
 		List<Menu> result = (List<Menu>)qry.list();
 		
 		for (Menu instance:result) {
@@ -202,8 +197,6 @@ public class PermissionDAOImpl implements PermissionDAO {
 		qry.setString("menuGroup", menuGroup);
 		qry.setString("userId", userId);
 		qry.setString("roleId", roleId);
-		qry.setCacheable(true);
-		qry.setCacheRegion("query.permission.findMenusByUser");
 		List<Menu> result = (List<Menu>)qry.list();
 		
 		for (Menu instance:result) {

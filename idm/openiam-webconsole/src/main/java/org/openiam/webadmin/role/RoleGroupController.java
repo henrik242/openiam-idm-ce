@@ -117,60 +117,30 @@ public class RoleGroupController extends CancellableFormController {
 	}
 
 
-    private List<Group> getCurrentSelection(String parentGroupId,  String domainId, String roleId) {
+    @Override
+    protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors, Map controlModel) throws Exception {
 
-        List<Group> groupList = null;
+        String parentGroup = request.getParameter("parentGrp");
+        String roleId = (String)request.getSession().getAttribute("roleid");
+        String domainId = (String)request.getSession().getAttribute("domainid");
 
+        List<Group> groupList =  prePopulateCurrentResourceSelection(parentGroup,domainId, roleId);
 
-        List<Group> fullGroupList = new ArrayList<Group>();
-        if (parentGroupId != null && !parentGroupId.isEmpty()) {
-            groupList = groupManager.getChildGroups(parentGroupId,false).getGroupList();
-        }else {
-            groupList= groupManager.getAllGroupsWithDependents(false).getGroupList();
+        if (groupList != null ) {
+            controlModel = new HashMap();
+            controlModel.put("groupList", groupList);
+            controlModel.put("parentGrp", parentGroup);
+
         }
-
-        Group[] roleGroupAry =  roleDataService.getGroupsInRole(domainId,roleId).getGroupAry();
-
-
-
-
-        // for each role in the main list, check the userRole list to see if its there
-        if (groupList != null) {
-            for (Group grp : groupList) {
-                boolean found = false;
-                if (roleGroupAry != null) {
-                    for (Group g : roleGroupAry ) {
-                        if (grp.getGrpId().equalsIgnoreCase(g.getGrpId())) {
-                            grp.setSelected(true);
-                            fullGroupList.add(grp);
-                            found = true;
-                        }
-                    }
-                }
-                if (!found) {
-                    fullGroupList.add(grp);
-                }
-            }
-        }
-        if (!fullGroupList.isEmpty() ) {
-            //roleCommand.setGroupList(fullGroupList);
-            return fullGroupList;
-        }
-
-        return null;
-
-
-
+        return super.showForm(request, response, errors, controlModel);
     }
 
 
 
-
-    private List<Group> prePopulateCurrentResourceSelection(RoleGroupCommand roleCommand,
+    private List<Group> prePopulateCurrentResourceSelection(String parentGroupId,
                                                      String domainId, String roleId) {
 
         List<Group> groupList = null;
-        String parentGroupId = roleCommand.getGroupId();
 
 
         List<Group> fullGroupList = new ArrayList<Group>();
@@ -237,7 +207,7 @@ public class RoleGroupController extends CancellableFormController {
 		String login = (String)request.getSession().getAttribute("login");
 
         ModelAndView mav =  new ModelAndView(getSuccessView());
-        List<Group> groupList =  prePopulateCurrentResourceSelection(roleCommand, roleCommand.getDomainId(),
+        List<Group> groupList =  prePopulateCurrentResourceSelection(roleCommand.getGroupId(), roleCommand.getDomainId(),
                 roleCommand.getRoleId());
 
         mav.addObject("roleGroupCmd", roleCommand);

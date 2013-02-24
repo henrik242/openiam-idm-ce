@@ -2,8 +2,14 @@ package org.openiam.idm.srvc.menu.ws;
 
 import org.openiam.base.ws.Response;
 import org.openiam.idm.srvc.menu.dto.Menu;
+import org.openiam.idm.srvc.menu.dto.Permission;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.role.ws.RoleListResponse;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
+import java.util.List;
 
 /**
  * Interface of the <code>NavigatorDataService</code>.
@@ -58,7 +64,12 @@ public interface NavigatorDataWebService {
      * @param languageCd  -The language in which the menu information is to be retrieved.  Defaults to 'en' if null
      * @return java.util.List
      */
-    MenuListResponse menuGroup(String menuGroupId, String langCd);
+    @WebMethod
+    MenuListResponse menuGroup(
+            @WebParam(name = "menuGroupId", targetNamespace = "")
+            String menuGroupId,
+            @WebParam(name = "langCd", targetNamespace = "")
+            String langCd);
 
 
     /**
@@ -69,7 +80,14 @@ public interface NavigatorDataWebService {
      * @param languageCd  - The language for which the menus are to be selected. Defaults to "en" if null
      * @returns array A list containing valid menu options.
      */
-    MenuListResponse menuGroupByUser(String menuGroupId, java.lang.String userId, String languageCd);
+    @WebMethod
+    MenuListResponse menuGroupByUser(
+            @WebParam(name = "menuGroupId", targetNamespace = "")
+            String menuGroupId,
+            @WebParam(name = "userId", targetNamespace = "")
+            java.lang.String userId,
+            @WebParam(name = "languageCd", targetNamespace = "")
+            String languageCd);
 
 
     /**
@@ -81,7 +99,14 @@ public interface NavigatorDataWebService {
      * @param languageCd
      * @return
      */
-    MenuListResponse menuGroupSelectedByUser(String menuGroupId, java.lang.String userId, String languageCd);
+    @WebMethod
+    MenuListResponse menuGroupSelectedByUser(
+            @WebParam(name = "menuGroupId", targetNamespace = "")
+            String menuGroupId,
+            @WebParam(name = "userId", targetNamespace = "")
+            java.lang.String userId,
+            @WebParam(name = "languageCd", targetNamespace = "")
+            String languageCd);
 
 
     /**
@@ -93,7 +118,12 @@ public interface NavigatorDataWebService {
      * @param languageCd
      * @return String
      */
-    Response getAllMenuOptionIDs(String parentMenuGroupId, String languageCd);
+    @WebMethod
+    Response getAllMenuOptionIDs(
+            @WebParam(name = "parentMenuGroupId", targetNamespace = "")
+            String parentMenuGroupId,
+            @WebParam(name = "languageCd", targetNamespace = "")
+            String languageCd);
 
 
     /**
@@ -101,7 +131,10 @@ public interface NavigatorDataWebService {
      *
      * @param data
      */
-    public MenuResponse addMenu(Menu data);
+    @WebMethod
+    public MenuResponse addMenu(
+            @WebParam(name = "data", targetNamespace = "")
+            Menu data);
 
     /**
      * Gets a Menu object for the menuId and languageCd passed in
@@ -110,14 +143,21 @@ public interface NavigatorDataWebService {
      * @param languageCd
      * @return Menu
      */
-    MenuResponse getMenu(String menuId, String languageCd);
+    @WebMethod
+    MenuResponse getMenu(@WebParam(name = "menuId", targetNamespace = "")
+                         String menuId,
+                         @WebParam(name = "languageCd", targetNamespace = "")
+                         String languageCd);
 
     /**
      * Update an existing menu option
      *
      * @param data
      */
-    public Response updateMenu(Menu data);
+    @WebMethod
+    public Response updateMenu(
+            @WebParam(name = "data", targetNamespace = "")
+            Menu data);
 
     /**
      * Removes a menu option.  The deleteChildren parameter is set to true, then the service will delete all
@@ -126,7 +166,160 @@ public interface NavigatorDataWebService {
      * @param menuId
      * @param deleteChildren
      */
-    public Response removeMenu(String menuId, boolean deleteChildren);
+    @WebMethod
+    public Response removeMenu(
+            @WebParam(name = "menuid", targetNamespace = "")
+            String menuId,
+            @WebParam(name = "deleteChildren", targetNamespace = "")
+            boolean deleteChildren);
+
+
+
+    /**
+     * Adds the permission.
+     *
+     * @param menuId    the menu id
+     * @param roleId    the role id
+     * @param serviceId the service id
+     * @return the permission
+     */
+    @WebMethod
+    PermissionResponse addPermission(
+            @WebParam(name = "menuId", targetNamespace = "")
+            String menuId,
+            @WebParam(name = "roleId", targetNamespace = "")
+            String roleId,
+            @WebParam(name = "serviceId", targetNamespace = "")
+            String serviceId);
+
+    /**
+     * Updates permission.
+     *
+     * @param permission the permission
+     * @return the permission
+     */
+    @WebMethod
+    PermissionResponse updatePermission(
+            @WebParam(name = "permission", targetNamespace = "")
+            Permission permission);
+
+    /**
+     * Gets the permission.
+     *
+     * @param menuId    the menu id
+     * @param roleId    the role id
+     * @param serviceId the service id
+     * @return the permission
+     */
+    @WebMethod
+    PermissionResponse getPermission(
+            @WebParam(name = "menuId", targetNamespace = "")
+            String menuId,
+            @WebParam(name = "roleId", targetNamespace = "")
+            String roleId,
+            @WebParam(name = "serviceId", targetNamespace = "")
+            String serviceId);
+
+    /**
+     * Gets the all permissions.
+     *
+     * @return the all permissions
+     */
+    @WebMethod
+    PermissionListResponse getAllPermissions();
+
+    /**
+     * Removes the permission.
+     *
+     * @param menuId    the menu id
+     * @param roleId    the role id
+     * @param serviceId the service id
+     */
+    @WebMethod
+    void removePermission(
+            @WebParam(name = "menuId", targetNamespace = "")
+            String menuId,
+            @WebParam(name = "roleId", targetNamespace = "")
+            String roleId,
+            @WebParam(name = "serviceId", targetNamespace = "")
+            String serviceId);
+
+    /**
+     * Removes the all permissions.
+     *
+     * @return the int
+     */
+    @WebMethod
+    int removeAllPermissions();
+
+    /**
+     * Gets the roles by menu.
+     *
+     * @param menuId the menu id
+     * @return the roles by menu
+     */
+    @WebMethod
+    RoleListResponse getRolesByMenu(
+            @WebParam(name = "menuId", targetNamespace = "")
+            String menuId);
+
+    /**
+     * Gets the menus by role.
+     *
+     * @param roleId    the role id
+     * @param serviceId the service id
+     * @return the menus by role
+     */
+    @WebMethod
+    MenuListResponse getMenusByRole(
+            @WebParam(name = "roleId", targetNamespace = "")
+            String roleId,
+            @WebParam(name = "serviceId", targetNamespace = "")
+            String serviceId);
+
+    /**
+     * Finds menus by user.
+     *
+     * @param menuGroup the menu group
+     * @param roleId    the role id
+     * @param userId    the user id
+     * @return the list
+     */
+    @WebMethod
+    MenuListResponse getMenusByUser(
+            @WebParam(name = "menuGroup", targetNamespace = "")
+            String menuGroup,
+            @WebParam(name = "roleId", targetNamespace = "")
+            String roleId,
+            @WebParam(name = "userId", targetNamespace = "")
+            String userId);
+
+    /**
+     * Find a menu and its descendants and return as a flat List.
+     *
+     * @param menuId
+     * @param languageCd
+     * @return a flat list of menu objects
+     */
+    @WebMethod
+    MenuListResponse getMenuFamily(@WebParam(name = "menuId", targetNamespace = "")
+                                   String menuId,
+                                   @WebParam(name = "languageCd", targetNamespace = "")
+                                   String languageCd);
+
+    /**
+     * Find a menu and its descendants and return as nested List.
+     *
+     * @param menuId
+     * @param languageCd
+     * @return list of nested lists of menu objects
+     */
+    @WebMethod
+    MenuListResponse getMenuTree(
+            @WebParam(name = "menuId", targetNamespace = "")
+            String menuId,
+            @WebParam(name = "languageCd", targetNamespace = "")
+            String languageCd);
 
 
 }

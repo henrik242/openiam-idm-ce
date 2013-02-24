@@ -3,7 +3,6 @@
 <!-- Generated Dec 2, 2007 5:41:37 PM by Hibernate Tools 3.2.0.b11 -->
 <hibernate-mapping>
     <class name="org.openiam.idm.srvc.menu.dto.Menu" table="MENU">
-        <cache usage="read-write"/>
         <comment></comment>
         <composite-id name="id" class="org.openiam.idm.srvc.menu.dto.MenuId">
             <key-property name="menuId" type="string">

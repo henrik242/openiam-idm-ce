@@ -80,9 +80,47 @@ public class RoleResourceController extends CancellableFormController {
         List<Menu> level3MenuList =  navigationDataService.menuGroupByUser(menuGroup, userId, "en").getMenuList();
         request.setAttribute("menuL3", level3MenuList);
     }
+
+    protected Object formBackingObject(HttpServletRequest request)
+            throws Exception {
+
+
+        RoleResourceCommand roleCommand = new RoleResourceCommand();
+
+        HttpSession session =  request.getSession();
+        String userId = (String)session.getAttribute("userId");
+
+        String roleId = (String)session.getAttribute("roleid");
+        String domainId = (String)session.getAttribute("domainid");
+
+
+        String type = request.getParameter("resType");
+        if (type != null && !type.isEmpty()) {
+            roleCommand.setResourceTypeId(type);
+
+        }
+
+        String mode = request.getParameter("mode");
+        if (mode != null && "1".equals(mode)) {
+            request.setAttribute("msg","The role has been successfully modified");
+        }
+
+        restoreMenu(request, userId);
+
+        if (roleId != null) {
+            // used by the ui add/remove role and resource associations
+            roleCommand.setDomainId(domainId);
+            roleCommand.setRoleId(roleId);
+        }
+
+        request.setAttribute("menuGroup", "SECURITY_ROLE");
+
+
+        return roleCommand;
+    }
 	
 	
-	@Override
+	/*@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
 		
@@ -123,14 +161,35 @@ public class RoleResourceController extends CancellableFormController {
 
         return roleCommand;
 	}
+    */
 
 
-    private void prePopulateCurrentResourceSelection(RoleResourceCommand roleCommand,
+    @Override
+    protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors, Map controlModel) throws Exception {
+
+        String resType = request.getParameter("resType");
+        String roleId = (String)request.getSession().getAttribute("roleid");
+        String domainId = (String)request.getSession().getAttribute("domainid");
+
+        List<Resource> resourceList =  prePopulateCurrentResourceSelection(resType,domainId, roleId);
+
+        if (resourceList != null ) {
+            controlModel = new HashMap();
+            controlModel.put("resourceList", resourceList);
+            controlModel.put("resType", resType);
+
+        }
+        return super.showForm(request, response, errors, controlModel);
+    }
+
+
+
+
+    private List<Resource> prePopulateCurrentResourceSelection(String typeId,
                                                      String domainId, String roleId) {
 
-        String typeId = roleCommand.getResourceTypeId();
         if (typeId == null || typeId.isEmpty()) {
-            return;
+            return null;
 
         }
 
@@ -159,9 +218,9 @@ public class RoleResourceController extends CancellableFormController {
             }
         }
         if (!fullResList.isEmpty()) {
-            roleCommand.setResourceList(fullResList);
+            return fullResList;
         } else {
-            roleCommand.setResourceList(null);
+            return null;
         }
     }
 
@@ -188,10 +247,14 @@ public class RoleResourceController extends CancellableFormController {
 		String login = (String)request.getSession().getAttribute("login");
 
         ModelAndView mav =  new ModelAndView(getSuccessView());
-        prePopulateCurrentResourceSelection(roleCommand, roleCommand.getDomainId(),
+        List<Resource> resourceList =  prePopulateCurrentResourceSelection(roleCommand.getResourceTypeId(), roleCommand.getDomainId(),
                 roleCommand.getRoleId());
 
         mav.addObject("roleResCmd", roleCommand);
+        mav.addObject("resType", roleCommand.getResourceTypeId());
+        mav.addObject("resourceList", resourceList);
+        mav.addObject("roleid", roleCommand.getRoleId());
+        mav.addObject("domainid", roleCommand.getDomainId());
         loadReferenceData(mav);
 
         restoreMenu(request, userId);
