@@ -18,23 +18,6 @@ package org.openiam.webadmin.res;
  *  along with OpenIAM.  If not, see <http://www.gnu.org/licenses/>. *
  */
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.menu.dto.Menu;
@@ -54,6 +37,14 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Controller to manage connectivity information for a managed system
@@ -150,7 +141,8 @@ public class AttributeMapController extends CancellableFormController {
 
 		List<Menu> level3MenuList = navigationDataService.menuGroupByUser(
 				menuGrp, userId, "en").getMenuList();
-		request.setAttribute("menuL3", level3MenuList);
+
+        request.setAttribute("menuL3", ResourceMenuHelper.resourceTypeMenu( res.getResourceType().getResourceTypeId(), level3MenuList ));
 
 		AttributeMapCommand cmd = new AttributeMapCommand();
 		cmd.setAttrMapList(attrMap);

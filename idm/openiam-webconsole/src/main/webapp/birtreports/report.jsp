@@ -72,7 +72,7 @@
                                         <td class="msg">
                                             <input type="text" id="reportName"
                                                    name="report.reportName"
-                                                   value="${reportCommand.report.reportName}"/>
+                                                   value="${reportCommand.report.reportName}"  size="60" />
                                         </td>
                                     </tr>
                                     </c:if>
@@ -84,7 +84,7 @@
                                         </td>
                                         <td class="msg">
                                             <input type="text" id="fakeReportDataSourceFileInput" readonly="true"
-                                                   value="${reportCommand.report.reportDataSource}"/>
+                                                   value="${reportCommand.report.reportDataSource}"  size="60" />
                                             <input type="button" value="Select" style="font-size:0.8em" onclick="selectDataSourceFile();"/>
                                             <input id="sourceFileInpId" type="file" style="display:none"
                                                    name="dataSourceScriptFile" value="${reportCommand.report.reportDataSource}">
@@ -98,7 +98,7 @@
                                         </td>
                                         <td class="msg">
                                             <input type="text" id="fakeReportDesignFileInput" readonly="true"
-                                                   value="${reportCommand.report.reportUrl}"/>
+                                                   value="${reportCommand.report.reportUrl}"  size="60"/>
                                             <input type="button" value="Select" style="font-size:0.8em" onclick="selectDesignFile();"/>
                                             <input id="designFileInpId" type="file" style="display:none"
                                                    name="reportDesignFile"

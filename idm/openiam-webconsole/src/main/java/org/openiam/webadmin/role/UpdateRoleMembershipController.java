@@ -5,10 +5,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.ws.AsynchIdmAuditLogWebService;
+import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
+import org.openiam.idm.srvc.grp.dto.Group;
+import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
+import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceRole;
 import org.openiam.idm.srvc.res.dto.ResourceRoleId;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -18,7 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * Displays a list of locations.
+ * Provides a central location to change role membership of Groups, Resources and Menus
+ * Redirects you back to the calling servlet
  * @author suneet
  *
  */
@@ -29,6 +35,9 @@ public class UpdateRoleMembershipController extends AbstractController {
 	protected String successView;
     protected ResourceDataService resourceDataService;
     protected AsynchIdmAuditLogWebService auditService;
+    protected GroupDataWebService groupManager;
+    protected RoleDataWebService roleDataService;
+    protected NavigatorDataWebService navigationDataService;
 
 
 
@@ -116,11 +125,85 @@ public class UpdateRoleMembershipController extends AbstractController {
 
     private ModelAndView updateGroup(HttpServletRequest request, String action, String objectId, String domain, String role) {
 
-        return null;
+        StringBuilder returnUrl = new StringBuilder( "/roleGroupMap.cnt?menuid=ROLE_GRPMAP&menugrp=SECURITY_ROLE&mode=1&parentGrp=");
+
+
+        String userId = (String)request.getSession().getAttribute("userId");
+        String domainId = (String)request.getSession().getAttribute("domainid");
+        String login = (String)request.getSession().getAttribute("login");
+
+        String parentGroup = request.getParameter("parentGrp");
+
+        Group g = groupManager.getGroup(objectId).getGroup();
+
+        returnUrl.append(parentGroup);
+
+        if ("ADD".equalsIgnoreCase(action)) {
+
+
+            roleDataService.addGroupToRole(domain,role,g.getGrpId());
+
+
+            logEvent("MODIFY", domainId, login,
+                    "WEBCONSOLE", userId, "0", "ROLE", role,
+                    "SUCCESS", "ADD GROUP",
+                    g.getGrpId(), null,
+                    "ADD GROUP TO " + role + "-" + domain, request.getRemoteHost());
+        }else {
+
+            roleDataService.removeGroupFromRole(domain,role, g.getGrpId());
+
+            logEvent("MODIFY", domainId, login,
+                    "WEBCONSOLE", userId, "0", "ROLE", role,
+                    "SUCCESS", "REMOVE GROUP",
+                    g.getGrpId(), null,
+                    "REMOVE GROUP FROM " + role + "-" + domain, request.getRemoteHost());
+        }
+
+
+
+        return new ModelAndView(new RedirectView(returnUrl.toString(), true));
+
     }
 
     private ModelAndView updateMenu(HttpServletRequest request, String action, String objectId, String domain, String role) {
-        return null;
+        StringBuilder returnUrl = new StringBuilder( "/roleMenuMap.cnt?menuid=ROLE_GRPMAP&menugrp=SECURITY_ROLE&mode=1&parentMenu=");
+
+
+        String userId = (String)request.getSession().getAttribute("userId");
+        String domainId = (String)request.getSession().getAttribute("domainid");
+        String login = (String)request.getSession().getAttribute("login");
+
+        String parentMenu = request.getParameter("parentMenu");
+
+        Menu menu = navigationDataService.getMenu(objectId, "en").getMenu();
+
+        returnUrl.append(parentMenu);
+
+        if ("ADD".equalsIgnoreCase(action)) {
+
+            navigationDataService.addPermission(menu.getId().getMenuId(), role, domain);
+
+
+            logEvent("MODIFY", domainId, login,
+                    "WEBCONSOLE", userId, "0", "ROLE", role,
+                    "SUCCESS", "ADD MENU",
+                    menu.getId().getMenuId(), null,
+                    "ADD MENU TO " + role + "-" + domain, request.getRemoteHost());
+        }else {
+            navigationDataService.removePermission(menu.getId().getMenuId(), role, domain);
+
+            logEvent("MODIFY", domainId, login,
+                    "WEBCONSOLE", userId, "0", "ROLE", role,
+                    "SUCCESS", "REMOVE MENU",
+                    menu.getId().getMenuId(), null,
+                    "REMOVE MENU FROM " + role + "-" + domain, request.getRemoteHost());
+        }
+
+
+
+        return new ModelAndView(new RedirectView(returnUrl.toString(), true));
+
     }
 
 	/* (non-Javadoc)
@@ -199,5 +282,29 @@ public class UpdateRoleMembershipController extends AbstractController {
 
     public void setAuditService(AsynchIdmAuditLogWebService auditService) {
         this.auditService = auditService;
+    }
+
+    public GroupDataWebService getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(GroupDataWebService groupManager) {
+        this.groupManager = groupManager;
+    }
+
+    public RoleDataWebService getRoleDataService() {
+        return roleDataService;
+    }
+
+    public void setRoleDataService(RoleDataWebService roleDataService) {
+        this.roleDataService = roleDataService;
+    }
+
+    public NavigatorDataWebService getNavigationDataService() {
+        return navigationDataService;
+    }
+
+    public void setNavigationDataService(NavigatorDataWebService navigationDataService) {
+        this.navigationDataService = navigationDataService;
     }
 }

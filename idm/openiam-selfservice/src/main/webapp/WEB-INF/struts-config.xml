@@ -163,8 +163,6 @@
        <forward name="success_search"      path="/pub/directory.do?method=view"/>      
  	  <forward name="detail"      	path="/home.jsp?bodyjsp=/pub/roDirectoryUser.jsp"/> 
     </action>
-    
-    
      
 
      	    

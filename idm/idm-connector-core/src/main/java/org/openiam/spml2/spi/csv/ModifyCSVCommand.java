@@ -43,7 +43,8 @@ public class ModifyCSVCommand extends AbstractCSVCommand {
 				response.setError(ErrorCode.CSV_ERROR);
 				response.addErrorMessage("Sync object is null");
 			}
-			this.updateUser(user, managedSys);
+			this.updateUser(new CSVObject<ProvisionUser>(psoID.getID(), user),
+					managedSys);
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -77,7 +78,7 @@ public class ModifyCSVCommand extends AbstractCSVCommand {
 				response.setError(ErrorCode.CSV_ERROR);
 				response.addErrorMessage("Sync object is null");
 			}
-			this.deleteUser(user, managedSys);
+			this.deleteUser(psoID.getID(), user, managedSys);
 		} catch (Exception e) {
 			e.printStackTrace();
 

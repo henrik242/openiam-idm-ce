@@ -12,17 +12,27 @@
 
 
 <div id="sidebar">
-	<div class="head">
-		Self - Service Center
-	</div>
-	
-	<ul class="menu">
-		<li><a href="<%= SELFSERVICE_BASE_URL %>/<%= SELFSERVICE_CONTEXT %>/pub/directory.do?method=view">Directory Lookup</a></li>
-		<li><a href="<%= SELFSERVICE_BASE_URL %>/<%= SELFSERVICE_CONTEXT %><%=UNLOCK_ACCOUNT_URL%>">Forgot Password</a></li>
-		<li><a href="<%= SELFSERVICE_EXT_BASE_URL %>/<%= SELFSERVICE_EXT_CONTEXT %>/pub/registration/edit.jsp">Self Registration</a></li>
+    <div class="head">
+        Self - Service Center
+    </div>
 
-	</ul>
+    <% if (SELFSERVICE_CONTEXT == null || SELFSERVICE_CONTEXT.isEmpty()) {%>
+    <ul class="menu">
+        <li><a href="<%= SELFSERVICE_BASE_URL %>/pub/directory.do?method=view">Directory Lookup</a></li>
+        <li><a href="<%= SELFSERVICE_BASE_URL %><%=UNLOCK_ACCOUNT_URL%>">Forgot Password</a></li>
+        <li><a href="<%= SELFSERVICE_EXT_BASE_URL %>/<%= SELFSERVICE_EXT_CONTEXT %>/pub/registration/edit.jsp">Self Registration</a></li>
+    </ul>
+    <% }else { %>
+
+    <ul class="menu">
+        <li><a href="<%= SELFSERVICE_BASE_URL %>/<%= SELFSERVICE_CONTEXT %>/pub/directory.do?method=view">Directory Lookup</a></li>
+        <li><a href="<%= SELFSERVICE_BASE_URL %>/<%= SELFSERVICE_CONTEXT %><%=UNLOCK_ACCOUNT_URL%>">Forgot Password</a></li>
+        <li><a href="<%= SELFSERVICE_EXT_BASE_URL %>/<%= SELFSERVICE_EXT_CONTEXT %>/pub/registration/edit.jsp">Self Registration</a></li>
+
+    </ul>
+    <% } %>
 </div>
+
 
 
 

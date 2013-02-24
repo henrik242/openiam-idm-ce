@@ -22,6 +22,7 @@ package org.openiam.webadmin.res;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.ws.ResponseStatus;
+import org.openiam.idm.srvc.grp.dto.Group;
 import org.openiam.idm.srvc.grp.ws.GroupDataWebService;
 import org.openiam.idm.srvc.grp.ws.GroupListResponse;
 import org.openiam.idm.srvc.menu.dto.Menu;
@@ -30,12 +31,12 @@ import org.openiam.idm.srvc.meta.dto.MetadataElement;
 import org.openiam.idm.srvc.meta.ws.MetadataWebService;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourceProp;
-import org.openiam.idm.srvc.res.dto.ResourceRoleId;
 import org.openiam.idm.srvc.res.dto.ResourceType;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
+import org.openiam.idm.srvc.role.dto.Role;
+import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.webadmin.util.AuditHelper;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -43,16 +44,16 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.user.dto.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -103,6 +104,7 @@ public class ResourceDetailController  extends CancellableFormController {
 
         String resId = request.getParameter("resId");
         String resTypeId = request.getParameter("restype");
+        String md = request.getParameter("md");
 
 
         String mode = request.getParameter("mode");
@@ -178,8 +180,10 @@ public class ResourceDetailController  extends CancellableFormController {
 
         ManagedSys[] sysAry = managedSysClient.getAllManagedSys();
 
-        List<Menu> level3MenuList = navigationDataService.menuGroupByUser(menuGrp, userId, "en").getMenuList();
-        request.setAttribute("menuL3", level3MenuList);
+        if (!"NEW".equalsIgnoreCase(md)) {
+            List<Menu> level3MenuList = navigationDataService.menuGroupByUser(menuGrp, userId, "en").getMenuList();
+            request.setAttribute("menuL3", ResourceMenuHelper.resourceTypeMenu( res.getResourceType().getResourceTypeId(), level3MenuList ));
+        }
 
 
         cmd.setResource(res);

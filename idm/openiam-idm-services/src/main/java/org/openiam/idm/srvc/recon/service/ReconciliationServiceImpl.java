@@ -180,7 +180,6 @@ public class ReconciliationServiceImpl implements ReconciliationService, MuleCon
             Resource res = resourceDataService.getResource(config.getResourceId());
             String managedSysId =  res.getManagedSysId();
             ManagedSys mSys = managedSysService.getManagedSys(managedSysId);
-
             log.debug("ManagedSysId = " + managedSysId);
             log.debug("Getting identities for managedSys");
 

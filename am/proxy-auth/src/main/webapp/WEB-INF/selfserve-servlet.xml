@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    					http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+ 	
+     
+     <!--  Native Spring MVC Controller  -->
+     <!--  All new web functionality should be declared in this file  -->
+       <bean id="welcomePage" class="org.openiam.selfsrvc.WelcomePageController">
+		<property name="successView" value="/welcome" />
+		<property name="userMgr" ref="userServiceClient" />
+		<property name="roleDataService" ref="roleServiceClient" />
+		<property name="groupManager" ref="groupServiceClient" />
+        <property name="loginManager" ref="loginServiceClient" />
+        <property name="configuration" ref="passwordConfiguration" />
+        <property name="provRequestService" ref="provRequestServiceClient" />
+        <property name="orgManager" ref="orgServiceClient" />
+     </bean>
+
+
+     
+     <bean id="login" class="org.openiam.selfsrvc.login.LoginController" >
+    	<property name="commandName" value="loginCmd" />
+		<property name="commandClass" value="org.openiam.selfsrvc.login.LoginCommand" />
+		<property name="formView" value="/pub/login" />
+		<property name="successView" value="/welcome" />
+		<property name="validator" ref="loginValidator" />
+		<property name="navigationDataService" ref="navServiceClient" />
+		<property name="secDomainService" ref="secDomainServiceClient" />		
+		<property name="appConfiguration" ref="appConfiguration" />
+		
+		<property name="rootMenu" value="SELFSERVICE" />
+		<property name="publicLeftMenuGroup" value="BUSINESCENTER" />
+		<property name="publicRightMenuGroup1" value="ACCESSCENTER" />
+		<property name="publicRightMenuGroup2" value="SELFCENTER" />
+		<property name="publicRightMenuGroup3" value="REPORTCENTER" />
+		<property name="leftMenuGroup" value="BUSINESCENTER" />
+		<property name="rightMenuGroup1" value="ACCESSCENTER" />
+		<property name="rightMenuGroup2" value="SELFCENTER" />
+		<property name="rightMenuGroup3" value="REPORTCENTER" />
+
+         <property name="cookiepath" value="/test_rpc/" />
+         <property name="karoscookie" value="/karos/" />
+		
+		<property name="userMgr" ref="userServiceClient" />
+		<property name="roleDataService" ref="roleServiceClient" />
+		<property name="groupManager" ref="groupServiceClient" />
+		<property name="challengeResponse" ref="challengeServiceClient" />
+		<property name="loginManager" ref="loginServiceClient" />
+		<property name="configuration" ref="passwordConfiguration" />
+		<property name="passwordService" ref="passwordServiceClient" />
+		<!--property name="bpmService" ref="bpmServiceClient" / -->
+        <property name="provRequestService" ref="provRequestServiceClient" />
+        <property name="orgManager" ref="orgServiceClient" />
+		
+		<property name="sessionForm"><value>true</value></property>
+        <property name="extendController" value="/ui/selfservice/LoginController.groovy" />
+
+         <property name="resourceDataService" ref="resourceServiceClient" />
+
+			
+     </bean>
+     
+     <bean id="loginValidator" class="org.openiam.selfsrvc.login.LoginValidator" >
+     	<property name="authenticate" ref="authServiceClient" />
+     	<property name="configuration" ref="passwordConfiguration" />
+     </bean>
+
+
+    
+    <!-- PasswordChange controller  -->
+     <bean id="passwordChange" class="org.openiam.selfsrvc.pswd.PasswordChangeController">
+     	<property name="sessionForm"><value>true</value></property>
+		<property name="commandName" value="pswdChangeCmd" />
+		<property name="commandClass" value="org.openiam.selfsrvc.pswd.PasswordChangeCommand" />
+		<property name="formView" value="/priv/pswdchange" />
+		<property name="successView" value="/priv/confirm" />
+        <property name="cancelView" value="/welcomePage.selfserve" />
+		<property name="validator" ref="pswdChangeValidator" />
+		<property name="configuration" ref="passwordConfiguration" />
+		<property name="loginManager" ref="loginServiceClient" />
+		<property name="provisionService" ref="provisionServiceClient" />
+         <property name="extendController" value="/ui/selfservice/PasswordChangeController.groovy" />
+
+         <property name="authenticate" ref="authServiceClient" />
+         <property name="pwsdResetCancelView" value="/login.selfserve" />
+
+     </bean>     
+
+
+     <bean id="pswdChangeValidator" class="org.openiam.selfsrvc.pswd.PasswordChangeValidator">
+     	<property name="passwordService" ref="passwordServiceClient" />
+     	<property name="configuration" ref="passwordConfiguration" />
+     </bean> 
+
+
+	 
+<!-- Account claim wizard  -->
+
+
+	 <!-- Unlock User -->
+     
+     <bean id="unlockUserWizard" class="org.openiam.selfsrvc.pswd.UnlockUserWizardController">  
+        <property name="pages">  
+            <list>  
+                <value>pub/unlockuser</value>  
+                <value>pub/unlockVerifyIdentity</value>  
+                <value>pub/unlockSetNewPassword</value>  
+            </list>  
+        </property>  
+        <property name="commandName" value="unlockUserCmd" />  
+        <property name="commandClass" value="org.openiam.selfsrvc.pswd.UnlockUserCommand" />  
+        <property name="validator" ref="unlockUserValidator" />
+
+		<property name="configuration" ref="passwordConfiguration" />
+		<property name="policyDataService" ref="policyServiceClient" />
+		<property name="secDomainService" ref="secDomainServiceClient" />
+		<property name="challengeResponse" ref="challengeServiceClient" />
+		<property name="loginManager" ref="loginServiceClient" />
+		<property name="provisionService" ref="provisionServiceClient" />
+	</bean>  
+     <bean id="unlockUserValidator" class="org.openiam.selfsrvc.pswd.UnlockUserValidator">
+     	<property name="loginManager" ref="loginServiceClient" />
+     	<property name="configuration" ref="passwordConfiguration" />
+     	<property name="challengeResponse" ref="challengeServiceClient" />
+		<property name="policyDataService" ref="policyServiceClient" />
+		<property name="secDomainService" ref="secDomainServiceClient" />
+		<property name="passwordService" ref="passwordServiceClient" />
+		<property name="userMgr" ref="userServiceClient" />
+     </bean> 
+
+
+
+
+
+
+
+       
+
+     
+     <bean id="viewResolver"  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+     	<property name="prefix" value="/home.jsp?bodyjsp=" />
+     	<property name="suffix" value=".jsp" />
+     </bean>
+     
+     
+     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+            	<prop key="/login.selfserve">login</prop>
+                <prop key="/passwordChange.selfserve">passwordChange</prop>
+                <prop key="pub/unlockUser.selfserve">unlockUserWizard</prop>
+                
+                <prop key="/welcomePage.selfserve">welcomePage</prop>
+            </props>
+        </property>
+    </bean>  
+    
+</beans>
+
+
+
+
+
+
