@@ -112,21 +112,48 @@
                                     <label for="t-1">Request Status</label>
                                         ${requestDetailCmd.request.status}
                                 </div>
-                                <div class="row">
+                               <!-- <div class="row">
 									<label for="t-1">Status Change Date</label>
                                     ${requestDetailCmd.request.statusDate}
-								</div>								
+								</div -->
+
+                                <div class="row alt">
+                                    <label for="t-1"></label>
+                                    <b>Approval / Rejection History</b>
+                                </div>
+                                <div class="row">
+                                    <label for="t-1">Date</label>
+                                    ${requestDetailCmd.reqApprover.actionDate}
+                                </div>
+                                <div class="row">
+                                    <label for="t-1">Action</label>
+                                    ${requestDetailCmd.reqApprover.action}
+                                </div>
+                                <div class="row">
+                                    <label for="t-1">Approver</label>
+                                        ${requestDetailCmd.approverUser.firstName} ${requestDetailCmd.approverUser.lastName}
+                                </div>
+                                <div class="row">
+                                    <label for="t-1">Comment</label>
+                                        ${requestDetailCmd.reqApprover.comment}
+                                </div>
+
 							</div>
 						</div>
 					</div>
-					<div class="button">
-                        <input type="submit" name="btn" value="Approve">
-                    </div>
-                    <div class="button">
-                        <input type="submit" name="btn" value="Reject">
-                    </div>
-              
-				</fieldset>	
+                    <c:if test="${requestDetailCmd.request.status == 'PENDING'}" >
+                        <div class="button">
+                            <input type="submit" name="btn" value="Approve">
+                        </div>
+                        <div class="button">
+                            <input type="submit" name="btn" value="Reject">
+                        </div>
+                    </c:if>
+
+                </fieldset>
 </table>
+
+
+
 
 </form:form>
