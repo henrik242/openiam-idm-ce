@@ -1,7 +1,7 @@
-
 package org.openiam.spml2.msg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,11 +13,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for ResponseType complex type.
+ * <p>
+ * Java class for ResponseType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ResponseType">
@@ -37,123 +39,101 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResponseType", propOrder = {
-})
-@XmlSeeAlso({
-    AddResponseType.class,
-    ListTargetsResponseType.class,
-    ModifyResponseType.class,
-    LookupResponseType.class,
-    ArrayList.class
-})
-public class ResponseType extends ExtensibleType
-{
+@XmlType(name = "ResponseType", propOrder = {})
+@XmlSeeAlso({ AddResponseType.class, ListTargetsResponseType.class,
+		ModifyResponseType.class, LookupResponseType.class, ArrayList.class})
+public class ResponseType extends ExtensibleType {
 
-    @XmlAttribute(required = true)
-    protected StatusCodeType status;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlID
-    @XmlSchemaType(name = "ID")
-    protected String requestID;
-    @XmlAttribute
-    protected ErrorCode error;
+	@XmlAttribute(required = true)
+	protected StatusCodeType status;
+	@XmlAttribute
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	@XmlID
+	@XmlSchemaType(name = "ID")
+	protected String requestID;
+	@XmlAttribute
+	protected ErrorCode error;
 
 
-    public void addErrorMessage(String msg) {
-         errorMessage = msg;
+	public void addErrorMessage(String msg) {
+		errorMessage = msg;
 
-    }
+	}
 
+	public String getErrorCodeAsStr() {
+		if (error == null) {
+			return null;
+		}
 
-    public String getErrorCodeAsStr() {
-        if (error == null ) {
-            return null;
-        }
+		return error.value();
+	}
 
-        return error.value();
-    }
+	/**
+	 * Gets the value of the status property.
+	 * 
+	 * @return possible object is {@link StatusCodeType }
+	 * 
+	 */
+	public StatusCodeType getStatus() {
+		return status;
+	}
 
+	/**
+	 * Sets the value of the status property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link StatusCodeType }
+	 * 
+	 */
+	public void setStatus(StatusCodeType value) {
+		this.status = value;
+	}
 
+	/**
+	 * Gets the value of the requestID property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRequestID() {
+		return requestID;
+	}
 
-    /**
-     * Gets the value of the status property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link StatusCodeType }
-     *     
-     */
-    public StatusCodeType getStatus() {
-        return status;
-    }
+	/**
+	 * Sets the value of the requestID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRequestID(String value) {
+		this.requestID = value;
+	}
 
-    /**
-     * Sets the value of the status property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link StatusCodeType }
-     *     
-     */
-    public void setStatus(StatusCodeType value) {
-        this.status = value;
-    }
+	/**
+	 * Gets the value of the error property.
+	 * 
+	 * @return possible object is {@link ErrorCode }
+	 * 
+	 */
+	public ErrorCode getError() {
+		return error;
+	}
 
-    /**
-     * Gets the value of the requestID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRequestID() {
-        return requestID;
-    }
+	/**
+	 * Sets the value of the error property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ErrorCode }
+	 * 
+	 */
+	public void setError(ErrorCode value) {
+		this.error = value;
+	}
 
-    /**
-     * Sets the value of the requestID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRequestID(String value) {
-        this.requestID = value;
-    }
-
-    /**
-     * Gets the value of the error property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ErrorCode }
-     *     
-     */
-    public ErrorCode getError() {
-        return error;
-    }
-
-    /**
-     * Sets the value of the error property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ErrorCode }
-     *     
-     */
-    public void setError(ErrorCode value) {
-        this.error = value;
-    }
-
-    @Override
-    public String toString() {
-        return "ResponseType{" +
-                "status=" + status +
-                ", requestID='" + requestID + '\'' +
-                ", error=" + error +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "ResponseType{" + "status=" + status + ", requestID='"
+				+ requestID + '\'' + ", error=" + error + '}';
+	}
 }

@@ -195,7 +195,6 @@ public class ConnectorAdapter {
         ResponseType type = new ResponseType();
         type.setStatus(StatusCodeType.FAILURE);
 
-
         if (config == null) {
             return type;
         }

@@ -18,6 +18,7 @@ import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemObjectMatchDAO;
 import org.openiam.idm.srvc.recon.command.ReconciliationCommandFactory;
 import org.openiam.idm.srvc.recon.dto.ReconciliationConfig;
+import org.openiam.idm.srvc.recon.dto.ReconciliationResponse;
 import org.openiam.idm.srvc.recon.dto.ReconciliationSituation;
 import org.openiam.idm.srvc.recon.service.ReconciliationCommand;
 import org.openiam.idm.srvc.res.dto.Resource;
@@ -59,6 +60,11 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 	private TestCSVCommand testCommand;
 	private LookupCSVCommand lookupCommand;
 	private ModifyCSVCommand modifyCommand;
+	private ReconcileCSVCommand reconCommand;
+
+	public void setReconCommand(ReconcileCSVCommand reconCommand) {
+		this.reconCommand = reconCommand;
+	}
 
 	private ResourceDataService resourceDataService;
 	private ManagedSystemDataService managedSysService;
@@ -102,70 +108,8 @@ public class CSVConnectorImpl extends AbstractSpml2Complete implements
 							managedSysId));
 			log.debug("Created Command for: " + situation.getSituation());
 		}
-
-		ResponseType response = new ResponseType();
-		response.setStatus(StatusCodeType.SUCCESS);
-
-		LookupRequestType request = new LookupRequestType();
-		ManagedSystemObjectMatch[] matchObjAry = managedSysService
-				.managedSysObjectParam(managedSysId, "USER");
-		if (matchObjAry.length == 0) {
-			log.error("No match object found for this managed sys");
-			response.setStatus(StatusCodeType.FAILURE);
-			return response;
-		}
-		String keyField = matchObjAry[0].getKeyField();
-		String searchString = keyField + "=*";
-		PSOIdentifierType idType = new PSOIdentifierType(searchString, null,
-				managedSysId);
-		request.setPsoID(idType);
-
-		LookupResponseType responseType = lookup(request);
-
-		if (responseType.getStatus() == StatusCodeType.FAILURE) {
-			response.setStatus(StatusCodeType.FAILURE);
-			return response;
-		}
-
-		if (responseType.getAny() != null && responseType.getAny().size() != 0) {
-			for (ExtensibleObject obj : responseType.getAny()) {
-				log.debug("Reconcile Found User");
-				String principal = null;
-				String searchPrincipal = null;
-				for (ExtensibleAttribute attr : obj.getAttributes()) {
-					if (attr.getName().equalsIgnoreCase(keyField)) {
-						principal = attr.getValue();
-						break;
-					}
-				}
-				if (principal != null) {
-					log.debug("reconcile principle found");
-
-					Login login = loginManager.getLoginByManagedSys(
-							mSys.getDomainId(), principal, managedSysId);
-					if (login == null) {
-						log.debug("Situation: IDM Not Found");
-						DeleteRequestType delete = new DeleteRequestType();
-						idType = new PSOIdentifierType(searchPrincipal, null,
-								managedSysId);
-						delete.setPsoID(idType);
-						delete(delete);
-						Login l = new Login();
-						LoginId id = new LoginId();
-						id.setDomainId(mSys.getDomainId());
-						id.setLogin(principal);
-						id.setManagedSysId(managedSysId);
-						l.setId(id);
-						ReconciliationCommand command = situations
-								.get("IDM Not Found");
-						if (command != null) {
-							log.debug("Call command for IDM Not Found");
-							command.execute(l, null, obj.getAttributes());
-						}
-					}
-				}
-			}
-		}
+		ResponseType response = reconCommand.reconcile(config);
+		
 		return response; // To change body of implemented methods use File |
 							// Settings | File Templates.
 	}

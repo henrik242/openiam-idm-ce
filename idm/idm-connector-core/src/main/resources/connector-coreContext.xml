@@ -106,6 +106,7 @@
 		<property name="addCommand" ref="csvAddCommmand" />
 		<property name="testCommand" ref="csvTestCommmand" />
 		<property name="lookupCommand" ref="csvLookupCommmand" />
+		<property name="reconCommand" ref="csvReconCommmand" />
 		<property name="modifyCommand" ref="csvModifyCommmand" />
 		<property name="resourceDataService" ref="resourceDataService" />
 		<property name="managedSysService" ref="managedSysService" />
@@ -131,6 +132,14 @@
 		<property name="managedSysService" ref="managedSysService" />
 		<property name="managedSysObjectMatchDao" ref="managedSysObjectMatchDAO" />
 		<property name="resourceDataService" ref="resourceDataService" />
+		<property name="pathToCSV" value="${csv.path}" />
+	</bean>
+
+	<bean id="csvReconCommmand" class="org.openiam.spml2.spi.csv.ReconcileCSVCommand">
+		<property name="managedSysService" ref="managedSysService" />
+		<property name="managedSysObjectMatchDao" ref="managedSysObjectMatchDAO" />
+		<property name="resourceDataService" ref="resourceDataService" />
+		<property name="userMgr" ref="userManager" />
 		<property name="pathToCSV" value="${csv.path}" />
 	</bean>
 

@@ -13,10 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 import org.openiam.idm.srvc.mngsys.dto.ManagedSys;
+import org.openiam.idm.srvc.user.dto.UserSearch;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.spml2.spi.common.UserFields;
 import org.springframework.util.StringUtils;
@@ -65,19 +67,16 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 			if (StringUtils.hasText(objValue)) {
 				if (a.getAttributePolicy() != null
 						&& a.getAttributePolicy().getName() != null) {
-					if (getObjectType(clazz2).equals(a.getMapForObjectType())) {
-
-						E fieldValue;
-						try {
-							fieldValue = Enum.valueOf(clazz2, a
-									.getAttributePolicy().getName());
-						} catch (IllegalArgumentException e) {
-							log.info(e.getMessage());
-							fieldValue = Enum.valueOf(clazz2, "DEFAULT");
-						}
-						this.putValueInDTO(obj, fieldValue, objValue);
-
-					} else if (PRINCIPAL_OBJECT.equals(a.getMapForObjectType())) {
+					E fieldValue;
+					try {
+						fieldValue = Enum.valueOf(clazz2, a
+								.getAttributePolicy().getName());
+					} catch (IllegalArgumentException e) {
+						log.info(e.getMessage());
+						fieldValue = Enum.valueOf(clazz2, "DEFAULT");
+					}
+					this.putValueInDTO(obj, fieldValue, objValue);
+					if (PRINCIPAL_OBJECT.equals(a.getMapForObjectType())) {
 						csvObject.setPrincipal(objValue);
 					}
 				}
@@ -92,10 +91,11 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	protected abstract String putValueIntoString(T obj, E field);
 
 	protected FileReader getCSVFile(ManagedSys mngSys,
-			List<AttributeMap> attrMapList, Class<E> clazz) throws Exception {
+			List<AttributeMap> attrMapList, Class<E> clazz, boolean isReconFile)
+			throws Exception {
 		if (attrMapList == null || attrMapList.isEmpty())
 			return null;
-		File file = new File(getFileName(mngSys));
+		File file = new File(getFileName(mngSys, isReconFile));
 		if (!file.exists()) {
 			file.createNewFile();
 			FileWriter writer = new FileWriter(file);
@@ -164,8 +164,11 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	 * @param mngSys
 	 * @return
 	 */
-	private String getFileName(ManagedSys mngSys) {
+	private String getFileName(ManagedSys mngSys, boolean isReconFile) {
 		StringBuilder sb = new StringBuilder(pathToCSV);
+		if (isReconFile) {
+			sb.append("recon_");
+		}
 		sb.append(mngSys.getManagedSysId());
 		sb.append(mngSys.getResourceId());
 		sb.append(".csv");
@@ -236,8 +239,9 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 						}
 						values.add(this.putValueIntoString(obj.getObject(),
 								fields));
-					} else if ("PRINCIPAL".equals(am.getMapForObjectType())) {
-						values.add(obj.getPrincipal());
+					} else if (PRINCIPAL_OBJECT
+							.equals(am.getMapForObjectType())) {
+						values.add(obj.getPrincipal()==null?"":obj.getPrincipal());
 					}
 				}
 			} else
@@ -279,10 +283,11 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	 * @throws Exception
 	 */
 	protected List<CSVObject<T>> getObjectList(ManagedSys managedSys,
-			List<AttributeMap> attrMapList, Class<T> clazz, Class<E> enumClass)
-			throws Exception {
+			List<AttributeMap> attrMapList, Class<T> clazz, Class<E> enumClass,
+			boolean isReconFile) throws Exception {
 		List<CSVObject<T>> objects = new ArrayList<CSVObject<T>>(0);
-		FileReader fr = this.getCSVFile(managedSys, attrMapList, enumClass);
+		FileReader fr = this.getCSVFile(managedSys, attrMapList, enumClass,
+				isReconFile);
 		if (fr == null) {
 			return objects;
 		}
@@ -304,7 +309,7 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	public Map<String, String> convertToMap(List<AttributeMap> attrMap,
 			CSVObject<T> obj, Class<E> clazz) {
 		String[] values = this.objectToCSV(attrMap, obj, clazz);
-		String[] header_ = header.split(String.valueOf(SEPARATOR));
+		String[] header_ = header.replace(String.valueOf(END_OF_LINE), "").split(String.valueOf(SEPARATOR));
 		Map<String, String> result = new HashMap<String, String>(0);
 		if (values.length != header_.length) {
 			log.error("CSV internal error");
@@ -331,10 +336,10 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 	 */
 	protected void appendObjectToCSV(CSVObject<T> newObject,
 			ManagedSys managedSys, List<AttributeMap> attrMapList,
-			Class<T> clazz, Class<E> enumClass, boolean append)
-			throws Exception {
-		if (this.getCSVFile(managedSys, attrMapList, enumClass) != null) {
-			String fName = this.getFileName(managedSys);
+			Class<T> clazz, Class<E> enumClass, boolean append,
+			boolean isReconFile) throws Exception {
+		if (this.getCSVFile(managedSys, attrMapList, enumClass, isReconFile) != null) {
+			String fName = this.getFileName(managedSys, isReconFile);
 			FileWriter fw = new FileWriter(fName, append);
 			fw.append(this.mergeValues(this.objectToCSV(attrMapList, newObject,
 					enumClass)));
@@ -347,10 +352,10 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 
 	protected void updateCSV(List<CSVObject<T>> newObjectList,
 			ManagedSys managedSys, List<AttributeMap> attrMapList,
-			Class<T> clazz, Class<E> enumClass, boolean append)
-			throws Exception {
-		if (this.getCSVFile(managedSys, attrMapList, enumClass) != null) {
-			String fName = this.getFileName(managedSys);
+			Class<T> clazz, Class<E> enumClass, boolean append,
+			boolean isReconFile) throws Exception {
+		if (this.getCSVFile(managedSys, attrMapList, enumClass, isReconFile) != null) {
+			String fName = this.getFileName(managedSys, isReconFile);
 			FileWriter fw = new FileWriter(fName, append);
 			fw.append(this.generateHeader(attrMapList, enumClass));
 			for (CSVObject<T> t : newObjectList) {
@@ -363,5 +368,4 @@ public abstract class AbstractCSVParser<T, E extends Enum<E>> {
 			throw new Exception("Can't work with CSV");
 		}
 	}
-
 }
