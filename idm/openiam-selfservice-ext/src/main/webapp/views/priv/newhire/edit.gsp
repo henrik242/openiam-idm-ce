@@ -15,13 +15,13 @@
             var msie = ua.indexOf ( "MSIE " );
 
             if ( msie > 0 ) {
-                dialogReturnValue = window.showModalDialog("dialogshell.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+                dialogReturnValue = window.showModalDialog("dialogshell.jsp",null,"dialogWidth:800px;dialogHeight:600px;");
                 document.getElementById (idfield).value = dialogReturnValue.id;
                 document.getElementById (namefield).value = dialogReturnValue.name;
             }else {
                 var prevReturnValue = window.returnValue;
                 window.returnValue = undefined;
-                dialogReturnValue = window.showModalDialog("seluser.jsp",null,"dialogWidth:670px;dialogHeight:600px;");
+                dialogReturnValue = window.showModalDialog("seluser.jsp",null,"dialogWidth:800px;dialogHeight:600px;");
                 if(dialogReturnValue == undefined) {
                     dialogReturnValue = window.returnValue;
                 }
