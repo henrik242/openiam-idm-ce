@@ -23,11 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.menu.dto.Menu;
 import org.openiam.idm.srvc.menu.ws.NavigatorDataWebService;
-import org.openiam.idm.srvc.mngsys.dto.AttributeMap;
 import org.openiam.idm.srvc.mngsys.service.ManagedSystemDataService;
-import org.openiam.idm.srvc.policy.dto.Policy;
-import org.openiam.idm.srvc.policy.dto.PolicyConstants;
-import org.openiam.idm.srvc.policy.service.PolicyDataService;
 import org.openiam.idm.srvc.res.dto.Resource;
 import org.openiam.idm.srvc.res.dto.ResourcePrivilege;
 import org.openiam.idm.srvc.res.service.ResourceDataService;
@@ -144,7 +140,7 @@ public class ResEntitlementController extends CancellableFormController {
 
 
         List<Menu> level3MenuList = navigationDataService.menuGroupByUser(menuGrp, userId, "en").getMenuList();
-        request.setAttribute("menuL3", level3MenuList);
+        request.setAttribute("menuL3", ResourceMenuHelper.resourceTypeMenu( res.getResourceType().getResourceTypeId(), level3MenuList ));
 
 
         ResEntitlementCommand cmd = new ResEntitlementCommand();

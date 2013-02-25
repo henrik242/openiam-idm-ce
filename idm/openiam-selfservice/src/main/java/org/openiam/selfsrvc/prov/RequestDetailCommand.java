@@ -22,6 +22,9 @@ public class RequestDetailCommand implements Serializable {
     protected String comment;
     protected List<RequestApprover> requestApproverList;
 
+    protected RequestApprover reqApprover;
+    protected User approverUser;
+
     /* UserDetail is the user that this request is for */
     protected ProvisionUser userDetail;
 
@@ -153,5 +156,21 @@ public class RequestDetailCommand implements Serializable {
 
     public void setChangeDescription(String changeDescription) {
         this.changeDescription = changeDescription;
+    }
+
+    public RequestApprover getReqApprover() {
+        return reqApprover;
+    }
+
+    public void setReqApprover(RequestApprover reqApprover) {
+        this.reqApprover = reqApprover;
+    }
+
+    public User getApproverUser() {
+        return approverUser;
+    }
+
+    public void setApproverUser(User approverUser) {
+        this.approverUser = approverUser;
     }
 }

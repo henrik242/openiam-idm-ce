@@ -1,0 +1,2 @@
+insert into REPORT_INFO(report_info_id, report_name, DATASOURCE_FILE_PATH, report_file_path) values('b75e18298e534899afa61a8d44ecc210', 'AUDIT_REPORT', 'AuditReport.groovy', 'AuditReport.rptdesign');
+insert into REPORT_INFO(report_info_id, report_name, DATASOURCE_FILE_PATH, report_file_path) values('b75e18298e534899afa61a8d44ecc212', 'USER_REPORT', 'UserReport.groovy', 'UserReport1.rptdesign');

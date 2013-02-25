@@ -18,10 +18,7 @@ package org.openiam.webadmin.role;
  */
 
 
-import org.openiam.idm.srvc.grp.dto.Group;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Command object for the RoleGroupController
@@ -32,19 +29,13 @@ public class RoleGroupCommand implements Serializable {
 	private static final long serialVersionUID = -7380232102573091869L;
 	
 
-    private List<Group> groupList ;
+    //private List<Group> groupList = new ArrayList<Group>();
 	private String roleId;
 	private String domainId;
     private String groupId;
 
 
-    public List<Group> getGroupList() {
-        return groupList;
-    }
 
-    public void setGroupList(List<Group> groupList) {
-        this.groupList = groupList;
-    }
 
     public String getRoleId() {
 		return roleId;

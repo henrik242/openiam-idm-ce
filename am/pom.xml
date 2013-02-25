@@ -17,7 +17,8 @@
 
   <modules>
         <module>openiam-am-intf</module>
-	<module>openiam-am-services</module>
+	    <module>openiam-am-services</module>
+        <module>proxy-auth</module>
   </modules>
   
 </project>

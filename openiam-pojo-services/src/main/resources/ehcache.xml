@@ -103,12 +103,7 @@
         eternal="false"
         overflowToDisk="false" 
      />
-    <cache name="org.openiam.idm.srvc.menu.dto.Menu"
-        maxElementsInMemory="1000"
-        eternal="false"
-        overflowToDisk="false" 
-     />
-     
+
     <cache name="org.openiam.idm.srvc.meta.dto.MetadataType"
         maxElementsInMemory="250"
         eternal="false"

@@ -37,6 +37,8 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 import org.springframework.web.servlet.view.RedirectView;
+import org.openiam.idm.srvc.prov.request.dto.RequestApprover;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -95,6 +97,8 @@ public class RequestDetailController extends CancellableFormController implement
         Set<RequestUser> reqUserSet = req.getRequestUsers();
 
 
+
+
         RequestDetailCommand reqDetailCommand = new RequestDetailCommand();
         reqDetailCommand.setRequest(req);
 
@@ -144,6 +148,20 @@ public class RequestDetailController extends CancellableFormController implement
                 reqDetailCommand.setRequestor(userResp.getUser());
             }
         }
+
+        // get the approver information
+        if (!"PENDING".equalsIgnoreCase(req.getStatus())) {
+            Set<RequestApprover> requestApproverList =  req.getRequestApprovers();
+            if (requestApproverList != null) {
+                for (RequestApprover ra : requestApproverList ) {
+                    reqDetailCommand.setReqApprover(ra);
+                    reqDetailCommand.setApproverUser( userManager.getUserWithDependent(ra.getApproverId(),false).getUser());
+
+                }
+
+            }
+        }
+
 
 
         return reqDetailCommand;

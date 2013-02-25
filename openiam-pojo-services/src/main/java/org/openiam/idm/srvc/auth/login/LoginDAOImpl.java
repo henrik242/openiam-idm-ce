@@ -139,7 +139,11 @@ public class LoginDAOImpl implements LoginDAO {
             }
 
             Login instance = (Login) sessionFactory.getCurrentSession()
-                    .get("org.openiam.idm.srvc.auth.dto.Login", id);
+                    .createCriteria(Login.class)
+                    .add(Restrictions.eq("id.domainId",id.getDomainId()))
+                    .add(Restrictions.eq("id.managedSysId",id.getManagedSysId()))
+                    .add(Restrictions.eq("id.login",id.getLogin()))
+                    .uniqueResult();
             if (instance == null) {
                 log.debug("get successful, no instance found");
                 return null;

@@ -152,9 +152,7 @@ public class NavigatorDAOImpl implements NavigatorDAO {
 		qry.setString("menuGroup", menuGroup);
 		qry.setString("langCd", langCd);
 		
-		qry.setCacheable(true);
-		qry.setCacheRegion("query.menu.findbyMenuGroup");
-		
+
 		List<Menu> results = (List<Menu>)qry.list();
 		return results;    	
 		}catch(HibernateException re) {

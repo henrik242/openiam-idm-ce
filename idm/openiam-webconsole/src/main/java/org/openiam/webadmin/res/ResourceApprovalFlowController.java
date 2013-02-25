@@ -38,7 +38,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -176,7 +175,7 @@ public class ResourceApprovalFlowController extends CancellableFormController {
 
 
         List<Menu> level3MenuList = navigationDataService.menuGroupByUser(menuGrp, userId, "en").getMenuList();
-        request.setAttribute("menuL3", level3MenuList);
+        request.setAttribute("menuL3", ResourceMenuHelper.resourceTypeMenu( res.getResourceType().getResourceTypeId(), level3MenuList ));
 
         ResourceApprovalFlowCommand cmd = new ResourceApprovalFlowCommand();
 

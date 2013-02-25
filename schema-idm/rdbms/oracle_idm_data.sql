@@ -122,6 +122,12 @@ insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('SCRIPT_Connector','Scrip
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('GOOGLE_Connector','GOOGLE APPS Connector');
 insert into METADATA_TYPE(TYPE_ID, DESCRIPTION) values('LINUX_Connector','Linux Connector');
 
+insert into METADATA_TYPE(TYPE_ID, DESCRIPTION, SYNC_MANAGED_SYS) values('WEB-APP','WEB Apps', 0);
+insert into METADATA_ELEMENT(metadata_id, type_id, attribute_name) values ('WEB-APP1','WEB-APP','PROXY_URL');
+
+INSERT INTO RESOURCE_TYPE (RESOURCE_TYPE_ID, DESCRIPTION, METADATA_TYPE_ID, PROVISION_RESOURCE) VALUES('WEB-APP', 'Web Application', 'WEB-APP', 0);
+
+
 UPDATE METADATA_TYPE
 SET ACTIVE = 1, SYNC_MANAGED_SYS = 1;
 
@@ -306,7 +312,7 @@ insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, disp
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('IDQUEST','SELFCENTER', 'Challenge Response', 'Challenge Response', '{SELFSERVICE}identityQuestion.selfserve', 'en', '4',0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('PROFILE','SELFCENTER', 'Edit Your Profile', 'Edit Your Profile', '{SELFSERVICE_EXT}priv/profile/edit.jsp', 'en', '6',0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MY-ID-LIST','SELFCENTER', 'My Identities', 'My Identities', '{SELFSERVICE}myIdentityList.selfserve', 'en', '7',0);
-
+insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, display_order, PUBLIC_URL) values('MY-APPS','SELFCENTER', 'Launch Apps', 'Launch Apps', '{SELFSERVICE}launchApp.selfserve', 'en', '8',0);
 
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER, PUBLIC_URL) values('SELF_QUERYUSER','ACCESSCENTER','Manage User','Manage User','{SELFSERVICE}idman/userSearch.do?action=view', 'en',1,0);
 insert into MENU (menu_id, menu_group, menu_name,menu_desc,url,LANGUAGE_CD, DISPLAY_ORDER) values('SELF_USERSUMMARY','SELF_QUERYUSER','User Details','User Details','{SELFSERVICE}editUser.selfserve', 'en',1);
@@ -759,7 +765,6 @@ insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION)
 
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('260', 'WORKFLOW', 'NEW_USER', 1, 'NEW USER');
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('261', 'WORKFLOW', 'CHANGE_USER_STATUS', 2, 'CHANGE USER STATUS');
-insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('263', 'WORKFLOW', 'MODIFY_USER_ORG', 3, 'MODIFY USER ORG ATTRIBUTES');
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('262', 'WORKFLOW', 'CHANGE_ROLE', 4, 'CHANGE ROLE MEMBERSHIP');
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('264', 'WORKFLOW', 'CHANGE_APPLICATION', 5, 'APPLICATION ACCESS');
 insert into RES (RESOURCE_ID, RESOURCE_TYPE_ID,NAME, DISPLAY_ORDER, DESCRIPTION) VALUES ('265', 'WORKFLOW', 'CHANGE_GROUP', 6, 'CHANGE GROUP MEMBERSHIP');
@@ -940,5 +945,8 @@ INSERT INTO NOTIFICATION(MSG_ID,MSG_NAME,PROVIDER_SCRIPT,MSG_TYPE) VALUES('8a008
 
 INSERT INTO REPORT_PARAMETER_TYPE(RCPT_ID, TYPE_NAME,TYPE_DESCRIPTION) VALUES ('1', 'STRING','String');
 INSERT INTO REPORT_PARAMETER_TYPE(RCPT_ID, TYPE_NAME,TYPE_DESCRIPTION) VALUES ('2', 'DATE','Date');
+
+insert into REPORT_INFO(report_info_id, report_name, DATASOURCE_FILE_PATH, report_file_path) values('b75e18298e534899afa61a8d44ecc210', 'AUDIT_REPORT', 'AuditReport.groovy', 'AuditReport.rptdesign');
+insert into REPORT_INFO(report_info_id, report_name, DATASOURCE_FILE_PATH, report_file_path) values('b75e18298e534899afa61a8d44ecc212', 'USER_REPORT', 'UserReport.groovy', 'UserReport1.rptdesign');
 
 commit;

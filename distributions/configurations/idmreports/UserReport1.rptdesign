@@ -93,7 +93,9 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.ws" name="Data Source" id="7">
-            <method name="beforeOpen"><![CDATA[var myresourcefolder = reportContext.getDesignHandle().getResourceFolder();
+            <method name="beforeOpen"><![CDATA[//var myresourcefolder = reportContext.getDesignHandle().getResourceFolder();
+var reportFolderAndReportName = reportContext.getReportRunnable().getReportName();
+var myresourcefolder = reportFolderAndReportName.substr(0,reportFolderAndReportName.lastIndexOf('/')) 
 this.setExtensionProperty("OdaConnProfileStorePath", myresourcefolder + "/configuration.cps");]]></method>
             <property name="wsdlURI">http://localhost:9090/idmsrvc/ReportService?wsdl</property>
             <property name="OdaConnProfileName">Data Source</property>
