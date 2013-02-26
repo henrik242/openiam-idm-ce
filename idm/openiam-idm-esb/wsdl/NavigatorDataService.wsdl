@@ -1,27 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="NavigatorDataWebServiceService" targetNamespace="urn:idm.openiam.org/srvc/menu/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:idm.openiam.org/srvc/menu/service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:idm.openiam.org/srvc/menu/service" elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/menu/service" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns2="urn:idm.openiam.org/srvc/menu/service" xmlns:tns="urn:idm.openiam.org/srvc/role/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/role/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/menu/service"/>
+<xs:element name="Role" type="tns:role"/>
+<xs:complexType name="role">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="groups" type="ns1:groupSet"/>
+<xs:element minOccurs="0" name="id" type="tns:roleId"/>
+<xs:element minOccurs="0" name="provisionObjName" type="xs:string"/>
+<xs:element minOccurs="0" name="parentRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleAttributes" type="tns:roleAttributeSet"/>
+<xs:element minOccurs="0" name="roleName" type="xs:string"/>
+<xs:element name="userAssociationMethod" type="xs:int"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="ownerId" type="xs:string"/>
+<xs:element minOccurs="0" name="inheritFromParent" type="xs:int"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="childRoles" nillable="true" type="tns:role"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="internalRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="rolePolicy" nillable="true" type="tns:RolePolicy"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="roleSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="role" type="tns:role"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleId">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleAttributeSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleAttributeObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="roleAttribute" type="tns:roleAttribute"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleAttrId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RolePolicy">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="rolePolicyId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value1" type="xs:string"/>
+<xs:element minOccurs="0" name="value2" type="xs:string"/>
+<xs:element minOccurs="0" name="action" type="xs:string"/>
+<xs:element minOccurs="0" name="executionOrder" type="xs:int"/>
+<xs:element minOccurs="0" name="policyScript" type="xs:string"/>
+<xs:element minOccurs="0" name="actionQualifier" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:tns="urn:idm.openiam.org/srvc/menu/service" elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/menu/service" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
 <xs:element name="addMenu" type="tns:addMenu"/>
 <xs:element name="addMenuResponse" type="tns:addMenuResponse"/>
+<xs:element name="addPermission" type="tns:addPermission"/>
+<xs:element name="addPermissionResponse" type="tns:addPermissionResponse"/>
 <xs:element name="getAllMenuOptionIDs" type="tns:getAllMenuOptionIDs"/>
 <xs:element name="getAllMenuOptionIDsResponse" type="tns:getAllMenuOptionIDsResponse"/>
+<xs:element name="getAllPermissions" type="tns:getAllPermissions"/>
+<xs:element name="getAllPermissionsResponse" type="tns:getAllPermissionsResponse"/>
 <xs:element name="getMenu" type="tns:getMenu"/>
+<xs:element name="getMenuFamily" type="tns:getMenuFamily"/>
+<xs:element name="getMenuFamilyResponse" type="tns:getMenuFamilyResponse"/>
 <xs:element name="getMenuResponse" type="tns:getMenuResponse"/>
+<xs:element name="getMenuTree" type="tns:getMenuTree"/>
+<xs:element name="getMenuTreeResponse" type="tns:getMenuTreeResponse"/>
+<xs:element name="getMenusByRole" type="tns:getMenusByRole"/>
+<xs:element name="getMenusByRoleResponse" type="tns:getMenusByRoleResponse"/>
+<xs:element name="getMenusByUser" type="tns:getMenusByUser"/>
+<xs:element name="getMenusByUserResponse" type="tns:getMenusByUserResponse"/>
+<xs:element name="getPermission" type="tns:getPermission"/>
+<xs:element name="getPermissionResponse" type="tns:getPermissionResponse"/>
+<xs:element name="getRolesByMenu" type="tns:getRolesByMenu"/>
+<xs:element name="getRolesByMenuResponse" type="tns:getRolesByMenuResponse"/>
 <xs:element name="menuGroup" type="tns:menuGroup"/>
 <xs:element name="menuGroupByUser" type="tns:menuGroupByUser"/>
 <xs:element name="menuGroupByUserResponse" type="tns:menuGroupByUserResponse"/>
 <xs:element name="menuGroupResponse" type="tns:menuGroupResponse"/>
 <xs:element name="menuGroupSelectedByUser" type="tns:menuGroupSelectedByUser"/>
 <xs:element name="menuGroupSelectedByUserResponse" type="tns:menuGroupSelectedByUserResponse"/>
+<xs:element name="removeAllPermissions" type="tns:removeAllPermissions"/>
+<xs:element name="removeAllPermissionsResponse" type="tns:removeAllPermissionsResponse"/>
 <xs:element name="removeMenu" type="tns:removeMenu"/>
 <xs:element name="removeMenuResponse" type="tns:removeMenuResponse"/>
+<xs:element name="removePermission" type="tns:removePermission"/>
+<xs:element name="removePermissionResponse" type="tns:removePermissionResponse"/>
 <xs:element name="updateMenu" type="tns:updateMenu"/>
 <xs:element name="updateMenuResponse" type="tns:updateMenuResponse"/>
+<xs:element name="updatePermission" type="tns:updatePermission"/>
+<xs:element name="updatePermissionResponse" type="tns:updatePermissionResponse"/>
 <xs:complexType name="getAllMenuOptionIDs">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element minOccurs="0" name="arg1" type="xs:string"/>
+<xs:element minOccurs="0" name="parentMenuGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="languageCd" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getAllMenuOptionIDsResponse">
@@ -39,8 +153,8 @@
 </xs:complexType>
 <xs:complexType name="getMenu">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element minOccurs="0" name="arg1" type="xs:string"/>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="languageCd" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getMenuResponse">
@@ -77,14 +191,23 @@
 <xs:element minOccurs="0" name="languageCd" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="menuGroupSelectedByUser">
+<xs:complexType name="removePermission">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element minOccurs="0" name="arg1" type="xs:string"/>
-<xs:element minOccurs="0" name="arg2" type="xs:string"/>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="menuGroupSelectedByUserResponse">
+<xs:complexType name="removePermissionResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getMenuTree">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="languageCd" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenuTreeResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
 </xs:sequence>
@@ -98,9 +221,21 @@
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
+<xs:complexType name="menuGroupSelectedByUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="languageCd" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="menuGroupSelectedByUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="addMenu">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="tns:Menu"/>
+<xs:element minOccurs="0" name="data" type="tns:Menu"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="addMenuResponse">
@@ -110,7 +245,7 @@
 </xs:complexType>
 <xs:complexType name="updateMenu">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="tns:Menu"/>
+<xs:element minOccurs="0" name="data" type="tns:Menu"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="updateMenuResponse">
@@ -120,8 +255,8 @@
 </xs:complexType>
 <xs:complexType name="menuGroup">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element minOccurs="0" name="arg1" type="xs:string"/>
+<xs:element minOccurs="0" name="menuGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="langCd" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="menuGroupResponse">
@@ -129,10 +264,60 @@
 <xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="getPermission">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPermissionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PermissionResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionResponse">
+<xs:complexContent>
+<xs:extension base="tns:Response">
+<xs:sequence>
+<xs:element minOccurs="0" name="permission" type="tns:Permission"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="Permission">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="tns:PermissionId"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionId">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllPermissions">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getAllPermissionsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PermissionListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionListResponse">
+<xs:complexContent>
+<xs:extension base="tns:Response">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="permissionList" nillable="true" type="tns:Permission"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
 <xs:complexType name="removeMenu">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element name="arg1" type="xs:boolean"/>
+<xs:element minOccurs="0" name="menuid" type="xs:string"/>
+<xs:element name="deleteChildren" type="xs:boolean"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="removeMenuResponse">
@@ -140,14 +325,106 @@
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="updatePermission">
+<xs:sequence>
+<xs:element minOccurs="0" name="permission" type="tns:Permission"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePermissionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PermissionResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRolesByMenu">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRolesByMenuResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:RoleListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RoleListResponse">
+<xs:complexContent>
+<xs:extension base="tns:Response">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleList" nillable="true" type="ns1:role"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="objectState" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenusByRole">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenusByRoleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenuFamily">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="languageCd" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenuFamilyResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeAllPermissions">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="removeAllPermissionsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="menuGroupByUser">
 <xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element minOccurs="0" name="arg1" type="xs:string"/>
-<xs:element minOccurs="0" name="arg2" type="xs:string"/>
+<xs:element minOccurs="0" name="menuGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="languageCd" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="menuGroupByUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addPermission">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addPermissionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PermissionResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenusByUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="menuGroup" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMenusByUserResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:MenuListResponse"/>
 </xs:sequence>
@@ -172,6 +449,7 @@
 <xs:enumeration value="groupIdInvalid"/>
 <xs:enumeration value="roleIdNull"/>
 <xs:enumeration value="roleIdInvalid"/>
+<xs:enumeration value="objectIdInvalid"/>
 <xs:enumeration value="success"/>
 <xs:enumeration value="FAIL_SQL_ERORR"/>
 <xs:enumeration value="FAIL_CONNECTION"/>
@@ -191,25 +469,122 @@
 <xs:enumeration value="FAIL_REJECT_CHARS_IN_PSWD"/>
 <xs:enumeration value="FAIL_ENCRYPTION"/>
 <xs:enumeration value="FAIL_DECRYPTION"/>
+<xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
+<xs:enumeration value="COMMUNICATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="INVALID_ARGUMENTS"/>
+<xs:enumeration value="IO_EXCEPTION"/>
+<xs:enumeration value="FILE_EXCEPTION"/>
+<xs:enumeration value="SQL_EXCEPTION"/>
+<xs:enumeration value="WS_SERVICE_EXCEPTION"/>
+<xs:enumeration value="SYNCHRONIZATION_EXCEPTION"/>
+<xs:enumeration value="LIMIT_EXCEEDED_EXCEPTION"/>
+<xs:enumeration value="AUTHENTICATION_EXCEPTION"/>
+<xs:enumeration value="PERMISSION_EXCEPTION"/>
+<xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
+<xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_PREPROCESSOR"/>
+<xs:enumeration value="FAIL_POSTPROCESSOR"/>
+<xs:enumeration value="FAIL_PROCESS_ALREADY_RUNNING"/>
+<xs:enumeration value="MISSING_REQUIRED_ATTRIBUTE"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
+<xs:simpleType name="AttributeOperationEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="nochange"/>
+<xs:enumeration value="add"/>
+<xs:enumeration value="replace"/>
+<xs:enumeration value="delete"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:ns2="urn:idm.openiam.org/srvc/menu/service" xmlns:tns="urn:idm.openiam.org/srvc/grp/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/grp/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/menu/service"/>
+<xs:element name="Group" type="tns:Group"/>
+<xs:complexType name="groupSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="group" type="tns:Group"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Group">
+<xs:sequence>
+<xs:element minOccurs="0" name="roles" type="ns1:roleSet"/>
+<xs:element minOccurs="0" name="attributes" type="tns:groupAttributeMap"/>
+<xs:element minOccurs="0" name="companyId" type="xs:string"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="groupClass" type="xs:string"/>
+<xs:element minOccurs="0" name="grpId" type="xs:string"/>
+<xs:element minOccurs="0" name="grpName" type="xs:string"/>
+<xs:element minOccurs="0" name="inheritFromParent" type="xs:boolean"/>
+<xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="parentGrpId" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionMethod" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionObjName" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="subGroup" nillable="true" type="tns:Group"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ownerId" type="xs:string"/>
+<xs:element minOccurs="0" name="internalGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="groupAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="groupAttribute" type="tns:GroupAttribute"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GroupAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="getMenuFamilyResponse">
+    <wsdl:part name="parameters" element="tns:getMenuFamilyResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="menuGroupSelectedByUser">
     <wsdl:part name="parameters" element="tns:menuGroupSelectedByUser">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addMenu">
-    <wsdl:part name="parameters" element="tns:addMenu">
+  <wsdl:message name="getMenusByUser">
+    <wsdl:part name="parameters" element="tns:getMenusByUser">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeMenuResponse">
-    <wsdl:part name="parameters" element="tns:removeMenuResponse">
+  <wsdl:message name="getAllPermissions">
+    <wsdl:part name="parameters" element="tns:getAllPermissions">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateMenu">
-    <wsdl:part name="parameters" element="tns:updateMenu">
+  <wsdl:message name="getRolesByMenuResponse">
+    <wsdl:part name="parameters" element="tns:getRolesByMenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removePermission">
+    <wsdl:part name="parameters" element="tns:removePermission">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="menuGroupResponse">
@@ -228,24 +603,32 @@
     <wsdl:part name="parameters" element="tns:addMenuResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getMenuTree">
+    <wsdl:part name="parameters" element="tns:getMenuTree">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllMenuOptionIDsResponse">
     <wsdl:part name="parameters" element="tns:getAllMenuOptionIDsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAllMenuOptionIDs">
-    <wsdl:part name="parameters" element="tns:getAllMenuOptionIDs">
+  <wsdl:message name="removeAllPermissionsResponse">
+    <wsdl:part name="parameters" element="tns:removeAllPermissionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPermissionResponse">
+    <wsdl:part name="parameters" element="tns:getPermissionResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateMenuResponse">
     <wsdl:part name="parameters" element="tns:updateMenuResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="menuGroupSelectedByUserResponse">
-    <wsdl:part name="parameters" element="tns:menuGroupSelectedByUserResponse">
+  <wsdl:message name="getMenuFamily">
+    <wsdl:part name="parameters" element="tns:getMenuFamily">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getMenu">
-    <wsdl:part name="parameters" element="tns:getMenu">
+  <wsdl:message name="getMenusByRoleResponse">
+    <wsdl:part name="parameters" element="tns:getMenusByRoleResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="menuGroupByUser">
@@ -254,6 +637,78 @@
   </wsdl:message>
   <wsdl:message name="menuGroup">
     <wsdl:part name="parameters" element="tns:menuGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePermissionResponse">
+    <wsdl:part name="parameters" element="tns:updatePermissionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMenu">
+    <wsdl:part name="parameters" element="tns:addMenu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMenu">
+    <wsdl:part name="parameters" element="tns:updateMenu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeMenuResponse">
+    <wsdl:part name="parameters" element="tns:removeMenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRolesByMenu">
+    <wsdl:part name="parameters" element="tns:getRolesByMenu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMenusByRole">
+    <wsdl:part name="parameters" element="tns:getMenusByRole">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPermissionResponse">
+    <wsdl:part name="parameters" element="tns:addPermissionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPermission">
+    <wsdl:part name="parameters" element="tns:getPermission">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllPermissionsResponse">
+    <wsdl:part name="parameters" element="tns:getAllPermissionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removePermissionResponse">
+    <wsdl:part name="parameters" element="tns:removePermissionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePermission">
+    <wsdl:part name="parameters" element="tns:updatePermission">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPermission">
+    <wsdl:part name="parameters" element="tns:addPermission">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMenusByUserResponse">
+    <wsdl:part name="parameters" element="tns:getMenusByUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllMenuOptionIDs">
+    <wsdl:part name="parameters" element="tns:getAllMenuOptionIDs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="menuGroupSelectedByUserResponse">
+    <wsdl:part name="parameters" element="tns:menuGroupSelectedByUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMenuTreeResponse">
+    <wsdl:part name="parameters" element="tns:getMenuTreeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMenu">
+    <wsdl:part name="parameters" element="tns:getMenu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAllPermissions">
+    <wsdl:part name="parameters" element="tns:removeAllPermissions">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeMenu">
@@ -271,6 +726,18 @@
       <wsdl:input name="getMenu" message="tns:getMenu">
     </wsdl:input>
       <wsdl:output name="getMenuResponse" message="tns:getMenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removePermission">
+      <wsdl:input name="removePermission" message="tns:removePermission">
+    </wsdl:input>
+      <wsdl:output name="removePermissionResponse" message="tns:removePermissionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenuTree">
+      <wsdl:input name="getMenuTree" message="tns:getMenuTree">
+    </wsdl:input>
+      <wsdl:output name="getMenuTreeResponse" message="tns:getMenuTreeResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="menuGroupSelectedByUser">
@@ -297,16 +764,70 @@
       <wsdl:output name="menuGroupResponse" message="tns:menuGroupResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getPermission">
+      <wsdl:input name="getPermission" message="tns:getPermission">
+    </wsdl:input>
+      <wsdl:output name="getPermissionResponse" message="tns:getPermissionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllPermissions">
+      <wsdl:input name="getAllPermissions" message="tns:getAllPermissions">
+    </wsdl:input>
+      <wsdl:output name="getAllPermissionsResponse" message="tns:getAllPermissionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="removeMenu">
       <wsdl:input name="removeMenu" message="tns:removeMenu">
     </wsdl:input>
       <wsdl:output name="removeMenuResponse" message="tns:removeMenuResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="updatePermission">
+      <wsdl:input name="updatePermission" message="tns:updatePermission">
+    </wsdl:input>
+      <wsdl:output name="updatePermissionResponse" message="tns:updatePermissionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRolesByMenu">
+      <wsdl:input name="getRolesByMenu" message="tns:getRolesByMenu">
+    </wsdl:input>
+      <wsdl:output name="getRolesByMenuResponse" message="tns:getRolesByMenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenusByRole">
+      <wsdl:input name="getMenusByRole" message="tns:getMenusByRole">
+    </wsdl:input>
+      <wsdl:output name="getMenusByRoleResponse" message="tns:getMenusByRoleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenuFamily">
+      <wsdl:input name="getMenuFamily" message="tns:getMenuFamily">
+    </wsdl:input>
+      <wsdl:output name="getMenuFamilyResponse" message="tns:getMenuFamilyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAllPermissions">
+      <wsdl:input name="removeAllPermissions" message="tns:removeAllPermissions">
+    </wsdl:input>
+      <wsdl:output name="removeAllPermissionsResponse" message="tns:removeAllPermissionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="menuGroupByUser">
       <wsdl:input name="menuGroupByUser" message="tns:menuGroupByUser">
     </wsdl:input>
       <wsdl:output name="menuGroupByUserResponse" message="tns:menuGroupByUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPermission">
+      <wsdl:input name="addPermission" message="tns:addPermission">
+    </wsdl:input>
+      <wsdl:output name="addPermissionResponse" message="tns:addPermissionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenusByUser">
+      <wsdl:input name="getMenusByUser" message="tns:getMenusByUser">
+    </wsdl:input>
+      <wsdl:output name="getMenusByUserResponse" message="tns:getMenusByUserResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -327,6 +848,24 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getMenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenuTree">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMenuTree">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMenuTreeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removePermission">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removePermission">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removePermissionResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -366,6 +905,24 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getPermission">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPermission">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPermissionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllPermissions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllPermissions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllPermissionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="removeMenu">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="removeMenu">
@@ -375,12 +932,75 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="updatePermission">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatePermission">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatePermissionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenusByRole">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMenusByRole">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMenusByRoleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRolesByMenu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRolesByMenu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRolesByMenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenuFamily">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMenuFamily">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMenuFamilyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAllPermissions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeAllPermissions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeAllPermissionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPermission">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addPermission">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addPermissionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="menuGroupByUser">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="menuGroupByUser">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="menuGroupByUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMenusByUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMenusByUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMenusByUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

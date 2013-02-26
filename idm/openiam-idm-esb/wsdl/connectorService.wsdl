@@ -60,6 +60,167 @@
 </xs:complexContent>
 </xs:complexType>
 </xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:ns2="http://www.openiam.org/service/connector" xmlns:tns="urn:idm.openiam.org/srvc/user/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/user/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/continfo/dto"/>
+<xs:import namespace="http://www.openiam.org/service/connector"/>
+<xs:complexType name="user">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="addresses" nillable="true" type="ns1:address"/>
+<xs:element minOccurs="0" name="birthdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="companyId" type="xs:string"/>
+<xs:element minOccurs="0" name="companyOwnerId" type="xs:string"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="deptCd" type="xs:string"/>
+<xs:element minOccurs="0" name="deptName" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="emailAddresses" nillable="true" type="ns1:emailAddress"/>
+<xs:element minOccurs="0" name="employeeId" type="xs:string"/>
+<xs:element minOccurs="0" name="employeeType" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="jobCode" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="locationCd" type="xs:string"/>
+<xs:element minOccurs="0" name="locationName" type="xs:string"/>
+<xs:element minOccurs="0" name="managerId" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="classification" type="xs:string"/>
+<xs:element minOccurs="0" name="middleInit" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="phones" nillable="true" type="ns1:phone"/>
+<xs:element minOccurs="0" name="prefix" type="xs:string"/>
+<xs:element minOccurs="0" name="sex" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="tns:UserStatus"/>
+<xs:element minOccurs="0" name="secondaryStatus" type="tns:UserStatus"/>
+<xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="title" type="xs:string"/>
+<xs:element minOccurs="0" name="userAttributes" type="tns:userAttributeMap"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="userTypeInd" type="xs:string"/>
+<xs:element minOccurs="0" name="userNotes" type="tns:userNoteSet"/>
+<xs:element minOccurs="0" name="division" type="xs:string"/>
+<xs:element minOccurs="0" name="costCenter" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="mailCode" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
+<xs:element minOccurs="0" name="maidenName" type="xs:string"/>
+<xs:element minOccurs="0" name="passwordTheme" type="xs:string"/>
+<xs:element minOccurs="0" name="country" type="xs:string"/>
+<xs:element minOccurs="0" name="bldgNum" type="xs:string"/>
+<xs:element minOccurs="0" name="streetDirection" type="xs:string"/>
+<xs:element minOccurs="0" name="suite" type="xs:string"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="address4" type="xs:string"/>
+<xs:element minOccurs="0" name="address5" type="xs:string"/>
+<xs:element minOccurs="0" name="address6" type="xs:string"/>
+<xs:element minOccurs="0" name="address7" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="state" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCd" type="xs:string"/>
+<xs:element minOccurs="0" name="email" type="xs:string"/>
+<xs:element minOccurs="0" name="showInSearch" type="xs:int"/>
+<xs:element minOccurs="0" name="delAdmin" type="xs:int"/>
+<xs:element minOccurs="0" name="areaCd" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCd" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneNbr" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneExt" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="principalList" nillable="true" type="ns2:Login"/>
+<xs:element minOccurs="0" name="supervisor" type="tns:supervisor"/>
+<xs:element minOccurs="0" name="alternateContactId" type="xs:string"/>
+<xs:element minOccurs="0" name="securityDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="userOwnerId" type="xs:string"/>
+<xs:element minOccurs="0" name="datePasswordChanged" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dateChallengeRespChanged" type="xs:dateTime"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="userAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="userAttribute" type="tns:userAttribute"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="userAttribute">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="required" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="userNoteSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userNoteItem" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="userNote" type="tns:userNote"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="userNote">
+<xs:sequence>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="noteType" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="userNoteId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="supervisor">
+<xs:sequence>
+<xs:element minOccurs="0" name="comments" type="xs:string"/>
+<xs:element minOccurs="0" name="employee" type="tns:user"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="isPrimarySuper" type="xs:int"/>
+<xs:element minOccurs="0" name="orgStructureId" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="supervisor" type="tns:user"/>
+<xs:element minOccurs="0" name="supervisorType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="UserStatus">
+<xs:restriction base="xs:string">
+<xs:enumeration value="active"/>
+<xs:enumeration value="inactive"/>
+<xs:enumeration value="pending_start_date"/>
+<xs:enumeration value="pending_approval"/>
+<xs:enumeration value="approval_declined"/>
+<xs:enumeration value="pending_user_validation"/>
+<xs:enumeration value="pending_initial_login"/>
+<xs:enumeration value="terminate"/>
+<xs:enumeration value="deleted"/>
+<xs:enumeration value="locked"/>
+<xs:enumeration value="locked_admin"/>
+<xs:enumeration value="disabled"/>
+<xs:enumeration value="retired"/>
+<xs:enumeration value="leave"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns2="http://www.openiam.org/service/connector" xmlns:tns="urn:idm.openiam.org/srvc/role/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/role/dto" version="1.0">
 <xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
 <xs:import namespace="http://www.openiam.org/service/connector"/>
@@ -150,6 +311,67 @@
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/connector" xmlns:tns="urn:idm.openiam.org/srvc/org/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/org/dto" version="1.0">
+<xs:import namespace="http://www.openiam.org/service/connector"/>
+<xs:complexType name="organization">
+<xs:sequence>
+<xs:element minOccurs="0" name="alias" type="xs:string"/>
+<xs:element minOccurs="0" name="attributes" type="tns:organizationAttributeMap"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="domainName" type="xs:string"/>
+<xs:element minOccurs="0" name="ldapStr" type="xs:string"/>
+<xs:element minOccurs="0" name="lstUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lstUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationName" type="xs:string"/>
+<xs:element minOccurs="0" name="parentId" type="xs:string"/>
+<xs:element minOccurs="0" name="classification" type="tns:OrgClassification"/>
+<xs:element minOccurs="0" name="internalOrgId" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="abbreviation" type="xs:string"/>
+<xs:element minOccurs="0" name="symbol" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="organizationAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="organizationAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="organizationAttribute" type="tns:organizationAttribute"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="organizationAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="attrId" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="OrgClassification">
+<xs:restriction base="xs:string">
+<xs:enumeration value="organization"/>
+<xs:enumeration value="department"/>
+<xs:enumeration value="division"/>
+<xs:enumeration value="agency"/>
+<xs:enumeration value="vendor"/>
+<xs:enumeration value="partner"/>
+<xs:enumeration value="subsidiary"/>
+<xs:enumeration value="customer"/>
+<xs:enumeration value="affiliate"/>
+</xs:restriction>
+</xs:simpleType>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:ns2="http://www.openiam.org/service/connector" xmlns:tns="urn:idm.openiam.org/srvc/grp/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/grp/dto" version="1.0">
 <xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
@@ -242,6 +464,19 @@
 <xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="emailAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="isActive" type="xs:boolean"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="emailId" type="xs:string"/>
+<xs:element minOccurs="0" name="isDefault" type="xs:int"/>
+<xs:element minOccurs="0" name="parentId" type="xs:string"/>
+<xs:element minOccurs="0" name="parentType" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="phone">
 <xs:sequence>
 <xs:element minOccurs="0" name="isActive" type="xs:boolean"/>
@@ -259,21 +494,45 @@
 <xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="emailAddress">
+<xs:complexType name="addressMap">
 <xs:sequence>
-<xs:element minOccurs="0" name="isActive" type="xs:boolean"/>
-<xs:element minOccurs="0" name="description" type="xs:string"/>
-<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
-<xs:element minOccurs="0" name="emailId" type="xs:string"/>
-<xs:element minOccurs="0" name="isDefault" type="xs:int"/>
-<xs:element minOccurs="0" name="parentId" type="xs:string"/>
-<xs:element minOccurs="0" name="parentType" type="xs:string"/>
-<xs:element minOccurs="0" name="name" type="xs:string"/>
-<xs:element minOccurs="0" name="operation" type="ns1:AttributeOperationEnum"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="addressEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:ns2="urn:idm.openiam.org/srvc/continfo/dto" minOccurs="0" name="address" type="ns2:address"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="phoneMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="phoneEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:ns3="urn:idm.openiam.org/srvc/continfo/dto" minOccurs="0" name="phone" type="ns3:phone"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="emailAddressMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="emailAddressEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:ns4="urn:idm.openiam.org/srvc/continfo/dto" minOccurs="0" name="emailAddress" type="ns4:emailAddress"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/continfo/dto" xmlns:ns2="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns3="urn:idm.openiam.org/srvc/role/dto" xmlns:tns="http://www.openiam.org/service/types" elementFormDefault="qualified" targetNamespace="http://www.openiam.org/service/types" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/connector" xmlns:ns2="urn:idm.openiam.org/srvc/continfo/dto" xmlns:ns3="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns4="urn:idm.openiam.org/srvc/role/dto" xmlns:tns="http://www.openiam.org/service/types" elementFormDefault="qualified" targetNamespace="http://www.openiam.org/service/types" version="1.0">
+<xs:import namespace="http://www.openiam.org/service/connector"/>
 <xs:import namespace="urn:idm.openiam.org/srvc/continfo/dto"/>
 <xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
 <xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
@@ -289,6 +548,7 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="valueList" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="dataType" type="xs:string"/>
 <xs:element minOccurs="0" name="objectType" type="xs:string"/>
+<xs:element minOccurs="0" name="attributeContainer" type="ns1:BaseAttributeContainer"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="ExtensibleUser">
@@ -318,7 +578,7 @@
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleObject">
 <xs:sequence>
-<xs:element minOccurs="0" name="address" type="ns1:address"/>
+<xs:element minOccurs="0" name="address" type="ns2:address"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -327,7 +587,7 @@
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleObject">
 <xs:sequence>
-<xs:element minOccurs="0" name="phone" type="ns1:phone"/>
+<xs:element minOccurs="0" name="phone" type="ns2:phone"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -336,7 +596,7 @@
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleObject">
 <xs:sequence>
-<xs:element minOccurs="0" name="emailAddress" type="ns1:emailAddress"/>
+<xs:element minOccurs="0" name="emailAddress" type="ns2:emailAddress"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -345,7 +605,7 @@
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleObject">
 <xs:sequence>
-<xs:element minOccurs="0" name="group" type="ns2:Group"/>
+<xs:element minOccurs="0" name="group" type="ns3:Group"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -354,14 +614,18 @@
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleObject">
 <xs:sequence>
-<xs:element minOccurs="0" name="role" type="ns3:role"/>
+<xs:element minOccurs="0" name="role" type="ns4:role"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/types" xmlns:ns2="urn:oasis:names:tc:SPML:2:0:suspend" xmlns:tns="http://www.openiam.org/service/connector" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/connector" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.openiam.org/service/types" xmlns:ns2="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns3="urn:idm.openiam.org/srvc/role/dto" xmlns:ns4="urn:idm.openiam.org/srvc/org/dto" xmlns:ns5="urn:idm.openiam.org/srvc/user/dto" xmlns:ns6="urn:oasis:names:tc:SPML:2:0:suspend" xmlns:tns="http://www.openiam.org/service/connector" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/connector" version="1.0">
 <xs:import namespace="http://www.openiam.org/service/types"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/org/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/user/dto"/>
 <xs:import namespace="urn:oasis:names:tc:SPML:2:0:suspend"/>
 <xs:element name="add" type="tns:add"/>
 <xs:element name="addRequest" type="tns:AddRequestType"/>
@@ -380,6 +644,8 @@
 <xs:element name="modify" type="tns:modify"/>
 <xs:element name="modifyRequest" type="tns:ModifyRequestType"/>
 <xs:element name="modifyResponse" nillable="true" type="xs:anyType"/>
+<xs:element name="reconcileResource" type="tns:reconcileResource"/>
+<xs:element name="reconcileResourceResponse" type="tns:reconcileResourceResponse"/>
 <xs:element name="resetPassword" type="tns:resetPassword"/>
 <xs:element name="resetPasswordRequest" type="tns:ResetPasswordRequestType"/>
 <xs:element name="resetPasswordResponse" nillable="true" type="xs:anyType"/>
@@ -419,7 +685,9 @@
 <xs:complexType name="RequestType">
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleType">
-<xs:sequence/>
+<xs:sequence>
+<xs:element form="qualified" minOccurs="0" name="pUser" type="tns:ProvisionUser"/>
+</xs:sequence>
 <xs:attribute name="requestID" type="xs:ID"/>
 <xs:attribute name="executionMode" type="tns:ExecutionModeType"/>
 <xs:anyAttribute namespace="##other" processContents="skip"/>
@@ -430,6 +698,7 @@
 <xs:sequence>
 <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
 </xs:sequence>
+<xs:attribute name="errorMessage" type="xs:string"/>
 <xs:anyAttribute namespace="##other" processContents="skip"/>
 </xs:complexType>
 <xs:complexType name="PSOIdentifierType">
@@ -541,9 +810,7 @@
 <xs:complexType name="ResponseType">
 <xs:complexContent>
 <xs:extension base="tns:ExtensibleType">
-<xs:sequence>
-<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="errorMessage" nillable="true" type="xs:string"/>
-</xs:sequence>
+<xs:all/>
 <xs:attribute name="status" type="tns:StatusCodeType" use="required"/>
 <xs:attribute name="requestID" type="xs:ID"/>
 <xs:attribute name="error" type="tns:ErrorCode"/>
@@ -628,6 +895,21 @@
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
+<xs:complexType name="BaseAttributeContainer">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="tns:BaseAttribute"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BaseAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="attributeId" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="parentId" type="xs:string"/>
+<xs:element minOccurs="0" name="operationEnum" type="tns:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="arrayList">
 <xs:complexContent>
 <xs:extension base="tns:abstractList">
@@ -653,6 +935,170 @@
 <xs:anyAttribute namespace="##other" processContents="skip"/>
 </xs:extension>
 </xs:complexContent>
+</xs:complexType>
+<xs:complexType name="ProvisionUser">
+<xs:complexContent>
+<xs:extension base="ns5:user">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="memberOfGroups" nillable="true" type="ns2:Group"/>
+<xs:element minOccurs="0" name="requestId" type="xs:string"/>
+<xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="memberOfRoles" nillable="true" type="ns3:role"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userResourceList" nillable="true" type="tns:UserResourceAssociation"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userAffiliations" nillable="true" type="ns4:organization"/>
+<xs:element minOccurs="0" name="srcSystemId" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionModel" type="tns:ProvisionModelEnum"/>
+<xs:element minOccurs="0" name="securityDomain" type="xs:string"/>
+<xs:element name="notifyTargetSystems" type="xs:boolean"/>
+<xs:element name="emailCredentialsToNewUsers" type="xs:boolean"/>
+<xs:element name="emailCredentialsToSupervisor" type="xs:boolean"/>
+<xs:element name="provisionOnStartDate" type="xs:boolean"/>
+<xs:element name="addInitialPasswordToHistory" type="xs:boolean"/>
+<xs:element minOccurs="0" name="passwordPolicy" type="tns:Policy"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element name="skipPreprocessor" type="xs:boolean"/>
+<xs:element name="skipPostProcessor" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="objectState" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UserResourceAssociation">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceName" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSystemId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="tns:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Policy">
+<xs:sequence>
+<xs:element minOccurs="0" name="policyId" type="xs:string"/>
+<xs:element minOccurs="0" name="policyDefId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:int"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="rule" type="xs:string"/>
+<xs:element minOccurs="0" name="ruleSrcUrl" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="policyMemberships" nillable="true" type="tns:PolicyMembership"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="policyAttributes" nillable="true" type="tns:PolicyAttribute"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PolicyMembership">
+<xs:sequence>
+<xs:element minOccurs="0" name="policyMemId" type="xs:string"/>
+<xs:element minOccurs="0" name="policyId" type="xs:string"/>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceType" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceObjId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PolicyAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="policyAttrId" type="xs:string"/>
+<xs:element minOccurs="0" name="policyId" type="xs:string"/>
+<xs:element minOccurs="0" name="defParamId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="xs:string"/>
+<xs:element minOccurs="0" name="value1" type="xs:string"/>
+<xs:element minOccurs="0" name="value2" type="xs:string"/>
+<xs:element minOccurs="0" name="rule" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Login">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="tns:LoginId"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="pwdEquivalentToken" type="xs:string"/>
+<xs:element minOccurs="0" name="pwdChanged" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="pwdExp" type="xs:dateTime"/>
+<xs:element name="firstTimeLogin" type="xs:int"/>
+<xs:element name="resetPassword" type="xs:int"/>
+<xs:element name="isLocked" type="xs:int"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="gracePeriod" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="currentLoginHost" type="xs:string"/>
+<xs:element minOccurs="0" name="authFailCount" type="xs:int"/>
+<xs:element minOccurs="0" name="lastAuthAttempt" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="canonicalName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLogin" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="isDefault" type="xs:int"/>
+<xs:element name="selected" type="xs:boolean"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="loginAttributes" nillable="true" type="tns:LoginAttribute"/>
+<xs:element minOccurs="0" name="passwordChangeCount" type="xs:int"/>
+<xs:element minOccurs="0" name="operation" type="tns:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="origPrincipalName" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSysName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
+<xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="pswdResetToken" type="xs:string"/>
+<xs:element minOccurs="0" name="pswdResetTokenExp" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="loginAttrInTargetSystem" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LoginId">
+<xs:sequence>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="login" type="xs:string"/>
+<xs:element minOccurs="0" name="managedSysId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LoginAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="loginAttrId" type="xs:string"/>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="login" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataId" type="xs:string"/>
+<xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Subject">
+<xs:sequence>
+<xs:element name="readOnly" type="xs:boolean"/>
+<xs:element name="expirationTime" type="xs:long"/>
+<xs:element name="resultCode" type="xs:int"/>
+<xs:element minOccurs="0" name="saml" type="xs:string"/>
+<xs:element minOccurs="0" name="samlType" type="xs:string"/>
+<xs:element name="daysToPwdExp" type="xs:int"/>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="ssoToken" type="tns:SSOToken"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groups" nillable="true" type="xs:anyType"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roles" nillable="true" type="xs:anyType"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="principal" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="principals" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SSOToken">
+<xs:sequence>
+<xs:element minOccurs="0" name="tokenType" type="xs:string"/>
+<xs:element minOccurs="0" name="token" type="xs:string"/>
+<xs:element minOccurs="0" name="authLevel" type="xs:string"/>
+<xs:element minOccurs="0" name="provider" type="xs:string"/>
+<xs:element minOccurs="0" name="clientIP" type="xs:string"/>
+<xs:element minOccurs="0" name="principal" type="xs:string"/>
+<xs:element name="maxIdleTime" type="xs:int"/>
+<xs:element minOccurs="0" name="expirationTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+</xs:sequence>
 </xs:complexType>
 <xs:complexType name="LookupRequestType">
 <xs:complexContent>
@@ -688,15 +1134,6 @@
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
-<xs:complexType name="BaseObject">
-<xs:sequence>
-<xs:element minOccurs="0" name="objectState" type="xs:string"/>
-<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
-<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
-<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
-<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
-</xs:sequence>
-</xs:complexType>
 <xs:complexType name="addResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:AddResponseType"/>
@@ -704,10 +1141,38 @@
 </xs:complexType>
 <xs:complexType name="resume">
 <xs:sequence>
-<xs:element minOccurs="0" name="request" type="ns2:ResumeRequestType"/>
+<xs:element minOccurs="0" name="request" type="ns6:ResumeRequestType"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="resumeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ResponseType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reconcileResource">
+<xs:sequence>
+<xs:element minOccurs="0" name="config" type="tns:ReconciliationConfig"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReconciliationConfig">
+<xs:sequence>
+<xs:element minOccurs="0" name="reconConfigId" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="frequency" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="situationSet" nillable="true" type="tns:ReconciliationSituation"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReconciliationSituation">
+<xs:sequence>
+<xs:element minOccurs="0" name="reconSituationId" type="xs:string"/>
+<xs:element minOccurs="0" name="reconConfigId" type="xs:string"/>
+<xs:element minOccurs="0" name="situation" type="xs:string"/>
+<xs:element minOccurs="0" name="situationResp" type="xs:string"/>
+<xs:element minOccurs="0" name="script" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reconcileResourceResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:ResponseType"/>
 </xs:sequence>
@@ -745,10 +1210,10 @@
 <xs:element minOccurs="0" name="deleteHandler" type="xs:string"/>
 <xs:element minOccurs="0" name="passwordHandler" type="xs:string"/>
 <xs:element minOccurs="0" name="suspendHandler" type="xs:string"/>
-<xs:element minOccurs="0" name="handler1" type="xs:string"/>
-<xs:element minOccurs="0" name="handler2" type="xs:string"/>
-<xs:element minOccurs="0" name="handler3" type="xs:string"/>
-<xs:element minOccurs="0" name="handler4" type="xs:string"/>
+<xs:element minOccurs="0" name="searchHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="lookupHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="testConnectionHandler" type="xs:string"/>
+<xs:element minOccurs="0" name="reconcileResourceHandler" type="xs:string"/>
 <xs:element minOccurs="0" name="handler5" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
@@ -842,7 +1307,7 @@
 </xs:complexType>
 <xs:complexType name="suspend">
 <xs:sequence>
-<xs:element minOccurs="0" name="request" type="ns2:SuspendRequestType"/>
+<xs:element minOccurs="0" name="request" type="ns6:SuspendRequestType"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="suspendResponse">
@@ -936,9 +1401,13 @@
 <xs:enumeration value="customError"/>
 <xs:enumeration value="otherError"/>
 <xs:enumeration value="directoryError"/>
+<xs:enumeration value="namingException"/>
+<xs:enumeration value="operationNotSupportedException"/>
 <xs:enumeration value="sqlError"/>
 <xs:enumeration value="connectorError"/>
+<xs:enumeration value="csvError"/>
 <xs:enumeration value="invalidConfiguration"/>
+<xs:enumeration value="invalidAttribute"/>
 <xs:enumeration value="unsupportedExecutionMode"/>
 <xs:enumeration value="invalidContainment"/>
 <xs:enumeration value="noSuchRequest"/>
@@ -967,10 +1436,25 @@
 <xs:enumeration value="containerNotEmpty"/>
 </xs:restriction>
 </xs:simpleType>
+<xs:simpleType name="AttributeOperationEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="nochange"/>
+<xs:enumeration value="add"/>
+<xs:enumeration value="replace"/>
+<xs:enumeration value="delete"/>
+</xs:restriction>
+</xs:simpleType>
 <xs:simpleType name="ExecutionModeType">
 <xs:restriction base="xs:string">
 <xs:enumeration value="synchronous"/>
 <xs:enumeration value="asynchronous"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ProvisionModelEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="role"/>
+<xs:enumeration value="static"/>
+<xs:enumeration value="rule"/>
 </xs:restriction>
 </xs:simpleType>
 <xs:simpleType name="ReturnDataType">
@@ -980,16 +1464,12 @@
 <xs:enumeration value="everything"/>
 </xs:restriction>
 </xs:simpleType>
-<xs:simpleType name="AttributeOperationEnum">
-<xs:restriction base="xs:string">
-<xs:enumeration value="nochange"/>
-<xs:enumeration value="add"/>
-<xs:enumeration value="replace"/>
-<xs:enumeration value="delete"/>
-</xs:restriction>
-</xs:simpleType>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="reconcileResource">
+    <wsdl:part name="parameters" element="tns:reconcileResource">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="resetPasswordResponse">
     <wsdl:part name="parameters" element="tns:resetPasswordResponse">
     </wsdl:part>
@@ -1000,6 +1480,10 @@
   </wsdl:message>
   <wsdl:message name="delete">
     <wsdl:part name="parameters" element="tns:delete">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reconcileResourceResponse">
+    <wsdl:part name="parameters" element="tns:reconcileResourceResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="resumeResponse">
@@ -1066,12 +1550,12 @@
     <wsdl:part name="parameters" element="tns:suspend">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="expirePassword">
-    <wsdl:part name="parameters" element="tns:expirePassword">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="validatePassword">
     <wsdl:part name="parameters" element="tns:validatePassword">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="expirePassword">
+    <wsdl:part name="parameters" element="tns:expirePassword">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="resetPassword">
@@ -1089,6 +1573,12 @@
       <wsdl:input name="resume" message="tns:resume">
     </wsdl:input>
       <wsdl:output name="resumeResponse" message="tns:resumeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reconcileResource">
+      <wsdl:input name="reconcileResource" message="tns:reconcileResource">
+    </wsdl:input>
+      <wsdl:output name="reconcileResourceResponse" message="tns:reconcileResourceResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="testConnection">
@@ -1163,6 +1653,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="resumeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reconcileResource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="reconcileResource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reconcileResourceResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

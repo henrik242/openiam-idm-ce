@@ -76,6 +76,8 @@
 <xs:element name="getSupervisorResponse" type="tns:getSupervisorResponse"/>
 <xs:element name="getSupervisors" type="tns:getSupervisors"/>
 <xs:element name="getSupervisorsResponse" type="tns:getSupervisorsResponse"/>
+<xs:element name="getUserAsAttributeList" type="tns:getUserAsAttributeList"/>
+<xs:element name="getUserAsAttributeListResponse" type="tns:getUserAsAttributeListResponse"/>
 <xs:element name="getUserByName" type="tns:getUserByName"/>
 <xs:element name="getUserByNameResponse" type="tns:getUserByNameResponse"/>
 <xs:element name="getUserByPrincipal" type="tns:getUserByPrincipal"/>
@@ -270,6 +272,9 @@
 <xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
 <xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
 <xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="pswdResetToken" type="xs:string"/>
+<xs:element minOccurs="0" name="pswdResetTokenExp" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="loginAttrInTargetSystem" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="LoginId">
@@ -652,6 +657,26 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:Response"/>
 </xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUserAsAttributeList">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalName" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUserAsAttributeListResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:AttributeListResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AttributeListResponse">
+<xs:complexContent>
+<xs:extension base="tns:Response">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="ns2:userAttribute"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 <xs:complexType name="updateAddress">
 <xs:sequence>
@@ -1078,6 +1103,7 @@
 <xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
 <xs:enumeration value="COMMUNICATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="INVALID_ARGUMENTS"/>
 <xs:enumeration value="IO_EXCEPTION"/>
 <xs:enumeration value="FILE_EXCEPTION"/>
 <xs:enumeration value="SQL_EXCEPTION"/>
@@ -1088,6 +1114,10 @@
 <xs:enumeration value="PERMISSION_EXCEPTION"/>
 <xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
 <xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_PREPROCESSOR"/>
+<xs:enumeration value="FAIL_POSTPROCESSOR"/>
+<xs:enumeration value="FAIL_PROCESS_ALREADY_RUNNING"/>
+<xs:enumeration value="MISSING_REQUIRED_ATTRIBUTE"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
@@ -1279,12 +1309,20 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="deptIdList" nillable="true" type="xs:string"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="divisionIdList" nillable="true" type="xs:string"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="tns:SearchAttribute"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="dateAttributeList" nillable="true" type="tns:DateSearchAttribute"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="SearchAttribute">
 <xs:sequence>
 <xs:element minOccurs="0" name="attributeName" type="xs:string"/>
 <xs:element minOccurs="0" name="attributeValue" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DateSearchAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="attributeName" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="xs:string"/>
+<xs:element minOccurs="0" name="attributeValue" type="xs:dateTime"/>
 </xs:sequence>
 </xs:complexType>
 <xs:simpleType name="UserStatus">
@@ -1534,6 +1572,10 @@
     <wsdl:part name="parameters" element="tns:findUserByOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getUserAsAttributeList">
+    <wsdl:part name="parameters" element="tns:getUserAsAttributeList">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="addPhoneResponse">
     <wsdl:part name="parameters" element="tns:addPhoneResponse">
     </wsdl:part>
@@ -1714,12 +1756,12 @@
     <wsdl:part name="parameters" element="tns:removeSupervisor">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeAllNotesResponse">
-    <wsdl:part name="parameters" element="tns:removeAllNotesResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getAddressByName">
     <wsdl:part name="parameters" element="tns:getAddressByName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAllNotesResponse">
+    <wsdl:part name="parameters" element="tns:removeAllNotesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeEmailAddress">
@@ -1780,6 +1822,10 @@
   </wsdl:message>
   <wsdl:message name="getUserWithDependentResponse">
     <wsdl:part name="parameters" element="tns:getUserWithDependentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserAsAttributeListResponse">
+    <wsdl:part name="parameters" element="tns:getUserAsAttributeListResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateAddressResponse">
@@ -2081,6 +2127,12 @@
       <wsdl:input name="updatePhone" message="tns:updatePhone">
     </wsdl:input>
       <wsdl:output name="updatePhoneResponse" message="tns:updatePhoneResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserAsAttributeList">
+      <wsdl:input name="getUserAsAttributeList" message="tns:getUserAsAttributeList">
+    </wsdl:input>
+      <wsdl:output name="getUserAsAttributeListResponse" message="tns:getUserAsAttributeListResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="updateAddress">
@@ -2536,6 +2588,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="addUserWithDependentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserAsAttributeList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserAsAttributeList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserAsAttributeListResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

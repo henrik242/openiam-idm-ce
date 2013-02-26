@@ -395,6 +395,9 @@
 <xs:element minOccurs="0" name="lastLoginIP" type="xs:string"/>
 <xs:element minOccurs="0" name="prevLoginIP" type="xs:string"/>
 <xs:element minOccurs="0" name="prevLogin" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="pswdResetToken" type="xs:string"/>
+<xs:element minOccurs="0" name="pswdResetTokenExp" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="loginAttrInTargetSystem" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="LoginId">
@@ -780,6 +783,7 @@
 <xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
 <xs:enumeration value="COMMUNICATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="INVALID_ARGUMENTS"/>
 <xs:enumeration value="IO_EXCEPTION"/>
 <xs:enumeration value="FILE_EXCEPTION"/>
 <xs:enumeration value="SQL_EXCEPTION"/>
@@ -790,6 +794,10 @@
 <xs:enumeration value="PERMISSION_EXCEPTION"/>
 <xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
 <xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_PREPROCESSOR"/>
+<xs:enumeration value="FAIL_POSTPROCESSOR"/>
+<xs:enumeration value="FAIL_PROCESS_ALREADY_RUNNING"/>
+<xs:enumeration value="MISSING_REQUIRED_ATTRIBUTE"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>

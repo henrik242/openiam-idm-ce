@@ -1,9 +1,205 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="AsynchIdentitySynchServiceService" targetNamespace="http://www.openiam.org/service/synch" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.openiam.org/service/synch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.openiam.org/service/synch" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/synch" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns2="http://www.openiam.org/service/synch" xmlns:tns="urn:idm.openiam.org/srvc/role/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/role/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
+<xs:import namespace="http://www.openiam.org/service/synch"/>
+<xs:element name="Role" type="tns:role"/>
+<xs:complexType name="roleId">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="role">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="groups" type="ns1:groupSet"/>
+<xs:element minOccurs="0" name="id" type="tns:roleId"/>
+<xs:element minOccurs="0" name="provisionObjName" type="xs:string"/>
+<xs:element minOccurs="0" name="parentRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleAttributes" type="tns:roleAttributeSet"/>
+<xs:element minOccurs="0" name="roleName" type="xs:string"/>
+<xs:element name="userAssociationMethod" type="xs:int"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="ownerId" type="xs:string"/>
+<xs:element minOccurs="0" name="inheritFromParent" type="xs:int"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="childRoles" nillable="true" type="tns:role"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="internalRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="rolePolicy" nillable="true" type="tns:RolePolicy"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="roleSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="role" type="tns:role"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleAttributeSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleAttributeObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="roleAttribute" type="tns:roleAttribute"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleAttrId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RolePolicy">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="rolePolicyId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value1" type="xs:string"/>
+<xs:element minOccurs="0" name="value2" type="xs:string"/>
+<xs:element minOccurs="0" name="action" type="xs:string"/>
+<xs:element minOccurs="0" name="executionOrder" type="xs:int"/>
+<xs:element minOccurs="0" name="policyScript" type="xs:string"/>
+<xs:element minOccurs="0" name="actionQualifier" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:ns2="http://www.openiam.org/service/synch" xmlns:tns="urn:idm.openiam.org/srvc/grp/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/grp/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
+<xs:import namespace="http://www.openiam.org/service/synch"/>
+<xs:element name="Group" type="tns:Group"/>
+<xs:complexType name="groupSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="group" type="tns:Group"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Group">
+<xs:sequence>
+<xs:element minOccurs="0" name="roles" type="ns1:roleSet"/>
+<xs:element minOccurs="0" name="attributes" type="tns:groupAttributeMap"/>
+<xs:element minOccurs="0" name="companyId" type="xs:string"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="groupClass" type="xs:string"/>
+<xs:element minOccurs="0" name="grpId" type="xs:string"/>
+<xs:element minOccurs="0" name="grpName" type="xs:string"/>
+<xs:element minOccurs="0" name="inheritFromParent" type="xs:boolean"/>
+<xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="parentGrpId" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionMethod" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionObjName" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="subGroup" nillable="true" type="tns:Group"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ownerId" type="xs:string"/>
+<xs:element minOccurs="0" name="internalGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="groupAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="groupAttribute" type="tns:GroupAttribute"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GroupAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:tns="http://www.openiam.org/service/synch" elementFormDefault="unqualified" targetNamespace="http://www.openiam.org/service/synch" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
+<xs:element name="bulkUserMigration" type="tns:bulkUserMigration"/>
+<xs:element name="bulkUserMigrationResponse" type="tns:bulkUserMigrationResponse"/>
+<xs:element name="resynchRole" type="tns:resynchRole"/>
+<xs:element name="resynchRoleResponse" type="tns:resynchRoleResponse"/>
 <xs:element name="startSynchronization" type="tns:startSynchronization"/>
 <xs:element name="startSynchronizationResponse" type="tns:startSynchronizationResponse"/>
+<xs:complexType name="resynchRole">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleId" type="ns1:roleId"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="resynchRoleResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="bulkUserMigration">
+<xs:sequence>
+<xs:element minOccurs="0" name="config" type="tns:bulkMigrationConfig"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="bulkMigrationConfig">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionType" type="xs:string"/>
+<xs:element minOccurs="0" name="attributeName" type="xs:string"/>
+<xs:element minOccurs="0" name="attributeValue" type="xs:string"/>
+<xs:element minOccurs="0" name="dateOperation" type="xs:string"/>
+<xs:element minOccurs="0" name="deptId" type="xs:string"/>
+<xs:element minOccurs="0" name="division" type="xs:string"/>
+<xs:element minOccurs="0" name="lastLoginDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="maxResultSize" type="xs:int"/>
+<xs:element minOccurs="0" name="newPassword" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="role" type="xs:string"/>
+<xs:element minOccurs="0" name="targetResource" type="xs:string"/>
+<xs:element minOccurs="0" name="targetRole" type="xs:string"/>
+<xs:element minOccurs="0" name="userStatus" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="bulkUserMigrationResponse">
+<xs:sequence/>
+</xs:complexType>
 <xs:complexType name="startSynchronization">
 <xs:sequence>
 <xs:element minOccurs="0" name="config" type="tns:SynchConfig"/>
@@ -34,7 +230,7 @@
 <xs:element minOccurs="0" name="connectionUrl" type="xs:string"/>
 <xs:element minOccurs="0" name="query" type="xs:string"/>
 <xs:element minOccurs="0" name="queryTimeField" type="xs:string"/>
-<xs:element minOccurs="0" name="lastExecTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastExecTime" type="xs:datetime"/>
 <xs:element minOccurs="0" name="customMatchRule" type="xs:string"/>
 <xs:element minOccurs="0" name="customMatchAttr" type="xs:string"/>
 <xs:element minOccurs="0" name="customAdatperScript" type="xs:string"/>
@@ -42,11 +238,29 @@
 <xs:element minOccurs="0" name="lastRecProcessed" type="xs:string"/>
 <xs:element minOccurs="0" name="wsScript" type="xs:string"/>
 <xs:element minOccurs="0" name="wsUrl" type="xs:string"/>
+<xs:element minOccurs="0" name="wsEndPoint" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="startSynchronizationResponse">
 <xs:sequence/>
 </xs:complexType>
+<xs:complexType name="BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="objectState" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="requestorLogin" type="xs:string"/>
+<xs:element minOccurs="0" name="requestorDomain" type="xs:string"/>
+<xs:element minOccurs="0" name="requestClientIP" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="AttributeOperationEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="nochange"/>
+<xs:enumeration value="add"/>
+<xs:enumeration value="replace"/>
+<xs:enumeration value="delete"/>
+</xs:restriction>
+</xs:simpleType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="startSynchronization">
@@ -57,7 +271,35 @@
     <wsdl:part name="parameters" element="tns:startSynchronizationResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="bulkUserMigration">
+    <wsdl:part name="parameters" element="tns:bulkUserMigration">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resynchRole">
+    <wsdl:part name="parameters" element="tns:resynchRole">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bulkUserMigrationResponse">
+    <wsdl:part name="parameters" element="tns:bulkUserMigrationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resynchRoleResponse">
+    <wsdl:part name="parameters" element="tns:resynchRoleResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="AsynchIdentitySynchService">
+    <wsdl:operation name="resynchRole">
+      <wsdl:input name="resynchRole" message="tns:resynchRole">
+    </wsdl:input>
+      <wsdl:output name="resynchRoleResponse" message="tns:resynchRoleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bulkUserMigration">
+      <wsdl:input name="bulkUserMigration" message="tns:bulkUserMigration">
+    </wsdl:input>
+      <wsdl:output name="bulkUserMigrationResponse" message="tns:bulkUserMigrationResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="startSynchronization">
       <wsdl:input name="startSynchronization" message="tns:startSynchronization">
     </wsdl:input>
@@ -67,6 +309,24 @@
   </wsdl:portType>
   <wsdl:binding name="AsynchIdentitySynchServiceServiceSoapBinding" type="tns:AsynchIdentitySynchService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="resynchRole">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="resynchRole">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="resynchRoleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bulkUserMigration">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="bulkUserMigration">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="bulkUserMigrationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="startSynchronization">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="startSynchronization">

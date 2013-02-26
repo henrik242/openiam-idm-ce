@@ -160,6 +160,10 @@
 <xs:element name="authenticateByTokenResponse" type="tns:authenticateByTokenResponse"/>
 <xs:element name="globalLogout" type="tns:globalLogout"/>
 <xs:element name="globalLogoutResponse" type="tns:globalLogoutResponse"/>
+<xs:element name="isUserLoggedin" type="tns:isUserLoggedin"/>
+<xs:element name="isUserLoggedinResponse" type="tns:isUserLoggedinResponse"/>
+<xs:element name="localLogout" type="tns:localLogout"/>
+<xs:element name="localLogoutResponse" type="tns:localLogoutResponse"/>
 <xs:element name="login" type="tns:login"/>
 <xs:element name="loginResponse" type="tns:loginResponse"/>
 <xs:element name="passwordAuth" type="tns:passwordAuth"/>
@@ -174,9 +178,9 @@
 <xs:element name="validateTokenResponse" type="tns:validateTokenResponse"/>
 <xs:complexType name="authenticateByToken">
 <xs:sequence>
-<xs:element minOccurs="0" name="userId" type="xs:string"/>
 <xs:element minOccurs="0" name="token" type="xs:string"/>
 <xs:element minOccurs="0" name="tokenType" type="xs:string"/>
+<xs:element minOccurs="0" name="ip" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="authenticateByTokenResponse">
@@ -219,6 +223,7 @@
 <xs:element minOccurs="0" name="principal" type="xs:string"/>
 <xs:element minOccurs="0" name="token" type="xs:string"/>
 <xs:element minOccurs="0" name="tokenType" type="xs:string"/>
+<xs:element minOccurs="0" name="ip" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="renewTokenResponse">
@@ -274,6 +279,30 @@
 <xs:complexType name="updateAppStatusResponse">
 <xs:sequence/>
 </xs:complexType>
+<xs:complexType name="localLogout">
+<xs:sequence>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="ip" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="localLogoutResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="isUserLoggedin">
+<xs:sequence>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="ip" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserLoggedinResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:BooleanResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BooleanResponse">
+<xs:sequence/>
+<xs:attribute name="value" type="xs:boolean" use="required"/>
+</xs:complexType>
 <xs:complexType name="globalLogout">
 <xs:sequence>
 <xs:element minOccurs="0" name="userId" type="xs:string"/>
@@ -293,10 +322,6 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:BooleanResponse"/>
 </xs:sequence>
-</xs:complexType>
-<xs:complexType name="BooleanResponse">
-<xs:sequence/>
-<xs:attribute name="value" type="xs:boolean" use="required"/>
 </xs:complexType>
 <xs:complexType name="passwordAuth">
 <xs:sequence>
@@ -374,6 +399,7 @@
 <xs:enumeration value="DIRECTORY_NAMING_EXCEPTION"/>
 <xs:enumeration value="COMMUNICATION_EXCEPTION"/>
 <xs:enumeration value="FAIL_CONNECTOR"/>
+<xs:enumeration value="INVALID_ARGUMENTS"/>
 <xs:enumeration value="IO_EXCEPTION"/>
 <xs:enumeration value="FILE_EXCEPTION"/>
 <xs:enumeration value="SQL_EXCEPTION"/>
@@ -384,6 +410,10 @@
 <xs:enumeration value="PERMISSION_EXCEPTION"/>
 <xs:enumeration value="SERVICE_UNAVAILABLE_EXCEPTION"/>
 <xs:enumeration value="SCHEMA_VIOLATION_EXCEPTION"/>
+<xs:enumeration value="FAIL_PREPROCESSOR"/>
+<xs:enumeration value="FAIL_POSTPROCESSOR"/>
+<xs:enumeration value="FAIL_PROCESS_ALREADY_RUNNING"/>
+<xs:enumeration value="MISSING_REQUIRED_ATTRIBUTE"/>
 <xs:enumeration value="FAIL_OTHER"/>
 </xs:restriction>
 </xs:simpleType>
@@ -429,16 +459,24 @@
     <wsdl:part name="parameters" element="tns:authenticateByTokenResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="loginResponse">
-    <wsdl:part name="parameters" element="tns:loginResponse">
+  <wsdl:message name="localLogoutResponse">
+    <wsdl:part name="parameters" element="tns:localLogoutResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="globalLogout">
     <wsdl:part name="parameters" element="tns:globalLogout">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part name="parameters" element="tns:loginResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="validateTokenByUserResponse">
     <wsdl:part name="parameters" element="tns:validateTokenByUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="localLogout">
+    <wsdl:part name="parameters" element="tns:localLogout">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateTokenResponse">
@@ -469,6 +507,10 @@
     <wsdl:part name="AuthenticationException" element="tns:AuthenticationException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="globalLogoutResponse">
+    <wsdl:part name="parameters" element="tns:globalLogoutResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="login">
     <wsdl:part name="parameters" element="tns:login">
     </wsdl:part>
@@ -477,12 +519,16 @@
     <wsdl:part name="parameters" element="tns:updateAppStatusResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="globalLogoutResponse">
-    <wsdl:part name="parameters" element="tns:globalLogoutResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="renewTokenResponse">
     <wsdl:part name="parameters" element="tns:renewTokenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserLoggedin">
+    <wsdl:part name="parameters" element="tns:isUserLoggedin">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserLoggedinResponse">
+    <wsdl:part name="parameters" element="tns:isUserLoggedinResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="AuthenticationService">
@@ -510,6 +556,20 @@
       <wsdl:input name="updateAppStatus" message="tns:updateAppStatus">
     </wsdl:input>
       <wsdl:output name="updateAppStatusResponse" message="tns:updateAppStatusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="localLogout">
+      <wsdl:input name="localLogout" message="tns:localLogout">
+    </wsdl:input>
+      <wsdl:output name="localLogoutResponse" message="tns:localLogoutResponse">
+    </wsdl:output>
+      <wsdl:fault name="LogoutException" message="tns:LogoutException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isUserLoggedin">
+      <wsdl:input name="isUserLoggedin" message="tns:isUserLoggedin">
+    </wsdl:input>
+      <wsdl:output name="isUserLoggedinResponse" message="tns:isUserLoggedinResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="globalLogout">
@@ -580,6 +640,18 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="localLogout">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="localLogout">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="localLogoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="LogoutException">
+        <soap:fault name="LogoutException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="globalLogout">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="globalLogout">
@@ -591,6 +663,15 @@
       <wsdl:fault name="LogoutException">
         <soap:fault name="LogoutException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isUserLoggedin">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isUserLoggedin">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isUserLoggedinResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="passwordAuth">
       <soap:operation soapAction="" style="document"/>

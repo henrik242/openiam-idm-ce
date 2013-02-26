@@ -74,7 +74,6 @@
 <xs:element minOccurs="0" name="createdBy" type="xs:string"/>
 <xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime"/>
 <xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="identityQuestions" nillable="true" type="tns:IdentityQuestion"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>

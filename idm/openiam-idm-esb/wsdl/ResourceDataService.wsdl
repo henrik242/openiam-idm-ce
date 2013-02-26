@@ -1,8 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="ResourceDataServiceService" targetNamespace="urn:idm.openiam.org/srvc/res/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:idm.openiam.org/srvc/res/service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:idm.openiam.org/srvc/res/service" elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/res/service" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/grp/dto" xmlns:ns2="urn:idm.openiam.org/srvc/res/service" xmlns:tns="urn:idm.openiam.org/srvc/role/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/role/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/grp/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/res/service"/>
+<xs:element name="Role" type="tns:role"/>
+<xs:complexType name="role">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="groups" type="ns1:groupSet"/>
+<xs:element minOccurs="0" name="id" type="tns:roleId"/>
+<xs:element minOccurs="0" name="provisionObjName" type="xs:string"/>
+<xs:element minOccurs="0" name="parentRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleAttributes" type="tns:roleAttributeSet"/>
+<xs:element minOccurs="0" name="roleName" type="xs:string"/>
+<xs:element name="userAssociationMethod" type="xs:int"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="ownerId" type="xs:string"/>
+<xs:element minOccurs="0" name="inheritFromParent" type="xs:int"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="childRoles" nillable="true" type="tns:role"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="internalRoleId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="rolePolicy" nillable="true" type="tns:RolePolicy"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="roleSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="role" type="tns:role"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleId">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleAttributeSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roleAttributeObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="roleAttribute" type="tns:roleAttribute"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="roleAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="roleAttrId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="attrGroup" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RolePolicy">
+<xs:complexContent>
+<xs:extension base="ns2:BaseObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="rolePolicyId" type="xs:string"/>
+<xs:element minOccurs="0" name="serviceId" type="xs:string"/>
+<xs:element minOccurs="0" name="roleId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value1" type="xs:string"/>
+<xs:element minOccurs="0" name="value2" type="xs:string"/>
+<xs:element minOccurs="0" name="action" type="xs:string"/>
+<xs:element minOccurs="0" name="executionOrder" type="xs:int"/>
+<xs:element minOccurs="0" name="policyScript" type="xs:string"/>
+<xs:element minOccurs="0" name="actionQualifier" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:tns="urn:idm.openiam.org/srvc/res/service" elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/res/service" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
 <xs:element name="addResource" type="tns:addResource"/>
+<xs:element name="addResourcePrivilege" type="tns:addResourcePrivilege"/>
+<xs:element name="addResourcePrivilegeResponse" type="tns:addResourcePrivilegeResponse"/>
 <xs:element name="addResourceProp" type="tns:addResourceProp"/>
 <xs:element name="addResourcePropResponse" type="tns:addResourcePropResponse"/>
 <xs:element name="addResourceResponse" type="tns:addResourceResponse"/>
@@ -12,6 +106,8 @@
 <xs:element name="addResourceTypeResponse" type="tns:addResourceTypeResponse"/>
 <xs:element name="addUserToResource" type="tns:addUserToResource"/>
 <xs:element name="addUserToResourceResponse" type="tns:addUserToResourceResponse"/>
+<xs:element name="attributeString" type="tns:attributeString"/>
+<xs:element name="attributeStringResponse" type="tns:attributeStringResponse"/>
 <xs:element name="findResourceProperties" type="tns:findResourceProperties"/>
 <xs:element name="findResourcePropertiesResponse" type="tns:findResourcePropertiesResponse"/>
 <xs:element name="findTypeOfResource" type="tns:findTypeOfResource"/>
@@ -26,6 +122,10 @@
 <xs:element name="getAllResourcesResponse" type="tns:getAllResourcesResponse"/>
 <xs:element name="getChildResources" type="tns:getChildResources"/>
 <xs:element name="getChildResourcesResponse" type="tns:getChildResourcesResponse"/>
+<xs:element name="getPrivilegesByEntitlementType" type="tns:getPrivilegesByEntitlementType"/>
+<xs:element name="getPrivilegesByEntitlementTypeResponse" type="tns:getPrivilegesByEntitlementTypeResponse"/>
+<xs:element name="getPrivilegesByResourceId" type="tns:getPrivilegesByResourceId"/>
+<xs:element name="getPrivilegesByResourceIdResponse" type="tns:getPrivilegesByResourceIdResponse"/>
 <xs:element name="getResource" type="tns:getResource"/>
 <xs:element name="getResourceByName" type="tns:getResourceByName"/>
 <xs:element name="getResourceByNameResponse" type="tns:getResourceByNameResponse"/>
@@ -62,9 +162,13 @@
 <xs:element name="getResourcesForRoleResponse" type="tns:getResourcesForRoleResponse"/>
 <xs:element name="getResourcesForRoles" type="tns:getResourcesForRoles"/>
 <xs:element name="getResourcesForRolesResponse" type="tns:getResourcesForRolesResponse"/>
+<xs:element name="getRolesForResource" type="tns:getRolesForResource"/>
+<xs:element name="getRolesForResourceResponse" type="tns:getRolesForResourceResponse"/>
 <xs:element name="getRootResources" type="tns:getRootResources"/>
 <xs:element name="getRootResourcesResponse" type="tns:getRootResourcesResponse"/>
 <xs:element name="getUserResources" type="tns:getUserResources"/>
+<xs:element name="getUserResourcesByType" type="tns:getUserResourcesByType"/>
+<xs:element name="getUserResourcesByTypeResponse" type="tns:getUserResourcesByTypeResponse"/>
 <xs:element name="getUserResourcesResponse" type="tns:getUserResourcesResponse"/>
 <xs:element name="isRoleAuthorized" type="tns:isRoleAuthorized"/>
 <xs:element name="isRoleAuthorizedResponse" type="tns:isRoleAuthorizedResponse"/>
@@ -83,6 +187,8 @@
 <xs:element name="removePropertiesByResource" type="tns:removePropertiesByResource"/>
 <xs:element name="removePropertiesByResourceResponse" type="tns:removePropertiesByResourceResponse"/>
 <xs:element name="removeResource" type="tns:removeResource"/>
+<xs:element name="removeResourcePrivilege" type="tns:removeResourcePrivilege"/>
+<xs:element name="removeResourcePrivilegeResponse" type="tns:removeResourcePrivilegeResponse"/>
 <xs:element name="removeResourceProp" type="tns:removeResourceProp"/>
 <xs:element name="removeResourcePropResponse" type="tns:removeResourcePropResponse"/>
 <xs:element name="removeResourceResponse" type="tns:removeResourceResponse"/>
@@ -99,6 +205,8 @@
 <xs:element name="removeUserFromAllResources" type="tns:removeUserFromAllResources"/>
 <xs:element name="removeUserFromAllResourcesResponse" type="tns:removeUserFromAllResourcesResponse"/>
 <xs:element name="updateResource" type="tns:updateResource"/>
+<xs:element name="updateResourcePrivilege" type="tns:updateResourcePrivilege"/>
+<xs:element name="updateResourcePrivilegeResponse" type="tns:updateResourcePrivilegeResponse"/>
 <xs:element name="updateResourceProp" type="tns:updateResourceProp"/>
 <xs:element name="updateResourcePropResponse" type="tns:updateResourcePropResponse"/>
 <xs:element name="updateResourceResponse" type="tns:updateResourceResponse"/>
@@ -125,9 +233,15 @@
 <xs:element minOccurs="0" name="return" type="tns:ResourceProp"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="updateResource">
+<xs:complexType name="getUserResourcesByType">
 <xs:sequence>
-<xs:element minOccurs="0" name="resource" type="tns:Resource"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceTypeId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUserResourcesByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Resource"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="Resource">
@@ -150,7 +264,9 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="resourceProps" nillable="true" type="tns:ResourceProp"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="childResources" nillable="true" type="tns:Resource"/>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="resourceGroups" nillable="true" type="tns:ResourceGroup"/>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="privileges" nillable="true" type="tns:privilegeDef"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="entitlements" nillable="true" type="tns:ResourcePrivilege"/>
+<xs:element minOccurs="0" name="resOwnerUserId" type="xs:string"/>
+<xs:element minOccurs="0" name="resOwnerGroupId" type="xs:string"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -198,16 +314,23 @@
 <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="privilegeDef">
+<xs:complexType name="ResourcePrivilege">
 <xs:complexContent>
 <xs:extension base="tns:BaseObject">
 <xs:sequence>
-<xs:element minOccurs="0" name="privilegeId" type="xs:string"/>
-<xs:element minOccurs="0" name="action" type="xs:string"/>
+<xs:element minOccurs="0" name="resourcePrivilegeId" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
 <xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="privilegeType" type="xs:string"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
+</xs:complexType>
+<xs:complexType name="updateResource">
+<xs:sequence>
+<xs:element minOccurs="0" name="resource" type="tns:Resource"/>
+</xs:sequence>
 </xs:complexType>
 <xs:complexType name="updateResourceResponse">
 <xs:sequence>
@@ -222,16 +345,6 @@
 <xs:complexType name="removeResourcesByCategoryResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="getResourceByProperties">
-<xs:sequence>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="propList" type="tns:ResourceProp"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="getResourceByPropertiesResponse">
-<xs:sequence>
-<xs:element minOccurs="0" name="return" type="tns:Resource"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="updateResourceRole">
@@ -254,6 +367,33 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Resource"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="removeAllResourceRoles">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="removeAllResourceRolesResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getResourceByProperties">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="propList" type="tns:ResourceProp"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResourceByPropertiesResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:Resource"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrivilegesByEntitlementType">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="type" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrivilegesByEntitlementTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ResourcePrivilege"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="getResourceRole">
 <xs:sequence>
 <xs:element minOccurs="0" name="resourceRoleId" type="tns:ResourceRoleId"/>
@@ -263,12 +403,6 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:ResourceRole"/>
 </xs:sequence>
-</xs:complexType>
-<xs:complexType name="removeAllResourceRoles">
-<xs:sequence/>
-</xs:complexType>
-<xs:complexType name="removeAllResourceRolesResponse">
-<xs:sequence/>
 </xs:complexType>
 <xs:complexType name="getResourcesByType">
 <xs:sequence>
@@ -376,14 +510,25 @@
 <xs:element minOccurs="0" name="return" type="tns:Resource"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="getResourceFamily">
+<xs:complexType name="attributeString">
 <xs:sequence>
-<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="domainId" type="xs:string"/>
+<xs:element minOccurs="0" name="principal" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="getResourceFamilyResponse">
+<xs:complexType name="attributeStringResponse">
 <xs:sequence>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Resource"/>
+<xs:element minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateResourcePrivilege">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourcePrivilege" type="tns:ResourcePrivilege"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateResourcePrivilegeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ResourcePrivilege"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getAllResourceRoles">
@@ -412,6 +557,16 @@
 <xs:complexType name="removeResourceTypeResponse">
 <xs:sequence/>
 </xs:complexType>
+<xs:complexType name="getResourceFamily">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResourceFamilyResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Resource"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="isUserAuthorized">
 <xs:sequence>
 <xs:element minOccurs="0" name="userId" type="xs:string"/>
@@ -421,6 +576,16 @@
 <xs:complexType name="isUserAuthorizedResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRolesForResource">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRolesForResourceResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:role"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="getResourcesForRoles">
@@ -441,6 +606,14 @@
 <xs:sequence>
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ResourceType"/>
 </xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeResourcePrivilege">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourcePrivilegeId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeResourcePrivilegeResponse">
+<xs:sequence/>
 </xs:complexType>
 <xs:complexType name="getUserResources">
 <xs:sequence>
@@ -504,6 +677,16 @@
 </xs:complexType>
 <xs:complexType name="removeResourcePropResponse">
 <xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getPrivilegesByResourceId">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourceId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrivilegesByResourceIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ResourcePrivilege"/>
+</xs:sequence>
 </xs:complexType>
 <xs:complexType name="addResourceType">
 <xs:sequence>
@@ -679,6 +862,16 @@
 <xs:element minOccurs="0" name="return" type="tns:ResourceRole"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="addResourcePrivilege">
+<xs:sequence>
+<xs:element minOccurs="0" name="resourcePrivilege" type="tns:ResourcePrivilege"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addResourcePrivilegeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ResourcePrivilege"/>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="removeResourceRole">
 <xs:sequence>
 <xs:element minOccurs="0" name="resourceRoleId" type="tns:ResourceRoleId"/>
@@ -705,8 +898,83 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Resource"/>
 </xs:sequence>
 </xs:complexType>
+<xs:simpleType name="AttributeOperationEnum">
+<xs:restriction base="xs:string">
+<xs:enumeration value="nochange"/>
+<xs:enumeration value="add"/>
+<xs:enumeration value="replace"/>
+<xs:enumeration value="delete"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/role/dto" xmlns:ns2="urn:idm.openiam.org/srvc/res/service" xmlns:tns="urn:idm.openiam.org/srvc/grp/dto" elementFormDefault="qualified" targetNamespace="urn:idm.openiam.org/srvc/grp/dto" version="1.0">
+<xs:import namespace="urn:idm.openiam.org/srvc/role/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/res/service"/>
+<xs:element name="Group" type="tns:Group"/>
+<xs:complexType name="groupSet">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupObj" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="group" type="tns:Group"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Group">
+<xs:sequence>
+<xs:element minOccurs="0" name="roles" type="ns1:roleSet"/>
+<xs:element minOccurs="0" name="attributes" type="tns:groupAttributeMap"/>
+<xs:element minOccurs="0" name="companyId" type="xs:string"/>
+<xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="groupClass" type="xs:string"/>
+<xs:element minOccurs="0" name="grpId" type="xs:string"/>
+<xs:element minOccurs="0" name="grpName" type="xs:string"/>
+<xs:element minOccurs="0" name="inheritFromParent" type="xs:boolean"/>
+<xs:element minOccurs="0" name="lastUpdate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="parentGrpId" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionMethod" type="xs:string"/>
+<xs:element minOccurs="0" name="provisionObjName" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="subGroup" nillable="true" type="tns:Group"/>
+<xs:element minOccurs="0" name="metadataTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="selected" type="xs:boolean"/>
+<xs:element minOccurs="0" name="ownerId" type="xs:string"/>
+<xs:element minOccurs="0" name="internalGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="operation" type="ns2:AttributeOperationEnum"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="groupAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="groupAttribute" type="tns:GroupAttribute"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GroupAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="metadataElementId" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="getUserResourcesByType">
+    <wsdl:part name="parameters" element="tns:getUserResourcesByType">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="addResourcePropResponse">
     <wsdl:part name="parameters" element="tns:addResourcePropResponse">
     </wsdl:part>
@@ -723,6 +991,10 @@
     <wsdl:part name="parameters" element="tns:getResourcesByProperty">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getPrivilegesByResourceId">
+    <wsdl:part name="parameters" element="tns:getPrivilegesByResourceId">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="removePropertiesByResource">
     <wsdl:part name="parameters" element="tns:removePropertiesByResource">
     </wsdl:part>
@@ -737,6 +1009,14 @@
   </wsdl:message>
   <wsdl:message name="addResourceType">
     <wsdl:part name="parameters" element="tns:addResourceType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrivilegesByResourceIdResponse">
+    <wsdl:part name="parameters" element="tns:getPrivilegesByResourceIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="attributeString">
+    <wsdl:part name="parameters" element="tns:attributeString">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllResourcesResponse">
@@ -787,20 +1067,32 @@
     <wsdl:part name="parameters" element="tns:getAllResourceRoles">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResourcesByExampleResponse">
-    <wsdl:part name="parameters" element="tns:getResourcesByExampleResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="addResourceRole">
     <wsdl:part name="parameters" element="tns:addResourceRole">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResourcesByExampleResponse">
+    <wsdl:part name="parameters" element="tns:getResourcesByExampleResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResourceResponse">
     <wsdl:part name="parameters" element="tns:getResourceResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="addResourcePrivilegeResponse">
+    <wsdl:part name="parameters" element="tns:addResourcePrivilegeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addResourcePrivilege">
+    <wsdl:part name="parameters" element="tns:addResourcePrivilege">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getResourceObjForUser">
     <wsdl:part name="parameters" element="tns:getResourceObjForUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="attributeStringResponse">
+    <wsdl:part name="parameters" element="tns:attributeStringResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResourcesByBranch">
@@ -851,6 +1143,10 @@
     <wsdl:part name="parameters" element="tns:removeUserFromAllResources">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getRolesForResourceResponse">
+    <wsdl:part name="parameters" element="tns:getRolesForResourceResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getResourcesByExample">
     <wsdl:part name="parameters" element="tns:getResourcesByExample">
     </wsdl:part>
@@ -859,16 +1155,28 @@
     <wsdl:part name="parameters" element="tns:removeAllResourceRolesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResourceByNameResponse">
-    <wsdl:part name="parameters" element="tns:getResourceByNameResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="removeAllResourcesResponse">
     <wsdl:part name="parameters" element="tns:removeAllResourcesResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getResourceByNameResponse">
+    <wsdl:part name="parameters" element="tns:getResourceByNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateResourcePrivilege">
+    <wsdl:part name="parameters" element="tns:updateResourcePrivilege">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getResourceTree">
     <wsdl:part name="parameters" element="tns:getResourceTree">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateResourcePrivilegeResponse">
+    <wsdl:part name="parameters" element="tns:updateResourcePrivilegeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrivilegesByEntitlementTypeResponse">
+    <wsdl:part name="parameters" element="tns:getPrivilegesByEntitlementTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResourceTypeResponse">
@@ -881,6 +1189,10 @@
   </wsdl:message>
   <wsdl:message name="removePropertiesByResourceResponse">
     <wsdl:part name="parameters" element="tns:removePropertiesByResourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrivilegesByEntitlementType">
+    <wsdl:part name="parameters" element="tns:getPrivilegesByEntitlementType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResourcesByBranchResponse">
@@ -901,6 +1213,10 @@
   </wsdl:message>
   <wsdl:message name="findTypeOfResourceResponse">
     <wsdl:part name="parameters" element="tns:findTypeOfResourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeResourcePrivilegeResponse">
+    <wsdl:part name="parameters" element="tns:removeResourcePrivilegeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllResourceProps">
@@ -979,12 +1295,12 @@
     <wsdl:part name="parameters" element="tns:removeResourceTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeResourcesByType">
-    <wsdl:part name="parameters" element="tns:removeResourcesByType">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="removeResourcesByBranchResponse">
     <wsdl:part name="parameters" element="tns:removeResourcesByBranchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeResourcesByType">
+    <wsdl:part name="parameters" element="tns:removeResourcesByType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeResourcesByCategoryResponse">
@@ -993,6 +1309,10 @@
   </wsdl:message>
   <wsdl:message name="getChildResources">
     <wsdl:part name="parameters" element="tns:getChildResources">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserResourcesByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getUserResourcesByTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResourcesByTypeResponse">
@@ -1107,6 +1427,10 @@
     <wsdl:part name="parameters" element="tns:isUserAuthorized">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getResourcesByPropertyResponse">
+    <wsdl:part name="parameters" element="tns:getResourcesByPropertyResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getResource">
     <wsdl:part name="parameters" element="tns:getResource">
     </wsdl:part>
@@ -1115,8 +1439,12 @@
     <wsdl:part name="parameters" element="tns:addResourceProp">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResourcesByPropertyResponse">
-    <wsdl:part name="parameters" element="tns:getResourcesByPropertyResponse">
+  <wsdl:message name="removeResourcePrivilege">
+    <wsdl:part name="parameters" element="tns:removeResourcePrivilege">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRolesForResource">
+    <wsdl:part name="parameters" element="tns:getRolesForResource">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateResourceProp">
@@ -1128,6 +1456,12 @@
       <wsdl:input name="addResourceProp" message="tns:addResourceProp">
     </wsdl:input>
       <wsdl:output name="addResourcePropResponse" message="tns:addResourcePropResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserResourcesByType">
+      <wsdl:input name="getUserResourcesByType" message="tns:getUserResourcesByType">
+    </wsdl:input>
+      <wsdl:output name="getUserResourcesByTypeResponse" message="tns:getUserResourcesByTypeResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="updateResource">
@@ -1142,12 +1476,6 @@
       <wsdl:output name="removeResourcesByCategoryResponse" message="tns:removeResourcesByCategoryResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getResourceByProperties">
-      <wsdl:input name="getResourceByProperties" message="tns:getResourceByProperties">
-    </wsdl:input>
-      <wsdl:output name="getResourceByPropertiesResponse" message="tns:getResourceByPropertiesResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="updateResourceRole">
       <wsdl:input name="updateResourceRole" message="tns:updateResourceRole">
     </wsdl:input>
@@ -1160,16 +1488,28 @@
       <wsdl:output name="getResourceTreeResponse" message="tns:getResourceTreeResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getResourceRole">
-      <wsdl:input name="getResourceRole" message="tns:getResourceRole">
-    </wsdl:input>
-      <wsdl:output name="getResourceRoleResponse" message="tns:getResourceRoleResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="removeAllResourceRoles">
       <wsdl:input name="removeAllResourceRoles" message="tns:removeAllResourceRoles">
     </wsdl:input>
       <wsdl:output name="removeAllResourceRolesResponse" message="tns:removeAllResourceRolesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResourceByProperties">
+      <wsdl:input name="getResourceByProperties" message="tns:getResourceByProperties">
+    </wsdl:input>
+      <wsdl:output name="getResourceByPropertiesResponse" message="tns:getResourceByPropertiesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPrivilegesByEntitlementType">
+      <wsdl:input name="getPrivilegesByEntitlementType" message="tns:getPrivilegesByEntitlementType">
+    </wsdl:input>
+      <wsdl:output name="getPrivilegesByEntitlementTypeResponse" message="tns:getPrivilegesByEntitlementTypeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResourceRole">
+      <wsdl:input name="getResourceRole" message="tns:getResourceRole">
+    </wsdl:input>
+      <wsdl:output name="getResourceRoleResponse" message="tns:getResourceRoleResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getResourcesByType">
@@ -1238,10 +1578,16 @@
       <wsdl:output name="getResourceResponse" message="tns:getResourceResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getResourceFamily">
-      <wsdl:input name="getResourceFamily" message="tns:getResourceFamily">
+    <wsdl:operation name="attributeString">
+      <wsdl:input name="attributeString" message="tns:attributeString">
     </wsdl:input>
-      <wsdl:output name="getResourceFamilyResponse" message="tns:getResourceFamilyResponse">
+      <wsdl:output name="attributeStringResponse" message="tns:attributeStringResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateResourcePrivilege">
+      <wsdl:input name="updateResourcePrivilege" message="tns:updateResourcePrivilege">
+    </wsdl:input>
+      <wsdl:output name="updateResourcePrivilegeResponse" message="tns:updateResourcePrivilegeResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getAllResourceRoles">
@@ -1262,10 +1608,22 @@
       <wsdl:output name="removeResourceTypeResponse" message="tns:removeResourceTypeResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getResourceFamily">
+      <wsdl:input name="getResourceFamily" message="tns:getResourceFamily">
+    </wsdl:input>
+      <wsdl:output name="getResourceFamilyResponse" message="tns:getResourceFamilyResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="isUserAuthorized">
       <wsdl:input name="isUserAuthorized" message="tns:isUserAuthorized">
     </wsdl:input>
       <wsdl:output name="isUserAuthorizedResponse" message="tns:isUserAuthorizedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRolesForResource">
+      <wsdl:input name="getRolesForResource" message="tns:getRolesForResource">
+    </wsdl:input>
+      <wsdl:output name="getRolesForResourceResponse" message="tns:getRolesForResourceResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getResourcesForRoles">
@@ -1278,6 +1636,12 @@
       <wsdl:input name="getAllResourceTypes" message="tns:getAllResourceTypes">
     </wsdl:input>
       <wsdl:output name="getAllResourceTypesResponse" message="tns:getAllResourceTypesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeResourcePrivilege">
+      <wsdl:input name="removeResourcePrivilege" message="tns:removeResourcePrivilege">
+    </wsdl:input>
+      <wsdl:output name="removeResourcePrivilegeResponse" message="tns:removeResourcePrivilegeResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getUserResources">
@@ -1308,6 +1672,12 @@
       <wsdl:input name="removeResourceProp" message="tns:removeResourceProp">
     </wsdl:input>
       <wsdl:output name="removeResourcePropResponse" message="tns:removeResourcePropResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPrivilegesByResourceId">
+      <wsdl:input name="getPrivilegesByResourceId" message="tns:getPrivilegesByResourceId">
+    </wsdl:input>
+      <wsdl:output name="getPrivilegesByResourceIdResponse" message="tns:getPrivilegesByResourceIdResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="addResourceType">
@@ -1418,6 +1788,12 @@
       <wsdl:output name="addResourceRoleResponse" message="tns:addResourceRoleResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="addResourcePrivilege">
+      <wsdl:input name="addResourcePrivilege" message="tns:addResourcePrivilege">
+    </wsdl:input>
+      <wsdl:output name="addResourcePrivilegeResponse" message="tns:addResourcePrivilegeResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="removeResourceRole">
       <wsdl:input name="removeResourceRole" message="tns:removeResourceRole">
     </wsdl:input>
@@ -1448,21 +1824,21 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getUserResourcesByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserResourcesByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserResourcesByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateResource">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="updateResource">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="updateResourceResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getResourceByProperties">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getResourceByProperties">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getResourceByPropertiesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1493,6 +1869,33 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="removeAllResourceRoles">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeAllResourceRoles">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeAllResourceRolesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResourceByProperties">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResourceByProperties">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResourceByPropertiesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPrivilegesByEntitlementType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPrivilegesByEntitlementType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPrivilegesByEntitlementTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getResourceRole">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getResourceRole">
@@ -1508,15 +1911,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getResourcesByTypeResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="removeAllResourceRoles">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeAllResourceRoles">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeAllResourceRolesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1601,6 +1995,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="attributeString">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="attributeString">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="attributeStringResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getResource">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getResource">
@@ -1619,12 +2022,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getResourceFamily">
+    <wsdl:operation name="updateResourcePrivilege">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getResourceFamily">
+      <wsdl:input name="updateResourcePrivilege">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getResourceFamilyResponse">
+      <wsdl:output name="updateResourcePrivilegeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1643,6 +2046,24 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="removeResourceTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResourceFamily">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResourceFamily">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResourceFamilyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRolesForResource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRolesForResource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRolesForResourceResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1682,6 +2103,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="removeResourcePrivilege">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeResourcePrivilege">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeResourcePrivilegeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getResourcesByCategory">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getResourcesByCategory">
@@ -1715,6 +2145,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="removeResourcePropResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPrivilegesByResourceId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPrivilegesByResourceId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPrivilegesByResourceIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1859,6 +2298,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="removeAllResourcesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addResourcePrivilege">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addResourcePrivilege">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addResourcePrivilegeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
