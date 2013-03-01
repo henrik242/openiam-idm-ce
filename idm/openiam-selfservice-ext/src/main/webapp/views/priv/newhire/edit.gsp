@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="row">
                                         <label for="supervisorName"><a href="javascript:showUserDialog('supervisorId', 'supervisorName' );">Supervisor Id<span style="color:red">*</span></a></label>
-                                        <g:hiddenField name="supervisorId" />
+                                        <g:hiddenField name="supervisorId" value="${newHireCommand?.supervisorId}" />
                                         <g:textField id="supervisorName" name="supervisorName" size="50" readonly="true" value="${newHireCommand?.supervisorName}"/>
 
                                         <g:hasErrors bean="${errors}" field="supervisorId">
