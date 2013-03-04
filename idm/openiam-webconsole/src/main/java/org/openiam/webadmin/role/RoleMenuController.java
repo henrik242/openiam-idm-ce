@@ -74,19 +74,38 @@ public class RoleMenuController extends CancellableFormController {
             menuList.add(m);
 
             List<Menu> subMenu = navigationDataService.menuGroup(m.getId().getMenuId(),"en").getMenuList();
-            if ( subMenu != null && !subMenu.isEmpty()) {
+            addMenuToList(menuList, subMenu, 1);
 
-                for ( Menu sm : subMenu ) {
-                    sm.setMenuName("-->" + sm.getMenuName() );
-                    menuList.add(sm);
-
-                }
-
-            }
 
         }
         return menuList;
 
+
+    }
+
+    private void addMenuToList(List<Menu> menuList, List<Menu> subMenu, int level) {
+
+        if (subMenu == null || subMenu.isEmpty()) {
+            return;
+
+        }
+        String spacer = null;
+        if (level == 1) {
+            spacer = "-> ";
+        }else if (level == 2){
+            spacer = "--> ";
+        }
+
+        for ( Menu sm : subMenu ) {
+            sm.setMenuName(spacer + sm.getMenuName() );
+            menuList.add(sm);
+
+            if ( (level+1) < 3) {
+                List<Menu> mList = navigationDataService.menuGroup(sm.getId().getMenuId(),"en").getMenuList();
+                addMenuToList(menuList, mList, level+1);
+            }
+
+        }
 
     }
 
