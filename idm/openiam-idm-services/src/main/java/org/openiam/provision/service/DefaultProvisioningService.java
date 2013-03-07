@@ -1609,7 +1609,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 		Login primaryIdentity = getPrimaryIdentity(
 				this.sysConfiguration.getDefaultManagedSysId(), principalList);
 		if (primaryIdentity != null) {
-			primaryLogin = primaryIdentity.getId().getLogin();
 			String password = primaryIdentity.getPassword();
 			if (password != null) {
 				try {
@@ -1623,6 +1622,10 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 
 				}
 			}
+            if (primaryIdentity.getUserId() == null || primaryIdentity.getUserId().isEmpty()) {
+                primaryIdentity.setUserId(pUser.getUserId());
+
+            }
 			bindingMap.put("lg", primaryIdentity);
 		} else {
 			log.debug("Primary identity not found for user="

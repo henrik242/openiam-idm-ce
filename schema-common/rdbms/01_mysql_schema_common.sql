@@ -167,8 +167,8 @@ CREATE TABLE COMPANY_ATTRIBUTE (
 
 CREATE TABLE USERS(
        USER_ID              varchar(32) NOT NULL,
-       FIRST_NAME           varchar(50) NULL,
-       LAST_NAME            varchar(50) NULL,
+       FIRST_NAME           varchar(100) NULL,
+       LAST_NAME            varchar(100) NULL,
        MIDDLE_INIT          VARCHAR(50) NULL,
        TYPE_ID              varchar(20) NULL,
 	   CLASSIFICATION		VARCHAR(20) NULL,
