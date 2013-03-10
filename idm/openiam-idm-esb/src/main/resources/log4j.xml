@@ -50,7 +50,7 @@
         </logger>
 
         <logger name="org.apache.cxf">
-            <level value="info"/>
+            <level value="warn"/>
         </logger>
 
 	 <appender name="openiam-esb" class="org.apache.log4j.RollingFileAppender">
@@ -64,7 +64,7 @@
 
 
        <filter class="org.apache.log4j.varia.LevelRangeFilter">
-	       <param name="LevelMin" value="DEBUG" />
+	       <param name="LevelMin" value="WARN" />
 	       <param name="LevelMax" value="FATAL" />
 	       <param name="AcceptOnMatch" value="true" />
        </filter>
@@ -82,17 +82,6 @@
 	       <param name="LevelMax" value="FATAL" />
 	       <param name="AcceptOnMatch" value="true" />
        </filter>
-      </appender>
-
-
-
-      <appender name="A2" class="org.apache.log4j.RollingFileAppender">
-	       <param name="File" value="../logs/idm-service.log" />
-	       <param name="MaxFileSize" value="50MB" />
-	       <param name="MaxBackupIndex" value="5" />
-					<layout class="org.apache.log4j.PatternLayout">
-						<param name="ConversionPattern" value="%d [%t] %-5p [%c] %m%n" />
-					</layout>
       </appender>
 
       <appender name="A3" class="org.apache.log4j.RollingFileAppender">
