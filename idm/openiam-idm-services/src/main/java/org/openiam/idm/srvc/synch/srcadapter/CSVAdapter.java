@@ -38,7 +38,6 @@ import org.openiam.idm.srvc.synch.dto.LineObject;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.MatchObjectRule;
-import org.openiam.idm.srvc.synch.service.SourceAdapter;
 import org.openiam.idm.srvc.synch.service.TransformScript;
 import org.openiam.idm.srvc.synch.service.ValidationScript;
 import org.openiam.idm.srvc.user.dto.User;
@@ -46,7 +45,6 @@ import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
 import java.io.*;
@@ -139,11 +137,11 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
 
 
             for (String[] lineAry : fileContentAry) {
-                log.debug("File Row #= " + ctr);
+                log.debug("*** Record counter: " + ctr);
 
                 if (ctr == 0) {
                     populateTemplate(lineAry);
-                    ctr++;
+
                 } else {
                     //populate the data object
                     pUser = new ProvisionUser();
@@ -160,8 +158,9 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
                             ValidationScript script = SynchScriptFactory.createValidationScript(config.getValidationRule());
                             int retval = script.isValid(rowObj);
                             if (retval == ValidationScript.NOT_VALID) {
-                                log.debug(" - Validation failed...");
-                                // log this object in the exception log
+                                log.debug(" - Validation failed...transformation will not be called.");
+
+                                continue;
                             }
                             if (retval == ValidationScript.SKIP) {
                                 continue;
@@ -245,7 +244,7 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
                     }
 
                 }
-
+                ctr++;
             }
 
         } catch (IOException io) {

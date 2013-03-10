@@ -46,7 +46,6 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -202,8 +201,9 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
                         ValidationScript script = SynchScriptFactory.createValidationScript(config.getValidationRule());
                         int retval = script.isValid(rowObj);
                         if (retval == ValidationScript.NOT_VALID) {
-                            log.debug("Validation failed...");
-                            // log this object in the exception log
+                            log.debug(" - Validation failed...transformation will not be called.");
+
+                            continue;
                         }
                         if (retval == ValidationScript.SKIP) {
                             continue;
