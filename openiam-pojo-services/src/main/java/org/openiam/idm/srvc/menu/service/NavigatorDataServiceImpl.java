@@ -3,11 +3,6 @@ package org.openiam.idm.srvc.menu.service;
 //import diamelle.common.continfo.*;
 //import diamelle.base.prop.*;
 
-import java.util.*;
-import java.rmi.*;
-
-import javax.jws.WebService;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.idm.srvc.menu.dto.Menu;
@@ -15,6 +10,8 @@ import org.openiam.idm.srvc.menu.dto.MenuId;
 import org.openiam.idm.srvc.menu.dto.Permission;
 import org.openiam.idm.srvc.menu.dto.PermissionId;
 import org.openiam.idm.srvc.role.dto.Role;
+
+import java.util.List;
 
 /**
  * <code>NavigatorDataServiceImpl</code> provides a service implementation to deliver the application
@@ -121,9 +118,7 @@ public class NavigatorDataServiceImpl implements NavigatorDataService{
 		List<Menu> menuForUser = menuGroupByUser(menuGroupId, userId, languageCd);
 		List<Menu> menusForGroup = this.menuGroup(menuGroupId, languageCd);
 	
-		log.debug("menuForUser=" + menuForUser);
-		log.debug("menusForGroup=" + menusForGroup);
-		
+
 		if (menusForGroup == null) {
 			return null;
 		}
@@ -145,28 +140,13 @@ public class NavigatorDataServiceImpl implements NavigatorDataService{
 				ctr++;
 			}	
 		}
-		log.info("menusForGroup after processing=" + menusForGroup);
 		return menusForGroup;
 		
 		
 	}
 	
+
 	
-	
-	/*
-	 * select DISTINCT m.*
-from Menu m, USER_GRP ug, USER_ROLE ur, GRP_ROLE gr, PERMISSIONS P
-WHERE m.MENU_GROUP = 'SELFCENTER' AND m.LANGUAGE_CD = 'en' AND 
-			((ug.USER_ID = '3101' and ug.GRP_ID = gr.GRP_ID  AND gr.ROLE_ID = P.ROLE_ID ) or
-			(ur.USER_ID = '3101' and ur.ROLE_ID = P.ROLE_ID and ur.SERVICE_ID = 'USR_SEC_DOMAIN')) and
-			P.MENU_ID = m.MENU_ID
-order by DISPLAY_ORDER;
-
-	 * (non-Javadoc)
-	 * @see org.openiam.idm.srvc.menu.service.NavigatorDataService#removeMenu(java.lang.String, boolean)
-	 */
-
-
 
 	public int removeMenu(String menuId, boolean deleteChildren) {
 		  if (menuId == null)

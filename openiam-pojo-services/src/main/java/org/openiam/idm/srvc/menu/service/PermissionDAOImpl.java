@@ -136,7 +136,7 @@ public class PermissionDAOImpl implements PermissionDAO {
 		Session session = sessionFactory.getCurrentSession();
 
 		SQLQuery qry = session.createSQLQuery( 
-		"select distinct r.* from permissions p, role r " +
+		"select distinct r.* from PERMISSIONS p, role r " +
 		"where p.ROLE_ID = r.ROLE_ID " +
 		"and p.SERVICE_ID = r.SERVICE_ID " +
 		"and p.MENU_ID = :menuId ");		
@@ -159,7 +159,7 @@ public class PermissionDAOImpl implements PermissionDAO {
 		Session session = sessionFactory.getCurrentSession();
 
 		SQLQuery qry = session.createSQLQuery( 
-		"select distinct m.* from menu m, permissions p " +
+		"select distinct m.* from MENU m, PERMISSIONS p " +
 		"where m.MENU_ID = p.MENU_ID " +
 		"and p.ROLE_ID = :roleId " +
 		"and p.SERVICE_ID = :serviceId ");
@@ -183,7 +183,7 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 		SQLQuery qry = session.createSQLQuery( 
 				"select distinct m.* " +
-				"from menu m join permissions p on (m.MENU_ID = p.MENU_ID) " +
+				"from MENUm join PERMISSIONS p on (m.MENU_ID = p.MENU_ID) " +
 				"left join grp_role gr on " +
 				"(gr.ROLE_ID = p.ROLE_ID and gr.SERVICE_ID = p.SERVICE_ID) " +
 				"left join user_grp ug on (gr.GRP_ID = ug.GRP_ID) " +
