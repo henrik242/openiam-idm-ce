@@ -21,25 +21,14 @@
  */
 package org.openiam.idm.srvc.pswd.service;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import javax.jws.WebService;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.dozer.converter.PasswordHistoryDozerConverter;
 import org.openiam.exception.EncryptionException;
 import org.openiam.exception.ObjectNotFoundException;
 import org.openiam.idm.srvc.auth.dto.Login;
-import org.openiam.idm.srvc.auth.dto.LoginId;
-import org.openiam.idm.srvc.auth.login.LoginDAO;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
@@ -48,14 +37,16 @@ import org.openiam.idm.srvc.policy.service.PolicyDataService;
 import org.openiam.idm.srvc.policy.service.PolicyObjectAssocDAO;
 import org.openiam.idm.srvc.pswd.dto.*;
 import org.openiam.idm.srvc.pswd.rule.PasswordValidator;
-import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.util.encrypt.Cryptor;
 import org.openiam.util.encrypt.HashDigest;
-import org.openiam.idm.srvc.pswd.dto.ValidatePasswordResetTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -65,17 +56,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class PasswordServiceImpl implements PasswordService {
 	
-	protected SecurityDomainDataService secDomainService; 
-	protected PasswordValidator passwordValidator;
-	
-	protected LoginDataService loginManager;
-	protected UserDataService userManager;
-	PolicyObjectAssocDAO policyAssocDao;
-	PolicyDataService policyDataService;
-	
-	protected Cryptor cryptor;
-	protected PasswordHistoryDAO passwordHistoryDao;
-    protected HashDigest hash;
+	private SecurityDomainDataService secDomainService;
+    private PasswordValidator passwordValidator;
+
+    private LoginDataService loginManager;
+    private UserDataService userManager;
+    private PolicyObjectAssocDAO policyAssocDao;
+    private PolicyDataService policyDataService;
+
+    private Cryptor cryptor;
+    private PasswordHistoryDAO passwordHistoryDao;
+    private HashDigest hash;
     @Autowired
 	private PasswordHistoryDozerConverter passwordHistoryDozerConverter;
 	
@@ -247,11 +238,15 @@ public class PasswordServiceImpl implements PasswordService {
 		// order of search, type, classification, domain, global
 		
 		// get the user for this principal
+
 		Login lg = loginManager.getLoginByManagedSys(domainId, principal, managedSysId);
-		log.info("login=" + lg);
-		User user = this.userManager.getUserWithDependent(lg.getUserId(), false);
-		
-		return getPasswordPolicyByUser(domainId, user);
+		log.debug("Login object found in getPasswordPolicy(): " + lg);
+
+        if ( lg != null && lg.getUserId() != null ) {
+		    User user = this.userManager.getUserWithDependent(lg.getUserId(), false);
+		    return getPasswordPolicyByUser(domainId, user);
+        }
+        return null;
 	}
 
     @Override
@@ -261,7 +256,7 @@ public class PasswordServiceImpl implements PasswordService {
 
         PolicyObjectAssoc policyAssoc;
 
-        log.info("User type and classifcation=" + user.getUserId() + " " + user.getUserTypeInd());
+        log.debug("User type and classification=" + user.getUserId() + " " + user.getUserTypeInd());
 
         if (user.getClassification() != null) {
             log.info("Looking for associate by classification.");
@@ -273,7 +268,7 @@ public class PasswordServiceImpl implements PasswordService {
 
         // look to see if a policy exists for the type of user
         if (user.getUserTypeInd() != null) {
-            log.info("Looking for associate by type.");
+            log.info("Looking for association by type.");
             policyAssoc = policyAssocDao.findAssociationByLevel("TYPE", user.getUserTypeInd());
             log.info("PolicyAssoc found=" + policyAssoc);
             if (policyAssoc != null) {
@@ -282,7 +277,7 @@ public class PasswordServiceImpl implements PasswordService {
         }
 
         if (domainId != null) {
-            log.info("Looking for associate by domain.");
+            log.info("Looking for association by domain.");
             policyAssoc = policyAssocDao.findAssociationByLevel("DOMAIN", domainId);
             if (policyAssoc != null) {
                 return getPolicy(policyAssoc);
@@ -298,7 +293,8 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     private Policy getPolicy(PolicyObjectAssoc policyAssoc) {
-		log.info("Retreiving policyId=" + policyAssoc.getPolicyId());
+		log.debug("Retrieving policyId:" + policyAssoc.getPolicyId());
+
 		return policyDataService.getPolicy(policyAssoc.getPolicyId());
 	}
 
@@ -323,7 +319,8 @@ public class PasswordServiceImpl implements PasswordService {
 			return 0;
 		}
 		// check the list.
-		log.info("Found " + historyList.size() + " passwords in the history");
+		log.debug("Found " + historyList.size() + " passwords in the history");
+
 		for ( PasswordHistory hist  : historyList) {
 			String pwd = hist.getPassword();
 			try {
@@ -333,7 +330,7 @@ public class PasswordServiceImpl implements PasswordService {
 				throw new IllegalArgumentException("Unable to decrypt password in password history list");
 			}
 			if (pswd.getPassword().equals(decrypt)) {
-				log.info("matching password found.");
+				log.debug("matching password found.");
 				return 1;
 			}
 		}

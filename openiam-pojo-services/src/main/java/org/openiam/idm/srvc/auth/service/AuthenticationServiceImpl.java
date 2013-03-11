@@ -21,27 +21,12 @@
  */
 package org.openiam.idm.srvc.auth.service;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
-import org.openiam.idm.srvc.auth.dto.*;
-import org.openiam.idm.srvc.pswd.service.PasswordService;
-import org.openiam.idm.srvc.res.service.ResourceDataService;
-import org.openiam.idm.srvc.user.dto.UserStatusEnum;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-import org.springframework.jmx.export.annotation.ManagedResource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.SysConfiguration;
 import org.openiam.base.ws.BooleanResponse;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
-import org.openiam.base.ws.StringResponse;
 import org.openiam.exception.AuthenticationException;
 import org.openiam.exception.LogoutException;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
@@ -49,6 +34,7 @@ import org.openiam.idm.srvc.audit.service.AuditLogUtil;
 import org.openiam.idm.srvc.auth.context.AuthContextFactory;
 import org.openiam.idm.srvc.auth.context.AuthenticationContext;
 import org.openiam.idm.srvc.auth.context.PasswordCredential;
+import org.openiam.idm.srvc.auth.dto.*;
 import org.openiam.idm.srvc.auth.login.AuthStateDAO;
 import org.openiam.idm.srvc.auth.login.LoginDataService;
 import org.openiam.idm.srvc.auth.spi.AbstractLoginModule;
@@ -62,15 +48,25 @@ import org.openiam.idm.srvc.grp.service.GroupDataService;
 import org.openiam.idm.srvc.policy.dto.Policy;
 import org.openiam.idm.srvc.policy.dto.PolicyAttribute;
 import org.openiam.idm.srvc.policy.service.PolicyDAO;
+import org.openiam.idm.srvc.pswd.service.PasswordService;
+import org.openiam.idm.srvc.res.service.ResourceDataService;
 import org.openiam.idm.srvc.role.dto.Role;
 import org.openiam.idm.srvc.role.service.RoleDataService;
 import org.openiam.idm.srvc.secdomain.dto.SecurityDomain;
 import org.openiam.idm.srvc.secdomain.service.SecurityDomainDataService;
 import org.openiam.idm.srvc.user.dto.User;
+import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.idm.srvc.user.service.UserDataService;
 import org.openiam.script.ScriptFactory;
 import org.openiam.script.ScriptIntegration;
 import org.openiam.util.encrypt.Cryptor;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.springframework.jmx.export.annotation.ManagedResource;
+
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import java.math.BigDecimal;
+import java.util.*;
 
 //import edu.emory.mathcs.backport.java.util.Arrays;
 
@@ -296,6 +292,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userId == null) {
             throw new NullPointerException("UserId is null");
         }
+
+        log.debug("looking up authstate for userId: " + userId + "- ip=" + ip);
 
         AuthState authSt = authStateDao.findByUserAndIP(userId,ip);
         if (authSt == null) {
@@ -915,7 +913,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String tokenType,
             String ip) {
         
-        log.debug("RenewToken called.");
+        log.debug("** RenewToken() called.");
 		
 		Response resp = new Response(ResponseStatus.SUCCESS);
 

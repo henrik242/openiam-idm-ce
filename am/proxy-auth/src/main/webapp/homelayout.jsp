@@ -8,7 +8,7 @@
     <script src="<%= request.getContextPath() %>/js/myriad-pro.js" type="text/javascript"></script>
     <script src="<%= request.getContextPath() %>/js/calibri.js" type="text/javascript"></script>
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.main.js"></script>
-    <title>GTA West DI-r</title>
+    <title>OpenIAM IAM v2.3.1</title>
 
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
