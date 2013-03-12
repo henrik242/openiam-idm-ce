@@ -69,6 +69,11 @@
      	<property name="userManager" ref="userServiceClient" />
 		<property name="orgManager" ref="orgServiceClient" />
      </bean>
+
+    <bean id="launchApp" class="org.openiam.selfsrvc.launchApp.LaunchAppController">
+        <property name="successView" value="/priv/launchApp" />
+        <property name="resourceDataService" ref="resourceServiceClient" />
+    </bean>
  
 	 <!-- request list controller  -->
      <bean id="myPendingRequest" class="org.openiam.selfsrvc.prov.MyPendingRequestController">
@@ -842,6 +847,7 @@
                 <prop key="/changeRoleAccess.selfserve">startChangeRoleAccess</prop>
                 <prop key="/changeGroupAccess.selfserve">startChangeGroupAccess</prop>
                 <prop key="/changeResourceAccess.selfserve">startChangeResourceAccess</prop>
+                <prop key="/launchApp.selfserve">launchApp</prop>
                 <prop key="/myexample.selfserve">myexample</prop>
                 
             </props>
