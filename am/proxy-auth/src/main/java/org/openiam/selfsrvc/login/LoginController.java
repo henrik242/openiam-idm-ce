@@ -92,11 +92,8 @@ public class LoginController extends SimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         LoginCommand loginCmd = new LoginCommand();
         String remoteHost = request.getRemoteHost();
-        if (remoteHost == null || remoteHost.contains("0:0")) {
-            loginCmd.setClientIP("PROXY-FRONTEND");
-        }else {
-            loginCmd.setClientIP( remoteHost);
-        }
+
+        loginCmd.setClientIP( remoteHost);
 
         String expire = request.getParameter("expire");
         if (expire != null) {

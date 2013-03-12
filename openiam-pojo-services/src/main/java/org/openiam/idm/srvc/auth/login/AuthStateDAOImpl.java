@@ -3,6 +3,7 @@ package org.openiam.idm.srvc.auth.login;
 // Generated May 22, 2009 10:08:01 AM by Hibernate Tools 3.2.2.GA
 
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +23,7 @@ import static org.hibernate.criterion.Example.create;
 public class AuthStateDAOImpl implements AuthStateDAO {
 
 	private static final Log log = LogFactory.getLog(AuthStateDAOImpl.class);
+    private static ResourceBundle res = ResourceBundle.getBundle("securityconf");
 
 	private SessionFactory sessionFactory;
 	
@@ -75,6 +77,13 @@ public class AuthStateDAOImpl implements AuthStateDAO {
 	 * @see org.openiam.idm.srvc.auth.login.AuthStateDAO#update(org.openiam.idm.srvc.auth.dto.AuthState)
 	 */
 	public AuthState update(AuthState detachedInstance) {
+
+        String proxyEnabled = res.getString("PROXY_ENABLED");
+
+        if ("true".equalsIgnoreCase(proxyEnabled)) {
+            detachedInstance.setIpAddress( "PROXY_ENABLED");
+        }
+
 		log.debug("merging AuthState instance");
 		try {
 			AuthState result = (AuthState) sessionFactory.getCurrentSession()
@@ -89,6 +98,12 @@ public class AuthStateDAOImpl implements AuthStateDAO {
 	
 	public void saveAuthState(AuthState state) {
 		String userId = state.getUserId();
+
+        String proxyEnabled = res.getString("PROXY_ENABLED");
+
+        if ("true".equalsIgnoreCase(proxyEnabled)) {
+            state.setIpAddress( "PROXY_ENABLED");
+        }
 		
 		AuthState as = findByUserAndIP(userId,state.getIpAddress());
 		if (as == null) {
@@ -139,6 +154,14 @@ public class AuthStateDAOImpl implements AuthStateDAO {
 	}
 
     public AuthState findByUserAndIP(String userId, String ip) {
+
+        String proxyEnabled = res.getString("PROXY_ENABLED");
+
+        if ("true".equalsIgnoreCase(proxyEnabled)) {
+            ip = "PROXY_ENABLED";
+        }
+
+
         Session session = sessionFactory.getCurrentSession();
         Query qry = session.createQuery("from org.openiam.idm.srvc.auth.dto.AuthState a " +
                 "  where a.userId = :userId and a.ipAddress = :ipAddress " );
