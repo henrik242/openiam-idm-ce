@@ -386,7 +386,7 @@
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="addAttributeResponse">
-    <wsdl:part name="result" element="ns1:addAttributeResponse">
+    <wsdl:part name="parameters" element="ns1:addAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="allDivisionsResponse">
@@ -402,7 +402,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getTopLevelOrganizationsResponse">
-    <wsdl:part name="result" element="ns1:getTopLevelOrganizationsResponse">
+    <wsdl:part name="parameters" element="ns1:getTopLevelOrganizationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeUserFromOrg">
@@ -414,7 +414,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="isRootOrganizationResponse">
-    <wsdl:part name="result" element="ns1:isRootOrganizationResponse">
+    <wsdl:part name="parameters" element="ns1:isRootOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="allDepartmentsResponse">
@@ -422,7 +422,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeAttributeResponse">
-    <wsdl:part name="result" element="ns1:removeAttributeResponse">
+    <wsdl:part name="parameters" element="ns1:removeAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addAttribute">
@@ -434,7 +434,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationResponse">
-    <wsdl:part name="result" element="ns1:getOrganizationResponse">
+    <wsdl:part name="parameters" element="ns1:getOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeAttribute">
@@ -446,7 +446,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addOrganizationResponse">
-    <wsdl:part name="result" element="ns1:addOrganizationResponse">
+    <wsdl:part name="parameters" element="ns1:addOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateAttribute">
@@ -454,11 +454,11 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="containsChildrenResponse">
-    <wsdl:part name="result" element="ns1:containsChildrenResponse">
+    <wsdl:part name="parameters" element="ns1:containsChildrenResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateOrganizationResponse">
-    <wsdl:part name="result" element="ns1:updateOrganizationResponse">
+    <wsdl:part name="parameters" element="ns1:updateOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationByTypeResponse">
@@ -466,11 +466,11 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchResponse">
-    <wsdl:part name="result" element="ns1:searchResponse">
+    <wsdl:part name="parameters" element="ns1:searchResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAttributeResponse">
-    <wsdl:part name="result" element="ns1:getAttributeResponse">
+    <wsdl:part name="parameters" element="ns1:getAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeAllAttributes">
@@ -482,7 +482,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeOrganizationResponse">
-    <wsdl:part name="result" element="ns1:removeOrganizationResponse">
+    <wsdl:part name="parameters" element="ns1:removeOrganizationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllAttributes">
@@ -490,7 +490,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="subOrganizationsResponse">
-    <wsdl:part name="result" element="ns1:subOrganizationsResponse">
+    <wsdl:part name="parameters" element="ns1:subOrganizationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="search">
@@ -502,7 +502,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateAttributeResponse">
-    <wsdl:part name="result" element="ns1:updateAttributeResponse">
+    <wsdl:part name="parameters" element="ns1:updateAttributeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationsForUserResponse">
@@ -546,7 +546,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeAllAttributesResponse">
-    <wsdl:part name="result" element="ns1:removeAllAttributesResponse">
+    <wsdl:part name="parameters" element="ns1:removeAllAttributesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateUserOrgAssocResponse">
@@ -554,7 +554,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationListResponse">
-    <wsdl:part name="result" element="ns1:getOrganizationListResponse">
+    <wsdl:part name="parameters" element="ns1:getOrganizationListResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrganizationsForUser">

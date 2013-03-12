@@ -629,7 +629,6 @@
 <xs:element maxOccurs="unbounded" minOccurs="0" name="userAffiliations" nillable="true" type="ns4:organization"/>
 <xs:element minOccurs="0" name="srcSystemId" type="xs:string"/>
 <xs:element minOccurs="0" name="provisionModel" type="tns:ProvisionModelEnum"/>
-<xs:element minOccurs="0" name="securityDomain" type="xs:string"/>
 <xs:element name="notifyTargetSystems" type="xs:boolean"/>
 <xs:element name="emailCredentialsToNewUsers" type="xs:boolean"/>
 <xs:element name="emailCredentialsToSupervisor" type="xs:boolean"/>
