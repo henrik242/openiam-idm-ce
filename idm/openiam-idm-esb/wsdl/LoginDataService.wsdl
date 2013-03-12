@@ -259,6 +259,7 @@
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="urn:idm.openiam.org/srvc/user/dto" xmlns:tns="urn:idm.openiam.org/srvc/auth/service" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/auth/service">
 <xs:import namespace="urn:idm.openiam.org/srvc/user/dto"/>
+<xs:import namespace="urn:idm.openiam.org/srvc/continfo/dto"/>
 <xs:element name="addLogin" type="tns:addLogin"/>
 <xs:element name="addLoginResponse" type="tns:addLoginResponse"/>
 <xs:element name="bulkResetPasswordChangeCount" type="tns:bulkResetPasswordChangeCount"/>
