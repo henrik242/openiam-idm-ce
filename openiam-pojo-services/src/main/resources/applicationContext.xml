@@ -788,9 +788,6 @@
          <property name="testWhileIdle" value="true"/>
          <property name="validationQuery" value="${openiam.hibernate.validationQuery}"/>
          <property name="maxWait" value="${openiam.hibernate.timeout}"/>
-         <property name="removeAbandoned" value="true"/>
-         <property name="removeAbandonedTimeout" value="60"/>
-         <property name="logAbandoned" value="true"/>
      </bean>
 
 

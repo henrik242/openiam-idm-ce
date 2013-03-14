@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="AuthorizationWebServiceService" targetNamespace="urn:idm.openiam.org/srvc/authz/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:idm.openiam.org/srvc/authz/service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:idm.openiam.org/srvc/authz/service" elementFormDefault="unqualified" targetNamespace="urn:idm.openiam.org/srvc/authz/service" version="1.0">
+<xs:element name="isAuthorized" type="tns:isAuthorized"/>
+<xs:element name="isAuthorizedResponse" type="tns:isAuthorizedResponse"/>
+<xs:complexType name="isAuthorized">
+<xs:sequence>
+<xs:element minOccurs="0" name="request" type="tns:AuthzRequest"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AuthzRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalName" type="xs:string"/>
+<xs:element minOccurs="0" name="domain" type="xs:string"/>
+<xs:element minOccurs="0" name="resourceName" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeList" nillable="true" type="tns:AuthAttribute"/>
+<xs:element minOccurs="0" name="action" type="xs:string"/>
+<xs:element minOccurs="0" name="requestTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+<xs:element minOccurs="0" name="clientIp" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="requestParameters" nillable="true" type="tns:AuthAttribute"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AuthAttribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isAuthorizedResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:AuthzResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AuthzResponse">
+<xs:sequence>
+<xs:element name="authorized" type="xs:boolean"/>
+<xs:element name="authErrorCode" type="xs:int"/>
+<xs:element minOccurs="0" name="authErrorMessage" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultAttributes" nillable="true" type="tns:AuthAttribute"/>
+</xs:sequence>
+<xs:attribute name="status" type="tns:ResponseStatus" use="required"/>
+</xs:complexType>
+<xs:simpleType name="ResponseStatus">
+<xs:restriction base="xs:string">
+<xs:enumeration value="success"/>
+<xs:enumeration value="failure"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="isAuthorized">
+    <wsdl:part name="parameters" element="tns:isAuthorized">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isAuthorizedResponse">
+    <wsdl:part name="parameters" element="tns:isAuthorizedResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AuthorizationWebService">
+    <wsdl:operation name="isAuthorized">
+      <wsdl:input name="isAuthorized" message="tns:isAuthorized">
+    </wsdl:input>
+      <wsdl:output name="isAuthorizedResponse" message="tns:isAuthorizedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AuthorizationWebServiceServiceSoapBinding" type="tns:AuthorizationWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="isAuthorized">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isAuthorized">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isAuthorizedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AuthorizationWebServiceService">
+    <wsdl:port name="AuthorizationWebServicePort" binding="tns:AuthorizationWebServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/AuthorizationWebServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

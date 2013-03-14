@@ -7,21 +7,6 @@
 <xs:element name="sendNotificationRequest" type="tns:sendNotificationRequest"/>
 <xs:element name="sendNotificationRequestResponse" type="tns:sendNotificationRequestResponse"/>
 <xs:element name="sendResponse" type="tns:sendResponse"/>
-<xs:element name="sendWithAttachment" type="tns:sendWithAttachment"/>
-<xs:element name="sendWithAttachmentResponse" type="tns:sendWithAttachmentResponse"/>
-<xs:complexType name="sendWithAttachment">
-<xs:sequence>
-<xs:element minOccurs="0" name="arg0" type="xs:string"/>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
-<xs:element minOccurs="0" name="arg2" type="xs:string"/>
-<xs:element minOccurs="0" name="arg3" type="xs:string"/>
-<xs:element name="arg4" type="xs:boolean"/>
-<xs:element minOccurs="0" name="arg5" type="xs:string"/>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="sendWithAttachmentResponse">
-<xs:sequence/>
-</xs:complexType>
 <xs:complexType name="sendNotificationRequest">
 <xs:sequence>
 <xs:element minOccurs="0" name="req" type="tns:NotificationRequest"/>
@@ -135,16 +120,8 @@
     <wsdl:part name="parameters" element="tns:sendNotificationRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="sendWithAttachmentResponse">
-    <wsdl:part name="parameters" element="tns:sendWithAttachmentResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="send">
     <wsdl:part name="parameters" element="tns:send">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="sendWithAttachment">
-    <wsdl:part name="parameters" element="tns:sendWithAttachment">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="sendNotificationRequestResponse">
@@ -152,12 +129,6 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="EmailWebService">
-    <wsdl:operation name="sendWithAttachment">
-      <wsdl:input name="sendWithAttachment" message="tns:sendWithAttachment">
-    </wsdl:input>
-      <wsdl:output name="sendWithAttachmentResponse" message="tns:sendWithAttachmentResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="sendNotificationRequest">
       <wsdl:input name="sendNotificationRequest" message="tns:sendNotificationRequest">
     </wsdl:input>
@@ -173,15 +144,6 @@
   </wsdl:portType>
   <wsdl:binding name="MailServiceServiceSoapBinding" type="tns:EmailWebService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="sendWithAttachment">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="sendWithAttachment">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="sendWithAttachmentResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="sendNotificationRequest">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="sendNotificationRequest">

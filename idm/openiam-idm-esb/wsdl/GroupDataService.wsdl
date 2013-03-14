@@ -802,6 +802,18 @@
 <xs:element minOccurs="0" name="groupId" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="groupAttributeMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupAttributeEntry" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="groupAttribute" type="tns:GroupAttribute"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="Group">
 <xs:sequence>
 <xs:element minOccurs="0" name="roles" type="ns1:roleSet"/>
@@ -835,18 +847,6 @@
 <xs:sequence>
 <xs:element minOccurs="0" name="group" type="tns:Group"/>
 </xs:sequence>
-</xs:complexType>
-</xs:element>
-</xs:sequence>
-</xs:complexType>
-<xs:complexType name="groupAttributeMap">
-<xs:sequence>
-<xs:element maxOccurs="unbounded" minOccurs="0" name="groupAttributeEntry" nillable="true">
-<xs:complexType>
-<xs:sequence>
-<xs:element minOccurs="0" name="groupAttribute" type="tns:GroupAttribute"/>
-</xs:sequence>
-<xs:attribute name="key" type="xs:string"/>
 </xs:complexType>
 </xs:element>
 </xs:sequence>
