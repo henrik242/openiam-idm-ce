@@ -4,9 +4,13 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:lang="http://www.springframework.org/schema/lang"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	    http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.1.xsd">
+
+    <import resource="ws-beans.xml"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations" value="classpath:securityconf.properties"/>
@@ -40,4 +44,19 @@
         <property name="prefix" value="/views" />
         <property name="suffix" value=".gsp" />
     </bean>
+
+    <!--
+    Groovy scrips as spring beans initialization
+    http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/dynamic-language.html
+    -->
+    <lang:groovy id="registrationGroovyControllerScript" refresh-check-delay="5000" scope="prototype" script-source="/WEB-INF/grails-app/controllers/RegistrationGroovyControllerScript.groovy">
+        <lang:property name="orgServiceClient" ref="orgServiceClient" />
+        <lang:property name="roleServiceClient" ref="roleServiceClient" />
+        <lang:property name="userServiceClient" ref="userServiceClient" />
+        <lang:property name="mailServiceClient" ref="mailServiceClient" />
+        <lang:property name="provRequestServiceClient" ref="provRequestServiceClient" />
+        <lang:property name="resourceServiceClient" ref="resourceServiceClient" />
+        <lang:property name="managedSysServiceClient" ref="managedSysServiceClient" />
+    </lang:groovy>
+
 </beans>

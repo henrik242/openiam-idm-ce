@@ -426,7 +426,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 
 						log.debug(" - Building principal Name for: "
 								+ managedSysId);
-						// build the primary identity
+						// build the primary identity for resource by resource mapping
 						String newPrincipalName = buildPrincipalName(attrMap,
 								se, bindingMap);
 
@@ -440,110 +440,109 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 						resLogin.setId(resLoginId);
 
 						Map<String, String> currentValueMap = new HashMap<String, String>();
-						boolean foundInTarget = false;
 
-						foundInTarget = getCurrentObjectAtTargetSystem(
+						boolean foundInTarget = getCurrentObjectAtTargetSystem(
 								resLogin, mSys, connector, matchObj,
 								currentValueMap);
+                        if(!foundInTarget) {
+                            if (currentValueMap == null
+                                    || currentValueMap.size() == 0) {
+                                // we may have identity for a user, but it my have
+                                // been deleted from the target system
+                                // we dont need re-generate the identity in this c
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
+                                        IDENTITY_NEW);
+                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
+                            } else {
+                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
+                                        IDENTITY_EXIST);
+                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES,
+                                        currentValueMap);
+                            }
 
-						if (currentValueMap == null
-								|| currentValueMap.size() == 0) {
-							// we may have identity for a user, but it my have
-							// been deleted from the target system
-							// we dont need re-generate the identity in this c
-							bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
-									IDENTITY_NEW);
-							bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
-						} else {
-							bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
-									IDENTITY_EXIST);
-							bindingMap.put(TARGET_SYSTEM_ATTRIBUTES,
-									currentValueMap);
-						}
+                            bindingMap
+                                    .put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
+                            bindingMap.put(TARGET_SYS_SECURITY_DOMAIN,
+                                    resLoginId.getDomainId());
 
-						bindingMap
-								.put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
-						bindingMap.put(TARGET_SYS_SECURITY_DOMAIN,
-								resLoginId.getDomainId());
+                            // pre-processing
+                            String preProcessScript = getResProperty(
+                                    res.getResourceProps(), "PRE_PROCESS");
+                            if (preProcessScript != null
+                                    && !preProcessScript.isEmpty()) {
+                                PreProcessor ppScript = createPreProcessScript(preProcessScript);
+                                if (ppScript != null) {
+                                    if (executePreProcess(ppScript, bindingMap,
+                                            user, "ADD") == ProvisioningConstants.FAIL) {
+                                        continue;
+                                    }
+                                }
+                            }
 
-						// pre-processing
-						String preProcessScript = getResProperty(
-								res.getResourceProps(), "PRE_PROCESS");
-						if (preProcessScript != null
-								&& !preProcessScript.isEmpty()) {
-							PreProcessor ppScript = createPreProcessScript(preProcessScript);
-							if (ppScript != null) {
-								if (executePreProcess(ppScript, bindingMap,
-										user, "ADD") == ProvisioningConstants.FAIL) {
-									continue;
-								}
-							}
-						}
+                            // attributes are built using groovy script rules
+                            ExtensibleUser extUser = buildFromRules(user, attrMap,
+                                    se, managedSysId,
+                                    sysConfiguration.getDefaultSecurityDomain(),
+                                    bindingMap, user.getCreatedBy());
 
-						// attributes are built using groovy script rules
-						ExtensibleUser extUser = buildFromRules(user, attrMap,
-								se, managedSysId,
-								sysConfiguration.getDefaultSecurityDomain(),
-								bindingMap, user.getCreatedBy());
+                            List<Login> priList = user.getPrincipalList();
+                            if (priList != null) {
+                                for (Login l : priList) {
+                                    log.debug("identity after builder=" + l.getId());
+                                }
+                            } else {
+                                log.debug("priList is null");
+                            }
 
-						List<Login> priList = user.getPrincipalList();
-						if (priList != null) {
-							for (Login l : priList) {
-								log.debug("identity after builder=" + l.getId());
-							}
-						} else {
-							log.debug("priList is null");
-						}
+                            // get the identity linked to this resource / managedsys
+                            Login mLg = getPrincipalForManagedSys(managedSysId,
+                                    user.getPrincipalList());
+                            if (mLg == null) {
+                                mLg = new Login();
+                            }
+                            mLg.setPassword(primaryLogin.getPassword());
+                            mLg.setUserId(primaryLogin.getUserId());
 
-						// get the identity linked to this resource / managedsys
-						Login mLg = getPrincipalForManagedSys(managedSysId,
-								user.getPrincipalList());
-						if (mLg == null) {
-							mLg = new Login();
-						}
-						mLg.setPassword(primaryLogin.getPassword());
-						mLg.setUserId(primaryLogin.getUserId());
+                            log.debug("Creating identity in openiam repository:"
+                                    + mLg.getId());
 
-						log.debug("Creating identity in openiam repository:"
-								+ mLg.getId());
+                            // validate if the identity exists in the system first
 
-						// validate if the identity exists in the system first
+                            connectorSuccess = callConnector(mLg, requestId, mSys,
+                                    matchObj, extUser, connector, user, auditLog);
 
-						connectorSuccess = callConnector(mLg, requestId, mSys,
-								matchObj, extUser, connector, user, auditLog);
+                            // only put the identity into the openiam repository if
+                            // we successfully created the identity
+                            if (connectorSuccess) {
 
-						// only put the identity into the openiam repository if
-						// we successfully created the identity
-						if (connectorSuccess) {
+                                Login tempPrincipal = loginManager
+                                        .getLoginByManagedSys(mLg.getId()
+                                                .getDomainId(), mLg.getId()
+                                                .getLogin(), mLg.getId()
+                                                .getManagedSysId());
 
-							Login tempPrincipal = loginManager
-									.getLoginByManagedSys(mLg.getId()
-											.getDomainId(), mLg.getId()
-											.getLogin(), mLg.getId()
-											.getManagedSysId());
+                                if (tempPrincipal == null) {
+                                    loginManager.addLogin(mLg);
 
-							if (tempPrincipal == null) {
-								loginManager.addLogin(mLg);
+                                } else {
+                                    log.debug("Skipping the creation of identity in openiam repository. Identity already exists"
+                                            + mLg.getId());
+                                }
 
-							} else {
-								log.debug("Skipping the creation of identity in openiam repository. Identity already exists"
-										+ mLg.getId());
-							}
+                            }
 
-						}
-
-						// post processing
-						String postProcessScript = getResProperty(
-								res.getResourceProps(), "POST_PROCESS");
-						if (postProcessScript != null
-								&& !postProcessScript.isEmpty()) {
-							PostProcessor ppScript = createPostProcessScript(postProcessScript);
-							if (ppScript != null) {
-								executePostProcess(ppScript, bindingMap, user,
-										"ADD", connectorSuccess);
-							}
-						}
-
+                            // post processing
+                            String postProcessScript = getResProperty(
+                                    res.getResourceProps(), "POST_PROCESS");
+                            if (postProcessScript != null
+                                    && !postProcessScript.isEmpty()) {
+                                PostProcessor ppScript = createPostProcessScript(postProcessScript);
+                                if (ppScript != null) {
+                                    executePostProcess(ppScript, bindingMap, user,
+                                            "ADD", connectorSuccess);
+                                }
+                            }
+                        }
 						bindingMap.remove(MATCH_PARAM);
 					}
 

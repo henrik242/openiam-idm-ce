@@ -250,13 +250,17 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+             <plugin>
                 <groupId>org.codehaus.gmaven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
                 <version>1.3</version>
-                <configuration>
-                    <providerSelection>1.7</providerSelection>
-                </configuration>
+                 <configuration>
+                     <providerSelection>1.7</providerSelection>
+                   <!--  <debug>false</debug>
+                     <verbose>true</verbose>
+                     <stacktrace>true</stacktrace>
+                     <defaultScriptExtension>.groovy</defaultScriptExtension>-->
+                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.codehaus.gmaven.runtime</groupId>
@@ -278,10 +282,10 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>generateStubs</goal>
+                            <!--<goal>generateStubs</goal>-->
                             <goal>compile</goal>
-                            <goal>generateTestStubs</goal>
-                            <goal>testCompile</goal>
+                           <!-- <goal>generateTestStubs</goal>
+                            <goal>testCompile</goal>-->
                         </goals>
                     </execution>
                 </executions>
