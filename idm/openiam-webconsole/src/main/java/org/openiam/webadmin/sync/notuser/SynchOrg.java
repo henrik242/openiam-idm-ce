@@ -143,26 +143,19 @@ protected LdapOrganization ldapOrganization;
 
 		}catch(Exception io) {
             io.printStackTrace();
-            return;
-
-
-
 		}
-       return;
 	}
 
 	private void populateTemplate(String[] lineAry) {
-		Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
 
 		int ctr =0;
 		for (String s  :lineAry) {
 			Attribute a = new Attribute(s, null);
 			a.setType("STRING");
 			a.setColumnNbr(ctr);
-			columnMap.put(a.getName(),a);
+            rowHeader.put(a.getName(),a);
 			ctr++;
 		}
-		rowHeader.setColumnMap(columnMap);
 
         System.out.println("LineAry in template=" + lineAry);
 	}

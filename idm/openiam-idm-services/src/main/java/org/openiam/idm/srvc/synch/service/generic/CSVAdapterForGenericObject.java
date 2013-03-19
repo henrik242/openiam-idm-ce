@@ -263,10 +263,9 @@ public class CSVAdapterForGenericObject implements SourceAdapter {
 			Attribute a = new Attribute(s, null);
 			a.setType("STRING");
 			a.setColumnNbr(ctr);
-			columnMap.put(a.getName(),a);
+            rowHeader.put(a.getName(),a);
 			ctr++;
 		}
-		rowHeader.setColumnMap(columnMap);
 	}
 	
 	

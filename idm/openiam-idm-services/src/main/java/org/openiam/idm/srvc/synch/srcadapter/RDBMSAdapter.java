@@ -21,6 +21,7 @@
  */
 package org.openiam.idm.srvc.synch.srcadapter;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openiam.base.id.UUIDGen;
@@ -39,7 +40,6 @@ import org.openiam.idm.srvc.synch.util.DatabaseUtil;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.provision.dto.ProvisionUser;
-import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.provision.service.ProvisionService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -55,15 +55,12 @@ import java.util.Map;
  */
 public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapter  {
 
-    protected LineObject rowHeader = new LineObject();
-    protected ProvisionUser pUser = new ProvisionUser();
-    public static ApplicationContext ac;
+    private LineObject rowHeader = new LineObject();
+    private ApplicationContext ac;
 
+    private String systemAccount;
 
-    ProvisionService provService = null;
-    String systemAccount;
-
-    MatchRuleFactory matchRuleFactory;
+    private MatchRuleFactory matchRuleFactory;
 
     private static final Log log = LogFactory.getLog(RDBMSAdapter.class);
     private Connection con = null;
@@ -75,12 +72,10 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
 
 
     public SyncResponse startSynch(SynchConfig config) {
-        // rule used to match object from source system to data in IDM
-        MatchObjectRule matchRule = null;
         String changeLog = null;
         Timestamp mostRecentRecord = null;
-        IdmAuditLog synchUserStartLog = null;
-        provService = (ProvisionService) ac.getBean("defaultProvision");
+
+        ProvisionService provService = (ProvisionService) ac.getBean("defaultProvision");
 
         log.debug("RDBMS SYNCH STARTED ^^^^^^^^");
 
@@ -91,7 +86,6 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         synchStartLog = auditHelper.logEvent(synchStartLog);
 
 
-
         if (!connect(config)) {
 
             SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
@@ -100,55 +94,37 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         }
 
         try {
-            matchRule = matchRuleFactory.create(config);
-        } catch (ClassNotFoundException cnfe) {
-            log.error(cnfe);
+            // execute the query
+            StringBuffer sql = new StringBuffer(config.getQuery());
+            java.util.Date lastExec = null;
 
-
-            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
-            auditHelper.logEvent(synchStartLog);
-
-            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-            return resp;
-        }
-
-        // execute the query
-        StringBuffer sql = new StringBuffer(config.getQuery());
-        java.util.Date lastExec = null;
-
-        if (config.getLastExecTime() != null) {
-            lastExec = config.getLastExecTime();
-        }
-
-
-
-
-
-        // if its incremental synch, then add the change log parameter
-        if (config.getSynchType().equalsIgnoreCase("INCREMENTAL")) {
-
-            if ((sql != null && sql.length() > 0) && (lastExec != null)) {
-
-                String temp = sql.toString().toUpperCase();
-                // strip off any trailing semi-colons. Not needed for jbdc
-                if (temp.endsWith(";")) {
-                    temp = removeLastChar(temp);
-                }
-
-
-                changeLog = config.getQueryTimeField();
-
-                if (temp.contains("WHERE")) {
-                    sql.append(" AND ");
-                } else {
-                    sql.append(" WHERE ");
-                }
-                sql.append(changeLog + " >= ?");
+            if (config.getLastExecTime() != null) {
+                lastExec = config.getLastExecTime();
             }
-        }
 
-        try {
+            // if its incremental synch, then add the change log parameter
+            if (config.getSynchType().equalsIgnoreCase("INCREMENTAL")) {
+
+                if ((sql != null && sql.length() > 0) && (lastExec != null)) {
+
+                    String temp = sql.toString().toUpperCase();
+                    // strip off any trailing semi-colons. Not needed for jbdc
+                    if (temp.endsWith(";")) {
+                        temp = removeLastChar(temp);
+                    }
+
+
+                    changeLog = config.getQueryTimeField();
+
+                    if (temp.contains("WHERE")) {
+                        sql.append(" AND ");
+                    } else {
+                        sql.append(" WHERE ");
+                    }
+                    sql.append(changeLog + " >= ?");
+                }
+            }
+
 
             log.debug("-SYNCH SQL=" + sql.toString());
             log.debug("-last processed record =" + lastExec);
@@ -167,13 +143,16 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
             // test
             log.debug("Result set contains following number of columns : " + rowHeader.getColumnMap().size());
 
+
+            ValidationScript validationScript = StringUtils.isNotEmpty(config.getValidationRule()) ? SynchScriptFactory.createValidationScript(config.getValidationRule()) : null;
+            TransformScript transformScript = StringUtils.isNotEmpty(config.getTransformationRule()) ? SynchScriptFactory.createTransformationScript(config.getTransformationRule()) : null;
             // Iterate through the resultset
             int ctr = 0;
 
             while (rs.next()) {
                 log.debug("-RDBMS ADAPTER: SYNCHRONIZING  RECORD # ---" + ctr++);
                 // make sure we have a new object for each row
-                pUser = new ProvisionUser();
+                ProvisionUser pUser = new ProvisionUser();
 
                 LineObject rowObj = rowHeader.copy();
                 DatabaseUtil.populateRowObject(rowObj, rs, changeLog);
@@ -195,123 +174,115 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
                 // 1) Validate the data
                 // 2) Transform it
                 // 3) if not delete - then match the object and determine if its a new object or its an udpate
-                try {
-                    // validate
-                    if (config.getValidationRule() != null && config.getValidationRule().length() > 0) {
-                        ValidationScript script = SynchScriptFactory.createValidationScript(config.getValidationRule());
-                        int retval = script.isValid(rowObj);
-                        if (retval == ValidationScript.NOT_VALID) {
-                            log.debug(" - Validation failed...transformation will not be called.");
+                // validate
+                if (validationScript != null) {
+                    int retval = validationScript.isValid(rowObj);
+                    if (retval == ValidationScript.NOT_VALID) {
+                        log.debug(" - Validation failed...transformation will not be called.");
 
-                            continue;
-                        }
-                        if (retval == ValidationScript.SKIP) {
-                            continue;
-                        }
+                        continue;
+                    }
+                    if (retval == ValidationScript.SKIP) {
+                        continue;
+                    }
+                }
+
+                // check if the user exists or not
+                Map<String, Attribute> rowAttr = rowObj.getColumnMap();
+                //
+                // rule used to match object from source system to data in IDM
+                MatchObjectRule matchRule = matchRuleFactory.create(config);
+                User usr = matchRule.lookup(config, rowAttr);
+
+
+                // transform
+                if (transformScript != null) {
+                    // initialize the transform script
+                    transformScript.init();
+
+                    if (usr != null) {
+                        transformScript.setNewUser(false);
+                        transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
+                        transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
+                        transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+
+                    } else {
+                        transformScript.setNewUser(true);
+                        transformScript.setUser(null);
+                        transformScript.setPrincipalList(null);
+                        transformScript.setUserRoleList(null);
                     }
 
-                    // check if the user exists or not
-                    Map<String, Attribute> rowAttr = rowObj.getColumnMap();
-                    //
-                    matchRule = matchRuleFactory.create(config);
-                    User usr = matchRule.lookup(config, rowAttr);
+                    int retval = transformScript.execute(rowObj, pUser);
+
+                    log.debug("- Transform result=" + retval);
+
+                    // show the user object
+                    log.debug("- User After Transformation =" + pUser);
+                    log.debug("- User = " + pUser.getUserId() + "-" + pUser.getFirstName() + " " + pUser.getLastName());
+                    log.debug("- User Attributes = " + pUser.getUserAttributes());
+
+                    pUser.setSessionId(synchStartLog.getSessionId());
 
 
-                    // transform
-                    if (config.getTransformationRule() != null && config.getTransformationRule().length() > 0) {
-                        TransformScript transformScript = SynchScriptFactory.createTransformationScript(config.getTransformationRule());
+                    if (retval == TransformScript.DELETE && usr != null) {
+                        log.debug("deleting record - " + usr.getUserId());
+                        provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
 
-                        // initialize the transform script
-                        transformScript.init();
+                    } else {
+                        // call synch
+                        if (retval != TransformScript.DELETE) {
 
-                        if (usr != null) {
-                            transformScript.setNewUser(false);
-                            transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                            transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                            transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+                            log.debug("-Provisioning user=" + pUser.getLastName());
 
-                        } else {
-                            transformScript.setNewUser(true);
-                            transformScript.setUser(null);
-                            transformScript.setPrincipalList(null);
-                            transformScript.setUserRoleList(null);
-                        }
+                            if (usr != null) {
+                                log.debug("-updating existing user...systemId=" + pUser.getUserId());
+                                pUser.setUserId(usr.getUserId());
 
-                        int retval = transformScript.execute(rowObj, pUser);
+                                modifyUser(pUser);
 
-                        log.debug("- Transform result=" + retval);
+                            } else {
+                                log.debug("-adding new user...");
 
-                        // show the user object
-                        log.debug("- User After Transformation =" + pUser);
-                        log.debug("- User = " + pUser.getUserId() + "-" + pUser.getFirstName() + " " + pUser.getLastName());
-                        log.debug("- User Attributes = " + pUser.getUserAttributes());
-
-                        pUser.setSessionId(synchStartLog.getSessionId());
+                                pUser.setUserId(null);
+                                addUser(pUser);
 
 
-                        if (retval == TransformScript.DELETE && usr != null) {
-                            log.debug("deleting record - " + usr.getUserId());
-                            ProvisionUserResponse userResp = provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
-
-                        } else {
-                            // call synch
-
-                            if (retval != TransformScript.DELETE) {
-
-                                log.debug("-Provisioning user=" + pUser.getLastName());
-
-                                if (usr != null) {
-                                    log.debug("-updating existing user...systemId=" + pUser.getUserId());
-                                    pUser.setUserId(usr.getUserId());
-
-                                    modifyUser(pUser);
-
-                                } else {
-                                    log.debug("-adding new user...");
-
-                                    pUser.setUserId(null);
-                                    addUser(pUser);
-
-
-                                }
                             }
                         }
                     }
-
-
-                } catch (ClassNotFoundException cnfe) {
-
-                    log.error(cnfe);
-
-                    synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
-                    auditHelper.logEvent(synchStartLog);
-
-
-                    SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-                    resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-                    resp.setErrorText(cnfe.toString());
-
-                    return resp;
-                } catch (IOException fe) {
-
-
-                    log.error(fe);
-
-                    synchStartLog.updateSynchAttributes("FAIL", ResponseCode.FILE_EXCEPTION.toString(), fe.toString());
-                    auditHelper.logEvent(synchStartLog);
-
-
-                    SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-                    resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
-                    resp.setErrorText(fe.toString());
-                    return resp;
-
-
                 }
+
+
             }
 
-        } catch (SQLException se) {
+        } catch (ClassNotFoundException cnfe) {
 
+            log.error(cnfe);
+
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
+            auditHelper.logEvent(synchStartLog);
+
+
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            resp.setErrorText(cnfe.toString());
+
+            return resp;
+        } catch (IOException fe) {
+
+            log.error(fe);
+
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.FILE_EXCEPTION.toString(), fe.toString());
+            auditHelper.logEvent(synchStartLog);
+
+
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
+            resp.setErrorText(fe.toString());
+            return resp;
+
+        } catch (SQLException se) {
 
             log.error(se);
             closeConnection();
@@ -415,7 +386,7 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         if (s == null || s.length() == 0) {
             return s;
         }
-        return s.substring(0, s.length()-1);
+        return s.substring(0, s.length() - 1);
     }
 
 

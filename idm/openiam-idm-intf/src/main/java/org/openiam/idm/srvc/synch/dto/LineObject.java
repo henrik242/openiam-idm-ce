@@ -21,7 +21,6 @@
  */
 package org.openiam.idm.srvc.synch.dto;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,18 +30,14 @@ import java.sql.Timestamp;
  * @author suneet
  *
  */
-public class LineObject implements Cloneable {
-	Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
-	Timestamp lastUpdate = null;
+public class LineObject {
+	private final Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
+	private Timestamp lastUpdate = null;
 
 	public Map<String, Attribute> getColumnMap() {
 		return columnMap;
 	}
 
-	public void setColumnMap(Map<String, Attribute> columnMap) {
-		this.columnMap = columnMap;
-	}
-	
 	public void put(String key,String name, String lineObject) {
 		columnMap.put(key, new Attribute(name,lineObject));
 	}
@@ -56,21 +51,13 @@ public class LineObject implements Cloneable {
 		return columnMap.get(key);
 		
 	}
-	protected Object clone() {
-		LineObject obj = new LineObject();
-		Map<String,Attribute> newColumnMap = new HashMap<String, Attribute>();
-		
-		Set<String> keySet = columnMap.keySet();
-		for (String key : keySet) {
-			Attribute a = columnMap.get(key);
-			newColumnMap.put(key, (Attribute)a.clone());
-		}
-		obj.setColumnMap(newColumnMap);
-		return obj;
-		
-	}
+
 	public LineObject copy() {
-		return (LineObject)clone();
+        LineObject obj = new LineObject();
+        for (Map.Entry<String, Attribute> entry : this.columnMap.entrySet()) {
+            obj.put(entry.getKey(), entry.getValue().getCopy());
+        }
+        return obj;
 	}
 
     @Override

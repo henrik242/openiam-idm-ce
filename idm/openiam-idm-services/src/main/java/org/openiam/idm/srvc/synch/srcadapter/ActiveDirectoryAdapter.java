@@ -96,15 +96,12 @@ public class ActiveDirectoryAdapter {
 	}
 	
 	private void populateTemplate(String[] lineAry) {
-		Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
-		
 		int ctr =0;
 		for (String s  :lineAry) {
 			Attribute a = new Attribute(s, null);
-			columnMap.put(Integer.toString(ctr),a);
+            lineHeader.put(Integer.toString(ctr),a);
 			ctr++;
 		}
-		lineHeader.setColumnMap(columnMap);
 	}
 
 	private void populateRowObject(LineObject rowObj ,String[] lineAry) {

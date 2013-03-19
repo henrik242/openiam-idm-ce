@@ -783,7 +783,7 @@
          <property name="password" value="${openiam.password}" />
          <property name="driverClassName" value="${openiam.driver_classname}"/>
          <property name="initialSize" value="${openiam.hibernate.minPoolSize}"/>
-         <property name="maxIdle" value="${openiam.hibernate.minPoolSize}"/>
+         <property name="maxIdle" value="${openiam.hibernate.maxPoolSize}"/>
          <property name="maxActive" value="${openiam.hibernate.maxPoolSize}"/>
          <property name="testWhileIdle" value="true"/>
          <property name="validationQuery" value="${openiam.hibernate.validationQuery}"/>

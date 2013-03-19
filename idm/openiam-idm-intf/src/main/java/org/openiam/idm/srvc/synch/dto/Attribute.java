@@ -28,7 +28,7 @@ import java.util.List;
  * @author suneet
  *
  */
-public class Attribute implements Cloneable {
+public class Attribute {
 	private String name;
 
     private String value;
@@ -71,11 +71,9 @@ public class Attribute implements Cloneable {
 		this.value = value;
 	}
 	
-	protected Object clone() {
-		Attribute a = new Attribute(name, type, value, columnNbr);
-		return a;
-		
-	}
+    public Attribute getCopy() {
+       return new Attribute(name, type, value, columnNbr);
+    }
 
   	public String getType() {
 		return type;

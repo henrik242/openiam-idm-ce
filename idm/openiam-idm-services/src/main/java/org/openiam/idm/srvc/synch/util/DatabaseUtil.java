@@ -44,18 +44,14 @@ public class DatabaseUtil {
 
 	
 	public static void populateTemplate(ResultSetMetaData rsMetadata, LineObject rowHeader ) throws SQLException {
-		Map<String,Attribute> columnMap = new HashMap<String, Attribute>();
-		
 		System.out.println("Creating column list from Metadata");
 		int colCount = rsMetadata.getColumnCount();
 		for (int i=1;  i <= colCount; i++) {
 			Attribute a = new Attribute(rsMetadata.getColumnName(i), null);
 		 	a.setType( rsMetadata.getColumnTypeName(i) );
-			columnMap.put(a.getName(),a);
+            rowHeader.put(a.getName(),a);
 
 		}
-		
-		rowHeader.setColumnMap(columnMap);
 	}
 
 	public static void populateRowObject(LineObject rowObj , ResultSet rs, String changeLog) throws SQLException {

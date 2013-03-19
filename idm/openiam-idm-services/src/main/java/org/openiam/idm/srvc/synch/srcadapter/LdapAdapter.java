@@ -24,6 +24,7 @@ package org.openiam.idm.srvc.synch.srcadapter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mule.api.MuleContext;
+import org.mule.util.StringUtils;
 import org.openiam.base.id.UUIDGen;
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseCode;
@@ -57,10 +58,8 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Scan Ldap for any new records, changed users, or delete operations and then synchronizes them back into OpenIAM.
@@ -69,39 +68,29 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LdapAdapter implements SourceAdapter {
 
+    public ApplicationContext ac;
 
+    private LoginDataService loginManager;
+    private RoleDataService roleDataService;
+    private AuditHelper auditHelper;
+    private MatchRuleFactory matchRuleFactory;
 
-    protected LineObject rowHeader = new LineObject();
-    protected ProvisionUser pUser = new ProvisionUser();
-    private String keystore;
+    private static ResourceBundle secres = ResourceBundle.getBundle("securityconf");
 
-    public static ApplicationContext ac;
+    private LdapContext ctx;
 
-    protected LoginDataService loginManager;
-    protected RoleDataService roleDataService;
-    protected AuditHelper auditHelper;
-    protected MatchRuleFactory matchRuleFactory;
-
-    static protected ResourceBundle secres = ResourceBundle.getBundle("securityconf");
-
-    LdapContext ctx = null;
-
-    protected UserDataService userMgr;
-    ProvisionService provService = null;
-    String systemAccount;
+    private UserDataService userMgr;
+    private String systemAccount;
     private static final Log log = LogFactory.getLog(LdapAdapter.class);
 
 
     public SyncResponse startSynch(SynchConfig config) {
-        // rule used to match object from source system to data in IDM
-        MatchObjectRule matchRule = null;
-       // String changeLog = null;
-       // Date mostRecentRecord = null;
+
+        // String changeLog = null;
+        // Date mostRecentRecord = null;
         long mostRecentRecord = 0L;
         String lastRecProcessed = null;
-        //java.util.Date lastExec = null;
-        IdmAuditLog synchUserStartLog = null;
-        provService = (ProvisionService) ac.getBean("defaultProvision");
+        ProvisionService provService = (ProvisionService) ac.getBean("defaultProvision");
 
         log.debug("LDAP startSynch CALLED.^^^^^^^^");
 
@@ -119,38 +108,27 @@ public class LdapAdapter implements SourceAdapter {
                 resp.setErrorCode(ResponseCode.FAIL_CONNECTION);
                 return resp;
             }
-
-            try {
-                matchRule = matchRuleFactory.create(config);
-            } catch (ClassNotFoundException cnfe) {
-
-                log.error(cnfe);
-
-                synchStartLog.updateSynchAttributes("FAIL",ResponseCode.CLASS_NOT_FOUND.toString() , cnfe.toString());
-                auditHelper.logEvent(synchStartLog);
-
-                SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-                resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-                return resp;
-            }
             // get the last execution time
             if (config.getLastRecProcessed() != null) {
-			    lastRecProcessed =  config.getLastRecProcessed() ;
-		    }
+                lastRecProcessed = config.getLastRecProcessed();
+            }
 
             // get change log field
             if (config.getSynchType().equalsIgnoreCase("INCREMENTAL")) {
                 if (lastRecProcessed != null) {
                     // update the search filter so that it has the new time
-                    String ldapFilterQuery =  config.getQuery();
+                    String ldapFilterQuery = config.getQuery();
                     // replace wildcards with the last exec time
 
-                    config.setQuery(  ldapFilterQuery.replace("?", lastRecProcessed ) );
+                    config.setQuery(ldapFilterQuery.replace("?", lastRecProcessed));
 
                     log.debug("Updated ldap filter = " + config.getQuery());
                 }
             }
-
+            ValidationScript validationScript = StringUtils.isNotEmpty(config.getValidationRule()) ? SynchScriptFactory.createValidationScript(config.getValidationRule()) : null;
+            TransformScript transformScript = StringUtils.isNotEmpty(config.getTransformationRule()) ?  SynchScriptFactory.createTransformationScript(config.getTransformationRule()) : null;
+            // rule used to match object from source system to data in IDM
+            MatchObjectRule matchRule = matchRuleFactory.create(config);
 
             int ctr = 0;
 
@@ -159,39 +137,39 @@ public class LdapAdapter implements SourceAdapter {
                 SearchResult sr = (SearchResult) results.next();
                 Attributes attrs = sr.getAttributes();
 
-                pUser = new ProvisionUser();
+                ProvisionUser pUser = new ProvisionUser();
                 LineObject rowObj = new LineObject();
 
                 log.debug("-New Row to Synchronize --" + ctr++);
 
                 if (attrs != null) {
-                   // try {
-                        for (NamingEnumeration ae = attrs.getAll(); ae.hasMore();) {
+                    // try {
+                    for (NamingEnumeration ae = attrs.getAll(); ae.hasMore(); ) {
 
-                            javax.naming.directory.Attribute attr = (javax.naming.directory.Attribute) ae.next();
+                        javax.naming.directory.Attribute attr = (javax.naming.directory.Attribute) ae.next();
 
-                            List<String> valueList = new ArrayList<String>();
+                        List<String> valueList = new ArrayList<String>();
 
-                            String key = attr.getID();
+                        String key = attr.getID();
 
-                            log.debug("attribute id=: " + key);
+                        log.debug("attribute id=: " + key);
 
 
-                            for (NamingEnumeration e = attr.getAll(); e.hasMore();) {
-                                Object o = e.next();
-                                if (o.toString() != null) {
-                                    valueList.add(o.toString());
-                                    log.debug("- value:=" + o.toString());
-                                }
-                            }
-                            if (valueList.size() > 0) {
-                                org.openiam.idm.srvc.synch.dto.Attribute rowAttr = new org.openiam.idm.srvc.synch.dto.Attribute();
-                                rowAttr.populateAttribute(key, valueList);
-                                rowObj.put(key, rowAttr);
-                            }else {
-                               log.debug("- value is null");
+                        for (NamingEnumeration e = attr.getAll(); e.hasMore(); ) {
+                            Object o = e.next();
+                            if (o.toString() != null) {
+                                valueList.add(o.toString());
+                                log.debug("- value:=" + o.toString());
                             }
                         }
+                        if (valueList.size() > 0) {
+                            org.openiam.idm.srvc.synch.dto.Attribute rowAttr = new org.openiam.idm.srvc.synch.dto.Attribute();
+                            rowAttr.populateAttribute(key, valueList);
+                            rowObj.put(key, rowAttr);
+                        } else {
+                            log.debug("- value is null");
+                        }
+                    }
 
 
                 }
@@ -211,110 +189,104 @@ public class LdapAdapter implements SourceAdapter {
                 // 1) Validate the data
                 // 2) Transform it
                 // 3) if not delete - then match the object and determine if its a new object or its an udpate
-                try {
-                    // validate
-                    if (config.getValidationRule() != null && config.getValidationRule().length() > 0) {
-                        ValidationScript script = SynchScriptFactory.createValidationScript(config.getValidationRule());
-                        int retval = script.isValid(rowObj);
-                        if (retval == ValidationScript.NOT_VALID) {
-                            log.error("Row Object Faied Validation=" + rowObj.toString());
-                            // log this object in the exception log
 
-                            continue;
-                        }
-                        if (retval == ValidationScript.SKIP) {
-                            continue;
-                        }
+                // validate
+                if (validationScript != null) {
+
+                    int retval = validationScript.isValid(rowObj);
+                    if (retval == ValidationScript.NOT_VALID) {
+                        log.error("Row Object Faied Validation=" + rowObj.toString());
+                        // log this object in the exception log
+
+                        continue;
+                    }
+                    if (retval == ValidationScript.SKIP) {
+                        continue;
+                    }
+                }
+
+                // check if the user exists or not
+                Map<String, Attribute> rowAttr = rowObj.getColumnMap();
+                //
+                User usr = matchRule.lookup(config, rowAttr);
+
+
+                // transform
+                if (transformScript != null) {
+
+                    // initialize the transform script
+                    transformScript.init();
+
+                    if (usr != null) {
+                        transformScript.setNewUser(false);
+                        transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
+                        transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
+                        transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+
+                    } else {
+                        transformScript.setNewUser(true);
                     }
 
-                    // check if the user exists or not
-                    Map<String, Attribute> rowAttr = rowObj.getColumnMap();
-                    //
-                    matchRule = matchRuleFactory.create(config);
-                    User usr = matchRule.lookup(config, rowAttr);
+                    int retval = transformScript.execute(rowObj, pUser);
+
+                    log.debug("Transform result=" + retval);
+
+                    pUser.setSessionId(synchStartLog.getSessionId());
 
 
-                    // transform
-                    if (config.getTransformationRule() != null && config.getTransformationRule().length() > 0) {
-                        TransformScript transformScript = SynchScriptFactory.createTransformationScript(config.getTransformationRule());
-
-                        // initialize the transform script
-                        transformScript.init();
-
-                        if (usr != null) {
-                            transformScript.setNewUser(false);
-                            transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                            transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                            transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
-
-                        } else {
-                            transformScript.setNewUser(true);
-                        }
-
-                        int retval = transformScript.execute(rowObj, pUser);
-
-                        log.debug("Transform result=" + retval);
-
-                        pUser.setSessionId(synchStartLog.getSessionId());
+                    if (retval == TransformScript.DELETE && usr != null) {
+                        log.debug("deleting record - " + usr.getUserId());
+                        ProvisionUserResponse userResp = provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
 
 
-                        if (retval == TransformScript.DELETE && usr != null) {
-                            log.debug("deleting record - " + usr.getUserId());
-                            ProvisionUserResponse userResp = provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
+                    } else {
+                        // call synch
+                        if (retval != TransformScript.DELETE) {
+                            System.out.println("Provisioning user=" + pUser.getLastName());
+                            if (usr != null) {
+                                log.debug("updating existing user...systemId=" + pUser.getUserId());
+                                pUser.setUserId(usr.getUserId());
+                                ProvisionUserResponse userResp = provService.modifyUser(pUser);
+
+                            } else {
+                                log.debug("adding new user...");
+                                pUser.setUserId(null);
+                                ProvisionUserResponse userResp = provService.addUser(pUser);
 
 
-                        } else {
-                            // call synch
-                            if (retval != TransformScript.DELETE) {
-                                System.out.println("Provisioning user=" + pUser.getLastName());
-                                if (usr != null) {
-                                    log.debug("updating existing user...systemId=" + pUser.getUserId());
-                                    pUser.setUserId(usr.getUserId());
-                                    ProvisionUserResponse userResp = provService.modifyUser(pUser);
-
-                                } else {
-                                    log.debug("adding new user...");
-                                    pUser.setUserId(null);
-                                    ProvisionUserResponse userResp = provService.addUser(pUser);
-
-
-                                }
                             }
                         }
                     }
-                    // show the user object
-
-
-                } catch (ClassNotFoundException cnfe) {
-
-
-                    log.error(cnfe);
-
-                    synchStartLog.updateSynchAttributes("FAIL",ResponseCode.CLASS_NOT_FOUND.toString() , cnfe.toString());
-                    auditHelper.logEvent(synchStartLog);
-
-
-                    SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-                    resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-                    resp.setErrorText(cnfe.toString());
-                    return resp;
-                }  catch (IOException fe ) {
-
-
-                    log.error(fe);
-
-                    synchStartLog.updateSynchAttributes("FAIL",ResponseCode.FILE_EXCEPTION.toString() , fe.toString());
-                    auditHelper.logEvent(synchStartLog);
-
-
-                    SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-                    resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
-                    resp.setErrorText(fe.toString());
-                    return resp;
-
-
                 }
+                // show the user object
+
+
             }
+
+
+        } catch (ClassNotFoundException cnfe) {
+
+            log.error(cnfe);
+
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
+            auditHelper.logEvent(synchStartLog);
+
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            return resp;
+        } catch (IOException fe) {
+
+
+            log.error(fe);
+
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.FILE_EXCEPTION.toString(), fe.toString());
+            auditHelper.logEvent(synchStartLog);
+
+
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.FILE_EXCEPTION);
+            resp.setErrorText(fe.toString());
+            return resp;
 
 
         } catch (NamingException ne) {
@@ -322,7 +294,7 @@ public class LdapAdapter implements SourceAdapter {
 
             log.error(ne);
 
-            synchStartLog.updateSynchAttributes("FAIL",ResponseCode.DIRECTORY_NAMING_EXCEPTION.toString() , ne.toString());
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.DIRECTORY_NAMING_EXCEPTION.toString(), ne.toString());
             auditHelper.logEvent(synchStartLog);
 
             SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
@@ -342,11 +314,11 @@ public class LdapAdapter implements SourceAdapter {
 
     public Response testConnection(SynchConfig config) {
         try {
-            if(connect(config)){
+            if (connect(config)) {
                 closeConnection();
                 Response resp = new Response(ResponseStatus.SUCCESS);
                 return resp;
-            }else{
+            } else {
                 Response resp = new Response(ResponseStatus.FAILURE);
                 resp.setErrorCode(ResponseCode.FAIL_CONNECTION);
                 return resp;
@@ -362,21 +334,22 @@ public class LdapAdapter implements SourceAdapter {
         }
     }
 
-    private LastRecordTime getRowTime(LineObject rowObj)  {
+    private LastRecordTime getRowTime(LineObject rowObj) {
         Attribute atr = rowObj.get("modifyTimestamp");
 
-       if (atr != null && atr.getValue() != null) {
-             return getTime(atr);
-       }
-       atr = rowObj.get("createTimestamp");
+        if (atr != null && atr.getValue() != null) {
+            return getTime(atr);
+        }
+        atr = rowObj.get("createTimestamp");
 
-       if (atr != null && atr.getValue() != null) {
-             return getTime(atr);
-       }
-       return new LastRecordTime();
+        if (atr != null && atr.getValue() != null) {
+            return getTime(atr);
+        }
+        return new LastRecordTime();
 
 
     }
+
     private LastRecordTime getTime(Attribute atr) {
         LastRecordTime lrt = new LastRecordTime();
 
@@ -386,12 +359,12 @@ public class LdapAdapter implements SourceAdapter {
             i = s.indexOf("-");
         }
         if (i > 0) {
-            lrt.mostRecentRecord =  Long.parseLong( s.substring(0,i) );
+            lrt.mostRecentRecord = Long.parseLong(s.substring(0, i));
             lrt.generalizedTime = atr.getValue();
             return lrt;
 
         }
-        lrt.mostRecentRecord =  Long.parseLong( s );
+        lrt.mostRecentRecord = Long.parseLong(s);
         lrt.generalizedTime = atr.getValue();
         return lrt;
 
@@ -400,7 +373,7 @@ public class LdapAdapter implements SourceAdapter {
 
     private NamingEnumeration search(SynchConfig config) throws NamingException {
 
-       // String attrIds[] = {"1.1", "+", "*"};
+        // String attrIds[] = {"1.1", "+", "*"};
 
         String attrIds[] = {"1.1", "+", "*", "accountUnlockTime", "aci", "aclRights", "aclRightsInfo", "altServer", "attributeTypes", "changeHasReplFixupOp", "changeIsReplFixupOp", "copiedFrom", "copyingFrom", "createTimestamp", "creatorsName", "deletedEntryAttrs", "dITContentRules", "dITStructureRules", "dncomp", "ds-pluginDigest", "ds-pluginSignature", "ds6ruv", "dsKeyedPassword", "entrydn", "entryid", "hasSubordinates", "idmpasswd", "isMemberOf", "ldapSchemas", "ldapSyntaxes", "matchingRules", "matchingRuleUse", "modDNEnabledSuffixes", "modifiersName", "modifyTimestamp", "nameForms", "namingContexts", "nsAccountLock", "nsBackendSuffix", "nscpEntryDN", "nsds5ReplConflict", "nsIdleTimeout", "nsLookThroughLimit", "nsRole", "nsRoleDN", "nsSchemaCSN", "nsSizeLimit", "nsTimeLimit", "nsUniqueId", "numSubordinates", "objectClasses", "parentid", "passwordAllowChangeTime", "passwordExpirationTime", "passwordExpWarned", "passwordHistory", "passwordPolicySubentry", "passwordRetryCount", "pwdAccountLockedTime", "pwdChangedTime", "pwdFailureTime", "pwdGraceUseTime", "pwdHistory", "pwdLastAuthTime", "pwdPolicySubentry", "pwdReset", "replicaIdentifier", "replicationCSN", "retryCountResetTime", "subschemaSubentry", "supportedControl", "supportedExtension", "supportedLDAPVersion", "supportedSASLMechanisms", "supportedSSLCiphers", "targetUniqueId", "vendorName", "vendorVersion"};
 
@@ -416,11 +389,10 @@ public class LdapAdapter implements SourceAdapter {
     }
 
 
-
     private boolean connect(SynchConfig config) throws NamingException {
 
         Hashtable<String, String> envDC = new Hashtable();
-        keystore = secres.getString("KEYSTORE");
+        String keystore = secres.getString("KEYSTORE");
         System.setProperty("javax.net.ssl.trustStore", keystore);
 
         String hostUrl = config.getSrcHost(); //   managedSys.getHostUrl();
@@ -537,7 +509,6 @@ public class LdapAdapter implements SourceAdapter {
         String generalizedTime;
 
     }
-
 
 
 }
