@@ -71,9 +71,10 @@ public class CSVAdapter extends AbstractSrcAdapter {
 
     private static final Log log = LogFactory.getLog(CSVAdapter.class);
 
-    private static final int THREAD_COUNT = 5;
+    private static final ResourceBundle res = ResourceBundle.getBundle("datasource");
 
     public SyncResponse startSynch(final SynchConfig config) {
+        int THREAD_COUNT = Integer.parseInt(res.getString("csvadapter.thread.count"));
 
         log.debug("CSV startSynch CALLED.^^^^^^^^");
 
@@ -119,7 +120,7 @@ public class CSVAdapter extends AbstractSrcAdapter {
             ExecutorService service = Executors.newCachedThreadPool();
             for(int i = 0; i < threadCoount; i++) {
                 final int startIndex = i*rowsInOneExecutors;
-                int shiftIndex = i != threadCoount -1 ? rowsInOneExecutors : remains;
+                int shiftIndex = threadCoount > THREAD_COUNT && i == threadCoount -1 ? remains : rowsInOneExecutors;
 
                 final String[][] part = Arrays.copyOfRange(rows,startIndex,startIndex+shiftIndex);
                 results.add(service.submit(new Runnable() {
