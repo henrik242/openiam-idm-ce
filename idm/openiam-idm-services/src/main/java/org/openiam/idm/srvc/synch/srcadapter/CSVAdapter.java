@@ -71,6 +71,7 @@ public class CSVAdapter extends AbstractSrcAdapter {
 
     private static final Log log = LogFactory.getLog(CSVAdapter.class);
 
+    private static final int THREAD_COUNT = 5;
 
     public SyncResponse startSynch(final SynchConfig config) {
 
@@ -104,22 +105,21 @@ public class CSVAdapter extends AbstractSrcAdapter {
             //Get Header
             final LineObject rowHeader = populateTemplate(rows[0]);
             rows = Arrays.copyOfRange(rows,1,rows.length);
-            // Multithreding 5 thereads
-            //TODO process in threads
+            // Multithreading
             int allRowsCount = rows.length;
-            int threadCount = 5;
-            int rowsInOneExecutors =  allRowsCount / threadCount;
-            int remains =allRowsCount % (rowsInOneExecutors*threadCount);
+            int threadCoount = THREAD_COUNT;
+            int rowsInOneExecutors =  allRowsCount / threadCoount;
+            int remains =allRowsCount % (rowsInOneExecutors * threadCoount);
             if (remains != 0) {
-                threadCount++;
+                threadCoount++;
             }
-            log.debug("Thread count = " + threadCount + "; Rows in one thread = " + rowsInOneExecutors + "; Remains rows = " + remains);
+            log.debug("Thread count = " + threadCoount + "; Rows in one thread = " + rowsInOneExecutors + "; Remains rows = " + remains);
 
             List<Future> results = new LinkedList<Future>();
             ExecutorService service = Executors.newCachedThreadPool();
-            for(int i = 0; i < threadCount; i++) {
+            for(int i = 0; i < threadCoount; i++) {
                 final int startIndex = i*rowsInOneExecutors;
-                int shiftIndex = i != threadCount-1 ? rowsInOneExecutors : remains;
+                int shiftIndex = i != threadCoount -1 ? rowsInOneExecutors : remains;
 
                 final String[][] part = Arrays.copyOfRange(rows,startIndex,startIndex+shiftIndex);
                 results.add(service.submit(new Runnable() {
@@ -129,21 +129,8 @@ public class CSVAdapter extends AbstractSrcAdapter {
                     }
                 }));
             }
-            boolean success = false;
-            while(!success) {
-                for(Future future : results) {
-                    if(!future.isDone()) {
-                        success = false;
-                        break;
-                    } else {
-                        success = true;
-                    }
-                }
-                Thread.sleep(500);
-            }
 
-
-
+            waitUntilWorkDone(results);
 
         } catch (FileNotFoundException fe) {
             fe.printStackTrace();
@@ -198,6 +185,21 @@ public class CSVAdapter extends AbstractSrcAdapter {
         log.debug("CSV SYNCHRONIZATION COMPLETE^^^^^^^^");
 
         return new SyncResponse(ResponseStatus.SUCCESS);
+    }
+
+    private void waitUntilWorkDone(List<Future> results) throws InterruptedException {
+        boolean success = false;
+        while(!success) {
+            for(Future future : results) {
+                if(!future.isDone()) {
+                    success = false;
+                    break;
+                } else {
+                    success = true;
+                }
+            }
+            Thread.sleep(500);
+        }
     }
 
     private void proccess(SynchConfig config, ProvisionService provService, IdmAuditLog synchStartLog, String[][] rows, ValidationScript validationScript, TransformScript transformScript, MatchObjectRule matchRule, LineObject rowHeader, int ctr) {

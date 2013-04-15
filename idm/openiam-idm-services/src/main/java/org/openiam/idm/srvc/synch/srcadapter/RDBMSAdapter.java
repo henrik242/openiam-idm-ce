@@ -149,112 +149,7 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
             // Iterate through the resultset
             int ctr = 0;
 
-            while (rs.next()) {
-                log.debug("-RDBMS ADAPTER: SYNCHRONIZING  RECORD # ---" + ctr++);
-                // make sure we have a new object for each row
-                ProvisionUser pUser = new ProvisionUser();
-
-                LineObject rowObj = rowHeader.copy();
-                DatabaseUtil.populateRowObject(rowObj, rs, changeLog);
-
-                log.debug(" - Record update time=" + rowObj.getLastUpdate());
-
-                if (mostRecentRecord == null) {
-                    mostRecentRecord = rowObj.getLastUpdate();
-                } else {
-                    // if current record is newer than what we saved, then update the most recent record value
-
-                    if (mostRecentRecord.before(rowObj.getLastUpdate())) {
-                        log.debug("- MostRecentRecord value updated to=" + rowObj.getLastUpdate());
-                        mostRecentRecord.setTime(rowObj.getLastUpdate().getTime());
-                    }
-                }
-
-                // start the synch process
-                // 1) Validate the data
-                // 2) Transform it
-                // 3) if not delete - then match the object and determine if its a new object or its an udpate
-                // validate
-                if (validationScript != null) {
-                    int retval = validationScript.isValid(rowObj);
-                    if (retval == ValidationScript.NOT_VALID) {
-                        log.debug(" - Validation failed...transformation will not be called.");
-
-                        continue;
-                    }
-                    if (retval == ValidationScript.SKIP) {
-                        continue;
-                    }
-                }
-
-                // check if the user exists or not
-                Map<String, Attribute> rowAttr = rowObj.getColumnMap();
-                //
-                // rule used to match object from source system to data in IDM
-                MatchObjectRule matchRule = matchRuleFactory.create(config);
-                User usr = matchRule.lookup(config, rowAttr);
-
-
-                // transform
-                if (transformScript != null) {
-                    // initialize the transform script
-                    transformScript.init();
-
-                    if (usr != null) {
-                        transformScript.setNewUser(false);
-                        transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                        transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                        transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
-
-                    } else {
-                        transformScript.setNewUser(true);
-                        transformScript.setUser(null);
-                        transformScript.setPrincipalList(null);
-                        transformScript.setUserRoleList(null);
-                    }
-
-                    int retval = transformScript.execute(rowObj, pUser);
-
-                    log.debug("- Transform result=" + retval);
-
-                    // show the user object
-                    log.debug("- User After Transformation =" + pUser);
-                    log.debug("- User = " + pUser.getUserId() + "-" + pUser.getFirstName() + " " + pUser.getLastName());
-                    log.debug("- User Attributes = " + pUser.getUserAttributes());
-
-                    pUser.setSessionId(synchStartLog.getSessionId());
-
-
-                    if (retval == TransformScript.DELETE && usr != null) {
-                        log.debug("deleting record - " + usr.getUserId());
-                        provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
-
-                    } else {
-                        // call synch
-                        if (retval != TransformScript.DELETE) {
-
-                            log.debug("-Provisioning user=" + pUser.getLastName());
-
-                            if (usr != null) {
-                                log.debug("-updating existing user...systemId=" + pUser.getUserId());
-                                pUser.setUserId(usr.getUserId());
-
-                                modifyUser(pUser);
-
-                            } else {
-                                log.debug("-adding new user...");
-
-                                pUser.setUserId(null);
-                                addUser(pUser);
-
-
-                            }
-                        }
-                    }
-                }
-
-
-            }
+            mostRecentRecord = proccess(config, changeLog, mostRecentRecord, provService, synchStartLog, rs, validationScript, transformScript, ctr);
 
         } catch (ClassNotFoundException cnfe) {
 
@@ -312,6 +207,116 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         resp.setLastRecordTime(mostRecentRecord);
         return resp;
 
+    }
+
+    private Timestamp proccess(SynchConfig config, String changeLog, Timestamp mostRecentRecord, ProvisionService provService, IdmAuditLog synchStartLog, ResultSet rs, ValidationScript validationScript, TransformScript transformScript, int ctr) throws SQLException, ClassNotFoundException {
+        while (rs.next()) {
+            log.debug("-RDBMS ADAPTER: SYNCHRONIZING  RECORD # ---" + ctr++);
+            // make sure we have a new object for each row
+            ProvisionUser pUser = new ProvisionUser();
+
+            LineObject rowObj = rowHeader.copy();
+            DatabaseUtil.populateRowObject(rowObj, rs, changeLog);
+
+            log.debug(" - Record update time=" + rowObj.getLastUpdate());
+
+            if (mostRecentRecord == null) {
+                mostRecentRecord = rowObj.getLastUpdate();
+            } else {
+                // if current record is newer than what we saved, then update the most recent record value
+
+                if (mostRecentRecord.before(rowObj.getLastUpdate())) {
+                    log.debug("- MostRecentRecord value updated to=" + rowObj.getLastUpdate());
+                    mostRecentRecord.setTime(rowObj.getLastUpdate().getTime());
+                }
+            }
+
+            // start the synch process
+            // 1) Validate the data
+            // 2) Transform it
+            // 3) if not delete - then match the object and determine if its a new object or its an udpate
+            // validate
+            if (validationScript != null) {
+                int retval = validationScript.isValid(rowObj);
+                if (retval == ValidationScript.NOT_VALID) {
+                    log.debug(" - Validation failed...transformation will not be called.");
+
+                    continue;
+                }
+                if (retval == ValidationScript.SKIP) {
+                    continue;
+                }
+            }
+
+            // check if the user exists or not
+            Map<String, Attribute> rowAttr = rowObj.getColumnMap();
+            //
+            // rule used to match object from source system to data in IDM
+            MatchObjectRule matchRule = matchRuleFactory.create(config);
+            User usr = matchRule.lookup(config, rowAttr);
+
+
+            // transform
+            if (transformScript != null) {
+                // initialize the transform script
+                transformScript.init();
+
+                if (usr != null) {
+                    transformScript.setNewUser(false);
+                    transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
+                    transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
+                    transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+
+                } else {
+                    transformScript.setNewUser(true);
+                    transformScript.setUser(null);
+                    transformScript.setPrincipalList(null);
+                    transformScript.setUserRoleList(null);
+                }
+
+                int retval = transformScript.execute(rowObj, pUser);
+
+                log.debug("- Transform result=" + retval);
+
+                // show the user object
+                log.debug("- User After Transformation =" + pUser);
+                log.debug("- User = " + pUser.getUserId() + "-" + pUser.getFirstName() + " " + pUser.getLastName());
+                log.debug("- User Attributes = " + pUser.getUserAttributes());
+
+                pUser.setSessionId(synchStartLog.getSessionId());
+
+
+                if (retval == TransformScript.DELETE && usr != null) {
+                    log.debug("deleting record - " + usr.getUserId());
+                    provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
+
+                } else {
+                    // call synch
+                    if (retval != TransformScript.DELETE) {
+
+                        log.debug("-Provisioning user=" + pUser.getLastName());
+
+                        if (usr != null) {
+                            log.debug("-updating existing user...systemId=" + pUser.getUserId());
+                            pUser.setUserId(usr.getUserId());
+
+                            modifyUser(pUser);
+
+                        } else {
+                            log.debug("-adding new user...");
+
+                            pUser.setUserId(null);
+                            addUser(pUser);
+
+
+                        }
+                    }
+                }
+            }
+
+
+        }
+        return mostRecentRecord;
     }
 
     public Response testConnection(SynchConfig config) {

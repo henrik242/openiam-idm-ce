@@ -60,6 +60,9 @@ import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Scan Ldap for any new records, changed users, or delete operations and then synchronizes them back into OpenIAM.
@@ -83,22 +86,23 @@ public class LdapAdapter implements SourceAdapter {
     private String systemAccount;
     private static final Log log = LogFactory.getLog(LdapAdapter.class);
 
+    private static final int THREAD_COUNT = 5;
 
-    public SyncResponse startSynch(SynchConfig config) {
+    public SyncResponse startSynch(final SynchConfig config) {
 
         // String changeLog = null;
         // Date mostRecentRecord = null;
-        long mostRecentRecord = 0L;
+        //    long mostRecentRecord = 0L;
         String lastRecProcessed = null;
-        ProvisionService provService = (ProvisionService) ac.getBean("defaultProvision");
+        final ProvisionService provService = (ProvisionService) ac.getBean("defaultProvision");
 
         log.debug("LDAP startSynch CALLED.^^^^^^^^");
 
         String requestId = UUIDGen.getUUID();
 
-        IdmAuditLog synchStartLog = new IdmAuditLog();
-        synchStartLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
-        synchStartLog = auditHelper.logEvent(synchStartLog);
+        IdmAuditLog synchStartLog_ = new IdmAuditLog();
+        synchStartLog_.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
+        final IdmAuditLog synchStartLog = auditHelper.logEvent(synchStartLog_);
 
         try {
 
@@ -125,143 +129,52 @@ public class LdapAdapter implements SourceAdapter {
                     log.debug("Updated ldap filter = " + config.getQuery());
                 }
             }
-            ValidationScript validationScript = StringUtils.isNotEmpty(config.getValidationRule()) ? SynchScriptFactory.createValidationScript(config.getValidationRule()) : null;
-            TransformScript transformScript = StringUtils.isNotEmpty(config.getTransformationRule()) ?  SynchScriptFactory.createTransformationScript(config.getTransformationRule()) : null;
+
+            final ValidationScript validationScript = StringUtils.isNotEmpty(config.getValidationRule()) ? SynchScriptFactory.createValidationScript(config.getValidationRule()) : null;
+            final TransformScript transformScript = StringUtils.isNotEmpty(config.getTransformationRule()) ? SynchScriptFactory.createTransformationScript(config.getTransformationRule()) : null;
             // rule used to match object from source system to data in IDM
-            MatchObjectRule matchRule = matchRuleFactory.create(config);
+            final MatchObjectRule matchRule = matchRuleFactory.create(config);
 
-            int ctr = 0;
-
-            NamingEnumeration results = search(config);
-            while (results != null && results.hasMore()) {
-                SearchResult sr = (SearchResult) results.next();
-                Attributes attrs = sr.getAttributes();
-
-                ProvisionUser pUser = new ProvisionUser();
-                LineObject rowObj = new LineObject();
-
-                log.debug("-New Row to Synchronize --" + ctr++);
-
-                if (attrs != null) {
-                    // try {
-                    for (NamingEnumeration ae = attrs.getAll(); ae.hasMore(); ) {
-
-                        javax.naming.directory.Attribute attr = (javax.naming.directory.Attribute) ae.next();
-
-                        List<String> valueList = new ArrayList<String>();
-
-                        String key = attr.getID();
-
-                        log.debug("attribute id=: " + key);
-
-
-                        for (NamingEnumeration e = attr.getAll(); e.hasMore(); ) {
-                            Object o = e.next();
-                            if (o.toString() != null) {
-                                valueList.add(o.toString());
-                                log.debug("- value:=" + o.toString());
-                            }
-                        }
-                        if (valueList.size() > 0) {
-                            org.openiam.idm.srvc.synch.dto.Attribute rowAttr = new org.openiam.idm.srvc.synch.dto.Attribute();
-                            rowAttr.populateAttribute(key, valueList);
-                            rowObj.put(key, rowAttr);
-                        } else {
-                            log.debug("- value is null");
-                        }
-                    }
-
-
-                }
-
-
-                LastRecordTime lrt = getRowTime(rowObj);
-
-                if (mostRecentRecord < lrt.mostRecentRecord) {
-                    mostRecentRecord = lrt.mostRecentRecord;
-                    lastRecProcessed = lrt.generalizedTime;
-                }
-
-                log.debug("STarting validation and transformation..");
-
-
-                // start the synch process
-                // 1) Validate the data
-                // 2) Transform it
-                // 3) if not delete - then match the object and determine if its a new object or its an udpate
-
-                // validate
-                if (validationScript != null) {
-
-                    int retval = validationScript.isValid(rowObj);
-                    if (retval == ValidationScript.NOT_VALID) {
-                        log.error("Row Object Faied Validation=" + rowObj.toString());
-                        // log this object in the exception log
-
-                        continue;
-                    }
-                    if (retval == ValidationScript.SKIP) {
-                        continue;
-                    }
-                }
-
-                // check if the user exists or not
-                Map<String, Attribute> rowAttr = rowObj.getColumnMap();
-                //
-                User usr = matchRule.lookup(config, rowAttr);
-
-
-                // transform
-                if (transformScript != null) {
-
-                    // initialize the transform script
-                    transformScript.init();
-
-                    if (usr != null) {
-                        transformScript.setNewUser(false);
-                        transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                        transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                        transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
-
-                    } else {
-                        transformScript.setNewUser(true);
-                    }
-
-                    int retval = transformScript.execute(rowObj, pUser);
-
-                    log.debug("Transform result=" + retval);
-
-                    pUser.setSessionId(synchStartLog.getSessionId());
-
-
-                    if (retval == TransformScript.DELETE && usr != null) {
-                        log.debug("deleting record - " + usr.getUserId());
-                        ProvisionUserResponse userResp = provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
-
-
-                    } else {
-                        // call synch
-                        if (retval != TransformScript.DELETE) {
-                            System.out.println("Provisioning user=" + pUser.getLastName());
-                            if (usr != null) {
-                                log.debug("updating existing user...systemId=" + pUser.getUserId());
-                                pUser.setUserId(usr.getUserId());
-                                ProvisionUserResponse userResp = provService.modifyUser(pUser);
-
-                            } else {
-                                log.debug("adding new user...");
-                                pUser.setUserId(null);
-                                ProvisionUserResponse userResp = provService.addUser(pUser);
-
-
-                            }
-                        }
-                    }
-                }
-                // show the user object
-
-
+            NamingEnumeration<SearchResult> results = search(config);
+            List<SearchResult> resultList = Collections.list(results);
+            int allRowsCount = resultList.size();
+            int threadCoount = THREAD_COUNT;
+            int rowsInOneExecutors = allRowsCount / threadCoount;
+            int remains = allRowsCount % (rowsInOneExecutors * threadCoount);
+            if (remains != 0) {
+                threadCoount++;
             }
+            log.debug("Thread count = " + threadCoount + "; Rows in one thread = " + rowsInOneExecutors + "; Remains rows = " + remains);
+
+            List<Future> threadResults = new LinkedList<Future>();
+            ExecutorService service = Executors.newCachedThreadPool();
+            for (int i = 0; i < threadCoount; i++) {
+                final int startIndex = i * rowsInOneExecutors;
+                int shiftIndex = i != threadCoount - 1 ? rowsInOneExecutors : remains;
+
+                final List<SearchResult> part = resultList.subList(startIndex, startIndex + shiftIndex);
+                threadResults.add(service.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            proccess(config, provService, synchStartLog, validationScript, transformScript, matchRule, startIndex, part);
+                        } catch (NamingException ne) {
+
+
+                            log.error(ne);
+
+                            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.DIRECTORY_NAMING_EXCEPTION.toString(), ne.toString());
+                            auditHelper.logEvent(synchStartLog);
+
+                            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+                            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+                            resp.setErrorText(ne.toString());
+                        }
+                    }
+                }));
+            }
+
+            waitUntilWorkDone(threadResults);
 
 
         } catch (ClassNotFoundException cnfe) {
@@ -289,6 +202,15 @@ public class LdapAdapter implements SourceAdapter {
             return resp;
 
 
+        } catch (InterruptedException e) {
+            log.error(e);
+
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.INTERRUPTED_EXCEPTION.toString(), e.toString());
+            auditHelper.logEvent(synchStartLog);
+
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.INTERRUPTED_EXCEPTION);
+            return resp;
         } catch (NamingException ne) {
 
 
@@ -301,7 +223,6 @@ public class LdapAdapter implements SourceAdapter {
             resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
             resp.setErrorText(ne.toString());
             return resp;
-
         }
         log.debug("LDAP SYNCHRONIZATION COMPLETE^^^^^^^^");
 
@@ -310,6 +231,147 @@ public class LdapAdapter implements SourceAdapter {
         resp.setLastRecProcessed(lastRecProcessed);
         return resp;
 
+    }
+
+    private void proccess(SynchConfig config, ProvisionService provService, IdmAuditLog synchStartLog, ValidationScript validationScript, TransformScript transformScript, MatchObjectRule matchRule, int ctr, List<SearchResult> part) throws NamingException {
+        for (SearchResult sr : part) {
+            Attributes attrs = sr.getAttributes();
+
+            ProvisionUser pUser = new ProvisionUser();
+            LineObject rowObj = new LineObject();
+
+            log.debug("-New Row to Synchronize --" + ctr++);
+
+            if (attrs != null) {
+                // try {
+                for (NamingEnumeration ae = attrs.getAll(); ae.hasMore(); ) {
+
+                    javax.naming.directory.Attribute attr = (javax.naming.directory.Attribute) ae.next();
+
+                    List<String> valueList = new ArrayList<String>();
+
+                    String key = attr.getID();
+
+                    log.debug("attribute id=: " + key);
+
+
+                    for (NamingEnumeration e = attr.getAll(); e.hasMore(); ) {
+                        Object o = e.next();
+                        if (o.toString() != null) {
+                            valueList.add(o.toString());
+                            log.debug("- value:=" + o.toString());
+                        }
+                    }
+                    if (valueList.size() > 0) {
+                        Attribute rowAttr = new Attribute();
+                        rowAttr.populateAttribute(key, valueList);
+                        rowObj.put(key, rowAttr);
+                    } else {
+                        log.debug("- value is null");
+                    }
+                }
+
+
+            }
+
+
+            LastRecordTime lrt = getRowTime(rowObj);
+
+            log.debug("STarting validation and transformation..");
+
+
+            // start the synch process
+            // 1) Validate the data
+            // 2) Transform it
+            // 3) if not delete - then match the object and determine if its a new object or its an udpate
+
+            // validate
+            if (validationScript != null) {
+
+                int retval = validationScript.isValid(rowObj);
+                if (retval == ValidationScript.NOT_VALID) {
+                    log.error("Row Object Faied Validation=" + rowObj.toString());
+                    // log this object in the exception log
+
+                    continue;
+                }
+                if (retval == ValidationScript.SKIP) {
+                    continue;
+                }
+            }
+
+            // check if the user exists or not
+            Map<String, Attribute> rowAttr = rowObj.getColumnMap();
+            //
+            User usr = matchRule.lookup(config, rowAttr);
+
+
+            // transform
+            if (transformScript != null) {
+
+                // initialize the transform script
+                transformScript.init();
+
+                if (usr != null) {
+                    transformScript.setNewUser(false);
+                    transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
+                    transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
+                    transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+
+                } else {
+                    transformScript.setNewUser(true);
+                }
+
+                int retval = transformScript.execute(rowObj, pUser);
+
+                log.debug("Transform result=" + retval);
+
+                pUser.setSessionId(synchStartLog.getSessionId());
+
+
+                if (retval == TransformScript.DELETE && usr != null) {
+                    log.debug("deleting record - " + usr.getUserId());
+                    ProvisionUserResponse userResp = provService.deleteByUserId(new ProvisionUser(usr), UserStatusEnum.DELETED, systemAccount);
+
+
+                } else {
+                    // call synch
+                    if (retval != TransformScript.DELETE) {
+                        System.out.println("Provisioning user=" + pUser.getLastName());
+                        if (usr != null) {
+                            log.debug("updating existing user...systemId=" + pUser.getUserId());
+                            pUser.setUserId(usr.getUserId());
+                            ProvisionUserResponse userResp = provService.modifyUser(pUser);
+
+                        } else {
+                            log.debug("adding new user...");
+                            pUser.setUserId(null);
+                            ProvisionUserResponse userResp = provService.addUser(pUser);
+
+
+                        }
+                    }
+                }
+            }
+            // show the user object
+
+
+        }
+    }
+
+    private void waitUntilWorkDone(List<Future> results) throws InterruptedException {
+        boolean success = false;
+        while (!success) {
+            for (Future future : results) {
+                if (!future.isDone()) {
+                    success = false;
+                    break;
+                } else {
+                    success = true;
+                }
+            }
+            Thread.sleep(500);
+        }
     }
 
     public Response testConnection(SynchConfig config) {
@@ -371,7 +433,7 @@ public class LdapAdapter implements SourceAdapter {
 
     }
 
-    private NamingEnumeration search(SynchConfig config) throws NamingException {
+    private NamingEnumeration<SearchResult> search(SynchConfig config) throws NamingException {
 
         // String attrIds[] = {"1.1", "+", "*"};
 
