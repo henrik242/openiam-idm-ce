@@ -51,17 +51,17 @@ import org.springframework.context.ApplicationContext;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Reads a CSV file for use during the synchronization process
  *
  * @author suneet
  */
-public class CSVAdapter extends  AbstractSrcAdapter  {
+public class CSVAdapter extends AbstractSrcAdapter {
 
     private AuditHelper auditHelper;
 
@@ -72,129 +72,79 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
     private static final Log log = LogFactory.getLog(CSVAdapter.class);
 
 
-    public SyncResponse startSynch(SynchConfig config) {
+    public SyncResponse startSynch(final SynchConfig config) {
 
         log.debug("CSV startSynch CALLED.^^^^^^^^");
 
 
         Reader reader = null;
 
-        ProvisionService provService = (ProvisionService) ac.getBean("defaultProvision");
+        final ProvisionService provService = (ProvisionService) ac.getBean("defaultProvision");
 
         String requestId = UUIDGen.getUUID();
 
-        IdmAuditLog synchStartLog = new IdmAuditLog();
-        synchStartLog.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
-        synchStartLog = auditHelper.logEvent(synchStartLog);
+        IdmAuditLog synchStartLog_ = new IdmAuditLog();
+        synchStartLog_.setSynchAttributes("SYNCH_USER", config.getSynchConfigId(), "START", "SYSTEM", requestId);
+        final IdmAuditLog synchStartLog = auditHelper.logEvent(synchStartLog_);
 
         try {
             File file = new File(config.getFileName());
             reader = new FileReader(file);
             CSVParser parser = new CSVParser(reader, CSVStrategy.EXCEL_STRATEGY);
 
-            int ctr = 0;
+
             String[][] rows = parser.getAllValues();
 
             //initialization if validation script config exists
-            ValidationScript validationScript = StringUtils.isNotEmpty(config.getValidationRule()) ? SynchScriptFactory.createValidationScript(config.getValidationRule()) : null;
+            final ValidationScript validationScript = StringUtils.isNotEmpty(config.getValidationRule()) ? SynchScriptFactory.createValidationScript(config.getValidationRule()) : null;
             //initialization if transformation script config exists
-            TransformScript transformScript = StringUtils.isNotEmpty(config.getTransformationRule()) ? SynchScriptFactory.createTransformationScript(config.getTransformationRule()) : null;
+            final TransformScript transformScript = StringUtils.isNotEmpty(config.getTransformationRule()) ? SynchScriptFactory.createTransformationScript(config.getTransformationRule()) : null;
             //init match rules
-            MatchObjectRule matchRule = matchRuleFactory.create(config);
-            LineObject rowHeader = null;
-
-            for (String[] row : rows) {
-                log.debug("*** Record counter: " + ctr);
-
-                if (ctr == 0) {
-                    rowHeader = populateTemplate(row);
-
-                } else {
-                    //populate the data object
-                    ProvisionUser pUser = new ProvisionUser();
-
-                    LineObject rowObj = rowHeader.copy();
-                    populateRowObject(rowObj, row);
-                    log.debug(" - Validation being called");
-
-                        // validate
-                        if (validationScript != null) {
-                            int retval = validationScript.isValid(rowObj);
-                            if (retval == ValidationScript.NOT_VALID) {
-                                log.debug(" - Validation failed...transformation will not be called.");
-
-                                continue;
-                            }
-                            if (retval == ValidationScript.SKIP) {
-                                continue;
-                            }
-                        }
-
-                        log.debug(" - Getting column map...");
-
-                        // check if the user exists or not
-                        Map<String, Attribute> rowAttr = rowObj.getColumnMap();
-
-                        log.debug(" - Row Attr..." + rowAttr);
-                        //
-
-                        User usr = matchRule.lookup(config, rowAttr);
-
-                        //@todo - Update lookup so that an exception is thrown
-                        // when lookup fails due to bad matching.
-
-                        log.debug(" - Preparing transform script");
-
-                        // transform
-                        if (transformScript != null) {
-
-                            transformScript.init();
-
-                            // initialize the transform script
-                            if (usr != null) {
-                                transformScript.setNewUser(false);
-                                transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                                transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                                transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
-
-                            } else {
-                                transformScript.setNewUser(true);
-                            }
-
-                            log.debug(" - Execute transform script");
-
-                            int retval = transformScript.execute(rowObj, pUser);
-
-                            log.debug(" - Execute complete transform script");
-
-
-                            pUser.setSessionId(synchStartLog.getSessionId());
-
-                            if (retval == TransformScript.DELETE && pUser.getUser() != null) {
-                                provService.deleteByUserId(pUser, UserStatusEnum.DELETED, systemAccount);
-                            } else {
-                                // call synch
-                                if (retval != TransformScript.DELETE) {
-                                    if (usr != null) {
-                                        log.debug(" - Updating existing user");
-                                        pUser.setUserId(usr.getUserId());
-                                        provService.modifyUser(pUser);
-
-                                    } else {
-                                        log.debug(" - New user being provisioned");
-
-                                        pUser.setUserId(null);
-                                        provService.addUser(pUser);
-                                    }
-                                }
-                            }
-                        }
-                        // show the user object
-
-
-                }
-                ctr++;
+            final MatchObjectRule matchRule = matchRuleFactory.create(config);
+            //Get Header
+            final LineObject rowHeader = populateTemplate(rows[0]);
+            rows = Arrays.copyOfRange(rows,1,rows.length);
+            // Multithreding 5 thereads
+            //TODO process in threads
+            int allRowsCount = rows.length;
+            int threadCount = 5;
+            int rowsInOneExecutors =  allRowsCount / threadCount;
+            int remains =allRowsCount % (rowsInOneExecutors*threadCount);
+            if (remains != 0) {
+                threadCount++;
             }
+            log.debug("Thread count = " + threadCount + "; Rows in one thread = " + rowsInOneExecutors + "; Remains rows = " + remains);
+
+            List<Future> results = new LinkedList<Future>();
+            ExecutorService service = Executors.newCachedThreadPool();
+            for(int i = 0; i < threadCount; i++) {
+                final int startIndex = i*rowsInOneExecutors;
+                int shiftIndex = i != threadCount-1 ? rowsInOneExecutors : remains;
+
+                final String[][] part = Arrays.copyOfRange(rows,startIndex,startIndex+shiftIndex);
+                results.add(service.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        proccess(config, provService, synchStartLog, part, validationScript, transformScript, matchRule, rowHeader, startIndex);
+                    }
+                }));
+            }
+            boolean success = false;
+            while(!success) {
+                for(Future future : results) {
+                    if(!future.isDone()) {
+                        success = false;
+                        break;
+                    } else {
+                        success = true;
+                    }
+                }
+                Thread.sleep(500);
+            }
+
+
+
+
         } catch (FileNotFoundException fe) {
             fe.printStackTrace();
 
@@ -210,15 +160,15 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
         } catch (ClassNotFoundException cnfe) {
 
 
-        log.error(cnfe);
+            log.error(cnfe);
 
-        synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
-        auditHelper.logEvent(synchStartLog);
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.CLASS_NOT_FOUND.toString(), cnfe.toString());
+            auditHelper.logEvent(synchStartLog);
 
-        SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
-        resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
-        return resp;
-    } catch (IOException io) {
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.CLASS_NOT_FOUND);
+            return resp;
+        } catch (IOException io) {
             io.printStackTrace();
 
             synchStartLog.updateSynchAttributes("FAIL", ResponseCode.IO_EXCEPTION.toString(), io.toString());
@@ -227,8 +177,16 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
             SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
             resp.setErrorCode(ResponseCode.IO_EXCEPTION);
             return resp;
+        } catch (InterruptedException e) {
+            log.error(e);
+
+            synchStartLog.updateSynchAttributes("FAIL", ResponseCode.INTERRUPTED_EXCEPTION.toString(), e.toString());
+            auditHelper.logEvent(synchStartLog);
+
+            SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+            resp.setErrorCode(ResponseCode.INTERRUPTED_EXCEPTION);
         } finally {
-            if(reader != null) {
+            if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
@@ -240,6 +198,94 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
         log.debug("CSV SYNCHRONIZATION COMPLETE^^^^^^^^");
 
         return new SyncResponse(ResponseStatus.SUCCESS);
+    }
+
+    private void proccess(SynchConfig config, ProvisionService provService, IdmAuditLog synchStartLog, String[][] rows, ValidationScript validationScript, TransformScript transformScript, MatchObjectRule matchRule, LineObject rowHeader, int ctr) {
+        for (String[] row : rows) {
+            log.debug("*** Record counter: " + ctr);
+            //populate the data object
+            ProvisionUser pUser = new ProvisionUser();
+
+            LineObject rowObj = rowHeader.copy();
+            populateRowObject(rowObj, row);
+            log.debug(" - Validation being called");
+
+            // validate
+            if (validationScript != null) {
+                int retval = validationScript.isValid(rowObj);
+                if (retval == ValidationScript.NOT_VALID) {
+                    log.debug(" - Validation failed...transformation will not be called.");
+
+                    continue;
+                }
+                if (retval == ValidationScript.SKIP) {
+                    continue;
+                }
+            }
+
+            log.debug(" - Getting column map...");
+
+            // check if the user exists or not
+            Map<String, Attribute> rowAttr = rowObj.getColumnMap();
+
+            log.debug(" - Row Attr..." + rowAttr);
+            //
+
+            User usr = matchRule.lookup(config, rowAttr);
+
+            //@todo - Update lookup so that an exception is thrown
+            // when lookup fails due to bad matching.
+
+            log.debug(" - Preparing transform script");
+
+            // transform
+            if (transformScript != null) {
+
+                transformScript.init();
+
+                // initialize the transform script
+                if (usr != null) {
+                    transformScript.setNewUser(false);
+                    transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
+                    transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
+                    transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+
+                } else {
+                    transformScript.setNewUser(true);
+                }
+
+                log.debug(" - Execute transform script");
+
+                int retval = transformScript.execute(rowObj, pUser);
+
+                log.debug(" - Execute complete transform script");
+
+
+                pUser.setSessionId(synchStartLog.getSessionId());
+
+                if (retval == TransformScript.DELETE && pUser.getUser() != null) {
+                    provService.deleteByUserId(pUser, UserStatusEnum.DELETED, systemAccount);
+                } else {
+                    // call synch
+                    if (retval != TransformScript.DELETE) {
+                        if (usr != null) {
+                            log.debug(" - Updating existing user");
+                            pUser.setUserId(usr.getUserId());
+                            provService.modifyUser(pUser);
+
+                        } else {
+                            log.debug(" - New user being provisioned");
+
+                            pUser.setUserId(null);
+                            provService.addUser(pUser);
+                        }
+                    }
+                }
+            }
+            // show the user object
+            ctr++;
+        }
+
     }
 
     public Response testConnection(SynchConfig config) {
@@ -273,7 +319,7 @@ public class CSVAdapter extends  AbstractSrcAdapter  {
         LineObject rowHeader = new LineObject();
         int ctr = 0;
         for (String s : lineAry) {
-            Attribute a =new Attribute(s, null);
+            Attribute a = new Attribute(s, null);
             a.setType("STRING");
             a.setColumnNbr(ctr);
             rowHeader.put(a.getName(), a);
