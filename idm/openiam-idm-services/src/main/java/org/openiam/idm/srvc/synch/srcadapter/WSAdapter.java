@@ -33,26 +33,24 @@ import org.openiam.idm.srvc.synch.dto.LineObject;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.MatchObjectRule;
-import org.openiam.idm.srvc.synch.service.SourceAdapter;
 import org.openiam.idm.srvc.synch.service.TransformScript;
 import org.openiam.idm.srvc.synch.service.ValidationScript;
-import org.openiam.idm.srvc.synch.util.DatabaseUtil;
+import org.openiam.idm.srvc.synch.service.WSOperationCommand;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.resp.ProvisionUserResponse;
 import org.openiam.provision.service.ProvisionService;
 import org.openiam.script.ScriptFactory;
+import org.openiam.script.ScriptIntegration;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.openiam.script.ScriptFactory;
-import org.openiam.script.ScriptIntegration;
-import org.openiam.idm.srvc.synch.service.WSOperationCommand;
-import java.util.List;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -187,9 +185,9 @@ public class WSAdapter extends  AbstractSrcAdapter { // implements SourceAdapter
 						// initialize the transform script
 						if (usr != null) {
 							transformScript.setNewUser(false);
-							transformScript.setUser( userMgr.getUserWithDependent(usr.getUserId(), true) );
-							transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-							transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+							transformScript.setUser( userMgr.getUserWithDependent(usr.getUserId(), true).getUser() );
+							transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()).getPrincipalList());
+							transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()).getRoleList());
 							
 						}else {
 							transformScript.setNewUser(true);

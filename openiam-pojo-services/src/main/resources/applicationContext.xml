@@ -856,10 +856,10 @@
   <!-- ensure that the above transactional advice runs for any execution
       of an operation defined by the FooService interface -->
 
-  <aop:config>
+  <!--<aop:config>
     <aop:pointcut id="userServiceOperation" expression="execution(* org.openiam.idm.srvc.user.service.UserMgr.*(..))"/>
     <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>
-  </aop:config>
+  </aop:config>-->
 
   <aop:config>
     <aop:pointcut id="serviceOperation" expression="execution(* org.openiam.idm.srvc.service.service.ServiceMgr.*(..))"/>

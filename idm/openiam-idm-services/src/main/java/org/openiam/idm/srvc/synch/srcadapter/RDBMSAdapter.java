@@ -53,7 +53,7 @@ import java.util.Map;
  *
  * @author suneet
  */
-public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapter  {
+public class RDBMSAdapter extends AbstractSrcAdapter {
 
     private LineObject rowHeader = new LineObject();
     private ApplicationContext ac;
@@ -263,9 +263,9 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
 
                 if (usr != null) {
                     transformScript.setNewUser(false);
-                    transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                    transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                    transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+                    transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true).getUser());
+                    transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()).getPrincipalList());
+                    transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()).getRoleList());
 
                 } else {
                     transformScript.setNewUser(true);
@@ -343,23 +343,7 @@ public class RDBMSAdapter extends AbstractSrcAdapter { // implements SourceAdapt
         }
     }
 
-    /*	private void logEvent(ProvisionUserResponse userResp, User usr, IdmAuditLog synchStartLog, MatchObjectRule matchRule, String reqId, String action) {
 
-            IdmAuditLog synchUserStartLog  = new IdmAuditLog();
-
-            if (userResp.getStatus() == ResponseStatus.SUCCESS ) {
-
-                synchUserStartLog.setSynchUserAttributes("USER", usr.getUserId(), action, "SUCCESS" ,"SYSTEM",
-                        null, reqId, null, synchStartLog.getSessionId(), matchRule.getMatchAttrName(), matchRule.getMatchAttrValue());
-            }else {
-                synchUserStartLog.setSynchUserAttributes("USER", usr.getUserId(), action, "FAIL" ,"SYSTEM",
-                        userResp.getErrorCode().toString() + ":" + userResp.getErrorText(),
-                        reqId, null, synchStartLog.getSessionId(), matchRule.getMatchAttrName(), matchRule.getMatchAttrValue());
-            }
-            synchUserStartLog = auditHelper.logEvent(synchUserStartLog);
-        }
-
-    */
     private boolean connect(SynchConfig config) {
 
         try {

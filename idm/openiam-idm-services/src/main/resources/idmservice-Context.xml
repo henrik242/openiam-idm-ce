@@ -237,17 +237,17 @@
 	<bean id="rdbmsAdapter" class="org.openiam.idm.srvc.synch.srcadapter.RDBMSAdapter" >
 		<property name="matchRuleFactory" ref="matchRuleFactory" />
 		<property name="systemAccount" value="3000" />
-		<property name="loginManager" ref="loginManager" />
-		<property name="roleDataService" ref="roleDataService" />
-		<property name="userMgr" ref="userManager" />	
+		<property name="loginManager" ref="loginWS" />
+		<property name="roleDataService" ref="roleWS" />
+		<property name="userMgr" ref="userWS" />
 		<property name="auditHelper" ref="auditHelper" />
 	</bean>	
 	<bean id="csvAdapter" class="org.openiam.idm.srvc.synch.srcadapter.CSVAdapter" >
 		<property name="matchRuleFactory" ref="matchRuleFactory" />
 		<property name="systemAccount" value="3000" />
-		<property name="loginManager" ref="loginManager" />
-		<property name="roleDataService" ref="roleDataService" />
-		<property name="userMgr" ref="userManager" />	
+		<property name="loginManager" ref="loginWS" />
+		<property name="roleDataService" ref="roleWS" />
+		<property name="userMgr" ref="userWS" />
 		<property name="auditHelper" ref="auditHelper" />
 	</bean>	
 
@@ -256,7 +256,7 @@
 		<property name="systemAccount" value="3000" />
 		<property name="loginManager" ref="loginManager" />
 		<property name="roleDataService" ref="roleDataService" />
-		<property name="userMgr" ref="userManager" />
+		<property name="userMgr" ref="userWS" />
 		<property name="auditHelper" ref="auditHelper" />
 	</bean>	
 	<bean id="activeDirAdapter" class="org.openiam.idm.srvc.synch.srcadapter.ActiveDirectoryAdapter" >
@@ -264,9 +264,9 @@
     	<bean id="wsAdapter" class="org.openiam.idm.srvc.synch.srcadapter.WSAdapter" >
 		<property name="matchRuleFactory" ref="matchRuleFactory" />
 		<property name="systemAccount" value="3000" />
-		<property name="loginManager" ref="loginManager" />
-		<property name="roleDataService" ref="roleDataService" />
-		<property name="userMgr" ref="userManager" />
+		<property name="loginManager" ref="loginWS" />
+		<property name="roleDataService" ref="roleWS" />
+		<property name="userMgr" ref="userWS" />
 		<property name="auditHelper" ref="auditHelper" />
         <property name="scriptEngine" value="org.openiam.script.GroovyScriptEngineIntegration" />
 	</bean>

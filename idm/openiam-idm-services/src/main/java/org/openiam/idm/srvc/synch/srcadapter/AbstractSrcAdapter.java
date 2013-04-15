@@ -6,17 +6,19 @@ import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
-import org.openiam.idm.srvc.auth.login.LoginDataService;
-import org.openiam.idm.srvc.role.service.RoleDataService;
+import org.openiam.idm.srvc.auth.ws.LoginDataWebService;
+import org.openiam.idm.srvc.role.ws.RoleDataWebService;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
 import org.openiam.idm.srvc.synch.dto.SynchConfig;
 import org.openiam.idm.srvc.synch.service.SourceAdapter;
-import org.openiam.idm.srvc.user.service.UserDataService;
+import org.openiam.idm.srvc.user.ws.UserDataWebService;
 import org.openiam.provision.dto.ProvisionUser;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Abstract class which all Source System adapters must extend
@@ -34,10 +36,10 @@ public abstract class AbstractSrcAdapter implements SourceAdapter {
 
     protected AuditHelper auditHelper;
     protected MuleContext muleContext;
-	protected UserDataService userMgr;
+    protected UserDataWebService userMgr;
 
-    protected LoginDataService loginManager;
-	protected RoleDataService roleDataService;
+    protected LoginDataWebService loginManager;
+	protected RoleDataWebService roleDataService;
 
     static protected ResourceBundle res = ResourceBundle.getBundle("datasource");
 
@@ -104,17 +106,15 @@ public abstract class AbstractSrcAdapter implements SourceAdapter {
         muleContext = ctx;
     }
 
-	public UserDataService getUserMgr() {
-		return userMgr;
-	}
+    public UserDataWebService getUserMgr() {
+        return userMgr;
+    }
 
+    public void setUserMgr(UserDataWebService userMgr) {
+        this.userMgr = userMgr;
+    }
 
-	public void setUserMgr(UserDataService userMgr) {
-		this.userMgr = userMgr;
-	}
-
-
-	public AuditHelper getAuditHelper() {
+    public AuditHelper getAuditHelper() {
 		return auditHelper;
 	}
 
@@ -123,25 +123,19 @@ public abstract class AbstractSrcAdapter implements SourceAdapter {
 		this.auditHelper = auditHelper;
 	}
 
-
-    public LoginDataService getLoginManager() {
+    public LoginDataWebService getLoginManager() {
         return loginManager;
     }
 
-
-    public void setLoginManager(LoginDataService loginManager) {
+    public void setLoginManager(LoginDataWebService loginManager) {
         this.loginManager = loginManager;
     }
 
-
-    public RoleDataService getRoleDataService() {
+    public RoleDataWebService getRoleDataService() {
         return roleDataService;
     }
 
-
-    public void setRoleDataService(RoleDataService roleDataService) {
+    public void setRoleDataService(RoleDataWebService roleDataService) {
         this.roleDataService = roleDataService;
     }
-
-
 }

@@ -32,8 +32,6 @@ import org.openiam.base.ws.ResponseCode;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.audit.dto.IdmAuditLog;
 import org.openiam.idm.srvc.audit.service.AuditHelper;
-import org.openiam.idm.srvc.auth.login.LoginDataService;
-import org.openiam.idm.srvc.role.service.RoleDataService;
 import org.openiam.idm.srvc.synch.dto.Attribute;
 import org.openiam.idm.srvc.synch.dto.LineObject;
 import org.openiam.idm.srvc.synch.dto.SyncResponse;
@@ -43,7 +41,7 @@ import org.openiam.idm.srvc.synch.service.TransformScript;
 import org.openiam.idm.srvc.synch.service.ValidationScript;
 import org.openiam.idm.srvc.user.dto.User;
 import org.openiam.idm.srvc.user.dto.UserStatusEnum;
-import org.openiam.idm.srvc.user.service.UserDataService;
+import org.openiam.idm.srvc.user.ws.UserResponse;
 import org.openiam.provision.dto.ProvisionUser;
 import org.openiam.provision.service.ProvisionService;
 import org.springframework.context.ApplicationContext;
@@ -248,10 +246,14 @@ public class CSVAdapter extends AbstractSrcAdapter {
 
                 // initialize the transform script
                 if (usr != null) {
-                    transformScript.setNewUser(false);
-                    transformScript.setUser(userMgr.getUserWithDependent(usr.getUserId(), true));
-                    transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()));
-                    transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()));
+                    UserResponse userResponse = userMgr.getUserWithDependent(usr.getUserId(), true);
+                    if ( userResponse.getStatus() == ResponseStatus.SUCCESS) {
+
+                        transformScript.setNewUser(false);
+                        transformScript.setUser(userResponse.getUser());
+                        transformScript.setPrincipalList(loginManager.getLoginByUser(usr.getUserId()).getPrincipalList());
+                        transformScript.setUserRoleList(roleDataService.getUserRolesAsFlatList(usr.getUserId()).getRoleList());
+                    }
 
                 } else {
                     transformScript.setNewUser(true);
@@ -359,29 +361,10 @@ public class CSVAdapter extends AbstractSrcAdapter {
         CSVAdapter.ac = ac;
     }
 
-    public LoginDataService getLoginManager() {
-        return loginManager;
-    }
 
-    public void setLoginManager(LoginDataService loginManager) {
-        this.loginManager = loginManager;
-    }
 
-    public RoleDataService getRoleDataService() {
-        return roleDataService;
-    }
 
-    public void setRoleDataService(RoleDataService roleDataService) {
-        this.roleDataService = roleDataService;
-    }
 
-    public UserDataService getUserMgr() {
-        return userMgr;
-    }
-
-    public void setUserMgr(UserDataService userMgr) {
-        this.userMgr = userMgr;
-    }
 
     public String getSystemAccount() {
         return systemAccount;
