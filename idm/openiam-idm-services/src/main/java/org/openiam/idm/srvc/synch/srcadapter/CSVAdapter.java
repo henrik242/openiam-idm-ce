@@ -53,6 +53,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Reads a CSV file for use during the synchronization process
@@ -115,7 +116,7 @@ public class CSVAdapter extends AbstractSrcAdapter {
             log.debug("Thread count = " + threadCoount + "; Rows in one thread = " + rowsInOneExecutors + "; Remains rows = " + remains);
 
             List<Future> results = new LinkedList<Future>();
-            ExecutorService service = Executors.newCachedThreadPool();
+            final ExecutorService service = Executors.newCachedThreadPool();
             for(int i = 0; i < threadCoount; i++) {
                 final int startIndex = i*rowsInOneExecutors;
                 int shiftIndex = threadCoount > THREAD_COUNT && i == threadCoount -1 ? remains : rowsInOneExecutors;
@@ -128,7 +129,26 @@ public class CSVAdapter extends AbstractSrcAdapter {
                     }
                 }));
             }
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    service.shutdown();
+                    try {
+                        if (!service.awaitTermination(5000, TimeUnit.MILLISECONDS)) { //optional *
+                            log.warn("Executor did not terminate in the specified time."); //optional *
+                            List<Runnable> droppedTasks = service.shutdownNow(); //optional **
+                            log.warn("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
+                        }
+                    } catch (InterruptedException e) {
+                        log.error(e);
 
+                        synchStartLog.updateSynchAttributes("FAIL", ResponseCode.INTERRUPTED_EXCEPTION.toString(), e.toString());
+                        auditHelper.logEvent(synchStartLog);
+
+                        SyncResponse resp = new SyncResponse(ResponseStatus.FAILURE);
+                        resp.setErrorCode(ResponseCode.INTERRUPTED_EXCEPTION);
+                    }
+                }
+            });
             waitUntilWorkDone(results);
 
         } catch (FileNotFoundException fe) {
