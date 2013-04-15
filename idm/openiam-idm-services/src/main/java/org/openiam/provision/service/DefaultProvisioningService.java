@@ -424,18 +424,18 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                             bindingMap.put(MATCH_PARAM, matchObj);
                         }
 
-                        log.debug(" - Building principal Name for: "
-                                + managedSysId);
-                        // build the primary identity for resource by resource mapping
-                        String newPrincipalName = buildPrincipalName(attrMap,
-                                se, bindingMap);
-
-                        log.debug(" - New principalName = " + newPrincipalName);
-
-                        Map<String, String> currentValueMap = new HashMap<String, String>();
-
+                        Map<String, String> curValueMap = new HashMap<String, String>();
+                        //Get Resource/MngSys identity
                         Login resLogin = getPrincipalForManagedSys(managedSysId, user.getPrincipalList());
-                        if (resLogin == null) {
+
+                        boolean mngSysIdentityExists = resLogin != null;
+                        if (!mngSysIdentityExists) {
+                            log.debug(" - Building principal Name for: "
+                                    + managedSysId);
+                            // build the primary identity for resource by resource mapping
+                            String newPrincipalName = buildPrincipalName(attrMap,
+                                    se, bindingMap);
+                            log.debug(" - New principalName = " + newPrincipalName);
                             resLogin = new Login();
                             // get the current object as it stands in the target
                             // system
@@ -443,30 +443,27 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                     .getDomainId(), newPrincipalName, managedSysId);
 
                             resLogin.setId(resLoginId);
+                            resLogin.setPassword(primaryLogin.getPassword());
+                            resLogin.setUserId(primaryLogin.getUserId());
                         }
 
                         boolean userExistedInTargetSystem = getCurrentObjectAtTargetSystem(
                                 resLogin, mSys, connector, matchObj,
-                                currentValueMap);
+                                curValueMap);
 
                         if (!userExistedInTargetSystem) {
-                            if (currentValueMap == null
-                                    || currentValueMap.size() == 0) {
                                 // we may have identity for a user, but it my have
                                 // been deleted from the target system
                                 // we dont need re-generate the identity in this c
-                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
-                                        IDENTITY_NEW);
-                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
-                            } else {
-                                bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
-                                        IDENTITY_EXIST);
-                                bindingMap.put(TARGET_SYSTEM_ATTRIBUTES,
-                                        currentValueMap);
-                            }
+
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
+                                       mngSysIdentityExists ? IDENTITY_EXIST : IDENTITY_NEW);
+                            bindingMap.put(TARGET_SYSTEM_ATTRIBUTES,
+                                       curValueMap.size() == 0 ? null : curValueMap);
+
 
                             bindingMap
-                                    .put(TARGET_SYSTEM_IDENTITY, newPrincipalName);
+                                    .put(TARGET_SYSTEM_IDENTITY, resLogin.getId().getLogin());
                             bindingMap.put(TARGET_SYS_SECURITY_DOMAIN,
                                     resLogin.getId().getDomainId());
 
@@ -499,39 +496,26 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                 log.debug("priList is null");
                             }
 
-                            // get the identity linked to this resource / managedsys
-                            Login mLg = getPrincipalForManagedSys(managedSysId,
-                                    user.getPrincipalList());
-                            if (mLg == null) {
-                                mLg = new Login();
-                            }
-                            mLg.setPassword(primaryLogin.getPassword());
-                            mLg.setUserId(primaryLogin.getUserId());
+
 
                             log.debug("Creating identity in openiam repository:"
-                                    + mLg.getId());
+                                    + resLogin.getId());
 
                             // validate if the identity exists in the system first
 
-                            connectorSuccess = callConnector(mLg, requestId, mSys,
+                            connectorSuccess = callConnector(resLogin, requestId, mSys,
                                     matchObj, extUser, connector, user, auditLog);
 
                             // only put the identity into the openiam repository if
                             // we successfully created the identity
                             if (connectorSuccess) {
 
-                                Login tempPrincipal = loginManager
-                                        .getLoginByManagedSys(mLg.getId()
-                                                .getDomainId(), mLg.getId()
-                                                .getLogin(), mLg.getId()
-                                                .getManagedSysId());
-
-                                if (tempPrincipal == null) {
-                                    loginManager.addLogin(mLg);
+                                if (!mngSysIdentityExists) {
+                                    loginManager.addLogin(resLogin);
 
                                 } else {
                                     log.debug("Skipping the creation of identity in openiam repository. Identity already exists"
-                                            + mLg.getId());
+                                            + resLogin.getId());
                                 }
 
                             }

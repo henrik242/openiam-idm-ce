@@ -296,13 +296,21 @@ public class CSVAdapter extends AbstractSrcAdapter {
                         if (usr != null) {
                             log.debug(" - Updating existing user");
                             pUser.setUserId(usr.getUserId());
-                            provService.modifyUser(pUser);
+                            try {
+                                provService.modifyUser(pUser);
+                            } catch (Exception e) {
+                                log.error(e);
+                            }
 
                         } else {
                             log.debug(" - New user being provisioned");
 
                             pUser.setUserId(null);
-                            provService.addUser(pUser);
+                            try {
+                                provService.addUser(pUser);
+                            } catch (Exception e) {
+                                log.error(e);
+                            }
                         }
                     }
                 }

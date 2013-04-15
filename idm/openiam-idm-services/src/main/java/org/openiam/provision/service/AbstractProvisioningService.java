@@ -194,9 +194,7 @@ public abstract class AbstractProvisioningService  implements MuleContextAware, 
 
             reqType.setScriptHandler(mSys.getLookupHandler());
 
-            LookupResponse lookupRespType = null;
-
-            lookupRespType = remoteConnectorAdapter.lookupRequest(mSys, reqType, connector, muleContext);
+            LookupResponse lookupRespType = remoteConnectorAdapter.lookupRequest(mSys, reqType, connector, muleContext);
 
             if (lookupRespType != null && lookupRespType.getStatus() == StatusCodeType.SUCCESS) {
                 return true;
