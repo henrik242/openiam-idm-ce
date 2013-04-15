@@ -36,7 +36,20 @@
 	<form:hidden path="domainId"    />
     <form:hidden path="userId"    />
 
+    <tr>
+        <td></td>
+        <td colspan="5"><form:checkbox path="notifyUserViaEmail"  />
+            <i>Send the password to the user via email. Requires an email address</i></td>
 
+
+    </tr>
+    <tr>
+        <td></td>
+        <td colspan="5"><form:checkbox path="autoGeneratePassword"  />
+            <i>Auto generate the password. User is not required to enter a password</i></td>
+
+
+    </tr>
   <tr>
     <td><label for="username" class="attribute">Login</LABEL>
     </td>
@@ -63,7 +76,10 @@
        <form:password path="confPassword" size="30"  maxlength="30"   /><br>
         <form:errors path="confPassword" cssClass="error" />
     </td>
-  </tr>  
+  </tr>
+
+
+
 </TABLE>  
 
 

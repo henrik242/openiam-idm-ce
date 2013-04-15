@@ -1,15 +1,6 @@
 package org.openiam.webadmin.user;
 
 import java.io.Serializable;
-import java.util.List;
-
-import org.openiam.idm.srvc.cd.dto.ReferenceData;
-import org.openiam.idm.srvc.grp.dto.Group;
-import org.openiam.idm.srvc.loc.dto.Location;
-import org.openiam.idm.srvc.menu.dto.Menu;
-import org.openiam.idm.srvc.org.dto.Organization;
-import org.openiam.idm.srvc.role.dto.Role;
-import org.openiam.idm.srvc.user.dto.User;
 
 /**
  * Command object for the ResetUserPasswordController
@@ -32,6 +23,8 @@ public class ResetUserPasswordCommand implements Serializable {
 	protected String confPassword;
 	protected String principal;
 	protected String domainId;
+    protected boolean notifyUserViaEmail;
+    protected boolean autoGeneratePassword;
 	
 	public String getUserId() {
 		return userId;
@@ -82,9 +75,21 @@ public class ResetUserPasswordCommand implements Serializable {
 	public void setDomainId(String domainId) {
 		this.domainId = domainId;
 	}
-	
-	
 
 
+    public boolean isNotifyUserViaEmail() {
+        return notifyUserViaEmail;
+    }
 
+    public void setNotifyUserViaEmail(boolean notifyUserViaEmail) {
+        this.notifyUserViaEmail = notifyUserViaEmail;
+    }
+
+    public boolean isAutoGeneratePassword() {
+        return autoGeneratePassword;
+    }
+
+    public void setAutoGeneratePassword(boolean autoGeneratePassword) {
+        this.autoGeneratePassword = autoGeneratePassword;
+    }
 }

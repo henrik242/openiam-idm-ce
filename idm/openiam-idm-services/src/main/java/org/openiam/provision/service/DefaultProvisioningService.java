@@ -2296,8 +2296,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 				passwordSync.getManagedSystemId(), encPassword);
 
 		if (retval) {
-			log.debug("-Password changed in openiam repository for user:"
-					+ passwordSync.getPrincipal());
+
 
 			auditHelper.addLog("RESET PASSWORD",
 					passwordSync.getRequestorDomain(),
@@ -2308,6 +2307,12 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 					null, passwordSync.getRequestClientIP(),
 					passwordSync.getPrincipal(),
 					passwordSync.getSecurityDomain());
+
+            //check if password should be sent to the user.
+            if (passwordSync.isSendPasswordToUser()) {
+                //
+                sendPasswordToUser(usr,password);
+            }
 
 		} else {
 			auditHelper.addLog("RESET PASSWORD",
@@ -2678,6 +2683,12 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 					}
 
 					this.userMgr.updateUserWithDependent(usr, false);
+
+                    //check if password should be sent to the user.
+                    if (passwordSync.isSendPasswordToUser()) {
+                        //
+                        sendPasswordToUser(usr,passwordSync.getPassword());
+                    }
 
 				} else {
 					auditHelper.addLog("SET PASSWORD", passwordSync

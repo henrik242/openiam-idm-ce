@@ -229,7 +229,7 @@ public class LoginDAOImpl implements LoginDAO {
                 " where l.id.domainId = :domain and " +
                 "  l.id.managedSysId = :managedSys and " +
                 "  l.userId = :userId ");
-        log.debug("domain=" + domain + " managedSys=" + managedSys + " userId=" + userId);
+
         qry.setString("domain", domain);
         qry.setString("managedSys", managedSys);
         qry.setString("userId", userId);

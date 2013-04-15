@@ -1,14 +1,12 @@
 package org.openiam.webadmin.user;
 
-import java.util.List;
-
 import org.openiam.base.ws.Response;
 import org.openiam.base.ws.ResponseStatus;
 import org.openiam.idm.srvc.pswd.dto.Password;
 import org.openiam.idm.srvc.pswd.ws.PasswordWebService;
-import org.springframework.validation.Validator;
-import org.springframework.validation.Errors;
 import org.openiam.webadmin.admin.AppConfiguration;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 
 public class ResetUserPasswordValidator implements Validator {
@@ -18,24 +16,26 @@ public class ResetUserPasswordValidator implements Validator {
 
 
 	public void validate(Object cmd, Errors err) {
-		// TODO Auto-generated method stub
+
 		boolean required = true;
 
 		ResetUserPasswordCommand pswdChangeCmd =  (ResetUserPasswordCommand) cmd;
-		
-		if (pswdChangeCmd.getPassword() == null || pswdChangeCmd.getPassword().length() == 0 ) {
-			err.rejectValue("password","required");
-			required = false;
-		}
-		if (pswdChangeCmd.getConfPassword() == null || pswdChangeCmd.getConfPassword().length() == 0 ) {
-			err.rejectValue("confPassword","required");
-			required = false;
-		}
 
-        if (pswdChangeCmd.getUserId() == null || pswdChangeCmd.getUserId().length() == 0 ) {
-			err.rejectValue("userId","required");
-			required = false;
-		}
+        if (!pswdChangeCmd.isAutoGeneratePassword()) {
+            if (pswdChangeCmd.getPassword() == null || pswdChangeCmd.getPassword().length() == 0 ) {
+                err.rejectValue("password","required");
+                required = false;
+            }
+            if (pswdChangeCmd.getConfPassword() == null || pswdChangeCmd.getConfPassword().length() == 0 ) {
+                err.rejectValue("confPassword","required");
+                required = false;
+            }
+
+            if (pswdChangeCmd.getUserId() == null || pswdChangeCmd.getUserId().length() == 0 ) {
+                err.rejectValue("userId","required");
+                required = false;
+            }
+        }
 
 
 		if (!required) {

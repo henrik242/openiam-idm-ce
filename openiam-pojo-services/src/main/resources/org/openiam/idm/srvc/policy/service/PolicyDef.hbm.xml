@@ -3,6 +3,7 @@
 <!-- Generated Nov 1, 2007 6:04:08 PM by Hibernate Tools 3.2.0.b11 -->
 <hibernate-mapping>
     <class name="org.openiam.idm.srvc.policy.dto.PolicyDef" table="POLICY_DEF" lazy="false">
+        <cache usage="read-write" />
         <comment></comment>
         <id name="policyDefId" type="string">
             <column name="POLICY_DEF_ID" length="32" />

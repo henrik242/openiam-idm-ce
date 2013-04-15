@@ -24,13 +24,11 @@ package org.openiam.provision.dto;
 import org.openiam.base.BaseObject;
 import org.openiam.provision.type.ExtensibleAttribute;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Password object used for synchronization
@@ -48,7 +46,8 @@ import javax.xml.bind.annotation.XmlType;
     "requestorId",
     "action",
     "passThruAttributes",
-    "attributeList"
+    "attributeList",
+    "sendPasswordToUser"
 })
 public class PasswordSync extends BaseObject  {
 
@@ -65,6 +64,7 @@ public class PasswordSync extends BaseObject  {
 	boolean validateRequest;
 	String requestorId;
 	String action;
+    boolean sendPasswordToUser = false;
 
     boolean passThruAttributes = true;
     List<ExtensibleAttribute> attributeList = new ArrayList<ExtensibleAttribute>();
@@ -85,9 +85,64 @@ public class PasswordSync extends BaseObject  {
 		this.securityDomain = securityDomain;
 		this.srcSystemId = srcSystemId;
 		this.validateRequest = validateRequest;
-	}	
-	
-	public String getSecurityDomain() {
+	}
+
+    @Override
+    public String toString() {
+        return "PasswordSync{" +
+                "securityDomain='" + securityDomain + '\'' +
+                ", managedSystemId='" + managedSystemId + '\'' +
+                ", principal='" + principal + '\'' +
+                ", password='" + password + '\'' +
+                ", srcSystemId='" + srcSystemId + '\'' +
+                ", validateRequest=" + validateRequest +
+                ", requestorId='" + requestorId + '\'' +
+                ", action='" + action + '\'' +
+                ", sendPasswordToUser=" + sendPasswordToUser +
+                ", passThruAttributes=" + passThruAttributes +
+                ", attributeList=" + attributeList +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PasswordSync)) return false;
+
+        PasswordSync that = (PasswordSync) o;
+
+        if (passThruAttributes != that.passThruAttributes) return false;
+        if (sendPasswordToUser != that.sendPasswordToUser) return false;
+        if (validateRequest != that.validateRequest) return false;
+        if (action != null ? !action.equals(that.action) : that.action != null) return false;
+        if (managedSystemId != null ? !managedSystemId.equals(that.managedSystemId) : that.managedSystemId != null)
+            return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (principal != null ? !principal.equals(that.principal) : that.principal != null) return false;
+        if (requestorId != null ? !requestorId.equals(that.requestorId) : that.requestorId != null) return false;
+        if (securityDomain != null ? !securityDomain.equals(that.securityDomain) : that.securityDomain != null)
+            return false;
+        if (srcSystemId != null ? !srcSystemId.equals(that.srcSystemId) : that.srcSystemId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = securityDomain != null ? securityDomain.hashCode() : 0;
+        result = 31 * result + (managedSystemId != null ? managedSystemId.hashCode() : 0);
+        result = 31 * result + (principal != null ? principal.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (srcSystemId != null ? srcSystemId.hashCode() : 0);
+        result = 31 * result + (validateRequest ? 1 : 0);
+        result = 31 * result + (requestorId != null ? requestorId.hashCode() : 0);
+        result = 31 * result + (action != null ? action.hashCode() : 0);
+        result = 31 * result + (sendPasswordToUser ? 1 : 0);
+        result = 31 * result + (passThruAttributes ? 1 : 0);
+        return result;
+    }
+
+    public String getSecurityDomain() {
 		return securityDomain;
 	}
 	public void setSecurityDomain(String securityDomain) {
@@ -150,6 +205,14 @@ public class PasswordSync extends BaseObject  {
 
     public void setAttributeList(List<ExtensibleAttribute> attributeList) {
         this.attributeList = attributeList;
+    }
+
+    public boolean isSendPasswordToUser() {
+        return sendPasswordToUser;
+    }
+
+    public void setSendPasswordToUser(boolean sendPasswordToUser) {
+        this.sendPasswordToUser = sendPasswordToUser;
     }
 }
 

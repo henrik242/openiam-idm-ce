@@ -99,7 +99,7 @@
 
      
     <cache name="org.openiam.idm.srvc.service.dto.Service"
-        maxElementsInMemory="200"
+        maxElementsInMemory="100"
         eternal="false"
         overflowToDisk="false" 
      />
@@ -197,6 +197,18 @@
         overflowToDisk="false" 
      />
 
+    <cache name="org.openiam.idm.srvc.policy.dto.PolicyDef"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+            />
+    <cache name="org.openiam.idm.srvc.policy.dto.PolicyDef.policyDefParams"
+           maxElementsInMemory="2000"
+           eternal="false"
+           overflowToDisk="false"
+            />
+
+
     <cache name="query.menu.findMenuByUser"
         maxElementsInMemory="250"
         eternal="false"
@@ -204,17 +216,5 @@
      />
 
 
-	<cache name="query.iq.findAllQuestions"
-    maxElementsInMemory="100"
-    eternal="false"
-    timeToLiveSeconds="28880"
-    overflowToDisk="true"
-    />
-	<cache name="query.iq.findQuestionByQuestionGroup"
-    maxElementsInMemory="100"
-    eternal="false"
-    timeToLiveSeconds="28880"
-    overflowToDisk="true"
-    />
                       
 </ehcache>
