@@ -1425,7 +1425,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService
         ScriptIntegration se = null;
         Map<String, Object> bindingMap = new HashMap<String, Object>();
         Organization org = null;
-        String primaryLogin = null;
+        //String primaryLogin = null;
         List<IdmAuditLog> pendingLogItems = new ArrayList<IdmAuditLog>();
 
         List<Role> activeRoleList = new ArrayList<Role>();
@@ -1662,7 +1662,7 @@ public class DefaultProvisioningService extends AbstractProvisioningService
 
         if (resourceList != null) {
             log.debug("Resource list is not null.. ");
-            int ctr = 1;
+            //int ctr = 1;
 
             for (Resource res : resourceList) {
                 String managedSysId = res.getManagedSysId();
@@ -1746,11 +1746,11 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                     } else {
 
                         Map<String, String> currentValueMap = new HashMap<String, String>();
-                        boolean foundIdInTarget = false;
+                        boolean isExistedInTargetSystem = false;
                         if (mLg != null) {
                             // get the attributes at the target system
-
-                            foundIdInTarget = getCurrentObjectAtTargetSystem(
+                            // this lookup only for getting attributes from the system
+                            isExistedInTargetSystem = getCurrentObjectAtTargetSystem(
                                     mLg, mSys, connector, matchObj,
                                     currentValueMap);
 
@@ -1759,21 +1759,17 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                         // if
                         // (res.getObjectState().equalsIgnoreCase(BaseObject.NEW)
                         // || mLg == null) {
+                        boolean isMngSysIdentityExistsInOpeniam = mLg != null;
 
-                        if (mLg == null || !foundIdInTarget) {
+                        if (mLg == null || (mLg != null && !isExistedInTargetSystem)) {
                             // create the secondary identity for this resource
                             log.debug("Adding new identity to target system. Primary Identity is:"
                                     + primaryIdentity);
 
                             bindingMap.put(TARGET_SYSTEM_IDENTITY_STATUS,
                                     IDENTITY_NEW);
+                            bindingMap.put(TARGET_SYSTEM_IDENTITY, null);
 
-                            if (mLg != null) {
-                                bindingMap.put(TARGET_SYSTEM_IDENTITY, mLg
-                                        .getId().getLogin());
-                            } else {
-                                bindingMap.put(TARGET_SYSTEM_IDENTITY, "");
-                            }
 
                             bindingMap.put(TARGET_SYSTEM_ATTRIBUTES, null);
 
@@ -1811,14 +1807,22 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                 log.debug("priList is null");
                             }
 
-                            // build the request
-                            AddRequestType addReqType = new AddRequestType();
                             // get the identity linked to this resource /
                             // managedsys
                             mLg = getPrincipalForManagedSys(managedSysId,
                                     priList);
                             if (mLg == null) {
+                                // build the primary identity for resource by resource mapping
+                                String newPrincipalName = buildPrincipalName(attrMap,
+                                        se, bindingMap);
+                                log.debug(" - New principalName = " + newPrincipalName);
                                 mLg = new Login();
+                                // get the current object as it stands in the target
+                                // system
+                                LoginId resLoginId = new LoginId(primaryIdentity.getId()
+                                        .getDomainId(), newPrincipalName, managedSysId);
+
+                                mLg.setId(resLoginId);
                             }
                             // mLg.setPassword(primaryLogin.getPassword());
                             mLg.setUserId(primaryIdentity.getUserId());
@@ -1830,19 +1834,6 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                     + mLg.getId());
                             if (mLg.getPassword() == null) {
                                 mLg.setPassword(primaryIdentity.getPassword());
-                            }
-
-                            Login tempPrincipal = loginManager
-                                    .getLoginByManagedSys(mLg.getId()
-                                            .getDomainId(), mLg.getId()
-                                            .getLogin(), mLg.getId()
-                                            .getManagedSysId());
-
-                            if (tempPrincipal == null) {
-                                loginManager.addLogin(mLg);
-                            } else {
-                                log.debug("Skipping the creation of identity in openiam repository. Identity already exists"
-                                        + mLg.getId());
                             }
 
                             // loginManager.addLogin(mLg);
@@ -1858,6 +1849,8 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                         pUser, auditLog);
 
                             } else {
+                                // build the request
+                                AddRequestType addReqType = new AddRequestType();
 
                                 PSOIdentifierType idType = new PSOIdentifierType(
                                         mLg.getId().getLogin(), null, "target");
@@ -1877,7 +1870,20 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                     connectorSuccess = true;
                                 }
                             }
+                            if(connectorSuccess) {
+                              /*  Login tempPrincipal = loginManager
+                                        .getLoginByManagedSys(mLg.getId()
+                                                .getDomainId(), mLg.getId()
+                                                .getLogin(), mLg.getId()
+                                                .getManagedSysId());*/
 
+                                if (!isMngSysIdentityExistsInOpeniam) {
+                                    loginManager.addLogin(mLg);
+                                } else {
+                                    log.debug("Skipping the creation of identity in openiam repository. Identity already exists"
+                                            + mLg.getId());
+                                }
+                            }
                             // post processing
                             String postProcessScript = getResProperty(
                                     res.getResourceProps(), "POST_PROCESS");
@@ -1888,6 +1894,11 @@ public class DefaultProvisioningService extends AbstractProvisioningService
                                     executePostProcess(ppScript, bindingMap,
                                             pUser, "MODIFY", connectorSuccess);
                                 }
+                            }
+                            if (!connectorSuccess) {
+                                resp.setStatus(ResponseStatus.FAILURE);
+                                resp.setErrorCode(ResponseCode.FAIL_CONNECTOR);
+                                return resp;
                             }
 
                             auditHelper.addLog("ADD IDENTITY", pUser
